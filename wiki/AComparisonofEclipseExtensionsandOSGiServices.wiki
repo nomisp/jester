@@ -1,5 +1,4 @@
 #labels OSGiServices,EclipseExtension
-==Summary==
 A Comparison of Eclipse Extensions and OSGi Services*
 
 ==Details==
