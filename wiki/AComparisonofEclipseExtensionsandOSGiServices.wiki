@@ -1,5 +1,5 @@
 #summary A Comparison of Eclipse Extensions and OSGi Services
-#labels OSGiServices,EclipseExtension
+#labels KnowHow
 
 ==Details==
 http://www.eclipsezone.com/articles/extensions-vs-services/
