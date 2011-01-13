@@ -1,0 +1,10 @@
+#summary Der Eclipse-Plugin-Mechanismus
+#labels KnowHow
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+http://www.hs-augsburg.de/~meixner/saj/skript/osgi/eclipseplugins.html
