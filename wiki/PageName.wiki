@@ -1,0 +1,6 @@
+#summary How-To and Why-To use an OSGi-Service or Eclipse-ExtensionPoint
+#labels KnowHow
+
+= Details =
+
+http://codescale.wordpress.com/2008/12/14/how-to-and-why-to-use-osgi-service-or-eclipse-extensionpoint/
