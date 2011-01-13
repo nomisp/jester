@@ -1,0 +1,6 @@
+#summary Understanding how Eclipse plug-ins work with OSGi
+#labels KnowHow
+
+= Details =
+
+http://www.ibm.com/developerworks/library/os-ecl-osgi/index.html
