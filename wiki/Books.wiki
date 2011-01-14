@@ -1,0 +1,4 @@
+#summary Books about Eclipse RCP and OSGi
+=Eclipse RCP=
+==Buch von Ralf Ebert==
+http://www.ralfebert.de/rcpbuch/
