@@ -1,0 +1,4 @@
+#labels KnowHow
+=Eclipse RCP=
+==Buch von Ralf Ebert==
+http://www.ralfebert.de/rcpbuch/
