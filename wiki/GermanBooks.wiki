@@ -1,4 +1,4 @@
-#summary German books about Eclipse RCP and OSGi
+#summary Books about Eclipse RCP and OSGi
 #labels KnowHow
 =Eclipse RCP=
 ==Buch von Ralf Ebert==
