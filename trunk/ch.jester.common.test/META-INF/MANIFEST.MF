@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: ch.jester.common.test
+Bundle-Version: 1.0.0.0
+Require-Bundle: org.junit,
+ ch.jester.common;bundle-version="1.0.0",
+ ch.jester.commonservices.api;bundle-version="1.0.0",
+ org.eclipse.core.runtime;bundle-version="3.6.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.apache.log4j,
+ org.osgi.framework
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: ch.jester.common.test.internal.TestActivator
