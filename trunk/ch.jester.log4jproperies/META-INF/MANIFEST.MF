@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Log4j Properties
+Bundle-SymbolicName: ch.jester.log4jproperies;singleton:=true
+Bundle-Version: 1.0.0.0
+Fragment-Host: org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
