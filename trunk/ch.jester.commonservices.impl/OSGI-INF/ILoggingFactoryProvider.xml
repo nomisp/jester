@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" enabled="true" immediate="false" name="ch.jester.commonservices.impl">
+   <implementation class="ch.jester.commonservices.impl.logging.DefaultLoggerFactory"/>
+   <service>
+      <provide interface="ch.jester.commonservices.api.ILoggerFactory"/>
+   </service>
+</scr:component>
