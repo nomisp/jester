@@ -60,8 +60,28 @@
             application="ch.jester.rcpapplication.application"
             name="jester">
          <property
+               name="appName"
+               value="jester">
+         </property>
+         <property
                name="windowImages"
-               value="icons/icon16x16.png">
+               value="icons/icon16x16.png,icons/icon32x32.png,icons/icon48x48.png,icons/icon64x64.png,icons/icon128x128.png">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="5,275,445,15">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="7,252,445,20">
          </property>
       </product>
    </extension>
