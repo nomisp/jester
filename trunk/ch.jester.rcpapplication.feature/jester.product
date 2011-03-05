@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="jester" uid="ch.jester.rcpapplication.product" id="ch.jester.rcpapplication.product" application="ch.jester.rcpapplication.application" version="1.0.0" useFeatures="true" includeLaunchers="true">
+
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/ch.jester.rcpapplication/icons/icon16x16.png" i32="/ch.jester.rcpapplication/icons/icon32x32.png" i48="/ch.jester.rcpapplication/icons/icon48x48.png" i64="/ch.jester.rcpapplication/icons/icon64x64.png" i128="/ch.jester.rcpapplication/icons/icon128x128.png"/>
+
+   <splash
+      location="ch.jester.rcpapplication"
+      startupProgressRect="5,275,445,15"
+      startupMessageRect="7,252,445,20"
+      startupForegroundColor="000000" />
+   <launcher name="jester">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</windows>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="ch.jester.rcpapplication.feature" version="1.0.0.qualifier"/>
+   </features>
+
+
+</product>
