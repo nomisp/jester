@@ -1,4 +1,4 @@
-package ch.jester.commonservices.api;
+package ch.jester.commonservices.api.logging;
 
 /**
  * Factory Interface für die Logger Erstellung
@@ -12,8 +12,8 @@ public interface ILoggerFactory {
 	 */
 	public ILogger getLogger(Class<?> pClass);
 	/**
-	 * Debug ein- und Ausschalten
-	 * @param debug ein-/ausschalten
+	 * Debug ein- und ausschalten
+	 * @param debug ein- oder ausschalten
 	 */
 	public void setDebug(boolean b);
 	/**

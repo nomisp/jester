@@ -5,8 +5,8 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 import ch.jester.common.logging.DefaultLogger;
-import ch.jester.commonservices.api.ILogger;
-import ch.jester.commonservices.api.ILoggerFactory;
+import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.logging.ILoggerFactory;
 
 public class LoggerFactoryMock implements ILoggerFactory {
 	private boolean mDebug = true;
