@@ -7,7 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 
 @RunWith(Suite.class)
-@SuiteClasses( { ActivatorTest.class, CallerUtilityTest.class,  ServiceUtilityTest.class, LoggerTest.class })
+@SuiteClasses( { DBTest.class, ActivatorTest.class, CallerUtilityTest.class,  ServiceUtilityTest.class, LoggerTest.class })
 public class AllTests {
 
 }
