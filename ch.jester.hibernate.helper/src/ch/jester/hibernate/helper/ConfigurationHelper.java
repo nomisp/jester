@@ -122,13 +122,13 @@ public class ConfigurationHelper {
 		return this.getExtensionpointvalue("Configuration","Subprotocol");		
 	}
 	/**
-	 * liefert den Wert, der für eine ExtensionPoint konfiguriert wurde
+	 * liefert den Wert, der fï¿½r eine ExtensionPoint konfiguriert wurde
 	 * @param elementname
 	 * @param attributename
 	 * @return
 	 */
 	public String getExtensionpointvalue(String elementname,String attributename ){
-		IConfigurationElement element = HibernatehelperPlugin.getExtensionPointElement(elementname);
+		IConfigurationElement element = HibernatehelperPlugin.getDefault().getExtensionPointElement(elementname);
 		String value = element.getAttribute(attributename);
 		return value;
 	}
