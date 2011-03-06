@@ -11,8 +11,8 @@ import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.SafeRunner;
 import org.osgi.framework.Bundle;
 
-import ch.jester.commonservices.api.ILogger;
-import ch.jester.commonservices.api.ILoggerFactory;
+import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.logging.ILoggerFactory;
 
 /**
  * Eine Default ILogger Implementierung

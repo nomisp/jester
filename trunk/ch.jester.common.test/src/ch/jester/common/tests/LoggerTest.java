@@ -8,7 +8,7 @@ import ch.jester.common.logging.IExtendedStatus;
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
 import ch.jester.common.tests.testservice.LoggerFactoryMock;
 import ch.jester.common.tests.testservice.LoggerMock;
-import ch.jester.commonservices.api.ILogger;
+import ch.jester.commonservices.api.logging.ILogger;
 
 
 public class LoggerTest extends ActivatorProviderForTestCase{
@@ -17,7 +17,7 @@ public class LoggerTest extends ActivatorProviderForTestCase{
 	 */
 	@Test
 	public void testGetLoggingService(){
-		ILogger logger = getActivator().getLogger();
+		ILogger logger = getActivator().getActivationContext().getLogger();
 		Assert.assertNotNull("ILogger is Null", logger);
 	}
 	/**
@@ -59,7 +59,7 @@ public class LoggerTest extends ActivatorProviderForTestCase{
 	
 	@Test
 	public void testLogService(){
-		getActivator().getLogger().info("Hallo Welt");
+		getActivator().getActivationContext().getLogger().info("Hallo Welt");
 	}
 	
 }

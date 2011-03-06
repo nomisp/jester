@@ -15,9 +15,6 @@ public class ServiceUtilityTest extends ActivatorProviderForTestCase {
 
 	@Before
 	public void setUp() throws Exception {
-		Assert.assertNotNull("TestActivator is null", getActivator());
-		Assert.assertNotNull("BundleContext is null", getActivator()
-				.getBundleContext());
 		addDummyService();
 	}
 
@@ -28,7 +25,7 @@ public class ServiceUtilityTest extends ActivatorProviderForTestCase {
 		if (!serviceRegistred) {
 			serviceRegistred = true;
 			mDummyService = new DefaultDummyService();
-			getActivator().getServiceUtil().registerService(
+			getActivationContext().getServiceUtil().registerService(
 					IDummyService.class, mDummyService);
 		}
 
@@ -39,7 +36,7 @@ public class ServiceUtilityTest extends ActivatorProviderForTestCase {
 	 */
 	@Test
 	public void testGetService() {
-		IDummyService dummyServiceFromUtil = getActivator().getServiceUtil()
+		IDummyService dummyServiceFromUtil = getActivationContext().getServiceUtil()
 				.getService(IDummyService.class);
 		Assert.assertNotNull("DummyService is null", dummyServiceFromUtil);
 		Assert.assertEquals("DummyServicObjectRef is not equal",
@@ -51,7 +48,7 @@ public class ServiceUtilityTest extends ActivatorProviderForTestCase {
 	 */
 	@Test
 	public void testGet() {
-		IDummyService dummyService = getActivator().getServiceUtil()
+		IDummyService dummyService = getActivator().getActivationContext()
 				.getService(IDummyService.class);
 		Assert.assertEquals("Result is not 55", 55, dummyService.get());
 

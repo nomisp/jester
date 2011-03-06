@@ -1,4 +1,4 @@
-package ch.jester.commonservices.api;
+package ch.jester.commonservices.api.logging;
 
 import org.eclipse.core.runtime.ILog;
 
