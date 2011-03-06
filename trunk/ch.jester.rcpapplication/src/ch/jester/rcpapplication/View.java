@@ -1,5 +1,8 @@
 package ch.jester.rcpapplication;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -11,8 +14,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.hibernate.Session;
+
+import ch.jester.hibernate.helper.ConfigurationHelper;
 
 public class View extends ViewPart {
+	public View() {
+	}
 	public static final String ID = "ch.jester.rcpapplication.view";
 
 	private TableViewer viewer;
@@ -60,12 +68,30 @@ public class View extends ViewPart {
 	 * it.
 	 */
 	public void createPartControl(Composite parent) {
+		ConfigurationHelper ch = new ConfigurationHelper();
+		String catalog="???";
+		Session ssn = ch.getSession();
+		Connection con = ssn.connection();
+		try {
+			catalog = con.getCatalog();			
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
 		// Provide the input to the ContentProvider
-		viewer.setInput(new String[] {"One", "Two", "Three"});
+		viewer.setInput(new String[] {"JDBCDriver : " + ch.getConnectiondriverclass(),
+				"SQLDialect : " + ch.getSqldialect(),
+				"User       : " + ch.getUser(),
+				"Password   : " + ch.getPassword(),
+				"Ip-Adresse : " + ch.getIp(),
+				"ConnectionURL : " +ch.getConnectionurl()
+				});
+		
 	}
 
 	/**

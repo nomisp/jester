@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="ch.jester.rcpapplication.feature"
-      label="jester"
+      id="ch.jester.database.feature"
+      label="DatabaseFeature"
       version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
@@ -16,16 +16,20 @@
       [Enter License Description here.]
    </license>
 
-   <includes
-         id="org.eclipse.rcp"
-         version="0.0.0"/>
-
-   <includes
-         id="ch.jester.database.feature"
+   <plugin
+         id="ch.jester.db.hsqldb"
+         download-size="0"
+         install-size="0"
          version="0.0.0"/>
 
    <plugin
-         id="ch.jester.rcpapplication"
+         id="ch.jester.hibernate"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="ch.jester.hibernate.helper"
          download-size="0"
          install-size="0"
          version="0.0.0"
