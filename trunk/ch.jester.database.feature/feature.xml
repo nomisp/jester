@@ -16,6 +16,14 @@
       [Enter License Description here.]
    </license>
 
+   <requires>
+      <import plugin="ch.jester.hibernate.helper" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.hibernate" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.6.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
+   </requires>
+
    <plugin
          id="ch.jester.db.hsqldb"
          download-size="0"
