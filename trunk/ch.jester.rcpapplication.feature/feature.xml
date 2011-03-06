@@ -24,6 +24,10 @@
          id="ch.jester.database.feature"
          version="0.0.0"/>
 
+   <includes
+         id="ch.jester.core"
+         version="0.0.0"/>
+
    <plugin
          id="ch.jester.rcpapplication"
          download-size="0"
