@@ -7,3 +7,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  ch.jester.common;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: ch.jester.common.ui.activator

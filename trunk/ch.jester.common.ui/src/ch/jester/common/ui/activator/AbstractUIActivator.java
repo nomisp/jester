@@ -14,13 +14,13 @@ public abstract class AbstractUIActivator extends AbstractUIPlugin implements ID
 		return mContext;
 	}
 	@Override
-	public void start(BundleContext pContext) throws Exception {
+	public final void start(BundleContext pContext) throws Exception {
 		super.start(pContext);
 		mContext = new DefaultBundleActivatorContext<AbstractUIPlugin>(pContext, this);
 		startDelegate(pContext);
 	}
 	@Override
-	public void stop(BundleContext pContext) throws Exception {
+	public final void stop(BundleContext pContext) throws Exception {
 		stopDelegate(pContext);
 		mContext.getServiceUtil().closeAllTrackers();
 		super.stop(pContext);
