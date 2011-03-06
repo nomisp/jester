@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="ch.jester.hibernate.helper.Configuration">
+      <Configuration
+            DatabaseManagerClass="ch.jester.db.hsqldb.HSQLDatabaseManager"
+            JDBCDriverClass="com.hsqldb.jdbcDriver"
+            SQLDialectClass="org.hibernate.dialect.HSQLDialect"
+            Subprotocol="hsqldb">
+      </Configuration>
+   </extension>
+
+</plugin>

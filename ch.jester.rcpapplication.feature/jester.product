@@ -15,8 +15,8 @@
 
    <splash
       location="ch.jester.rcpapplication"
-      startupProgressRect="5,275,445,15"
-      startupMessageRect="7,252,445,20"
+      startupProgressRect="5,295,445,15"
+      startupMessageRect="7,272,445,20"
       startupForegroundColor="000000" />
    <launcher name="jester">
       <solaris/>
@@ -35,6 +35,7 @@
 
    <features>
       <feature id="ch.jester.rcpapplication.feature" version="1.0.0.qualifier"/>
+      <feature id="ch.jester.database.feature" version="1.0.0.qualifier"/>
    </features>
 
 
