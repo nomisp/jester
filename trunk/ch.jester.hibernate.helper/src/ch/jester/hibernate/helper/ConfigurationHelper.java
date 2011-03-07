@@ -1,6 +1,10 @@
 package ch.jester.hibernate.helper;
 
+import java.net.URL;
+
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.osgi.service.datalocation.Location;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -83,7 +87,8 @@ public class ConfigurationHelper {
 	 * @return
 	 */
 	public String getIp() {
-		return "C:/Temp";
+		Location workingDir = Platform.getInstanceLocation();
+		return workingDir.getURL().getFile();
 	}
 
 	/**
