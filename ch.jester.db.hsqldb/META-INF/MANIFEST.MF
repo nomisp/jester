@@ -4,7 +4,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Hsqldb
 Bundle-SymbolicName: ch.jester.db.hsqldb;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-ClassPath: hsqldb.jar
+Bundle-ClassPath: hsqldb.jar,
+ src/
 Export-Package: ch.jester.db.hsqldb,
  org.hsqldb,
  org.hsqldb.dbinfo,
