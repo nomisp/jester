@@ -33,12 +33,14 @@
    </plugins>
 
    <features>
+      <feature id="ch.jester.common.feature" version="1.0.0.qualifier"/>
       <feature id="ch.jester.rcpapplication.feature" version="1.0.0.qualifier"/>
       <feature id="ch.jester.database.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
-      <plugin id="ch.jester.db.hsqldb" autoStart="true" startLevel="0" />
+      <plugin id="ch.jester.commonservices.impl" autoStart="false" startLevel="0" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="0" />
    </configurations>
 
 </product>

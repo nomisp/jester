@@ -3,8 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Common Services Api
 Bundle-SymbolicName: ch.jester.commonservices.api
 Bundle-Version: 1.0.0.0
-Require-Bundle: org.eclipse.core.runtime,
- org.apache.log4j;bundle-version="1.2.15"
+Require-Bundle: org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: ch.jester.commonservices.api.importer,
  ch.jester.commonservices.api.logging
+Import-Package: org.apache.log4j;version="1.2.15"

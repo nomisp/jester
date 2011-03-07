@@ -22,4 +22,16 @@ public class DefaultImportManager implements IImportManager{
 		return null;
 	}
 
+	@Override
+	public void activate(Object o) {
+		System.out.println(o);
+		
+	}
+
+	@Override
+	public void deactivate(Object o) {
+		System.out.println(o);
+		
+	}
+
 }

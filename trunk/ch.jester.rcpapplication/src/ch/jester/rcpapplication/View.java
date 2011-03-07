@@ -73,7 +73,8 @@ public class View extends ViewPart {
 		Session ssn = ch.getSession();
 		Connection con = ssn.connection();
 		try {
-			catalog = con.getCatalog();			
+			catalog = con.getCatalog();		
+			
 			
 		} catch (SQLException e1) {
 			e1.printStackTrace();
