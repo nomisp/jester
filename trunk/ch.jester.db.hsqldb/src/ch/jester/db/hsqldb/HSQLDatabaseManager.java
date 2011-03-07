@@ -25,4 +25,9 @@ public class HSQLDatabaseManager implements IDatabaseManager {
 		server.stop();
 	}
 
+	@Override
+	public void shutdown() {
+		server.shutdown();
+	}
+
 }

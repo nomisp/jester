@@ -15,8 +15,8 @@
 
    <splash
       location="ch.jester.rcpapplication"
-      startupProgressRect="5,295,445,15"
-      startupMessageRect="7,272,445,20"
+      startupProgressRect="10,295,475,15"
+      startupMessageRect="12,272,475,20"
       startupForegroundColor="000000" />
    <launcher name="jester">
       <solaris/>

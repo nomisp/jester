@@ -90,7 +90,8 @@ public class View extends ViewPart {
 				"User       : " + ch.getUser(),
 				"Password   : " + ch.getPassword(),
 				"Ip-Adresse : " + ch.getIp(),
-				"ConnectionURL : " +ch.getConnectionurl()
+				"ConnectionURL : " + ch.getConnectionurl(),
+				"Catalog : " + catalog
 				});
 		
 	}
