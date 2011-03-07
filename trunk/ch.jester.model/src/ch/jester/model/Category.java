@@ -1,0 +1,101 @@
+package ch.jester.model;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Category")
+public class Category implements Serializable {
+	private static final long serialVersionUID = 6845187372965814476L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+
+	@Column(name="Description", nullable=false)
+	private String description;
+	
+	private int minElo;
+	
+	private int maxElo;
+	
+	private int minAge;
+	
+	private int maxAge;
+	
+	@OneToMany
+	private Set<Round> rounds = new HashSet<Round>();
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getMinElo() {
+		return minElo;
+	}
+
+	public void setMinElo(int minElo) {
+		this.minElo = minElo;
+	}
+
+	public int getMaxElo() {
+		return maxElo;
+	}
+
+	public void setMaxElo(int maxElo) {
+		this.maxElo = maxElo;
+	}
+
+	public int getMinAge() {
+		return minAge;
+	}
+
+	public void setMinAge(int minAge) {
+		this.minAge = minAge;
+	}
+
+	public int getMaxAge() {
+		return maxAge;
+	}
+
+	public void setMaxAge(int maxAge) {
+		this.maxAge = maxAge;
+	}
+
+	public Set<Round> getRounds() {
+		return rounds;
+	}
+
+	public void setRounds(Set<Round> rounds) {
+		this.rounds = rounds;
+	}
+	
+	public void addRound(Round round) {
+		rounds.add(round);
+	}
+	
+	public void removeRound(Round round) {
+		rounds.remove(round);
+	}
+}
