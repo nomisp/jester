@@ -11,6 +11,11 @@ public class DefaultImportHandlerEntry<T extends IImportHandler> implements IImp
 		mUIString=pUIString;
 		mHandlerClass=pHandlerClass;
 	}
+	public DefaultImportHandlerEntry(String pUIString, T pService){
+		mUIString=pUIString;
+		mHandlerClass=(Class<T>) pService.getClass();
+		mService = pService;
+	}
 	@Override
 	public String getUIString() {
 		return mUIString;
