@@ -21,7 +21,7 @@ public class ConfigurationHelper {
 					this.getSqldialect());
 			this.configuration.setProperty("hibernate.connection.driver_class",
 					this.getConnectiondriverclass());
-			
+			System.out.println(getConnectionurl());
 			this.configuration.setProperty("hibernate.connection.url", this
 					.getConnectionurl());
 					
@@ -84,7 +84,7 @@ public class ConfigurationHelper {
 	 * @return
 	 */
 	public String getIp() {
-		return "localhost";
+		return "C:/Temp";
 	}
 
 	/**
