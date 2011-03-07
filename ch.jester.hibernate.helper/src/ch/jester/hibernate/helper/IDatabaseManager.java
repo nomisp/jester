@@ -19,4 +19,9 @@ public interface IDatabaseManager {
 	 */
 	public void stop();
 	
+	/**
+	 * Sicheres runterfahren des DB-Servers
+	 */
+	public void shutdown();
+	
 }

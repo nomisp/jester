@@ -79,7 +79,7 @@ public class ConfigurationHelper {
 	 * @return
 	 */
 	public String getConnectionurl() {
-		return "jdbc:"+this.getSubprotocol()+"://"+this.getIp()+"/"+this.getDbname();
+		return "jdbc:"+this.getSubprotocol()+":hsql://"+this.getIp()+"/"+this.getDbname();
 	}
 
 	/**
@@ -87,8 +87,9 @@ public class ConfigurationHelper {
 	 * @return
 	 */
 	public String getIp() {
-		Location workingDir = Platform.getInstanceLocation();
-		return workingDir.getURL().getFile();
+//		Location workingDir = Platform.getInstanceLocation();
+//		return workingDir.getURL().getFile();
+		return "localhost";
 	}
 
 	/**
