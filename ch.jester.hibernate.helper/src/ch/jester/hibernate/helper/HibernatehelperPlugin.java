@@ -12,6 +12,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 
 public class HibernatehelperPlugin extends AbstractActivator {
 	ILogger logger;
+	IDatabaseManager mDBManager;
 	//The shared instance.
 	private static HibernatehelperPlugin plugin;
 	
@@ -35,6 +36,9 @@ public class HibernatehelperPlugin extends AbstractActivator {
 	 * This method is called when the plug-in is stopped
 	 */
 	public void stopDelegate(BundleContext context) {
+		if(mDBManager!=null){
+			mDBManager.stop();
+		}
 	}
 
 	/**
@@ -89,8 +93,8 @@ public class HibernatehelperPlugin extends AbstractActivator {
 		if (dbmClassName != null) {
 			try {
 				Class<IDatabaseManager> c = databaseBundle.loadClass(dbmClassName);
-				IDatabaseManager dbmanager = (IDatabaseManager) c.newInstance();
-				dbmanager.start();
+				mDBManager = (IDatabaseManager) c.newInstance();
+				mDBManager.start();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (InstantiationException e) {

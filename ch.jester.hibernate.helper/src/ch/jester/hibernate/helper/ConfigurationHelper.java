@@ -21,7 +21,6 @@ public class ConfigurationHelper {
 					this.getSqldialect());
 			this.configuration.setProperty("hibernate.connection.driver_class",
 					this.getConnectiondriverclass());
-			System.out.println(getConnectionurl());
 			this.configuration.setProperty("hibernate.connection.url", this
 					.getConnectionurl());
 					
