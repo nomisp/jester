@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="Category")
@@ -21,18 +22,27 @@ public class Category implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
-	@Column(name="Description", nullable=false)
+	@Column(name="Description", nullable=false, length=20)
+	@org.hibernate.validator.constraints.Length(min=2, max=20)
+	@NotNull
 	private String description;
 	
+	@Column(name="MinimumElo", nullable=true)
 	private int minElo;
 	
+	@Column(name="MaximumElo", nullable=true)
 	private int maxElo;
 	
+	@Column(name="MinimumAge", nullable=true)
 	private int minAge;
 	
+	@Column(name="MaximumAge", nullable=true)
 	private int maxAge;
 	
-	@OneToMany
+	@OneToMany(mappedBy="category")
+//	@JoinTable(name = "CategoryRoundAss",
+//	        joinColumns = {@JoinColumn(name = "CategoryId")},
+//	        inverseJoinColumns = {@JoinColumn(name = "RoundId")})
 	private Set<Round> rounds = new HashSet<Round>();
 
 	public int getId() {
@@ -92,10 +102,13 @@ public class Category implements Serializable {
 	}
 	
 	public void addRound(Round round) {
-		rounds.add(round);
+		if (round == null) throw new IllegalArgumentException("round may not be null");
+		this.rounds.add(round);
+		if (round.getCategory() != this) round.setCategory(this);
 	}
 	
 	public void removeRound(Round round) {
-		rounds.remove(round);
+		if (round == null) throw new IllegalArgumentException("round may not be null");
+		this.rounds.remove(round);
 	}
 }

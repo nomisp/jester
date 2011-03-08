@@ -1,5 +1,6 @@
 package ch.jester.hibernate.helper;
 
+import java.io.File;
 import java.net.URL;
 
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -21,6 +22,8 @@ public class ConfigurationHelper {
 	public Configuration getConfiguration() {
 		if (this.configuration == null) {
 			this.configuration = new Configuration();
+			this.configuration.setProperty("hibernate.hbm2ddl.auto", "create");
+			
 			this.configuration.setProperty("hibernate.dialect", 
 					this.getSqldialect());
 			this.configuration.setProperty("hibernate.connection.driver_class",
@@ -79,7 +82,8 @@ public class ConfigurationHelper {
 	 * @return
 	 */
 	public String getConnectionurl() {
-		return "jdbc:"+this.getSubprotocol()+":hsql://"+this.getIp()+"/"+this.getDbname();
+		return "jdbc:"+this.getSubprotocol()+"://"+this.getIp()+"/"+this.getDbname();
+//		return "jdbc:"+this.getSubprotocol()+":hsql://"+this.getIp()+"/"+this.getDbname();
 	}
 
 	/**
@@ -87,9 +91,9 @@ public class ConfigurationHelper {
 	 * @return
 	 */
 	public String getIp() {
-//		Location workingDir = Platform.getInstanceLocation();
-//		return workingDir.getURL().getFile();
-		return "localhost";
+		Location workingDir = Platform.getInstanceLocation();
+		return workingDir.getURL().getFile() + "database";
+//		return "localhost";
 	}
 
 	/**
