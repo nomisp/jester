@@ -1,7 +1,9 @@
 Manifest-Version: 1.0
+Eclipse-RegisterBuddy: ch.jester.hibernate
 Bundle-ManifestVersion: 2
 Bundle-Name: Model
-Bundle-SymbolicName: ch.jester.model
+Bundle-SymbolicName: ch.jester.model;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: ch.jester.hibernate;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
