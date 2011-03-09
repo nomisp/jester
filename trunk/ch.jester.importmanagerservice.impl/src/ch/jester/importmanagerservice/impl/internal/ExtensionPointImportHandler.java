@@ -1,11 +1,18 @@
 package ch.jester.importmanagerservice.impl.internal;
 
+import java.io.InputStream;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 
 import ch.jester.common.importer.AbstractImportHandler;
 import ch.jester.commonservices.api.importer.IImportHandler;
 
+/**
+ *  Agiert als Proxy für Services, welche am ExensionPoint registriert wurden.
+ *  --> LazyLoading des Services
+ *
+ */
 public class ExtensionPointImportHandler extends AbstractImportHandler {
 	IConfigurationElement mElement;
 	IImportHandler mImportHandler;
@@ -14,7 +21,7 @@ public class ExtensionPointImportHandler extends AbstractImportHandler {
 	}
 
 	@Override
-	public Object handleImport(Object o) {
+	public Object handleImport(InputStream pInputStream) {
 		if(mImportHandler==null){
 			try {
 				mImportHandler = (IImportHandler) mElement.createExecutableExtension("class");
@@ -23,7 +30,12 @@ public class ExtensionPointImportHandler extends AbstractImportHandler {
 				e.printStackTrace();
 			}
 		}
-		return mImportHandler.handleImport(o);
+		return mImportHandler.handleImport(pInputStream);
+	}
+
+	@Override
+	public String getProperty(String pPropertyKey) {
+		return mElement.getAttribute(pPropertyKey);
 	}
 
 }
