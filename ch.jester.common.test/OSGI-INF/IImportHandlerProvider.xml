@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="ch.jester.common.test.dummyimportprovider">
-   <implementation class="ch.jester.common.tests.testservice.DummyImportHandler"/>
-   <service>
-      <provide interface="ch.jester.commonservices.api.importer.IImportHandler"/>
-   </service>
-</scr:component>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="start" deactivate="stop" immediate="false" name="ch.jester.commonservices.impl.importmanager">
-   <implementation class="ch.jester.common.importer.DefaultImportManager"/>
-   <service>
-      <provide interface="ch.jester.commonservices.api.importer.IImportManager"/>
-   </service>
-   <reference bind="bind" cardinality="0..n" interface="ch.jester.commonservices.api.importer.IImportHandler" name="IImportHandler" policy="dynamic" unbind="unbind"/>
-</scr:component>

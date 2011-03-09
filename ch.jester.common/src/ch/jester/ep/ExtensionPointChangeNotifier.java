@@ -15,18 +15,27 @@ import org.eclipse.core.runtime.dynamichelpers.IFilter;
 
 public class ExtensionPointChangeNotifier implements IExtensionChangeHandler, IRegistryChangeListener{
 	ExtensionTracker tracker;
-	Object o = new Object();
+	private String mId, mName;
+	private boolean open;
 	public ExtensionPointChangeNotifier(String id, String name){
+		mId=id;
+		mName=name;
+	}
+	public void start(){
+		if(open){return;}
+		open = true;
 		IExtensionRegistry reg = Platform.getExtensionRegistry();
 		tracker = new ExtensionTracker(reg);
-		IExtensionPoint ep = reg.getExtensionPoint(id+"."+name);
+		IExtensionPoint ep = reg.getExtensionPoint(mId+"."+mName);
+		
 		IFilter filter = ExtensionTracker.createExtensionPointFilter(ep);
 		tracker.registerHandler(this, filter);
 		 IExtension[] extensions = ep.getExtensions();
 		   for (int i = 0; i < extensions.length; ++i){
 		      addExtension(tracker, extensions[i]);
 		   }
-		reg.addRegistryChangeListener(this,id);
+		reg.addRegistryChangeListener(this,mId);
+		
 	}
 	public void addExtension(IExtensionTracker tracker,
 		      IExtension extension) {
@@ -35,7 +44,7 @@ public class ExtensionPointChangeNotifier implements IExtensionChangeHandler, IR
 		   for (int i = 0; i < configs.length; ++i) {
 		      // use configuration properties for something
 		      // ...
-
+			   added(configs[i]);
 		      System.out.println("added: "+(configs[i]+" bundle: "+configs[i].getContributor().getName()));
 		      // register association between object and extension
 		      // with the tracker
@@ -44,12 +53,22 @@ public class ExtensionPointChangeNotifier implements IExtensionChangeHandler, IR
 		   }
 		}
 
+		protected void added(IConfigurationElement iConfigurationElement) {
+		// TODO Auto-generated method stub
+		
+	}
 		public void removeExtension(IExtension extension,
 		                            Object[] objects) {
 		   // stop using objects associated with
 		   // the removed extension
-		   for (int i = 0; i < objects.length; ++i)
+		   for (int i = 0; i < objects.length; ++i){
+			   removed(objects[i]);
 		      System.out.println("removed: "+(objects[i]));
+		   }
+		}
+		protected void removed(Object object) {
+			// TODO Auto-generated method stub
+			
 		}
 		@Override
 		public void registryChanged(IRegistryChangeEvent event) {

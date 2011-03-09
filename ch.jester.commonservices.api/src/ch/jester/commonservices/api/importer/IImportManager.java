@@ -1,12 +1,11 @@
 package ch.jester.commonservices.api.importer;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.osgi.service.component.ComponentContext;
 
 public interface IImportManager {
-	public Collection<IImportHandlerEntry<?>> getRegistredImportHandlers();
+	public List<IImportHandlerEntry<IImportHandler>> getRegistredImportHandlers();
 	public Object doImport(IImportHandlerEntry<IImportHandler> pEntry, Object pObjectToImport);
 
 	public void start(ComponentContext o);
