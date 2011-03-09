@@ -39,7 +39,6 @@
    </features>
 
    <configurations>
-      <plugin id="ch.jester.commonservices.impl" autoStart="false" startLevel="0" />
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="0" />
    </configurations>
 

@@ -2,7 +2,7 @@
 <feature
       id="ch.jester.common.feature"
       label="CommonFeature"
-      version="1.0.0.qualifier">
+      version="1.0.0.0">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -20,14 +20,13 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.osgi.util" version="3.2.100" match="greaterOrEqual"/>
       <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.apache.log4j" version="1.2.15" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.osgi.services" version="3.2.100" match="greaterOrEqual"/>
       <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.equinox.util"/>
-      <import plugin="org.eclipse.osgi.services"/>
+      <import plugin="org.slf4j.api" version="1.5.11" match="equivalent"/>
+      <import plugin="org.apache.log4j" version="1.2.15.v201005080500" match="greaterOrEqual"/>
       <import plugin="javax.xml"/>
-      <import plugin="ch.qos.logback.classic"/>
-      <import plugin="ch.qos.logback.core"/>
+      <import plugin="org.eclipse.equinox.ds" version="1.2.1" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -130,6 +129,20 @@
 
    <plugin
          id="org.eclipse.osgi"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.importmanagerservice.impl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.osgi.services"
          download-size="0"
          install-size="0"
          version="0.0.0"

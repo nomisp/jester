@@ -2,6 +2,8 @@ package ch.jester.common.tests.testservice;
 
 import ch.jester.common.importer.AbstractImportHandler;
 
+
+
 public class DummyImportHandler extends AbstractImportHandler{
 
 	public DummyImportHandler(){
