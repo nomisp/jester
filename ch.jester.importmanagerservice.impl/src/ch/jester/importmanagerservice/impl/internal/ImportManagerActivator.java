@@ -5,8 +5,7 @@ import org.osgi.framework.BundleContext;
 import ch.jester.common.activator.AbstractActivator;
 
 /**
- * Erbt von AbstractActivator, so dass in den Tests nicht alle Zugriffe auf
- * Services manuell passieren muss.
+ * Einfacher Aktivator
  * 
  */
 public class ImportManagerActivator extends AbstractActivator {

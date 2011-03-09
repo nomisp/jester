@@ -7,21 +7,24 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
-import ch.jester.commonservices.api.importer.IImportHandler;
+import ch.jester.commonservices.api.importer.IComponentService;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
 
 public class ImporterTest extends ActivatorProviderForTestCase {
 
 	/**
-	 * Ist der Activator vorhanden?
+	 * Ist ein IImportManagerService vorhanden
 	 */
 	@Test
 	public void testGetImporterService() {
 		System.out.println("testGetImporterService");
-		IImportManager importManager = getActivationContext().getService(IImportManager.class);
+		IComponentService importManager = getActivationContext().getService(IImportManager.class);
 		Assert.assertNotNull("Import Manager is null", importManager);
 	}
+	/**
+	 * Testet einen Eintrag im ImportManager
+	 */
 	@Test
 	public void testGetImporterHandler() {
 
@@ -30,12 +33,13 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 		IImportManager importManager = getActivationContext().getService(IImportManager.class);
 		Assert.assertNotNull("Import Manager is null", importManager);
 		
-		List<IImportHandlerEntry<IImportHandler>> list = importManager.getRegistredImportHandlers();
+		List<IImportHandlerEntry> list = importManager.getRegistredImportHandlers();
 		Assert.assertEquals("Import Handlers size diff", 1, list.size());
-		IImportHandlerEntry<IImportHandler> entry = list.get(0);
+		IImportHandlerEntry entry = list.get(0);
 		
-		IImportHandler handler = list.get(0).getService();
-		handler.handleImport("blabla");
+		Assert.assertEquals("shorttype does not match","*.xml", entry.getShortType());
+		Assert.assertEquals("description does not match","XML Importer", entry.getDescription());
+		importManager.doImport(entry, null);
 	}
 
 }

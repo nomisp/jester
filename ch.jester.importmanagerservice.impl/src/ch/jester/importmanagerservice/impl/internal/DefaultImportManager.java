@@ -1,5 +1,6 @@
 package ch.jester.importmanagerservice.impl.internal;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,12 +14,17 @@ import ch.jester.commonservices.api.importer.IImportManager;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.ep.ExtensionPointChangeNotifier;
 
+/**
+ * Defaultimplementation<br>
+ * Dieser Manager horcht auf Einträge/Änderungen am ExtensionPoint ch.jester.commonservices.api.ImportHandler
+ *
+ */
 public class DefaultImportManager implements IImportManager{
 	private Object mLock=new Object();
 	private ComponentContext mContext;
 	private ILogger mLogger;
 	private ImportManagerActivator mActivator;
-	private HashMap<IImportHandler,IImportHandlerEntry<IImportHandler>> mImportHandlers = new HashMap<IImportHandler,IImportHandlerEntry<IImportHandler>>();
+	private HashMap<IImportHandlerEntry,IImportHandler> mImportHandlers = new HashMap<IImportHandlerEntry,IImportHandler>();
 	private ExtensionPointChangeNotifier notifier;
 	public DefaultImportManager(){
 		mActivator=ImportManagerActivator.getInstance();
@@ -41,16 +47,16 @@ public class DefaultImportManager implements IImportManager{
 	}
 	
 	@Override
-	public List<IImportHandlerEntry<IImportHandler>> getRegistredImportHandlers() {
+	public List<IImportHandlerEntry> getRegistredImportHandlers() {
 		synchronized(mLock){
-			return new ArrayList<IImportHandlerEntry<IImportHandler>>(mImportHandlers.values());
+			return new ArrayList<IImportHandlerEntry>(mImportHandlers.keySet());
 		}
 	}
 
 	@Override
-	public Object doImport(IImportHandlerEntry<IImportHandler> pEntry,
-			Object pObjectToImport) {
-		return null;
+	public Object doImport(IImportHandlerEntry pEntry,
+			InputStream pObjectToImport) {
+		return pEntry.getService().handleImport(pObjectToImport);
 	}
 
 	@Override
@@ -87,9 +93,9 @@ public class DefaultImportManager implements IImportManager{
 		
 	}
 
-	public void addToList(IImportHandler o) {
-		IImportHandlerEntry<IImportHandler> entry = new DefaultImportHandlerEntry<IImportHandler>(o);
-		mImportHandlers.put(o, entry);
+	private void addToList(IImportHandler o) {
+		DefaultImportHandlerEntry entry = new DefaultImportHandlerEntry(o);
+		mImportHandlers.put(entry,o);
 	}
 
 
