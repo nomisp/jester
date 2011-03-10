@@ -3,6 +3,9 @@ package ch.jester.rcpapplication;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -79,7 +82,8 @@ public class View extends ViewPart {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("jester");
+
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL);
 		viewer.setContentProvider(new ViewContentProvider());
