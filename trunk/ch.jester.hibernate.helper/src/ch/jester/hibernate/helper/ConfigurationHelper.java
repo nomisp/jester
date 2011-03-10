@@ -22,7 +22,7 @@ public class ConfigurationHelper {
 	public Configuration getConfiguration() {
 		if (this.configuration == null) {
 			this.configuration = new Configuration();
-			this.configuration.setProperty("hibernate.hbm2ddl.auto", "create");
+			//this.configuration.setProperty("hibernate.hbm2ddl.auto", "create");
 			
 			this.configuration.setProperty("hibernate.dialect", 
 					this.getSqldialect());
@@ -49,6 +49,7 @@ public class ConfigurationHelper {
 			
 			
 		}
+		
 		return this.configuration;
 	}
 	/**
