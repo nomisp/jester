@@ -38,6 +38,7 @@ public class HibernatehelperPlugin extends AbstractActivator {
 	public void stopDelegate(BundleContext context) {
 		if(mDBManager!=null){
 			mDBManager.stop();
+			mDBManager.shutdown();
 		}
 	}
 
