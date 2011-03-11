@@ -2,6 +2,7 @@ package ch.jester.db.hsqldb;
 
 import org.hsqldb.Server;
 
+import ch.jester.hibernate.helper.ConfigurationHelper;
 import ch.jester.hibernate.helper.IDatabaseManager;
 
 public class HSQLDatabaseManager implements IDatabaseManager {
@@ -15,8 +16,9 @@ public class HSQLDatabaseManager implements IDatabaseManager {
 	@Override
 	public void start() {
 		if (server == null) server = new Server();
+		String ip = new ConfigurationHelper().getIp();
 		server.setDatabaseName(0, "jester");
-		server.setDatabasePath(0, "file:jesterdb");
+		server.setDatabasePath(0, ip+"/jester");
 		server.start();
 	}
 
