@@ -10,5 +10,27 @@
             Subprotocol="hsqldb">
       </Configuration>
    </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu?after=menu.File">
+         <menu
+               label="Dev">
+            <command
+                  commandId="ch.jester.db.hsqldb.showtool"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="ch.jester.db.hsqldb.tools.StartTool"
+            id="ch.jester.db.hsqldb.showtool"
+            name="DB Viewer">
+      </command>
+   </extension>
 
 </plugin>
