@@ -94,8 +94,9 @@ public class View extends ViewPart {
 			protected IStatus run(IProgressMonitor monitor) {
 				EntityManagerFactory emf = Persistence.createEntityManagerFactory("jester"); 
 				EntityManager em = emf.createEntityManager();
-				em.getTransaction().begin();
-				for(int i=0;i<2;i++){
+				
+				for(int i=0;i<50000;i++){
+					em.getTransaction().begin();
 				Player player = new Player();
 				player.setCity("Zürich");
 				player.setElo(i);
@@ -104,8 +105,9 @@ public class View extends ViewPart {
 				player.setLastName("liechti");
 				player.setNation("CH");
 				em.persist(player);
-				}
 				em.getTransaction().commit();
+				}
+				
 			
 				em.close();
 				
