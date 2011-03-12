@@ -8,18 +8,18 @@ import ch.jester.hibernate.helper.IDatabaseManager;
 public class HSQLDatabaseManager implements IDatabaseManager {
 
 	private Server server;
-	
 	public HSQLDatabaseManager() {
 		server = new Server();
 	}
 
 	@Override
 	public void start() {
-		if (server == null) server = new Server();
-		String ip = new ConfigurationHelper().getIp();
+		ConfigurationHelper helper = new ConfigurationHelper();
+		String ip = helper.getIp();
 		server.setDatabaseName(0, "jester");
-		server.setDatabasePath(0, ip+"/jester");
+		server.setDatabasePath(0, ip+"/jester;hsqldb.default_table_type=cached");
 		server.start();
+		
 	}
 
 	@Override
