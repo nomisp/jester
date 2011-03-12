@@ -1,8 +1,5 @@
 package ch.jester.hibernate.helper;
 
-import java.io.File;
-import java.net.URL;
-
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.datalocation.Location;
@@ -10,53 +7,58 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import ch.jester.common.utility.ExtensionPointUtil;
+
+// TODO Refactoring nötig! da HSQLDB spezifisch! --> nicht in diesem Bundle
 public class ConfigurationHelper {
 	/**
 	 * die Hibernate Configuration
 	 */
-	private Configuration configuration;	
+	private static Configuration configuration;	
 
 	/**
 	 * liefert die Hibernate Configuration	 
 	 */
 	public Configuration getConfiguration() {
-		if (this.configuration == null) {
-			this.configuration = new Configuration();
-			//this.configuration.setProperty("hibernate.hbm2ddl.auto", "create");
+		if (configuration == null) {
+			configuration = new Configuration();
+		
+			configuration.setProperty("hibernate.hbm2ddl.auto", "create");
 			
-			this.configuration.setProperty("hibernate.dialect", 
+			configuration.setProperty("hibernate.dialect", 
 					this.getSqldialect());
-			this.configuration.setProperty("hibernate.connection.driver_class",
+			configuration.setProperty("hibernate.connection.driver_class",
 					this.getConnectiondriverclass());
-			this.configuration.setProperty("hibernate.connection.url", this
+			configuration.setProperty("hibernate.connection.url", this
 					.getConnectionurl());
 					
-			this.configuration.setProperty("hibernate.connection.username",
+			configuration.setProperty("hibernate.connection.username",
 					this.getUser());
-			this.configuration.setProperty("hibernate.connection.password",
+			configuration.setProperty("hibernate.connection.password",
 					this.getPassword());
 			
 			
-			this.configuration.setProperty(
+			configuration.setProperty(
 					"hibernate.connection.pool_size", "1");
-			this.configuration.setProperty(
+			configuration.setProperty(
 					"hibernate.connection.autocommit", "true");
 //			 alle ?? SQL Statements loggen !
-			this.configuration.setProperty("hibernate.show_sql",
+			configuration.setProperty("hibernate.show_sql",
 					"true");
-			this.configuration.setProperty("hibernate.format_sql",
+			configuration.setProperty("hibernate.format_sql",
 					"true");
 			
 			
 		}
 		
-		return this.configuration;
+		return configuration;
 	}
 	/**
 	 * liefert eine neue Session
 	 * @return
 	 */
 	public Session getSession(){
+		
 		SessionFactory factory = getConfiguration().buildSessionFactory();
 		Session session=factory.openSession();
 		return session;
@@ -132,13 +134,13 @@ public class ConfigurationHelper {
 		return this.getExtensionpointvalue("Configuration","Subprotocol");		
 	}
 	/**
-	 * liefert den Wert, der f�r eine ExtensionPoint konfiguriert wurde
+	 * liefert den Wert, der für eine ExtensionPoint konfiguriert wurde
 	 * @param elementname
 	 * @param attributename
 	 * @return
 	 */
 	public String getExtensionpointvalue(String elementname,String attributename ){
-		IConfigurationElement element = HibernatehelperPlugin.getDefault().getExtensionPointElement(elementname);
+		IConfigurationElement element = ExtensionPointUtil.getExtensionPointElement(HibernatehelperPlugin.getDefault().getPluginId(), elementname);
 		String value = element.getAttribute(attributename);
 		return value;
 	}

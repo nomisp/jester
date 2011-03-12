@@ -3,9 +3,14 @@ package ch.jester.rcpapplication;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -20,6 +25,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.hibernate.Session;
 
 import ch.jester.hibernate.helper.ConfigurationHelper;
+import ch.jester.model.Player;
 
 public class View extends ViewPart {
 	public View() {
@@ -82,8 +88,34 @@ public class View extends ViewPart {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("jester");
+		new Job("insert"){
 
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				EntityManagerFactory emf = Persistence.createEntityManagerFactory("jester"); 
+				EntityManager em = emf.createEntityManager();
+				em.getTransaction().begin();
+				for(int i=0;i<2;i++){
+				Player player = new Player();
+				player.setCity("Zürich");
+				player.setElo(i);
+				player.setFideCode(9);
+				player.setFirstName("matthias");
+				player.setLastName("liechti");
+				player.setNation("CH");
+				em.persist(player);
+				}
+				em.getTransaction().commit();
+			
+				em.close();
+				
+				return Status.OK_STATUS;
+			}
+			
+		}.schedule();
+
+		
+		
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL);
 		viewer.setContentProvider(new ViewContentProvider());
