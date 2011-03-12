@@ -7,3 +7,4 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: ch.jester.hibernate;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
+Export-Package: ch.jester.model
