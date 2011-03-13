@@ -6,37 +6,37 @@ import org.hibernate.HibernateException;
 import org.hsqldb.Server;
 
 import ch.jester.hibernate.helper.ConfigurationHelper;
+import ch.jester.hibernate.helper.HibernatehelperPlugin;
 import ch.jester.hibernate.helper.IDatabaseManager;
 
 public class HSQLDatabaseManager implements IDatabaseManager {
-	private final static String DB_NAME = "jester";
 	private Server server;
+	private String mDbOptions = ";hsqldb.default_table_type=cached;hsqldb.tx=mvcc";
 	public HSQLDatabaseManager() {
 		server = new Server();
 	}
 
 	@Override
 	public void start() {
-		ConfigurationHelper helper = new ConfigurationHelper();
-		String ip = helper.getIp();
-		server.setDatabaseName(0, DB_NAME);
-		server.setDatabasePath(0, ip+"/"+DB_NAME+";hsqldb.default_table_type=cached");  //default_table_type=cached --> damit tables auch auf der platte landen
+		String ip = ConfigurationHelper.getDefaultPath();
+		
+		server.setDatabaseName(0, ConfigurationHelper.getDbname());
+		server.setDatabasePath(0, ip+"/"+ConfigurationHelper.getDbname()+mDbOptions);  //;hsqldb.cache_scale=15 default_table_type=cached --> damit tables auch auf der platte landen
+		//http://hsqldb.org/doc/2.0/guide/sessions-chapt.html#sqlgeneral_trans_cc-sect for mvcc
+	
 		server.start();
+
 		
 	}
 
 	@Override
 	public void stop() {
-		server.stop();
-	}
-
-	@Override
-	public void shutdown() {
+		
 		try {
 			
 			// TODO geht das auch schöner?
 			//beendet db richtig... alles andere funktioniert nicht so wirklich
-			new ConfigurationHelper().getSession().connection().createStatement().execute("shutdown");
+			HibernatehelperPlugin.getSession().connection().createStatement().execute("shutdown");
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,7 +44,23 @@ public class HSQLDatabaseManager implements IDatabaseManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//async call
+		server.stop();
+		
+		//busy wait bis server fertig
+		while((server.getState())!=16){};
+	}
+
+
+	@Override
+	public void shutdown() {
 		server.shutdown();
 	}
+
+	@Override
+	public String getIP() {
+		return "jdbc:hsqldb:hsql://localhost/"+ConfigurationHelper.getDbname();
+	}
+
 
 }

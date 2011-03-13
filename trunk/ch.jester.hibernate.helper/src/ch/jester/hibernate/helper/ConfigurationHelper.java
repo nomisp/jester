@@ -1,5 +1,10 @@
 package ch.jester.hibernate.helper;
 
+import java.util.Properties;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.datalocation.Location;
@@ -8,84 +13,107 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import ch.jester.common.utility.ExtensionPointUtil;
+import ch.jester.model.Category;
+import ch.jester.model.Club;
+import ch.jester.model.Pairing;
+import ch.jester.model.Player;
+import ch.jester.model.Round;
+import ch.jester.model.Tournament;
 
-// TODO Refactoring nötig! da HSQLDB spezifisch! --> nicht in diesem Bundle
 public class ConfigurationHelper {
+	private ConfigurationHelper(){
+		
+	}
 	/**
 	 * die Hibernate Configuration
 	 */
-	private static Configuration configuration;	
+	private static Configuration configuration;
+	private static SessionFactory factory;	
+	private static EntityManagerFactory emFactory;
 
 	/**
 	 * liefert die Hibernate Configuration	 
 	 */
-	public Configuration getConfiguration() {
+	 static synchronized Configuration getConfiguration() {
 		if (configuration == null) {
 			configuration = new Configuration();
-		
-			configuration.setProperty("hibernate.hbm2ddl.auto", "create");
-			
-			configuration.setProperty("hibernate.dialect", 
-					this.getSqldialect());
-			configuration.setProperty("hibernate.connection.driver_class",
-					this.getConnectiondriverclass());
-			configuration.setProperty("hibernate.connection.url", this
-					.getConnectionurl());
-					
-			configuration.setProperty("hibernate.connection.username",
-					this.getUser());
-			configuration.setProperty("hibernate.connection.password",
-					this.getPassword());
+			//configuration.addPackage("ch.jester.model");
 			
 			
-			configuration.setProperty(
-					"hibernate.connection.pool_size", "1");
-			configuration.setProperty(
-					"hibernate.connection.autocommit", "true");
-//			 alle ?? SQL Statements loggen !
-			configuration.setProperty("hibernate.show_sql",
-					"true");
-			configuration.setProperty("hibernate.format_sql",
-					"true");
-			
+			configuration.addAnnotatedClass(Category.class);
+			configuration.addAnnotatedClass(Round.class);
+			configuration.addAnnotatedClass(Pairing.class);
+			configuration.addAnnotatedClass(Club.class);
+			configuration.addAnnotatedClass(Tournament.class);
+			configuration.addAnnotatedClass(Player.class);
+
+			configuration.setProperty("hibernate.hbm2ddl.auto", "update");
+			configuration.setProperty("hibernate.dialect", getSqldialect());
+			configuration.setProperty("hibernate.connection.driver_class",getConnectiondriverclass());
+		   // configuration.setProperty("hibernate.connection.url", getConnectionurl()+";hsqldb.default_table_type=cached;hsqldb.tx=mvcc");		
+			configuration.setProperty("hibernate.connection.pool_size", "1");
+			configuration.setProperty("hibernate.connection.autocommit", "true");
+			configuration.setProperty("hibernate.show_sql",	"false");
+			configuration.setProperty("hibernate.format_sql","false");
+			configuration.setProperty("hibernate.connection.url",getConnectionurl());
+			configuration.addProperties(getAllProperties("Configuration"));
+		//	configuration.setProperty("hibernate.connection.driver_class","org.hsqldb.jdbcDriver");
+			//configuration.setProperty("hibernate.connection.url","jdbc:hsqldb:hsql://localhost/jester");
+
 			
 		}
 		
 		return configuration;
 	}
+
+	 static synchronized EntityManagerFactory getJPAEntitManagerFactor(){
+		if(emFactory==null){
+			if(configuration ==null){
+				getConfiguration();
+			}
+
+			emFactory = Persistence.createEntityManagerFactory("jester", configuration.getProperties());
+		}
+		return emFactory;
+	}
 	/**
 	 * liefert eine neue Session
 	 * @return
 	 */
-	public Session getSession(){
-		
-		SessionFactory factory = getConfiguration().buildSessionFactory();
+	static synchronized Session getSession(){
+		if(factory==null){
+			factory = getConfiguration().buildSessionFactory();
+		}
 		Session session=factory.openSession();
 		return session;
 	}
 	/**
 	 * liefert das Passwort	
 	 */
-	public String getPassword() {
-		return "";	// hsqldb
-//		return "root";	// mysql
+	public static String getPassword() {
+		return getProperties("Configuration", "hibernate.connection.password");
 	}
 
 	/**
 	 * liefert den User
 	 * @return
 	 */
-	public String getUser() {
-		return "sa";	// hsqldb
-//		return "root";	// mysql
+	public static String getUser() {
+		return getProperties("Configuration", "hibernate.connection.username");
 	}
 
 	/**
 	 * liefert die Verbindungs-URL
 	 * @return
 	 */
-	public String getConnectionurl() {
-		return "jdbc:"+this.getSubprotocol()+"://"+this.getIp()+"/"+this.getDbname();
+	public static  String getConnectionurl() {
+		return HibernatehelperPlugin.getDefault().getDataBaseManager().getIP();
+	//	return "jdbc:"+getSubprotocol()+"://"+getPath()+"/"+getDbname();
+//		return "jdbc:"+this.getSubprotocol()+":hsql://"+this.getIp()+"/"+this.getDbname();
+	}
+	public static  String getLocalConnection() {
+		//return HibernatehelperPlugin.getDefault().getDataBaseManager().getIP();
+	return "jdbc:"+getSubprotocol()+"://"+getDefaultPath()+"/"+getDbname();
 //		return "jdbc:"+this.getSubprotocol()+":hsql://"+this.getIp()+"/"+this.getDbname();
 	}
 
@@ -93,7 +121,7 @@ public class ConfigurationHelper {
 	 * liefert die Ip des Datenbankservers
 	 * @return
 	 */
-	public String getIp() {
+	public static String getDefaultPath() {
 		Location workingDir = Platform.getInstanceLocation();
 		return workingDir.getURL().getFile() + "database";
 //		return "localhost";
@@ -103,7 +131,7 @@ public class ConfigurationHelper {
 	 * liefert den Namen der Datenbank
 	 * @return
 	 */
-	public String getDbname() {
+	public static String getDbname() {
 		return "jester";
 	}
 	
@@ -112,8 +140,8 @@ public class ConfigurationHelper {
 	 * liest diesen aus der Extension des Plugins aus
 	 * @return
 	 */
-	public String getConnectiondriverclass() {
-		return this.getExtensionpointvalue("Configuration","JDBCDriverClass");		
+	public static String getConnectiondriverclass() {
+		return getExtensionpointvalue("Configuration","JDBCDriverClass");		
 	}
 
 	/**
@@ -121,8 +149,8 @@ public class ConfigurationHelper {
 	 * liest diesen aus der Extension des Plugins aus
 	 * @return
 	 */
-	public String getSqldialect() {
-		return this.getExtensionpointvalue("Configuration","SQLDialectClass");		
+	public static String getSqldialect() {
+		return getExtensionpointvalue("Configuration","SQLDialectClass");		
 	}
 	/**
 	 * liefert den Namen des Subprotocols 
@@ -130,8 +158,8 @@ public class ConfigurationHelper {
 	 * liest diesen aus der Extension des Plugins aus
 	 * @return
 	 */
-	public String getSubprotocol() {
-		return this.getExtensionpointvalue("Configuration","Subprotocol");		
+	public static String getSubprotocol() {
+		return getExtensionpointvalue("Configuration","Subprotocol");		
 	}
 	/**
 	 * liefert den Wert, der für eine ExtensionPoint konfiguriert wurde
@@ -139,9 +167,31 @@ public class ConfigurationHelper {
 	 * @param attributename
 	 * @return
 	 */
-	public String getExtensionpointvalue(String elementname,String attributename ){
+	private static String getExtensionpointvalue(String elementname,String attributename ){
 		IConfigurationElement element = ExtensionPointUtil.getExtensionPointElement(HibernatehelperPlugin.getDefault().getPluginId(), elementname);
 		String value = element.getAttribute(attributename);
 		return value;
 	}
+	private static String getProperties(String elementname,String attributename ){
+		IConfigurationElement element = ExtensionPointUtil.getExtensionPointElement(HibernatehelperPlugin.getDefault().getPluginId(), elementname);
+		IConfigurationElement[] children = element.getChildren("Property");
+	
+		for(IConfigurationElement child:children){
+			if(child.getAttribute("name").equals(attributename)){
+				return child.getAttribute("value")==null?"":child.getAttribute("value");
+			}
+		}
+		return null;
+	}
+	private static Properties getAllProperties(String parentName){
+		IConfigurationElement element = ExtensionPointUtil.getExtensionPointElement(HibernatehelperPlugin.getDefault().getPluginId(), parentName);
+		IConfigurationElement[] children = element.getChildren("Property");
+		Properties map = new Properties();
+		for(IConfigurationElement child:children){
+			map.put(child.getAttribute("name"), child.getAttribute("value")==null?"":child.getAttribute("value"));
+		}
+		return map;
+	}
+
+	
 }

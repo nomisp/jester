@@ -1,8 +1,12 @@
 package ch.jester.hibernate.helper;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.hibernate.Session;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
@@ -28,7 +32,7 @@ public class HibernatehelperPlugin extends AbstractActivator {
 	public void startDelegate(BundleContext context) {
 		mLogger = getActivationContext().getLogger();
 		mLogger.info("HibernatehelperPlugin started");
-		startHSQLDB();
+		startDB();
 
 	}
 
@@ -36,8 +40,9 @@ public class HibernatehelperPlugin extends AbstractActivator {
 	public void stopDelegate(BundleContext context) {
 		
 		if(mDBManager!=null){	
-			mDBManager.shutdown();
 			mDBManager.stop();
+			mDBManager.shutdown();
+		
 		}
 	}
 
@@ -55,7 +60,22 @@ public class HibernatehelperPlugin extends AbstractActivator {
 		return getActivationContext().getPluginId();
 	}
 	
-	private void startHSQLDB() {
+	public  static EntityManagerFactory getJPAEntitManagerFactor(){
+		 return ConfigurationHelper.getJPAEntitManagerFactor();
+	}
+		/**
+		 * liefert eine neue Session
+		 * @return
+		 */
+	public	static synchronized Session getSession(){
+			return ConfigurationHelper.getSession();
+	}
+	
+	public IDatabaseManager getDataBaseManager(){
+		return mDBManager;
+	}
+	
+	private void startDB() {
 		IConfigurationElement element = ExtensionPointUtil.getExtensionPointElement(getPluginId(),EP_CONFIGURATION);
 		String dbmClassName = element.getAttribute(EP_CONFIGURATION_DATABASEMANAGERCLZ);
 		if (dbmClassName != null) {

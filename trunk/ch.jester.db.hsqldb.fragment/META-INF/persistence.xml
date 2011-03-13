@@ -5,7 +5,6 @@
     <persistence-unit name="jester" transaction-type="RESOURCE_LOCAL">
         <description>jester</description>
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <!--  >jta-data-source>java:/DefaultDS</jta-data-source-->
         <class>ch.jester.model.Tournament</class>
         <class>ch.jester.model.Category</class>
         <class>ch.jester.model.Round</class>
@@ -13,10 +12,9 @@
         <class>ch.jester.model.Player</class>
         <class>ch.jester.model.Club</class>
         <properties>
-         <property name="hibernate.hbm2ddl.auto" value="create" />
+         <property name="hibernate.hbm2ddl.auto" value="update" />
          <property name="hibernate.show_sql" value="true" />
          <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-     	 <property name="hibernate.hbm2ddl.auto" value="update"/>
          <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
          <property name="hibernate.connection.username" value="sa"/>
          <property name="hibernate.connection.password" value=""/>

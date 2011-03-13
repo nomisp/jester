@@ -26,6 +26,13 @@
             class="ch.jester.rcpapplication.View"
             id="ch.jester.rcpapplication.view">
       </view>
+      <view
+            category="org.eclipse.ui"
+            class="org.eclipse.ui.ExtensionFactory:progressView"
+            id="org.eclipse.ui.views.ProgressView"
+            name="Progress View"
+            restorable="false">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -37,6 +44,17 @@
                relative="org.eclipse.ui.editorss"
                relationship="left"
                id="ch.jester.rcpapplication.view">
+         </view>
+         <view
+               closeable="true"
+               id="org.eclipse.ui.views.ProgressView"
+               minimized="true"
+               moveable="false"
+               relationship="stack"
+               relative="org.eclipse.ui.editorss"
+               showTitle="false"
+               standalone="false"
+               visible="true">
          </view>
       </perspectiveExtension>
    </extension>

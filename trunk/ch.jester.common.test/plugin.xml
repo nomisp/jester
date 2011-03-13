@@ -9,5 +9,18 @@
             typeDescription="XML Importer">
       </ImportHandler>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="ch.jester.common.tests.commands.InsertJPA"
+            id="ch.jester.common.test.commands.insertjpa"
+            name="Import JPA">
+      </command>
+      <command
+            defaultHandler="ch.jester.common.tests.commands.InsertHibernate"
+            id="ch.jester.common.test.commands.inserthibernate"
+            name="Import HibernateNative">
+      </command>
+   </extension>
 
 </plugin>
