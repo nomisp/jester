@@ -8,12 +8,14 @@ import org.eclipse.core.commands.ExecutionException;
 import org.hsqldb.util.DatabaseManagerSwing;
 
 import ch.jester.hibernate.helper.ConfigurationHelper;
+import ch.jester.hibernate.helper.HibernatehelperPlugin;
 
 public class StartTool extends AbstractHandler{
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Connection c = new ConfigurationHelper().getSession().connection();
+		@SuppressWarnings("deprecation")
+		Connection c = HibernatehelperPlugin.getSession().connection();
 		DatabaseManagerSwing dms = new DatabaseManagerSwing();
 		dms.main();
 		dms.connect(c);

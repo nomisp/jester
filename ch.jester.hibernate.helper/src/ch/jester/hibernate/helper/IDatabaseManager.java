@@ -1,10 +1,10 @@
 package ch.jester.hibernate.helper;
 
+
 /**
  * Interface welches die verschiedenen DatabaseManager
  * der verschiedenen Datenbanken implementieren sollten.
- * Wird insbesondere zum starten von embedded DB's benötigt.
- * @author Peter
+ * Wird insbesondere zum starten von embedded DB's benÃ¶tigt.
  *
  */
 public interface IDatabaseManager {
@@ -23,5 +23,7 @@ public interface IDatabaseManager {
 	 * Sicheres runterfahren des DB-Servers
 	 */
 	public void shutdown();
+	
+	public String getIP();
 	
 }

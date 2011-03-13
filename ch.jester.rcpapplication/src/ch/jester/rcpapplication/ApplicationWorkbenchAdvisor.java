@@ -10,6 +10,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
+	
 		return new ApplicationWorkbenchWindowAdvisor(configurer);
 	}
 

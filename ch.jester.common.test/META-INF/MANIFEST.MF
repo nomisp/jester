@@ -3,16 +3,20 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Test
 Bundle-SymbolicName: ch.jester.common.test;singleton:=true
 Bundle-Version: 1.0.0.0
-Require-Bundle: org.junit,
- ch.jester.common;bundle-version="1.0.0",
+Require-Bundle: ch.jester.common;bundle-version="1.0.0",
  ch.jester.commonservices.api;bundle-version="1.0.0",
  org.eclipse.core.runtime;bundle-version="3.6.0",
- ch.jester.db.hsqldb;bundle-version="1.0.0",
  ch.jester.hibernate;bundle-version="1.0.0",
- ch.jester.hibernate.helper;bundle-version="1.0.0"
+ ch.jester.hibernate.helper;bundle-version="1.0.0",
+ ch.jester.model;bundle-version="1.0.0",
+ org.eclipse.ui;bundle-version="3.6.1",
+ org.junit4;bundle-version="4.8.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: org.apache.log4j,
- org.osgi.framework
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ch.jester.common.test.internal.TestActivator
+Export-Package: ch.jester.common.test.internal,
+ ch.jester.common.tests,
+ ch.jester.common.tests.commands,
+ ch.jester.common.tests.testservice,
+ ch.jester.common.tests.testservice.api
 

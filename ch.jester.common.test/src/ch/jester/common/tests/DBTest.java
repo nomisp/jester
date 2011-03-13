@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
 import ch.jester.hibernate.helper.ConfigurationHelper;
+import ch.jester.hibernate.helper.HibernatehelperPlugin;
 
 public class DBTest extends ActivatorProviderForTestCase {
 
@@ -18,9 +19,9 @@ public class DBTest extends ActivatorProviderForTestCase {
 	 */
 	@Test
 	public void testDB() {
-		ConfigurationHelper ch = new ConfigurationHelper();
+	
 		String catalog="???";
-		Session ssn = ch.getSession();
+		Session ssn = HibernatehelperPlugin.getSession();
 		Connection con = ssn.connection();
 		try {
 			catalog = con.getCatalog();			

@@ -49,6 +49,9 @@
 
    <element name="Configuration">
       <complexType>
+         <sequence minOccurs="0" maxOccurs="unbounded">
+            <element ref="Property"/>
+         </sequence>
          <attribute name="JDBCDriverClass" type="string" use="required">
             <annotation>
                <documentation>
@@ -78,6 +81,25 @@
                <appinfo>
                   <meta.attribute kind="java" basedOn=":ch.jester.hibernate.helper.IDatabaseManager"/>
                </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Property">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="value" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
             </annotation>
          </attribute>
       </complexType>

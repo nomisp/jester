@@ -4,10 +4,17 @@
    <extension
          point="ch.jester.hibernate.helper.Configuration">
       <Configuration
-            DatabaseManagerClass="ch.jester.db.hsqldb.HSQLDatabaseManager"
+            DatabaseManagerClass="ch.jester.db.hsqldb.SimpleHSQLDatabaseManager"
             JDBCDriverClass="org.hsqldb.jdbcDriver"
             SQLDialectClass="org.hibernate.dialect.HSQLDialect"
             Subprotocol="hsqldb">
+         <Property
+               name="hibernate.connection.username"
+               value="sa">
+         </Property>
+         <Property
+               name="hibernate.connection.password">
+         </Property>
       </Configuration>
    </extension>
    <extension
@@ -16,9 +23,23 @@
             allPopups="false"
             locationURI="menu:org.eclipse.ui.main.menu?after=menu.File">
          <menu
-               label="Dev">
+               id="menu.hsql"
+               label="HSQL">
             <command
                   commandId="ch.jester.db.hsqldb.showtool"
+                  label="DB Viewer"
+                  style="push">
+            </command>
+            <separator
+                  name="separator"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="ch.jester.common.test.commands.insertjpa"
+                  style="push">
+            </command>
+            <command
+                  commandId="ch.jester.common.test.commands.inserthibernate"
                   style="push">
             </command>
          </menu>

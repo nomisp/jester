@@ -16,8 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- * Entität für die Tabelle Tournament 
- * @author Peter
+ * Entitï¿½t fï¿½r die Tabelle Tournament 
  *
  */
 @Entity
