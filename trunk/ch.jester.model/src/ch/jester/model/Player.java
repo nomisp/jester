@@ -20,12 +20,12 @@ public class Player implements Serializable {
 	private int id;
 	
 	@Column(name="FirstName", nullable=false, length=50)
-	@org.hibernate.validator.constraints.Length(min=2, max=50)
+	//@org.hibernate.validator.constraints.Length(min=2, max=50)
 	@NotNull
 	private String firstName;
 	
 	@Column(name="LastName", nullable=false, length=50)
-	@org.hibernate.validator.constraints.Length(min=2, max=50)
+//	@org.hibernate.validator.constraints.Length(min=2, max=50)
 	@NotNull
 	private String lastName;
 	

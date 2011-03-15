@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import junit.framework.Assert;
 
-import org.hibernate.Session;
+
 import org.junit.Test;
 
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
@@ -20,7 +20,7 @@ public class DBTest extends ActivatorProviderForTestCase {
 	@Test
 	public void testDB() {
 	
-		String catalog="???";
+	/*	String catalog="???";
 		Session ssn = HibernatehelperPlugin.getSession();
 		Connection con = ssn.connection();
 		try {
@@ -28,7 +28,7 @@ public class DBTest extends ActivatorProviderForTestCase {
 			
 		} catch (SQLException e1) {
 			e1.printStackTrace();
-		}
+		}*/
 	}
 
 

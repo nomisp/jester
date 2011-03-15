@@ -11,7 +11,7 @@
         <class>ch.jester.model.Pairing</class>
         <class>ch.jester.model.Player</class>
         <class>ch.jester.model.Club</class>
-        <properties>
+        <!-- >properties>
          <property name="hibernate.hbm2ddl.auto" value="update" />
          <property name="hibernate.show_sql" value="true" />
          <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
@@ -19,6 +19,6 @@
          <property name="hibernate.connection.username" value="sa"/>
          <property name="hibernate.connection.password" value=""/>
          <property name="hibernate.connection.url" value="jdbc:hsqldb:hsql://localhost/jester"/>
-        </properties>
+        </properties-->
     </persistence-unit>
 </persistence>

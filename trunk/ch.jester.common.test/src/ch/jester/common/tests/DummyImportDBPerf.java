@@ -6,12 +6,12 @@ import java.util.Iterator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+
 
 import ch.jester.common.utility.StopWatch;
 import ch.jester.hibernate.helper.HibernatehelperPlugin;
@@ -109,7 +109,7 @@ public class DummyImportDBPerf {
 		joinjob.setSystem(true);
 		joinjob.schedule();
 	}
-	public static void testImportHibernate() {
+/*	public static void testImportHibernate() {
 
 		final int jobsize = targetsize/chunksize;
 
@@ -191,5 +191,5 @@ public class DummyImportDBPerf {
 		};
 		joinjob.setSystem(true);
 		joinjob.schedule();
-	}
+	}*/
 }

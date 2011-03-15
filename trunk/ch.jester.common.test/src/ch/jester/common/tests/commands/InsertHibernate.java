@@ -11,7 +11,7 @@ public class InsertHibernate extends AbstractHandler{
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		DummyImportDBPerf.testImportHibernate();
+		//DummyImportDBPerf.testImportHibernate();
 		return null;
 	}
 	

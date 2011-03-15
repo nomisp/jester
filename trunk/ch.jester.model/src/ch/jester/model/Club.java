@@ -20,7 +20,7 @@ public class Club implements Serializable {
 	private int id;
 	
 	@Column(name="Name", nullable=false, unique=true, length=50)
-	@org.hibernate.validator.constraints.Length(min=2, max=50)
+	//@org.hibernate.validator.constraints.Length(min=2, max=50)
 	@NotNull
 	private String name;
 	

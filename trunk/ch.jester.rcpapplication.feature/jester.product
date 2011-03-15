@@ -33,9 +33,9 @@
    </plugins>
 
    <features>
+      <feature id="ch.jester.common.feature" version="1.0.0.0"/>
       <feature id="ch.jester.rcpapplication.feature" version="1.0.0.qualifier"/>
       <feature id="ch.jester.database.feature" version="1.0.0.qualifier"/>
-      <feature id="ch.jester.common.feature" version="1.0.0.0"/>
    </features>
 
    <configurations>
