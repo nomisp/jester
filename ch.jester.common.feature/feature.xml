@@ -18,26 +18,13 @@
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.osgi.util" version="3.2.100" match="greaterOrEqual"/>
       <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.osgi.services" version="3.2.100" match="greaterOrEqual"/>
       <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.log4j" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui"/>
-      <import plugin="org.slf4j.api" version="1.5.11" match="equivalent"/>
-      <import plugin="javax.servlet"/>
-      <import plugin="javax.mail.glassfish"/>
-      <import plugin="org.eclipse.net4j.jms.api"/>
-      <import plugin="org.apache.log4j" version="1.2.15.v201005080500" match="greaterOrEqual"/>
-      <import plugin="javax.xml"/>
+      <import plugin="org.apache.log4j" version="1.0.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.equinox.ds" version="1.2.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.runtime" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="ch.jester.hibernate" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="ch.jester.model" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui" version="3.6.1" match="greaterOrEqual"/>
-      <import plugin="org.junit4" version="4.8.1" match="greaterOrEqual"/>
-      <import plugin="org.hamcrest.core" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.junit" version="4.8.1" match="greaterOrEqual"/>
-      <import plugin="ch.jester.hibernate.helper" version="1.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -69,74 +56,11 @@
          unpack="false"/>
 
    <plugin
-         id="ch.qos.logback.slf4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.slf4j.api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.slf4j.jcl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.slf4j.jul"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.slf4j.log4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ch.qos.logback.classic"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ch.qos.logback.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="ch.jester.log4jproperies"
          download-size="0"
          install-size="0"
          version="0.0.0"
          fragment="true"/>
-
-   <plugin
-         id="org.apache.log4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.osgi.util"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="org.eclipse.osgi"
@@ -160,29 +84,9 @@
          unpack="false"/>
 
    <plugin
-         id="ch.jester.common.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.junit"
+         id="org.apache.log4j"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-
-   <plugin
-         id="org.junit4"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.hamcrest.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
 </feature>
