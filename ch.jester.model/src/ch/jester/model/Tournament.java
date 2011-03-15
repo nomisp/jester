@@ -29,7 +29,7 @@ public class Tournament implements Serializable {
 	private int id;
 	
 	@Column(name="Name", nullable=false, length=50)
-	@org.hibernate.validator.constraints.Length(min=2, max=50)
+	//@org.hibernate.validator.constraints.Length(min=2, max=50)
 	@NotNull
 	private String name;
 	

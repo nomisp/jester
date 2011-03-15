@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0.0
 Require-Bundle: ch.jester.common;bundle-version="1.0.0",
  ch.jester.commonservices.api;bundle-version="1.0.0",
  org.eclipse.core.runtime;bundle-version="3.6.0",
- ch.jester.hibernate;bundle-version="1.0.0",
  ch.jester.hibernate.helper;bundle-version="1.0.0",
  ch.jester.model;bundle-version="1.0.0",
  org.eclipse.ui;bundle-version="3.6.1",
@@ -19,4 +18,8 @@ Export-Package: ch.jester.common.test.internal,
  ch.jester.common.tests.commands,
  ch.jester.common.tests.testservice,
  ch.jester.common.tests.testservice.api
+Import-Package: javax.persistence,
+ javax.persistence.criteria,
+ javax.persistence.metamodel,
+ javax.persistence.spi
 

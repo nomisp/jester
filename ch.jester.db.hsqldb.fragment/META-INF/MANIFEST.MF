@@ -5,4 +5,4 @@ Bundle-SymbolicName: ch.jester.db.hsqldb.fragment;singleton:=true
 Bundle-Version: 1.0.0.0
 Fragment-Host: ch.jester.hibernate;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: ch.jester.model;bundle-version="1.0.0"
+Import-Package: ch.jester.model

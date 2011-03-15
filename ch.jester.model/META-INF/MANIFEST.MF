@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
-Eclipse-RegisterBuddy: ch.jester.hibernate
+Eclipse-BuddyPolicy: global
 Bundle-ManifestVersion: 2
 Bundle-Name: Model
 Bundle-SymbolicName: ch.jester.model;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.0.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: ch.jester.hibernate;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: ch.jester.model
+Import-Package: javax.persistence,
+ javax.validation.constraints

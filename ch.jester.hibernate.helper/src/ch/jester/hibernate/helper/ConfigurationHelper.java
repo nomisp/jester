@@ -13,12 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import ch.jester.common.utility.ExtensionPointUtil;
-import ch.jester.model.Category;
-import ch.jester.model.Club;
-import ch.jester.model.Pairing;
-import ch.jester.model.Player;
-import ch.jester.model.Round;
-import ch.jester.model.Tournament;
+
 
 public class ConfigurationHelper {
 	private ConfigurationHelper(){
@@ -40,12 +35,12 @@ public class ConfigurationHelper {
 			//configuration.addPackage("ch.jester.model");
 			
 			
-			configuration.addAnnotatedClass(Category.class);
+		/*	configuration.addAnnotatedClass(Category.class);
 			configuration.addAnnotatedClass(Round.class);
 			configuration.addAnnotatedClass(Pairing.class);
 			configuration.addAnnotatedClass(Club.class);
 			configuration.addAnnotatedClass(Tournament.class);
-			configuration.addAnnotatedClass(Player.class);
+			configuration.addAnnotatedClass(Player.class);*/
 
 			configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 			configuration.setProperty("hibernate.dialect", getSqldialect());
