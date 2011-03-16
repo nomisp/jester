@@ -3,10 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Test
 Bundle-SymbolicName: ch.jester.common.test;singleton:=true
 Bundle-Version: 1.0.0.0
-Require-Bundle: junit4;bundle-version="1.0.0",
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.6.0",
+ org.junit;bundle-version="4.8.1",
  ch.jester.common;bundle-version="1.0.0",
  ch.jester.commonservices.api;bundle-version="1.0.0",
- org.eclipse.core.runtime;bundle-version="3.6.0",
  ch.jester.hibernate.helper;bundle-version="1.0.0",
  ch.jester.model;bundle-version="1.0.0",
  org.eclipse.ui;bundle-version="3.6.1"

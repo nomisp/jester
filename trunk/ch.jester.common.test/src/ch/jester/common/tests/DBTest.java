@@ -1,16 +1,8 @@
 package ch.jester.common.tests;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import junit.framework.Assert;
-
-
 import org.junit.Test;
 
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
-import ch.jester.hibernate.helper.ConfigurationHelper;
-import ch.jester.hibernate.helper.HibernatehelperPlugin;
 
 public class DBTest extends ActivatorProviderForTestCase {
 
