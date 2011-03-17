@@ -10,6 +10,8 @@ import java.util.List;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
+import ch.jester.common.activator.internal.CommonActivator;
+
 /**
  * Hilfsklasse, welche die benutzten ServiceTrackers zwischenspeichert, und den
  * Zugriff auf Services vereinfacht.
@@ -21,6 +23,10 @@ public class ServiceUtility {
 
 	public ServiceUtility(BundleContext pContext) {
 		mContext = pContext;
+	}
+	
+	public ServiceUtility(){
+		mContext = CommonActivator.getInstance().getActivationContext().getBundleContext();
 	}
 
 	/**
