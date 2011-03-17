@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="DataBaseDefinition" name="JesterDataBaseDefinition" schema="schema/DataBaseDefinition.exsd"/>
+   <extension-point id="ORMappingDefinition" name="JesterORMappingDefinition" schema="schema/ORMappingDefinition.exsd"/>
+
+</plugin>
