@@ -21,8 +21,4 @@
          id="ch.jester.rcpapplication.feature"
          version="0.0.0"/>
 
-   <includes
-         id="ch.jester.test.feature"
-         version="0.0.0"/>
-
 </feature>
