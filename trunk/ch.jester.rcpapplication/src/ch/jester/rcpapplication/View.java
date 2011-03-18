@@ -73,6 +73,7 @@ public class View extends ViewPart {
 
 		String catalog="???";
 		Session ssn = HibernatehelperPlugin.getSession();
+		@SuppressWarnings("deprecation")
 		Connection con = ssn.connection();
 		try {
 			catalog = con.getCatalog();		
