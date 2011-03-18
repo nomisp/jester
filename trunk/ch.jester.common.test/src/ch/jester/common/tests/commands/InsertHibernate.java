@@ -3,8 +3,6 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-import ch.jester.common.tests.DummyImportDBPerf;
-
 
 
 public class InsertHibernate extends AbstractHandler{

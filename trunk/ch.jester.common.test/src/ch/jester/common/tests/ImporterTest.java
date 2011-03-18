@@ -19,7 +19,7 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 	@Test
 	public void testGetImporterService() {
 		System.out.println("testGetImporterService");
-		IComponentService importManager = getActivationContext().getService(IImportManager.class);
+		IComponentService<?> importManager = getActivationContext().getService(IImportManager.class);
 		Assert.assertNotNull("Import Manager is null", importManager);
 	}
 	/**
