@@ -29,6 +29,7 @@ public class HSQLDatabaseManager implements IDatabaseManager {
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void stop() {
 		
