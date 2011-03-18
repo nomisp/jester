@@ -4,7 +4,8 @@ Bundle-Name: Common
 Bundle-SymbolicName: ch.jester.common
 Bundle-Version: 1.0.0.0
 Require-Bundle: ch.jester.commonservices.api;bundle-version="1.0.0",
- org.eclipse.osgi
+ org.eclipse.osgi,
+ org.eclipse.core.runtime;bundle-version="3.6.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: ch.jester.common.activator;uses:="ch.jester.commonservices.api.logging,ch.jester.common.utility,org.osgi.framework",
  ch.jester.common.importer;uses:="ch.jester.commonservices.api.logging,ch.jester.commonservices.api.importer",
@@ -13,5 +14,3 @@ Export-Package: ch.jester.common.activator;uses:="ch.jester.commonservices.api.l
  ch.jester.ep;uses:="org.eclipse.core.runtime.dynamichelpers,org.eclipse.core.runtime"
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ch.jester.common.activator.internal.CommonActivator
-Import-Package: org.eclipse.core.runtime,
- org.eclipse.core.runtime.dynamichelpers

@@ -13,7 +13,7 @@ public class Activator extends AbstractUIActivator{
 	@Override
 	public void startDelegate(BundleContext pContext) {
 		getActivationContext().getLogger().info("Starting >jester<");
-		IComponentService manager = getActivationContext().getService(IImportManager.class);	
+		IComponentService<?> manager = getActivationContext().getService(IImportManager.class);	
 		getActivationContext().getLogger().info("ImportManager is "+manager);
 	}
 
