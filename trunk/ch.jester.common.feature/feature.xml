@@ -17,8 +17,10 @@
    </license>
 
    <requires>
-      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.equinox.registry"/>
       <import plugin="org.eclipse.osgi.services" version="3.2.100" match="greaterOrEqual"/>
       <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.apache.log4j" version="1.0.0" match="greaterOrEqual"/>
@@ -63,21 +65,7 @@
          fragment="true"/>
 
    <plugin
-         id="org.eclipse.osgi"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="ch.jester.importmanagerservice.impl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.osgi.services"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -87,6 +75,7 @@
          id="org.apache.log4j"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>
