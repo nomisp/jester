@@ -2,6 +2,7 @@ package ch.jester.ormapper.api;
 
 
 import java.sql.Connection;
+import java.util.HashMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -52,9 +53,18 @@ public class ORMapperContainer implements IComponentService<IORMapper>, IORMappe
 		
 	}
 
+
+
 	@Override
-	public IORMapperSettings getSettings() {
-		return mDelegate.getSettings();
+	public void setORMappingSetting(IORMapperSettings pDef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public HashMap<String, String> getSettings() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

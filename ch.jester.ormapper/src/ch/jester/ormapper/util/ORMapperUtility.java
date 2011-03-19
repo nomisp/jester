@@ -1,18 +1,32 @@
 package ch.jester.ormapper.util;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import ch.jester.common.utility.ServiceUtility;
+import ch.jester.common.utility.ThreadContext;
+import ch.jester.ormapper.api.IDatabaseDefinition;
 import ch.jester.ormapper.api.IORMapper;
+import ch.jester.ormapper.api.IORMapperDefiniton;
+import ch.jester.ormapper.api.IORMapperSettings;
 import ch.jester.ormapper.api.ORMapperContainer;
+import ch.jester.ormapper.internal.DefaultORMSettings;
+import ch.jester.ormapper.internal.ORMapperActivator;
 
 public class ORMapperUtility {
 	private static ServiceUtility mUtil = new ServiceUtility();
 	public static IORMapper getORMapper(){
-		EntityManagerFactory factory= Persistence.createEntityManagerFactory("jester", getDefaultConfig());
+		IORMapperDefiniton ordef = ORMapperActivator.getDefault().getORMappingDefinitions().get(0);
+		IDatabaseDefinition dbdef = ORMapperActivator.getDefault().getDatabaseDefinitions().get(0);
+		IORMapperSettings settings = new DefaultORMSettings(dbdef, ordef);
+		dbdef.getDatabaseManager().setIDataBaseDefinition(dbdef);
+		IORMapper mapper = ordef.getORMapper();
+		mapper.setORMappingSetting(settings);
+		mapper.getEntityManagerFactory();
+		//EntityManagerFactory factory= Persistence.createEntityManagerFactory("jester", mapper.getSettings());
 		return mUtil.getService(ORMapperContainer.class).getORMapper();
 	}
 
@@ -32,5 +46,12 @@ public class ORMapperUtility {
 		//configurationProperties.put("hibernate.connection.url",getConnectionurl());
 	//	configurationProperties.putAll(getAllProperties("Configuration"));
 		return configurationProperties;
+	}
+	
+	public static List<IDatabaseDefinition> getDataBaseDefinitions(){
+		return ORMapperActivator.getDefault().getDatabaseDefinitions();
+	}
+	public static List<IORMapperDefiniton> getORMappingDefinitions(){
+		return ORMapperActivator.getDefault().getORMappingDefinitions();
 	}
 }
