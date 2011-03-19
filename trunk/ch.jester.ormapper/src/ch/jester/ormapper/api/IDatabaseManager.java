@@ -10,7 +10,9 @@ package ch.jester.ormapper.api;
  *
  */
 public interface IDatabaseManager {
-
+	
+	public void setIDataBaseDefinition(IDatabaseDefinition pDefinition);
+	
 	/**
 	 * Startet die Datenbank
 	 */
@@ -27,5 +29,7 @@ public interface IDatabaseManager {
 	public void shutdown();
 	
 	public String getIP();
-	public String getConnectionurl();	
+	public String getConnectionurl();
+
+	public void getDriver();	
 }
