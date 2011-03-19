@@ -4,8 +4,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Hsqldb
 Bundle-SymbolicName: ch.jester.db.hsqldb;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-ClassPath: src/,
- lib/hsqldb.jar
+Bundle-ClassPath: hsqldb.jar,
+ .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: ch.jester.hibernate.helper;bundle-version="1.0.0",
  ch.jester.hibernate;bundle-version="1.0.0",

@@ -29,7 +29,8 @@
          id="ch.jester.db.hsqldb"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="ch.jester.hibernate"
@@ -41,19 +42,22 @@
          id="ch.jester.hibernate.helper"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="ch.jester.model"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="ch.jester.db.hsqldb.fragment"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         fragment="true"/>
+         fragment="true"
+         unpack="false"/>
 
 </feature>
