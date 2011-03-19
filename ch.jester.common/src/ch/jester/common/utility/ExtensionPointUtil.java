@@ -29,5 +29,11 @@ public class ExtensionPointUtil {
 		// nix gefunden, null liefern
 		return null;
 	}
+	public static IConfigurationElement[] getExtensionPointElements(String pPluginId, String pExtensionPointId) {
+		// die Id des RCP-Plugins ermitteln
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IConfigurationElement[] elements = registry.getConfigurationElementsFor(pPluginId, pExtensionPointId);	
+		return elements;
+	}
 	
 }
