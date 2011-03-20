@@ -21,12 +21,19 @@ public class ServiceUtility {
 	private BundleContext mContext;
 	private HashMap<Class<?>, ServiceTracker> mTrackerMap = new HashMap<Class<?>, ServiceTracker>();
 
+	/**
+	 *
+	 * @param pContext
+	 */
 	public ServiceUtility(BundleContext pContext) {
 		mContext = pContext;
 	}
 	
+	/**
+	 * Benutzt den BundleContext vom eigenen Plugin
+	 */
 	public ServiceUtility(){
-		mContext = CommonActivator.getInstance().getActivationContext().getBundleContext();
+		this(CommonActivator.getInstance().getActivationContext().getBundleContext());
 	}
 
 	/**

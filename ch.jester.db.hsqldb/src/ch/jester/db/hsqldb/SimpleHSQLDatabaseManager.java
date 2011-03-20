@@ -2,11 +2,9 @@ package ch.jester.db.hsqldb;
 
 import java.sql.SQLException;
 
-import org.hibernate.HibernateException;
+import ch.jester.orm.IDatabaseManager;
+import ch.jester.orm.ORMPlugin;
 
-import ch.jester.hibernate.helper.ConfigurationHelper;
-import ch.jester.hibernate.helper.HibernatehelperPlugin;
-import ch.jester.hibernate.helper.IDatabaseManager;
 
 public class SimpleHSQLDatabaseManager implements IDatabaseManager {
 	private String mDbOptions = ";hsqldb.default_table_type=cached;hsqldb.tx=mvcc";
@@ -25,11 +23,8 @@ public class SimpleHSQLDatabaseManager implements IDatabaseManager {
 
 			// TODO geht das auch schöner?
 			// beendet db richtig... alles andere funktioniert nicht so wirklich
-			HibernatehelperPlugin.getSession().connection().createStatement()
+			ORMPlugin.getConfiguration().getConnection().createStatement()
 					.execute("shutdown");
-		} catch (HibernateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,7 +38,7 @@ public class SimpleHSQLDatabaseManager implements IDatabaseManager {
 
 	@Override
 	public String getIP() {
-		return ConfigurationHelper.getLocalConnection()+mDbOptions;
+		return ORMPlugin.getConfiguration().getLocalConnection()+mDbOptions;
 	}
 
 }

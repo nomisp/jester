@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: HibernateHelper
-Bundle-SymbolicName: ch.jester.hibernate.helper;singleton:=true
+Bundle-SymbolicName: ch.jester.orm;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.6.0",
  ch.jester.common;bundle-version="1.0.0",
- ch.jester.commonservices.api;bundle-version="1.0.0",
- ch.jester.hibernate
+ ch.jester.commonservices.api;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Export-Package: ch.jester.hibernate.helper
-Bundle-Activator: ch.jester.hibernate.helper.HibernatehelperPlugin
+Export-Package: ch.jester.orm
+Bundle-Activator: ch.jester.orm.ORMPlugin
+Import-Package: javax.persistence

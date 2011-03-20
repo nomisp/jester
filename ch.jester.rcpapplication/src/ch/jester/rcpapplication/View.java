@@ -17,8 +17,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.hibernate.Session;
 
 
-import ch.jester.hibernate.helper.ConfigurationHelper;
-import ch.jester.hibernate.helper.HibernatehelperPlugin;
+import ch.jester.orm.ORMPlugin;
 
 public class View extends ViewPart {
 	public View() {
@@ -72,9 +71,8 @@ public class View extends ViewPart {
 	public void createPartControl(Composite parent) {
 
 		String catalog="???";
-		Session ssn = HibernatehelperPlugin.getSession();
 		@SuppressWarnings("deprecation")
-		Connection con = ssn.connection();
+		Connection con = ORMPlugin.getConfiguration().getConnection();
 		try {
 			catalog = con.getCatalog();		
 			
@@ -89,11 +87,11 @@ public class View extends ViewPart {
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
 		// Provide the input to the ContentProvider
-		viewer.setInput(new String[] {"JDBCDriver : " + ConfigurationHelper.getConnectiondriverclass(),
-				"SQLDialect : " + ConfigurationHelper.getSqldialect(),
-				"User       : " + ConfigurationHelper.getUser(),
-				"Password   : " + ConfigurationHelper.getPassword(),
-				"ConnectionURL : " + ConfigurationHelper.getConnectionurl(),
+		viewer.setInput(new String[] {"JDBCDriver : " + ORMPlugin.getConfiguration().getConnectiondriverclass(),
+				"SQLDialect : " + ORMPlugin.getConfiguration().getSqldialect(),
+				"User       : " + ORMPlugin.getConfiguration().getUser(),
+				"Password   : " + ORMPlugin.getConfiguration().getPassword(),
+				"ConnectionURL : " + ORMPlugin.getConfiguration().getConnectionurl(),
 				"Catalog : " + catalog
 				});
 		
