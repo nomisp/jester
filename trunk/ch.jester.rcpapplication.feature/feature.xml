@@ -25,22 +25,22 @@
          version="0.0.0"/>
 
    <includes
-         id="ch.jester.database.feature"
+         id="ch.jester.test.feature"
          version="0.0.0"/>
 
    <includes
-         id="ch.jester.test.feature"
+         id="ch.jester.database.feature"
          version="0.0.0"/>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="ch.jester.hibernate.helper" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.hibernate" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.common.ui" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.model" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.orm" version="1.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
