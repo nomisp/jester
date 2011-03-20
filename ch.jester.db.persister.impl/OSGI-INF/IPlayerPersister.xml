@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="false" name="ch.jester.db.persister.impl.Player">
+   <implementation class="ch.jester.db.persister.impl.DBPlayerPersister"/>
+   <service>
+      <provide interface="ch.jester.dao.IPlayerPersister"/>
+   </service>
+</scr:component>
