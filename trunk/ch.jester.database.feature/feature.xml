@@ -23,7 +23,7 @@
       <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="ch.jester.persistence"/>
+      <import plugin="ch.jester.model" version="1.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -63,6 +63,13 @@
 
    <plugin
          id="ch.jester.persistence"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.db.persister.impl"
          download-size="0"
          install-size="0"
          version="0.0.0"
