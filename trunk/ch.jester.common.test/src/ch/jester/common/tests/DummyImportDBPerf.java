@@ -14,8 +14,8 @@ import org.eclipse.core.runtime.jobs.Job;
 
 
 import ch.jester.common.utility.StopWatch;
-import ch.jester.hibernate.helper.HibernatehelperPlugin;
 import ch.jester.model.Player;
+import ch.jester.orm.ORMPlugin;
 
 public class DummyImportDBPerf {
 	static final int targetsize = 10000;
@@ -31,7 +31,7 @@ public class DummyImportDBPerf {
 
 		IProgressMonitor groupmonitor = Job.getJobManager().createProgressGroup();
 		groupmonitor.beginTask("Loading Players into DB (JPA)", targetsize);
-		final EntityManagerFactory emf = HibernatehelperPlugin.getJPAEntitManagerFactor();
+		final EntityManagerFactory emf = ORMPlugin.getJPAEntitManagerFactor();
 		final Job[] importjobs = new Job[jobsize];
 		final HashMap<String, StopWatch> watches = new HashMap<String, StopWatch>();
 		for(int i=0;i<jobsize;i++){

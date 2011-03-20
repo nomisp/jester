@@ -52,6 +52,13 @@
          <sequence minOccurs="0" maxOccurs="unbounded">
             <element ref="Property"/>
          </sequence>
+         <attribute name="DatabaseName" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="JDBCDriverClass" type="string" use="required">
             <annotation>
                <documentation>
@@ -80,6 +87,16 @@
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":ch.jester.hibernate.helper.IDatabaseManager"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="ORMConfiguration" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":ch.jester.orm.IORMConfiguration"/>
                </appinfo>
             </annotation>
          </attribute>

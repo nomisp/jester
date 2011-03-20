@@ -1,14 +1,21 @@
-package ch.jester.ormapper.internal;
+package ch.jester.common.utility;
 
 import java.util.HashMap;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 
 
+/**
+ * Utility Klasse
+ * Damit kann auf einfache Weise die Attribute des ExtensionPoints ausgelesen werden
+ */
 public abstract class ExtensionPointSettings {
 	protected IConfigurationElement mElement;
 	public ExtensionPointSettings(IConfigurationElement e){
 		mElement = e;
+	}
+	public ExtensionPointSettings(String pBundleName, String pExtensionPoint){
+		 mElement = ExtensionPointUtil.getExtensionPointElement(pBundleName, pExtensionPoint);
 	}
 	
 	protected String getExtensionPointValueFromElement(String string) {
@@ -32,9 +39,9 @@ public abstract class ExtensionPointSettings {
 		}
 		return null;
 	}
-	protected HashMap<String, String> getAllProperties(String parentName){
+	protected HashMap<String, String> getAllProperties(String pChildName){
 		IConfigurationElement element =mElement;
-		IConfigurationElement[] children = element.getChildren("Property");
+		IConfigurationElement[] children = element.getChildren(pChildName);
 		HashMap<String, String> map = new HashMap<String, String>();
 		for(IConfigurationElement child:children){
 			map.put(child.getAttribute("name"), child.getAttribute("value")==null?"":child.getAttribute("value"));

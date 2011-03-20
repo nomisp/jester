@@ -1,4 +1,4 @@
-package ch.jester.hibernate.helper;
+package ch.jester.orm;
 
 
 /**

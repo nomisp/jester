@@ -17,12 +17,13 @@
    </license>
 
    <requires>
-      <import plugin="ch.jester.hibernate.helper" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.orm" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.commands" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.hibernate" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.runtime" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui" version="3.6.1" match="greaterOrEqual"/>
       <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.persistence"/>
    </requires>
 
    <plugin
@@ -39,13 +40,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="ch.jester.hibernate.helper"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="ch.jester.model"
          download-size="0"
          install-size="0"
@@ -58,6 +52,20 @@
          install-size="0"
          version="0.0.0"
          fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.orm"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.persistence"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="validation-api-1.0.0.GA.jar"/>
 	<classpathentry exported="true" kind="lib" path="antlr-2.7.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="c3p0-0.9.1.jar"/>

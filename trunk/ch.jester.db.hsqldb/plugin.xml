@@ -2,10 +2,12 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="ch.jester.hibernate.helper.Configuration">
+         point="ch.jester.orm.Configuration">
       <Configuration
             DatabaseManagerClass="ch.jester.db.hsqldb.SimpleHSQLDatabaseManager"
+            DatabaseName="jester"
             JDBCDriverClass="org.hsqldb.jdbcDriver"
+            ORMConfiguration="ch.jester.hibernate.ConfigurationHelper"
             SQLDialectClass="org.hibernate.dialect.HSQLDialect"
             Subprotocol="hsqldb">
          <Property

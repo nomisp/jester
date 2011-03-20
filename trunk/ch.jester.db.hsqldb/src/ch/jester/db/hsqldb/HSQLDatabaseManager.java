@@ -2,12 +2,11 @@ package ch.jester.db.hsqldb;
 
 import java.sql.SQLException;
 
-import org.hibernate.HibernateException;
 import org.hsqldb.Server;
 
-import ch.jester.hibernate.helper.ConfigurationHelper;
-import ch.jester.hibernate.helper.HibernatehelperPlugin;
-import ch.jester.hibernate.helper.IDatabaseManager;
+import ch.jester.orm.IDatabaseManager;
+import ch.jester.orm.ORMPlugin;
+
 
 public class HSQLDatabaseManager implements IDatabaseManager {
 	private Server server;
@@ -18,10 +17,10 @@ public class HSQLDatabaseManager implements IDatabaseManager {
 
 	@Override
 	public void start() {
-		String ip = ConfigurationHelper.getDefaultPath();
+		String ip = ORMPlugin.getConfiguration().getDefaultPath();
 		
-		server.setDatabaseName(0, ConfigurationHelper.getDbname());
-		server.setDatabasePath(0, ip+"/"+ConfigurationHelper.getDbname()+mDbOptions);  //;hsqldb.cache_scale=15 default_table_type=cached --> damit tables auch auf der platte landen
+		server.setDatabaseName(0, ORMPlugin.getConfiguration().getDbname());
+		server.setDatabasePath(0, ip+"/"+ORMPlugin.getConfiguration().getDbname()+mDbOptions);  //;hsqldb.cache_scale=15 default_table_type=cached --> damit tables auch auf der platte landen
 		//http://hsqldb.org/doc/2.0/guide/sessions-chapt.html#sqlgeneral_trans_cc-sect for mvcc
 	
 		server.start();
@@ -37,10 +36,7 @@ public class HSQLDatabaseManager implements IDatabaseManager {
 			
 			// TODO geht das auch schöner?
 			//beendet db richtig... alles andere funktioniert nicht so wirklich
-			HibernatehelperPlugin.getSession().connection().createStatement().execute("shutdown");
-		} catch (HibernateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ORMPlugin.getConfiguration().getConnection().createStatement().execute("shutdown");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,7 +56,7 @@ public class HSQLDatabaseManager implements IDatabaseManager {
 
 	@Override
 	public String getIP() {
-		return "jdbc:hsqldb:hsql://localhost/"+ConfigurationHelper.getDbname();
+		return "jdbc:hsqldb:hsql://localhost/"+ORMPlugin.getConfiguration().getDbname();
 	}
 
 
