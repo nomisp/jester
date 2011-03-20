@@ -21,4 +21,8 @@
          id="ch.jester.rcpapplication.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.rcp"
+         version="0.0.0"/>
+
 </feature>
