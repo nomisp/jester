@@ -16,7 +16,7 @@ public class SimpleHSQLDatabaseManager implements IDatabaseManager {
 
 	}
 
-	@SuppressWarnings("deprecation")
+
 	@Override
 	public void stop() {
 		try {
