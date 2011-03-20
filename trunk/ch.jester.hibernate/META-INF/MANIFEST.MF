@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Eclipse-BuddyPolicy: registered
+DynamicImport-Package: *
 Bundle-ManifestVersion: 2
 Bundle-Name: Hibernate
 Bundle-SymbolicName: ch.jester.hibernate;singleton:=true
