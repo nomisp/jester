@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="start" deactivate="stop" name="ch.jester.ormapper">
-   <implementation class="ch.jester.ormapper.api.ORMapperContainer"/>
-   <reference bind="bind" cardinality="1..1" interface="ch.jester.ormapper.api.IORMapper" name="IORMapper" policy="static" unbind="unbind"/>
-   <service>
-      <provide interface="ch.jester.ormapper.api.ORMapperContainer"/>
-   </service>>
-</scr:component>
