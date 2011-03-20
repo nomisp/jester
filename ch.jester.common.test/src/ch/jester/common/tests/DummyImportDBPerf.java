@@ -1,77 +1,72 @@
 package ch.jester.common.tests;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-
+import ch.jester.common.utility.ServiceUtility;
 import ch.jester.common.utility.StopWatch;
+import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
-import ch.jester.orm.ORMPlugin;
 
 public class DummyImportDBPerf {
 	static final int targetsize = 10000;
 
-	static final int chunksize = 5000;
+	static final int chunksize = 10000;
 	
 	public static void testImportJPA() {
 
 
 		
 		final int jobsize = targetsize/chunksize;
-
+		final ServiceUtility su = new ServiceUtility();
+		
 
 		IProgressMonitor groupmonitor = Job.getJobManager().createProgressGroup();
 		groupmonitor.beginTask("Loading Players into DB (JPA)", targetsize);
-		final EntityManagerFactory emf = ORMPlugin.getJPAEntitManagerFactor();
 		final Job[] importjobs = new Job[jobsize];
 		final HashMap<String, StopWatch> watches = new HashMap<String, StopWatch>();
 		for(int i=0;i<jobsize;i++){
 		importjobs[i] = new Job("DB DummyImportJob JPA: "+i){
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-						EntityManager em = emf.createEntityManager();
-			
+						IPlayerPersister persister = su.getService(IPlayerPersister.class);
 						StopWatch watch = new StopWatch();
 						watch.start();
-						em.getTransaction().begin();
 						monitor.beginTask(this.getName()+" -- importing...", chunksize);
+						List<Player> pList = new ArrayList<Player>();
 						for(int i=0;i<chunksize;i++){
-					//	
 						
 						Player player = new Player();
+						pList.add(player);
 						player.setCity("Zürich");
 						player.setElo(i);
 						player.setFideCode(9);
 						player.setFirstName("john");
 						player.setLastName("doe");
 						player.setNation("CH");
-						em.persist(player);
-						//em.getTransaction().commit();
-						//playerBalancer.add(player);
+						//persister.save(player);
+						//persister.save(player);
 						if(i%1000==0){
 							monitor.worked(1000);
-							em.flush();
-							em.clear();
+							persister.save(pList);
+							pList.clear();
 						}
 						
 						
 						
 						}
-						em.getTransaction().commit();
-						
+						persister.save(pList);
+						persister.close();
 						monitor.done();
 						watch.stop();
 						watches.put(this.getName(), watch);
-						em.close();
 						return Status.OK_STATUS;
 					}
 				};
@@ -101,7 +96,7 @@ public class DummyImportDBPerf {
 					System.out.println(" avg: "+avg+" trx/sec");
 					
 				}
-				emf.close();
+			//	emf.close();
 				return Status.OK_STATUS;
 			}
 			
