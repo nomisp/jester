@@ -139,6 +139,7 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 		return getExtensionPointValueFromElement("Subprotocol");		
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Connection getConnection() {
 		return getSession().connection();
