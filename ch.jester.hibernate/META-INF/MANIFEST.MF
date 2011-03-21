@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Eclipse-BuddyPolicy: registered
-DynamicImport-Package: *
+Eclipse-RegisterBuddy: ch.jester.persistence
 Bundle-ManifestVersion: 2
 Bundle-Name: Hibernate
 Bundle-SymbolicName: ch.jester.hibernate;singleton:=true
@@ -11,7 +11,6 @@ Bundle-ClassPath: antlr-2.7.6.jar,
  commons-collections-3.1.jar,
  dom4j-1.6.1.jar,
  ehcache-1.5.0.jar,
- hibernate-jpa-2.0-api-1.0.0.Final.jar,
  hibernate-testing.jar,
  hibernate-validator-4.1.0.Final.jar,
  hibernate3.jar,
@@ -25,8 +24,7 @@ Bundle-ClassPath: antlr-2.7.6.jar,
  slf4j-api-1.6.1.jar,
  slf4j-jdk14-1.6.1.jar,
  swarmcache-1.0RC2.jar,
- .,
- validation-api-1.0.0.GA.jar
+ .
 Export-Package: antlr,
  antlr.ASdebug,
  antlr.actions.cpp,
@@ -113,18 +111,8 @@ Export-Package: antlr,
  javassist.tools.web,
  javassist.util,
  javassist.util.proxy,
- javax.persistence,
- javax.persistence.criteria,
- javax.persistence.metamodel,
- javax.persistence.spi,
  javax.transaction,
  javax.transaction.xa,
- javax.validation,
- javax.validation.bootstrap,
- javax.validation.constraints,
- javax.validation.groups,
- javax.validation.metadata,
- javax.validation.spi,
  net.sf.cglib.beans,
  net.sf.cglib.core,
  net.sf.cglib.proxy,
@@ -519,6 +507,7 @@ Export-Package: antlr,
  org.slf4j.spi
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Require-Bundle: ch.jester.common;bundle-version="1.0.0",
+Require-Bundle: ch.jester.persistence;bundle-version="1.0.0",
+ ch.jester.common;bundle-version="1.0.0",
  ch.jester.orm;bundle-version="1.0.0",
  org.eclipse.core.runtime;bundle-version="3.6.0"

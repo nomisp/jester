@@ -96,8 +96,7 @@ public class ORMPlugin extends AbstractActivator {
 	}
 
 	private void startDB() {
-		IConfigurationElement element = ExtensionPointUtil
-				.getExtensionPointElement(getPluginId(), EP_CONFIGURATION);
+		IConfigurationElement element = ExtensionPointUtil.getExtensionPointElement(getPluginId(), EP_CONFIGURATION);
 		String dbmClassName = element
 				.getAttribute(EP_CONFIGURATION_DATABASEMANAGERCLZ);
 		if (dbmClassName != null) {
