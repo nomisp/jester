@@ -70,7 +70,6 @@ public class View extends ViewPart {
 	public void createPartControl(Composite parent) {
 
 		String catalog="???";
-		@SuppressWarnings("deprecation")
 		Connection con = ORMPlugin.getConfiguration().getConnection();
 		try {
 			catalog = con.getCatalog();		
