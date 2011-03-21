@@ -26,10 +26,10 @@
             locationURI="menu:org.eclipse.ui.main.menu?after=menu.File">
          <menu
                id="menu.hsql"
-               label="HSQL">
+               label="%HSQL">
             <command
                   commandId="ch.jester.db.hsqldb.showtool"
-                  label="DB Viewer"
+                  label="%DBViewer"
                   style="push">
             </command>
             <separator
@@ -52,7 +52,7 @@
       <command
             defaultHandler="ch.jester.db.hsqldb.tools.StartTool"
             id="ch.jester.db.hsqldb.showtool"
-            name="DB Viewer">
+            name="%DBViewer">
       </command>
    </extension>
 

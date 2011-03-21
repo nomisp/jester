@@ -15,7 +15,7 @@
 
    <splash
       location="ch.jester.rcpapplication"
-      startupProgressRect="10,295,475,15"
+      startupProgressRect="10,295,480,15"
       startupMessageRect="12,272,475,20"
       startupForegroundColor="000000" />
    <launcher name="jester">

@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.ui,
  ch.jester.common;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Localization: plugin
