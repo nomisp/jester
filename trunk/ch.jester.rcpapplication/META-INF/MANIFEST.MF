@@ -7,7 +7,6 @@ Bundle-Activator: ch.jester.rcpapplication.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  ch.jester.orm;bundle-version="1.0.0",
- ch.jester.hibernate;bundle-version="1.0.0",
  ch.jester.common.ui;bundle-version="1.0.0",
  ch.jester.commonservices.api;bundle-version="1.0.0",
  ch.jester.common;bundle-version="1.0.0"

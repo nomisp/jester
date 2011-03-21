@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="ch.jester.hibernate.helper" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="ch.jester.orm" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="ch.jester.hibernate.helper" id="Configuration" name="HibernateConfiguration"/>
+         <meta.schema plugin="ch.jester.orm" id="Configuration" name="HibernateConfiguration"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
