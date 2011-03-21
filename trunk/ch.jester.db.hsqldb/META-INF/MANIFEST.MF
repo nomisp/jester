@@ -7,6 +7,7 @@ Bundle-Version: 1.0.0
 Bundle-ClassPath: hsqldb.jar,
  .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Localization: plugin
 Export-Package: ch.jester.db.hsqldb,
  ch.jester.db.hsqldb.tools,
  org.hsqldb,
