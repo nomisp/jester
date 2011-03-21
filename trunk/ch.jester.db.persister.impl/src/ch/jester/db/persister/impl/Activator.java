@@ -3,7 +3,6 @@ package ch.jester.db.persister.impl;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.activator.AbstractActivator;
-import ch.jester.dao.IPlayerPersister;
 
 public class Activator extends AbstractActivator{
 
