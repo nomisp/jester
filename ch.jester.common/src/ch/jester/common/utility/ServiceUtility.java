@@ -92,6 +92,10 @@ public class ServiceUtility {
 		return tracker;
 	}
 	
+	/**Erstellt einen neuen Tracker
+	 * @param pServiceInterface
+	 * @return
+	 */
 	private ServiceTracker createTracker(Class<?> pServiceInterface){
 		return new ServiceTracker(mContext, pServiceInterface.getName(),
 				null);
@@ -155,6 +159,14 @@ public class ServiceUtility {
 		
 	}
 
+	/**
+	 * Versucht eine brandneue ServiceInstanz zu bekommen.
+	 * Dies hängt allerdings mit der Bereitstellung des Services zusammen, so dass
+	 * keine Garanntie dafür besteht.
+	 * @param <T>
+	 * @param pServiceInterface
+	 * @return
+	 */
 	public synchronized <T> T getExclusiveService(Class<T> pServiceInterface) {
 		ServiceTracker tracker = createTracker(pServiceInterface);
 		tracker.open();
