@@ -3,6 +3,10 @@ package ch.jester.commonservices.api.importer;
 import java.io.InputStream;
 import java.util.List;
 
+import ch.jester.commonservices.api.IComponentService;
+
+
+
 
 /**Schnittstelle für den Importer
  *

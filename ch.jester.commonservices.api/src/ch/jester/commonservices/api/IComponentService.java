@@ -1,5 +1,5 @@
 
-package ch.jester.commonservices.api.importer;
+package ch.jester.commonservices.api;
 
 import org.osgi.service.component.ComponentContext;
 

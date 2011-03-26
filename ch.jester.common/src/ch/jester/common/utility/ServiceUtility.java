@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceFactory;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
 import ch.jester.common.activator.internal.CommonActivator;
@@ -83,12 +85,16 @@ public class ServiceUtility {
 			boolean pCreate) {
 		ServiceTracker tracker = mTrackerMap.get(pServiceInterface);
 		if (tracker == null && pCreate) {
-			tracker = new ServiceTracker(mContext, pServiceInterface.getName(),
-					null);
+			tracker = createTracker(pServiceInterface);
 			tracker.open();
 			mTrackerMap.put(pServiceInterface, tracker);
 		}
 		return tracker;
+	}
+	
+	private ServiceTracker createTracker(Class<?> pServiceInterface){
+		return new ServiceTracker(mContext, pServiceInterface.getName(),
+				null);
 	}
 
 	/**
@@ -117,6 +123,12 @@ public class ServiceUtility {
 		this.mContext.registerService(pInterface.getName(), pService, pConfig);
 	}
 
+
+	private void registerServiceFactory(Class<?> pInterface, ServiceFactory pFactory,
+			Dictionary<String, String> dict) {
+		this.mContext.registerService(pInterface.getName(), pFactory, dict);
+		
+	}
 	/**
 	 * Registriert ein Objekt als Service, mit leerer Konfiguration
 	 * 
@@ -130,5 +142,29 @@ public class ServiceUtility {
 		Dictionary<String, String> dict = new Hashtable<String, String>();
 		registerService(pInterface, pService, dict);
 	}
+
+	/**Registriert eine Klasse als ServiceInterface und benutzt die Factory zur
+	 * Instanziierung
+	 * @param pInterface
+	 * @param pFactory 
+	 */
+	public void registerServiceFactory(Class<?> pInterface,
+			ServiceFactory pFactory) {
+		Dictionary<String, String> dict = new Hashtable<String, String>();
+		registerServiceFactory(pInterface, pFactory, dict);
+		
+	}
+
+	public synchronized <T> T getExclusiveService(Class<T> pServiceInterface) {
+		ServiceTracker tracker = createTracker(pServiceInterface);
+		tracker.open();
+		Object service = tracker.getService();
+		ServiceReference ref = tracker.getServiceReference();
+		mContext.ungetService(ref);
+		tracker.close();
+		tracker=null;
+		return (T) service;
+	}
+
 	
 }

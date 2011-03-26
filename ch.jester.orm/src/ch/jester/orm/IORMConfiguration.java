@@ -66,7 +66,9 @@ public interface IORMConfiguration {
 
 	/**liefert die JPA Factory
 	 * @return
+	 *
 	 */
+	
 	public EntityManagerFactory getJPAEntityManagerFactory();
 
 }

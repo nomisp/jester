@@ -6,8 +6,9 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
-import ch.jester.commonservices.api.importer.IComponentService;
+import ch.jester.commonservices.api.IComponentService;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
 
