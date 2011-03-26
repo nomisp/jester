@@ -18,7 +18,7 @@ import ch.jester.model.Player;
 public class DummyImportDBPerf {
 	static final int targetsize = 10000;
 
-	static final int chunksize = 10000;
+	static final int chunksize = 5000;
 	
 	public static void testImportJPA() {
 
@@ -36,7 +36,11 @@ public class DummyImportDBPerf {
 		importjobs[i] = new Job("DB DummyImportJob JPA: "+i){
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-						IPlayerPersister persister = su.getService(IPlayerPersister.class);
+				IPlayerPersister persister = null;
+						//for(int i=0;i<5;i++){
+							persister = su.getExclusiveService(IPlayerPersister.class);
+							System.out.println("Persister : "+persister);
+						//}
 						StopWatch watch = new StopWatch();
 						watch.start();
 						monitor.beginTask(this.getName()+" -- importing...", chunksize);

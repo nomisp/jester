@@ -22,6 +22,7 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 	public ConfigurationHelper(){
 		super(ORMPlugin.getDefault().getPluginId(),"Configuration");
 	}
+	
 	private  HashMap<String, String> configuration;
 	private  SessionFactory factory;	
 	private  EntityManagerFactory emFactory;
@@ -55,14 +56,15 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 		return configuration;
 	}
 
-	 @Override
+	@Override
 	public EntityManagerFactory getJPAEntityManagerFactory(){
 		if(emFactory==null){
-			if(configuration ==null){
-				getConfiguration();
-			}
+			synchronized (ConfigurationHelper.class) {
+				if(emFactory==null){
+					emFactory = Persistence.createEntityManagerFactory("jester", getConfiguration());
+				}
 
-			emFactory = Persistence.createEntityManagerFactory("jester", getConfiguration());
+			}
 		}
 		return emFactory;
 	}

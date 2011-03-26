@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="start" deactivate="stop" immediate="true" name="ch.jester.db.persister.impl.Player">
+   <implementation class="ch.jester.db.persister.impl.PersisterFactory"/>
+   <service>
+      <provide interface="ch.jester.db.persister.impl.PersisterFactory"/>
+   </service>
+</scr:component>
