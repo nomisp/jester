@@ -19,8 +19,11 @@
       startupMessageRect="12,272,475,20"
       startupForegroundColor="000000" />
    <launcher name="jester">
+      <linux icon="/ch.jester.rcpapplication/icon.xpm"/>
+      <macosx icon="/ch.jester.rcpapplication/jester.icns"/>
       <solaris/>
-      <win useIco="false">
+      <win useIco="true">
+         <ico path="/ch.jester.rcpapplication/jester.ico"/>
          <bmp/>
       </win>
    </launcher>
