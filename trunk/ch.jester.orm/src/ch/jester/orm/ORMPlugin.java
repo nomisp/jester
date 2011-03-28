@@ -10,12 +10,11 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-import ch.jester.common.activator.AbstractActivator;
+import ch.jester.common.ui.activator.AbstractUIActivator;
 import ch.jester.common.utility.ExtensionPointUtil;
-
 import ch.jester.commonservices.api.logging.ILogger;
 
-public class ORMPlugin extends AbstractActivator {
+public class ORMPlugin extends AbstractUIActivator {
 	// ExtensionPoint Name
 	private String EP_CONFIGURATION = "Configuration";
 

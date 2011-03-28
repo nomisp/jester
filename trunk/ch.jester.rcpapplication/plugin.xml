@@ -70,6 +70,14 @@
                   label="%Exit">
             </command>
          </menu>
+         <menu
+               id="menu.extras"
+               label="%Extras">
+            <command
+                  commandId="org.eclipse.ui.window.preferences"
+                  style="push">
+            </command>
+         </menu>
       </menuContribution>
    </extension>
    <extension
@@ -103,6 +111,20 @@
                value="12,272,475,20">
          </property>
       </product>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="ch.jester.rcpapplication.PreferencesInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="ch.jester.rcpapplication.GeneralPreferencePage"
+            id="ch.jester.rcpapplication.generalPrefPage"
+            name="%GeneralPreferences">
+      </page>
    </extension>
 
 </plugin>

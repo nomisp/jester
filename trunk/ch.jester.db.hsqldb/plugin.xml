@@ -55,5 +55,20 @@
             name="%DBViewer">
       </command>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.orm.dbPrefPage"
+            class="ch.jester.db.hsqldb.HSQLPreferencePage"
+            id="ch.jester.db.hsqldb.hsqlPrefPage"
+            name="%HSQLPreferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="ch.jester.db.hsqldb.HSQLPreferenceInitializer">
+      </initializer>
+   </extension>
 
 </plugin>
