@@ -5,3 +5,4 @@ Bundle-SymbolicName: ch.jester.rcpapplication.nl1
 Bundle-Version: 1.0.0.qualifier
 Fragment-Host: ch.jester.rcpapplication;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: ch.jester.rcpapplication
