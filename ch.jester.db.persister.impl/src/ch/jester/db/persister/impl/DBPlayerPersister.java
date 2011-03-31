@@ -52,7 +52,7 @@ public class DBPlayerPersister implements IPlayerPersister {
 		trx.begin();
 		for(Player p:pTCollection){
 			mManager.persist(p);
-			mManager.flush();
+			//mManager.flush();
 		}
 		trx.commit();
 	}
