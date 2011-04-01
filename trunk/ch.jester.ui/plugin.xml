@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            class="ch.jester.ui.player.PlayersView"
+            id="ch.jester.ui.view.players"
+            name="Players">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="ch.jester.perspective.admin">
+         <view
+               closeable="false"
+               id="ch.jester.ui.view.players"
+               minimized="false"
+               moveable="false"
+               ratio="0.3f"
+               relationship="left"
+               relative="ch.jester.rcpapplication.view"
+               showTitle="true"
+               standalone="false"
+               visible="true">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:ch.jester.ui.view.players">
+         <command
+               commandId="ch.jester.ui.loadplayers"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="ch.jester.ui.handlers.LoadPlayers"
+            id="ch.jester.ui.loadplayers"
+            name="Refresh Players">
+      </command>
+   </extension>
+</plugin>

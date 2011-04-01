@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ui
+Bundle-SymbolicName: ch.jester.ui;singleton:=true
+Bundle-Version: 1.0.0.0
+Bundle-Activator: ch.jester.ui.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.swt;bundle-version="3.6.2",
+ org.eclipse.jface;bundle-version="3.6.2",
+ org.eclipse.ui;bundle-version="3.6.2",
+ ch.jester.common;bundle-version="1.0.0",
+ ch.jester.model;bundle-version="1.0.0",
+ ch.jester.common.ui;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
