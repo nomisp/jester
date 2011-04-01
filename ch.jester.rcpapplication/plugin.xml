@@ -14,9 +14,9 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="Perspective"
-            class="ch.jester.rcpapplication.Perspective"
-            id="ch.jester.rcpapplication.perspective">
+            name="Administration"
+            class="ch.jester.rcpapplication.AdminPerspective"
+            id="ch.jester.perspective.admin">
       </perspective>
    </extension>
    <extension
