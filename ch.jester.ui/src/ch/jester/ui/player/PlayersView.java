@@ -1,16 +1,12 @@
 package ch.jester.ui.player;
 
-import org.eclipse.core.runtime.IAdapterFactory;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -22,6 +18,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.ui.labelprovider.DefaultToStringTableCellProvider;
+import ch.jester.common.ui.utility.MenuManagerUtility;
+import ch.jester.common.utility.DefaultAdapterFactory;
 
 public class PlayersView extends ViewPart{
 
@@ -55,10 +53,9 @@ public class PlayersView extends ViewPart{
 		createActions();
 		initializeToolBar();
 		initializeMenu();
-		menuManager = new MenuManager();
-		Menu menu = menuManager.createContextMenu(tableViewer.getControl());
-		tableViewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuManager, tableViewer);
+
+		menuManager = MenuManagerUtility.installPopUpMenuManager(getSite(), tableViewer);
+
 		{
 			TableViewerColumn tvCol1 = new TableViewerColumn(tableViewer, SWT.NONE);
 			TableColumn tableColumn = tvCol1.getColumn();
@@ -67,26 +64,16 @@ public class PlayersView extends ViewPart{
 			tvCol1.setLabelProvider(new DefaultToStringTableCellProvider());
 		}
 		tableViewer.setContentProvider(ArrayContentProvider.getInstance());
-		//tableViewer.setInput(input)
 
-		Platform.getAdapterManager().registerAdapters(new IAdapterFactory() {
-			Class[] types = new Class[]{StructuredViewer.class};
-			@Override
-			public Class[] getAdapterList() {
-				return types;
-			}
-			
-			@Override
-			public Object getAdapter(Object adaptableObject, Class adapterType) {
-				if(adapterType==StructuredViewer.class && adaptableObject==PlayersView.this){
-					return tableViewer;
-				}
-				return null;
-			}
-		}, PlayersView.class);
+		
+		DefaultAdapterFactory factory = new DefaultAdapterFactory(this);
+		factory.add(StructuredViewer.class, tableViewer);
+		factory.registerAtPlatform();
+		
+		
 	
 	}
-	
+
 
 	/**
 	 * Create the actions.

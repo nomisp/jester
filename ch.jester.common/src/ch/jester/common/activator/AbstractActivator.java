@@ -22,6 +22,7 @@ public abstract class AbstractActivator implements IDelegationActivator<BundleAc
 		return mContext;
 	}
 
+
 	@Override
 	public final void start(BundleContext pContext) throws Exception {
 		mContext = new DefaultBundleActivatorContext<BundleActivator>(pContext, this);
