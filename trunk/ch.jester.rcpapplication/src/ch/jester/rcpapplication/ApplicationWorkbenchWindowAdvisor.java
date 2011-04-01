@@ -1,10 +1,13 @@
 package ch.jester.rcpapplication;
 
+import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+
+import ch.jester.common.ui.activator.AbstractUIActivator;
 
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
@@ -25,6 +28,14 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         	configurer.setShowCoolBar(false);
         	configurer.setShowProgressIndicator(true);
         	configurer.setShowStatusLine(true);
+        	
         //	configurer.setShowFastViewBars(true);
+	}
+	
+	@Override
+	public void postWindowOpen() {
+		super.postWindowOpen();
+		IStatusLineManager manager = getWindowConfigurer().getActionBarConfigurer().getStatusLineManager();
+		Activator.getDefault().getActivationContext().getServiceUtil().registerService(IStatusLineManager.class, manager);
 	}
 }

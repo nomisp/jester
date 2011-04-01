@@ -1,13 +1,20 @@
 package ch.jester.ui.player;
 
+import java.util.Iterator;
+
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -21,6 +28,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.ui.utility.MenuManagerUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
+import ch.jester.ui.Activator;
 
 public class PlayersView extends ViewPart{
 	private class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
@@ -86,6 +94,25 @@ public class PlayersView extends ViewPart{
 		DefaultAdapterFactory factory = new DefaultAdapterFactory(this);
 		factory.add(StructuredViewer.class, tableViewer);
 		factory.registerAtPlatform();
+		
+		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				IStatusLineManager lm = Activator.getDefault().getActivationContext().getServiceUtil().getService(IStatusLineManager.class);
+				ISelection selection = event.getSelection();
+				if(selection.isEmpty()){lm.setMessage(""); return;}
+				IStructuredSelection structSel = (IStructuredSelection) selection;
+				Iterator<Object> iterator = structSel.iterator();
+				int i = 0;
+				while(iterator.hasNext()){
+					iterator.next();
+					i++;
+				}
+				lm.setMessage(i+" Item(s) selected");
+				
+			}
+		});
 	}
 
 	/**
