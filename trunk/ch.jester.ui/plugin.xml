@@ -68,4 +68,13 @@
             name="Delete Player">
       </command>
    </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="ch.jester.ui.player.PlayerEditor"
+            default="false"
+            id="ch.jester.ui.player.PlayerEditor"
+            name="Editor">
+      </editor>
+   </extension>
 </plugin>
