@@ -13,9 +13,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import ch.jester.dao.IDAO;
+
 @Entity
 @Table(name="Category")
-public class Category implements Serializable {
+public class Category implements Serializable, IDAO {
 	private static final long serialVersionUID = 6845187372965814476L;
 	
 	@Id

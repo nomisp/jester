@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public interface IPersister<T> {
+public interface IPersister<T extends IDAO> {
 	/**Speicher eine Collection in einer Transaktion
 	 * @param pTCollection
 	 */

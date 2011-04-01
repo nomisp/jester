@@ -12,9 +12,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import ch.jester.dao.IDAO;
+
 @Entity
 @Table(name="Pairing")
-public class Pairing implements Serializable {
+public class Pairing implements Serializable, IDAO {
 	private static final long serialVersionUID = -5183089936204591328L;
 
 	@Id
