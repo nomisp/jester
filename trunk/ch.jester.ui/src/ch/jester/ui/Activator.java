@@ -1,30 +1,26 @@
 package ch.jester.ui;
 
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class Activator implements BundleActivator {
+import ch.jester.common.activator.AbstractActivator;
 
-	private static BundleContext context;
+public class Activator extends AbstractActivator{
 
-	static BundleContext getContext() {
-		return context;
+	private static Activator mInstance;
+
+	public static Activator getDefault(){
+		return mInstance;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext bundleContext) throws Exception {
-		Activator.context = bundleContext;
+	@Override
+	public void startDelegate(BundleContext pContext) {
+		mInstance=this;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext bundleContext) throws Exception {
-		Activator.context = null;
+	@Override
+	public void stopDelegate(BundleContext pContext) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

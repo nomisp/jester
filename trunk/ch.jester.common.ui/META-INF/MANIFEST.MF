@@ -8,4 +8,5 @@ Require-Bundle: org.eclipse.ui,
  ch.jester.common;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: ch.jester.common.ui.activator,
- ch.jester.common.ui.labelprovider
+ ch.jester.common.ui.labelprovider,
+ ch.jester.common.ui.utility
