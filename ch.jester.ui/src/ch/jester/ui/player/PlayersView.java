@@ -3,30 +3,24 @@ package ch.jester.ui.player;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.ViewPart;
 
-import ch.jester.common.ui.labelprovider.DefaultToStringTableCellProvider;
 import ch.jester.common.ui.utility.MenuManagerUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
-import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.Viewer;
 
 public class PlayersView extends ViewPart{
 	private class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
@@ -72,7 +66,7 @@ public class PlayersView extends ViewPart{
 				tableViewer.setLabelProvider(new TableLabelProvider());
 			}
 		}
-
+		
 		createActions();
 		initializeToolBar();
 		initializeMenu();
@@ -86,6 +80,7 @@ public class PlayersView extends ViewPart{
 	 * Create the actions.
 	 */
 	private void createActions() {
+		getSite().setSelectionProvider(tableViewer);
 		menuManager = MenuManagerUtility.installPopUpMenuManager(getSite(), tableViewer);
 		
 		DefaultAdapterFactory factory = new DefaultAdapterFactory(this);

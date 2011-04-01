@@ -37,7 +37,12 @@ public class DBPlayerPersister implements IPlayerPersister {
 
 	@Override
 	public void delete(Player pT) {
-		// TODO Auto-generated method stub
+		check();
+		EntityTransaction trx = mManager.getTransaction();
+		trx.begin();
+		Player p = mManager.find(Player.class, pT.getId());
+		mManager.remove(p);
+		trx.commit();
 		
 	}
 	@Override
