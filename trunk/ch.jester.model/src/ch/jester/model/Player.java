@@ -11,11 +11,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import ch.jester.dao.IDAO;
+
 @Entity
 @Table(name="Player")
-@NamedQuery(name="getAllPlayers",query="SELECT OBJECT(player) FROM Player player")
+@NamedQuery(name="getAll",query="SELECT OBJECT(player) FROM Player player")
 
-public class Player implements Serializable {
+public class Player implements Serializable , IDAO{
 	private static final long serialVersionUID = -2351315088207630377L;
 
 	@Id

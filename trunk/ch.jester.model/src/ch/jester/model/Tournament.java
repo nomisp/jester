@@ -15,13 +15,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import ch.jester.dao.IDAO;
+
 /**
  * Entit�t f�r die Tabelle Tournament 
  *
  */
 @Entity
 @Table(name="Tournament")
-public class Tournament implements Serializable {
+public class Tournament implements Serializable, IDAO {
 	private static final long serialVersionUID = -3356578830307874396L;
 
 	@Id

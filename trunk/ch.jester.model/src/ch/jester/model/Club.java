@@ -10,9 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import ch.jester.dao.IDAO;
+
 @Entity
 @Table(name="Club")
-public class Club implements Serializable {
+public class Club implements Serializable, IDAO {
 	private static final long serialVersionUID = 3749001233544554089L;
 
 	@Id
