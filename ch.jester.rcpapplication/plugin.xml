@@ -37,7 +37,7 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="*">
+            targetID="ch.jester.perspective.admin">
          <view
                standalone="true"
                minimized="false"
@@ -50,9 +50,10 @@
                id="org.eclipse.ui.views.ProgressView"
                minimized="true"
                moveable="false"
-               relationship="stack"
+               ratio="0.2f"
+               relationship="fast"
                relative="org.eclipse.ui.editorss"
-               showTitle="false"
+               showTitle="true"
                standalone="false"
                visible="true">
          </view>
