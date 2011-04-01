@@ -12,7 +12,6 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.ViewPart;
@@ -20,13 +19,29 @@ import org.eclipse.ui.part.ViewPart;
 import ch.jester.common.ui.labelprovider.DefaultToStringTableCellProvider;
 import ch.jester.common.ui.utility.MenuManagerUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.Viewer;
 
 public class PlayersView extends ViewPart{
+	private class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
+		public Image getColumnImage(Object element, int columnIndex) {
+			return null;
+		}
+		public String getColumnText(Object element, int columnIndex) {
+			return element.toString();
+		}
+	}
 
 	public static final String ID = "ch.jester.ui.view.players"; //$NON-NLS-1$
 	private MenuManager menuManager;
 	private Table table;
-	private TableViewer tableViewer;
+	private TableViewer tableViewer; 
 	public PlayersView() {
 	}
 
@@ -37,38 +52,30 @@ public class PlayersView extends ViewPart{
 	@Override
 	public void createPartControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
-		container.setLayout(new FormLayout());
-
-		tableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
-		
-		table = tableViewer.getTable();
-		table.setHeaderVisible(true);
-		FormData fd_table = new FormData();
-		fd_table.bottom = new FormAttachment(100, -10);
-		fd_table.left = new FormAttachment(0);
-		fd_table.top = new FormAttachment(0, 32);
-		fd_table.right = new FormAttachment(0, 148);
-		table.setLayoutData(fd_table);
+		container.setLayout(new FillLayout(SWT.HORIZONTAL));
+		{
+			Composite tableViewComposite = new Composite(container, SWT.NONE);
+			TableColumnLayout tcl_tableViewComposite = new TableColumnLayout();
+			tableViewComposite.setLayout(tcl_tableViewComposite);
+			{
+				tableViewer = new TableViewer(tableViewComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+				table = tableViewer.getTable();
+				table.setHeaderVisible(true);
+				table.setLinesVisible(true);
+				{
+					TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+					TableColumn tblclmnPlayers = tableViewerColumn.getColumn();
+					tcl_tableViewComposite.setColumnData(tblclmnPlayers, new ColumnWeightData(1, ColumnWeightData.MINIMUM_WIDTH, true));
+					tblclmnPlayers.setText("Player: First-/Lastname");
+				}
+				tableViewer.setContentProvider(ArrayContentProvider.getInstance());
+				tableViewer.setLabelProvider(new TableLabelProvider());
+			}
+		}
 
 		createActions();
 		initializeToolBar();
 		initializeMenu();
-
-		menuManager = MenuManagerUtility.installPopUpMenuManager(getSite(), tableViewer);
-
-		{
-			TableViewerColumn tvCol1 = new TableViewerColumn(tableViewer, SWT.NONE);
-			TableColumn tableColumn = tvCol1.getColumn();
-			tableColumn.setWidth(100);
-			tableColumn.setText("Player");
-			tvCol1.setLabelProvider(new DefaultToStringTableCellProvider());
-		}
-		tableViewer.setContentProvider(ArrayContentProvider.getInstance());
-
-		
-		DefaultAdapterFactory factory = new DefaultAdapterFactory(this);
-		factory.add(StructuredViewer.class, tableViewer);
-		factory.registerAtPlatform();
 		
 		
 	
@@ -79,7 +86,11 @@ public class PlayersView extends ViewPart{
 	 * Create the actions.
 	 */
 	private void createActions() {
-		// Create the actions
+		menuManager = MenuManagerUtility.installPopUpMenuManager(getSite(), tableViewer);
+		
+		DefaultAdapterFactory factory = new DefaultAdapterFactory(this);
+		factory.add(StructuredViewer.class, tableViewer);
+		factory.registerAtPlatform();
 	}
 
 	/**
