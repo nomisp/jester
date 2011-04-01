@@ -33,6 +33,17 @@
       <menuContribution
             allPopups="true"
             locationURI="popup:ch.jester.ui.view.players">
+         <separator
+               name="ch.jester.ui.separator1">
+         </separator>
+         <command
+               commandId="ch.jester.ui.addplayer"
+               style="push">
+         </command>
+         <command
+               commandId="ch.jester.ui.deleteplayer"
+               style="push">
+         </command>
          <command
                commandId="ch.jester.ui.loadplayers"
                style="push">
@@ -45,6 +56,16 @@
             defaultHandler="ch.jester.ui.handlers.LoadPlayers"
             id="ch.jester.ui.loadplayers"
             name="Refresh Players">
+      </command>
+      <command
+            defaultHandler="ch.jester.ui.handlers.NewPlayer"
+            id="ch.jester.ui.addplayer"
+            name="New Player">
+      </command>
+      <command
+            defaultHandler="ch.jester.ui.handlers.DeletePlayer"
+            id="ch.jester.ui.deleteplayer"
+            name="Delete Player">
       </command>
    </extension>
 </plugin>
