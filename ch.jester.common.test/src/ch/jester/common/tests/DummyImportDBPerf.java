@@ -53,7 +53,7 @@ public class DummyImportDBPerf {
 						player.setElo(i);
 						player.setFideCode(9);
 						player.setFirstName("john");
-						player.setLastName("doe");
+						player.setLastName("doe "+i);
 						player.setNation("CH");
 						//persister.save(player);
 						//persister.save(player);
@@ -98,6 +98,11 @@ public class DummyImportDBPerf {
 					System.out.println(key+" was running for "+watch.getElapsedTime()+" inserted "+chunksize+" Players");
 					float avg =chunksize / watch.getElapsedTime();
 					System.out.println(" avg: "+avg+" trx/sec");
+					StopWatch w0 = new StopWatch();
+					w0.start();
+					int players = su.getExclusiveService(IPlayerPersister.class).getAll().size();
+					w0.stop();
+					System.out.println("Got "+players+" with DAO select in "+w0.getElapsedTime()+" seconds");
 					
 				}
 			//	emf.close();
@@ -108,87 +113,4 @@ public class DummyImportDBPerf {
 		joinjob.setSystem(true);
 		joinjob.schedule();
 	}
-/*	public static void testImportHibernate() {
-
-		final int jobsize = targetsize/chunksize;
-
-
-		IProgressMonitor groupmonitor = Job.getJobManager().createProgressGroup();
-		groupmonitor.beginTask("Loading Players into DB (Hibernate)", targetsize);
-
-		final Job[] importjobs = new Job[jobsize];
-		final HashMap<String, StopWatch> watches = new HashMap<String, StopWatch>();
-		for(int i=0;i<jobsize;i++){
-		importjobs[i] = new Job("DB DummyImportJob Hibernate: "+i){
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-						final Session session = HibernatehelperPlugin.getSession();
-						StopWatch watch = new StopWatch();						
-						watch.start();
-						
-						Transaction trx = session.beginTransaction();
-						trx.begin();
-						monitor.beginTask(this.getName()+" -- importing...", chunksize);
-						for(int i=0;i<chunksize;i++){
-						
-						Player player = new Player();
-						player.setCity("Zürich");
-						player.setElo(i);
-						player.setFideCode(9);
-						player.setFirstName("john");
-						player.setLastName("doe");
-						player.setNation("CH");
-						session.persist(player);
-						
-						if(i%1000==0){
-							monitor.worked(1000);
-							session.flush();
-						}
-						
-						
-						
-						}
-						trx.commit();
-						
-						monitor.done();
-						watch.stop();
-						watches.put(this.getName(), watch);
-						
-						session.close();
-						return Status.OK_STATUS;
-					}
-				};
-				
-		importjobs[i].setProgressGroup(groupmonitor, chunksize);		
-		importjobs[i].schedule();
-		}
-
-		Job joinjob = new Job("JoinJob"){
-
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				for(Job job:importjobs){
-					try {
-						job.join();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				Iterator<String> watchKey = watches.keySet().iterator();
-				while(watchKey.hasNext()){
-					String key = watchKey.next();
-					StopWatch watch = watches.get(key);
-					System.out.println(key+" was running: "+watch.getElapsedTime()+" inserted "+chunksize+" Players");
-					float avg =chunksize / watch.getElapsedTime();
-					System.out.println(" avg: "+avg+" trx/sec");
-					
-				}
-				return Status.OK_STATUS;
-			}
-			
-		};
-		joinjob.setSystem(true);
-		joinjob.schedule();
-	}*/
 }

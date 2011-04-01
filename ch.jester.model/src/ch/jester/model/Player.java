@@ -7,11 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="Player")
+@NamedQuery(name="getAllPlayers",query="SELECT OBJECT(player) FROM Player player")
+
 public class Player implements Serializable {
 	private static final long serialVersionUID = -2351315088207630377L;
 
@@ -118,5 +121,7 @@ public class Player implements Serializable {
 	public void setNationalElo(int nationalElo) {
 		this.nationalElo = nationalElo;
 	}
-	
+	public String toString(){
+		return firstName+" "+lastName;
+	}
 }

@@ -1,6 +1,7 @@
 package ch.jester.dao;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Interface für DAO
@@ -24,4 +25,9 @@ public interface IPersister<T> {
 	 * Schliessen und aufräumen
 	 */
 	public void close();
+	
+	/** Holt alle Objekte von der DB
+	 * @return
+	 */
+	public List<T> getAll();
 }

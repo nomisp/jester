@@ -1,6 +1,7 @@
 package ch.jester.db.persister.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -55,6 +56,16 @@ public class DBPlayerPersister implements IPlayerPersister {
 			//mManager.flush();
 		}
 		trx.commit();
+	}
+	@Override
+	public List<Player> getAll() {
+		check();
+		EntityTransaction trx = mManager.getTransaction();
+		trx.begin();
+		@SuppressWarnings("unchecked")
+		List<Player> result = mManager.createNamedQuery("getAllPlayers").getResultList();
+		trx.commit();
+		return result;
 	}
 
 }
