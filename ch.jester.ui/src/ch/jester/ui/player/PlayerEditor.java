@@ -15,7 +15,6 @@ import org.eclipse.ui.part.EditorPart;
 import ch.jester.ui.handlers.PlayerInput;
 
 public class PlayerEditor extends EditorPart {
-	private DataBindingContext m_bindingContext;
 
 	public static final String ID = "ch.jester.ui.player.PlayerEditor"; //$NON-NLS-1$
 	private PlayerInput mPlayerInput;
@@ -36,7 +35,7 @@ public class PlayerEditor extends EditorPart {
 		mPlayerDetails = new PlayerDetails(container, SWT.NONE);
 		mPlayerDetails.setBounds(0, 0, 365, 300);
 		mPlayerDetails.getController().setPlayer(mPlayerInput.getPlayer());
-		m_bindingContext = initDataBindings();
+		initDataBindings();
 		
 	}
 
@@ -62,6 +61,7 @@ public class PlayerEditor extends EditorPart {
 		this.mPlayerInput = (PlayerInput) input;
 		setSite(site);
 		setInput(input);
+		setPartName(mPlayerInput.getPlayer().getLastName()+", "+mPlayerInput.getPlayer().getFirstName());
 		mPlayerInput.getPlayer().addPropertyChangeListener(new PropertyChangeListener(){
 
 			@Override

@@ -5,40 +5,37 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 
+import ch.jester.model.Player;
+
 
 public class PlayerDetailsController {
-	private PlayerDetails m_playerDetails;
-	private DataBindingContext m_bindingContext;
-	private ch.jester.model.Player player = new ch.jester.model.Player();
-
-	public PlayerDetailsController(PlayerDetails playerDetails, ch.jester.model.Player newPlayer) {
-		m_playerDetails = playerDetails;
-		setPlayer(newPlayer);
-	}
+	private PlayerDetails mPlayerDetail;
+	private DataBindingContext mBindingContext;
+	private Player player = new Player();
 
 	public PlayerDetailsController(PlayerDetails playerDetails) {
-		m_playerDetails = playerDetails;
+		mPlayerDetail = playerDetails;
 		if (player != null) {
-			m_bindingContext = initDataBindings();
+			mBindingContext = initDataBindings();
 		}
 	}
 
 	private DataBindingContext initDataBindings() {
-		IObservableValue lastNameObserveWidget = SWTObservables.observeText(m_playerDetails.getLastNameText(), SWT.Modify);
+		IObservableValue lastNameObserveWidget = SWTObservables.observeText(mPlayerDetail.getLastNameText(), SWT.Modify);
 		IObservableValue lastNameObserveValue = PojoObservables.observeValue(player, "lastName");
-		IObservableValue firstNameObserveWidget = SWTObservables.observeText(m_playerDetails.getFirstNameText(), SWT.Modify);
+		IObservableValue firstNameObserveWidget = SWTObservables.observeText(mPlayerDetail.getFirstNameText(), SWT.Modify);
 		IObservableValue firstNameObserveValue = PojoObservables.observeValue(player, "firstName");
-		IObservableValue cityObserveWidget = SWTObservables.observeText(m_playerDetails.getCityText(), SWT.Modify);
+		IObservableValue cityObserveWidget = SWTObservables.observeText(mPlayerDetail.getCityText(), SWT.Modify);
 		IObservableValue cityObserveValue = PojoObservables.observeValue(player, "city");
-		IObservableValue nationObserveWidget = SWTObservables.observeText(m_playerDetails.getNationText(), SWT.Modify);
+		IObservableValue nationObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationText(), SWT.Modify);
 		IObservableValue nationObserveValue = PojoObservables.observeValue(player, "nation");
-		IObservableValue fideCodeObserveWidget = SWTObservables.observeText(m_playerDetails.getFideCodeText(), SWT.None);
+		IObservableValue fideCodeObserveWidget = SWTObservables.observeText(mPlayerDetail.getFideCodeText(), SWT.None);
 		IObservableValue fideCodeObserveValue = PojoObservables.observeValue(player, "fideCode");
-		IObservableValue nationalCodeObserveWidget = SWTObservables.observeText(m_playerDetails.getNationalCodeText(), SWT.None);
+		IObservableValue nationalCodeObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationalCodeText(), SWT.None);
 		IObservableValue nationalCodeObserveValue = PojoObservables.observeValue(player, "nationalCode");
-		IObservableValue eloObserveWidget = SWTObservables.observeText(m_playerDetails.getEloText(), SWT.None);
+		IObservableValue eloObserveWidget = SWTObservables.observeText(mPlayerDetail.getEloText(), SWT.None);
 		IObservableValue eloObserveValue = PojoObservables.observeValue(player, "elo");
-		IObservableValue nationalEloObserveWidget = SWTObservables.observeText(m_playerDetails.getNationalEloText(), SWT.None);
+		IObservableValue nationalEloObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationalEloText(), SWT.None);
 		IObservableValue nationalEloObserveValue = PojoObservables.observeValue(player, "nationalElo");
 		//
 		DataBindingContext bindingContext = new DataBindingContext();
@@ -55,23 +52,23 @@ public class PlayerDetailsController {
 		return bindingContext;
 	}
 
-	public ch.jester.model.Player getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(ch.jester.model.Player newPlayer) {
+	public void setPlayer(Player newPlayer) {
 		setPlayer(newPlayer, true);
 	}
 
-	public void setPlayer(ch.jester.model.Player newPlayer, boolean update) {
+	public void setPlayer(Player newPlayer, boolean update) {
 		player = newPlayer;
 		if (update) {
-			if (m_bindingContext != null) {
-				m_bindingContext.dispose();
-				m_bindingContext = null;
+			if (mBindingContext != null) {
+				mBindingContext.dispose();
+				mBindingContext = null;
 			}
 			if (player != null) {
-				m_bindingContext = initDataBindings();
+				mBindingContext = initDataBindings();
 			}
 		}
 	}

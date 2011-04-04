@@ -8,7 +8,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
-import ch.jester.ui.player.PlayerListModel;
+import ch.jester.ui.player.PlayerListController;
 
 public class NewPlayer extends AbstractEventHandler {
 	ILogger logger;
@@ -24,7 +24,11 @@ public class NewPlayer extends AbstractEventHandler {
 		player.setNation(" ");
 		player.setFirstName(" ");
 		player.setLastName("NewPlayer");
-		getServiceUtil().getService(PlayerListModel.class).addPlayer(player);
+		//hinzufügen vom Player
+		getServiceUtil().getService(PlayerListController.class).addPlayer(player);
+		//selektiert im UI
+		setSelection(player);
+		//öffne im Editor
 		getServiceUtil().getService(IEditorService.class).openEditor(player);
 		persister.save(player);
 		logger.debug("Player "+player+ " saved." );
