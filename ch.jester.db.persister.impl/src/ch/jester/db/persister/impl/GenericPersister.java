@@ -9,6 +9,7 @@ import javax.persistence.EntityTransaction;
 
 import ch.jester.dao.IDAO;
 import ch.jester.dao.IPersister;
+import ch.jester.model.Player;
 import ch.jester.orm.ORMPlugin;
 
 public class GenericPersister<T extends IDAO> implements IPersister<T> {
@@ -52,7 +53,19 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		IDAO p = mManager.find(pT.getClass(), pT.getId());
 		mManager.remove(p);
 		trx.commit();
-		
+	}
+	
+	@Override
+	public void delete(Collection<T> pTCollection) {
+		check();
+		EntityTransaction trx = mManager.getTransaction();
+		trx.begin();
+		for(T pT:pTCollection){
+			IDAO p = mManager.find(pT.getClass(), pT.getId());
+			mManager.remove(p);
+			
+		}
+		trx.commit();
 	}
 
 	@Override
@@ -71,5 +84,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		trx.commit();
 		return result;
 	}
+
+
 
 }

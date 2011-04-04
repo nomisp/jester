@@ -1,10 +1,9 @@
 package ch.jester.ui.player;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.swt.SWT;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.swt.SWT;
 
 
 public class PlayerDetailsController {

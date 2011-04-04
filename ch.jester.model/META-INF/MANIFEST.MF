@@ -10,3 +10,4 @@ Export-Package: ch.jester.dao,
  ch.jester.model
 Import-Package: javax.persistence,
  javax.validation.constraints
+Require-Bundle: ch.jester.common;bundle-version="1.0.0"

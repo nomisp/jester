@@ -10,6 +10,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: ch.jester.common.activator;uses:="ch.jester.commonservices.api.logging,ch.jester.common.utility,org.osgi.framework",
  ch.jester.common.importer;uses:="ch.jester.commonservices.api.logging,ch.jester.commonservices.api.importer",
  ch.jester.common.logging;uses:="ch.jester.commonservices.api.logging,org.eclipse.core.runtime,org.osgi.framework",
+ ch.jester.common.model,
  ch.jester.common.utility;uses:="org.eclipse.core.runtime,org.osgi.framework",
  ch.jester.ep;uses:="org.eclipse.core.runtime.dynamichelpers,org.eclipse.core.runtime"
 Bundle-ActivationPolicy: lazy

@@ -1,15 +1,18 @@
 package ch.jester.ui.handlers;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
+import ch.jester.common.ui.utility.IEditorInputAccess;
 import ch.jester.model.Player;
 
-public class PlayerInput implements IEditorInput {
+public class PlayerInput implements IEditorInputAccess<Player>{
 	private Player mPlayer;
-	public PlayerInput(Player player) {
+/*	public PlayerInput(Player player) {
 		mPlayer=player;
+	}*/
+	public PlayerInput() {
+		
 	}
 	
 	public Player getPlayer(){
@@ -37,7 +40,7 @@ public class PlayerInput implements IEditorInput {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return "New Player";
+		return mPlayer.getLastName();
 	}
 
 	@Override
@@ -49,6 +52,16 @@ public class PlayerInput implements IEditorInput {
 	@Override
 	public String getToolTipText() {
 		return "Player Detail";
+	}
+
+	@Override
+	public Player getInput() {
+		return getPlayer();
+	}
+
+	@Override
+	public void setInput(Player pT) {
+		mPlayer=pT;
 	}
 
 }

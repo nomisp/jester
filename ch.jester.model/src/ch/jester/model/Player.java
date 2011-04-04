@@ -11,13 +11,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import ch.jester.common.model.AbstractPropertyChangeModel;
 import ch.jester.dao.IDAO;
 
 @Entity
 @Table(name="Player")
 @NamedQuery(name="getAll",query="SELECT OBJECT(player) FROM Player player")
 
-public class Player implements Serializable , IDAO{
+public class Player extends AbstractPropertyChangeModel implements Serializable , IDAO{
 	private static final long serialVersionUID = -2351315088207630377L;
 
 	@Id
@@ -65,7 +66,7 @@ public class Player implements Serializable , IDAO{
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		firePropertyChange("firstName",  this.firstName, this.firstName = firstName);
 	}
 
 	public String getLastName() {
@@ -73,7 +74,9 @@ public class Player implements Serializable , IDAO{
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		//this.lastName = lastName;
+		System.out.println("changing lastname: "+lastName);
+		firePropertyChange("lastName", this.lastName, this.lastName = lastName);
 	}
 
 	public String getCity() {
