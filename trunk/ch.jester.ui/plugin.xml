@@ -33,9 +33,6 @@
       <menuContribution
             allPopups="true"
             locationURI="popup:ch.jester.ui.view.players">
-         <separator
-               name="ch.jester.ui.separator1">
-         </separator>
          <command
                commandId="ch.jester.ui.addplayer"
                style="push">
@@ -44,6 +41,10 @@
                commandId="ch.jester.ui.deleteplayer"
                style="push">
          </command>
+         <separator
+               name="ch.jester.ui.separator1"
+               visible="true">
+         </separator>
          <command
                commandId="ch.jester.ui.loadplayers"
                style="push">

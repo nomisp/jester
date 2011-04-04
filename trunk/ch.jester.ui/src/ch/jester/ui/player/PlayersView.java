@@ -1,15 +1,8 @@
 package ch.jester.ui.player;
 
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.BeansObservables;
-import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -30,11 +23,9 @@ import ch.jester.common.ui.listeners.DefaultSelectionCountListener;
 import ch.jester.common.ui.listeners.OpenEditorDoubleClickListener;
 import ch.jester.common.ui.utility.MenuManagerUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
-import ch.jester.model.Player;
 import ch.jester.ui.Activator;
 
 public class PlayersView extends ViewPart{
-	private DataBindingContext m_bindingContext;
 	//private SelectionUtility mSelectionUtil = new SelectionUtility(null);
 	private class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -44,16 +35,19 @@ public class PlayersView extends ViewPart{
 			return element.toString();
 		}
 	}
+	public TableViewer getTable(){
+		return tableViewer;
+	}
 
 	public static final String ID = "ch.jester.ui.view.players"; //$NON-NLS-1$
 	private MenuManager menuManager;
 	private Table table;
 	private TableViewer tableViewer; 
-	private PlayerListModel mPlayerList;
+	private PlayerListController mController;
 	private TableViewerColumn tableViewerColumn;
 	public PlayersView() {
-		mPlayerList = Activator.getDefault().getActivationContext().getService(PlayerListModel.class);
-
+		
+		
 	}
 
 	/**
@@ -87,8 +81,6 @@ public class PlayersView extends ViewPart{
 		createActions();
 		initializeToolBar();
 		initializeMenu();
-		m_bindingContext = initDataBindings();
-		
 		
 	
 	}
@@ -108,6 +100,8 @@ public class PlayersView extends ViewPart{
 		tableViewer.addSelectionChangedListener(new DefaultSelectionCountListener());
 		
 		tableViewer.addDoubleClickListener(new OpenEditorDoubleClickListener());
+		mController = new PlayerListController(getTable());
+		Activator.getDefault().getActivationContext().getServiceUtil().registerService(PlayerListController.class, mController);
 	}
 
 	/**
@@ -130,19 +124,18 @@ public class PlayersView extends ViewPart{
 	public void setFocus() {
 		// Set the focus
 	}
-	protected DataBindingContext initDataBindings() {
+/*	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
 		//
-		IObservableMap[] observeMaps = BeansObservables.observeMaps(listContentProvider.getKnownElements(), Player.class, new String[]{"lastName", "firstName"});
-		tableViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		IObservableMap observeMap = BeansObservables.observeMap(listContentProvider.getKnownElements(), Player.class, "lastName");
+		tableViewer.setLabelProvider(new ObservableMapLabelProvider(observeMap));
 		//
 		IObservableList mPlayerListPlayersObserveList = BeansObservables.observeList(Realm.getDefault(), mPlayerList, "players");
 		tableViewer.setInput(mPlayerListPlayersObserveList);
-		
 		//
 		return bindingContext;
-	}
+	}*/
 }
