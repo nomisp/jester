@@ -22,9 +22,9 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            name="%DBConnectionView"
             class="ch.jester.rcpapplication.View"
-            id="ch.jester.rcpapplication.view">
+            id="ch.jester.rcpapplication.view"
+            name="%DBConnectionView">
       </view>
       <view
             category="org.eclipse.ui"
@@ -38,13 +38,6 @@
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="ch.jester.perspective.admin">
-         <view
-               standalone="true"
-               minimized="false"
-               relative="org.eclipse.ui.editorss"
-               relationship="left"
-               id="ch.jester.rcpapplication.view">
-         </view>
          <view
                closeable="true"
                id="org.eclipse.ui.views.ProgressView"

@@ -21,7 +21,7 @@
                moveable="false"
                ratio="0.3f"
                relationship="left"
-               relative="ch.jester.rcpapplication.view"
+               relative="org.eclipse.ui.editorss"
                showTitle="true"
                standalone="false"
                visible="true">

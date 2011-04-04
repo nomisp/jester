@@ -72,6 +72,10 @@ public class PlayerDetails extends Composite {
 		m_controller = new PlayerDetailsController(this);
 	}
 
+	public PlayerDetailsController getController(){
+		return m_controller;
+	}
+	
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components

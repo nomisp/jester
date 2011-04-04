@@ -1,5 +1,9 @@
 package ch.jester.ui.player;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -8,15 +12,16 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
-import ch.jester.model.Player;
 import ch.jester.ui.handlers.PlayerInput;
 
 public class PlayerEditor extends EditorPart {
+	private DataBindingContext m_bindingContext;
 
 	public static final String ID = "ch.jester.ui.player.PlayerEditor"; //$NON-NLS-1$
-	private PlayerInput input;
-	private Player person;
-
+	private PlayerInput mPlayerInput;
+	//private Player mPlayer;
+	private PlayerDetails mPlayerDetails;
+	private DirtyManager mDm = new DirtyManager();
 	public PlayerEditor() {
 	}
 
@@ -28,9 +33,11 @@ public class PlayerEditor extends EditorPart {
 	public void createPartControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		
-		PlayerDetails playerDetails = new PlayerDetails(container, SWT.NONE);
-		playerDetails.setBounds(0, 0, 365, 300);
-
+		mPlayerDetails = new PlayerDetails(container, SWT.NONE);
+		mPlayerDetails.setBounds(0, 0, 365, 300);
+		mPlayerDetails.getController().setPlayer(mPlayerInput.getPlayer());
+		m_bindingContext = initDataBindings();
+		
 	}
 
 	@Override
@@ -47,26 +54,61 @@ public class PlayerEditor extends EditorPart {
 	public void doSaveAs() {
 		// Do the Save As operation
 	}
-
+ 
+	
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
-		PlayerInput new_name = (PlayerInput) input;
-		this.input = (PlayerInput) input;
+		this.mPlayerInput = (PlayerInput) input;
 		setSite(site);
 		setInput(input);
-		person = new_name.getPlayer();
-		setPartName("Person " + person.getLastName());
+		mPlayerInput.getPlayer().addPropertyChangeListener(new PropertyChangeListener(){
 
+			@Override
+			public void propertyChange(PropertyChangeEvent arg0) {
+				if(arg0.getPropertyName().equals("lastName")||arg0.getPropertyName().equals("firstName")){
+					setPartName(mPlayerInput.getPlayer().getLastName()+", "+mPlayerInput.getPlayer().getFirstName());
+				}
+				
+			}
+			
+		});
+		mPlayerInput.getInput().addPropertyChangeListener(mDm);
 	}
 
 	@Override
 	public boolean isDirty() {
-		return false;
+		return mDm.isDirty();
 	}
 
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
+	}
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		return bindingContext;
+	}
+	@Override
+	public void dispose() {
+		mPlayerInput.getInput().removePropertyChangeListener(mDm);
+		super.dispose();
+	}
+	
+	class DirtyManager implements PropertyChangeListener{
+		boolean dirty;
+		@Override
+		public void propertyChange(PropertyChangeEvent arg0) {
+			dirty = true;
+		}
+		
+		public boolean isDirty(){
+			return dirty;
+		}
+		public void reset(){
+			dirty=false;
+		}
+		
 	}
 }
