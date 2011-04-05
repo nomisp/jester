@@ -64,7 +64,6 @@
             name="New Player">
       </command>
       <command
-            defaultHandler="ch.jester.ui.handlers.DeletePlayer"
             id="ch.jester.ui.deleteplayer"
             name="Delete Player">
       </command>
@@ -77,5 +76,29 @@
             id="ch.jester.ui.player.PlayerEditor"
             name="Editor">
       </editor>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="oneElementSelected">
+         <with
+               variable="selection">
+            <count
+                  value="+">
+            </count>
+         </with>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="ch.jester.ui.handlers.DeletePlayer"
+            commandId="ch.jester.ui.deleteplayer">
+         <enabledWhen>
+            <reference
+                  definitionId="oneElementSelected">
+            </reference>
+         </enabledWhen>
+      </handler>
    </extension>
 </plugin>
