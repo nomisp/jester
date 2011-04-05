@@ -2,30 +2,26 @@ package ch.jester.ui.player;
 
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.DefaultRowSorter;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.TableViewer;
 
-
-
 import ch.jester.common.model.AbstractPropertyChangeModel;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Player;
 
 
 public class PlayerListController extends AbstractPropertyChangeModel{
-	private List<Player> mPlayers = new LinkedList<Player>();
+	private List<Player> mPlayers = Collections.synchronizedList(new LinkedList<Player>());
 	private TableViewer mViewer;
 	private DataBindingContext mBindingContext;
 	public List<Player> getPlayers() {
@@ -40,6 +36,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	}
 	
 	public void addPlayer(Player pPlayer) {
+
 		mPlayers.add(pPlayer);
 		firePropertyChange("players", null, mPlayers);
 	}
@@ -57,22 +54,51 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		firePropertyChange("players", null, mPlayers);
 	}
 
-
 	public void removePlayer(final List<Player> pPlayerList) {
+		if(pPlayerList.size()>=500){
+			removeManyPlayers(pPlayerList);
+		}else{
+			removeNotSoManyPlayers(pPlayerList);
+		}
+	}
+	private void removeNotSoManyPlayers(List<Player> pPlayerList) {
+		mPlayers.removeAll(pPlayerList);
+		firePropertyChange("players", null, mPlayers);
+	}
+
+	private void removeManyPlayers(final List<Player> pPlayerList) {
 				/*
 				 * Workaround: Der Input wird direkt editiert.
 				 * Bei einer Liste von > 10000 Einträgen werden entsprechend
 				 * viele Events gefeuert, wenn alle Einträge auf 1 mal entfernt werden.
 				 * (App-Freeze)
 				 */
-				
-						final Object oldInput = mViewer.getInput();
-						mViewer.setInput(null);
-						mPlayers.removeAll(pPlayerList);
-						mViewer.setInput(oldInput);
-						//firePropertyChange("players", null, mPlayers);
-						
+			
+				final Object oldInput = mViewer.getInput();
+						UIUtility.executeInUIThread(new Runnable(){
 
+							@Override
+							public void run() {
+								mViewer.setInput(null);
+								
+							}
+							
+						});
+
+						mPlayers.removeAll(pPlayerList);
+	
+						UIUtility.executeInUIThread(new Runnable(){
+
+							@Override
+							public void run() {
+								mViewer.setInput(oldInput);
+								
+							}
+							
+						});
+						
+						//firePropertyChange("players", null, mPlayers);
+				
 	
 
 

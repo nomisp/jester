@@ -114,8 +114,12 @@ public abstract class AbstractEventHandler extends AbstractHandler {
 	 * @param pObject
 	 */
 	public void setSelection(Object pObject){
-		getActivePart().getSite().getSelectionProvider().setSelection(new StructuredSelection(pObject));
+		setSelection(getActivePart(),pObject);
 	}
+	public void setSelection(IWorkbenchPart pWb, Object pObject){
+		pWb.getSite().getSelectionProvider().setSelection(new StructuredSelection(pObject));
+	}
+
 	
 	public int getSelectionCount(){
 		return mSelUtility.getSelectionCount();

@@ -16,5 +16,11 @@
             name="%Database">
       </page>
    </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="ch.jester.orm.internal.ORMStarter">
+      </startup>
+   </extension>
 
 </plugin>

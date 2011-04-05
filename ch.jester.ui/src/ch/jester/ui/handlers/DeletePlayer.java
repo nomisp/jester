@@ -10,7 +10,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.progress.UIJob;
 
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.AbstractEventHandler;
@@ -37,7 +36,7 @@ public class DeletePlayer extends AbstractEventHandler {
 			
 			
 		};
-		job.setUser(true);
+		//job.setUser(true);
 		job.schedule();
 	
 		return null;
@@ -62,7 +61,7 @@ public class DeletePlayer extends AbstractEventHandler {
 				Object select = selectionIterator.next();
 
 				editors.closeEditor(select);
-				logger.debug("Player "+select+" removed from DB");
+				//logger.debug("Player "+select+" removed from DB");
 			}
 		}else{
 			

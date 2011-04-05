@@ -1,13 +1,16 @@
 package ch.jester.ui.player;
 
+import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -84,14 +87,25 @@ public class PlayersView extends ViewPart{
 		
 	
 	}
-
+	 private void activateView() {
+		   getSite().getPage().activate(this);
+		}
 
 	/**
 	 * Create the actions.
 	 */
 	private void createActions() {
 		getSite().setSelectionProvider(tableViewer);
+		
 		menuManager = MenuManagerUtility.installPopUpMenuManager(getSite(), tableViewer);
+		menuManager.addMenuListener(new IMenuListener() {
+			
+			@Override
+			public void menuAboutToShow(IMenuManager manager) {
+				activateView();
+			}
+		});
+		
 		
 		DefaultAdapterFactory factory = new DefaultAdapterFactory(this);
 		factory.add(StructuredViewer.class, tableViewer);

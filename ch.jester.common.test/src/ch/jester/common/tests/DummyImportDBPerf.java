@@ -14,6 +14,8 @@ import ch.jester.common.utility.ServiceUtility;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
+import ch.jester.ui.player.PlayerListController;
+
 
 public class DummyImportDBPerf {
 	static final int targetsize = 10000;
@@ -55,6 +57,8 @@ public class DummyImportDBPerf {
 						player.setFirstName("john");
 						player.setLastName("doe "+i);
 						player.setNation("CH");
+						//Class c = PlayerListController.class;
+						su.getService(PlayerListController.class).addPlayer(player);
 						//persister.save(player);
 						//persister.save(player);
 						if(i%1000==0){
