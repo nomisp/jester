@@ -7,7 +7,6 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import ch.jester.common.ui.activator.AbstractUIActivator;
 
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
@@ -24,8 +23,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
 			configurer.setInitialSize(new Point(1024, 800));
 			configurer.setShowPerspectiveBar(true);
+			
 			configurer.setShowMenuBar(true);
-        	configurer.setShowCoolBar(false);
+        	configurer.setShowCoolBar(true);
         	configurer.setShowProgressIndicator(true);
         	configurer.setShowStatusLine(true);
         	
