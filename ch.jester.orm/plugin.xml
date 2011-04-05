@@ -13,7 +13,7 @@
       <page
             class="ch.jester.orm.DatabasePreferencePage"
             id="ch.jester.orm.dbPrefPage"
-            name="%Database">
+            name="%DBPrefPage.name">
       </page>
    </extension>
    <extension

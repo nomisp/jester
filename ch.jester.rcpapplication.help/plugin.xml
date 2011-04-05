@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml"
+            primary="true">
+      </toc>
+      <toc
+            file="tocconcepts.xml">
+      </toc>
+      <toc
+            file="tocgettingstarted.xml">
+      </toc>
+      <toc
+            file="tocreference.xml">
+      </toc>
+      <toc
+            file="tocsamples.xml">
+      </toc>
+      <toc
+            file="toctasks.xml">
+      </toc>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=menu.extras">
+         <menu
+               id="menu.help"
+               label="%Help">
+            <command
+                  commandId="org.eclipse.ui.help.helpContents"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.help.helpSearch"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.help.dynamicHelp"
+                  style="push">
+            </command>
+            <separator
+                  name="ch.jester.rcpapplication.help.separator1"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.eclipse.ui.help.aboutAction"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.eclipse.ui.help.dynamicHelp"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="F1">
+      </key>
+   </extension>
+
+</plugin>
