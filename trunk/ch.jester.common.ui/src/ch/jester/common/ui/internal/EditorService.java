@@ -3,10 +3,10 @@ package ch.jester.common.ui.internal;
 import java.util.HashMap;
 
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.EditorAccessor;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.ui.utility.EditorAccessor.EditorAccess;
 import ch.jester.common.ui.utility.IEditorInputAccess;
 
@@ -22,7 +22,8 @@ public class EditorService implements IEditorService{
 
 	private void check() {
 		if(accessor==null){
-			accessor = new EditorAccessor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage());
+			accessor = new EditorAccessor(UIUtility.getActiveWorkbenchWindow().getActivePage());
+
 		}
 		
 	}
@@ -80,9 +81,18 @@ public class EditorService implements IEditorService{
 	public void closeEditor(Object pInputObject) {
 		check();
 		try {
-			EditorAccess access = accessor.lookup(pInputObject);
+			final EditorAccess access = accessor.lookup(pInputObject);
 			if(access.isAlreadyOpen()){
-				access.close();
+				UIUtility.executeInUIThread(new Runnable(){
+
+					@Override
+					public void run() {
+						access.close();
+						
+					}
+					
+				});
+			
 			}
 		} catch (PartInitException e) {
 			// TODO Auto-generated catch block

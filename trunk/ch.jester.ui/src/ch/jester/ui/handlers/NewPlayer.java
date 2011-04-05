@@ -20,10 +20,10 @@ public class NewPlayer extends AbstractEventHandler {
 	public Object executeInternal(ExecutionEvent event) {
 		IPlayerPersister persister = getServiceUtil().getExclusiveService(IPlayerPersister.class);
 		Player player = new Player();
-		player.setCity(" ");
-		player.setNation(" ");
-		player.setFirstName(" ");
-		player.setLastName("NewPlayer");
+		player.setCity("City");
+		player.setNation("Nation");
+		player.setFirstName("FirstName");
+		player.setLastName("LastName");
 		//hinzufügen vom Player
 		getServiceUtil().getService(PlayerListController.class).addPlayer(player);
 		//selektiert im UI
