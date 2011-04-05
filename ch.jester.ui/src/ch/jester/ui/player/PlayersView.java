@@ -7,10 +7,8 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -96,23 +94,25 @@ public class PlayersView extends ViewPart{
 	 */
 	private void createActions() {
 		getSite().setSelectionProvider(tableViewer);
-		
+		//installiert den PopupManager
 		menuManager = MenuManagerUtility.installPopUpMenuManager(getSite(), tableViewer);
+		//Listener: Fokus setzen, wenn ContextMenu aktiviert wird
 		menuManager.addMenuListener(new IMenuListener() {
-			
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				activateView();
 			}
 		});
 		
-		
+		//Registrierung von sich selbst, als StructuredViewer
 		DefaultAdapterFactory factory = new DefaultAdapterFactory(this);
 		factory.add(StructuredViewer.class, tableViewer);
 		factory.registerAtPlatform();
 		
+		//wie viele Items sind selektiert
 		tableViewer.addSelectionChangedListener(new DefaultSelectionCountListener());
 		
+		//öffne editor
 		tableViewer.addDoubleClickListener(new OpenEditorDoubleClickListener());
 		mController = new PlayerListController(getTable());
 		Activator.getDefault().getActivationContext().getServiceUtil().registerService(PlayerListController.class, mController);
@@ -138,18 +138,4 @@ public class PlayersView extends ViewPart{
 	public void setFocus() {
 		// Set the focus
 	}
-/*	protected DataBindingContext initDataBindings() {
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		tableViewer.setContentProvider(listContentProvider);
-		//
-		IObservableMap observeMap = BeansObservables.observeMap(listContentProvider.getKnownElements(), Player.class, "lastName");
-		tableViewer.setLabelProvider(new ObservableMapLabelProvider(observeMap));
-		//
-		IObservableList mPlayerListPlayersObserveList = BeansObservables.observeList(Realm.getDefault(), mPlayerList, "players");
-		tableViewer.setInput(mPlayerListPlayersObserveList);
-		//
-		return bindingContext;
-	}*/
 }
