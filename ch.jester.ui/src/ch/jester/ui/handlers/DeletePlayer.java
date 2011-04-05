@@ -59,7 +59,6 @@ public class DeletePlayer extends AbstractEventHandler {
 			Iterator<Object> selectionIterator = structSel.iterator();
 			while(selectionIterator.hasNext()){
 				Object select = selectionIterator.next();
-
 				editors.closeEditor(select);
 				//logger.debug("Player "+select+" removed from DB");
 			}
