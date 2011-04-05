@@ -9,7 +9,6 @@ import javax.persistence.EntityTransaction;
 
 import ch.jester.dao.IDAO;
 import ch.jester.dao.IPersister;
-import ch.jester.model.Player;
 import ch.jester.orm.ORMPlugin;
 
 public class GenericPersister<T extends IDAO> implements IPersister<T> {
