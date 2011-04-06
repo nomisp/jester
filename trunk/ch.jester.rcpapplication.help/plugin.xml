@@ -29,7 +29,7 @@
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=menu.extras">
          <menu
-               id="menu.help"
+               id="help"
                label="%Help">
             <command
                   commandId="org.eclipse.ui.help.helpContents"

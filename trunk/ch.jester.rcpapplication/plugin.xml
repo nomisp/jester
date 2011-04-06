@@ -104,6 +104,14 @@
                name="startupMessageRect"
                value="12,272,475,20">
          </property>
+         <property
+               name="aboutImage"
+               value="icons/icon128x128.png">
+         </property>
+         <property
+               name="aboutText"
+               value="jester - Chess Tournament Manager">
+         </property>
       </product>
    </extension>
    <extension
