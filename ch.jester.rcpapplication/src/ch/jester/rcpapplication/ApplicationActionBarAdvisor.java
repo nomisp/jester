@@ -2,6 +2,7 @@ package ch.jester.rcpapplication;
 
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
@@ -22,7 +23,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	}
 	
 	protected void makeActions(IWorkbenchWindow window) {
-		register(ActionFactory.HELP_SEARCH.create(window));
-		register(ActionFactory.DYNAMIC_HELP.create(window));
+		IWorkbenchAction action = ActionFactory.HELP_CONTENTS.create(window);
+		this.register(action);
+		action = ActionFactory.HELP_SEARCH.create(window);
+		this.register(action);
+		action = ActionFactory.DYNAMIC_HELP.create(window);
+		this.register(action);
 	}
 }

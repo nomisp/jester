@@ -3,6 +3,12 @@
 
 <product name="jester" uid="ch.jester.rcpapplication.product" id="ch.jester.rcpapplication.product" application="ch.jester.rcpapplication.application" version="1.0.0" useFeatures="true" includeLaunchers="true">
 
+   <aboutInfo>
+      <image path="/ch.jester.rcpapplication/icons/icon128x128.png"/>
+      <text>
+         jester - Chess Tournament Manager
+      </text>
+   </aboutInfo>
 
    <configIni use="default">
    </configIni>
@@ -135,7 +141,10 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </features>
 
    <configurations>
-      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.help" autoStart="true" startLevel="4" />
    </configurations>
 
 </product>
