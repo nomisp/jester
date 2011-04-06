@@ -35,18 +35,12 @@
             locationURI="popup:ch.jester.ui.view.players">
          <command
                commandId="ch.jester.ui.addplayer"
+               icon="icons/plus.png"
                style="push">
          </command>
          <command
-               commandId="ch.jester.ui.deleteplayer"
-               style="push">
-         </command>
-         <separator
-               name="ch.jester.ui.separator1"
-               visible="true">
-         </separator>
-         <command
-               commandId="ch.jester.ui.loadplayers"
+               commandId="org.eclipse.ui.edit.delete"
+               label="Delete Player"
                style="push">
          </command>
       </menuContribution>
@@ -70,18 +64,11 @@
                label="Players">
             <command
                   commandId="ch.jester.ui.addplayer"
+                  icon="icons/plus.png"
                   style="push">
             </command>
             <command
-                  commandId="ch.jester.ui.deleteplayer"
-                  style="push">
-            </command>
-            <separator
-                  name="ch.jester.ui.separator1"
-                  visible="true">
-            </separator>
-            <command
-                  commandId="ch.jester.ui.loadplayers"
+                  commandId="org.eclipse.ui.edit.delete"
                   style="push">
             </command>
          </toolbar>
@@ -90,17 +77,12 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="ch.jester.ui.handlers.LoadPlayersHandler"
-            id="ch.jester.ui.loadplayers"
-            name="Refresh Players">
-      </command>
-      <command
             defaultHandler="ch.jester.ui.handlers.NewPlayerHandler"
             id="ch.jester.ui.addplayer"
             name="New Player">
       </command>
       <command
-            id="ch.jester.ui.deleteplayer"
+            id="org.eclipse.ui.edit.delete"
             name="Delete Player">
       </command>
    </extension>
@@ -129,7 +111,7 @@
          point="org.eclipse.ui.handlers">
       <handler
             class="ch.jester.ui.handlers.DeletePlayerHandler"
-            commandId="ch.jester.ui.deleteplayer">
+            commandId="org.eclipse.ui.edit.delete">
          <enabledWhen>
             <reference
                   definitionId="oneElementSelected">
