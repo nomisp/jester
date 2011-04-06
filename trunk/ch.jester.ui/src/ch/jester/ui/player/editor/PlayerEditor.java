@@ -1,4 +1,4 @@
-package ch.jester.ui.player;
+package ch.jester.ui.player.editor;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -8,20 +8,25 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
-import ch.jester.ui.handlers.PlayerInput;
 
-public class PlayerEditor extends EditorPart {
+import ch.jester.common.utility.ServiceUtility;
+import ch.jester.dao.IPlayerPersister;
+import ch.jester.ui.Activator;
+import ch.jester.ui.editor.utilities.DirtyManagerPropertyInvoker;
 
-	public static final String ID = "ch.jester.ui.player.PlayerEditor"; //$NON-NLS-1$
+public class PlayerEditor extends EditorPart{
+
+	public static final String ID = "ch.jester.ui.player.editor.PlayerEditor"; //$NON-NLS-1$
 	private PlayerInput mPlayerInput;
-	//private Player mPlayer;
 	private PlayerDetails mPlayerDetails;
-	private DirtyManager mDm = new DirtyManager();
+	private ServiceUtility mServices;
 	public PlayerEditor() {
+		mServices = Activator.getDefault().getActivationContext().getServiceUtil();
 	}
 
 	/**
@@ -35,6 +40,12 @@ public class PlayerEditor extends EditorPart {
 		mPlayerDetails = new PlayerDetails(container, SWT.NONE);
 		mPlayerDetails.setBounds(0, 0, 365, 300);
 		mPlayerDetails.getController().setPlayer(mPlayerInput.getPlayer());
+		mPlayerDetails.getController().getDirtyManager().setDirtyManagerPropertyInvoker(new DirtyManagerPropertyInvoker() {	
+			@Override
+			public void fireDirtyProperty() {
+				firePropertyChange(IEditorPart.PROP_DIRTY);
+			}
+		});
 		initDataBindings();
 		
 	}
@@ -46,7 +57,16 @@ public class PlayerEditor extends EditorPart {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// Do the Save operation
+		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
+		IPlayerPersister persister = mServices.getExclusiveService(IPlayerPersister.class);
+		try{
+			persister.save(mPlayerDetails.getController().getPlayer());
+			mPlayerDetails.getController().getDirtyManager().reset();
+		}finally{
+			persister.close();
+			monitor.done();
+		}
+
 	}
 
 	@Override
@@ -73,14 +93,14 @@ public class PlayerEditor extends EditorPart {
 			}
 			
 		});
-		mPlayerInput.getInput().addPropertyChangeListener(mDm);
 	}
 
 	@Override
 	public boolean isDirty() {
-		return mDm.isDirty();
+		return mPlayerDetails.getController().getDirtyManager().isDirty();
 	}
-
+	
+	
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
@@ -92,23 +112,8 @@ public class PlayerEditor extends EditorPart {
 	}
 	@Override
 	public void dispose() {
-		mPlayerInput.getInput().removePropertyChangeListener(mDm);
+		mPlayerDetails.getController().dispose();
 		super.dispose();
 	}
 	
-	class DirtyManager implements PropertyChangeListener{
-		boolean dirty;
-		@Override
-		public void propertyChange(PropertyChangeEvent arg0) {
-			dirty = true;
-		}
-		
-		public boolean isDirty(){
-			return dirty;
-		}
-		public void reset(){
-			dirty=false;
-		}
-		
-	}
 }

@@ -1,4 +1,4 @@
-package ch.jester.ui.player;
+package ch.jester.ui.player.editor;
 
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;

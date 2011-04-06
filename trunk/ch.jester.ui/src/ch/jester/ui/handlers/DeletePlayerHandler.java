@@ -17,11 +17,11 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
-import ch.jester.ui.player.PlayerListController;
+import ch.jester.ui.player.editor.PlayerListController;
 
-public class DeletePlayer extends AbstractEventHandler {
+public class DeletePlayerHandler extends AbstractEventHandler {
 	ILogger logger;
-	public DeletePlayer(){
+	public DeletePlayerHandler(){
 	 	logger = Activator.getDefault().getActivationContext().getLogger();
 	}
 	@Override

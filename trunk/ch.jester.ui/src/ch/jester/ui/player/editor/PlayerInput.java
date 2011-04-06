@@ -1,4 +1,4 @@
-package ch.jester.ui.handlers;
+package ch.jester.ui.player.editor;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IPersistableElement;
@@ -8,9 +8,6 @@ import ch.jester.model.Player;
 
 public class PlayerInput implements IEditorInputAccess<Player>{
 	private Player mPlayer;
-/*	public PlayerInput(Player player) {
-		mPlayer=player;
-	}*/
 	public PlayerInput() {
 		
 	}

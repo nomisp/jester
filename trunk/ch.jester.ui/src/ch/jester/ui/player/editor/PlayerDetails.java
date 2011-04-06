@@ -1,4 +1,4 @@
-package ch.jester.ui.player;
+package ch.jester.ui.player.editor;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;

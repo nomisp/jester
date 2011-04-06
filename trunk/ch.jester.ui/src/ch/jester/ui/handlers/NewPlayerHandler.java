@@ -8,11 +8,11 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
-import ch.jester.ui.player.PlayerListController;
+import ch.jester.ui.player.editor.PlayerListController;
 
-public class NewPlayer extends AbstractEventHandler {
+public class NewPlayerHandler extends AbstractEventHandler {
 	ILogger logger;
-	public NewPlayer(){
+	public NewPlayerHandler(){
 		logger = Activator.getDefault().getActivationContext().getLogger();
 	}
 	

@@ -1,4 +1,4 @@
-package ch.jester.ui.player;
+package ch.jester.ui.player.editor;
 
 
 import java.util.Collection;
