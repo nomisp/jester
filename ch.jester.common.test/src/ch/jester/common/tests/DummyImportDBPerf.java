@@ -14,7 +14,7 @@ import ch.jester.common.utility.ServiceUtility;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
-import ch.jester.ui.player.PlayerListController;
+import ch.jester.ui.player.editor.PlayerListController;
 
 
 public class DummyImportDBPerf {

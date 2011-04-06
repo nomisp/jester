@@ -40,7 +40,11 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
-		mManager.persist(pT);
+		if(pT.getId()!=0){
+			mManager.merge(pT);
+		}else{
+			mManager.persist(pT);
+		}
 		trx.commit();
 	}
 

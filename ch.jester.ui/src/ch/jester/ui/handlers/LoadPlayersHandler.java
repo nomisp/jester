@@ -6,9 +6,9 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import ch.jester.common.ui.utility.AbstractEventHandler;
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.dao.IPlayerPersister;
-import ch.jester.ui.player.PlayerListController;
+import ch.jester.ui.player.editor.PlayerListController;
 
-public class LoadPlayers extends AbstractEventHandler {
+public class LoadPlayersHandler extends AbstractEventHandler {
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
 		StructuredViewer viewer = AdapterUtility.getAdaptedObject(getActivePartFromEvent(), StructuredViewer.class);

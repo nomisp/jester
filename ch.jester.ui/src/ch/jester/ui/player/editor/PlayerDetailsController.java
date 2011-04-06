@@ -1,4 +1,4 @@
-package ch.jester.ui.player;
+package ch.jester.ui.player.editor;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoObservables;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -6,18 +6,24 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 
 import ch.jester.model.Player;
+import ch.jester.ui.editor.utilities.DirtyManager;
+
 
 
 public class PlayerDetailsController {
 	private PlayerDetails mPlayerDetail;
 	private DataBindingContext mBindingContext;
 	private Player player = new Player();
-
+	private DirtyManager mDm = new DirtyManager();
 	public PlayerDetailsController(PlayerDetails playerDetails) {
 		mPlayerDetail = playerDetails;
 		if (player != null) {
 			mBindingContext = initDataBindings();
 		}
+	}
+	
+	public DirtyManager getDirtyManager(){
+		return mDm;
 	}
 
 	private DataBindingContext initDataBindings() {
@@ -51,7 +57,6 @@ public class PlayerDetailsController {
 		//
 		return bindingContext;
 	}
-
 	public Player getPlayer() {
 		return player;
 	}
@@ -61,7 +66,11 @@ public class PlayerDetailsController {
 	}
 
 	public void setPlayer(Player newPlayer, boolean update) {
+		if(player!=null){
+			player.removePropertyChangeListener(mDm);
+		}
 		player = newPlayer;
+		player.addPropertyChangeListener(mDm);
 		if (update) {
 			if (mBindingContext != null) {
 				mBindingContext.dispose();
@@ -71,5 +80,10 @@ public class PlayerDetailsController {
 				mBindingContext = initDataBindings();
 			}
 		}
+	}
+
+	public void dispose() {
+		player.removePropertyChangeListener(mDm);
+		
 	}
 }

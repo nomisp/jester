@@ -29,5 +29,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		this.register(action);
 		action = ActionFactory.DYNAMIC_HELP.create(window);
 		this.register(action);
+		action = ActionFactory.SAVE.create(window);
+		this.register(action);
+		action = ActionFactory.SAVE.create(window);
+		this.register(action);
 	}
 }
