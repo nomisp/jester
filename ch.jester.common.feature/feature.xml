@@ -26,6 +26,18 @@
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.apache.log4j" version="1.0.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.equinox.ds" version="1.2.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.swt" version="3.6.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface" version="3.6.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui" version="3.6.2" match="greaterOrEqual"/>
+      <import plugin="ch.jester.model" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.common.ui" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.databinding"/>
+      <import plugin="org.eclipse.core.databinding.beans"/>
+      <import plugin="org.eclipse.core.databinding.observable"/>
+      <import plugin="org.eclipse.core.databinding.property"/>
+      <import plugin="org.eclipse.jface.databinding"/>
+      <import plugin="com.ibm.icu"/>
+      <import plugin="org.eclipse.core.expressions" version="3.4.200" match="greaterOrEqual"/>
    </requires>
 
    <plugin
