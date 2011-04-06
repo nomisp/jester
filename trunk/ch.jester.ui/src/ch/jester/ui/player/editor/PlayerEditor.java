@@ -1,9 +1,7 @@
 package ch.jester.ui.player.editor;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -11,22 +9,20 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.part.EditorPart;
 
-
-import ch.jester.common.utility.ServiceUtility;
+import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.dao.IPlayerPersister;
-import ch.jester.ui.Activator;
 import ch.jester.ui.editor.utilities.DirtyManagerPropertyInvoker;
+import ch.jester.ui.editor.utilities.SitePartNameHandler;
 
-public class PlayerEditor extends EditorPart{
+public class PlayerEditor extends AbstractEditor{
 
 	public static final String ID = "ch.jester.ui.player.editor.PlayerEditor"; //$NON-NLS-1$
 	private PlayerInput mPlayerInput;
 	private PlayerDetails mPlayerDetails;
-	private ServiceUtility mServices;
+	private PlayerDetailsController mPlayerDetailsController;
 	public PlayerEditor() {
-		mServices = Activator.getDefault().getActivationContext().getServiceUtil();
+
 	}
 
 	/**
@@ -39,29 +35,29 @@ public class PlayerEditor extends EditorPart{
 		
 		mPlayerDetails = new PlayerDetails(container, SWT.NONE);
 		mPlayerDetails.setBounds(0, 0, 365, 300);
-		mPlayerDetails.getController().setPlayer(mPlayerInput.getPlayer());
-		mPlayerDetails.getController().getDirtyManager().setDirtyManagerPropertyInvoker(new DirtyManagerPropertyInvoker() {	
+		mPlayerDetailsController = mPlayerDetails.getController();
+		
+		
+		mPlayerDetailsController.setPlayer(mPlayerInput.getPlayer());
+		
+		setDirtyManager(mPlayerDetailsController.getDirtyManager());
+		getDirtyManager().setDirtyManagerPropertyInvoker(new DirtyManagerPropertyInvoker() {	
 			@Override
 			public void fireDirtyProperty() {
 				firePropertyChange(IEditorPart.PROP_DIRTY);
 			}
 		});
-		initDataBindings();
-		
 	}
 
-	@Override
-	public void setFocus() {
-		// Set the focus
-	}
+
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
-		IPlayerPersister persister = mServices.getExclusiveService(IPlayerPersister.class);
+		IPlayerPersister persister = getServiceUtil().getExclusiveService(IPlayerPersister.class);
 		try{
-			persister.save(mPlayerDetails.getController().getPlayer());
-			mPlayerDetails.getController().getDirtyManager().reset();
+			persister.save(mPlayerDetailsController.getPlayer());
+			getDirtyManager().reset();
 		}finally{
 			persister.close();
 			monitor.done();
@@ -69,11 +65,6 @@ public class PlayerEditor extends EditorPart{
 
 	}
 
-	@Override
-	public void doSaveAs() {
-		// Do the Save As operation
-	}
- 
 	
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
@@ -81,38 +72,22 @@ public class PlayerEditor extends EditorPart{
 		this.mPlayerInput = (PlayerInput) input;
 		setSite(site);
 		setInput(input);
-		setPartName(mPlayerInput.getPlayer().getLastName()+", "+mPlayerInput.getPlayer().getFirstName());
-		mPlayerInput.getPlayer().addPropertyChangeListener(new PropertyChangeListener(){
 
+		SitePartNameHandler partNameHandler = new SitePartNameHandler() {
 			@Override
 			public void propertyChange(PropertyChangeEvent arg0) {
-				if(arg0.getPropertyName().equals("lastName")||arg0.getPropertyName().equals("firstName")){
-					setPartName(mPlayerInput.getPlayer().getLastName()+", "+mPlayerInput.getPlayer().getFirstName());
-				}
-				
+				setPartName(mPlayerInput.getPlayer().getLastName()+", "+mPlayerInput.getPlayer().getFirstName());	
 			}
-			
-		});
+		};
+		mPlayerInput.getPlayer().addPropertyChangeListener(partNameHandler);
+		partNameHandler.init();
 	}
+	
+	
 
 	@Override
-	public boolean isDirty() {
-		return mPlayerDetails.getController().getDirtyManager().isDirty();
-	}
-	
-	
-	@Override
-	public boolean isSaveAsAllowed() {
-		return false;
-	}
-	protected DataBindingContext initDataBindings() {
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		return bindingContext;
-	}
-	@Override
 	public void dispose() {
-		mPlayerDetails.getController().dispose();
+		mPlayerDetailsController.dispose();
 		super.dispose();
 	}
 	
