@@ -10,8 +10,10 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
+import ch.jester.commonservices.api.logging.ILogger;
 
+public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
+	private ILogger logger = Activator.getDefault().getActivationContext().getLogger();
 	private static final String PERSPECTIVE_ID = "ch.jester.perspective.admin";
 
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
@@ -45,7 +47,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
         if (memento != null) {
             IMemento jesterMemento = memento.getChild("jester");
             if (jesterMemento != null)
-                System.out.println("Last opened on: " + jesterMemento.getString("lastOpenedDate"));
+                logger.info("Last opened on: " + jesterMemento.getString("lastOpenedDate"));
         }
         return super.restoreState(memento);
     }
