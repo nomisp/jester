@@ -37,7 +37,8 @@ public class EditorService implements IEditorService{
 				access.activate();
 			}else{
 				Class<?> editorInputClass = mMap.get(pInputObject.getClass()).mEditorInputClass;
-				IEditorInputAccess editorInput = (IEditorInputAccess) editorInputClass.newInstance();
+				@SuppressWarnings("unchecked")
+				IEditorInputAccess<Object> editorInput = (IEditorInputAccess<Object>) editorInputClass.newInstance();
 				editorInput.setInput(pInputObject);
 				
 				access.openEditor(editorInput, pEditorId);
@@ -83,7 +84,7 @@ public class EditorService implements IEditorService{
 		try {
 			final EditorAccess access = accessor.lookup(pInputObject);
 			if(access.isAlreadyOpen()){
-				UIUtility.executeInUIThread(new Runnable(){
+				UIUtility.syncExecInUIThread(new Runnable(){
 
 					@Override
 					public void run() {

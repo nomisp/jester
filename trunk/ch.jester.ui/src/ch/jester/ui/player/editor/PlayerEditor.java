@@ -90,5 +90,4 @@ public class PlayerEditor extends AbstractEditor{
 		mPlayerDetailsController.dispose();
 		super.dispose();
 	}
-	
 }

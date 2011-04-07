@@ -33,5 +33,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		this.register(action);
 		action = ActionFactory.SAVE_ALL.create(window);
 		this.register(action);
+		action = ActionFactory.COPY.create(window);
+		this.register(action);
+		action = ActionFactory.PASTE.create(window);
+		this.register(action);
 	}
 }

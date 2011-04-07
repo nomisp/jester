@@ -11,15 +11,16 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
+
+import ch.jester.common.ui.handlers.AbstractCommandHandler;
 import ch.jester.common.ui.services.IEditorService;
-import ch.jester.common.ui.utility.AbstractEventHandler;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
 import ch.jester.ui.player.editor.PlayerListController;
 
-public class DeletePlayerHandler extends AbstractEventHandler {
+public class DeletePlayerHandler extends AbstractCommandHandler {
 	ILogger logger;
 	public DeletePlayerHandler(){
 	 	logger = Activator.getDefault().getActivationContext().getLogger();

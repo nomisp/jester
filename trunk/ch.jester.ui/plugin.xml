@@ -35,7 +35,19 @@
             locationURI="popup:ch.jester.ui.view.players">
          <command
                commandId="ch.jester.ui.addplayer"
-               icon="icons/plus.png"
+               icon="icons/plus.gif"
+               style="push">
+         </command>
+         <separator
+               name="ch.jester.ui.separator1"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.eclipse.ui.edit.copy"
+               style="push">
+         </command>
+         <command
+               commandId="org.eclipse.ui.edit.paste"
                style="push">
          </command>
          <command
@@ -60,11 +72,23 @@
             </command>
          </toolbar>
          <toolbar
+               id="ch.jester.ui.copypaste"
+               label="Copy-Paste">
+            <command
+                  commandId="org.eclipse.ui.edit.copy"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.edit.paste"
+                  style="push">
+            </command>
+         </toolbar>
+         <toolbar
                id="ch.jester.ui.players"
                label="Players">
             <command
                   commandId="ch.jester.ui.addplayer"
-                  icon="icons/plus.png"
+                  icon="icons/plus.gif"
                   style="push">
             </command>
             <command
@@ -106,6 +130,30 @@
             </count>
          </with>
       </definition>
+      <definition
+            id="isSelectionCloneable">
+         <with
+               variable="selection">
+            <count
+                  value="+">
+            </count>
+            <iterate>
+               <instanceof
+                     value="java.lang.Cloneable">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="ch.jester.common.ui.handlers.ClipboardPropertyTester"
+            id="ch.jester.ui.clipboard"
+            namespace="ch.jester.properties"
+            properties="clipboardFilled"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -117,6 +165,25 @@
                   definitionId="oneElementSelected">
             </reference>
          </enabledWhen>
+      </handler>
+      <handler
+            class="ch.jester.common.ui.handlers.CloneCopyHandler"
+            commandId="org.eclipse.ui.edit.copy">
+         <activeWhen>
+            <reference
+                  definitionId="isSelectionCloneable">
+            </reference>
+         </activeWhen>
+      </handler>
+      <handler
+            class="ch.jester.common.ui.handlers.ClonePasteHandler"
+            commandId="org.eclipse.ui.edit.paste">
+         <activeWhen>
+            <test
+                  args="ch.jester.model.Player"
+                  property="ch.jester.properties.clipboardFilled"
+                  value="true">
+            </test></activeWhen>
       </handler>
    </extension>
 </plugin>

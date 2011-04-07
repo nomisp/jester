@@ -13,6 +13,7 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 
 import ch.jester.common.model.AbstractPropertyChangeModel;
@@ -36,7 +37,6 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	}
 	
 	public void addPlayer(Player pPlayer) {
-
 		mPlayers.add(pPlayer);
 		firePropertyChange("players", null, mPlayers);
 	}
@@ -75,7 +75,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 				 */
 			
 				final Object oldInput = mViewer.getInput();
-						UIUtility.executeInUIThread(new Runnable(){
+						UIUtility.syncExecInUIThread(new Runnable(){
 
 							@Override
 							public void run() {
@@ -87,7 +87,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 
 						mPlayers.removeAll(pPlayerList);
 	
-						UIUtility.executeInUIThread(new Runnable(){
+						UIUtility.syncExecInUIThread(new Runnable(){
 
 							@Override
 							public void run() {

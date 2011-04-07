@@ -7,6 +7,9 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
+import ch.jester.common.ui.services.IExtendedStatusLineManager;
+import ch.jester.common.ui.utility.DefaultExtendedStatusLineManager;
+
 
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
@@ -36,6 +39,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	public void postWindowOpen() {
 		super.postWindowOpen();
 		IStatusLineManager manager = getWindowConfigurer().getActionBarConfigurer().getStatusLineManager();
-		Activator.getDefault().getActivationContext().getServiceUtil().registerService(IStatusLineManager.class, manager);
+		IExtendedStatusLineManager exmanager = new DefaultExtendedStatusLineManager(manager);
+		Activator.getDefault().getActivationContext().getServiceUtil().registerService(IExtendedStatusLineManager.class, exmanager);
+		Activator.getDefault().getActivationContext().getServiceUtil().registerService(IStatusLineManager.class, exmanager);
 	}
 }

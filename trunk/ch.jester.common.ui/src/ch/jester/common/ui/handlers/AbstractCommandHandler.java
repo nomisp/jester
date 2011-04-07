@@ -1,4 +1,4 @@
-package ch.jester.common.ui.utility;
+package ch.jester.common.ui.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -11,13 +11,14 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.osgi.framework.FrameworkUtil;
 
+import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.utility.ServiceUtility;
 
 /**
  * Handler für UI Events, welcher diverse Hilfsmethoden implementiert
  *
  */
-public abstract class AbstractEventHandler extends AbstractHandler {
+public abstract class AbstractCommandHandler extends AbstractHandler {
 	protected ExecutionEvent mEvent;
 	protected SelectionUtility mSelUtility;
 	protected ServiceUtility mServiceUtility;
@@ -27,7 +28,7 @@ public abstract class AbstractEventHandler extends AbstractHandler {
 		mEvent = event;
 		mSelUtility = new SelectionUtility(getSelection());
 		mServiceUtility = new ServiceUtility(FrameworkUtil.getBundle(
-				AbstractEventHandler.this.getClass()).getBundleContext());
+				AbstractCommandHandler.this.getClass()).getBundleContext());
 		return executeInternal(event);
 	}
 

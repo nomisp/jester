@@ -18,7 +18,7 @@ import ch.jester.dao.IDAO;
 @Table(name="Player")
 @NamedQuery(name="getAll",query="SELECT OBJECT(player) FROM Player player")
 
-public class Player extends AbstractPropertyChangeModel implements Serializable , IDAO{
+public class Player extends AbstractPropertyChangeModel implements Cloneable, Serializable , IDAO{
 	private static final long serialVersionUID = -2351315088207630377L;
 
 	@Id
@@ -128,5 +128,19 @@ public class Player extends AbstractPropertyChangeModel implements Serializable 
 	}
 	public String toString(){
 		return firstName+" "+lastName;
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Player clone = new Player();
+		clone.city=this.city;
+		clone.elo=this.elo;
+		clone.fideCode=this.fideCode;
+		clone.firstName=this.firstName;
+		clone.lastName=this.lastName;
+		clone.nation=this.nation;
+		clone.nationalCode=this.nationalCode;
+		clone.nationalElo=this.nationalElo;
+		return clone;
 	}
 }
