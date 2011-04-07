@@ -7,12 +7,17 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -36,7 +41,7 @@ public class PlayersView extends ViewPart{
 			return element.toString();
 		}
 	}
-	public TableViewer getTable(){
+	private TableViewer getTable(){
 		return tableViewer;
 	}
 
@@ -66,7 +71,6 @@ public class PlayersView extends ViewPart{
 			{
 				tableViewer = new TableViewer(tableViewComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 				table = tableViewer.getTable();
-				table.setHeaderVisible(true);
 				table.setLinesVisible(true);
 				{
 					tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
@@ -87,12 +91,25 @@ public class PlayersView extends ViewPart{
 	}
 	 private void activateView() {
 		   getSite().getPage().activate(this);
-		}
+		   
+	}
 
 	/**
 	 * Create the actions.
 	 */
 	private void createActions() {
+		table.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				table.redraw();
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				activateView();
+			}
+		});
 		getSite().setSelectionProvider(tableViewer);
 		//installiert den PopupManager
 		menuManager = MenuManagerUtility.installPopUpMenuManager(getSite(), tableViewer);
@@ -104,6 +121,7 @@ public class PlayersView extends ViewPart{
 			}
 		});
 		
+		
 		//Registrierung von sich selbst, als StructuredViewer
 		DefaultAdapterFactory factory = new DefaultAdapterFactory(this);
 		factory.add(StructuredViewer.class, tableViewer);
@@ -111,6 +129,14 @@ public class PlayersView extends ViewPart{
 		
 		//wie viele Items sind selektiert
 		tableViewer.addSelectionChangedListener(new DefaultSelectionCountListener());
+		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				activateView();
+				
+			}
+		});
 		
 		//öffne editor
 		tableViewer.addDoubleClickListener(new OpenEditorDoubleClickListener());
@@ -136,6 +162,6 @@ public class PlayersView extends ViewPart{
 
 	@Override
 	public void setFocus() {
-		// Set the focus
+		System.out.println("View has focus");
 	}
 }

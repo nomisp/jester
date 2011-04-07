@@ -47,6 +47,13 @@ public class SelectionUtility {
 		return (getSelection() instanceof IStructuredSelection);
 	}
 	
+	public IStructuredSelection getAsStructuredSelection(){
+		if(isIStructuredSelection()){
+			return (IStructuredSelection) mSelection;
+		}
+		return null;
+	}
+	
 	/**
 	 * Ist die Selection leeer ?
 	 * @return

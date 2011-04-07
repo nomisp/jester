@@ -13,7 +13,7 @@ public class UIUtility {
 	}
 	interface UIStrategy{
 		public IWorkbenchWindow getWorkbenchWindow();
-		public void executeInUIThread(Runnable pRunnable);
+		public void syncExecInUIThread(Runnable pRunnable);
 	}
 	
 	
@@ -29,8 +29,8 @@ public class UIUtility {
 	public static IWorkbenchWindow getActiveWorkbenchWindow(){
 		return mStrategies[getStrategyIndex()].getWorkbenchWindow();
 	}
-	public static void executeInUIThread(Runnable r){
-		 mStrategies[getStrategyIndex()].executeInUIThread(r);
+	public static void syncExecInUIThread(Runnable r){
+		 mStrategies[getStrategyIndex()].syncExecInUIThread(r);
 	}
 	
 	
@@ -42,7 +42,7 @@ public class UIUtility {
 		}
 
 		@Override
-		public void executeInUIThread(Runnable pRunnable) {
+		public void syncExecInUIThread(Runnable pRunnable) {
 			pRunnable.run();			
 		}
 		
@@ -62,11 +62,11 @@ public class UIUtility {
 					return mUIStrategy.getWorkbenchWindow();
 				}
 			};
-			executeInUIThread(result);
+			syncExecInUIThread(result);
 			return result.get();
 		}
 		@Override
-		public void executeInUIThread(Runnable pRunnable) {
+		public void syncExecInUIThread(Runnable pRunnable) {
 			mDisplay.syncExec(pRunnable);
 		}
 		

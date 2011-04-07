@@ -7,7 +7,7 @@ import java.beans.PropertyChangeSupport;
 
 
 public class AbstractPropertyChangeModel implements IPropertyChangeSupport{
-	protected PropertyChangeSupport mPCS;
+	protected transient PropertyChangeSupport mPCS;
 	
 	public AbstractPropertyChangeModel(){
 		mPCS = new PropertyChangeSupport(this);
