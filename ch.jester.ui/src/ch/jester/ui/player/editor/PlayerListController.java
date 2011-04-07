@@ -11,14 +11,19 @@ import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 
 import ch.jester.common.model.AbstractPropertyChangeModel;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
+import ch.jester.ui.Activator;
 
 
 public class PlayerListController extends AbstractPropertyChangeModel{
@@ -34,6 +39,19 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		if (mPlayers != null) {
 			mBindingContext = initDataBindings();
 		}
+		Job job = new Job("Loading Players"){
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				
+				IPlayerPersister persister = Activator.getDefault().getActivationContext().getServiceUtil().getExclusiveService(IPlayerPersister.class);
+				addPlayer(persister.getAll());
+				persister.close();
+				return Status.OK_STATUS;
+			}
+			
+		};
+		job.schedule();
 	}
 	
 	public void addPlayer(Player pPlayer) {
