@@ -33,10 +33,13 @@
                label="%Help">
             <command
                   commandId="org.eclipse.ui.help.helpContents"
+                  disabledIcon="icons/linkto_help.gif"
+                  icon="icons/help.gif"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.help.helpSearch"
+                  icon="icons/help_search.gif"
                   style="push">
             </command>
             <command

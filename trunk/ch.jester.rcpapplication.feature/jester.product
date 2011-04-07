@@ -7,6 +7,9 @@
       <image path="/ch.jester.rcpapplication/icons/icon128x128.png"/>
       <text>
          jester - Chess Tournament Manager
+
+Developed by Matthias Liechti and Peter Simon
+MAS SE HSR 2011
       </text>
    </aboutInfo>
 
