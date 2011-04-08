@@ -1,13 +1,24 @@
 package ch.jester.db.hsqldb;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-public class Activator extends AbstractUIPlugin {
+import org.osgi.framework.BundleContext;
+
+import ch.jester.common.ui.activator.AbstractUIActivator;
+
+public class Activator extends AbstractUIActivator {
 
 	private static Activator plugin;
 	
-	public Activator() {
+	@Override
+	public void startDelegate(BundleContext pContext) {
+		getActivationContext().getLogger().info("Starting >HSQLDB-Plugin<");
+		plugin = this;
 	}
 
+	@Override
+	public void stopDelegate(BundleContext pContext) {
+		getActivationContext().getLogger().info("Stopping >HSQLDB-Plugin<");
+		plugin = null;
+	}
 	/**
 	 * Returns the shared instance
 	 *

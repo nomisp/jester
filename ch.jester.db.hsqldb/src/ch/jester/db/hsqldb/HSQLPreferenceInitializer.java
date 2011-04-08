@@ -11,6 +11,14 @@ public class HSQLPreferenceInitializer extends AbstractPreferenceInitializer {
 	@Override
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-//		store.setDefault("MySTRING1", "http://www.vogella.de");
+		// HSQLDB Konfiguration
+		store.setDefault("JDBCDriverClass", "org.hsqldb.jdbcDriver");
+		store.setDefault("SQLDialectClass", "org.hibernate.dialect.HSQLDialect");
+		store.setDefault("Subprotocol", "hsqldb");
+		store.setDefault("DatabaseManagerClass", "ch.jester.db.hsqldb.SimpleHSQLDatabaseManager");
+		
+		store.setDefault("DefaultTableType", "cached");
+		store.setDefault("TransactionMode", "mvcc");
+		store.setDefault("Ip", "jdbc:hsqldb:hsql://localhost/");
 	}
 }

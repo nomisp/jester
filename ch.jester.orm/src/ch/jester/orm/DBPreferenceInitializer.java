@@ -12,6 +12,8 @@ public class DBPreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = ORMPlugin.getDefault().getPreferenceStore();
 		store.setDefault("Database", "ch.jester.db.hsqldb");
+		store.setDefault("DatabaseName", "jester");
+		store.setDefault("ORMConfiguration", "ch.jester.hibernate.ConfigurationHelper");
 	}
 
 }
