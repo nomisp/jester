@@ -110,7 +110,7 @@
          </property>
          <property
                name="aboutText"
-               value="jester - Chess Tournament Manager&#x0D;&#x0A;&#x0D;&#x0A;Developed by Matthias Liechti and Peter Simon&#x0D;&#x0A;MAS SE HSR 2011">
+               value="jester - Chess Tournament Manager&#x0A;&#x0A;Developed by Matthias Liechti and Peter Simon&#x0A;MAS SE HSR 2011">
          </property>
       </product>
    </extension>
