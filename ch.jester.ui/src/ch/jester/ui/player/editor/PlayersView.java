@@ -1,8 +1,5 @@
 package ch.jester.ui.player.editor;
 
-import org.eclipse.jface.action.ContributionItem;
-import org.eclipse.jface.action.ControlContribution;
-import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -10,7 +7,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -18,18 +14,14 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.ui.listeners.DefaultSelectionCountListener;
@@ -37,8 +29,6 @@ import ch.jester.common.ui.listeners.OpenEditorDoubleClickListener;
 import ch.jester.common.ui.utility.MenuManagerUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
 import ch.jester.ui.Activator;
-import ch.jester.ui.filter.IFilter;
-import ch.jester.ui.filter.PersonFilter;
 import ch.jester.ui.filter.SearchField;
 
 public class PlayersView extends ViewPart{
@@ -61,8 +51,6 @@ public class PlayersView extends ViewPart{
 	private TableViewer tableViewer; 
 	private PlayerListController mController;
 	private TableViewerColumn tableViewerColumn;
-	private IFilter mFilter = new PersonFilter();
-	private SearchField mSearch;
 	public PlayersView() {
 		
 		
@@ -165,16 +153,7 @@ public class PlayersView extends ViewPart{
 	private void initializeToolBar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars()
 				.getToolBarManager();
-		toolbarManager.add(new ControlContribution("searchField") {
-
-			@Override
-			protected Control createControl(Composite parent) {
-				mSearch = new SearchField(parent, mFilter, getTable());
-				//getTable().addFilter(mFilter);
-				return mSearch.getField();
-			}
-			
-		});
+		toolbarManager.add(SearchField.createSearchFieldControlContribution(tableViewer));
 	}
 
 	/**
