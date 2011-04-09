@@ -8,13 +8,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.action.ControlContribution;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.progress.UIJob;
 
 import ch.jester.common.utility.ServiceUtility;
 import ch.jester.dao.IPlayerPersister;
@@ -24,16 +25,11 @@ import ch.jester.ui.player.editor.PlayerListController;
 public class SearchField {
 	private Stack<String> eventStack = new Stack<String>();
 	Text mText;
-	IFilter mFilter;
 	StructuredViewer mViewer;
-	//private IWorkbenchWindow window;
-	public SearchField(Composite pParent, IFilter pFilter, StructuredViewer pViewer){
+	public SearchField(Composite pParent, StructuredViewer pViewer){
 		mViewer = pViewer;
-		mFilter=pFilter;
-		//mViewer.addFilter(mFilter);
-		
 		mText = new Text(pParent, SWT.SEARCH);
-		mFilter = pFilter;
+	
 		mText.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -46,7 +42,7 @@ public class SearchField {
 						String search = null;
 						synchronized(eventStack){
 							if(eventStack.isEmpty()){
-								return Status.OK_STATUS;
+								return Status.CANCEL_STATUS;
 							}
 							search = eventStack.pop();
 							eventStack.clear();
@@ -68,5 +64,17 @@ public class SearchField {
 	}
 	public Text getField(){
 		return mText;
+	}
+	
+	public static ControlContribution createSearchFieldControlContribution(final StructuredViewer viewer){
+		return new ControlContribution("searchField") {
+
+			@Override
+			protected Control createControl(Composite parent) {
+				SearchField mSearch = new SearchField(parent, viewer);
+				return mSearch.getField();
+			}
+			
+		};
 	}
 }
