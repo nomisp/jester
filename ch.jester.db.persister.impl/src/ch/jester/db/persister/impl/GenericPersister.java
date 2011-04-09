@@ -88,6 +88,15 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		return result;
 	}
 
+	public List<T> findByParameter(String queryName, String pPara, Object pVal){
+		check();
+		EntityTransaction trx = mManager.getTransaction();
+		trx.begin();
+		@SuppressWarnings("unchecked")
+		List<T> result = mManager.createNamedQuery(queryName).setParameter(pPara, pVal).getResultList();
+		trx.commit();
+		return result;
+	}
 
 
 }
