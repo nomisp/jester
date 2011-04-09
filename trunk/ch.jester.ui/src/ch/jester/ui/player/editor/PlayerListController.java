@@ -18,6 +18,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.model.AbstractPropertyChangeModel;
 import ch.jester.common.ui.utility.UIUtility;
@@ -30,12 +32,14 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	private List<Player> mPlayers = Collections.synchronizedList(new LinkedList<Player>());
 	private TableViewer mViewer;
 	private DataBindingContext mBindingContext;
+	ViewPart mPart;
 	public List<Player> getPlayers() {
 		return mPlayers;
 	}
 	
-	public PlayerListController(TableViewer pViewer){
+	public PlayerListController(ViewPart pPart, TableViewer pViewer){
 		mViewer=pViewer;
+		mPart=pPart;
 		if (mPlayers != null) {
 			mBindingContext = initDataBindings();
 		}
@@ -59,9 +63,21 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		firePropertyChange("players", null, mPlayers);
 	}
 	
+	public void setPlayers(Collection<Player> pPlayerCollection){
+		removeAll();
+		addPlayer(pPlayerCollection);
+		//firePropertyChange("players", null, mPlayers);
+	}
+	
 	public void addPlayer(Collection<Player> pPlayerCollection) {
+		Object oldInput = mViewer.getInput();
+	
+		syncExe_setInput(null);
+		
 		mPlayers.addAll(pPlayerCollection);
-		firePropertyChange("players", null, mPlayers);
+		
+		syncExe_setInput(oldInput);
+	
 	}
 	public void removePlayer(Player pPlayer) {
 		mPlayers.remove(pPlayer);
@@ -73,11 +89,14 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	}
 
 	public void removePlayer(final List<Player> pPlayerList) {
-		if(pPlayerList.size()>=500){
+		if(pPlayerList.size()>=0){
 			removeManyPlayers(pPlayerList);
 		}else{
 			removeNotSoManyPlayers(pPlayerList);
 		}
+	}
+	public void removeAll(){
+		removeManyPlayers(mPlayers);
 	}
 	private void removeNotSoManyPlayers(List<Player> pPlayerList) {
 		mPlayers.removeAll(pPlayerList);
@@ -92,33 +111,31 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 				 * (App-Freeze)
 				 */
 			
-				final Object oldInput = mViewer.getInput();
-						UIUtility.syncExecInUIThread(new Runnable(){
-
-							@Override
-							public void run() {
-								mViewer.setInput(null);
-								
-							}
-							
-						});
-
+						final Object oldInput = mViewer.getInput();
+					
+						syncExe_setInput(null);
+					
 						mPlayers.removeAll(pPlayerList);
 	
-						UIUtility.syncExecInUIThread(new Runnable(){
-
-							@Override
-							public void run() {
-								mViewer.setInput(oldInput);
-								
-							}
-							
-						});
+						syncExe_setInput(oldInput);
 						
 						//firePropertyChange("players", null, mPlayers);
 				
 	
 
+
+	}
+	
+	private void syncExe_setInput(final Object pInput){
+		UIUtility.syncExecInUIThread(new Runnable(){
+
+			@Override
+			public void run() {
+				mViewer.setInput(pInput);
+				
+			}
+			
+		});
 
 	}
 	protected DataBindingContext initDataBindings() {
