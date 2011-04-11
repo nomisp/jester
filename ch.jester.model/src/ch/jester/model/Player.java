@@ -134,6 +134,17 @@ public class Player extends AbstractPropertyChangeModel implements Cloneable, Se
 		return firstName+" "+lastName;
 	}
 	
+	public boolean equals(Object o){
+		if(o==null){return false;}
+		if(!(o instanceof Player)){return false;}
+		Player other = (Player) o;
+		if(this.getId()==other.getId()){
+			return true;
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		Player clone = new Player();
