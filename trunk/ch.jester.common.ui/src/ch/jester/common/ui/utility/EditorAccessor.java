@@ -24,7 +24,7 @@ public class EditorAccessor {
 				continue;
 			}
 			IEditorInputAccess<?> pInput = (IEditorInputAccess<?>) input;
-			if(pInput.getInput()==pEditorInputObject){
+			if(pInput.getInput().equals(pEditorInputObject)){
 				pref = ref;
 				break;
 			}

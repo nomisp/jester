@@ -35,7 +35,7 @@ public class SearchField {
 			public void keyReleased(KeyEvent e) {
 				eventStack.push(mText.getText());
 
-				Job job = new Job("refresh"){
+				Job job = new Job("searching"){
 
 					@Override
 					public IStatus run(IProgressMonitor monitor) {
@@ -47,10 +47,12 @@ public class SearchField {
 							search = eventStack.pop();
 							eventStack.clear();
 						}
+						monitor.beginTask("searching for: "+search, IProgressMonitor.UNKNOWN);
 						System.out.println("executing search: "+search);
 						ServiceUtility su = new ServiceUtility();
 						List<Player> players = su.getExclusiveService(IPlayerPersister.class).findByName(search);
 						su.getExclusiveService(PlayerListController.class).setPlayers(players);
+						monitor.done();
 						return Status.OK_STATUS;
 					}
 					
