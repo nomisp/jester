@@ -25,7 +25,9 @@ public class DefaultImportHandlerEntry implements IImportHandlerEntry{
 		return mService.getProperty(IImportHandlerEntry.TYPEDESCRIPTION);
 	}
 
-	
+	public String toString(){
+		return getDescription();
+	}
 
 
 }

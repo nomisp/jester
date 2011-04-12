@@ -80,7 +80,8 @@ public class SelectionUtility {
 	@SuppressWarnings("unchecked")
 	public <T> T getFirstSelectedAs(Class<T> clz){
 		if(getFirstSelected()!=null){
-			if(getFirstSelected().getClass().isAssignableFrom(clz)){
+			Object first = getFirstSelected();
+			if(clz.isAssignableFrom(first.getClass())){
 				return (T)getFirstSelected();
 			}
 		}

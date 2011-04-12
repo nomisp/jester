@@ -98,5 +98,31 @@ public class DefaultImportManager implements IImportManager{
 		mImportHandlers.put(entry,o);
 	}
 
+	@Override
+	public List<IImportHandlerEntry> filter(IImportFilter pFilter) {
+		List<IImportHandlerEntry> filtredEntries = new ArrayList<IImportHandlerEntry>();
+		for(IImportHandlerEntry e:getRegistredImportHandlers()){
+			if(pFilter.match(e.getShortType())){
+				filtredEntries.add(e);
+			}
+		}
+		return filtredEntries;
+	}
 
+	class DefaultFilter implements IImportFilter{
+		String mFilter;
+		public DefaultFilter(String pFilter){
+			mFilter=pFilter.toLowerCase();
+		}
+		@Override
+		public boolean match(String p) {
+			return mFilter.matches(p.replaceAll("\\*.", ""));
+		}
+		
+	}
+
+	@Override
+	public IImportFilter createMatchingExtension(String pString) {
+		return new DefaultFilter(pString);
+	}
 }

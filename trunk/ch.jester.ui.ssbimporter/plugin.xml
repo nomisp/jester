@@ -11,11 +11,7 @@
             category="ch.jester.importer.players"
             class="ch.jester.ui.ssbimporter.Wiz"
             id="ch.jester.ui.ssbimporter"
-            name="name">
-         <selection
-               class="java.lang.Object"
-               name="*">
-         </selection>
+            name="Player Importer">
       </wizard>
    </extension>
 
