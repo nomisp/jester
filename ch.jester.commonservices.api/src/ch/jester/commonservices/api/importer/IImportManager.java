@@ -12,6 +12,9 @@ import ch.jester.commonservices.api.IComponentService;
  *
  */
 public interface IImportManager extends IComponentService<IImportHandler> {
+	interface IImportFilter{
+		boolean match(String p);
+	}
 	/**Gibt die registrierten IImportHandler in Form von Entries zurück.<br>
 	 * <b>Achtung:</b> Je nach Implementation kann sich die Liste dynamisch ändern.
 	 * @return Liste von IImportHandllerEntry
@@ -24,4 +27,7 @@ public interface IImportManager extends IComponentService<IImportHandler> {
 	 * @return das Resultat
 	 */
 	public Object doImport(IImportHandlerEntry pEntry, InputStream pObjectToImport);
+	public List<IImportHandlerEntry> filter(IImportFilter pFilter);
+	
+	public IImportFilter createMatchingExtension(String pString);
 }
