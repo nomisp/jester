@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <category
+            id="ch.jester.importer.players"
+            name="Player Import">
+      </category>
+      <wizard
+            category="ch.jester.importer.players"
+            class="ch.jester.ui.ssbimporter.Wiz"
+            id="ch.jester.ui.ssbimporter"
+            name="name">
+         <selection
+               class="java.lang.Object"
+               name="*">
+         </selection>
+      </wizard>
+   </extension>
+
+</plugin>
