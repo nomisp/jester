@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Pairing System API
+Bundle-SymbolicName: ch.jester.system.api;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: M. Liechti & P. Simon
+Require-Bundle: org.eclipse.core.runtime,
+ ch.jester.model;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
