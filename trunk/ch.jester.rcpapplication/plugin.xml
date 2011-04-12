@@ -60,6 +60,18 @@
                id="menu.file"
                label="%File">
             <command
+                  commandId="org.eclipse.ui.file.import"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.file.export"
+                  style="push">
+            </command>
+            <separator
+                  name="ch.jester.rcpapplication.separator2"
+                  visible="true">
+            </separator>
+            <command
                   commandId="org.eclipse.ui.file.exit"
                   label="%Exit">
             </command>
