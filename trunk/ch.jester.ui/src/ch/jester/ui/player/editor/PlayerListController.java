@@ -64,19 +64,19 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	}
 	
 	public void setPlayers(Collection<Player> pPlayerCollection){
+		
 		removeAll();
 		addPlayer(pPlayerCollection);
-		//firePropertyChange("players", null, mPlayers);
+		firePropertyChange("players", null, mPlayers);
+		syncExe_refresh();
 	}
 	
-	public void addPlayer(Collection<Player> pPlayerCollection) {
+	public synchronized void addPlayer(Collection<Player> pPlayerCollection) {
 		Object oldInput = mViewer.getInput();
-	
-		syncExe_setInput(null);
-		
-		mPlayers.addAll(pPlayerCollection);
-		
+		syncExe_setInput(null);		
+		mPlayers.addAll(pPlayerCollection);	
 		syncExe_setInput(oldInput);
+		//syncExe_refresh();
 	
 	}
 	public void removePlayer(Player pPlayer) {
@@ -103,7 +103,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		firePropertyChange("players", null, mPlayers);
 	}
 
-	private void removeManyPlayers(final List<Player> pPlayerList) {
+	private synchronized void removeManyPlayers(final List<Player> pPlayerList) {
 				/*
 				 * Workaround: Der Input wird direkt editiert.
 				 * Bei einer Liste von > 10000 Einträgen werden entsprechend
@@ -132,6 +132,19 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 			@Override
 			public void run() {
 				mViewer.setInput(pInput);
+				
+			}
+			
+		});
+
+	}
+	
+	private void syncExe_refresh(){
+		UIUtility.syncExecInUIThread(new Runnable(){
+
+			@Override
+			public void run() {
+				mViewer.refresh();
 				
 			}
 			
