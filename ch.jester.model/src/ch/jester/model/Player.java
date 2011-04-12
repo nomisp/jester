@@ -1,20 +1,14 @@
 package ch.jester.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import ch.jester.common.model.AbstractPropertyChangeModel;
-import ch.jester.dao.IDAO;
 
 @Entity
 @Table(name="Player")
@@ -22,7 +16,7 @@ import ch.jester.dao.IDAO;
 @NamedQuery(name="getAll",query="SELECT OBJECT(player) FROM Player player"),
 @NamedQuery(name="findByName",query="SELECT OBJECT(player) FROM Player player WHERE UPPER(player.lastName) LIKE :lastName")
 })
-public class Player extends AbstractPropertyChangeModel implements Cloneable, Serializable , IDAO{
+public class Player extends AbstractModelBean{
 	private static final long serialVersionUID = -2351315088207630377L;
 
 	@Id
