@@ -40,7 +40,7 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 		
 		Assert.assertEquals("shorttype does not match","*.xml", entry.getShortType());
 		Assert.assertEquals("description does not match","XML Importer", entry.getDescription());
-		importManager.doImport(entry, null);
+		importManager.doImport(entry, null, null);
 	}
 
 }

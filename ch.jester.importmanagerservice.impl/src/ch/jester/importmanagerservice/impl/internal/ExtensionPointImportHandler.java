@@ -4,6 +4,7 @@ import java.io.InputStream;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.common.importer.AbstractImportHandler;
 import ch.jester.commonservices.api.importer.IImportHandler;
@@ -21,7 +22,7 @@ public class ExtensionPointImportHandler extends AbstractImportHandler {
 	}
 
 	@Override
-	public Object handleImport(InputStream pInputStream) {
+	public Object handleImport(InputStream pInputStream, IProgressMonitor pMonitor) {
 		if(mImportHandler==null){
 			try {
 				mImportHandler = (IImportHandler) mElement.createExecutableExtension("class");
@@ -30,7 +31,7 @@ public class ExtensionPointImportHandler extends AbstractImportHandler {
 				e.printStackTrace();
 			}
 		}
-		return mImportHandler.handleImport(pInputStream);
+		return mImportHandler.handleImport(pInputStream, pMonitor);
 	}
 
 	@Override

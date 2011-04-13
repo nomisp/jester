@@ -8,6 +8,11 @@
             shortType="*.txt"
             typeDescription="SSB Text Importer">
       </ImportHandler>
+      <ImportHandler
+            class="ch.jester.importmanagerservice.impl.internal.SSBExcelImporter"
+            shortType="*.xls"
+            typeDescription="SSB Excel Importer">
+      </ImportHandler>
    </extension>
 
 </plugin>

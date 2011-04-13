@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.CheckboxTableViewer;
-import org.eclipse.jface.viewers.IBaseLabelProvider;
-import org.eclipse.jface.viewers.IContentProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
@@ -28,18 +26,17 @@ import ch.jester.common.utility.ServiceUtility;
 import ch.jester.common.utility.ZipUtility;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
-import org.eclipse.jface.viewers.ListViewer;
 
 public class WizPage extends WizardPage {
 	private Text text;
 	private Table table;
 	private CheckboxTableViewer checkboxTableViewer;
 	private ListViewer listViewer;
-	private List<String> mAllEntries = new ArrayList<String>();
-	private List<String> mSelectedEntries = new ArrayList<String>();
-	private IImportHandlerEntry selectedEntry;
-	private ImportInput mImportInput = new ImportInput();
-	ServiceUtility mService = new ServiceUtility();
+
+	private ServiceUtility mService = new ServiceUtility();
+	
+	private final Object NULL_INPUT = null;
+	private ImportSelection mImportInput = new ImportSelection();
 	/**
 	 * @wbp.parser.constructor
 	 */
@@ -80,13 +77,10 @@ public class WizPage extends WizardPage {
 		        fd.setFilterExtensions(filterExt);
 		        String selected = fd.open();
 		        text.setText(selected);
-		        mImportInput.zipFile=text.getText();
+		        mImportInput.setSelectedZipFile(text.getText());
 		        List<String> list = ZipUtility.getZipEntries(selected, false);
 		        if(list!=null){
-		        	mAllEntries.clear();
-		        	mAllEntries.addAll(list);
 		        	checkboxTableViewer.setInput(list.toArray());
-	
 		        }
 		        
 			}
@@ -110,102 +104,122 @@ public class WizPage extends WizardPage {
 		org.eclipse.swt.widgets.List list = listViewer.getList();
 		list.setBounds(10, 250, 468, 85);
 		
-		listViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			SelectionUtility su = new SelectionUtility(null);
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				su.setSelection(event.getSelection());
-				selectedEntry = su.getFirstSelectedAs(IImportHandlerEntry.class);
-				mImportInput.entry=selectedEntry;
-			}
-		});
+		listViewer.addSelectionChangedListener(new HandlerSelectionListener());
 		
 		
-		listViewer.setContentProvider(new IStructuredContentProvider(){
-
-			@Override
-			public void dispose() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public Object[] getElements(Object inputElement) {
-				IImportManager manager = mService.getService(IImportManager.class);
-				List<IImportHandlerEntry> handlers = null;
-				if(text.getText().length()==0 || inputElement==null){
-					handlers = manager.getRegistredImportHandlers();
-				}else if(inputElement instanceof String){
-					String input = (String) inputElement;
-					if(input.lastIndexOf(".")==-1){
-						return new Object[]{};
-					}
-					String extension = input.substring(input.lastIndexOf(".")+1);
-					handlers = manager.filter(manager.createMatchingExtension(extension));
-				}else{
-					handlers = manager.getRegistredImportHandlers();
-				}
-				return handlers.toArray();
-			}
-			
-			
-		});
-		listViewer.setInput(new Object());
+		listViewer.setContentProvider(new HandlerContentProvider());
+		listViewer.setInput(NULL_INPUT);
 
 		
-		checkboxTableViewer.setContentProvider(new TableContentProvider());
+		checkboxTableViewer.setContentProvider(new ZipEntryContentProvider());
 		
-		
-		
+		//initialer Status
 		setPageComplete(false);
 		
 	}
 	
-	public ImportInput getInputToProcess(){
+	public ImportSelection getImportSelection(){
 		return mImportInput;
 	}
 	
-	public List<String> getZipFilesToImport(){
-		return mSelectedEntries;
+	private class HandlerContentProvider implements IStructuredContentProvider {
+		@Override
+		public void dispose() {}
+
+		@Override
+		public void inputChanged(Viewer viewer, Object oldInput,
+				Object newInput) {	}
+
+		@Override
+		public Object[] getElements(Object inputElement) {
+			IImportManager manager = mService.getService(IImportManager.class);
+			List<IImportHandlerEntry> handlers = null;
+			if(text.getText().length()==0 || inputElement==null){
+				handlers = manager.getRegistredImportHandlers();
+			}else if(inputElement instanceof String){
+				String input = (String) inputElement;
+				if(input.lastIndexOf(".")==-1){
+					return new Object[]{};
+				}
+				String extension = input.substring(input.lastIndexOf(".")+1);
+				handlers = manager.filter(manager.createMatchingExtension(extension));
+			}else{
+				handlers = manager.getRegistredImportHandlers();
+			}
+			return handlers.toArray();
+		}
 	}
-	
-	public IImportHandlerEntry getSelectedImportHandlerEntry(){
-		return selectedEntry;
+
+	private class HandlerSelectionListener implements ISelectionChangedListener {
+		SelectionUtility su = new SelectionUtility(null);
+
+		@Override
+		public void selectionChanged(SelectionChangedEvent event) {
+			su.setSelection(event.getSelection());
+			mImportInput.setSelectedHandlerEntry(su.getFirstSelectedAs(IImportHandlerEntry.class));
+		}
 	}
-	
-	class ImportInput{
-		IImportHandlerEntry entry;
-		String zipFile;
-		String zipEntry;
+
+	class ImportSelection{
+		private IImportHandlerEntry entry;
+		private String zipFile;
+		private String zipEntry;
+		
+		private void setSelectedHandlerEntry(IImportHandlerEntry pEntry){
+			entry=pEntry;
+			checkState();
+		}
+		private void setSelectedZipFile(String pZipFile){
+			zipFile=pZipFile;
+			checkState();
+		}
+		private void setSelectedZipEntry(String pEntry){
+			zipEntry = pEntry;
+			checkState();
+		}
+		
+		public IImportHandlerEntry getSelectedHandlerEntry(){
+			return entry;
+		}
+		public String getSelectedZipFile(){
+			return zipFile;
+		}
+		public String getSelectedZipEntry(){
+			return zipEntry;
+		}
+		private void checkState(){
+			if(entry!=null&&zipFile!=null&&zipEntry!=null){
+				setPageComplete(true);
+			}else{
+				setPageComplete(false);
+			}
+		}
 	}
 	
 	/**
 	 * SelectionListener: Welche TableItems sind angegklickt
 	 *
 	 */
-	class SelectionCountListener implements SelectionListener {
+	private class SelectionCountListener implements SelectionListener {
+		TableItem lastChecked = null;
 		@Override
 		public void widgetSelected(SelectionEvent e) {
 			if(e.item instanceof TableItem){
 				TableItem titem = (TableItem) e.item;
 				boolean checked = titem.getChecked();
 				if(checked){
-					mSelectedEntries.add(titem.getText());
-					mImportInput.zipEntry=titem.getText();
+					if(lastChecked!=null && lastChecked!=titem){
+						lastChecked.setChecked(false);
+					}
+					lastChecked=titem;
+					mImportInput.setSelectedZipEntry(titem.getText());
 					listViewer.setInput(titem.getText());
 				}else{
-					mSelectedEntries.remove(titem.getText());
-					listViewer.setInput(new Object());
+					mImportInput.setSelectedZipEntry(null);
+					mImportInput.setSelectedHandlerEntry(null);
+					listViewer.setInput(NULL_INPUT);
 				}
 			}
-			setPageComplete(!(mSelectedEntries.isEmpty()));
 
 		}
 		
@@ -213,34 +227,21 @@ public class WizPage extends WizardPage {
 		public void widgetDefaultSelected(SelectionEvent e) {
 
 		}
-		
-		public List<String> getSelectedEntries(){
-			return mSelectedEntries;
-		}
 	}
 	
-	class TableContentProvider implements IStructuredContentProvider{
+	private class ZipEntryContentProvider implements IStructuredContentProvider{
 
 		@Override
-		public void dispose() {
-			// TODO Auto-generated method stub
-			
-		}
+		public void dispose() {}
 
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput,
 				Object newInput) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public Object[] getElements(Object inputElement) {
-			// TODO Auto-generated method stub
-			return mAllEntries.toArray();
+			return ZipUtility.getZipEntries(text.getText(), false).toArray();
 		}
-			
-	
-	
 	}
 }

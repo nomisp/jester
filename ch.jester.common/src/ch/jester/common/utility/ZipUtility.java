@@ -63,7 +63,29 @@ public class ZipUtility {
 		return null;
 	}
 
-	private static InputStream deflate(ZipInputStream zis, ZipEntry entry) {
+	public static InputStream unzip(String pZipFile, String pZipEntry, String pOutputPath) {
+		try {
+			ZipInputStream zis = new ZipInputStream(new FileInputStream(pZipFile));
+			ZipEntry entry;
+			while((entry = zis.getNextEntry())!=null){
+				if(entry.getName().equals(pZipEntry)){
+					 InputStream instream = deflate(zis, entry);
+					 zis.close();
+					 return instream;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	
+	private static InputStream deflate(ZipInputStream pZis, ZipEntry pZipEntry) {
 		                int size;
 		                byte[] buffer = new byte[2048];
 
@@ -71,7 +93,7 @@ public class ZipUtility {
 		                BufferedOutputStream bos = new BufferedOutputStream(fos, buffer.length);
 
 		                try {
-							while ((size = zis.read(buffer, 0, buffer.length)) != -1) {
+							while ((size = pZis.read(buffer, 0, buffer.length)) != -1) {
 							    bos.write(buffer, 0, size);
 							}
 			                bos.flush();
