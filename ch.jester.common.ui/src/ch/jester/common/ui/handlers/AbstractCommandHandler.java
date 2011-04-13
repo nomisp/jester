@@ -6,12 +6,15 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.osgi.framework.FrameworkUtil;
 
+import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.SelectionUtility;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ServiceUtility;
 
 /**
@@ -117,10 +120,20 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 	public void setSelection(Object pObject){
 		setSelection(getActivePart(),pObject);
 	}
+	
 	public void setSelection(IWorkbenchPart pWb, Object pObject){
 		pWb.getSite().getSelectionProvider().setSelection(new StructuredSelection(pObject));
 	}
+	
+	public void setSelection(String pPartId, Object pObject){
+		IViewPart viewpart = UIUtility.getActiveWorkbenchWindow().getActivePage().findView(pPartId);
+		setSelection(viewpart, pObject);
+	}
 
+	public void openEditor(Object pObject){
+		getServiceUtil().getService(IEditorService.class).openEditor(pObject);
+	}
+	
 	
 	public int getSelectionCount(){
 		return mSelUtility.getSelectionCount();

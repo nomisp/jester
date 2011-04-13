@@ -176,7 +176,7 @@
          </activeWhen>
       </handler>
       <handler
-            class="ch.jester.common.ui.handlers.ClonePasteHandler"
+            class="ch.jester.ui.handlers.PlayerPasteHandler"
             commandId="org.eclipse.ui.edit.paste">
          <activeWhen>
             <test

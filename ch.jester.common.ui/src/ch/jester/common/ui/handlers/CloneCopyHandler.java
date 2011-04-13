@@ -1,18 +1,9 @@
 package ch.jester.common.ui.handlers;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.services.IEvaluationService;
 

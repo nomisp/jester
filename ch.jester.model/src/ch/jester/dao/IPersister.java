@@ -3,7 +3,6 @@ package ch.jester.dao;
 import java.util.Collection;
 import java.util.List;
 
-import ch.jester.model.Player;
 
 /**
  * Interface für DAO
@@ -34,4 +33,6 @@ public interface IPersister<T extends IDAO> {
 	 * @return
 	 */
 	public List<T> getAll();
+	
+
 }
