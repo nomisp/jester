@@ -3,6 +3,8 @@ package ch.jester.commonservices.api.importer;
 import java.io.InputStream;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import ch.jester.commonservices.api.IComponentService;
 
 
@@ -26,7 +28,7 @@ public interface IImportManager extends IComponentService<IImportHandler> {
 	 * @param pObjectToImport eine Resource
 	 * @return das Resultat
 	 */
-	public Object doImport(IImportHandlerEntry pEntry, InputStream pObjectToImport);
+	public Object doImport(IImportHandlerEntry pEntry, InputStream pObjectToImport, IProgressMonitor pMonitor);
 	public List<IImportHandlerEntry> filter(IImportFilter pFilter);
 	
 	public IImportFilter createMatchingExtension(String pString);

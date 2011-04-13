@@ -157,13 +157,35 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		mViewer.setContentProvider(listContentProvider);
 		//
-		IObservableMap observeMap = BeansObservables.observeMap(listContentProvider.getKnownElements(), Player.class, "lastName");
-		mViewer.setLabelProvider(new ObservableMapLabelProvider(observeMap));
+		IObservableMap[] observeMap = BeansObservables.observeMaps(listContentProvider.getKnownElements(), Player.class, new String[]{"lastName","firstName"});
+		mViewer.setLabelProvider(new PlayerMapLabelProvider(observeMap));
 		//
 		IObservableList mPlayerListPlayersObserveList = BeansObservables.observeList(Realm.getDefault(), this, "players");
 		mViewer.setInput(mPlayerListPlayersObserveList);
 		//
 		return bindingContext;
 	}
+	class PlayerMapLabelProvider extends ObservableMapLabelProvider{
 
+		public PlayerMapLabelProvider(IObservableMap[] attributeMaps) {
+			super(attributeMaps);
+			
+		}
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			// TODO Auto-generated method stub
+			return getText(element);
+		}
+		@Override
+		public String getText(Object element) {
+			if(element instanceof Player){
+				Player p = (Player) element;
+				return p.getLastName()+", "+p.getFirstName();
+			}
+			return super.getText(element);
+		}
+
+
+		
+	}
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.osgi.service.component.ComponentContext;
 
 import ch.jester.commonservices.api.importer.IImportHandler;
@@ -55,8 +56,8 @@ public class DefaultImportManager implements IImportManager{
 
 	@Override
 	public Object doImport(IImportHandlerEntry pEntry,
-			InputStream pObjectToImport) {
-		return pEntry.getService().handleImport(pObjectToImport);
+			InputStream pObjectToImport, IProgressMonitor pMonitor) {
+		return pEntry.getService().handleImport(pObjectToImport, pMonitor);
 	}
 
 	@Override
