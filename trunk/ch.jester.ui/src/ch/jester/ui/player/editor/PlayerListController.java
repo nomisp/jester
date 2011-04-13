@@ -18,11 +18,11 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.model.AbstractPropertyChangeModel;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.common.utility.ServiceUtility;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
@@ -31,8 +31,14 @@ import ch.jester.ui.Activator;
 public class PlayerListController extends AbstractPropertyChangeModel{
 	private List<Player> mPlayers = Collections.synchronizedList(new LinkedList<Player>());
 	private TableViewer mViewer;
-	private DataBindingContext mBindingContext;
+	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
+	IPlayerPersister persister = mServices.getExclusiveService(IPlayerPersister.class);
 	ViewPart mPart;
+	public PlayerListController(){
+
+	}
+	
+	
 	public List<Player> getPlayers() {
 		return mPlayers;
 	}
@@ -41,7 +47,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		mViewer=pViewer;
 		mPart=pPart;
 		if (mPlayers != null) {
-			mBindingContext = initDataBindings();
+			initDataBindings();
 		}
 		Job job = new Job("Loading Players"){
 
@@ -59,6 +65,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	}
 	
 	public void addPlayer(Player pPlayer) {
+		persister.save(pPlayer);
 		mPlayers.add(pPlayer);
 		firePropertyChange("players", null, mPlayers);
 	}
@@ -70,6 +77,14 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		firePropertyChange("players", null, mPlayers);
 		syncExe_refresh();
 	}
+	public void reloadPlayers(){
+		
+		removeAll();
+		addPlayer(persister.getAll());
+		firePropertyChange("players", null, mPlayers);
+		syncExe_refresh();
+	}
+	
 	
 	public synchronized void addPlayer(Collection<Player> pPlayerCollection) {
 		Object oldInput = mViewer.getInput();
@@ -111,18 +126,13 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 				 * (App-Freeze)
 				 */
 			
-						final Object oldInput = mViewer.getInput();
+					final Object oldInput = mViewer.getInput();
 					
-						syncExe_setInput(null);
+					syncExe_setInput(null);
 					
-						mPlayers.removeAll(pPlayerList);
+					mPlayers.removeAll(pPlayerList);
 	
-						syncExe_setInput(oldInput);
-						
-						//firePropertyChange("players", null, mPlayers);
-				
-	
-
+					syncExe_setInput(oldInput);
 
 	}
 	

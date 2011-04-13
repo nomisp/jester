@@ -19,6 +19,7 @@ import ch.jester.common.utility.ServiceUtility;
 import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
+import ch.jester.model.factories.PlayerFactory;
 
 public class SSBExcelImporter implements IImportHandler{
 	private int workUnits = 10000000;
@@ -73,7 +74,7 @@ public class SSBExcelImporter implements IImportHandler{
 		if(name.equals("")&&firstName.equals("")){
 			return null;
 		}
-		Player player = new Player();
+		Player player = PlayerFactory.createPlayer();
 		player.setLastName(playerProperties.getProperty("Name"));
 		player.setFirstName(playerProperties.getProperty("Vorname"));
 		String fidecode = playerProperties.getProperty("CodeFIDE");

@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 public class Player extends AbstractModelBean{
 	private static final long serialVersionUID = -2351315088207630377L;
 
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
