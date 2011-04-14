@@ -13,12 +13,15 @@ import org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler;
 import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
 import org.eclipse.core.runtime.dynamichelpers.IFilter;
 
+import ch.jester.common.activator.internal.CommonActivator;
+import ch.jester.commonservices.api.logging.ILogger;
+
 public class ExtensionPointChangeNotifier implements IExtensionChangeHandler,
 		IRegistryChangeListener {
 	ExtensionTracker tracker;
 	private String mId, mName;
 	private boolean open;
-
+	private ILogger mLogger = CommonActivator.getInstance().getActivationContext().getLogger();
 	public ExtensionPointChangeNotifier(String id, String name) {
 		mId = id;
 		mName = name;
@@ -47,7 +50,7 @@ public class ExtensionPointChangeNotifier implements IExtensionChangeHandler,
 		IConfigurationElement[] configs = extension.getConfigurationElements();
 		for (int i = 0; i < configs.length; ++i) {
 			added(configs[i]);
-			System.out.println("added: "
+			mLogger.debug("added: "
 					+ (configs[i] + " bundle: " + configs[i].getContributor()
 							.getName()));
 		}
@@ -62,7 +65,7 @@ public class ExtensionPointChangeNotifier implements IExtensionChangeHandler,
 		// the removed extension
 		for (int i = 0; i < objects.length; ++i) {
 			removed(objects[i]);
-			System.out.println("removed: " + (objects[i]));
+			mLogger.debug("removed: " + (objects[i]));
 		}
 	}
 
