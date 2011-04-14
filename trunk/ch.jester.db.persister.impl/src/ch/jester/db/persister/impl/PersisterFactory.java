@@ -8,9 +8,10 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
 
 
-import ch.jester.common.activator.IActivationContext;
-import ch.jester.common.utility.ServiceUtility;
-import ch.jester.commonservices.api.IComponentService;
+import ch.jester.commonservices.api.bundle.IActivationContext;
+import ch.jester.commonservices.api.components.IComponentService;
+import ch.jester.commonservices.util.ServiceUtility;
+
 import ch.jester.dao.IPlayerPersister;
 
 /**

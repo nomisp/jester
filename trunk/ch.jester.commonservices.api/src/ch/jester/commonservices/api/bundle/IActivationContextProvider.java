@@ -1,4 +1,4 @@
-package ch.jester.common.activator;
+package ch.jester.commonservices.api.bundle;
 
 /**
  * Interface für eine Klasse, welche einen Context zur Verfügung stellen will

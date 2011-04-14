@@ -5,6 +5,8 @@ import org.osgi.framework.BundleContext;
 
 import ch.jester.common.utility.CallerUtility;
 import ch.jester.common.utility.CallerUtility.Caller;
+import ch.jester.commonservices.api.bundle.IActivationContext;
+import ch.jester.commonservices.api.bundle.IDelegationActivator;
 
 public abstract class AbstractActivator implements IDelegationActivator<BundleActivator>{
 	private IActivationContext<BundleActivator> mContext;

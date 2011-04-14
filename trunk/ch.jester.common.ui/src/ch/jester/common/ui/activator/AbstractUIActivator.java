@@ -4,8 +4,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.activator.DefaultBundleActivatorContext;
-import ch.jester.common.activator.IActivationContext;
-import ch.jester.common.activator.IDelegationActivator;
+import ch.jester.commonservices.api.bundle.IActivationContext;
+import ch.jester.commonservices.api.bundle.IDelegationActivator;
 
 public abstract class AbstractUIActivator extends AbstractUIPlugin implements IDelegationActivator<AbstractUIPlugin>{
 	private IActivationContext<AbstractUIPlugin> mContext;

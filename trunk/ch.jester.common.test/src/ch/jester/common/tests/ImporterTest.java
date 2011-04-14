@@ -8,7 +8,7 @@ import org.junit.Test;
 
 
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
-import ch.jester.commonservices.api.IComponentService;
+import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
 
@@ -34,7 +34,7 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 		IImportManager importManager = getActivationContext().getService(IImportManager.class);
 		Assert.assertNotNull("Import Manager is null", importManager);
 		
-		List<IImportHandlerEntry> list = importManager.getRegistredImportHandlers();
+		List<IImportHandlerEntry> list = importManager.getRegistredEntries();
 		Assert.assertEquals("Import Handlers size diff", 1, list.size());
 		IImportHandlerEntry entry = list.get(0);
 		

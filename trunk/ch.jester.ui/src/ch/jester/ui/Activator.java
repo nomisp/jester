@@ -7,7 +7,6 @@ import ch.jester.common.ui.services.IEditorService;
 import ch.jester.model.Player;
 import ch.jester.ui.player.editor.PlayerEditor;
 import ch.jester.ui.player.editor.PlayerInput;
-import ch.jester.ui.player.editor.PlayerListController;
 
 public class Activator extends AbstractActivator{
 

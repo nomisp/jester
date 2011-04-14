@@ -10,12 +10,6 @@ import ch.jester.commonservices.api.importer.IImportHandler;
 public class SSBTextImporter implements IImportHandler{
 
 	@Override
-	public String getProperty(String pPropertyKey) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Object handleImport(InputStream pInputStream, IProgressMonitor pMonitor) {
 		Scanner scanner = new Scanner(pInputStream, "UTF-8");
 		while(scanner.hasNextLine()){

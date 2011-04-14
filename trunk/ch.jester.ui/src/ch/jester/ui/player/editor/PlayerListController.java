@@ -22,7 +22,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.model.AbstractPropertyChangeModel;
 import ch.jester.common.ui.utility.UIUtility;
-import ch.jester.common.utility.ServiceUtility;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;

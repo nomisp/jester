@@ -19,7 +19,7 @@ public class DefaultAdapterFactory implements IAdapterFactory{
 		mInstance=pInstance;
 	}
 	@Override
-	public Object getAdapter(Object adaptableObject, Class adapterType) {
+	public Object getAdapter(Object adaptableObject, @SuppressWarnings("rawtypes") Class adapterType) {
 		Object objectForClass = mMap.get(adapterType);
 		if(adaptableObject==mInstance){
 			return objectForClass;

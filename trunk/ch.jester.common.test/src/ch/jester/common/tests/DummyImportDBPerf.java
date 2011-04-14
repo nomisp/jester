@@ -10,8 +10,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-import ch.jester.common.utility.ServiceUtility;
 import ch.jester.common.utility.StopWatch;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
 import ch.jester.model.factories.PlayerFactory;

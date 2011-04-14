@@ -15,7 +15,7 @@ import org.osgi.framework.FrameworkUtil;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.utility.UIUtility;
-import ch.jester.common.utility.ServiceUtility;
+import ch.jester.commonservices.util.ServiceUtility;
 
 /**
  * Handler für UI Events, welcher diverse Hilfsmethoden implementiert
