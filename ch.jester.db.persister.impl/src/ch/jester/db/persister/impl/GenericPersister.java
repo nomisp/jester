@@ -9,12 +9,18 @@ import javax.persistence.EntityTransaction;
 
 import ch.jester.dao.IDAO;
 import ch.jester.dao.IPersister;
+import ch.jester.dao.PersistencyEvent;
+import ch.jester.dao.PersistencyEventQueue;
 
 import ch.jester.orm.ORMPlugin;
 
 public class GenericPersister<T extends IDAO> implements IPersister<T> {
 	EntityManagerFactory mFactory;
 	EntityManager mManager;
+	
+	private void fireEvent(Object pLoad){
+		PersistencyEventQueue.getInstance().dispatch(new PersistencyEvent(this, pLoad));
+	}
 	
 	private void check(){
 		if(mFactory==null){
@@ -38,6 +44,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 			mManager.persist(p);
 		}
 		trx.commit();
+		fireEvent(pTCollection);
 	
 	}
 
@@ -61,6 +68,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 			mManager.persist(pT);
 		}
 		trx.commit();
+		fireEvent(pT);
 	
 	}
 
@@ -72,6 +80,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		IDAO p = mManager.find(pT.getClass(), pT.getId());
 		mManager.remove(p);
 		trx.commit();
+		fireEvent(pT);
 	}
 	
 	@Override
@@ -85,6 +94,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 			
 		}
 		trx.commit();
+		fireEvent(pTCollection);
 	}
 
 	@Override
