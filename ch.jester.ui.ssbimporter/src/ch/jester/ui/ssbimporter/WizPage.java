@@ -1,6 +1,6 @@
 package ch.jester.ui.ssbimporter;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -22,10 +22,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import ch.jester.common.ui.utility.SelectionUtility;
-import ch.jester.common.utility.ServiceUtility;
 import ch.jester.common.utility.ZipUtility;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
+import ch.jester.commonservices.util.ServiceUtility;
 
 public class WizPage extends WizardPage {
 	private Text text;
@@ -135,16 +135,17 @@ public class WizPage extends WizardPage {
 			IImportManager manager = mService.getService(IImportManager.class);
 			List<IImportHandlerEntry> handlers = null;
 			if(text.getText().length()==0 || inputElement==null){
-				handlers = manager.getRegistredImportHandlers();
+				handlers = manager.getRegistredEntries();
 			}else if(inputElement instanceof String){
 				String input = (String) inputElement;
 				if(input.lastIndexOf(".")==-1){
 					return new Object[]{};
 				}
 				String extension = input.substring(input.lastIndexOf(".")+1);
+				
 				handlers = manager.filter(manager.createMatchingExtension(extension));
 			}else{
-				handlers = manager.getRegistredImportHandlers();
+				handlers = manager.getRegistredEntries();
 			}
 			return handlers.toArray();
 		}

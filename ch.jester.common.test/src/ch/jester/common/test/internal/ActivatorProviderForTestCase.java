@@ -2,7 +2,7 @@ package ch.jester.common.test.internal;
 
 import org.osgi.framework.BundleActivator;
 
-import ch.jester.common.activator.IActivationContext;
+import ch.jester.commonservices.api.bundle.IActivationContext;
 
 /**
  * Klasse um den Zugriff für TestCases auf den Testactivator zu 

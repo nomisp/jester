@@ -1,4 +1,4 @@
-package ch.jester.common.utility;
+package ch.jester.commonservices.util;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -12,7 +12,8 @@ import org.osgi.framework.ServiceFactory;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
-import ch.jester.common.activator.internal.CommonActivator;
+import ch.jester.commonservices.internal.Activator;
+
 
 /**
  * Hilfsklasse, welche die benutzten ServiceTrackers zwischenspeichert, und den
@@ -35,7 +36,7 @@ public class ServiceUtility {
 	 * Benutzt den BundleContext vom eigenen Plugin
 	 */
 	public ServiceUtility(){
-		this(CommonActivator.getInstance().getActivationContext().getBundleContext());
+		this(Activator.getDefault().getBundleContext());
 	}
 
 	/**
@@ -167,6 +168,7 @@ public class ServiceUtility {
 	 * @param pServiceInterface
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public synchronized <T> T getExclusiveService(Class<T> pServiceInterface) {
 		ServiceTracker tracker = createTracker(pServiceInterface);
 		tracker.open();

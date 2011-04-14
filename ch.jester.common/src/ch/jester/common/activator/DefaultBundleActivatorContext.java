@@ -3,9 +3,11 @@ package ch.jester.common.activator;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.utility.CallerUtility;
-import ch.jester.common.utility.ServiceUtility;
+
+import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
+import ch.jester.commonservices.util.ServiceUtility;
 
 /**
  * Die Defaultimplementierung von IActivationContext.

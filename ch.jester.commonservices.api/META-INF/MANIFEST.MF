@@ -6,6 +6,10 @@ Bundle-Version: 1.0.0.0
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.osgi.services;bundle-version="3.2.100"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: ch.jester.commonservices.api,
+Export-Package: ch.jester.commonservices.api.bundle,
+ ch.jester.commonservices.api.components,
  ch.jester.commonservices.api.importer,
- ch.jester.commonservices.api.logging
+ ch.jester.commonservices.api.logging,
+ ch.jester.commonservices.util
+Bundle-Activator: ch.jester.commonservices.internal.Activator
+Bundle-ActivationPolicy: lazy

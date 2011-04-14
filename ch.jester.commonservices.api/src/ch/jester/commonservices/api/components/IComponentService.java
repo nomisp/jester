@@ -1,5 +1,6 @@
 
-package ch.jester.commonservices.api;
+package ch.jester.commonservices.api.components;
+
 
 import org.osgi.service.component.ComponentContext;
 
@@ -34,5 +35,6 @@ public interface IComponentService<T> {
 	 * @param pT Objekt vom Type T
 	 */
 	public abstract void unbind(T pT);
+	
 
 }

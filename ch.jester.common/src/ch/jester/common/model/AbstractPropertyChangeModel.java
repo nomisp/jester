@@ -1,7 +1,5 @@
 package ch.jester.common.model;
 
-import java.beans.IndexedPropertyChangeEvent;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 

@@ -15,8 +15,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import ch.jester.common.utility.ServiceUtility;
 import ch.jester.commonservices.api.importer.IImportHandler;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
 import ch.jester.model.factories.PlayerFactory;
@@ -24,10 +24,6 @@ import ch.jester.model.factories.PlayerFactory;
 public class SSBExcelImporter implements IImportHandler{
 	private int workUnits = 10000000;
 	private ServiceUtility su = new ServiceUtility();
-	@Override
-	public String getProperty(String pPropertyKey) {
-		return null;
-	}
 
 	@Override
 	public Object handleImport(InputStream pInputStream, IProgressMonitor pMonitor) {

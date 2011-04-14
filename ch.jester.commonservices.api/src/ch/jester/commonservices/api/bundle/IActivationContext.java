@@ -1,9 +1,9 @@
-package ch.jester.common.activator;
+package ch.jester.commonservices.api.bundle;
 
 import org.osgi.framework.BundleContext;
 
-import ch.jester.common.utility.ServiceUtility;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.util.ServiceUtility;
 
 /**
  * Interface dass Zugriff auf div. interessante Objekte des Bundles/Contextes

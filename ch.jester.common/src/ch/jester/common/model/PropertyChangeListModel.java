@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class PropertyChangeListModel<T> extends ArrayList<T> implements IPropertyChangeSupport{
+	private static final long serialVersionUID = 1L;
 	protected PropertyChangeSupport mPCS;
 	
 	public PropertyChangeListModel(){

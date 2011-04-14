@@ -1,7 +1,8 @@
-package ch.jester.common.activator;
+package ch.jester.commonservices.api.bundle;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+
 
 public interface IDelegationActivator<T> extends IActivationContextProvider<T>,
 		BundleActivator {

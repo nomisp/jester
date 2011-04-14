@@ -1,9 +1,11 @@
 package ch.jester.commonservices.api.importer;
 
+import ch.jester.commonservices.api.components.IEPEntry;
+
 /** Beschreibt ein Eintrag in einer Liste
  *  (im GUI)
  */
-public interface IImportHandlerEntry {
+public interface IImportHandlerEntry extends IEPEntry<IImportHandler>{
 	public final static String SHORTTYPE = "shortType";
 	public final static String TYPEDESCRIPTION = "typeDescription";
 	/**
@@ -14,8 +16,5 @@ public interface IImportHandlerEntry {
 	 * @return eine detailliertere Beschreibung
 	 */
 	public String getDescription();
-	/**Holt den BackEnd Service
-	 * @return den Service
-	 */
-	public IImportHandler getService();
+
 }

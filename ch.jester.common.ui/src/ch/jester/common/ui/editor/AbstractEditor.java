@@ -4,7 +4,8 @@ package ch.jester.common.ui.editor;
 import org.eclipse.ui.part.EditorPart;
 
 import ch.jester.common.ui.internal.Activator;
-import ch.jester.common.utility.ServiceUtility;
+import ch.jester.commonservices.util.ServiceUtility;
+
 import ch.jester.ui.editor.utilities.DirtyManager;
 
 public abstract class AbstractEditor extends EditorPart{

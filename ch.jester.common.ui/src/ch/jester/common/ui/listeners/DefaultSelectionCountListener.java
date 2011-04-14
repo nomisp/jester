@@ -6,7 +6,8 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.osgi.framework.FrameworkUtil;
 
 import ch.jester.common.ui.utility.SelectionUtility;
-import ch.jester.common.utility.ServiceUtility;
+import ch.jester.commonservices.util.ServiceUtility;
+
 
 public class DefaultSelectionCountListener implements ISelectionChangedListener{
 		private ServiceUtility mServices = new ServiceUtility(FrameworkUtil.getBundle(

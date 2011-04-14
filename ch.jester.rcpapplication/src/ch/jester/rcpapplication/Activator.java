@@ -3,7 +3,7 @@ package ch.jester.rcpapplication;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
-import ch.jester.commonservices.api.IComponentService;
+import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.importer.IImportManager;
 
 /**
