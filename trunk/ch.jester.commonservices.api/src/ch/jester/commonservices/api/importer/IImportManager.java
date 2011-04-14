@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.components.IEPEntryComponentService;
 
 
