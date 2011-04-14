@@ -23,7 +23,10 @@ import org.eclipse.ui.part.ViewPart;
 import ch.jester.common.model.AbstractPropertyChangeModel;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.dao.IPersistencyListener;
 import ch.jester.dao.IPlayerPersister;
+import ch.jester.dao.PersistencyEvent;
+import ch.jester.dao.PersistencyEventSenderJob;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
 
@@ -44,6 +47,16 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	}
 	
 	public PlayerListController(ViewPart pPart, TableViewer pViewer){
+		PersistencyEventSenderJob.getInstance().addListener(new IPersistencyListener() {
+			@Override
+			public void persistencyEvent(PersistencyEvent event) {
+				if(event.getSource()!=persister){
+					System.out.println("refresh");
+					reloadPlayers();
+				}
+				
+			}
+		});
 		mViewer=pViewer;
 		mPart=pPart;
 		if (mPlayers != null) {
@@ -77,15 +90,13 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		firePropertyChange("players", null, mPlayers);
 		syncExe_refresh();
 	}
-	public void reloadPlayers(){
-		
+	public void reloadPlayers(){	
 		removeAll();
 		addPlayer(persister.getAll());
 		firePropertyChange("players", null, mPlayers);
 		syncExe_refresh();
 	}
-	
-	
+
 	public synchronized void addPlayer(Collection<Player> pPlayerCollection) {
 		Object oldInput = mViewer.getInput();
 		syncExe_setInput(null);		
