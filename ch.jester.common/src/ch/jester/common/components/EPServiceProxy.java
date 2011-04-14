@@ -6,10 +6,11 @@ import java.lang.reflect.Method;
 import org.eclipse.core.runtime.IConfigurationElement;
 
 /**
- * Simple ProxyKlasse für Services
+ * Simple ProxyKlasse für Services.
+ * Sollte nicht von Klients explizit verwendet werden.
  * @param <T>
  */
-public class EPServiceProxy<T> implements InvocationHandler{
+class EPServiceProxy<T> implements InvocationHandler{
 	private IConfigurationElement mElement;
 	private Class<T> mClassType;
 	private String mExec;
@@ -21,12 +22,24 @@ public class EPServiceProxy<T> implements InvocationHandler{
 		mExec = pExecutableAttribute;
 	}
 
-	public String getProperty(String pPropertyKey) {
+	private String getProperty(String pPropertyKey) {
 		return mElement.getAttribute(pPropertyKey);
+	}
+	
+	private String getAttributes(){
+		StringBuilder sbuilder = new StringBuilder();
+		String[] names = mElement.getAttributeNames();
+		for(String name:names){
+			sbuilder.append(name);
+			sbuilder.append("=");
+			sbuilder.append(mElement.getAttribute(name));
+			sbuilder.append("; ");
+		}
+		return sbuilder.toString();
 	}
 
 	public String toString(){
-		return "Proxy ("+mClassType+")";
+		return "Proxy ("+mClassType+" - "+getAttributes()+" )";
 	}
 	
 	@Override

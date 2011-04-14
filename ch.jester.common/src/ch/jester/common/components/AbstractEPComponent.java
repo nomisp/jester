@@ -12,7 +12,7 @@ import org.osgi.service.component.ComponentContext;
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.components.IEPEntry;
 import ch.jester.commonservices.api.components.IEPEntryComponentService;
-import ch.jester.commonservices.api.components.IEPService;
+//import ch.jester.commonservices.api.components.IEPService;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.ep.ExtensionPointChangeNotifier;
 
@@ -66,7 +66,7 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements I
 
 	@SuppressWarnings("unchecked")
 	protected T createProxy(IConfigurationElement pConfigurationElement){
-		return (T) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[]{mClassType, IEPService.class}, new EPServiceProxy<T>(pConfigurationElement, mClassType, getClassAttribute()));
+		return (T) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[]{mClassType, IEPEntry.class}, new EPServiceProxy<T>(pConfigurationElement, mClassType, getClassAttribute()));
 	}
 	
 
