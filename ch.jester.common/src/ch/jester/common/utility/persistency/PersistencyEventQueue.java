@@ -1,7 +1,8 @@
-package ch.jester.dao;
+package ch.jester.common.utility.persistency;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+
 
 public class PersistencyEventQueue {
 	private BlockingQueue<PersistencyEvent> mQueue = new ArrayBlockingQueue<PersistencyEvent>(100);
@@ -27,13 +28,9 @@ public class PersistencyEventQueue {
 		}
 	}
 	
-	public PersistencyEvent getEvent(){
-		try {
-			return mQueue.take();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	public PersistencyEvent getEvent() throws InterruptedException{
+
+		return mQueue.take();
+
 	}
 }

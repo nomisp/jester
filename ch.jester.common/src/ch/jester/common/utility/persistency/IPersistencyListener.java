@@ -1,4 +1,4 @@
-package ch.jester.dao;
+package ch.jester.common.utility.persistency;
 
 public interface IPersistencyListener {
 

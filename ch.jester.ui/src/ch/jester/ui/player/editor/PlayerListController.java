@@ -1,6 +1,7 @@
 package ch.jester.ui.player.editor;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -18,15 +19,18 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchListener;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.model.AbstractPropertyChangeModel;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.common.utility.persistency.IPersistencyListener;
+import ch.jester.common.utility.persistency.PersistencyEvent;
+import ch.jester.common.utility.persistency.PersistencyEventSenderJob;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.IPersistencyListener;
 import ch.jester.dao.IPlayerPersister;
-import ch.jester.dao.PersistencyEvent;
-import ch.jester.dao.PersistencyEventSenderJob;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
 
@@ -57,6 +61,19 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 				
 			}
 		});
+		PlatformUI.getWorkbench().addWorkbenchListener(new IWorkbenchListener() {
+			
+			@Override
+			public boolean preShutdown(IWorkbench workbench, boolean forced) {
+				// TODO Auto-generated method stub
+				return true;
+			}
+			
+			@Override
+			public void postShutdown(IWorkbench workbench) {
+				PersistencyEventSenderJob.getInstance().shutdown();
+			}
+		});
 		mViewer=pViewer;
 		mPart=pPart;
 		if (mPlayers != null) {
@@ -66,10 +83,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				
-				IPlayerPersister persister = Activator.getDefault().getActivationContext().getServiceUtil().getExclusiveService(IPlayerPersister.class);
-				addPlayer(persister.getAll());
-				persister.close();
+				reloadPlayers();
 				return Status.OK_STATUS;
 			}
 			
@@ -77,101 +91,65 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		job.schedule();
 	}
 	
-	public void addPlayer(Player pPlayer) {
-		persister.save(pPlayer);
-		mPlayers.add(pPlayer);
-		firePropertyChange("players", null, mPlayers);
-	}
-	
-	public void setPlayers(Collection<Player> pPlayerCollection){
-		
-		removeAll();
-		addPlayer(pPlayerCollection);
-		firePropertyChange("players", null, mPlayers);
-		syncExe_refresh();
-	}
-	public void reloadPlayers(){	
-		removeAll();
-		addPlayer(persister.getAll());
-		firePropertyChange("players", null, mPlayers);
-		syncExe_refresh();
-	}
-
-	public synchronized void addPlayer(Collection<Player> pPlayerCollection) {
-		Object oldInput = mViewer.getInput();
-		syncExe_setInput(null);		
-		mPlayers.addAll(pPlayerCollection);	
-		syncExe_setInput(oldInput);
-		//syncExe_refresh();
-	
-	}
-	public void removePlayer(Player pPlayer) {
-		mPlayers.remove(pPlayer);
-		firePropertyChange("players", null, mPlayers);
-	}
-	public void clear(){
+	private void reloadPlayers(){
 		mPlayers.clear();
+		mPlayers.addAll(persister.getAll());
 		firePropertyChange("players", null, mPlayers);
 	}
-
-	public void removePlayer(final List<Player> pPlayerList) {
-		if(pPlayerList.size()>=0){
-			removeManyPlayers(pPlayerList);
-		}else{
-			removeNotSoManyPlayers(pPlayerList);
-		}
+	
+	
+	public void addPlayer(Player pPlayer) {
+		addPlayer(createList(pPlayer));
 	}
-	public void removeAll(){
-		removeManyPlayers(mPlayers);
+	public void addPlayer(Collection<Player> pPlayerCollection) {
+		persister.save(pPlayerCollection);
+		mPlayers.addAll(pPlayerCollection);
+		firePropertyChange("players", null, mPlayers);
 	}
-	private void removeNotSoManyPlayers(List<Player> pPlayerList) {
+	
+	
+	public void removePlayer(Player pPlayer) {
+		removePlayer(createList(pPlayer));
+	}
+	public void removePlayer(List<Player> pPlayerList) {
+		persister.delete(pPlayerList);
 		mPlayers.removeAll(pPlayerList);
 		firePropertyChange("players", null, mPlayers);
 	}
-
-	private synchronized void removeManyPlayers(final List<Player> pPlayerList) {
-				/*
-				 * Workaround: Der Input wird direkt editiert.
-				 * Bei einer Liste von > 10000 Einträgen werden entsprechend
-				 * viele Events gefeuert, wenn alle Einträge auf 1 mal entfernt werden.
-				 * (App-Freeze)
-				 */
-			
-					final Object oldInput = mViewer.getInput();
-					
-					syncExe_setInput(null);
-					
-					mPlayers.removeAll(pPlayerList);
 	
-					syncExe_setInput(oldInput);
-
+	/**
+	 * Für die Search
+	 * @param pPlayerCollection
+	 */
+	public void setPlayers(Collection<Player> pPlayerCollection){
+		final Object oldInput = mViewer.getInput();
+		syncedUI_setInput(null);
+		mPlayers.clear();
+		mPlayers.addAll(pPlayerCollection);
+		syncedUI_setInput(oldInput);
 	}
-	
-	private void syncExe_setInput(final Object pInput){
-		UIUtility.syncExecInUIThread(new Runnable(){
 
+	private void syncedUI_setInput(final Object pInput){
+		UIUtility.syncExecInUIThread(new Runnable(){
 			@Override
 			public void run() {
 				mViewer.setInput(pInput);
 				
 			}
-			
-		});
 
+		});
 	}
+
+
 	
-	private void syncExe_refresh(){
-		UIUtility.syncExecInUIThread(new Runnable(){
 
-			@Override
-			public void run() {
-				mViewer.refresh();
-				
-			}
-			
-		});
-
+	public void clear(){
+		mPlayers.clear();
+		firePropertyChange("players", null, mPlayers);
 	}
+
+
+
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
@@ -185,6 +163,12 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		mViewer.setInput(mPlayerListPlayersObserveList);
 		//
 		return bindingContext;
+	}
+	
+	private List<Player> createList(Player o){
+		ArrayList<Player> list = new ArrayList<Player>();
+		list.add(o);
+		return list;
 	}
 	class PlayerMapLabelProvider extends ObservableMapLabelProvider{
 
