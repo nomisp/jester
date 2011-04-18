@@ -15,7 +15,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import ch.jester.common.ui.handlers.AbstractCommandHandler;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
 import ch.jester.ui.player.editor.PlayerListController;
@@ -47,7 +46,6 @@ public class DeletePlayerHandler extends AbstractCommandHandler {
 		ISelection selection = getSelection();
 		monitor.setTaskName("Deleting Players");
 		monitor.beginTask("deleting", getSelectionCount()*2);
-		IPlayerPersister persister = getServiceUtil().getExclusiveService(IPlayerPersister.class);
 		PlayerListController model = getServiceUtil().getService(PlayerListController.class);
 		IEditorService editors = getServiceUtil().getService(IEditorService.class);
 		if(isIStructuredSelection()){
@@ -55,7 +53,6 @@ public class DeletePlayerHandler extends AbstractCommandHandler {
 			List<Player> list = structSel.toList();
 			model.removePlayer(list);
 			monitor.worked(getSelectionCount());
-			persister.delete(list);
 			monitor.done();
 			Iterator<Object> selectionIterator = structSel.iterator();
 			while(selectionIterator.hasNext()){
@@ -63,9 +60,6 @@ public class DeletePlayerHandler extends AbstractCommandHandler {
 				editors.closeEditor(select);
 				//logger.debug("Player "+select+" removed from DB");
 			}
-		}else{
-			
-			
 		}
 		return null;
 	}

@@ -17,6 +17,14 @@ public class PlayerFactory {
 		return player;
 	}
 	
+	/**Erzeugt einen Defaultplayer mit den Werten<br>
+	 * Vorname: FirstName<br>
+	 * Nachname: LastName<br>
+	 * Stadt: City<br>
+	 * Elo/NationalElo/FideCode/NationCode: 0<br>
+	 * Nation: Nation<br>
+	 * @return den erzeugten Player
+	 */
 	public static Player createPlayer(){
 		return createPlayer("FirstName","LastName","City",0,0,0,"Nation",0);
 	}

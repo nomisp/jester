@@ -7,10 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
+import ch.jester.common.utility.persistency.PersistencyEvent;
+import ch.jester.common.utility.persistency.PersistencyEventQueue;
 import ch.jester.dao.IDAO;
 import ch.jester.dao.IPersister;
-import ch.jester.dao.PersistencyEvent;
-import ch.jester.dao.PersistencyEventQueue;
 
 import ch.jester.orm.ORMPlugin;
 

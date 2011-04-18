@@ -21,7 +21,7 @@ import ch.jester.ui.player.editor.PlayerListController;
 public class DummyImportDBPerf {
 	static final int targetsize = 10000;
 
-	static final int chunksize = 5000;
+	static final int chunksize = 10000;
 	
 	public static void testImportJPA() {
 
@@ -59,12 +59,13 @@ public class DummyImportDBPerf {
 						player.setLastName("doe "+i);
 						player.setNation("CH");
 						//Class c = PlayerListController.class;
-						su.getService(PlayerListController.class).addPlayer(player);
+						
 						//persister.save(player);
 						//persister.save(player);
 						if(i%1000==0){
 							monitor.worked(1000);
-							persister.save(pList);
+							su.getService(PlayerListController.class).addPlayer(pList);
+							//persister.save(pList);
 							pList.clear();
 						}
 						

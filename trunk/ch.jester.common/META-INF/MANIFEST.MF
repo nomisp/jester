@@ -13,6 +13,7 @@ Export-Package: ch.jester.common.activator;uses:="ch.jester.commonservices.api.l
  ch.jester.common.logging;uses:="ch.jester.commonservices.api.logging,org.eclipse.core.runtime,org.osgi.framework",
  ch.jester.common.model,
  ch.jester.common.utility;uses:="org.eclipse.core.runtime,org.osgi.framework",
+ ch.jester.common.utility.persistency,
  ch.jester.ep;uses:="org.eclipse.core.runtime.dynamichelpers,org.eclipse.core.runtime"
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ch.jester.common.activator.internal.CommonActivator
