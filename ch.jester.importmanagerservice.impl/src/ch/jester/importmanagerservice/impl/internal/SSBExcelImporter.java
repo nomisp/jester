@@ -78,6 +78,11 @@ public class SSBExcelImporter implements IImportHandler{
 			fidecode="0";
 		}
 		player.setFideCode(Integer.parseInt(fidecode));
+		String elo = playerProperties.getProperty("Elo neu");
+		if(elo.equals("")){
+			elo="0";
+		}
+		player.setElo(Integer.parseInt(elo));
 		player.setNation("Schweiz");
 		return player;
 	}
