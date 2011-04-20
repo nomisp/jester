@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="Player")
 @NamedQueries({
-@NamedQuery(name="getAll",query="SELECT OBJECT(player) FROM Player player"),
-@NamedQuery(name="findByName",query="SELECT OBJECT(player) FROM Player player WHERE UPPER(player.lastName) LIKE :lastName")
+@NamedQuery(name="getAll",query="SELECT player FROM Player player order by lastName"),
+@NamedQuery(name="findByName",query="SELECT player FROM Player player WHERE UPPER(player.lastName) LIKE :lastName")
 })
 public class Player extends AbstractModelBean{
 	private static final long serialVersionUID = -2351315088207630377L;
@@ -73,8 +73,6 @@ public class Player extends AbstractModelBean{
 	}
 
 	public void setLastName(String lastName) {
-		//this.lastName = lastName;
-		System.out.println("changing lastname: "+lastName);
 		firePropertyChange("lastName", this.lastName, this.lastName = lastName);
 	}
 

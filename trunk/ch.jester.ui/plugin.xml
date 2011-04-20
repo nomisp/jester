@@ -9,6 +9,11 @@
             id="ch.jester.ui.view.players"
             name="Players">
       </view>
+      <view
+            class="ch.jester.ui.hjkl"
+            id="ch.jester.ui.hjkl"
+            name="New ViewPart">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">

@@ -13,16 +13,20 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
 import ch.jester.common.utility.ZipUtility;
+import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.ui.ssbimporter.WizPage.ImportSelection;
+import ch.jester.ui.ssbimporter.internal.Activator;
 
 
 public class Wiz extends Wizard implements IImportWizard{
-
-	WizPage mainPage = new WizPage();
+	private ILogger mLogger;
+	private WizPage mainPage = new WizPage();
 
 	@Override
 	public void addPages() {
 		super.addPage(mainPage);
+		mLogger = Activator.getInstance().getActivationContext().getLogger();
 	}
 
 	@Override
@@ -35,9 +39,8 @@ public class Wiz extends Wizard implements IImportWizard{
 				public void run(IProgressMonitor monitor) throws InvocationTargetException,
 						InterruptedException {
 					ImportSelection input = mainPage.getImportSelection();
-					System.out.println("Zip: "+input.getSelectedZipFile());
-					System.out.println("Handler: "+input.getSelectedHandlerEntry());
-					
+					mLogger.debug("Zip: "+input.getSelectedZipFile());
+					mLogger.debug("Handler: "+input.getSelectedHandlerEntry());	
 					InputStream instream = ZipUtility.getZipEntry(input.getSelectedZipFile(), input.getSelectedZipEntry());
 					input.getSelectedHandlerEntry().getService().handleImport(instream, monitor);
 					
