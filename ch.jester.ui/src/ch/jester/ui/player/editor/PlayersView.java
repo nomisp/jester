@@ -30,8 +30,19 @@ import ch.jester.common.ui.utility.MenuManagerUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
 import ch.jester.ui.Activator;
 import ch.jester.ui.filter.SearchField;
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.core.databinding.beans.BeansObservables;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import ch.jester.model.Player;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.Realm;
 
 public class PlayersView extends ViewPart{
+	private DataBindingContext m_bindingContext;
 	//private SelectionUtility mSelectionUtil = new SelectionUtility(null);
 	private class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -87,6 +98,7 @@ public class PlayersView extends ViewPart{
 		createActions();
 		initializeToolBar();
 		initializeMenu();
+		m_bindingContext = initDataBindings();
 		
 	
 	}
@@ -167,5 +179,10 @@ public class PlayersView extends ViewPart{
 	@Override
 	public void setFocus() {
 		System.out.println("View has focus");
+	}
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		return bindingContext;
 	}
 }

@@ -45,14 +45,14 @@ class EPServiceProxy<T> implements InvocationHandler{
 	@Override
 	public Object invoke(Object arg0, Method arg1, Object[] arg2)
 			throws Throwable {
-		if(mService!=null){
-			return arg1.invoke(arg0, arg2);
-		}
 		
 		if(arg1.getName().equals("toString")){
 			return toString();
 		}else if(arg1.getName().equals("getProperty")){
 			return getProperty(arg2[0].toString());
+		}
+		if(mService!=null){
+			return arg1.invoke(mService, arg2);
 		}
 		mService = mElement.createExecutableExtension(mExec);
 		return invoke(mService, arg1, arg2);

@@ -17,8 +17,10 @@ public class DefaultSelectionCountListener implements ISelectionChangedListener{
 		public void selectionChanged(SelectionChangedEvent event) {
 			IStatusLineManager lm = mServices.getService(IStatusLineManager.class);
 			mSelectionUtil.setSelection(event.getSelection());
-			if(mSelectionUtil.isEmpty()){lm.setMessage(""); return;}
-			int i = mSelectionUtil.getSelectionCount();
-			lm.setMessage(i+" Item(s) selected");
+			if(lm!=null){
+				if(mSelectionUtil.isEmpty()){lm.setMessage(""); return;}
+				int i = mSelectionUtil.getSelectionCount();
+				lm.setMessage(i+" Item(s) selected");
+			}
 		}
 	}

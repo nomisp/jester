@@ -112,9 +112,12 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		removePlayer(createList(pPlayer));
 	}
 	public void removePlayer(List<Player> pPlayerList) {
+		Object oldInput = mViewer.getInput();
+		syncedUI_setInput(null);
 		persister.delete(pPlayerList);
 		mPlayers.removeAll(pPlayerList);
-		firePropertyChange("players", null, mPlayers);
+		syncedUI_setInput(oldInput);
+		//firePropertyChange("players", null, mPlayers);
 	}
 	
 	/**
@@ -133,8 +136,13 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		UIUtility.syncExecInUIThread(new Runnable(){
 			@Override
 			public void run() {
+				if(pInput==null){
+					mViewer.getControl().setRedraw(false);
+				}
 				mViewer.setInput(pInput);
-				
+				if(pInput!=null){
+					mViewer.getControl().setRedraw(true);
+				}
 			}
 
 		});

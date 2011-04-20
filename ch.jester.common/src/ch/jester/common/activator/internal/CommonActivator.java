@@ -10,8 +10,6 @@ public class CommonActivator extends AbstractActivator{
 	ExtensionPointChangeNotifier notifier;
 	public CommonActivator() {
 		mInstance=this;
-		//notifier = new ExtensionPointChangeNotifier("ch.jester.hibernate.helper","Configuration");
-	
 	}
 	
 	public static CommonActivator getInstance(){
