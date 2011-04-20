@@ -3,7 +3,6 @@
 	<classpathentry exported="true" kind="lib" path="commons-logging-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="dom4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="geronimo-stax-api_1.0_spec-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="log4j-1.2.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="poi-3.7-20101029.jar"/>
 	<classpathentry exported="true" kind="lib" path="poi-ooxml-3.7-20101029.jar"/>
 	<classpathentry exported="true" kind="lib" path="poi-ooxml-schemas-3.7-20101029.jar"/>

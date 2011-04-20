@@ -19,7 +19,7 @@ public class PersistencyEventSenderJob extends Job{
 	
 	public void shutdown() {
 		run=false;
-		getThread().interrupt();
+		if(getThread()!=null)getThread().interrupt();
 		
 	}
 
