@@ -1,5 +1,6 @@
 package ch.jester.ui.player.editor;
 
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -22,6 +23,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.ui.listeners.DefaultSelectionCountListener;
@@ -165,7 +167,13 @@ public class PlayersView extends ViewPart{
 	private void initializeToolBar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars()
 				.getToolBarManager();
-		toolbarManager.add(SearchField.createSearchFieldControlContribution(tableViewer));
+
+		IContributionItem item;
+		item = SearchField.createSearchFieldControlContribution(tableViewer);
+
+		toolbarManager.add(item);
+		
+	
 	}
 
 	/**
@@ -174,6 +182,7 @@ public class PlayersView extends ViewPart{
 	private void initializeMenu() {
 		IMenuManager menuManager = getViewSite().getActionBars()
 				.getMenuManager();
+
 	}
 
 	@Override
