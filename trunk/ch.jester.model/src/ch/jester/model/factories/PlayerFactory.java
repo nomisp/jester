@@ -3,6 +3,7 @@ package ch.jester.model.factories;
 import ch.jester.model.Player;
 
 public class PlayerFactory {
+	private static int mCreationCounter;
 	public static Player createPlayer(String pFirstName, String pLastName, String pCity, 
 			int pElo, int pNatElo, int pFideCode, String pNation, int pNationalCode){
 		Player player = new Player();
@@ -26,6 +27,7 @@ public class PlayerFactory {
 	 * @return den erzeugten Player
 	 */
 	public static Player createPlayer(){
-		return createPlayer("FirstName","LastName","City",0,0,0,"Nation",0);
+		mCreationCounter++;
+		return createPlayer("FirstName","LastName - "+mCreationCounter,"City",0,0,0,"Nation",0);
 	}
 }

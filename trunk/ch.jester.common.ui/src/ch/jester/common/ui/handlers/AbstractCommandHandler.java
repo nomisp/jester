@@ -125,9 +125,20 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 		pWb.getSite().getSelectionProvider().setSelection(new StructuredSelection(pObject));
 	}
 	
+	private void setSelection0(IWorkbenchPart pWb, ISelection pSelection){
+		pWb.getSite().getSelectionProvider().setSelection(pSelection);
+	}
+	
 	public void setSelection(String pPartId, Object pObject){
+
+		
 		IViewPart viewpart = UIUtility.getActiveWorkbenchWindow().getActivePage().findView(pPartId);
-		setSelection(viewpart, pObject);
+		if(pObject instanceof ISelection){
+			setSelection0(viewpart, (ISelection)pObject);
+		}else{
+			setSelection(viewpart, pObject);
+		}
+
 	}
 
 	public void openEditor(Object pObject){

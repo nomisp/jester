@@ -5,8 +5,8 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 
+import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.model.Player;
-import ch.jester.ui.editor.utilities.DirtyManager;
 
 
 

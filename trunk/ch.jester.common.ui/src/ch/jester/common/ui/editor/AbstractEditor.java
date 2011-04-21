@@ -1,14 +1,16 @@
 package ch.jester.common.ui.editor;
 
 
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.EditorPart;
 
+import ch.jester.common.ui.editorutilities.DirtyManager;
+import ch.jester.common.ui.editorutilities.IDirtyManagerPropertyInvoker;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.commonservices.util.ServiceUtility;
 
-import ch.jester.ui.editor.utilities.DirtyManager;
 
-public abstract class AbstractEditor extends EditorPart{
+public abstract class AbstractEditor extends EditorPart implements IDirtyManagerPropertyInvoker{
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
 	private DirtyManager mDirtyManager;
 	public ServiceUtility getServiceUtil(){
@@ -46,4 +48,8 @@ public abstract class AbstractEditor extends EditorPart{
 		
 	}
 
+	@Override
+	public void fireDirtyProperty() {
+		firePropertyChange(IEditorPart.PROP_DIRTY);
+	}
 }

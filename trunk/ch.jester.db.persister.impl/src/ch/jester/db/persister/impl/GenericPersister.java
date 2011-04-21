@@ -6,9 +6,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContextType;
 
-import ch.jester.common.utility.persistency.PersistencyEvent;
-import ch.jester.common.utility.persistency.PersistencyEventQueue;
+import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
+import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
 import ch.jester.dao.IDAO;
 import ch.jester.dao.IPersister;
 
@@ -17,17 +18,25 @@ import ch.jester.orm.ORMPlugin;
 public class GenericPersister<T extends IDAO> implements IPersister<T> {
 	EntityManagerFactory mFactory;
 	EntityManager mManager;
-	
-	private void fireEvent(Object pLoad){
-		PersistencyEventQueue.getInstance().dispatch(new PersistencyEvent(this, pLoad));
+	IPersistencyEventQueue mEventQueue;
+	private void fireEvent(Object pLoad, PersistencyEvent.Operation pOperation){
+		mEventQueue.dispatch(new PersistencyEvent(this, pLoad, pOperation));
 	}
-	
+	private void fireDeleteEvent(Object pLoad){
+		fireEvent(pLoad, PersistencyEvent.Operation.DELETED);
+	}
+	private void fireSaveEvent(Object pLoad){
+		fireEvent(pLoad, PersistencyEvent.Operation.SAVED);
+	}
 	private void check(){
 		if(mFactory==null){
 			mFactory = ORMPlugin.getJPAEntitManagerFactor();
 		}
 		if(mManager==null){
 			mManager = mFactory.createEntityManager();
+		}
+		if(mEventQueue==null){
+			mEventQueue = Activator.getDefault().getActivationContext().getService(IPersistencyEventQueue.class);
 		}
 	}
 	
@@ -36,7 +45,6 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		if(pTCollection.isEmpty()){
 			return;
 		}
-		
 		check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
@@ -44,7 +52,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 			mManager.persist(p);
 		}
 		trx.commit();
-		fireEvent(pTCollection);
+		fireSaveEvent(pTCollection);
 	
 	}
 
@@ -68,7 +76,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 			mManager.persist(pT);
 		}
 		trx.commit();
-		fireEvent(pT);
+		fireSaveEvent(pT);
 	
 	}
 
@@ -80,7 +88,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		IDAO p = mManager.find(pT.getClass(), pT.getId());
 		mManager.remove(p);
 		trx.commit();
-		fireEvent(pT);
+		fireDeleteEvent(pT);
 	}
 	
 	@Override
@@ -94,7 +102,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 			
 		}
 		trx.commit();
-		fireEvent(pTCollection);
+		fireDeleteEvent(pTCollection);
 	}
 
 	@Override

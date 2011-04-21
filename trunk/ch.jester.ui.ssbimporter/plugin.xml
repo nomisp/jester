@@ -4,11 +4,11 @@
    <extension
          point="org.eclipse.ui.importWizards">
       <category
-            id="ch.jester.importer.players"
-            name="Player Import">
+            id="ch.jester.ui.importer.players"
+            name="Import Players">
       </category>
       <wizard
-            category="ch.jester.importer.players"
+            category="ch.jester.ui.importer.players"
             class="ch.jester.ui.ssbimporter.Wiz"
             id="ch.jester.ui.ssbimporter"
             name="Player Importer">

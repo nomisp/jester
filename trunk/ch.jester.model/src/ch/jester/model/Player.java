@@ -141,6 +141,7 @@ public class Player extends AbstractModelBean{
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		Player clone = new Player();
+		clone.id=0;
 		clone.city=this.city;
 		clone.elo=this.elo;
 		clone.fideCode=this.fideCode;

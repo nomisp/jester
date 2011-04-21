@@ -1,4 +1,4 @@
-package ch.jester.ui.editor.utilities;
+package ch.jester.common.ui.editorutilities;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -8,17 +8,17 @@ import java.util.Set;
 public class DirtyManager implements PropertyChangeListener{
 	private boolean mDirty;
 	private Set<String> mProperties = new HashSet<String>();
-	private DirtyManagerPropertyInvoker mInvoker;
+	private IDirtyManagerPropertyInvoker mInvoker;
 	public DirtyManager(){
 	}
-	public DirtyManager(DirtyManagerPropertyInvoker pInvoker){
+	public DirtyManager(IDirtyManagerPropertyInvoker pInvoker){
 		mInvoker=pInvoker;
 	}
 	
 	public void addListenerProperty(String p){
 		mProperties.add(p);
 	}
-	public void setDirtyManagerPropertyInvoker(DirtyManagerPropertyInvoker pInvoker){
+	public void setDirtyManagerPropertyInvoker(IDirtyManagerPropertyInvoker pInvoker){
 		mInvoker=pInvoker;
 	}
 	

@@ -1,4 +1,6 @@
-package ch.jester.common.utility.persistency;
+package ch.jester.commonservices.api.persistencyevent;
+
+
 
 public interface IPersistencyListener {
 

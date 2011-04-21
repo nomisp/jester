@@ -10,6 +10,7 @@ Export-Package: ch.jester.commonservices.api.bundle,
  ch.jester.commonservices.api.components,
  ch.jester.commonservices.api.importer,
  ch.jester.commonservices.api.logging,
+ ch.jester.commonservices.api.persistencyevent,
  ch.jester.commonservices.util
 Bundle-Activator: ch.jester.commonservices.internal.Activator
 Bundle-ActivationPolicy: lazy

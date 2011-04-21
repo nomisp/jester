@@ -72,6 +72,15 @@ public class CloneUtility {
 		public List<?> paste(){
 			return CloneUtility.createClones(this);
 		}
+		
+		@Override
+		public List<?> toList() {
+			return paste();
+		}
+		@Override
+		public Object[] toArray() {
+			return paste().toArray();
+		}
 		@SuppressWarnings("rawtypes")
 		@Override
 		public Iterator iterator(){
