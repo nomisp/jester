@@ -10,12 +10,12 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: ch.jester.common.ui.activator,
  ch.jester.common.ui.editor,
+ ch.jester.common.ui.editorutilities,
  ch.jester.common.ui.handlers,
  ch.jester.common.ui.labelprovider,
  ch.jester.common.ui.listeners,
  ch.jester.common.ui.services,
- ch.jester.common.ui.utility,
- ch.jester.ui.editor.utilities
+ ch.jester.common.ui.utility
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ch.jester.common.ui.internal.Activator
 Import-Package: org.eclipse.core.expressions

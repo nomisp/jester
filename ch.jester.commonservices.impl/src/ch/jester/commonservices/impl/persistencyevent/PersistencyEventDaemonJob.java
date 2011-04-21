@@ -1,4 +1,4 @@
-package ch.jester.common.utility.persistency;
+package ch.jester.commonservices.impl.persistencyevent;
 
 import java.util.Vector;
 
@@ -9,12 +9,21 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 
-public class PersistencyEventSenderJob extends Job{
+import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
+import ch.jester.commonservices.api.persistencyevent.IPersistencyListener;
+import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
+import ch.jester.commonservices.impl.internal.Activator;
+
+
+public class PersistencyEventDaemonJob extends Job{
 	private Vector<IPersistencyListener> mListeners = new Vector<IPersistencyListener>();
-	private static PersistencyEventSenderJob mInstance = new PersistencyEventSenderJob();
 	private boolean run = true;
-	private PersistencyEventSenderJob(){
-		super("PersistencySenderJob");
+	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	private IPersistencyEventQueue mQueue;
+	protected PersistencyEventDaemonJob(IPersistencyEventQueue pQueue){
+		super("PersistencyEventDaemonJob");
+		mQueue=pQueue;
 	}
 	
 	public void shutdown() {
@@ -22,11 +31,6 @@ public class PersistencyEventSenderJob extends Job{
 		if(getThread()!=null)getThread().interrupt();
 		
 	}
-
-	public static PersistencyEventSenderJob getInstance(){
-		return mInstance;
-	}
-	
 	
 	public void addListener(IPersistencyListener listener){
 		mListeners.add(listener);
@@ -40,11 +44,11 @@ public class PersistencyEventSenderJob extends Job{
 		while(!monitor.isCanceled()&&run){
 			PersistencyEvent event;
 			try {
-				event = PersistencyEventQueue.getInstance().getEvent();
+				event = mQueue.getEvent();
 				fireEvent(event);
 			} catch (InterruptedException e) {
 				if(run==false){
-					System.out.println("Shutting Down due to correct interrupt request");
+					mLogger.debug("Stopped due to correct interrupt request");
 					return Status.OK_STATUS;
 				}
 				e.printStackTrace();

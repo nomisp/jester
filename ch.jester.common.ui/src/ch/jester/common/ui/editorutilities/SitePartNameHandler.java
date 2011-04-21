@@ -1,4 +1,4 @@
-package ch.jester.ui.editor.utilities;
+package ch.jester.common.ui.editorutilities;
 
 
 import java.beans.PropertyChangeEvent;

@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
  com.ibm.icu,
- org.eclipse.core.expressions;bundle-version="3.4.200"
+ org.eclipse.core.expressions;bundle-version="3.4.200",
+ ch.jester.commonservices.impl;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: ch.jester.ui,

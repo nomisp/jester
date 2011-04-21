@@ -1,11 +1,15 @@
 package ch.jester.orm.internal;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IStartup;
 
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.orm.ORMPlugin;
 
 /**
@@ -18,18 +22,30 @@ public class ORMStarter implements IStartup{
 	@Override
 	public void earlyStartup() {
 		//initialisierung
-		Job job = new Job("Initialize DB Stuff"){
+		UIUtility.syncExecInUIThread(new Runnable(){
 
 			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask("setting up", IProgressMonitor.UNKNOWN);
-				ORMPlugin.getJPAEntitManagerFactor();
-				monitor.done();
-				return Status.OK_STATUS;
+			public void run() {
+				Shell shell = Display.getDefault().getActiveShell();
+				ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell); 
+				try {
+					dialog.run(true, false, new IRunnableWithProgress(){ 
+					    public void run(IProgressMonitor monitor) { 
+					    	monitor.beginTask("Initialize Database... please be patient", IProgressMonitor.UNKNOWN);
+							ORMPlugin.getJPAEntitManagerFactor();
+							monitor.done();
+					    } 
+					});
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 			
-		};
-		job.schedule();
+		});
 	}
-
 }

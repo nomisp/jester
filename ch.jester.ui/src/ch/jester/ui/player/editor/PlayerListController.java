@@ -19,16 +19,13 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchListener;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.model.AbstractPropertyChangeModel;
 import ch.jester.common.ui.utility.UIUtility;
-import ch.jester.common.utility.persistency.IPersistencyListener;
-import ch.jester.common.utility.persistency.PersistencyEvent;
-import ch.jester.common.utility.persistency.PersistencyEventSenderJob;
+import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
+import ch.jester.commonservices.api.persistencyevent.IPersistencyListener;
+import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
@@ -51,7 +48,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	}
 	
 	public PlayerListController(ViewPart pPart, TableViewer pViewer){
-		PersistencyEventSenderJob.getInstance().addListener(new IPersistencyListener() {
+		mServices.getService(IPersistencyEventQueue.class).addListener(new IPersistencyListener() {
 			@Override
 			public void persistencyEvent(PersistencyEvent event) {
 				if(event.getSource()!=persister){
@@ -61,19 +58,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 				
 			}
 		});
-		PlatformUI.getWorkbench().addWorkbenchListener(new IWorkbenchListener() {
-			
-			@Override
-			public boolean preShutdown(IWorkbench workbench, boolean forced) {
-				// TODO Auto-generated method stub
-				return true;
-			}
-			
-			@Override
-			public void postShutdown(IWorkbench workbench) {
-				PersistencyEventSenderJob.getInstance().shutdown();
-			}
-		});
+
 		mViewer=pViewer;
 		mPart=pPart;
 		if (mPlayers != null) {
@@ -92,9 +77,15 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	}
 	
 	private void reloadPlayers(){
+		Object oldInput = mViewer.getInput();
+		syncedUI_setInput(null);
 		mPlayers.clear();
 		mPlayers.addAll(persister.getAll());
-		firePropertyChange("players", null, mPlayers);
+		syncedUI_setInput(oldInput);
+		
+		/*mPlayers.clear();
+		mPlayers.addAll(persister.getAll());
+		firePropertyChange("players", null, mPlayers);*/
 	}
 	
 	

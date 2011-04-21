@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.Wizard;
@@ -14,18 +15,18 @@ import org.eclipse.ui.IWorkbench;
 
 import ch.jester.common.utility.ZipUtility;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.ui.ssbimporter.WizPage.ImportSelection;
 import ch.jester.ui.ssbimporter.internal.Activator;
 
 
 public class Wiz extends Wizard implements IImportWizard{
 	private ILogger mLogger;
-	private WizPage mainPage = new WizPage();
+	private WizPage mainPage;
 
 	@Override
 	public void addPages() {
-		super.addPage(mainPage);
+		super.addPages();
+		addPage(mainPage);
 		mLogger = Activator.getInstance().getActivationContext().getLogger();
 	}
 
@@ -61,8 +62,11 @@ public class Wiz extends Wizard implements IImportWizard{
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		//setWindowTitle("File Import Wizard"); //NON-NLS-1
+		setWindowTitle("Import Wizard");
 		setNeedsProgressMonitor(true);
+		ISelection sel = workbench.getActiveWorkbenchWindow().getSelectionService().getSelection();
+		 mainPage = new WizPage(selection);
+		
 	}
 	@Override
 	public void setContainer(IWizardContainer wizardContainer) {

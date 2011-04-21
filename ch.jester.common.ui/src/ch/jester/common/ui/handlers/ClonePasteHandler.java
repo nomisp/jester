@@ -1,32 +1,33 @@
 package ch.jester.common.ui.handlers;
 
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.Clipboard;
 
 import ch.jester.common.ui.utility.GlobalClipBoard;
+import ch.jester.common.ui.utility.SelectionUtility;
 
-public abstract class ClonePasteHandler extends AbstractCommandHandler {
+public abstract class ClonePasteHandler<T> extends AbstractCommandHandler {
 	Clipboard board = GlobalClipBoard.getInstance();
-	
+	SelectionUtility mSelectionUtility = new SelectionUtility(null);
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
 		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
-
-		IStructuredSelection selection = (IStructuredSelection) board.getContents(transfer);
-
-	
-			@SuppressWarnings("unchecked")
-			Iterator<Object> iterator = selection.iterator();
-			
-			while (iterator.hasNext()) {
-				handlePaste(iterator.next());
-			}
-		
-		return null;
+		mSelectionUtility.setSelection((IStructuredSelection) board.getContents(transfer));
+		return handlePaste(mSelectionUtility.getAsStructuredSelection().toList());
 	}
-	public abstract Object handlePaste(Object pPasted);
+	
+	public int getPasteCount(){
+		return mSelectionUtility.getSelectionCount();
+	}
+	public ISelection getPasteSelection(){
+		return mSelectionUtility.getSelection();
+	}
+	
+	public abstract Object handlePaste(List<T> pPastedList);
 }

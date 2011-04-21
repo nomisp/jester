@@ -64,7 +64,7 @@ public class DummyImportDBPerf {
 						//persister.save(player);
 						if(i%1000==0){
 							monitor.worked(1000);
-							su.getService(PlayerListController.class).addPlayer(pList);
+							su.getService(IPlayerPersister.class).save(pList);
 							//persister.save(pList);
 							pList.clear();
 						}

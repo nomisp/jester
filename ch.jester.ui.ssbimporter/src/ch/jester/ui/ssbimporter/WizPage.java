@@ -4,10 +4,12 @@ package ch.jester.ui.ssbimporter;
 import java.util.List;
 
 import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -40,10 +42,10 @@ public class WizPage extends WizardPage {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public WizPage(String pageName) {
-		super(pageName);
-		
-		setTitle(pageName); //NON-NLS-1
+	public WizPage(ISelection s) {
+		super("wizardPage");
+		System.out.println(s);
+		setTitle("wizardPage"); //NON-NLS-1
 		setDescription("Import a file from the local file system into the workspace"); //NON-NLS-1
 	}
 	
@@ -107,7 +109,9 @@ public class WizPage extends WizardPage {
 		listViewer.addSelectionChangedListener(new HandlerSelectionListener());
 		
 		
+		
 		listViewer.setContentProvider(new HandlerContentProvider());
+
 		listViewer.setInput(NULL_INPUT);
 
 		
@@ -128,7 +132,9 @@ public class WizPage extends WizardPage {
 
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput,
-				Object newInput) {	}
+				Object newInput) {	
+
+		}
 
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -215,6 +221,7 @@ public class WizPage extends WizardPage {
 					lastChecked=titem;
 					mImportInput.setSelectedZipEntry(titem.getText());
 					listViewer.setInput(titem.getText());
+				
 				}else{
 					mImportInput.setSelectedZipEntry(null);
 					mImportInput.setSelectedHandlerEntry(null);

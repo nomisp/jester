@@ -6,14 +6,12 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 
 import ch.jester.common.ui.editor.AbstractEditor;
+import ch.jester.common.ui.editorutilities.SitePartNameHandler;
 import ch.jester.dao.IPlayerPersister;
-import ch.jester.ui.editor.utilities.DirtyManagerPropertyInvoker;
-import ch.jester.ui.editor.utilities.SitePartNameHandler;
 
 public class PlayerEditor extends AbstractEditor{
 
@@ -41,12 +39,7 @@ public class PlayerEditor extends AbstractEditor{
 		mPlayerDetailsController.setPlayer(mPlayerInput.getPlayer());
 		
 		setDirtyManager(mPlayerDetailsController.getDirtyManager());
-		getDirtyManager().setDirtyManagerPropertyInvoker(new DirtyManagerPropertyInvoker() {	
-			@Override
-			public void fireDirtyProperty() {
-				firePropertyChange(IEditorPart.PROP_DIRTY);
-			}
-		});
+		getDirtyManager().setDirtyManagerPropertyInvoker(this);
 	}
 
 
