@@ -1,16 +1,22 @@
 package ch.jester.system.api.pairing;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import ch.jester.commonservices.api.components.IComponentService;
+import ch.jester.commonservices.api.components.IEPEntryComponentService;
+import ch.jester.model.Pairing;
 import ch.jester.system.exceptions.NotAllResultsException;
 
-public interface IPairingManager extends IComponentService<IPairingAlgorithm> {
+public interface IPairingManager extends IEPEntryComponentService<IPairingAlgorithmEntry, IPairingAlgorithm> {
 	
 	/**
-	 * Ausführen der Paarungen
+	 * Ausführen der Paarungen mit dem Übergebenen Paarungsalgorithmus
+	 * @param pairingAlgorithm
 	 * @param progressMonitor
+	 * @return Liste mit den Paarungen Index 0 = Brett 1
+	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 */
-	public void doPairings(IProgressMonitor progressMonitor) throws NotAllResultsException;
+	public List<Pairing> doPairings(IPairingAlgorithmEntry pairingAlgorithm, IProgressMonitor progressMonitor) throws NotAllResultsException;
 
 }

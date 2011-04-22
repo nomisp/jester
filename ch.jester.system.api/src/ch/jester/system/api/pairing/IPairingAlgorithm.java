@@ -1,6 +1,10 @@
 package ch.jester.system.api.pairing;
 
+import java.util.List;
+
 import ch.jester.model.Category;
+import ch.jester.model.Pairing;
+import ch.jester.system.exceptions.NotAllResultsException;
 
 /**
  * Interface welches von konkreten Paarungsalgorithmen
@@ -12,12 +16,16 @@ public interface IPairingAlgorithm {
 
 	/**
 	 * Ausführen der Paarungen (alle Kategorien)
+	 * @return Liste mit den Paarungen Index 0 = Brett 1
+	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 */
-	public void executePairings();
+	public List<Pairing> executePairings() throws NotAllResultsException;
 	
 	/**
 	 * Ausführen der Paarungen einer einzelnen Kategorie
 	 * @param category
+	 * @return Liste mit den Paarungen Index 0 = Brett 1
+	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 */
-	public void executePairings(Category category);
+	public List<Pairing> executePairings(Category category) throws NotAllResultsException;
 }
