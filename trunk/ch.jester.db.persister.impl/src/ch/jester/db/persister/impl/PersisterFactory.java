@@ -10,6 +10,7 @@ import org.osgi.service.component.ComponentContext;
 
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.components.IComponentService;
+import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.util.ServiceUtility;
 
 import ch.jester.dao.IPlayerPersister;
@@ -24,6 +25,7 @@ import ch.jester.dao.IPlayerPersister;
  *
  */
 public class PersisterFactory implements ServiceFactory, IComponentService<Object>{
+	private ILoggerFactory mLoggerFactory;
 	private ServiceUtility mServiceUtility;
 	private HashMap<String, Class<?>> mRegistry = new HashMap<String, Class<?>>();
 	private IActivationContext<?> mActivationContext;
@@ -70,7 +72,7 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 	@Override
 	public void start(ComponentContext pComponentContext) {
 		mActivationContext = Activator.getDefault().getActivationContext();
-		mActivationContext.getLogger().debug("PersisterFactory started");
+		mLoggerFactory.getLogger(this.getClass()).debug("PersisterFactory started");
 		mServiceUtility=mActivationContext.getServiceUtil();
 		addServiceHandling(IPlayerPersister.class, DBPlayerPersister.class);
 		
@@ -81,10 +83,20 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**DS Dependency Injection<br>
+	 * Da dies eine Komponente ist, kann der ILogger nicht über den IActivationContext bezogen werden,
+	 * denn die Komponente für den ILogger kann unter umständen noch nicht gestartet worden sein.<br>
+	 * Also wird die Zuteilung der Factory DS überlassen.
+	 * @param pFactory
+	 */
+	public void bindLoggerFactory(ILoggerFactory pFactory){
+		mLoggerFactory=pFactory;
+	}
 
 	@Override
 	public void bind(Object pT) {
-		// TODO Auto-generated method stub
+		System.out.println("bind "+pT);
 		
 	}
 

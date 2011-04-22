@@ -4,4 +4,5 @@
    <service>
       <provide interface="ch.jester.db.persister.impl.PersisterFactory"/>
    </service>
+   <reference bind="bindLoggerFactory" cardinality="1..1" interface="ch.jester.commonservices.api.logging.ILoggerFactory" name="ILoggerFactory" policy="static"/>
 </scr:component>
