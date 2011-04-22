@@ -7,6 +7,9 @@ import ch.jester.common.activator.AbstractActivator;
 public class Activator extends AbstractActivator{
 	PersisterFactory factory;
 	private static Activator mActivator;
+	public Activator(){
+		mActivator=this;
+	}
 	protected static Activator getDefault(){
 		return mActivator;
 	}
@@ -15,7 +18,6 @@ public class Activator extends AbstractActivator{
 	public void startDelegate(BundleContext pContext) {
 	//	factory = new PersisterFactory(getActivationContext().getServiceUtil());
 	//	factory.addServiceHandling(IPlayerPersister.class, DBPlayerPersister.class);
-		mActivator=this;
 	}
 
 	@Override
