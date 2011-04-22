@@ -41,6 +41,7 @@ public class PersistencyEventDaemonJob extends Job{
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		getThread().setName(getName());
+		mLogger.debug("Starting PersistencyEventDaemonJob");
 		while(!monitor.isCanceled()&&run){
 			PersistencyEvent event;
 			try {

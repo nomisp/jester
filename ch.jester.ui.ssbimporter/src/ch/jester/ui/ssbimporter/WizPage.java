@@ -139,6 +139,9 @@ public class WizPage extends WizardPage {
 		@Override
 		public Object[] getElements(Object inputElement) {
 			IImportManager manager = mService.getService(IImportManager.class);
+			if(manager==null){
+				return new Object[]{};
+			}
 			List<IImportHandlerEntry> handlers = null;
 			if(text.getText().length()==0 || inputElement==null){
 				handlers = manager.getRegistredEntries();
