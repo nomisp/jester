@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContextType;
 
 import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
 import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
@@ -58,7 +57,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 
 	protected Class<?> getTargetClass(Object o){
 		if(o instanceof Collection){
-			return ((Collection)o).iterator().next().getClass();
+			return ((Collection<?>)o).iterator().next().getClass();
 		}
 		return o.getClass();
 	}
