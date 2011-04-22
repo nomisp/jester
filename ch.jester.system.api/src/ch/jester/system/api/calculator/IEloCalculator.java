@@ -2,6 +2,11 @@ package ch.jester.system.api.calculator;
 
 import java.util.ArrayList;
 
+/**
+ * Wertungszahl Rechner
+ * @author Peter
+ *
+ */
 public interface IEloCalculator {
 	
 	/**
