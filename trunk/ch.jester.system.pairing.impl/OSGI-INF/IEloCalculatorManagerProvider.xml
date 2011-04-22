@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="start" deactivate="stop" name="ch.jester.system.calculator.impl">
+   <implementation class="ch.jester.system.calculator.DefaultEloCalculatorManager"/>
+   <reference bind="bind" cardinality="0..n" interface="ch.jester.system.api.calculator.IEloCalculator" name="IEloCalculator" policy="dynamic" unbind="unbind"/>
+   <service>
+      <provide interface="ch.jester.system.api.calculator.IEloCalculatorManager"/>
+   </service>
+</scr:component>
