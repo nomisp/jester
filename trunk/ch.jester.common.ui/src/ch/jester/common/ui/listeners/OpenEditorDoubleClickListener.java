@@ -7,6 +7,11 @@ import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.commonservices.util.ServiceUtility;
 
+/**
+ * Default DoppelKlick Listener
+ * 
+ *
+ */
 public class OpenEditorDoubleClickListener implements IDoubleClickListener{
 	private ServiceUtility mServices = new ServiceUtility();
 	@Override

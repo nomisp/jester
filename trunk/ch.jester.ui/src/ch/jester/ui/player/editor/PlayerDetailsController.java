@@ -7,6 +7,7 @@ import org.eclipse.swt.SWT;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.model.Player;
+import org.eclipse.core.databinding.beans.BeansObservables;
 
 
 
@@ -24,38 +25,6 @@ public class PlayerDetailsController {
 	
 	public DirtyManager getDirtyManager(){
 		return mDm;
-	}
-
-	private DataBindingContext initDataBindings() {
-		IObservableValue lastNameObserveWidget = SWTObservables.observeText(mPlayerDetail.getLastNameText(), SWT.Modify);
-		IObservableValue lastNameObserveValue = PojoObservables.observeValue(player, "lastName");
-		IObservableValue firstNameObserveWidget = SWTObservables.observeText(mPlayerDetail.getFirstNameText(), SWT.Modify);
-		IObservableValue firstNameObserveValue = PojoObservables.observeValue(player, "firstName");
-		IObservableValue cityObserveWidget = SWTObservables.observeText(mPlayerDetail.getCityText(), SWT.Modify);
-		IObservableValue cityObserveValue = PojoObservables.observeValue(player, "city");
-		IObservableValue nationObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationText(), SWT.Modify);
-		IObservableValue nationObserveValue = PojoObservables.observeValue(player, "nation");
-		IObservableValue fideCodeObserveWidget = SWTObservables.observeText(mPlayerDetail.getFideCodeText(), SWT.None);
-		IObservableValue fideCodeObserveValue = PojoObservables.observeValue(player, "fideCode");
-		IObservableValue nationalCodeObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationalCodeText(), SWT.None);
-		IObservableValue nationalCodeObserveValue = PojoObservables.observeValue(player, "nationalCode");
-		IObservableValue eloObserveWidget = SWTObservables.observeText(mPlayerDetail.getEloText(), SWT.None);
-		IObservableValue eloObserveValue = PojoObservables.observeValue(player, "elo");
-		IObservableValue nationalEloObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationalEloText(), SWT.None);
-		IObservableValue nationalEloObserveValue = PojoObservables.observeValue(player, "nationalElo");
-		//
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		bindingContext.bindValue(lastNameObserveWidget, lastNameObserveValue, null, null);
-		bindingContext.bindValue(firstNameObserveWidget, firstNameObserveValue, null, null);
-		bindingContext.bindValue(cityObserveWidget, cityObserveValue, null, null);
-		bindingContext.bindValue(nationObserveWidget, nationObserveValue, null, null);
-		bindingContext.bindValue(fideCodeObserveWidget, fideCodeObserveValue, null, null);
-		bindingContext.bindValue(nationalCodeObserveWidget, nationalCodeObserveValue, null, null);
-		bindingContext.bindValue(eloObserveWidget, eloObserveValue, null, null);
-		bindingContext.bindValue(nationalEloObserveWidget, nationalEloObserveValue, null, null);
-		//
-		return bindingContext;
 	}
 	public Player getPlayer() {
 		return player;
@@ -85,5 +54,42 @@ public class PlayerDetailsController {
 	public void dispose() {
 		player.removePropertyChangeListener(mDm);
 		
+	}
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		IObservableValue lastNameObserveWidget = SWTObservables.observeText(mPlayerDetail.getLastNameText(), SWT.Modify);
+		IObservableValue lastNameObserveValue = BeansObservables.observeValue(player, "lastName");
+		bindingContext.bindValue(lastNameObserveWidget, lastNameObserveValue, null, null);
+		//
+		IObservableValue firstNameObserveWidget = SWTObservables.observeText(mPlayerDetail.getFirstNameText(), SWT.Modify);
+		IObservableValue firstNameObserveValue = BeansObservables.observeValue(player, "firstName");
+		bindingContext.bindValue(firstNameObserveWidget, firstNameObserveValue, null, null);
+		//
+		IObservableValue cityObserveWidget = SWTObservables.observeText(mPlayerDetail.getCityText(), SWT.Modify);
+		IObservableValue cityObserveValue = BeansObservables.observeValue(player, "city");
+		bindingContext.bindValue(cityObserveWidget, cityObserveValue, null, null);
+		//
+		IObservableValue nationObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationText(), SWT.Modify);
+		IObservableValue nationObserveValue = BeansObservables.observeValue(player, "nation");
+		bindingContext.bindValue(nationObserveWidget, nationObserveValue, null, null);
+		//
+		IObservableValue fideCodeObserveWidget = SWTObservables.observeText(mPlayerDetail.getFideCodeText(), SWT.Modify);
+		IObservableValue fideCodeObserveValue = BeansObservables.observeValue(player, "fideCode");
+		bindingContext.bindValue(fideCodeObserveWidget, fideCodeObserveValue, null, null);
+		//
+		IObservableValue nationalCodeObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationalCodeText(), SWT.Modify);
+		IObservableValue nationalCodeObserveValue = BeansObservables.observeValue(player, "nationalCode");
+		bindingContext.bindValue(nationalCodeObserveWidget, nationalCodeObserveValue, null, null);
+		//
+		IObservableValue eloObserveWidget = SWTObservables.observeText(mPlayerDetail.getEloText(), SWT.Modify);
+		IObservableValue eloObserveValue = BeansObservables.observeValue(player, "elo");
+		bindingContext.bindValue(eloObserveWidget, eloObserveValue, null, null);
+		//
+		IObservableValue nationalEloObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationalEloText(), SWT.Modify);
+		IObservableValue nationalEloObserveValue = BeansObservables.observeValue(player, "nationalElo");
+		bindingContext.bindValue(nationalEloObserveWidget, nationalEloObserveValue, null, null);
+		//
+		return bindingContext;
 	}
 }
