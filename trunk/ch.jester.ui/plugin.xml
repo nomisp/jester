@@ -102,6 +102,13 @@
             </command>
          </toolbar>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:ch.jester.ui.view.players">
+         <control
+               class="ch.jester.common.ui.filter.FilterControlContribution"
+               id="ch.jester.ui.view.players.filter">       </control>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -190,5 +197,12 @@
                   value="true">
             </test></activeWhen>
       </handler>
+   </extension>
+   <extension
+         point="ch.jester.commonservices.api.Filter">
+      <Filter
+            Id="ch.jester.ui.view.players.filter"
+            class="ch.jester.ui.filter.PlayerFilter">
+      </Filter>
    </extension>
 </plugin>

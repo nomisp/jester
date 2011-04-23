@@ -2,5 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="ImportHandler" name="ImportHandler" schema="schema/ImportHandler.exsd"/>
+   <extension-point id="Filter" name="Filter" schema="schema/Filter.exsd"/>
 
 </plugin>

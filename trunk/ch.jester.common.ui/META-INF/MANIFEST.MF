@@ -11,6 +11,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: ch.jester.common.ui.activator,
  ch.jester.common.ui.editor,
  ch.jester.common.ui.editorutilities,
+ ch.jester.common.ui.filter,
  ch.jester.common.ui.handlers,
  ch.jester.common.ui.labelprovider,
  ch.jester.common.ui.listeners,
