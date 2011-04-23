@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="Player")
 @NamedQueries({
-@NamedQuery(name="getAll",query="SELECT player FROM Player player order by lastName"),
-@NamedQuery(name="findByName",query="SELECT player FROM Player player WHERE UPPER(player.lastName) LIKE :lastName")
+@NamedQuery(name="getAll",query="SELECT player FROM Player player order by lastName, firstName"),
+@NamedQuery(name="findByName",query="SELECT player FROM Player player WHERE UPPER(player.lastName) LIKE :lastName order by lastName, firstName")
 })
 public class Player extends AbstractModelBean{
 	private static final long serialVersionUID = -2351315088207630377L;
@@ -81,7 +81,7 @@ public class Player extends AbstractModelBean{
 	}
 
 	public void setCity(String city) {
-		this.city = city;
+		firePropertyChange("city",  this.city, this.city = city);
 	}
 
 	public String getNation() {
@@ -89,7 +89,7 @@ public class Player extends AbstractModelBean{
 	}
 
 	public void setNation(String nation) {
-		this.nation = nation;
+		firePropertyChange("nation",  this.nation, this.nation = nation);
 	}
 
 	public int getFideCode() {
@@ -97,7 +97,7 @@ public class Player extends AbstractModelBean{
 	}
 
 	public void setFideCode(int fideCode) {
-		this.fideCode = fideCode;
+		firePropertyChange("fideCode",  this.fideCode, this.fideCode = fideCode);
 	}
 
 	public int getNationalCode() {
@@ -105,7 +105,7 @@ public class Player extends AbstractModelBean{
 	}
 
 	public void setNationalCode(int nationalCode) {
-		this.nationalCode = nationalCode;
+		firePropertyChange("nationalCode",  this.nationalCode, this.nationalCode = nationalCode);
 	}
 
 	public int getElo() {
@@ -113,7 +113,7 @@ public class Player extends AbstractModelBean{
 	}
 
 	public void setElo(int elo) {
-		this.elo = elo;
+		firePropertyChange("elo",  this.elo, this.elo = elo);
 	}
 
 	public int getNationalElo() {
@@ -121,7 +121,7 @@ public class Player extends AbstractModelBean{
 	}
 
 	public void setNationalElo(int nationalElo) {
-		this.nationalElo = nationalElo;
+		firePropertyChange("nationalElo",  this.nationalElo, this.nationalElo = nationalElo);
 	}
 	public String toString(){
 		return firstName+" "+lastName;

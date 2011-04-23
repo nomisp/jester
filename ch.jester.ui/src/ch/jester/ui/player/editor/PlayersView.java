@@ -1,6 +1,6 @@
 package ch.jester.ui.player.editor;
 
-import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -23,7 +23,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.ui.listeners.DefaultSelectionCountListener;
@@ -31,17 +30,6 @@ import ch.jester.common.ui.listeners.OpenEditorDoubleClickListener;
 import ch.jester.common.ui.utility.MenuManagerUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
 import ch.jester.ui.Activator;
-import ch.jester.ui.filter.SearchField;
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.jface.databinding.viewers.ViewersObservables;
-import org.eclipse.core.databinding.beans.BeansObservables;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.core.databinding.observable.map.IObservableMap;
-import ch.jester.model.Player;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.Realm;
 
 public class PlayersView extends ViewPart{
 	private DataBindingContext m_bindingContext;
@@ -59,7 +47,7 @@ public class PlayersView extends ViewPart{
 	}
 
 	public static final String ID = "ch.jester.ui.view.players"; //$NON-NLS-1$
-	private MenuManager menuManager;
+	private MenuManager mPopupManager;
 	private Table table;
 	private TableViewer tableViewer; 
 	private PlayerListController mController;
@@ -129,9 +117,9 @@ public class PlayersView extends ViewPart{
 		});
 		getSite().setSelectionProvider(tableViewer);
 		//installiert den PopupManager
-		menuManager = MenuManagerUtility.installPopUpMenuManager(getSite(), tableViewer);
+		mPopupManager = MenuManagerUtility.installPopUpMenuManager(getSite(), tableViewer);
 		//Listener: Fokus setzen, wenn ContextMenu aktiviert wird
-		menuManager.addMenuListener(new IMenuListener() {
+		mPopupManager.addMenuListener(new IMenuListener() {
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				activateView();
@@ -167,12 +155,6 @@ public class PlayersView extends ViewPart{
 	private void initializeToolBar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars()
 				.getToolBarManager();
-
-		IContributionItem item;
-		item = SearchField.createSearchFieldControlContribution(tableViewer);
-
-		toolbarManager.add(item);
-		
 	
 	}
 
@@ -182,6 +164,7 @@ public class PlayersView extends ViewPart{
 	private void initializeMenu() {
 		IMenuManager menuManager = getViewSite().getActionBars()
 				.getMenuManager();
+		
 
 	}
 
