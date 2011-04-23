@@ -15,15 +15,18 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
+import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.utility.ExtensionPointUtil;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.filter.IFilter;
 import ch.jester.job.StackJob;
 
 public class FilterField {
-	private Stack<String> eventStack = new Stack<String>();
-	FilterJob job = new FilterJob();
-	Text mText;
-	String oldSearchValue="", mId;
+	private Stack<String> mEventStack = new Stack<String>();
+	private FilterJob mJob = new FilterJob();
+	private Text mText;
+	private String mOldSearchValue="", mId;
+	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	public FilterField(Composite pParent, String pId){
 		mId=pId;
 		mText = new Text(pParent, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH);
@@ -35,13 +38,12 @@ public class FilterField {
 		mText.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				System.out.println(mId);
-				if(mText.getText().equals(oldSearchValue)){
+				if(mText.getText().equals(mOldSearchValue)){
 					return;
 				}
-				oldSearchValue=mText.getText();
-				eventStack.push(oldSearchValue);
-				job.reschedule(150);
+				mOldSearchValue=mText.getText();
+				mEventStack.push(mOldSearchValue);
+				mJob.reschedule(150);
 				
 			}
 			
@@ -57,7 +59,7 @@ public class FilterField {
 		IFilter NULL_FILTER = new ErrorFilter();
 		IFilter mFilter;
 		public FilterJob() {
-			super("searching",eventStack);
+			super("searching",mEventStack);
 		}
 
 
@@ -71,6 +73,7 @@ public class FilterField {
 				if(element!=null){
 					try {
 						mFilter = (IFilter) element.createExecutableExtension("class");
+						mLogger.debug("Created Filter: "+mFilter.getClass()+" for id: "+mId);
 					} catch (CoreException e) {
 						e.printStackTrace();
 					}
@@ -78,10 +81,6 @@ public class FilterField {
 					mFilter = NULL_FILTER;
 				}
 			
-			}
-			if(event.equals("")){
-				int k=0;
-				k++;
 			}
 			return mFilter.filter(event, monitor);
 

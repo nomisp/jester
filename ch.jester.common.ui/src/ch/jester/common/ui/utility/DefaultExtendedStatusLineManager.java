@@ -1,5 +1,8 @@
 package ch.jester.common.ui.utility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -12,8 +15,13 @@ import org.eclipse.swt.graphics.Image;
 
 import ch.jester.common.ui.services.IExtendedStatusLineManager;
 
+/**
+ * Eine DefaultImplementation für den IExtendedStatusLineManager
+ *
+ */
 public class DefaultExtendedStatusLineManager implements IExtendedStatusLineManager{
 	private IStatusLineManager mManager;
+	private List<Job> mWaitingClearingJobs = new ArrayList<Job>();
 	public DefaultExtendedStatusLineManager(IStatusLineManager pManager){
 		mManager=pManager;
 	}
@@ -34,23 +42,48 @@ public class DefaultExtendedStatusLineManager implements IExtendedStatusLineMana
 	}
 
 	@Override
-	public void setErrorMessage(String message) {
-		mManager.setErrorMessage(message);
+	public void setErrorMessage(final String message) {
+		UIUtility.syncExecInUIThread(new Runnable() {
+			@Override
+			public void run() {
+				mManager.setErrorMessage(message);
+			}
+			
+		});
 	}
 
 	@Override
-	public void setErrorMessage(Image image, String message) {
-		mManager.setErrorMessage(image, message);
+	public void setErrorMessage(final Image image, final String message) {
+		UIUtility.syncExecInUIThread(new Runnable() {
+			@Override
+			public void run() {
+				mManager.setErrorMessage(image, message);
+			}
+			
+		});
 	}
 
 	@Override
-	public void setMessage(String message) {
-		mManager.setMessage(message);
+	public void setMessage(final String message) {
+		UIUtility.syncExecInUIThread(new Runnable() {
+			@Override
+			public void run() {
+				mManager.setMessage(message);
+			}
+			
+		});
 	}
 
 	@Override
-	public void setMessage(Image image, String message) {
-		mManager.setMessage(image, message);
+	public void setMessage(final Image image, final String message) {
+		UIUtility.syncExecInUIThread(new Runnable() {
+			@Override
+			public void run() {
+				mManager.setMessage(image, message);
+			}
+			
+		});
+
 	}
 
 	@Override
@@ -154,26 +187,36 @@ public class DefaultExtendedStatusLineManager implements IExtendedStatusLineMana
 	}
 
 	@Override
-	public void setMessage(String pMessage, int pDisposesInMilis) {
-		mManager.setMessage(pMessage);
-		Job job = new Job("MessageDisposer"){
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				if(!monitor.isCanceled()){
-				UIUtility.syncExecInUIThread(new Runnable() {
-					@Override
-					public void run() {
-						
-						mManager.setMessage("");
-						
-					}
-				});
-				}
-				return Status.OK_STATUS;
+	public void setMessage(final String pMessage, int pDisposesInMilis) {
+		synchronized(mWaitingClearingJobs){
+			for(Job job:mWaitingClearingJobs){
+				job.cancel();
 			}
-			
-		};
+			mWaitingClearingJobs.clear();
+		}
 		
+		setMessage(pMessage);
+
+		
+		Job job = new MessageDisposerJob();
+		mWaitingClearingJobs.add(job);
 		job.schedule(pDisposesInMilis);
+	}
+	
+	class MessageDisposerJob extends Job{
+
+		public MessageDisposerJob() {
+			super("MessageDisposerJob");
+			setSystem(true);
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			if(!monitor.isCanceled()){
+				setMessage(null);
+			}
+			return Status.OK_STATUS;
+		}
+		
 	}
 }
