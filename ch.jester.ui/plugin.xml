@@ -101,6 +101,20 @@
                   style="push">
             </command>
          </toolbar>
+         <toolbar
+               id="ch.jester.ui.unredo"
+               label="Undo/Redo">
+            <command
+                  commandId="org.eclipse.ui.edit.undo"
+                  label="Undo"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.edit.redo"
+                  label="Redo"
+                  style="push">
+            </command>
+         </toolbar>
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -113,7 +127,7 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="ch.jester.ui.handlers.NewPlayerHandler"
+            defaultHandler="ch.jester.ui.handlers.NewUndoRedoPlayerHandler"
             id="ch.jester.ui.addplayer"
             name="New Player">
       </command>
