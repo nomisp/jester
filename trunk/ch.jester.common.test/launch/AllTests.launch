@@ -40,6 +40,7 @@
 <setEntry value="ch.jester.database.feature:default"/>
 <setEntry value="ch.jester.rcpapplication.feature:default"/>
 <setEntry value="ch.jester.site:default"/>
+<setEntry value="ch.jester.system.feature:default"/>
 <setEntry value="ch.jester.test.feature:default"/>
 <setEntry value="org.eclipse.equinox.executable:default"/>
 <setEntry value="org.eclipse.equinox.p2.user.ui.source:default"/>

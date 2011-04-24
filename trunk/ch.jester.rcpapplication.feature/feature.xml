@@ -36,6 +36,10 @@
          id="org.eclipse.help"
          version="0.0.0"/>
 
+   <includes
+         id="ch.jester.system.feature"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
@@ -70,13 +74,6 @@
 
    <plugin
          id="org.eclipse.ui.forms"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ch.jester.system.vollrundig"
          download-size="0"
          install-size="0"
          version="0.0.0"
