@@ -1,30 +1,26 @@
 package ch.jester.system.vollrundig.internal;
 
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class VollrundigSystemActivator implements BundleActivator {
+import ch.jester.common.activator.AbstractActivator;
 
-	private static BundleContext context;
+public class VollrundigSystemActivator extends AbstractActivator {
+	
+	private static VollrundigSystemActivator mActivator;
 
-	static BundleContext getContext() {
-		return context;
+	@Override
+	public void startDelegate(BundleContext pContext) {
+		mActivator = this;
+		getActivationContext().getLogger().info("Starting Vollrundig Plugin");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext bundleContext) throws Exception {
-		VollrundigSystemActivator.context = bundleContext;
+	@Override
+	public void stopDelegate(BundleContext pContext) {
+		// TODO Auto-generated method stub
+		
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext bundleContext) throws Exception {
-		VollrundigSystemActivator.context = null;
+	
+	public static VollrundigSystemActivator getInstance() {
+		return mActivator;
 	}
-
 }
