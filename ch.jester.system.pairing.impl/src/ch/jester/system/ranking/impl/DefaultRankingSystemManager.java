@@ -24,8 +24,7 @@ public class DefaultRankingSystemManager extends AbstractEPComponent<IRankingSys
 
 	@Override
 	protected IRankingSystemEntry createEntry(IRankingSystem o) {
-		// TODO Auto-generated method stub
-		return null;
+		return new DefaultRankingSystemEntry(o);
 	}
 
 	@Override

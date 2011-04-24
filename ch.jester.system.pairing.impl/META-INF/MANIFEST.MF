@@ -1,11 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: PairingImpl
-Bundle-SymbolicName: ch.jester.system.impl
+Bundle-Name: Pairing System Implementation
+Bundle-SymbolicName: ch.jester.system.impl;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: ch.jester.system.internal.SystemActivator
 Bundle-Vendor: M. Liechti & P. Simon
 Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.equinox.ds;bundle-version="1.2.1",
  ch.jester.common;bundle-version="1.0.0",
  ch.jester.commonservices.api;bundle-version="1.0.0",
  ch.jester.system.api;bundle-version="1.0.0",
@@ -13,4 +14,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.osgi.services;bundle-version="3.2.100"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/IPairingManagerProvider.xml
+Service-Component: OSGI-INF/IPairingManagerProvider.xml,OSGI-INF/IEloCalculatorManagerProvider.xml,OSGI-INF/IRankingSystemManagerProvider.xml
