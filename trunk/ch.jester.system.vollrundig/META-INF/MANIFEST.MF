@@ -6,6 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: ch.jester.system.vollrundig.internal.VollrundigSystemActivator
 Bundle-Vendor: M.Liechti & P.Simon
 Require-Bundle: org.eclipse.core.runtime,
+ ch.jester.common;bundle-version="1.0.0",
+ ch.jester.commonservices.api;bundle-version="1.0.0",
  ch.jester.system.api;bundle-version="1.0.0",
  ch.jester.system.impl;bundle-version="1.0.0",
  ch.jester.model;bundle-version="1.0.0"
