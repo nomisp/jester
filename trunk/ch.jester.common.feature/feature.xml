@@ -112,4 +112,18 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="ch.jester.system.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.system.impl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
