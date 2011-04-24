@@ -17,8 +17,7 @@ public class DefaultEloCalculatorManager extends AbstractEPComponent<IEloCalcula
 
 	@Override
 	protected IEloCalculatorEntry createEntry(IEloCalculator o) {
-		// TODO Auto-generated method stub
-		return null;
+		return new DefaultEloCalculatorEntry(o);
 	}
 
 	@Override

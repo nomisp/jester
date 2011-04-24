@@ -37,7 +37,6 @@ public class DefaultPairingManager extends AbstractEPComponent<IPairingAlgorithm
 
 	@Override
 	protected IPairingAlgorithmEntry createEntry(IPairingAlgorithm o) {
-		// TODO Auto-generated method stub
-		return null;
+		return new DefaultPairingAlgorithmEntry(o);
 	}
 }
