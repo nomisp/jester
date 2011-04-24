@@ -1,5 +1,7 @@
 package ch.jester.ui.player.editor;
 
+import org.eclipse.core.commands.operations.IUndoContext;
+import org.eclipse.core.commands.operations.UndoContext;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -23,6 +25,13 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.operations.RedoActionHandler;
+import org.eclipse.ui.operations.UndoActionHandler;
 import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.ui.listeners.DefaultSelectionCountListener;
@@ -52,9 +61,26 @@ public class PlayersView extends ViewPart{
 	private TableViewer tableViewer; 
 	private PlayerListController mController;
 	private TableViewerColumn tableViewerColumn;
+	private UndoActionHandler undoActionHandler;
+	private RedoActionHandler redoActionHandler;
 	public PlayersView() {
 		
-		
+	}
+	@Override
+	public void init(IViewSite site) throws PartInitException {
+		// TODO Auto-generated method stub
+		super.init(site);
+		IUndoContext undoContext = PlatformUI.getWorkbench().getOperationSupport().getUndoContext();
+		 undoActionHandler = new UndoActionHandler(this.getSite(), undoContext);
+		 undoActionHandler.setPruneHistory(false);
+		 redoActionHandler = new RedoActionHandler(this.getSite(), undoContext);
+		 redoActionHandler.setPruneHistory(false);
+		 
+		  IActionBars actionBars = getViewSite().getActionBars();
+
+		// Register the global menu actions
+		actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(), undoActionHandler);
+		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoActionHandler);
 	}
 
 	/**

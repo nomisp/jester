@@ -48,7 +48,11 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		for(T p:pTCollection){
-			mManager.persist(p);
+			if(p.getId()!=0){
+				mManager.merge(p);
+			}else{
+				mManager.persist(p);
+			}
 		}
 		trx.commit();
 		fireSaveEvent(pTCollection);
