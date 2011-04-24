@@ -3,10 +3,11 @@
 <plugin>
    <extension
          point="ch.jester.system.api.PairingAlgorithm">
-         <PairingAlgorithm class="ch.jester.system.vollrundig.VollrundigPairingAlgorithm"
-         	shortType="Vollrundig"
-         	typeDescription="Vollrundiges Paarungssystem">
-     	</PairingAlgorithm>
+      <PairingAlgorithm
+            class="ch.jester.system.vollrundig.VollrundigPairingAlgorithm"
+            shortType="Vollrundig"
+            typeDescription="Vollrundiges Paarungssystem">
+      </PairingAlgorithm>
    </extension>
 
 </plugin>
