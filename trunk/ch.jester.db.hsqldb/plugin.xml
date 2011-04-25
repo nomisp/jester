@@ -28,6 +28,7 @@
                id="menu.extras"
                label="%Extras">
             <menu
+                  icon="icons/hsqldb.gif"
                   id="menu.hsql"
                   label="%HSQL">
                <command
