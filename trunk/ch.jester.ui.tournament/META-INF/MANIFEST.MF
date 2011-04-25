@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tournament UI
+Bundle-SymbolicName: ch.jester.ui.tournament;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: ch.jester.ui.tournament.internal.Activator
+Bundle-Vendor: M. Liechti & P. Simon
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ ch.jester.common;bundle-version="1.0.0",
+ ch.jester.common.ui;bundle-version="1.0.0",
+ ch.jester.commonservices.api;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Localization: plugin

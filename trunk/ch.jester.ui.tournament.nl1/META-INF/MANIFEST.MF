@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tournament UI translations
+Bundle-SymbolicName: ch.jester.ui.tournament.nl1
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: M. Liechti & P. Simon
+Fragment-Host: ch.jester.ui.tournament;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
