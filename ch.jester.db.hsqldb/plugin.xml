@@ -25,25 +25,29 @@
             allPopups="false"
             locationURI="menu:org.eclipse.ui.main.menu?after=menu.File">
          <menu
-               id="menu.hsql"
-               label="%HSQL">
-            <command
-                  commandId="ch.jester.db.hsqldb.showtool"
-                  label="%DBViewer"
-                  style="push">
-            </command>
-            <separator
-                  name="separator"
-                  visible="true">
-            </separator>
-            <command
-                  commandId="ch.jester.common.test.commands.insertjpa"
-                  style="push">
-            </command>
-            <command
-                  commandId="ch.jester.common.test.commands.inserthibernate"
-                  style="push">
-            </command>
+               id="menu.extras"
+               label="%Extras">
+            <menu
+                  id="menu.hsql"
+                  label="%HSQL">
+               <command
+                     commandId="ch.jester.db.hsqldb.showtool"
+                     label="%DBViewer"
+                     style="push">
+               </command>
+               <separator
+                     name="separator"
+                     visible="true">
+               </separator>
+               <command
+                     commandId="ch.jester.common.test.commands.insertjpa"
+                     style="push">
+               </command>
+               <command
+                     commandId="ch.jester.common.test.commands.inserthibernate"
+                     style="push">
+               </command>
+            </menu>
          </menu>
       </menuContribution>
    </extension>
