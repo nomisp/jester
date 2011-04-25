@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="ch.jester.ui.tournament.tournaments"
+            name="%NewTournament">
+      </category>
+      <wizard
+            canFinishEarly="false"
+            category="ch.jester.ui.tournament.tournaments"
+            class="ch.jester.ui.tournament.NewTournamentWizard"
+            hasPages="true"
+            icon="icons/kchess_22x22.png"
+            id="ch.jester.ui.tournament.newTournament"
+            name="%CreateNewTournament">
+      </wizard>
+   </extension>
+
+</plugin>

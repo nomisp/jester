@@ -60,6 +60,10 @@
                id="menu.file"
                label="%File">
             <command
+                  commandId="org.eclipse.ui.newWizard"
+                  style="push">
+            </command>
+            <command
                   commandId="org.eclipse.ui.file.import"
                   style="push">
             </command>
