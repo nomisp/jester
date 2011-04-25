@@ -9,8 +9,7 @@ import ch.jester.model.Category;
 import ch.jester.model.Player;
 import ch.jester.system.exceptions.NotAllResultsException;
 
-public interface IRankingSystemManager extends
-		IEPEntryComponentService<IRankingSystemEntry, IRankingSystem> {
+public interface IRankingSystemManager extends IEPEntryComponentService<IRankingSystemEntry, IRankingSystem> {
 
 	/**
 	 * Erstellt die Rangliste
