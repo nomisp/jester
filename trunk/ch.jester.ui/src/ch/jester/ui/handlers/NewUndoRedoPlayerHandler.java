@@ -15,7 +15,7 @@ import ch.jester.ui.player.editor.PlayerListController;
 import ch.jester.ui.player.editor.PlayersView;
 
 public class NewUndoRedoPlayerHandler extends AbstractUndoRedoCommandHandler{
-	Player mPlayer;
+	
 	
 	public NewUndoRedoPlayerHandler(){
 		System.out.println("NewUndoRedoPlayerHandler");
@@ -25,7 +25,7 @@ public class NewUndoRedoPlayerHandler extends AbstractUndoRedoCommandHandler{
 	@Override
 	protected IUndoableOperation getOperation() {
 		return new AbstractOperation("Add Player") {
-			
+			Player mPlayer;
 			@Override
 			public IStatus undo(IProgressMonitor monitor, IAdaptable info)
 					throws ExecutionException {
