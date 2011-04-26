@@ -2,93 +2,66 @@ package ch.jester.common.ui.handlers;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.operations.AbstractOperation;
+import org.eclipse.core.commands.operations.IOperationHistory;
 import org.eclipse.core.commands.operations.IUndoContext;
 import org.eclipse.core.commands.operations.IUndoableOperation;
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.operations.IWorkbenchOperationSupport;
 
 
-public abstract class AbstractUndoRedoCommandHandler extends AbstractCommandHandler implements IUndoableOperation{
-	AbstractOperation mDefaultOperation = new AbstractOperation(getLabel()){
-		@Override
-		public IStatus execute(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
-			return AbstractUndoRedoCommandHandler.this.execute(monitor, info);
-		}
-
-		@Override
-		public IStatus redo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
-			return AbstractUndoRedoCommandHandler.this.redo(monitor, info);
-		}
-
-		@Override
-		public IStatus undo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
-			return AbstractUndoRedoCommandHandler.this.undo(monitor, info);
-		}
-		
-	};
+public abstract class AbstractUndoRedoCommandHandler extends AbstractCommandHandler {
+	private IWorkbenchOperationSupport mOperationSupport = PlatformUI.getWorkbench().getOperationSupport();
+	private IOperationHistory mOperationHistory = mOperationSupport.getOperationHistory();
+	private IUndoContext mUndoContext = mOperationSupport.getUndoContext();
+	private IUndoableOperation mCurrentOperation;
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
-		IUndoContext context = PlatformUI.getWorkbench().getOperationSupport().getUndoContext();
-		IUndoableOperation op;
-		op = mDefaultOperation;
-		op.addContext(context);
+		mCurrentOperation = null;
+		mCurrentOperation = getOperation();
+		mCurrentOperation.addContext(mUndoContext);
 		try {
-			PlatformUI.getWorkbench().getOperationSupport().getOperationHistory().execute(this, new NullProgressMonitor(), null);
+			mOperationHistory.execute(mCurrentOperation, new NullProgressMonitor(), null);
 		} catch (ExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-
-	@Override
-	public void addContext(IUndoContext context) {
-		mDefaultOperation.addContext(context);
-	}
-
-	@Override
-	public boolean canExecute() {
-		return mDefaultOperation.canExecute();
-	}
-
-	@Override
-	public boolean canRedo() {
-		return mDefaultOperation.canRedo();
-	}
-
-	@Override
-	public boolean canUndo() {
-		return mDefaultOperation.canUndo();
-	}
-
-	@Override
-	public IUndoContext[] getContexts() {
-		return mDefaultOperation.getContexts();
-	}
-
-	@Override
-	public String getLabel() {
-		return "";
-	}
-
-	@Override
-	public boolean hasContext(IUndoContext context) {
-		return mDefaultOperation.hasContext(context);
-	}
-
-
-	@Override
-	public void removeContext(IUndoContext context) {
-		mDefaultOperation.removeContext(context);
-	}
-
-
-
+	
+	protected abstract IUndoableOperation getOperation();
+	
+/*	protected AbstractOperation getOperation(){
+				Object trigger = super.mEvent.getTrigger();
+				try {
+					IParameter params = super.mEvent.getCommand().getParameter("ch.jester.ui.operation");
+					IParameterValues values = params.getValues();
+					Object val = values.getParameterValues().get("ch.jester.undoablecommandclass");
+					System.out.println(params);
+				} catch (NotDefinedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParameterValuesException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String operation = super.mEvent.getParameter("ch.jester.ui.operations");
+				Map map =super.mEvent.getParameters();
+				Object op=null;
+				try {
+					op = super.mEvent.getObjectParameterForExecution("ch.jester.ui.operations");
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					
+					int k = 0;
+					k++;
+					k++;
+					e.printStackTrace();
+				}
+				System.out.println(op);
+		
+			return null;
+	}*/
+	
+	
 }

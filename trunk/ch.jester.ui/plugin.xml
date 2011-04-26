@@ -39,7 +39,7 @@
             allPopups="true"
             locationURI="popup:ch.jester.ui.view.players">
          <command
-               commandId="ch.jester.ui.addplayer"
+               commandId="ch.jester.ui.addplayer1"
                icon="icons/plus.gif"
                style="push">
          </command>
