@@ -58,7 +58,6 @@ public class DeletePlayerHandler extends AbstractCommandHandler {
 			while(selectionIterator.hasNext()){
 				Object select = selectionIterator.next();
 				editors.closeEditor(select);
-				//logger.debug("Player "+select+" removed from DB");
 			}
 		}
 		return null;
