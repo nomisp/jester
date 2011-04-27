@@ -1,6 +1,7 @@
 package ch.jester.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +36,24 @@ public class Tournament implements Serializable, IDAO {
 	@NotNull
 	private String name;
 	
+	@Column(name="Description", nullable=true, length=255)
+	private String description;
+	
+	@Column(name="Year", nullable=true)
+	private int year;
+	
+	@Column(name="DateFrom", nullable=true)
+	private Date dateFrom;
+	
+	@Column(name="DateTo", nullable=true)
+	private Date dateTo;
+	
+	@Column(name="RankingSystem", nullable=false)
+	private String rankingSystem; // Feinwertung (als deklarativer Service implementiert) entspricht dem EP-Attribut: shortType
+	
+	@Column(name="EloCalculator", nullable=false)
+	private String eloCalculator; // EloCalculator (als deklarativer Service implementiert) entspricht dem EP-Attribut: shortType
+	
 	@OneToMany
 	@JoinTable(name = "TournamentCategoryAss",
 	        joinColumns = {@JoinColumn(name = "TournamentId")},
@@ -55,6 +74,54 @@ public class Tournament implements Serializable, IDAO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public Date getDateFrom() {
+		return dateFrom;
+	}
+
+	public void setDateFrom(Date dateFrom) {
+		this.dateFrom = dateFrom;
+	}
+
+	public Date getDateTo() {
+		return dateTo;
+	}
+
+	public void setDateTo(Date dateTo) {
+		this.dateTo = dateTo;
+	}
+
+	public String getRankingSystem() {
+		return rankingSystem;
+	}
+
+	public void setRankingSystem(String rankingSystem) {
+		this.rankingSystem = rankingSystem;
+	}
+
+	public String getEloCalculator() {
+		return eloCalculator;
+	}
+
+	public void setEloCalculator(String eloCalculator) {
+		this.eloCalculator = eloCalculator;
 	}
 
 	public Set<Category> getCategories() {
