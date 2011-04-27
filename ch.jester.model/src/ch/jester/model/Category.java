@@ -41,6 +41,9 @@ public class Category implements Serializable, IDAO {
 	@Column(name="MaximumAge", nullable=true)
 	private int maxAge;
 	
+	@Column(name="MaxRounds")
+	private int maxRounds; // Maximale Anzahl Runden, die in dieser Kategorie gespielt werden
+	
 	@OneToMany(mappedBy="category")
 //	@JoinTable(name = "CategoryRoundAss",
 //	        joinColumns = {@JoinColumn(name = "CategoryId")},
@@ -93,6 +96,14 @@ public class Category implements Serializable, IDAO {
 
 	public void setMaxAge(int maxAge) {
 		this.maxAge = maxAge;
+	}
+
+	public int getMaxRounds() {
+		return maxRounds;
+	}
+
+	public void setMaxRounds(int maxRounds) {
+		this.maxRounds = maxRounds;
 	}
 
 	public Set<Round> getRounds() {

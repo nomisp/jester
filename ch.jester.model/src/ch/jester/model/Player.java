@@ -1,5 +1,7 @@
 package ch.jester.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -51,6 +53,12 @@ public class Player extends AbstractModelBean{
 	
 	@Column(name="NationalElo", nullable=true)
 	private int nationalElo;
+	
+	@Column(name="Age", nullable=true)
+	private int age;
+	
+	@Column(name="Category", nullable=true)
+	private String category;	// Kategorie eines Spielers z.B. Senior, Junior, Schüler etc.
 
 	public int getId() {
 		return id;
@@ -123,6 +131,23 @@ public class Player extends AbstractModelBean{
 	public void setNationalElo(int nationalElo) {
 		firePropertyChange("nationalElo",  this.nationalElo, this.nationalElo = nationalElo);
 	}
+		
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 	public String toString(){
 		return firstName+" "+lastName;
 	}
