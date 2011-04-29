@@ -110,8 +110,10 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 
 	@Override
 	public void close() {
-		mManager.close();
-		mFactory.close();
+		if(mManager!=null){
+			mManager.close();
+		}
+		//mFactory.close();
 	}
 
 	@Override
