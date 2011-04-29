@@ -13,6 +13,11 @@
             shortType="*.xls"
             typeDescription="SSB Excel Importer">
       </ImportHandler>
+      <ImportHandler
+            class="ch.jester.importmanagerservice.impl.internal.FIDEExcelImporter"
+            shortType="*.xls"
+            typeDescription="FIDE Excel Importer">
+      </ImportHandler>
    </extension>
 
 </plugin>
