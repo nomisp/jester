@@ -14,7 +14,7 @@ import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerPersister;
 import ch.jester.model.Player;
-import ch.jester.model.factories.PlayerFactory;
+import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.player.editor.PlayerListController;
 
 
@@ -50,7 +50,7 @@ public class DummyImportDBPerf {
 						List<Player> pList = new ArrayList<Player>();
 						for(int i=0;i<chunksize;i++){
 						
-						Player player =PlayerFactory.createPlayer();
+						Player player =ModelFactory.getInstance().createPlayer();
 						pList.add(player);
 						player.setCity("Zürich");
 						player.setElo(i);
