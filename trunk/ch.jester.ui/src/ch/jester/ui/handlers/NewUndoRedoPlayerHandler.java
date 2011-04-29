@@ -10,7 +10,7 @@ import org.eclipse.core.runtime.Status;
 
 import ch.jester.common.ui.handlers.AbstractUndoRedoCommandHandler;
 import ch.jester.model.Player;
-import ch.jester.model.factories.PlayerFactory;
+import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.player.editor.PlayerListController;
 import ch.jester.ui.player.editor.PlayersView;
 
@@ -45,7 +45,7 @@ public class NewUndoRedoPlayerHandler extends AbstractUndoRedoCommandHandler{
 			public IStatus execute(IProgressMonitor monitor, IAdaptable info)
 					throws ExecutionException {
 				//Defaultplayer
-				Player player = PlayerFactory.createPlayer();
+				Player player = ModelFactory.getInstance().createPlayer();
 				mPlayer = player;
 				
 				//hinzufügen vom Player
