@@ -1,6 +1,8 @@
 package ch.jester.ui.tournament;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -11,8 +13,7 @@ import org.eclipse.ui.IWorkbench;
 
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.IPersister;
-import ch.jester.dao.IPlayerPersister;
+import ch.jester.dao.ITournamentDao;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.internal.Activator;
@@ -50,13 +51,23 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException,
 						InterruptedException {
-					String tournamentName = newTournament.getTournamentName().getText();
+					String tournamentName = newTournament.getTournamentName();
+					String description = newTournament.getDescription();
+					Date dateFrom = newTournament.getDateFrom();
+					Date dateTo = newTournament.getDateTo();
 					ModelFactory mf = ModelFactory.getInstance();
 					mLogger.debug("Creating tournament: " + tournamentName);
 					Tournament tournament = mf.createTournament(tournamentName);
-					// TODO Peter: Persistieren
-//					IPersister<Tournament> tournamentPersister = su.getExclusiveService(IPersister.class);
-//					tournamentPersister.save(tournament);
+					tournament.setDescription(description);
+					tournament.setYear(getYear(dateFrom));
+					tournament.setDateFrom(dateFrom);
+					tournament.setDateTo(dateTo);
+					tournament.setRankingSystem("DummyRankingSystem");	// TODO peter: RankingSystem (ist NOT NULL)
+					tournament.setEloCalculator("DummyEloCalculator");  // TODO peter: EloCalculator (ist NOT NULL)
+					// TODO peter: Kategorien
+					
+					ITournamentDao tournamentPersister = su.getExclusiveService(ITournamentDao.class);
+					tournamentPersister.save(tournament);
 					
 					mLogger.debug("Tournament " + tournament.getName() + " with Id " + tournament.getId() + " created");
 				}
@@ -68,6 +79,13 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 		}
 		
 		return true;
+	}
+	
+	private int getYear(Date date) {
+		Calendar cal = Calendar.getInstance();
+		if (date == null) date = new Date();
+		cal.setTime(date);
+		return cal.get(Calendar.YEAR);
 	}
 
 }

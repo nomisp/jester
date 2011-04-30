@@ -1,5 +1,8 @@
 package ch.jester.ui.tournament;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -9,7 +12,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.swt.widgets.DateTime;
 //import org.eclipse.nebula.widgets.formattedtext.FormattedText;
 //import org.eclipse.nebula.widgets.formattedtext.NumberFormatter;
@@ -18,7 +20,8 @@ import org.eclipse.swt.widgets.DateTime;
 public class NewTournamentWizPageName extends WizardPage implements ModifyListener {
 	private Text tournamentName;
 	private Text description;
-	private Text year;
+	private DateTime dateFrom;
+	private DateTime dateTo;
 	
 	protected NewTournamentWizPageName() {
 		super("Tournament name");
@@ -59,29 +62,18 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 		description.setLayoutData(gd_description);
 		new Label(container, SWT.NONE);
 		
-		Label lblYear = new Label(container, SWT.NONE);
-		lblYear.setText("Year");
-		new Label(container, SWT.NONE);
-		
-//		FormattedText formattedText = new FormattedText(container, SWT.NONE);
-//		formattedText.setFormatter(new NumberFormatter(null, null, Locale.getDefault()));
-//		year = formattedText.getControl();
-		year = new Text(container, SWT.BORDER);
-		year.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		new Label(container, SWT.NONE);
-		
 		Label lblDateFrom = new Label(container, SWT.NONE);
 		lblDateFrom.setText("Date From");
 		new Label(container, SWT.NONE);
 		
-		DateTime dateFrom = new DateTime(container, SWT.BORDER);
+		dateFrom = new DateTime(container, SWT.BORDER);
 		new Label(container, SWT.NONE);
 		
 		Label lblDateTo = new Label(container, SWT.NONE);
 		lblDateTo.setText("Date To");
 		new Label(container, SWT.NONE);
 		
-		DateTime dateTo = new DateTime(container, SWT.BORDER);
+		dateTo = new DateTime(container, SWT.BORDER);
 	}
 	
 	/**
@@ -101,7 +93,31 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 
 	// Getter und Setter Methoden
 	
-	public Text getTournamentName() {
-		return tournamentName;
+	public String getTournamentName() {
+		return tournamentName.getText();
+	}
+	
+	public String getDescription() {
+		return description.getText();
+	}
+	
+	/**
+	 * Gibt das Datum an dem das Turnier beginnt
+	 * @return
+	 */
+	public Date getDateFrom() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(dateFrom.getYear(), dateFrom.getMonth(), dateFrom.getDay());
+		return cal.getTime();
+	}
+	
+	/**
+	 * Gibt das Datum an dem das Turnier zu Ende ist
+	 * @return
+	 */
+	public Date getDateTo() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(dateTo.getYear(), dateTo.getMonth(), dateTo.getDay());
+		return cal.getTime();
 	}
 }

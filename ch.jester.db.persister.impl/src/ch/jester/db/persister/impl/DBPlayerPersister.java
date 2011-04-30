@@ -9,7 +9,7 @@ public class DBPlayerPersister extends GenericPersister<Player> implements IPlay
 
 	@Override
 	public List<Player> findByName(String pName) {
-		return super.findByParameter("findByName", "lastName", "%"+pName.toUpperCase()+"%");
+		return super.findByParameter("findByName", "lastName", prepareLikeSearch(pName.toUpperCase(), MatchMode.ANYWHERE));
 	}
 
 }

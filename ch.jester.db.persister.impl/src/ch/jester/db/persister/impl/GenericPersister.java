@@ -127,6 +127,17 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		return result;
 	}
 
+	@Override
+	public List<T> getAll(String namedQuery) {
+		check();
+		EntityTransaction trx = mManager.getTransaction();
+		trx.begin();
+		@SuppressWarnings("unchecked")
+		List<T> result = mManager.createNamedQuery(namedQuery).getResultList();
+		trx.commit();
+		return result;
+	}
+
 	public List<T> findByParameter(String queryName, String pPara, Object pVal){
 		check();
 		EntityTransaction trx = mManager.getTransaction();
@@ -137,4 +148,28 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		return result;
 	}
 
+	/**
+	 * Vorbereiten eines Suchparameters für eine Like Suche
+	 * @param pParam Suchparameter
+	 * @param mode	MatchMode
+	 * @return aufbereiteter Suchparameter (mit %-Zeichen)
+	 */
+	public String prepareLikeSearch(String pParam, MatchMode mode) {
+		StringBuffer sb = new StringBuffer();
+		switch (mode) {
+			case EXACT: return pParam;
+			case START: sb.append("%");
+						sb.append(pParam);
+						break;
+			case END:	sb.append(pParam);
+						sb.append("%");
+						break;
+			case ANYWHERE:	sb.append("%");
+							sb.append(pParam);
+							sb.append("%");
+							break;
+			default: return pParam;
+		}
+		return sb.toString();
+	}
 }
