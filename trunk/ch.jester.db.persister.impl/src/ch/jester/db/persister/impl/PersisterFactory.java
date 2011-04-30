@@ -14,6 +14,7 @@ import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.util.ServiceUtility;
 
 import ch.jester.dao.IPlayerPersister;
+import ch.jester.dao.ITournamentDao;
 
 /**
  * Implementiert eine ServiceFactory und stellt die DAO Implementierungen zur Verfügung.
@@ -75,7 +76,7 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		mLoggerFactory.getLogger(this.getClass()).debug("PersisterFactory started");
 		mServiceUtility=mActivationContext.getServiceUtil();
 		addServiceHandling(IPlayerPersister.class, DBPlayerPersister.class);
-		
+		addServiceHandling(ITournamentDao.class, DBTournamentPersister.class);
 	}
 
 	@Override

@@ -167,4 +167,18 @@ public class ModelFactory {
 		club.setName(name);
 		return club;
 	}
+	
+//	private void generateIdentifier(Object entity) {
+//        AbstractEntityPersister entityPersister;	// org.hibernate.persister.entity.AbstractEntityPersister
+// 
+//        if (!getSession().isOpen() || !getSession().isConnected()) {
+//            if (sessionFactory != null && !sessionFactory.isClosed()) {
+//                setSession((SessionImpl) sessionFactory.openSession());
+//            }
+//        }
+//        entityPersister = ((AbstractEntityPersister) sessionFactory.getClassMetadata(entity.getClass()));
+//        Serializable key = entityPersister.getIdentifierGenerator().generate((session), null);
+//        entityPersister.setIdentifier(entity, key, session.getEntityMode());
+//        //session.clear();
+//    }
 }
