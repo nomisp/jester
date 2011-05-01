@@ -6,7 +6,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
+import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
 import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
 import ch.jester.dao.IDAO;
@@ -18,6 +20,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 	EntityManagerFactory mFactory;
 	EntityManager mManager;
 	IPersistencyEventQueue mEventQueue;
+	Query QQ;
 	private void fireEvent(Object pLoad, PersistencyEvent.Operation pOperation){
 		mEventQueue.dispatch(new PersistencyEvent(this, pLoad, pOperation));
 	}
@@ -33,6 +36,8 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		}
 		if(mManager==null){
 			mManager = mFactory.createEntityManager();
+			QQ = mManager.createQuery("SELECT player FROM Player player");
+			QQ.setMaxResults(50);
 		}
 		if(mEventQueue==null){
 			mEventQueue = Activator.getDefault().getActivationContext().getService(IPersistencyEventQueue.class);
@@ -149,7 +154,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 	}
 
 	/**
-	 * Vorbereiten eines Suchparameters für eine Like Suche
+	 * Vorbereiten eines Suchparameters fï¿½r eine Like Suche
 	 * @param pParam Suchparameter
 	 * @param mode	MatchMode
 	 * @return aufbereiteter Suchparameter (mit %-Zeichen)
@@ -171,5 +176,21 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 			default: return pParam;
 		}
 		return sb.toString();
+	}
+	@Override
+	public int count() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public List<T> getFromTo(int from, int to) {
+		check();
+		System.out.println("maxResults: "+(to-from)+" - firstResult "+from);
+		StopWatch watch = new StopWatch();
+		watch.start();
+		List<T> result =  QQ.setFirstResult(from).getResultList();
+		watch.stop();
+		System.out.println("Query took "+watch.getElapsedTime());
+		return (List<T>) result;
 	}
 }
