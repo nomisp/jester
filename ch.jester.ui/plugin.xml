@@ -9,11 +9,6 @@
             id="ch.jester.ui.view.players"
             name="Players">
       </view>
-      <view
-            class="ch.jester.ui.hjkl"
-            id="ch.jester.ui.hjkl"
-            name="New ViewPart">
-      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -119,6 +114,20 @@
       <menuContribution
             allPopups="false"
             locationURI="toolbar:ch.jester.ui.view.players">
+         <command
+               commandId="org.eclipse.ui.navigate.back"
+               icon="icons/prev.gif"
+               style="push">
+         </command>
+         <command
+               commandId="org.eclipse.ui.navigate.next"
+               icon="icons/next.gif"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:ch.jester.ui.view.players">
          <control
                class="ch.jester.common.ui.filter.FilterControlContribution"
                id="ch.jester.ui.view.players.filter">       </control>
@@ -210,6 +219,14 @@
                   property="ch.jester.properties.clipboardFilled"
                   value="true">
             </test></activeWhen>
+      </handler>
+      <handler
+            class="ch.jester.ui.handlers.PageHandler"
+            commandId="org.eclipse.ui.navigate.next">
+      </handler>
+      <handler
+            class="ch.jester.ui.handlers.PageHandler"
+            commandId="org.eclipse.ui.navigate.back">
       </handler>
    </extension>
    <extension

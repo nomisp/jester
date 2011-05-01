@@ -20,10 +20,13 @@ public class PlayerFilter implements IFilter{
 	ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	@Override
 	public IStatus filter(String pSearch, IProgressMonitor monitor) {
+		if(pSearch.equals("")){
+			su.getExclusiveService(PlayerListController.class).clearSearched();
+		}
 		monitor.beginTask("searching for: "+pSearch, IProgressMonitor.UNKNOWN);
 		mLogger.debug("filtering: "+pSearch);
 		List<Player> players = su.getExclusiveService(IPlayerDao.class).findByName(pSearch);
-		su.getExclusiveService(PlayerListController.class).setPlayers(players);
+		su.getExclusiveService(PlayerListController.class).setSearched(players);
 		su.getService(IExtendedStatusLineManager.class).setMessage("Found "+players.size()+" Item(s)", 1000);
 		return Status.OK_STATUS;
 	}

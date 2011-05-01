@@ -38,7 +38,7 @@ public class ScrollableResultListJPA<T extends IDaoObject> extends AbstractList<
         return c;
     }
 
-    private List<T> getItems(int from, int to) {
+    public List<T> getItems(int from, int to) {
         System.out.println("numer of requests to the database " + counter++);
         StopWatch watch = new StopWatch();
         watch.start();

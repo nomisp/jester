@@ -3,21 +3,16 @@ package ch.jester.ui.player.editor;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.BeansObservables;
-import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.ui.part.ViewPart;
 
@@ -30,21 +25,18 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
+import ch.jester.ui.contentprovider.PagingContentProvider;
 
 
 public class PlayerListController extends AbstractPropertyChangeModel{
-	private List<Player> mPlayers = Collections.synchronizedList(new LinkedList<Player>());
+	//private List<Player> mPlayers = new ArrayList<Player>();
 	private TableViewer mViewer;
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
 	IPlayerDao persister = mServices.getExclusiveService(IPlayerDao.class);
 	ViewPart mPart;
+	PagingContentProvider contentProvider;
 	public PlayerListController(){
 
-	}
-	
-	
-	public List<Player> getPlayers() {
-		return mPlayers;
 	}
 	
 	public PlayerListController(ViewPart pPart, TableViewer pViewer){
@@ -61,9 +53,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 
 		mViewer=pViewer;
 		mPart=pPart;
-		if (mPlayers != null) {
-			initDataBindings();
-		}
+		initDataBindings();
 		Job job = new Job("Loading Players"){
 
 			@Override
@@ -77,15 +67,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	}
 	
 	private void reloadPlayers(){
-		Object oldInput = mViewer.getInput();
-		syncedUI_setInput(null);
-		mPlayers.clear();
-		mPlayers.addAll(persister.getAll());
-		syncedUI_setInput(oldInput);
-		
-		/*mPlayers.clear();
-		mPlayers.addAll(persister.getAll());
-		firePropertyChange("players", null, mPlayers);*/
+		contentProvider.refresh();
 	}
 	
 	
@@ -94,8 +76,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	}
 	public void addPlayer(Collection<Player> pPlayerCollection) {
 		persister.save(pPlayerCollection);
-		mPlayers.addAll(pPlayerCollection);
-		firePropertyChange("players", null, mPlayers);
+		contentProvider.refresh();
 	}
 	
 	
@@ -103,65 +84,46 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 		removePlayer(createList(pPlayer));
 	}
 	public void removePlayer(List<Player> pPlayerList) {
-		Object oldInput = mViewer.getInput();
-		syncedUI_setInput(null);
 		persister.delete(pPlayerList);
-		mPlayers.removeAll(pPlayerList);
-		syncedUI_setInput(oldInput);
-		//firePropertyChange("players", null, mPlayers);
+		contentProvider.refresh();
 	}
 	
 	/**
 	 * Für die Search
 	 * @param pPlayerCollection
 	 */
-	public void setPlayers(Collection<Player> pPlayerCollection){
-		final Object oldInput = mViewer.getInput();
-		syncedUI_setInput(null);
-		mPlayers.clear();
-		mPlayers.addAll(pPlayerCollection);
-		syncedUI_setInput(oldInput);
-	}
-
-	private void syncedUI_setInput(final Object pInput){
-		UIUtility.syncExecInUIThread(new Runnable(){
+	public void setSearched(final Collection<Player> pPlayerCollection){
+		UIUtility.syncExecInUIThread(new Runnable() {
+			
 			@Override
 			public void run() {
-				if(pInput==null){
-					mViewer.getControl().setRedraw(false);
-				}
-				mViewer.setInput(pInput);
-				if(pInput!=null){
-					mViewer.getControl().setRedraw(true);
-				}
+				mViewer.setContentProvider(ArrayContentProvider.getInstance());
+				mViewer.setInput(pPlayerCollection);
+				
 			}
-
 		});
+
+		
 	}
-
-
+	public void clearSearched(){
+		UIUtility.syncExecInUIThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				mViewer.setContentProvider(contentProvider);
+				contentProvider.refresh();
+				
+			}
+		});
 	
-
-	public void clear(){
-		mPlayers.clear();
-		firePropertyChange("players", null, mPlayers);
 	}
-
 
 
 	protected DataBindingContext initDataBindings() {
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		mViewer.setContentProvider(listContentProvider);
-		//
-		IObservableMap[] observeMap = BeansObservables.observeMaps(listContentProvider.getKnownElements(), Player.class, new String[]{"lastName","firstName"});
-		mViewer.setLabelProvider(new PlayerMapLabelProvider(observeMap));
-		//
-		IObservableList mPlayerListPlayersObserveList = BeansObservables.observeList(Realm.getDefault(), this, "players");
-		mViewer.setInput(mPlayerListPlayersObserveList);
-		//
-		return bindingContext;
+		
+		contentProvider = new PagingContentProvider(mViewer, 1000);
+		mViewer.setContentProvider(contentProvider);
+		return null;
 	}
 	
 	private List<Player> createList(Player o){
@@ -191,5 +153,10 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 
 
 		
+	}
+
+	public PagingContentProvider getPageController() {
+	
+		return this.contentProvider;
 	}
 }

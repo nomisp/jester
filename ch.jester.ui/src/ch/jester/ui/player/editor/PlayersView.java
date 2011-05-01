@@ -96,7 +96,7 @@ public class PlayersView extends ViewPart{
 			TableColumnLayout tcl_tableViewComposite = new TableColumnLayout();
 			tableViewComposite.setLayout(tcl_tableViewComposite);
 			{
-				tableViewer = new TableViewer(tableViewComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+				tableViewer = new TableViewer(tableViewComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.VIRTUAL);
 				table = tableViewer.getTable();
 				table.setLinesVisible(true);
 			
