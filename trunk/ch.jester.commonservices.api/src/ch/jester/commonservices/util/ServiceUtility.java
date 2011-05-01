@@ -21,6 +21,7 @@ import ch.jester.commonservices.internal.Activator;
  * 
  */
 public class ServiceUtility {
+	private static Object GLOBAL_LOCK = new Object();
 	private BundleContext mContext;
 	private HashMap<Class<?>, ServiceTracker> mTrackerMap = new HashMap<Class<?>, ServiceTracker>();
 
@@ -169,7 +170,8 @@ public class ServiceUtility {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public synchronized <T> T getExclusiveService(Class<T> pServiceInterface) {
+	public <T> T getExclusiveService(Class<T> pServiceInterface) {
+		synchronized(GLOBAL_LOCK){
 		ServiceTracker tracker = createTracker(pServiceInterface);
 		tracker.open();
 		Object service = tracker.getService();
@@ -178,6 +180,7 @@ public class ServiceUtility {
 		tracker.close();
 		tracker=null;
 		return (T) service;
+		}
 	}
 
 	
