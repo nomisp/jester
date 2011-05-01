@@ -56,15 +56,16 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					Date dateFrom = newTournament.getDateFrom();
 					Date dateTo = newTournament.getDateTo();
 					ModelFactory mf = ModelFactory.getInstance();
+					// TODO peter: Kategorien
 					mLogger.debug("Creating tournament: " + tournamentName);
 					Tournament tournament = mf.createTournament(tournamentName);
 					tournament.setDescription(description);
 					tournament.setYear(getYear(dateFrom));
 					tournament.setDateFrom(dateFrom);
 					tournament.setDateTo(dateTo);
-					tournament.setRankingSystem("DummyRankingSystem");	// TODO peter: RankingSystem (ist NOT NULL)
-					tournament.setEloCalculator("DummyEloCalculator");  // TODO peter: EloCalculator (ist NOT NULL)
-					// TODO peter: Kategorien
+					tournament.setPairingSystem("DummyPairingSystem");	// TODO peter: PairingSystem (ist NOT NULL) WizardPage für die Auswahl
+					tournament.setRankingSystem("DummyRankingSystem");	// TODO peter: RankingSystem (ist NOT NULL) WizardPage für die Auswahl
+					tournament.setEloCalculator("DummyEloCalculator");  // TODO peter: EloCalculator (ist NOT NULL) WizardPage für die Auswahl
 					
 					ITournamentDao tournamentPersister = su.getExclusiveService(ITournamentDao.class);
 					tournamentPersister.save(tournament);

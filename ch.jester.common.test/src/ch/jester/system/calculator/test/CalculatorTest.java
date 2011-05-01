@@ -26,5 +26,7 @@ public class CalculatorTest extends ActivatorProviderForTestCase {
 		for (IEloCalculatorEntry iEloCalculatorEntry : registredEntries) {
 			System.out.println(iEloCalculatorEntry.getShortType());
 		}
+		
+		assertEquals("Number of Elo-Calculators does not match", 1, registredEntries.size());
 	}
 }

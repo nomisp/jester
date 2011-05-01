@@ -57,7 +57,16 @@ public class Player extends AbstractModelBean{
 	
 	@Column(name="Category", nullable=true)
 	private String category;	// Kategorie eines Spielers z.B. Senior, Junior, Schüler etc.
-
+	
+	@Column(name="NationalCoefficient", nullable=true)
+	private int nationalCoefficient;	// Koeffizient zur Berechnung der Nationalen Elo
+	
+	@Column(name="FideCoefficient", nullable=true)
+	private int fideCoefficient;	// Koeffizient zur Berechnung der FIDE-Elo
+	
+	@Column(name="Title", nullable=true)
+	private String title; // Titel eines Spielers (GM, IM, FM)
+	
 	public int getId() {
 		return id;
 	}
@@ -146,6 +155,30 @@ public class Player extends AbstractModelBean{
 		this.category = category;
 	}
 
+	public int getNationalCoefficient() {
+		return nationalCoefficient;
+	}
+
+	public void setNationalCoefficient(int nationalCoefficient) {
+		this.nationalCoefficient = nationalCoefficient;
+	}
+
+	public int getFideCoefficient() {
+		return fideCoefficient;
+	}
+
+	public void setFideCoefficient(int fideCoefficient) {
+		this.fideCoefficient = fideCoefficient;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public String toString(){
 		return firstName+" "+lastName;
 	}
@@ -173,6 +206,10 @@ public class Player extends AbstractModelBean{
 		clone.nation=this.nation;
 		clone.nationalCode=this.nationalCode;
 		clone.nationalElo=this.nationalElo;
+		clone.age=this.age;
+		clone.category=this.category;
+		clone.nationalCoefficient=this.nationalCoefficient;
+		clone.fideCoefficient=this.fideCoefficient;
 		return clone;
 	}
 }
