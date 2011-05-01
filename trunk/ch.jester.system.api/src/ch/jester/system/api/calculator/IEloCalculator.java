@@ -1,6 +1,7 @@
 package ch.jester.system.api.calculator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Wertungszahl Rechner
@@ -12,7 +13,7 @@ public interface IEloCalculator {
 	/**
 	 * Berechnen der neuen Elo (oder NWZ)
 	 * 
-	 * @param actual		Aktuelle Wertung (bleibt über eine Wertungsperiode unverändert)
+	 * @param actual		Aktuelle Wertung (bleibt Ã¼ber eine Wertungsperiode unverÃ¤ndert)
 	 * @param coeff			Entwicklungskoeffizient
 	 * @param oppositeElo	gegnerische Wertungszahl
 	 * @param result		Resultat (0=verloren; 1=gewonnen; 0.5=remis)
@@ -23,7 +24,7 @@ public interface IEloCalculator {
 	/**
 	 * Berechnen der neuen Elo (oder NWZ)
 	 * 
-	 * @param actual		Aktuelle Wertung (bleibt über eine Wertungsperiode unverändert)
+	 * @param actual		Aktuelle Wertung (bleibt Ã¼ber eine Wertungsperiode unverÃ¤ndert)
 	 * @param coeff			Entwicklungskoeffizient
 	 * @param oppositeElos	Liste mit den gegnerischen Elos (innerhalb der Wertungsperiode)
 	 * @param results		Liste mit den erzielten Resultaten (muss zu oppositeElos korrelieren) 
@@ -34,7 +35,7 @@ public interface IEloCalculator {
 	/**
 	 * Berechnen der Performance
 	 * 
-	 * @param actual		Aktuelle Wertung (bleibt über eine Wertungsperiode unverändert)
+	 * @param actual		Aktuelle Wertung (bleibt Ã¼ber eine Wertungsperiode unverÃ¤ndert)
 	 * @param coeff			Entwicklungskoeffizient
 	 * @param oppositeElos	Liste mit den gegnerischen Elos (innerhalb der Wertungsperiode)
 	 * @param results		Liste mit den erzielten Resultaten (muss zu oppositeElos korrelieren) 
@@ -47,7 +48,7 @@ public interface IEloCalculator {
 	 * @param oppositeElos	Liste mit den gegnerischen Elos
 	 * @return	Gegnerschnitt
 	 */
-	public int meanOpposites(ArrayList<Integer> oppositeElos);
+	public double meanOpposites(List<Integer> oppositeElos);
 	
 	/**
 	 * Berechnen der Gewinnwahrscheinlichkeit

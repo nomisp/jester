@@ -1,6 +1,7 @@
 package ch.jester.system.fidecalculator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.jester.system.api.calculator.IEloCalculator;
 
@@ -20,24 +21,24 @@ import ch.jester.system.api.calculator.IEloCalculator;
  */
 public class FideCalculator implements IEloCalculator {
 	
-	private final int RATING_DIFFERENCE = 400;
-	private final double STRONGER_PLAYER = 0.92;
-	private final double WEAKER_PLAYER = 0.08;
+	private final double RATING_DIFFERENCE = 400.0; // Rating Differenz fÃ¼r FIDE Differenzen > 400 werden wie eine Differenz von 400 berechnet 
 	
 	public FideCalculator() {
 	}
 
 	@Override
 	public int calculateElo(int actual, int coeff, int oppositeElo, double result) {
-		// TODO Auto-generated method stub
-		return 0;
+		long newElo = actual + Math.round(calculateEloChange(actual, coeff, oppositeElo, result));
+		return (int) newElo;	// TODO peter: Rechner wenn noch keine Elo!
 	}
 
 	@Override
-	public int calculateElo(int actual, int coeff,
-			ArrayList<Integer> oppositeElos, ArrayList<Double> results) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int calculateElo(int actual, int coeff, ArrayList<Integer> oppositeElos, ArrayList<Double> results) {
+		long newElo = actual;
+		for (int i = 0; i < oppositeElos.size(); i++) {
+			newElo += calculateElo((int)newElo, coeff, oppositeElos.get(i), results.get(i));
+		}
+		return (int)newElo;
 	}
 
 	@Override
@@ -48,9 +49,12 @@ public class FideCalculator implements IEloCalculator {
 	}
 
 	@Override
-	public int meanOpposites(ArrayList<Integer> oppositeElos) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double meanOpposites(List<Integer> oppositeElos) {
+		double sum = 0;
+		for (Integer oppositeElo : oppositeElos) {
+			sum += oppositeElo;
+		}
+		return sum / oppositeElos.size();
 	}
 
 	/**
@@ -58,31 +62,22 @@ public class FideCalculator implements IEloCalculator {
 	 */
 	@Override
 	public double calculateScoreProbability(int playerElo, int opponentElo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return 1.0 / (Math.pow(10,((opponentElo - playerElo) / RATING_DIFFERENCE)) + 1.0);
 	}
 	
 	/**
-	 * Berechnete die Elo-Differenz
-	 * @param playerRating
-	 * @param opponentRating
-	 * @return Elo Differenz
-	 */
-	private int calcEloDifference(int playerRating, int opponentRating) {
-		return playerRating-opponentRating;
-	}
-	
-	/**
-	 * Berechnen der Elo-Veränderung einer Partie
-	 * @param actual	Aktuelle Elo (bleibt über eine Wertungsperiode unverändert)
+	 * Berechnen der Elo-VerÃ¤nderung einer Partie
+	 * @param actual	Aktuelle Elo (bleibt Ã¼ber eine Wertungsperiode unverÃ¤ndert)
 	 * @param coeff
 	 * @param oppositeElo
 	 * @param result
 	 * @return
 	 */
 	private double calculateEloChange(int actual, int coeff, int oppositeElo, double result) {
-		double res = 0.0;
+		double kValue = (double) coeff;
+	    double winProb = 1.0 / (Math.pow(10,((oppositeElo - actual) / RATING_DIFFERENCE)) + 1.0);
+	    double ratingDiff = Math.round(kValue * (result - winProb));
 		
-		return res;
+		return ratingDiff;
 	}
 }

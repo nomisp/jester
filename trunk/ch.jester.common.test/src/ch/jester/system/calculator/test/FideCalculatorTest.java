@@ -3,6 +3,7 @@ package ch.jester.system.calculator.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -31,6 +32,22 @@ public class FideCalculatorTest extends ActivatorProviderForTestCase {
 		assertEquals(1714, fideCalculator.calculateElo(1720, 15, 1800, 0));
 		assertEquals(1722, fideCalculator.calculateElo(1720, 15, 1800, 0.5));
 		assertEquals(1729, fideCalculator.calculateElo(1720, 15, 1800, 1));
+	}
+	
+	@Test
+	public void testCalculateManyGames() {
+		// TODO peter: Tests schreiben
+	}
+	
+	@Test
+	public void testCalculateOpponentMean() {
+		IEloCalculator fideCalculator = getFideEloCalculatorService();
+		ArrayList<Integer> opponentElos = new ArrayList<Integer>();
+		opponentElos.add(1720);
+		opponentElos.add(1820);
+		opponentElos.add(1556);
+		opponentElos.add(1903);
+		assertEquals(1749.75, fideCalculator.meanOpposites(opponentElos), 0.001);
 	}
 	
 	/**
