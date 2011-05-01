@@ -3,6 +3,6 @@ import java.util.List;
 
 import ch.jester.model.Player;
 
-public interface IPlayerPersister extends IPersister<Player>{
+public interface IPlayerDao extends IDaoService<Player>{
 	public List<Player> findByName(String pName);
 }

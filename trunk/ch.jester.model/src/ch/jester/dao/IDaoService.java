@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public interface IPersister<T extends IDAO> {
+public interface IDaoService<T extends IDaoObject> {
 	/**Speicher eine Collection in einer Transaktion
 	 * @param pTCollection
 	 */

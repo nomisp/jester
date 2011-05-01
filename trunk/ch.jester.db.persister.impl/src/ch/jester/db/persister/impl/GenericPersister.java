@@ -11,12 +11,12 @@ import javax.persistence.Query;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
 import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
-import ch.jester.dao.IDAO;
-import ch.jester.dao.IPersister;
+import ch.jester.dao.IDaoObject;
+import ch.jester.dao.IDaoService;
 
 import ch.jester.orm.ORMPlugin;
 
-public class GenericPersister<T extends IDAO> implements IPersister<T> {
+public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 	EntityManagerFactory mFactory;
 	EntityManager mManager;
 	IPersistencyEventQueue mEventQueue;
@@ -93,7 +93,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
-		IDAO p = mManager.find(pT.getClass(), pT.getId());
+		IDaoObject p = mManager.find(pT.getClass(), pT.getId());
 		mManager.remove(p);
 		trx.commit();
 		fireDeleteEvent(pT);
@@ -105,7 +105,7 @@ public class GenericPersister<T extends IDAO> implements IPersister<T> {
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		for(T pT:pTCollection){
-			IDAO p = mManager.find(pT.getClass(), pT.getId());
+			IDaoObject p = mManager.find(pT.getClass(), pT.getId());
 			mManager.remove(p);
 			
 		}

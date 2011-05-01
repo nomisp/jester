@@ -27,7 +27,7 @@ import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
 import ch.jester.commonservices.api.persistencyevent.IPersistencyListener;
 import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.IPlayerPersister;
+import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
 
@@ -36,7 +36,7 @@ public class PlayerListController extends AbstractPropertyChangeModel{
 	private List<Player> mPlayers = Collections.synchronizedList(new LinkedList<Player>());
 	private TableViewer mViewer;
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
-	IPlayerPersister persister = mServices.getExclusiveService(IPlayerPersister.class);
+	IPlayerDao persister = mServices.getExclusiveService(IPlayerDao.class);
 	ViewPart mPart;
 	public PlayerListController(){
 

@@ -13,7 +13,7 @@ import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.util.ServiceUtility;
 
-import ch.jester.dao.IPlayerPersister;
+import ch.jester.dao.IPlayerDao;
 import ch.jester.dao.ITournamentDao;
 
 /**
@@ -75,7 +75,7 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		mActivationContext = Activator.getDefault().getActivationContext();
 		mLoggerFactory.getLogger(this.getClass()).debug("PersisterFactory started");
 		mServiceUtility=mActivationContext.getServiceUtil();
-		addServiceHandling(IPlayerPersister.class, DBPlayerPersister.class);
+		addServiceHandling(IPlayerDao.class, DBPlayerPersister.class);
 		addServiceHandling(ITournamentDao.class, DBTournamentPersister.class);
 	}
 

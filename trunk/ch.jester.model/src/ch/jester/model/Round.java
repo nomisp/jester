@@ -13,11 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import ch.jester.dao.IDAO;
+import ch.jester.dao.IDaoObject;
 
 @Entity
 @Table(name="Round")
-public class Round implements Serializable , IDAO{
+public class Round implements Serializable , IDaoObject{
 	private static final long serialVersionUID = 6672346214824111918L;
 
 	@Id
