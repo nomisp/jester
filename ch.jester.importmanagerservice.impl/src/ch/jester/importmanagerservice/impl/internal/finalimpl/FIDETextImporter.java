@@ -12,7 +12,7 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.IPlayerPersister;
+import ch.jester.dao.IPlayerDao;
 import ch.jester.importmanagerservice.impl.abstracts.FixTextTableProvider;
 import ch.jester.importmanagerservice.impl.abstracts.ITableProvider;
 import ch.jester.importmanagerservice.impl.abstracts.AbstractTableImporter;
@@ -86,7 +86,7 @@ public class FIDETextImporter extends AbstractTableImporter<String, Player>{
 		protected IStatus run(IProgressMonitor monitor) {
 			StopWatch watch = new StopWatch();
 			watch.start();
-			IPlayerPersister playerpersister = su.getExclusiveService(IPlayerPersister.class);
+			IPlayerDao playerpersister = su.getExclusiveService(IPlayerDao.class);
 			//Collections.sort(pList);
 			playerpersister.save(pList);
 			playerpersister.close();

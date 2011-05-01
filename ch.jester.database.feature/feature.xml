@@ -20,10 +20,16 @@
       <import plugin="ch.jester.orm" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.commands" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.hibernate" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.model" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui" version="3.6.2" match="greaterOrEqual"/>
+      <import plugin="ch.jester.common.ui" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.persistence" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.log4j"/>
+      <import plugin="org.eclipse.osgi.services" version="3.2.100" match="greaterOrEqual"/>
+      <import plugin="ch.jester.db.hsqldb" version="1.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -44,14 +50,6 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ch.jester.db.hsqldb.fragment"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -77,6 +75,14 @@
 
    <plugin
          id="ch.jester.db.hsqldb.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.hibernate.modelfragment"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -8,13 +8,13 @@ import ch.jester.common.utility.StopWatch;
 
 
 
-public class ScrollableResultListJPA<T extends IDAO> extends AbstractList<T> implements List<T> {
+public class ScrollableResultListJPA<T extends IDaoObject> extends AbstractList<T> implements List<T> {
     private int startPosition;
     private int counter=0;
     private List<T> cache = null;
-    private IPersister<T> persister;
+    private IDaoService<T> persister;
     private int mCacheSize;
-    public ScrollableResultListJPA(IPersister<T> pPersister, int cacheSize) {
+    public ScrollableResultListJPA(IDaoService<T> pPersister, int cacheSize) {
     	persister = pPersister;
         this.startPosition = 0;
         mCacheSize=cacheSize;

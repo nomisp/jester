@@ -6,13 +6,13 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.IPlayerPersister;
+import ch.jester.dao.IPlayerDao;
 import ch.jester.dao.ScrollableResultListJPA;
 import ch.jester.model.Player;
 
 class QueryContentProvider implements ILazyContentProvider {
 	ServiceUtility su = new ServiceUtility();
-	IPlayerPersister persister = su.getExclusiveService(IPlayerPersister.class);
+	IPlayerDao persister = su.getExclusiveService(IPlayerDao.class);
 	ScrollableResultListJPA<Player> list = new ScrollableResultListJPA<Player>(persister, 50);
 	TableViewer mViewer;
 	public QueryContentProvider(TableViewer pViewer){

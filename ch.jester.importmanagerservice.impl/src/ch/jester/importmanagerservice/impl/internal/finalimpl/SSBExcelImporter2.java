@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.IPlayerPersister;
+import ch.jester.dao.IPlayerDao;
 import ch.jester.importmanagerservice.impl.abstracts.ExcelSheetTableProvider;
 import ch.jester.importmanagerservice.impl.abstracts.ITableProvider;
 import ch.jester.importmanagerservice.impl.abstracts.AbstractTableImporter;
@@ -25,7 +25,7 @@ public class SSBExcelImporter2 extends AbstractTableImporter<Row, Player>{
 		
 		//Collections.sort(pDomainObjects);
 		
-		IPlayerPersister playerpersister = su.getExclusiveService(IPlayerPersister.class);
+		IPlayerDao playerpersister = su.getExclusiveService(IPlayerDao.class);
 		playerpersister.save(pDomainObjects);
 		playerpersister.close();
 	}

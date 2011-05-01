@@ -14,7 +14,7 @@ import ch.jester.common.test.internal.ActivatorProviderForTestCase;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
-import ch.jester.dao.IPlayerPersister;
+import ch.jester.dao.IPlayerDao;
 
 public class ImporterTest extends ActivatorProviderForTestCase {
 
@@ -54,7 +54,7 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 			e.printStackTrace();
 		}
 		
-		IPlayerPersister persister = getActivationContext().getService(IPlayerPersister.class);
+		IPlayerDao persister = getActivationContext().getService(IPlayerDao.class);
 		int reps = persister.count();
 		for(int i = 0; i<reps;i=i+50){
 			persister.getFromTo(i, i+50);

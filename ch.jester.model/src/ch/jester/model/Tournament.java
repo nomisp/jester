@@ -18,10 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import ch.jester.dao.IDAO;
+import ch.jester.dao.IDaoObject;
 
 /**
- * Entität für die Tabelle Tournament 
+ * Entitï¿½t fï¿½r die Tabelle Tournament 
  *
  */
 @Entity
@@ -30,7 +30,7 @@ import ch.jester.dao.IDAO;
 	@NamedQuery(name="AllTournaments", query="select t from Tournament t order by t.name, t.dateFrom"),
 	@NamedQuery(name="TournamentByName", query="select t from Tournament t where t.name like :name")
 })
-public class Tournament implements Serializable, IDAO {
+public class Tournament implements Serializable, IDaoObject {
 	private static final long serialVersionUID = -3356578830307874396L;
 
 	@Id

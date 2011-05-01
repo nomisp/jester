@@ -11,7 +11,7 @@ import org.eclipse.ui.PartInitException;
 
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.SitePartNameHandler;
-import ch.jester.dao.IPlayerPersister;
+import ch.jester.dao.IPlayerDao;
 
 public class PlayerEditor extends AbstractEditor{
 
@@ -47,7 +47,7 @@ public class PlayerEditor extends AbstractEditor{
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
-		IPlayerPersister persister = getServiceUtil().getExclusiveService(IPlayerPersister.class);
+		IPlayerDao persister = getServiceUtil().getExclusiveService(IPlayerDao.class);
 		try{
 			persister.save(mPlayerDetailsController.getPlayer());
 			getDirtyManager().reset();

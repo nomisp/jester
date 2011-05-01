@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Hibernate XML for HSQLDB Provider
-Bundle-SymbolicName: ch.jester.db.hsqldb.fragment;singleton:=true
+Bundle-Name: JPA Provider for Hibernate
+Bundle-SymbolicName: ch.jester.hibernate.modelfragment;singleton:=true
 Bundle-Version: 1.0.0.0
 Fragment-Host: ch.jester.hibernate;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

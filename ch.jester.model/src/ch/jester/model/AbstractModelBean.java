@@ -3,9 +3,9 @@ package ch.jester.model;
 import java.io.Serializable;
 
 import ch.jester.common.model.AbstractPropertyChangeModel;
-import ch.jester.dao.IDAO;
+import ch.jester.dao.IDaoObject;
 
-public abstract class AbstractModelBean extends AbstractPropertyChangeModel implements Cloneable, Serializable , IDAO{
+public abstract class AbstractModelBean extends AbstractPropertyChangeModel implements Cloneable, Serializable , IDaoObject{
 
 	public abstract Object clone() throws CloneNotSupportedException;
 	public boolean equals(Object o){

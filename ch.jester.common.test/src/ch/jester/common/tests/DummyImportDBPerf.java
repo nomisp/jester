@@ -12,7 +12,7 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.IPlayerPersister;
+import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.player.editor.PlayerListController;
@@ -39,9 +39,9 @@ public class DummyImportDBPerf {
 		importjobs[i] = new Job("DB DummyImportJob JPA: "+i){
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				IPlayerPersister persister = null;
+				IPlayerDao persister = null;
 						//for(int i=0;i<5;i++){
-							persister = su.getExclusiveService(IPlayerPersister.class);
+							persister = su.getExclusiveService(IPlayerDao.class);
 							System.out.println("Persister : "+persister);
 						//}
 						StopWatch watch = new StopWatch();
@@ -64,7 +64,7 @@ public class DummyImportDBPerf {
 						//persister.save(player);
 						if(i%1000==0){
 							monitor.worked(1000);
-							su.getService(IPlayerPersister.class).save(pList);
+							su.getService(IPlayerDao.class).save(pList);
 							//persister.save(pList);
 							pList.clear();
 						}
@@ -106,7 +106,7 @@ public class DummyImportDBPerf {
 					System.out.println(" avg: "+avg+" trx/sec");
 					StopWatch w0 = new StopWatch();
 					w0.start();
-					int players = su.getExclusiveService(IPlayerPersister.class).getAll().size();
+					int players = su.getExclusiveService(IPlayerDao.class).getAll().size();
 					w0.stop();
 					System.out.println("Got "+players+" with DAO select in "+w0.getElapsedTime()+" seconds");
 					

@@ -13,11 +13,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import ch.jester.dao.IDAO;
+import ch.jester.dao.IDaoObject;
 
 @Entity
 @Table(name="Category")
-public class Category implements Serializable, IDAO {
+public class Category implements Serializable, IDaoObject {
 	private static final long serialVersionUID = 6845187372965814476L;
 	
 	@Id
