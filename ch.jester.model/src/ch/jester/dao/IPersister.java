@@ -34,9 +34,13 @@ public interface IPersister<T extends IDAO> {
 	 */
 	public List<T> getAll();
 	
+	public int count();
+	
+	public List<T> getFromTo(int from, int to);
+	
 	/**
 	 * Holt alle Objekte anhand einer NamedQuery
-	 * So ist es Möglich verschiedene Named Queries zu verwenden (verschiedene Entitäten)
+	 * So ist es Mï¿½glich verschiedene Named Queries zu verwenden (verschiedene Entitï¿½ten)
 	 * @param namedQuery
 	 * @return Liste mit den Entities
 	 */

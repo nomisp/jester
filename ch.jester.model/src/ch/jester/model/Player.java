@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @Table(name="Player")
 @NamedQueries({
 @NamedQuery(name="getAll",query="SELECT player FROM Player player order by lastName, firstName"),
+@NamedQuery(name="count",query="SELECT count(player) FROM Player player"),
 @NamedQuery(name="findByName",query="SELECT player FROM Player player WHERE UPPER(player.lastName) LIKE :lastName order by lastName, firstName")
 })
 public class Player extends AbstractModelBean{
@@ -56,7 +57,7 @@ public class Player extends AbstractModelBean{
 	private int age;
 	
 	@Column(name="Category", nullable=true)
-	private String category;	// Kategorie eines Spielers z.B. Senior, Junior, Schüler etc.
+	private String category;	// Kategorie eines Spielers z.B. Senior, Junior, Schï¿½ler etc.
 	
 	@Column(name="NationalCoefficient", nullable=true)
 	private int nationalCoefficient;	// Koeffizient zur Berechnung der Nationalen Elo
