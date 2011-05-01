@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.custom.BusyIndicator;
 
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
 import ch.jester.commonservices.api.persistencyevent.IPersistencyListener;
@@ -46,10 +47,15 @@ public class PagingContentProvider implements IStructuredContentProvider {
 			
 			@Override
 			public void persistencyEvent(PersistencyEvent event) {
-				jpaDBListSize = jpaDBList.size();
+				synchronized(jpaDBList){
+					jpaDBListSize = jpaDBList.size();
+					calculatePages();
+				}
 				
 			}
 		});
+		jpaDBListSize = jpaDBList.size();
+		calculatePages();
 	}
 	
 	@Override
@@ -66,7 +72,7 @@ public class PagingContentProvider implements IStructuredContentProvider {
 		}
 		mLogger.debug("InputSize is: "+inputSize+" inputObject "+newInput);
 		mViewer.setItemCount(inputSize);
-		calculatePages();
+		//calculatePages();
 
 		
 	}
@@ -117,16 +123,24 @@ public class PagingContentProvider implements IStructuredContentProvider {
 	
 	private void loadPage() {
 		BusyIndicator.showWhile(UIUtility.getActiveWorkbenchWindow().getShell().getDisplay(), new Runnable() {
-			
+			StopWatch watch = new StopWatch();
 			@Override
 			public void run() {
+				watch.start();
 				if(mViewer.getElementAt(0)!=null){
 					mViewer.setSelection(new StructuredSelection(mViewer.getElementAt(0)), true);
 				}
 				syncedUI_setInput(null);
-				final List<?> pagelist = jpaDBList.getItems(currentPage*mPageSize, currentPage*mPageSize+mPageSize);
+				System.out.println(currentPage*mPageSize + " " +currentPage*mPageSize+mPageSize);
+				List<?> pagelist=null;
+				synchronized(jpaDBList){
+				pagelist = jpaDBList.getItems(currentPage*mPageSize, currentPage*mPageSize+mPageSize);
+				}
 				syncedUI_setInput(pagelist);
+				mViewer.setInput(pagelist);
 				mViewer.setSelection(new StructuredSelection(), true);
+				watch.stop();
+				mLogger.debug("loadPage took "+watch.getElapsedTime());
 				
 			}
 		});
@@ -169,7 +183,7 @@ public class PagingContentProvider implements IStructuredContentProvider {
 	}
 	
 	private void calculatePages(){
-		 mTotalEntries  =jpaDBList.size();
+		 mTotalEntries  =jpaDBListSize;
 		 int rest = mTotalEntries % mPageSize;
 		 mTotalPages = ((mTotalEntries-rest) / mPageSize);
 		 
