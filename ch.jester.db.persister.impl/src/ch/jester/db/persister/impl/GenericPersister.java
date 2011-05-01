@@ -190,7 +190,9 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 		System.out.println("maxResults: "+(to-from)+" - firstResult "+from);
 		StopWatch watch = new StopWatch();
 		watch.start();
+		mManager.getTransaction().begin();
 		List<T> result =  mPagingQuery.setMaxResults(to-from).setFirstResult(from).getResultList();
+		mManager.getTransaction().commit();
 		watch.stop();
 		System.out.println("Query took "+watch.getElapsedTime());
 		return (List<T>) result;
