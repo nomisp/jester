@@ -5,8 +5,8 @@
          point="ch.jester.system.api.PairingAlgorithm">
       <PairingAlgorithm
             class="ch.jester.system.vollrundig.VollrundigPairingAlgorithm"
-            shortType="Vollrundig"
-            typeDescription="Vollrundiges Paarungssystem">
+            shortType="Round-Robin"
+            typeDescription="Round-Robin Pairing-System">
       </PairingAlgorithm>
    </extension>
 
