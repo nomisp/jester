@@ -98,22 +98,7 @@ public class ORMPlugin extends AbstractUIActivator {
 		IConfigurationElement element = ExtensionPointUtil.getExtensionPointElement(getPluginId(), EP_CONFIGURATION);
 		String dbmClassName = element
 				.getAttribute(EP_CONFIGURATION_DATABASEMANAGERCLZ);
-		if (dbmClassName != null) {
-			try {
-				Bundle databaseBundle = Platform.getBundle(element
-						.getContributor().getName());
-				getActivationContext().getLogger().info(
-						"DatabaseManagerClass is " + dbmClassName
-								+ " located in Bundle: " + databaseBundle);
-				mDBManager = (IDatabaseManager) element
-						.createExecutableExtension(EP_CONFIGURATION_DATABASEMANAGERCLZ);
-				mDBManager.start();
-			} catch (CoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
-		}
 		element = ExtensionPointUtil.getExtensionPointElement(getPluginId(),
 				EP_CONFIGURATION);
 		String configClass = element.getAttribute(EP_CONFIGURATION_ORMCONFIGURATION);
@@ -126,6 +111,23 @@ public class ORMPlugin extends AbstractUIActivator {
 							+ " located in Bundle: " + contributoBundle);
 			mConfig = (IORMConfiguration) element
 					.createExecutableExtension(EP_CONFIGURATION_ORMCONFIGURATION);
+			//nach hinten geschoben
+			if (dbmClassName != null) {
+				try {
+					Bundle databaseBundle = Platform.getBundle(element
+							.getContributor().getName());
+					getActivationContext().getLogger().info(
+							"DatabaseManagerClass is " + dbmClassName
+									+ " located in Bundle: " + databaseBundle);
+					mDBManager = (IDatabaseManager) element
+							.createExecutableExtension(EP_CONFIGURATION_DATABASEMANAGERCLZ);
+					mDBManager.start();
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
 
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
