@@ -4,19 +4,14 @@
    <extension
          point="ch.jester.commonservices.api.ImportHandler">
       <ImportHandler
-            class="ch.jester.importmanagerservice.impl.internal.SSBTextImporter"
-            shortType="*.txt"
-            typeDescription="SSB Text Importer">
-      </ImportHandler>
-      <ImportHandler
-            class="ch.jester.importmanagerservice.impl.internal.SSBExcelImporter"
+            class="ch.jester.importmanagerservice.impl.internal.finalimpl.SSBExcelImporter2"
             shortType="*.xls"
             typeDescription="SSB Excel Importer">
       </ImportHandler>
       <ImportHandler
-            class="ch.jester.importmanagerservice.impl.internal.FIDEExcelImporter"
-            shortType="*.xls"
-            typeDescription="FIDE Excel Importer">
+            class="ch.jester.importmanagerservice.impl.internal.finalimpl.FIDETextImporter"
+            shortType="*.txt"
+            typeDescription="FIDE Text Importer">
       </ImportHandler>
    </extension>
 
