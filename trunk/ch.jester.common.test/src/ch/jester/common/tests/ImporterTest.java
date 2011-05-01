@@ -1,9 +1,12 @@
 package ch.jester.common.tests;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import junit.framework.Assert;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.junit.Test;
 
 
@@ -11,6 +14,7 @@ import ch.jester.common.test.internal.ActivatorProviderForTestCase;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
+import ch.jester.dao.IPlayerPersister;
 
 public class ImporterTest extends ActivatorProviderForTestCase {
 
@@ -35,12 +39,26 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 		Assert.assertNotNull("Import Manager is null", importManager);
 		
 		List<IImportHandlerEntry> list = importManager.getRegistredEntries();
-		Assert.assertEquals("Import Handlers size diff", 1, list.size());
-		IImportHandlerEntry entry = list.get(0);
+		IImportHandlerEntry entry = null;
+		for(IImportHandlerEntry e:list){
+			if(e.getDescription().startsWith("FIDE")){
+				entry=e;
+				break;
+			}
+		}
 		
-		Assert.assertEquals("shorttype does not match","*.xml", entry.getShortType());
-		Assert.assertEquals("description does not match","XML Importer", entry.getDescription());
-		importManager.doImport(entry, null, null);
+		try {
+			entry.getService().handleImport(new FileInputStream("C:/Users/matthias/Desktop/players_list.txt"), new NullProgressMonitor());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		IPlayerPersister persister = getActivationContext().getService(IPlayerPersister.class);
+		int reps = persister.count();
+		for(int i = 0; i<reps;i=i+50){
+			persister.getFromTo(i, i+50);
+		}
 	}
 
 }
