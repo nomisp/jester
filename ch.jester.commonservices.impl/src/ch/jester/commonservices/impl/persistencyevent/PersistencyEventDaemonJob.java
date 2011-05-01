@@ -64,7 +64,11 @@ public class PersistencyEventDaemonJob extends Job{
 
 	private void fireEvent(PersistencyEvent event) {
 		for(IPersistencyListener listener:mListeners){
-			listener.persistencyEvent(event);
+			try{
+				listener.persistencyEvent(event);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 
