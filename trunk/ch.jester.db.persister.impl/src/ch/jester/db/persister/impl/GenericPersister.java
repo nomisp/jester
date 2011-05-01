@@ -20,7 +20,8 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 	EntityManagerFactory mFactory;
 	EntityManager mManager;
 	IPersistencyEventQueue mEventQueue;
-	Query QQ;
+	Query mPagingQuery;
+	Query mCountQuery;
 	private void fireEvent(Object pLoad, PersistencyEvent.Operation pOperation){
 		mEventQueue.dispatch(new PersistencyEvent(this, pLoad, pOperation));
 	}
@@ -36,8 +37,8 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 		}
 		if(mManager==null){
 			mManager = mFactory.createEntityManager();
-			QQ = mManager.createQuery("SELECT player FROM Player player");
-			QQ.setMaxResults(50);
+			mPagingQuery = getPagingQuery();
+			mCountQuery = getCountQuery();
 		}
 		if(mEventQueue==null){
 			mEventQueue = Activator.getDefault().getActivationContext().getService(IPersistencyEventQueue.class);
@@ -63,15 +64,7 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 		fireSaveEvent(pTCollection);
 	
 	}
-
-	protected Class<?> getTargetClass(Object o){
-		if(o instanceof Collection){
-			return ((Collection<?>)o).iterator().next().getClass();
-		}
-		return o.getClass();
-	}
 	
-
 	
 	@Override
 	public void save(T pT) {
@@ -179,8 +172,13 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 	}
 	@Override
 	public int count() {
-		// TODO Auto-generated method stub
-		return 0;
+		check();
+		EntityTransaction trx = mManager.getTransaction();
+		trx.begin();
+		@SuppressWarnings("unchecked")
+		int result = ((Long) mCountQuery.getSingleResult()).intValue();
+		trx.commit();
+		return result;
 	}
 	@Override
 	public List<T> getFromTo(int from, int to) {
@@ -188,9 +186,15 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 		System.out.println("maxResults: "+(to-from)+" - firstResult "+from);
 		StopWatch watch = new StopWatch();
 		watch.start();
-		List<T> result =  QQ.setFirstResult(from).getResultList();
+		List<T> result =  mPagingQuery.setMaxResults(to-from).setFirstResult(from).getResultList();
 		watch.stop();
 		System.out.println("Query took "+watch.getElapsedTime());
 		return (List<T>) result;
+	}
+	protected  Query getPagingQuery(){
+		return null;
+	}
+	protected Query getCountQuery(){
+		return null;
 	}
 }

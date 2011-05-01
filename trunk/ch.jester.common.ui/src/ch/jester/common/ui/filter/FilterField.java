@@ -29,7 +29,7 @@ public class FilterField {
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	public FilterField(Composite pParent, String pId){
 		mId=pId;
-		mText = new Text(pParent, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH);
+		mText = new Text(pParent, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH | SWT.CENTER | SWT.LEFT);
 		mText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		mText.setMessage("filter                          ");
 		GridData data = new GridData();

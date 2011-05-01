@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @Table(name="Player")
 @NamedQueries({
 @NamedQuery(name="getAll",query="SELECT player FROM Player player order by lastName, firstName"),
+@NamedQuery(name="getAllUnsorted",query="SELECT player FROM Player player"),
 @NamedQuery(name="count",query="SELECT count(player) FROM Player player"),
 @NamedQuery(name="findByName",query="SELECT player FROM Player player WHERE UPPER(player.lastName) LIKE :lastName order by lastName, firstName")
 })

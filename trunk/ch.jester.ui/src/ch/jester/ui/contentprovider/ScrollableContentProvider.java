@@ -1,4 +1,4 @@
-package ch.jester.ui.player.editor;
+package ch.jester.ui.contentprovider;
 
 import org.eclipse.jface.viewers.ILazyContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -10,19 +10,30 @@ import ch.jester.dao.IPlayerDao;
 import ch.jester.dao.ScrollableResultListJPA;
 import ch.jester.model.Player;
 
-class QueryContentProvider implements ILazyContentProvider {
+/**
+ * Ein ContentProvider der Daten beim Scrollen von der DB nachlädt
+ *
+ */
+public class ScrollableContentProvider implements ILazyContentProvider {
 	ServiceUtility su = new ServiceUtility();
 	IPlayerDao persister = su.getExclusiveService(IPlayerDao.class);
-	ScrollableResultListJPA<Player> list = new ScrollableResultListJPA<Player>(persister, 50);
+	ScrollableResultListJPA<Player> list;
 	TableViewer mViewer;
-	public QueryContentProvider(TableViewer pViewer){
+	public ScrollableContentProvider(TableViewer pViewer, int pPageSize){
 		mViewer = pViewer;
+		
+		list = new ScrollableResultListJPA<Player>(persister, pPageSize);
+		
 	}
 	
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		mViewer.setItemCount(list.size());
 		
+	}
+	
+	public int getTotalEntries(){
+		return list.size();
 	}
 	
 	@Override
