@@ -1,6 +1,5 @@
 package ch.jester.system.api.calculator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,10 +29,20 @@ public interface IEloCalculator {
 	 * @param results		Liste mit den erzielten Resultaten (muss zu oppositeElos korrelieren) 
 	 * @return	neue Wertungszahl
 	 */
-	public int calculateElo(int actual, int coeff, ArrayList<Integer> oppositeElos, ArrayList<Double> results);
+	public int calculateElo(int actual, int coeff, List<Integer> oppositeElos, List<Double> results);
 	
 	/**
-	 * Berechnen der Performance
+	 * Berechnen der Performance ohne den Entwicklungskoeffizienten miteinzubeziehen.
+	 * 
+	 * @param actual		Aktuelle Wertung (bleibt über eine Wertungsperiode unverändert)
+	 * @param oppositeElos	Liste mit den gegnerischen Elos (innerhalb der Wertungsperiode)
+	 * @param results		Liste mit den erzielten Resultaten (muss zu oppositeElos korrelieren) 
+	 * @return	neue Wertungszahl
+	 */
+	public int calculatePerformance(int actual, List<Integer> oppositeElos, List<Double> results);
+	
+	/**
+	 * Berechnen der Exakten Performance
 	 * 
 	 * @param actual		Aktuelle Wertung (bleibt über eine Wertungsperiode unverändert)
 	 * @param coeff			Entwicklungskoeffizient
@@ -41,7 +50,7 @@ public interface IEloCalculator {
 	 * @param results		Liste mit den erzielten Resultaten (muss zu oppositeElos korrelieren) 
 	 * @return	neue Wertungszahl
 	 */
-	public int calculatePerformance(int actual, int coeff, ArrayList<Integer> oppositeElos, ArrayList<Double> results);
+	public int calculateExactPerformance(int actual, int coeff, List<Integer> oppositeElos, List<Double> results);
 	
 	/**
 	 * Berechnen des Durchschnitts der gegnerischen Wertungszahlen

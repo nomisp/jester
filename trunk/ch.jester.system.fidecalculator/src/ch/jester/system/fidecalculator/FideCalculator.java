@@ -1,6 +1,5 @@
 package ch.jester.system.fidecalculator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ch.jester.system.api.calculator.IEloCalculator;
@@ -33,18 +32,26 @@ public class FideCalculator implements IEloCalculator {
 	}
 
 	@Override
-	public int calculateElo(int actual, int coeff, ArrayList<Integer> oppositeElos, ArrayList<Double> results) {
-		long newElo = actual;
+	public int calculateElo(int actual, int coeff, List<Integer> oppositeElos, List<Double> results) {
+		double totEloChange = 0.0;
 		for (int i = 0; i < oppositeElos.size(); i++) {
-			newElo += calculateElo((int)newElo, coeff, oppositeElos.get(i), results.get(i));
+			totEloChange += calculateEloChange(actual, coeff, oppositeElos.get(i), results.get(i));
 		}
-		return (int)newElo;
+		return actual + (int)Math.round(totEloChange);
 	}
 
 	@Override
-	public int calculatePerformance(int actual, int coeff,
-			ArrayList<Integer> oppositeElos, ArrayList<Double> results) {
-		// TODO Auto-generated method stub
+	public int calculatePerformance(int actual, List<Integer> oppositeElos, List<Double> results) {
+		int sumOpponentRating = calcSumOpponentRating(oppositeElos);
+		int[] noResults = calcNoOfResults(results);
+		
+		double p = ((sumOpponentRating + RATING_DIFFERENCE * (noResults[0] - noResults[1])) / results.size());
+		return (int) Math.round(p);
+	}
+
+	@Override
+	public int calculateExactPerformance(int actual, int coeff, List<Integer> oppositeElos, List<Double> results) {
+		// TODO peter: Berechnung der Exakten Performance
 		return 0;
 	}
 
@@ -75,9 +82,53 @@ public class FideCalculator implements IEloCalculator {
 	 */
 	private double calculateEloChange(int actual, int coeff, int oppositeElo, double result) {
 		double kValue = (double) coeff;
-	    double winProb = 1.0 / (Math.pow(10,((oppositeElo - actual) / RATING_DIFFERENCE)) + 1.0);
+	    double winProb = calculateWinProbability(actual, oppositeElo);
 	    double ratingDiff = Math.round(kValue * (result - winProb));
 		
 		return ratingDiff;
+	}
+	
+	/**
+	 * Berechnen der Gewinnwahrscheinlichkeit
+	 * @param actual	Aktuelle Wertungszahl
+	 * @param oppositeElo Gegnerische Wertungszahl
+	 * @return Gewinnwahrscheinlichkeit
+	 */
+	private double calculateWinProbability(int actual, int oppositeElo) {
+		return 1.0 / (Math.pow(10,((oppositeElo - actual) / RATING_DIFFERENCE)) + 1.0);
+	}
+
+	/**
+	 * Berechnen der Summe der gegnerischen Elo
+	 * @param oppositeElos
+	 * @return Summe der gegnerischen Elo
+	 */
+	private int calcSumOpponentRating(List<Integer> oppositeElos) {
+		int sum = 0;
+		for (Integer integer : oppositeElos) {
+			sum += integer;
+		}
+		return sum;
+	}
+
+	/**
+	 * Berechnen der Anzahl Siege, Niederlagen und Remis
+	 * @param results Liste mit den Resultaten (1.0=Sieg, 0.0=Niederlage, 0.5=Remis)
+	 * @return	Array[0]=Anzahl Siege, Array[1]=Anzahl Niederlagen, Array[2]=Anzahl Remis
+	 */
+	private int[] calcNoOfResults(List<Double> results) {
+		int[] noResults = new int[3];
+		int sumWon = 0;
+		int sumLost = 0;
+		int sumRemis = 0;
+		for (Double res : results) {
+			if (res == 1.0) sumWon++;
+			if (res == 0.0) sumLost++;
+			if (res == 0.5) sumRemis++;
+		}
+		noResults[0] = sumWon;
+		noResults[1] = sumLost;
+		noResults[2] = sumRemis;
+		return noResults;
 	}
 }
