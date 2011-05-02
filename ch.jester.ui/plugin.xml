@@ -119,6 +119,10 @@
                icon="icons/prev.gif"
                style="push">
          </command>
+         <control
+               class="ch.jester.ui.WorkbenchWindowControlContribution1"
+               id="ch.jester.gotopagefield">
+         </control>
          <command
                commandId="org.eclipse.ui.navigate.next"
                icon="icons/next.gif"

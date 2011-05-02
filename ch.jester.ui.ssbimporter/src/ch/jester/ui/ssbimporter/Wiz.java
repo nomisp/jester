@@ -15,13 +15,13 @@ import org.eclipse.ui.IWorkbench;
 
 import ch.jester.common.utility.ZipUtility;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.ui.ssbimporter.WizPage.ImportSelection;
+import ch.jester.ui.ssbimporter.ZipPlayerImporter.ImportSelection;
 import ch.jester.ui.ssbimporter.internal.Activator;
 
 
 public class Wiz extends Wizard implements IImportWizard{
 	private ILogger mLogger;
-	private WizPage mainPage;
+	private ZipPlayerImporter mainPage;
 
 	@Override
 	public void addPages() {
@@ -62,10 +62,10 @@ public class Wiz extends Wizard implements IImportWizard{
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		setWindowTitle("Import Wizard");
+		setWindowTitle("Import Players");
 		setNeedsProgressMonitor(true);
 		ISelection sel = workbench.getActiveWorkbenchWindow().getSelectionService().getSelection();
-		 mainPage = new WizPage(selection);
+		 mainPage = new ZipPlayerImporter(selection);
 		
 	}
 	@Override

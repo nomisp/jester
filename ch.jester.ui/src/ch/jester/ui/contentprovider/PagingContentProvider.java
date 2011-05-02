@@ -1,13 +1,8 @@
 package ch.jester.ui.contentprovider;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -62,6 +57,9 @@ public class PagingContentProvider implements IStructuredContentProvider {
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		int inputSize = 0;
 		if(newInput instanceof List && !((List<?>)newInput).isEmpty()){
+			if(oldInput==newInput){
+				return;
+			}
 			List<?> list = (List<?>) newInput;
 			currentInput=list;
 			if(list.size()<=mPageSize){
