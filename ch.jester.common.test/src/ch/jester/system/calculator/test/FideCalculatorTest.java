@@ -36,7 +36,24 @@ public class FideCalculatorTest extends ActivatorProviderForTestCase {
 	
 	@Test
 	public void testCalculateManyGames() {
-		// TODO peter: Tests schreiben
+		IEloCalculator fideCalculator = getFideEloCalculatorService();
+		List<Integer> opponentRatings = new ArrayList<Integer>();
+		opponentRatings.add(1850);
+		opponentRatings.add(1900);
+		opponentRatings.add(1700);
+		opponentRatings.add(1750);
+		opponentRatings.add(1850);
+		opponentRatings.add(1690);
+		opponentRatings.add(1770);
+		List<Double> results = new ArrayList<Double>();
+		results.add(1.0);
+		results.add(0.0);
+		results.add(1.0);
+		results.add(0.5);
+		results.add(0.0);
+		results.add(1.0);
+		results.add(0.5);
+		assertEquals(1737, fideCalculator.calculateElo(1720, 15, opponentRatings, results));
 	}
 	
 	@Test
@@ -48,6 +65,28 @@ public class FideCalculatorTest extends ActivatorProviderForTestCase {
 		opponentElos.add(1556);
 		opponentElos.add(1903);
 		assertEquals(1749.75, fideCalculator.meanOpposites(opponentElos), 0.001);
+	}
+	
+	@Test
+	public void testCalculatePerformance() {
+		IEloCalculator fideCalculator = getFideEloCalculatorService();
+		List<Integer> opponentRatings = new ArrayList<Integer>();
+		opponentRatings.add(1850);
+		opponentRatings.add(1900);
+		opponentRatings.add(1700);
+		opponentRatings.add(1750);
+		opponentRatings.add(1850);
+		opponentRatings.add(1690);
+		opponentRatings.add(1770);
+		List<Double> results = new ArrayList<Double>();
+		results.add(1.0);
+		results.add(0.0);
+		results.add(1.0);
+		results.add(0.5);
+		results.add(0.0);
+		results.add(1.0);
+		results.add(0.5);
+		assertEquals(1844, fideCalculator.calculatePerformance(1720, opponentRatings, results));
 	}
 	
 	/**
