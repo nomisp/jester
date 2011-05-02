@@ -1,9 +1,12 @@
 package ch.jester.ui.ssbimporter;
 
 
+import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -24,11 +27,19 @@ import org.eclipse.swt.widgets.Text;
 
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.utility.ZipUtility;
+import ch.jester.common.web.ExtensionFilter;
+import ch.jester.common.web.Link;
+import ch.jester.common.web.LinkFilter;
+import ch.jester.common.web.PageReader;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
 import ch.jester.commonservices.util.ServiceUtility;
+import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.jface.viewers.ComboViewer;
 
-public class WizPage extends WizardPage {
+public class ZipPlayerImporter extends WizardPage {
 	private Text text;
 	private Table table;
 	private CheckboxTableViewer checkboxTableViewer;
@@ -38,24 +49,38 @@ public class WizPage extends WizardPage {
 	
 	private final Object NULL_INPUT = null;
 	private ImportSelection mImportInput = new ImportSelection();
+	
+	private final WebAddress fide = new WebAddress();
+	private final WebAddress ssb = new WebAddress();
+	
+	private void init(){
+		fide.mText = "FIDE";
+		fide.mURL = "http://ratings.fide.com/download.phtml";
+		ssb.mText = "SSB";
+		ssb.mURL = "http://www.schachbund.ch/schachsport/fldownload.php";
+	}
+	
+	
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public WizPage(ISelection s) {
-		super("wizardPage");
+	public ZipPlayerImporter(ISelection s) {
+		super("Import Zip");
 		System.out.println(s);
-		setTitle("wizardPage"); //NON-NLS-1
-		setDescription("Import a file from the local file system into the workspace"); //NON-NLS-1
+		setTitle("ziiiip"); //NON-NLS-1
+		setDescription("Import Players from a ZIP into jester"); //NON-NLS-1
+		init();
 	}
 	
 	
 	/**
 	 * Create the wizard.
 	 */
-	public WizPage() {
-		super("wizardPage");
-		setTitle("Wizard Page title");
-		setDescription("Wizard Page description");
+	public ZipPlayerImporter() {
+		super("Import Zip");
+		setTitle("ziiiip");
+		setDescription("Import Players from a ZIP into jester"); //NON-NLS-1
+		init();
 	}
 
 	/**
@@ -88,22 +113,28 @@ public class WizPage extends WizardPage {
 
 
 		});
-		mBtnBrowse.setBounds(504, 20, 68, 23);
+		mBtnBrowse.setBounds(484, 62, 57, 23);
 		mBtnBrowse.setText("Browse");
 		
 		text = new Text(container, SWT.BORDER);
-		text.setBounds(10, 22, 468, 27);
+		text.setMessage("Select a Zip file");
+		text.setBounds(9, 64, 469, 20);
 		
 		checkboxTableViewer = CheckboxTableViewer.newCheckList(container, SWT.BORDER | SWT.FULL_SELECTION);
 		table = checkboxTableViewer.getTable();
 		
 		table.addSelectionListener(new SelectionCountListener());
 		
-		table.setBounds(10, 66, 468, 157);
+		table.setBounds(10, 204, 468, 112);
 		
 		listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL);
 		org.eclipse.swt.widgets.List list = listViewer.getList();
-		list.setBounds(10, 250, 468, 85);
+		list.setBounds(10, 340, 469, 72);
+		//webCombo.set
+		
+		Label lblSource = new Label(container, SWT.NONE);
+		lblSource.setBounds(10, 10, 49, 13);
+		lblSource.setText("Source");
 		
 		listViewer.addSelectionChangedListener(new HandlerSelectionListener());
 		
@@ -158,7 +189,27 @@ public class WizPage extends WizardPage {
 			return handlers.toArray();
 		}
 	}
-
+	
+	private List<Link> populate(WebAddress pwa) throws IOException {
+		if(pwa==fide){
+			PageReader reader = new PageReader();
+			LinkFilter linkfilter;
+			reader.setFilter(new ExtensionFilter(".zip", linkfilter=LinkFilter.createFIDEFilter()));
+			reader.readPage(pwa.mURL);
+			List<Link> links = linkfilter.getLinks();
+			return links;
+		
+		}else{
+			PageReader reader = new PageReader();
+			reader.setDownloadRoot("http://www.schachbund.ch/schachsport");
+			LinkFilter linkfilter = LinkFilter.createSSBFilter();
+			reader.setFilter(new ExtensionFilter( ".zip", linkfilter));
+			reader.readPage(pwa.mURL);
+			List<Link> links = linkfilter.getLinks();
+			return links;
+		}
+		
+	}
 	private class HandlerSelectionListener implements ISelectionChangedListener {
 		SelectionUtility su = new SelectionUtility(null);
 
@@ -252,6 +303,17 @@ public class WizPage extends WizardPage {
 		@Override
 		public Object[] getElements(Object inputElement) {
 			return ZipUtility.getZipEntries(text.getText(), false).toArray();
+		}
+	}
+	
+	
+	
+	
+	private class WebAddress{
+		String mText;
+		String mURL;
+		public String toString(){
+			return mText;
 		}
 	}
 }
