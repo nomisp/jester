@@ -6,12 +6,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ch.jester.common.web.PageReader.IPageReaderFilter;
+import ch.jester.commonservices.api.importer.ILink;
 
 public class LinkFilter implements IPageReaderFilter{
 	private Pattern mLinkPattern;
 	private int mURLGroup, mNameGroup;
 	public static String FIDE_PATTERN = "(<a href=)(.*[^\\S>])(.*>)(.*)(</a>)";
-	List<Link> mLinks = new ArrayList<Link>();
+	List<ILink> mLinks = new ArrayList<ILink>();
 	@Override
 	public void filter(String arg0, PageReader pReader) {
 		Matcher matcher = mLinkPattern.matcher(arg0);
@@ -40,7 +41,7 @@ public class LinkFilter implements IPageReaderFilter{
 		
 	}
 	
-	public List<Link> getLinks(){
+	public List<ILink> getLinks(){
 		return mLinks;
 	}
 	public static LinkFilter createSSBFilter() {

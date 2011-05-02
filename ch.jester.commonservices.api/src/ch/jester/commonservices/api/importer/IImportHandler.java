@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
  * Importiert eine Source
  *
  */
-public interface IImportHandler {
+public interface IImportHandler<T> {
 
 	/**Importiert den Stream
 	 * @param pInputStream der Stream
