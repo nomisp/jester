@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.commonservices.api.importer.IImportHandler;
 
-public abstract class AbstractTableImporter<T, V> implements IImportHandler{
+public abstract class AbstractTableImporter<T, V> implements IImportHandler<InputStream>{
 	int workUnits = 10000000;
 	int singleUnitOfWork = -1;
 	private ITableProvider<T> mProvider;

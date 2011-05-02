@@ -5,15 +5,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
-public class Link{
+import ch.jester.commonservices.api.importer.ILink;
+
+public class Link implements ILink{
 	private String mText, mURL, mRoot;
 	public Link(String pText, String pURL){
 		mText=pText;
 		mURL=pURL;
 	}
+	/* (non-Javadoc)
+	 * @see ch.jester.common.web.ILink#getText()
+	 */
+	@Override
 	public String getText(){
 		return mText;
 	}
+	/* (non-Javadoc)
+	 * @see ch.jester.common.web.ILink#getURL()
+	 */
+	@Override
 	public String getURL(){
 		if(isRelative()){
 			return mRoot+mURL;
@@ -23,6 +33,10 @@ public class Link{
 	public String toString(){
 		return mText;
 	}
+	/* (non-Javadoc)
+	 * @see ch.jester.common.web.ILink#setRoot(java.lang.String)
+	 */
+	@Override
 	public void setRoot(String pAddress){
 		mRoot=pAddress;
 		
@@ -36,6 +50,10 @@ public class Link{
 		}
 		return true;
 	}
+	/* (non-Javadoc)
+	 * @see ch.jester.common.web.ILink#download(java.lang.String)
+	 */
+	@Override
 	public void download(String pTargetFile) throws IOException{
 		HttpURLConnection uc = HTTPFactory.connect(getURL());
 		uc.connect();

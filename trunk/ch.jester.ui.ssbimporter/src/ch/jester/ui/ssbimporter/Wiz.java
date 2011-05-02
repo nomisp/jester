@@ -65,7 +65,7 @@ public class Wiz extends Wizard implements IImportWizard{
 		setWindowTitle("Import Players");
 		setNeedsProgressMonitor(true);
 		ISelection sel = workbench.getActiveWorkbenchWindow().getSelectionService().getSelection();
-		 mainPage = new ZipPlayerImporter(selection);
+		 mainPage = new ZipPlayerImporter();
 		
 	}
 	@Override

@@ -2,10 +2,14 @@ package ch.jester.common.components;
 
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.core.internal.registry.ExtensionRegistry;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 import org.osgi.service.component.ComponentContext;
 
 
@@ -66,9 +70,32 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements I
 
 	@SuppressWarnings("unchecked")
 	protected T createProxy(IConfigurationElement pConfigurationElement){
-		return (T) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[]{mClassType, IEPEntry.class}, new EPServiceProxy<T>(pConfigurationElement, mClassType, getClassAttribute()));
+		String classname = pConfigurationElement.getAttribute(getClassAttribute());
+		Bundle bundle = Platform.getBundle(pConfigurationElement.getContributor().getName());
+		Class clz = null;
+		try {
+			 clz = bundle.loadClass(classname);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<Class<?>> classes = new ArrayList<Class<?>>();
+		classes.addAll(getProxyInterfaces(clz));
+
+		if(!classes.contains(mClassType)){
+			classes.add(mClassType);
+		}
+		classes.add(IEPEntry.class);
+		//classes.add(mClassType);
+		return (T) Proxy.newProxyInstance(this.getClass().getClassLoader(), classes.toArray(new Class[classes.size()]), new EPServiceProxy<T>(pConfigurationElement, mClassType, getClassAttribute()));
 	}
 	
+
+	private List<Class<?>> getProxyInterfaces(Class<T> clz) {
+		Class<?>[] clz0 = clz.getInterfaces();
+		
+		return Arrays.asList(clz0);
+	}
 
 	@Override
 	public List<V> getRegistredEntries() {

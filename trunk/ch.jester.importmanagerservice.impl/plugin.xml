@@ -13,6 +13,16 @@
             shortType="*.txt"
             typeDescription="FIDE Text Importer">
       </ImportHandler>
+      <ImportHandler
+            class="ch.jester.importmanagerservice.impl.internal.finalimpl.webadapters.FIDEWebAdapter"
+            shortType="*.web"
+            typeDescription="FIDE">
+      </ImportHandler>
+      <ImportHandler
+            class="ch.jester.importmanagerservice.impl.internal.finalimpl.webadapters.SSBWebAdapter"
+            shortType="*.web"
+            typeDescription="SSB">
+      </ImportHandler>
    </extension>
 
 </plugin>
