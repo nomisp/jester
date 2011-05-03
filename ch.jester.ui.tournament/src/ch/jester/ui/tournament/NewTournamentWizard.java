@@ -22,6 +22,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 	
 	private ILogger mLogger;
 	private NewTournamentWizPageName newTournament;
+	private NewTournWizPageSystem systemPage;
 	private ServiceUtility su = new ServiceUtility();
 	
 	public NewTournamentWizard() {
@@ -34,12 +35,14 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 		mLogger.info("New tournament wizard started: adding pages");
 		super.addPages();
 		addPage(newTournament);
+		addPage(systemPage);
 	}
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle("New Tournament");
 		newTournament = new NewTournamentWizPageName();
+		systemPage = new NewTournWizPageSystem();
 	}
 
 	@Override
