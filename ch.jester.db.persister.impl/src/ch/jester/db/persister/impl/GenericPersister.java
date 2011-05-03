@@ -10,6 +10,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 import ch.jester.common.utility.StopWatch;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
 import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
 import ch.jester.dao.IDaoObject;
@@ -18,14 +19,13 @@ import ch.jester.dao.IDaoService;
 import ch.jester.orm.ORMPlugin;
 
 public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
-	EntityManagerFactory mFactory;
-	EntityManager mManager;
-	
-	IPersistencyEventQueue mEventQueue;
-	Query mPagingQuery;
-	Query mCountQuery;
-	
-	
+	private StopWatch watch = new StopWatch();
+	protected EntityManagerFactory mFactory;
+	protected EntityManager mManager;
+	private IPersistencyEventQueue mEventQueue;
+	private Query mPagingQuery;
+	private Query mCountQuery;
+	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	private void fireEvent(Object pLoad, PersistencyEvent.Operation pOperation){
 		mEventQueue.dispatch(new PersistencyEvent(this, pLoad, pOperation));
 	}
@@ -179,7 +179,6 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 		check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
-		@SuppressWarnings("unchecked")
 		int result = ((Long) mCountQuery.getSingleResult()).intValue();
 		trx.commit();
 		return result;
@@ -187,14 +186,12 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 	@Override
 	public List<T> getFromTo(int from, int to) {
 		check();
-		System.out.println("maxResults: "+(to-from)+" - firstResult "+from);
-		StopWatch watch = new StopWatch();
 		watch.start();
 		mManager.getTransaction().begin();
 		List<T> result =  mPagingQuery.setMaxResults(to-from).setFirstResult(from).getResultList();
 		mManager.getTransaction().commit();
 		watch.stop();
-		System.out.println("Query took "+watch.getElapsedTime());
+		mLogger.debug("Query Time - getFromTo: "+watch.getElapsedTime());
 		return (List<T>) result;
 	}
 	protected  Query getPagingQuery(){
