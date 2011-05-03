@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Buchholz Ranking-System
+Bundle-SymbolicName: ch.jester.rankingsystem.buchholz;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: ch.jester.rankingsystem.buchholz.internal.BuchholzActivator
+Bundle-Vendor: M.Liechti & P.Simon
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ ch.jester.system.api;bundle-version="1.0.0",
+ ch.jester.system.impl;bundle-version="1.0.0",
+ ch.jester.common;bundle-version="1.0.0",
+ ch.jester.commonservices.api;bundle-version="1.0.0",
+ ch.jester.model;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: ch.jester.rankingsystem.buchholz,
+ ch.jester.rankingsystem.buchholz.internal
