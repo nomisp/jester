@@ -43,28 +43,28 @@ public class Player extends AbstractModelBean{
 	private String nation;
 	
 	@Column(name="FideCode", nullable=true)
-	private int fideCode;
+	private Integer fideCode;
 	
 	@Column(name="NationalCode", nullable=true)
-	private int nationalCode;
+	private Integer nationalCode;
 	
 	@Column(name="Elo", nullable=true)
-	private int elo;
+	private Integer elo;
 	
 	@Column(name="NationalElo", nullable=true)
-	private int nationalElo;
+	private Integer nationalElo;
 	
 	@Column(name="Age", nullable=true)
-	private int age;
+	private Integer age;
 	
 	@Column(name="Category", nullable=true)
 	private String category;	// Kategorie eines Spielers z.B. Senior, Junior, Sch�ler etc.
 	
 	@Column(name="NationalCoefficient", nullable=true)
-	private int nationalCoefficient;	// Koeffizient zur Berechnung der Nationalen Elo
+	private Integer nationalCoefficient;	// Koeffizient zur Berechnung der Nationalen Elo
 	
 	@Column(name="FideCoefficient", nullable=true)
-	private int fideCoefficient;	// Koeffizient zur Berechnung der FIDE-Elo
+	private Integer fideCoefficient;	// Koeffizient zur Berechnung der FIDE-Elo
 	
 	@Column(name="Title", nullable=true)
 	private String title; // Titel eines Spielers (GM, IM, FM)
@@ -109,43 +109,43 @@ public class Player extends AbstractModelBean{
 		firePropertyChange("nation",  this.nation, this.nation = nation);
 	}
 
-	public int getFideCode() {
+	public Integer getFideCode() {
 		return fideCode;
 	}
 
-	public void setFideCode(int fideCode) {
+	public void setFideCode(Integer fideCode) {
 		firePropertyChange("fideCode",  this.fideCode, this.fideCode = fideCode);
 	}
 
-	public int getNationalCode() {
+	public Integer getNationalCode() {
 		return nationalCode;
 	}
 
-	public void setNationalCode(int nationalCode) {
+	public void setNationalCode(Integer nationalCode) {
 		firePropertyChange("nationalCode",  this.nationalCode, this.nationalCode = nationalCode);
 	}
 
-	public int getElo() {
+	public Integer getElo() {
 		return elo;
 	}
 
-	public void setElo(int elo) {
+	public void setElo(Integer elo) {
 		firePropertyChange("elo",  this.elo, this.elo = elo);
 	}
 
-	public int getNationalElo() {
+	public Integer getNationalElo() {
 		return nationalElo;
 	}
 
-	public void setNationalElo(int nationalElo) {
+	public void setNationalElo(Integer nationalElo) {
 		firePropertyChange("nationalElo",  this.nationalElo, this.nationalElo = nationalElo);
 	}
 		
-	public int getAge() {
+	public Integer getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 
@@ -157,19 +157,19 @@ public class Player extends AbstractModelBean{
 		this.category = category;
 	}
 
-	public int getNationalCoefficient() {
+	public Integer getNationalCoefficient() {
 		return nationalCoefficient;
 	}
 
-	public void setNationalCoefficient(int nationalCoefficient) {
+	public void setNationalCoefficient(Integer nationalCoefficient) {
 		this.nationalCoefficient = nationalCoefficient;
 	}
 
-	public int getFideCoefficient() {
+	public Integer getFideCoefficient() {
 		return fideCoefficient;
 	}
 
-	public void setFideCoefficient(int fideCoefficient) {
+	public void setFideCoefficient(Integer fideCoefficient) {
 		this.fideCoefficient = fideCoefficient;
 	}
 
