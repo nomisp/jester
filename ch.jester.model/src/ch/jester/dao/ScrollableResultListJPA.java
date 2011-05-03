@@ -39,12 +39,12 @@ public class ScrollableResultListJPA<T extends IDaoObject> extends AbstractList<
     }
 
     public List<T> getItems(int from, int to) {
-        System.out.println("numer of requests to the database " + counter++);
-        StopWatch watch = new StopWatch();
-        watch.start();
+        //System.out.println("numer of requests to the database " + counter++);
+      //  StopWatch watch = new StopWatch();
+      //  watch.start();
         List<T> resultList = persister.getFromTo(from, to);
-        watch.stop();
-        System.out.println("getFromTo Duration: "+watch.getElapsedTime());
+      //  watch.stop();
+      //  System.out.println("getFromTo Duration: "+watch.getElapsedTime());
         return resultList;
     }
 }
