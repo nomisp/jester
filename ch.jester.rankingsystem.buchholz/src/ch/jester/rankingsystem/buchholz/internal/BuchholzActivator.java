@@ -1,4 +1,4 @@
-package ch.jester.system.fidecalculator.internal;
+package ch.jester.rankingsystem.buchholz.internal;
 
 import org.osgi.framework.BundleContext;
 
@@ -7,24 +7,24 @@ import ch.jester.common.activator.AbstractActivator;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class FideCalculatorActivator extends AbstractActivator {
+public class BuchholzActivator extends AbstractActivator {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "ch.jester.system.fidecalculator"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "ch.jester.rankingsystem.buchholz"; //$NON-NLS-1$
 
 	// The shared instance
-	private static FideCalculatorActivator plugin;
+	private static BuchholzActivator plugin;
 	
 	/**
 	 * The constructor
 	 */
-	public FideCalculatorActivator() {
+	public BuchholzActivator() {
 	}
 
 	@Override
 	public void startDelegate(BundleContext pContext) {
 		plugin = this;
-		getActivationContext().getLogger().info("Starting FIDE-Calculator Plugin");
+		getActivationContext().getLogger().info("Starting Buchholz Ranking-System Plugin");
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class FideCalculatorActivator extends AbstractActivator {
 	 *
 	 * @return the shared instance
 	 */
-	public static FideCalculatorActivator getDefault() {
+	public static BuchholzActivator getDefault() {
 		return plugin;
 	}
 
