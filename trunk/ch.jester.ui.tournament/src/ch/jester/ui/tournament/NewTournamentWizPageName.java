@@ -25,7 +25,7 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 	
 	protected NewTournamentWizPageName() {
 		super("Tournament name");
-		setTitle("New Tournament");
+		setTitle("Tournament");
 		setMessage("Creating a new tournament");
 		setDescription("Creating a new tournament");
 		setPageComplete(false);
@@ -88,13 +88,14 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 	 */
 	private boolean validatePage() {
 		if (tournamentName.getText().isEmpty()) return false;
+//		setPageComplete(true);
 		return true;
 	}
 	
 	// Listener Methoden
 	@Override
 	public void modifyText(ModifyEvent e) {
-//		setPageComplete(validatePage());
+		setPageComplete(validatePage());
 		getWizard().getContainer().updateButtons();
 	}
 
