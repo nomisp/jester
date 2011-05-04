@@ -2,30 +2,29 @@ package ch.jester.common.ui.editorutilities;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class DirtyManager implements PropertyChangeListener{
 	private boolean mDirty;
 	private Set<String> mProperties = new HashSet<String>();
-	private IDirtyManagerPropertyInvoker mInvoker;
+	private List<IDirtyManagerPropertyInvoker> mInvokers = new ArrayList<IDirtyManagerPropertyInvoker>();
 	public DirtyManager(){
 	}
-	public DirtyManager(IDirtyManagerPropertyInvoker pInvoker){
-		mInvoker=pInvoker;
-	}
-	
+
 	public void addListenerProperty(String p){
 		mProperties.add(p);
 	}
-	public void setDirtyManagerPropertyInvoker(IDirtyManagerPropertyInvoker pInvoker){
-		mInvoker=pInvoker;
+	public void addDirtyManagerPropertyInvoker(IDirtyManagerPropertyInvoker pInvoker){
+		mInvokers.add(pInvoker);
 	}
 	
 	public void setDirty(boolean b){
 		mDirty = b;
-		if(mInvoker!=null){
-			mInvoker.fireDirtyProperty();
+		for(IDirtyManagerPropertyInvoker inv:mInvokers){	
+			inv.fireDirtyProperty();
 		}
 	}
 	public void reset(){
@@ -40,7 +39,6 @@ public class DirtyManager implements PropertyChangeListener{
 			if(mProperties.isEmpty()||mProperties.contains(arg0.getPropertyName())){
 				setDirty(true);
 			}
-		
 	}
 
 }

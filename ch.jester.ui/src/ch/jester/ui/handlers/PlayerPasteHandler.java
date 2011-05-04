@@ -4,8 +4,8 @@ import java.util.List;
 
 import ch.jester.common.ui.handlers.ClonePasteHandler;
 import ch.jester.model.Player;
-import ch.jester.ui.player.editor.PlayerListController;
-import ch.jester.ui.player.editor.PlayersView;
+import ch.jester.ui.player.editor.ctrl.PlayerListController;
+import ch.jester.ui.player.editor.view.PlayersView;
 
 public class PlayerPasteHandler extends ClonePasteHandler<Player> {
 

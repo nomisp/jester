@@ -1,7 +1,7 @@
-package ch.jester.ui.player.editor;
+package ch.jester.ui.player.editor.view;
 
-import org.eclipse.core.commands.operations.IUndoContext;
-import org.eclipse.core.commands.operations.UndoContext;
+import java.util.List;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -25,11 +25,8 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.operations.RedoActionHandler;
 import org.eclipse.ui.operations.UndoActionHandler;
 import org.eclipse.ui.part.ViewPart;
@@ -38,10 +35,19 @@ import ch.jester.common.ui.listeners.DefaultSelectionCountListener;
 import ch.jester.common.ui.listeners.OpenEditorDoubleClickListener;
 import ch.jester.common.ui.utility.MenuManagerUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
+import ch.jester.model.Player;
 import ch.jester.ui.Activator;
+import ch.jester.ui.player.editor.ctrl.PlayerListController;
+
+import org.eclipse.core.databinding.observable.Observables;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.property.Properties;
+import org.eclipse.jface.databinding.viewers.ViewerSupport;
+import org.eclipse.core.databinding.beans.BeanProperties;
 
 public class PlayersView extends ViewPart{
 	private DataBindingContext m_bindingContext;
+	
 	//private SelectionUtility mSelectionUtil = new SelectionUtility(null);
 	private class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -70,7 +76,7 @@ public class PlayersView extends ViewPart{
 	public void init(IViewSite site) throws PartInitException {
 		// TODO Auto-generated method stub
 		super.init(site);
-		IUndoContext undoContext = PlatformUI.getWorkbench().getOperationSupport().getUndoContext();
+	/*	IUndoContext undoContext = PlatformUI.getWorkbench().getOperationSupport().getUndoContext();
 		 undoActionHandler = new UndoActionHandler(this.getSite(), undoContext);
 		 undoActionHandler.setPruneHistory(false);
 		 redoActionHandler = new RedoActionHandler(this.getSite(), undoContext);
@@ -80,7 +86,7 @@ public class PlayersView extends ViewPart{
 
 		// Register the global menu actions
 		actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(), undoActionHandler);
-		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoActionHandler);
+		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoActionHandler);*/
 	}
 
 	/**
@@ -196,10 +202,16 @@ public class PlayersView extends ViewPart{
 
 	@Override
 	public void setFocus() {
-		System.out.println("View has focus");
+		//System.out.println("View has focus");
 	}
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		
+		
+		//IObservableList selfList = Properties.selfList(Player.class).observe(mController.getPlayerList());
+		//ViewerSupport.bind(tableViewer, selfList, BeanProperties.values(Player.class, new String[]{"firstName", "lastName"}));
+		//bindingContext.b
 		//
 		return bindingContext;
 	}

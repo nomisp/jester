@@ -17,7 +17,7 @@ import ch.jester.common.ui.services.IEditorService;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
-import ch.jester.ui.player.editor.PlayerListController;
+import ch.jester.ui.player.editor.ctrl.PlayerListController;
 
 public class DeletePlayerHandler extends AbstractCommandHandler {
 	ILogger logger;

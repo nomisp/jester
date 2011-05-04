@@ -13,15 +13,16 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
-import ch.jester.ui.player.editor.PlayerListController;
+import ch.jester.ui.player.editor.ctrl.PlayerListController;
 
 public class PlayerFilter implements IFilter{
 	ServiceUtility su = Activator.getDefault().getActivationContext().getServiceUtil();
 	ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	@Override
 	public IStatus filter(String pSearch, IProgressMonitor monitor) {
-		if(pSearch.equals("")){
+		if(pSearch.length()==0){
 			su.getExclusiveService(PlayerListController.class).clearSearched();
+			return Status.OK_STATUS;
 		}
 		monitor.beginTask("searching for: "+pSearch, IProgressMonitor.UNKNOWN);
 		mLogger.debug("filtering: "+pSearch);

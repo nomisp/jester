@@ -1,23 +1,26 @@
-package ch.jester.ui.player.editor;
+package ch.jester.ui.player.editor.ctrl;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.model.Player;
-import org.eclipse.core.databinding.beans.BeansObservables;
+import ch.jester.ui.player.editor.view.PlayerDetailsView;
+
+import org.eclipse.core.databinding.UpdateValueStrategy;
 
 
 
 public class PlayerDetailsController {
-	private PlayerDetails mPlayerDetail;
+	private PlayerDetailsView mPlayerDetail;
 	private DataBindingContext mBindingContext;
 	private Player player = new Player();
-	private DirtyManager mDm = new DirtyManager();
-	public PlayerDetailsController(PlayerDetails playerDetails) {
+	private DirtyManager mDm;
+	public PlayerDetailsController(PlayerDetailsView playerDetails) {
 		mPlayerDetail = playerDetails;
+		mDm = playerDetails.getDirtyManager();
 		if (player != null) {
 			mBindingContext = initDataBindings();
 		}
@@ -34,12 +37,15 @@ public class PlayerDetailsController {
 		setPlayer(newPlayer, true);
 	}
 
+	public void updateModel(){
+		mBindingContext.updateModels();
+	}
+	public void updateUI(){
+		mBindingContext.updateTargets();
+	}
+	
 	public void setPlayer(Player newPlayer, boolean update) {
-		if(player!=null){
-			player.removePropertyChangeListener(mDm);
-		}
 		player = newPlayer;
-		player.addPropertyChangeListener(mDm);
 		if (update) {
 			if (mBindingContext != null) {
 				mBindingContext.dispose();
@@ -51,20 +57,16 @@ public class PlayerDetailsController {
 		}
 	}
 
-	public void dispose() {
-		player.removePropertyChangeListener(mDm);
-		
-	}
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
 		IObservableValue lastNameObserveWidget = SWTObservables.observeText(mPlayerDetail.getLastNameText(), SWT.Modify);
 		IObservableValue lastNameObserveValue = BeansObservables.observeValue(player, "lastName");
-		bindingContext.bindValue(lastNameObserveWidget, lastNameObserveValue, null, null);
+		bindingContext.bindValue(lastNameObserveWidget, lastNameObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
 		//
 		IObservableValue firstNameObserveWidget = SWTObservables.observeText(mPlayerDetail.getFirstNameText(), SWT.Modify);
 		IObservableValue firstNameObserveValue = BeansObservables.observeValue(player, "firstName");
-		bindingContext.bindValue(firstNameObserveWidget, firstNameObserveValue, null, null);
+		bindingContext.bindValue(firstNameObserveWidget, firstNameObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
 		//
 		IObservableValue cityObserveWidget = SWTObservables.observeText(mPlayerDetail.getCityText(), SWT.Modify);
 		IObservableValue cityObserveValue = BeansObservables.observeValue(player, "city");

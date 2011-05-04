@@ -5,7 +5,7 @@
          point="org.eclipse.ui.views">
       <view
             allowMultiple="false"
-            class="ch.jester.ui.player.editor.PlayersView"
+            class="ch.jester.ui.player.editor.view.PlayersView"
             id="ch.jester.ui.view.players"
             name="Players">
       </view>
