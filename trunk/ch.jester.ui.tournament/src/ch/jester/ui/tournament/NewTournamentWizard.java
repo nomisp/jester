@@ -66,9 +66,9 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					tournament.setYear(getYear(dateFrom));
 					tournament.setDateFrom(dateFrom);
 					tournament.setDateTo(dateTo);
-					tournament.setPairingSystem("DummyPairingSystem");	// TODO peter: PairingSystem (ist NOT NULL) WizardPage für die Auswahl
-					tournament.setRankingSystem("DummyRankingSystem");	// TODO peter: RankingSystem (ist NOT NULL) WizardPage für die Auswahl
-					tournament.setEloCalculator("DummyEloCalculator");  // TODO peter: EloCalculator (ist NOT NULL) WizardPage für die Auswahl
+					tournament.setPairingSystem(systemPage.getPairingAlgorithmEntry().getImplementationClass());
+					tournament.setRankingSystem(systemPage.getRankingSystemEntry().getImplementationClass());
+					tournament.setEloCalculator(systemPage.getEloCalculatorEntry().getImplementationClass());
 					
 					ITournamentDao tournamentPersister = su.getExclusiveService(ITournamentDao.class);
 					tournamentPersister.save(tournament);

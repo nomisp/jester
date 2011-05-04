@@ -1,6 +1,7 @@
 package ch.jester.system.ranking.impl;
 
 import ch.jester.common.components.EPEntry;
+import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.ranking.IRankingSystem;
 import ch.jester.system.api.ranking.IRankingSystemEntry;
 
@@ -8,6 +9,11 @@ public class DefaultRankingSystemEntry extends EPEntry<IRankingSystem> implement
 
 	public DefaultRankingSystemEntry(IRankingSystem pService) {
 		super(pService);
+	}
+	
+	@Override
+	public String getImplementationClass() {
+		return getProperty(IPairingAlgorithmEntry.CLASS);
 	}
 
 	@Override

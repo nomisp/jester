@@ -3,8 +3,15 @@ package ch.jester.system.api.calculator;
 import ch.jester.commonservices.api.components.IEPEntry;
 
 public interface IEloCalculatorEntry extends IEPEntry<IEloCalculator> {
-	public final static String SHORTTYPE = "shortType";
-	public final static String TYPEDESCRIPTION = "typeDescription";
+	public static final String CLASS = "class";
+	public static final String SHORTTYPE = "shortType";
+	public static final String TYPEDESCRIPTION = "typeDescription";
+	
+	/**
+	 * Klasse der Implementierung
+	 * @return
+	 */
+	public String getImplementationClass();
 	/**
 	 * @return einen String 
 	 */

@@ -17,14 +17,14 @@ import ch.jester.system.exceptions.NotAllResultsException;
 public interface IPairingAlgorithm {
 
 	/**
-	 * Ausführen der Paarungen (alle Kategorien)
+	 * AusfÃ¼hren der Paarungen (alle Kategorien)
 	 * @return Liste mit den Paarungen Index 0 = Brett 1
 	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 */
 	public List<Pairing> executePairings(IProgressMonitor pMonitor) throws NotAllResultsException;
 	
 	/**
-	 * Ausführen der Paarungen einer einzelnen Kategorie
+	 * AusfÃ¼hren der Paarungen einer einzelnen Kategorie
 	 * @param category
 	 * @return Liste mit den Paarungen Index 0 = Brett 1
 	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
