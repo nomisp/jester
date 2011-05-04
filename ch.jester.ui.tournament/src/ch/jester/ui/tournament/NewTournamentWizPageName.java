@@ -76,9 +76,15 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 		dateTo = new DateTime(container, SWT.BORDER);
 	}
 	
+	@Override
+	public boolean canFlipToNextPage(){
+	   if (getErrorMessage() != null) return false;
+	   return validatePage();
+	}
+	
 	/**
-	 * Validierung der WizardPage damit die nächste Seite angezeigt werden kann.
-	 * @return	true, wenn alle benötigten Angaben gemacht wurden.
+	 * Validierung der WizardPage damit die nÃ¤chste Seite angezeigt werden kann.
+	 * @return	true, wenn alle benÃ¶tigten Angaben gemacht wurden.
 	 */
 	private boolean validatePage() {
 		if (tournamentName.getText().isEmpty()) return false;
@@ -88,7 +94,8 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 	// Listener Methoden
 	@Override
 	public void modifyText(ModifyEvent e) {
-		setPageComplete(validatePage());
+//		setPageComplete(validatePage());
+		getWizard().getContainer().updateButtons();
 	}
 
 	// Getter und Setter Methoden

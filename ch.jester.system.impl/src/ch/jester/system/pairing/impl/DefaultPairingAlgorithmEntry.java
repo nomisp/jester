@@ -9,6 +9,11 @@ public class DefaultPairingAlgorithmEntry extends EPEntry<IPairingAlgorithm> imp
 	public DefaultPairingAlgorithmEntry(IPairingAlgorithm pService) {
 		super(pService);
 	}
+	
+	@Override
+	public String getImplementationClass() {
+		return getProperty(IPairingAlgorithmEntry.CLASS);
+	}
 
 	@Override
 	public String getShortType() {
