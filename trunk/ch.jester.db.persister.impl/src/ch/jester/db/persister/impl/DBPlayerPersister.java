@@ -19,6 +19,6 @@ public class DBPlayerPersister extends GenericPersister<Player> implements IPlay
 	}
 	 @Override
 	protected Query getPagingQuery() {
-		return super.mManager.createNamedQuery("getAllUnsorted");
+		return super.mManager.createNamedQuery("getAll");
 	}
 }

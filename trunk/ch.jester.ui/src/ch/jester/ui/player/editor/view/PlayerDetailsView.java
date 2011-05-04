@@ -1,4 +1,4 @@
-package ch.jester.ui.player.editor;
+package ch.jester.ui.player.editor.view;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -7,7 +7,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class PlayerDetails extends Composite {
+import ch.jester.common.ui.editorutilities.DirtyManager;
+import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
+import ch.jester.common.ui.editorutilities.SWTDirtyManager;
+import ch.jester.common.ui.listeners.SWTModifyPropertyChangeAdapter;
+import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
+
+public class PlayerDetailsView extends Composite implements IDirtyManagerProvider {
 
 	private PlayerDetailsController m_controller;
 	private Text lastNameText;
@@ -18,9 +24,12 @@ public class PlayerDetails extends Composite {
 	private Text nationalCodeText;
 	private Text eloText;
 	private Text nationalEloText;
-
-	public PlayerDetails(Composite parent, int style) {
+	private SWTDirtyManager dm = new SWTDirtyManager();
+	private SWTModifyPropertyChangeAdapter pca = new SWTModifyPropertyChangeAdapter();
+	public PlayerDetailsView(Composite parent, int style) {
 		super(parent, style);
+
+		
 		setLayout(new GridLayout(2, false));
 
 		new Label(this, SWT.NONE).setText("LastName:");
@@ -28,13 +37,15 @@ public class PlayerDetails extends Composite {
 		lastNameText = new Text(this, SWT.BORDER | SWT.SINGLE);
 		lastNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
-
+		pca.add(lastNameText, "lastName");
+		
 		new Label(this, SWT.NONE).setText("FirstName:");
 
 		firstNameText = new Text(this, SWT.BORDER | SWT.SINGLE);
 		firstNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
-
+		pca.add(lastNameText, "firstName");
+		
 		new Label(this, SWT.NONE).setText("City:");
 
 		cityText = new Text(this, SWT.BORDER | SWT.SINGLE);
@@ -69,7 +80,11 @@ public class PlayerDetails extends Composite {
 		nationalEloText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
 
+		dm.add(lastNameText, firstNameText, cityText, nationText, nationalCodeText, eloText, nationalEloText);
 		m_controller = new PlayerDetailsController(this);
+	}
+	public SWTModifyPropertyChangeAdapter getSWTModifyPropertyChangeAdapter(){
+		return pca;
 	}
 
 	public PlayerDetailsController getController(){
@@ -111,6 +126,11 @@ public class PlayerDetails extends Composite {
 
 	public Text getNationalEloText() {
 		return nationalEloText;
+	}
+
+	@Override
+	public DirtyManager getDirtyManager() {
+		return this.dm;
 	}
 
 }

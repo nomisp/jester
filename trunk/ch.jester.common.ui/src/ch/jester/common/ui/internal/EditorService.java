@@ -14,10 +14,10 @@ public class EditorService implements IEditorService{
 	private HashMap<Class<?>, RegistryEntry> mMap = new HashMap<Class<?>, RegistryEntry>();
 	private EditorAccessor accessor = null;
 	@Override
-	public void openEditor(Object pInputObject) {
+	public EditorAccessor.EditorAccess  openEditor(Object pInputObject) {
 		check();
 		RegistryEntry entry = mMap.get(pInputObject.getClass());
-		openEditor(pInputObject, entry.mEditorId);		
+		return openEditor(pInputObject, entry.mEditorId);		
 	}
 
 	private void check() {
@@ -29,7 +29,7 @@ public class EditorService implements IEditorService{
 	}
 
 	@Override
-	public void openEditor(Object pInputObject, String pEditorId) {
+	public EditorAccessor.EditorAccess  openEditor(Object pInputObject, String pEditorId) {
 		check();
 		try {
 			EditorAccess access = accessor.lookup(pInputObject);
@@ -44,6 +44,7 @@ public class EditorService implements IEditorService{
 				access.openEditor(editorInput, pEditorId);
 				
 			}
+			return access;
 		} catch (PartInitException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -54,6 +55,7 @@ public class EditorService implements IEditorService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 		
 		
 		

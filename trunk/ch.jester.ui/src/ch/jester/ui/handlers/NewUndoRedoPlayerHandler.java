@@ -11,8 +11,8 @@ import org.eclipse.core.runtime.Status;
 import ch.jester.common.ui.handlers.AbstractUndoRedoCommandHandler;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
-import ch.jester.ui.player.editor.PlayerListController;
-import ch.jester.ui.player.editor.PlayersView;
+import ch.jester.ui.player.editor.ctrl.PlayerListController;
+import ch.jester.ui.player.editor.view.PlayersView;
 
 public class NewUndoRedoPlayerHandler extends AbstractUndoRedoCommandHandler{
 	
@@ -48,14 +48,16 @@ public class NewUndoRedoPlayerHandler extends AbstractUndoRedoCommandHandler{
 				Player player = ModelFactory.getInstance().createPlayer();
 				mPlayer = player;
 				
+				PlayerListController ctrl = getServiceUtil().getService(PlayerListController.class);
+				
 				//hinzufügen vom Player
-				getServiceUtil().getService(PlayerListController.class).addPlayer(player);
+				ctrl.addPlayer(player);
 			
 				//selektiert im UI
 				setSelection(PlayersView.ID, player);
 
 				//öffne Editor
-				openEditor(player);
+				ctrl.openEditor(player);
 
 				
 				return Status.OK_STATUS;
