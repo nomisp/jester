@@ -23,6 +23,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 	private ILogger mLogger;
 	private NewTournamentWizPageName newTournament;
 	private NewTournWizPageSystem systemPage;
+	private NewTournWizPageCategories categoriesPage;
 	private ServiceUtility su = new ServiceUtility();
 	
 	public NewTournamentWizard() {
@@ -36,6 +37,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 		super.addPages();
 		addPage(newTournament);
 		addPage(systemPage);
+		addPage(categoriesPage);
 	}
 
 	@Override
@@ -43,6 +45,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 		setWindowTitle("New Tournament");
 		newTournament = new NewTournamentWizPageName();
 		systemPage = new NewTournWizPageSystem();
+		categoriesPage = new NewTournWizPageCategories();
 	}
 
 	@Override

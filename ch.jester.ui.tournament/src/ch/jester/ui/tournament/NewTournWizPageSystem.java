@@ -27,6 +27,7 @@ import ch.jester.system.api.ranking.IRankingSystemManager;
 
 public class NewTournWizPageSystem extends WizardPage {
 
+	private boolean pageComplete = false;
 	private ComboViewer comboPairingSystemViewer;
 	private ComboViewer comboRankingSystemViewer;
 	private ComboViewer comboEloCalculatorViewer;
@@ -40,8 +41,8 @@ public class NewTournWizPageSystem extends WizardPage {
 	 * Create the wizard.
 	 */
 	public NewTournWizPageSystem() {
-		super("wizardPage");
-		setTitle("New Tournament System");
+		super("systemDefinition");
+		setTitle("System");
 		setMessage("Defining the tournament system");
 		setDescription("Defining the tournament system");
 	}
@@ -129,11 +130,22 @@ public class NewTournWizPageSystem extends WizardPage {
 	
 	private boolean validatePage() {
 		if (eloCalculatorEntry != null && rankingSystemEntry != null && pairingAlgorithmEntry != null) {
-			setPageComplete(true);	// Nachher kommen nur noch die Kategorien und die braucht es nicht zwingend (muss einfach eine Dummy-Kategorie angelegt werden)
+			pageComplete = true;
 			return true;
 		}
 //		getWizard().getContainer().updateButtons();
 		return false;
+	}
+
+	@Override
+	public boolean canFlipToNextPage(){
+	   if (getErrorMessage() != null) return false;
+	   return validatePage();
+	}
+	
+	@Override
+	public boolean isPageComplete() {
+		return pageComplete;
 	}
 	
 	private class PairingSystemProvider implements IStructuredContentProvider {
@@ -165,7 +177,8 @@ public class NewTournWizPageSystem extends WizardPage {
 		public void selectionChanged(SelectionChangedEvent event) {
 			su.setSelection(event.getSelection());
 			pairingAlgorithmEntry = su.getFirstSelectedAs(IPairingAlgorithmEntry.class);
-			validatePage();
+//			validatePage();
+			getWizard().getContainer().updateButtons();
 		}
 	}
 	
@@ -199,7 +212,8 @@ public class NewTournWizPageSystem extends WizardPage {
 		public void selectionChanged(SelectionChangedEvent event) {
 			su.setSelection(event.getSelection());
 			rankingSystemEntry = su.getFirstSelectedAs(IRankingSystemEntry.class);
-			validatePage();
+//			validatePage();
+			getWizard().getContainer().updateButtons();
 		}
 	}
 	
@@ -233,7 +247,8 @@ public class NewTournWizPageSystem extends WizardPage {
 		public void selectionChanged(SelectionChangedEvent event) {
 			su.setSelection(event.getSelection());
 			eloCalculatorEntry = su.getFirstSelectedAs(IEloCalculatorEntry.class);
-			validatePage();
+//			validatePage();
+			getWizard().getContainer().updateButtons();
 		}
 	}
 	
