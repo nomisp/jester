@@ -10,10 +10,10 @@ import ch.jester.commonservices.impl.internal.Activator;
 
 
 
-public class MyPreferencePage1 extends FieldEditorPreferencePage implements
+public class HTTPProxyPreferencePage extends FieldEditorPreferencePage implements
 		IWorkbenchPreferencePage {
 
-	public MyPreferencePage1() {
+	public HTTPProxyPreferencePage() {
 		super(GRID);
 		
 

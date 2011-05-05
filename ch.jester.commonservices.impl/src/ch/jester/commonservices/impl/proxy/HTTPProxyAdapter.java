@@ -3,14 +3,11 @@ package ch.jester.commonservices.impl.proxy;
 import java.net.Proxy;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import ch.jester.common.web.HTTPFactory;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.proxy.IHTTPProxy;
 import ch.jester.commonservices.impl.internal.Activator;
 
@@ -18,12 +15,16 @@ public class HTTPProxyAdapter implements IHTTPProxy{
 	private String mAddress;
 	private int mPort;
 	private String NULL_STRING ="-1";
+	private ILogger mLogger;
 	public HTTPProxyAdapter(){
+		mLogger = Activator.getDefault().getActivationContext().getLogger();
 		mAddress =Platform.getPreferencesService().getString("ch.jester.commonservices.impl", "proxy.address", NULL_STRING, null);
 		mPort = Integer.parseInt(Platform.getPreferencesService().getString("ch.jester.commonservices.impl", "proxy.port", NULL_STRING, null));
-		System.out.println("HTTPProxyInit: "+mAddress+" / "+mPort);
+		mLogger.debug("HTTPProxyInit: "+mAddress+" / "+mPort);
 		if(mAddress!=NULL_STRING && mPort!=-1){
 			createHTTPProxy(mAddress, mPort);
+		}else{
+			mLogger.info("no HTTPProxy created");
 		}
 		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
 			String address, port;
@@ -43,7 +44,6 @@ public class HTTPProxyAdapter implements IHTTPProxy{
 					created[1] = false;
 					mAddress = address;
 					mPort = Integer.parseInt(port);
-					
 					createHTTPProxy(mAddress, mPort);
 				}
 				
@@ -54,10 +54,11 @@ public class HTTPProxyAdapter implements IHTTPProxy{
 	
 	@Override
 	public void createHTTPProxy(String pProxyAdress, int pProxyPort) {
-		System.out.println("Creating HTTP proxy: "+pProxyAdress+" / "+pProxyPort);
+		
 		HTTPFactory.createHTTPProxy(pProxyAdress, pProxyPort);
 		mAddress=pProxyAdress;
 		mPort=pProxyPort;
+		mLogger.info("Created HTTP proxy: "+pProxyAdress+" / "+pProxyPort);
 		
 	}
 	@Override
