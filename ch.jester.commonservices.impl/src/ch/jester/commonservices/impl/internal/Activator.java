@@ -2,13 +2,13 @@ package ch.jester.commonservices.impl.internal;
 
 import org.osgi.framework.BundleContext;
 
-import ch.jester.common.activator.AbstractActivator;
+import ch.jester.common.ui.activator.AbstractUIActivator;
 import ch.jester.commonservices.api.proxy.IHTTPProxy;
 import ch.jester.commonservices.impl.proxy.HTTPProxyAdapter;
 
-public class Activator extends AbstractActivator {
-	private static Activator mInstance;
-	public static Activator getDefault(){
+public class Activator extends AbstractUIActivator {
+	private static AbstractUIActivator mInstance;
+	public static AbstractUIActivator getDefault(){
 		return mInstance;
 	}
 	

@@ -1,10 +1,12 @@
 package ch.jester.rcpapplication;
 
+
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.importer.IImportManager;
+import ch.jester.commonservices.api.logging.ILogger;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -12,18 +14,19 @@ import ch.jester.commonservices.api.importer.IImportManager;
 public class Activator extends AbstractUIActivator{
 	
 	private static Activator plugin;
-	
+	private ILogger mLogger;
 	@Override
 	public void startDelegate(BundleContext pContext) {
-		getActivationContext().getLogger().info("Starting >jester<");
+		mLogger = getActivationContext().getLogger();
+		mLogger.info("Starting >jester<");
 		IComponentService<?> manager = getActivationContext().getService(IImportManager.class);	
-		getActivationContext().getLogger().info("ImportManager is "+manager);
+		mLogger.info("ImportManager is "+manager);
 		plugin = this;
 	}
 
 	@Override
 	public void stopDelegate(BundleContext pContext) {
-		getActivationContext().getLogger().info("Stopping >jester<");
+		mLogger.info("Stopping >jester<");
 		plugin = null;
 	}
 

@@ -44,7 +44,10 @@ public class DefaultBundleActivatorContext<V> implements IActivationContext<V> {
 	public ILogger getLogger(Class<?> t) {
 		ILoggerFactory loggerFactory = null;
 		loggerFactory = getService(ILoggerFactory.class);
-
+		if(loggerFactory==null){
+			System.out.println("No Logger Factory: eiter no Factory is installed, or the service has already been deactivated");
+			return null;
+		}
 		return loggerFactory.getLogger(t);
 	}
 
