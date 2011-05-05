@@ -20,9 +20,9 @@ import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.impl.internal.Activator;
 
 public class JavaPingService implements IPingService{
-	Job job;
+	PingJob job;
 	@Override
-	public int ping(String pInetAddress, int pTimeOut) {
+	public int ping(String pInetAddress) {
 		try {
 			URL url = new URL(pInetAddress);
 			HttpURLConnection hc = (HttpURLConnection) url.openConnection();
@@ -39,9 +39,9 @@ public class JavaPingService implements IPingService{
 	}
 
 	@Override
-	public int ping(String pInetAddress, int pTimeOut, int pReschedule) {
+	public int ping(String pInetAddress, int pReschedule) {
 		if(job==null){
-			job = new PingJob(pInetAddress, pTimeOut, pReschedule);
+			job = new PingJob(pInetAddress,  pReschedule);
 			job.schedule(5000);
 		}
 		return 0;
@@ -49,16 +49,14 @@ public class JavaPingService implements IPingService{
 
 	class PingJob extends Job{
 		String mInetAddress; 
-		int mTimeOut; 
 		int mReschedule;
 		boolean uiInstalled = false;
 		int lastResult = -1;
 		final StatusLineContributionItem sl;
-		public PingJob(String pInetAddress, int pTimeOut, int pReschedule) {
+		public PingJob(String pInetAddress, int pReschedule) {
 			super("PingJob");
 			setSystem(true);
 			mInetAddress =  pInetAddress;
-			mTimeOut = pTimeOut;
 			mReschedule = pReschedule;
 			sl=new StatusLineContributionItem("IStatus");
 		}
@@ -66,7 +64,7 @@ public class JavaPingService implements IPingService{
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 			if(uiInstalled){
-				final int result = JavaPingService.this.ping(mInetAddress, mTimeOut);
+				final int result = JavaPingService.this.ping(mInetAddress);
 				if(result!=lastResult){
 					UIUtility.syncExecInUIThread(new Runnable() {
 						
@@ -92,7 +90,7 @@ public class JavaPingService implements IPingService{
 					public void run() {
 						Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class).appendToGroup(StatusLineManager.END_GROUP, sl);
 						sl.setText("Internetconnection: unknown");
-						lastResult=-99;
+						lastResult=UNKNOWN;
 						uiInstalled=true;
 						
 					}
@@ -107,5 +105,13 @@ public class JavaPingService implements IPingService{
 			return Status.OK_STATUS;
 		}
 		
+	}
+
+	@Override
+	public boolean isConnected() {
+		if(job==null){
+			return false;
+		}
+		return job.lastResult==REACHABLE;
 	}
 }
