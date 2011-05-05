@@ -1,4 +1,4 @@
-package ch.jester.ui.player.editor.ctrl;
+package ch.jester.common.ui.utility;
 
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;

@@ -10,7 +10,6 @@ import org.eclipse.swt.widgets.Text;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
-import ch.jester.common.ui.listeners.SWTModifyPropertyChangeAdapter;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
 
 public class PlayerDetailsView extends Composite implements IDirtyManagerProvider {
@@ -25,7 +24,6 @@ public class PlayerDetailsView extends Composite implements IDirtyManagerProvide
 	private Text eloText;
 	private Text nationalEloText;
 	private SWTDirtyManager dm = new SWTDirtyManager();
-	private SWTModifyPropertyChangeAdapter pca = new SWTModifyPropertyChangeAdapter();
 	public PlayerDetailsView(Composite parent, int style) {
 		super(parent, style);
 
@@ -37,14 +35,13 @@ public class PlayerDetailsView extends Composite implements IDirtyManagerProvide
 		lastNameText = new Text(this, SWT.BORDER | SWT.SINGLE);
 		lastNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
-		pca.add(lastNameText, "lastName");
 		
 		new Label(this, SWT.NONE).setText("FirstName:");
 
 		firstNameText = new Text(this, SWT.BORDER | SWT.SINGLE);
 		firstNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
-		pca.add(lastNameText, "firstName");
+
 		
 		new Label(this, SWT.NONE).setText("City:");
 
@@ -82,9 +79,6 @@ public class PlayerDetailsView extends Composite implements IDirtyManagerProvide
 
 		dm.add(lastNameText, firstNameText, cityText, nationText, nationalCodeText, eloText, nationalEloText);
 		m_controller = new PlayerDetailsController(this);
-	}
-	public SWTModifyPropertyChangeAdapter getSWTModifyPropertyChangeAdapter(){
-		return pca;
 	}
 
 	public PlayerDetailsController getController(){

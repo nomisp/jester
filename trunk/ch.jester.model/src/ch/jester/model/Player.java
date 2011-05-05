@@ -177,6 +177,7 @@ public class Player extends AbstractModelBean{
 		return title;
 	}
 
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -185,10 +186,20 @@ public class Player extends AbstractModelBean{
 		return firstName+" "+lastName;
 	}
 	
+	/**
+	 * Regeln:<br>
+	 * - Referenzvergleich, wenn beide Objekte id 0 haben<br>
+	 * - sonst this.id == other.id
+	 */
 	public boolean equals(Object o){
 		if(o==null){return false;}
 		if(!(o instanceof Player)){return false;}
 		Player other = (Player) o;
+		//unsafed
+		if(this.getId()==0&&other.getId()==0){
+			return other==this;
+		}
+		
 		if(this.getId()==other.getId()){
 			return true;
 		}

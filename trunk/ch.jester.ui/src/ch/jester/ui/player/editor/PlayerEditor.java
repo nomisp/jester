@@ -1,7 +1,5 @@
 package ch.jester.ui.player.editor;
 
-import java.beans.PropertyChangeEvent;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -10,8 +8,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 
 import ch.jester.common.ui.editor.AbstractEditor;
-import ch.jester.common.ui.editorutilities.IDirtyManagerPropertyInvoker;
-import ch.jester.common.ui.editorutilities.SitePartNameHandler;
+import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.dao.IPlayerDao;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
 import ch.jester.ui.player.editor.view.PlayerDetailsView;
@@ -23,8 +20,9 @@ public class PlayerEditor extends AbstractEditor{
 	private PlayerDetailsView mPlayerDetails;
 	private PlayerDetailsController mPlayerDetailsController;
 	private boolean saved;
+	private IPlayerDao mDao;
 	public PlayerEditor() {
-
+		System.out.println("new player editor "+this);
 	}
 
 	/**
@@ -43,12 +41,12 @@ public class PlayerEditor extends AbstractEditor{
 		mPlayerDetailsController.setPlayer(mPlayerInput.getPlayer());
 		
 		setDirtyManager(mPlayerDetailsController.getDirtyManager());
-		getDirtyManager().addDirtyManagerPropertyInvoker(this);
+		getDirtyManager().addDirtyListener(this);
 		
-		mPlayerDetailsController.getDirtyManager().addDirtyManagerPropertyInvoker(new IDirtyManagerPropertyInvoker() {
+		mPlayerDetailsController.getDirtyManager().addDirtyListener(new IDirtyListener() {
 			
 			@Override
-			public void fireDirtyProperty() {
+			public void propertyIsDirty() {
 				setPartName(mPlayerDetails.getLastNameText().getText()+", "+mPlayerDetails.getFirstNameText().getText());
 				
 			}
@@ -57,6 +55,11 @@ public class PlayerEditor extends AbstractEditor{
 	
 	}
 
+	public void setPlayerDao(IPlayerDao dao){
+		System.out.println("setting dao"+this+" mDAO: "+dao);
+		mDao=dao;
+	}
+	
 	@Override
 	public void editorClosed(){
 		if(!saved){
@@ -66,18 +69,22 @@ public class PlayerEditor extends AbstractEditor{
 		mPlayerDetailsController.updateUI();
 	}
 
+	@Override
+	public void setFocus() {
+		System.out.println("Editor has focus: "+this+" mDAO: "+mDao);
+	}
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
+		System.out.println(this);
 		saved = true;
 		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
-		IPlayerDao persister = getServiceUtil().getExclusiveService(IPlayerDao.class);
 		try{
 			mPlayerDetailsController.updateModel();
-			persister.save(mPlayerDetailsController.getPlayer());
+			mDao.save(mPlayerDetailsController.getPlayer());
 			getDirtyManager().reset();
 		}finally{
-			persister.close();
+			//mDao.close();
 			monitor.done();
 		}
 
@@ -87,6 +94,7 @@ public class PlayerEditor extends AbstractEditor{
 		return saved;
 	}
 	
+	
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
@@ -95,12 +103,6 @@ public class PlayerEditor extends AbstractEditor{
 		setSite(site);
 		setInput(input);
 
-		/*SitePartNameHandler partNameHandler = new SitePartNameHandler() {
-			@Override
-			public void propertyChange(PropertyChangeEvent arg0) {
-				setPartName(mPlayerInput.getPlayer().getLastName()+", "+mPlayerInput.getPlayer().getFirstName());	
-			}
-		};*/
 
 		super.init(site, input);
 	}

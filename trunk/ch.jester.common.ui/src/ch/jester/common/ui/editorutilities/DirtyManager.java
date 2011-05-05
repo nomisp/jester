@@ -10,21 +10,21 @@ import java.util.Set;
 public class DirtyManager implements PropertyChangeListener{
 	private boolean mDirty;
 	private Set<String> mProperties = new HashSet<String>();
-	private List<IDirtyManagerPropertyInvoker> mInvokers = new ArrayList<IDirtyManagerPropertyInvoker>();
+	private List<IDirtyListener> mInvokers = new ArrayList<IDirtyListener>();
 	public DirtyManager(){
 	}
 
 	public void addListenerProperty(String p){
 		mProperties.add(p);
 	}
-	public void addDirtyManagerPropertyInvoker(IDirtyManagerPropertyInvoker pInvoker){
+	public void addDirtyListener(IDirtyListener pInvoker){
 		mInvokers.add(pInvoker);
 	}
 	
 	public void setDirty(boolean b){
 		mDirty = b;
-		for(IDirtyManagerPropertyInvoker inv:mInvokers){	
-			inv.fireDirtyProperty();
+		for(IDirtyListener inv:mInvokers){	
+			inv.propertyIsDirty();
 		}
 	}
 	public void reset(){

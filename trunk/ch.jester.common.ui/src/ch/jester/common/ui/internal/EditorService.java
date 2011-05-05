@@ -22,7 +22,7 @@ public class EditorService implements IEditorService{
 
 	private void check() {
 		if(accessor==null){
-			accessor = new EditorAccessor(UIUtility.getActiveWorkbenchWindow().getActivePage());
+			accessor = new EditorAccessor(UIUtility.getActiveWorkbenchWindow().getActivePage(), this);
 
 		}
 		

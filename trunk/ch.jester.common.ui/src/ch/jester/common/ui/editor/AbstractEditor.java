@@ -11,73 +11,24 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
-import ch.jester.common.ui.editorutilities.IDirtyManagerPropertyInvoker;
+import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.utility.PartListener2Adapter;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
-public abstract class AbstractEditor extends EditorPart implements IDirtyManagerPropertyInvoker, IDirtyManagerProvider{
+public abstract class AbstractEditor extends EditorPart implements IDirtyListener, IDirtyManagerProvider{
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
 	private DirtyManager mDirtyManager;
-
+	private IPartListener2 mPart2Listener = new NestedPart2Listener();
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
-		 IPartService service = (IPartService) getSite().getService(IPartService.class);
-		 service.addPartListener(new IPartListener2() {
-			
-			@Override
-			public void partVisible(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partOpened(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partInputChanged(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partHidden(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partDeactivated(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partClosed(IWorkbenchPartReference partRef) {
-				if(partRef == AbstractEditor.this){
-					editorClosed();
-				}
-				
-			}
-			
-			@Override
-			public void partBroughtToTop(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partActivated(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
+		 getPartService().addPartListener(mPart2Listener);
+	}
+	protected IPartService getPartService(){
+		return (IPartService) getSite().getService(IPartService.class);
 	}
 	
 	public ServiceUtility getServiceUtil(){
@@ -109,17 +60,27 @@ public abstract class AbstractEditor extends EditorPart implements IDirtyManager
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
-	
 	@Override
 	public void setFocus() {
 		
 	}
 
 	@Override
-	public void fireDirtyProperty() {
+	public void propertyIsDirty() {
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
 	
 	
 	 public void editorClosed(){};
+	 
+	 class NestedPart2Listener extends PartListener2Adapter{
+			@Override
+			public void partClosed(IWorkbenchPartReference partRef) {
+				if(partRef == AbstractEditor.this){
+					editorClosed();
+					getPartService().removePartListener(this);
+				}
+				
+			}
+	 }
 }
