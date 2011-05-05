@@ -30,10 +30,10 @@ public class EditorAccessor {
 			if(pInput.getInput().equals(pEditorInputObject)){
 				pref = ref;
 				editorInput = pInput;
-				break;
+				return new EditorAccess(pref, pEditorInputObject, editorInput);
 			}
 		}
-		return new EditorAccess(pref, pEditorInputObject, editorInput);
+		return new EditorAccess(null, pEditorInputObject, null);
 	}
 	
 	public class EditorAccess{
@@ -85,6 +85,7 @@ public class EditorAccessor {
 				if(pInput.getInput().equals(mOrigInput)){
 					pref = ref;
 					mRef=ref;
+					mInputAccess = ain;
 					break;
 				}
 			}
