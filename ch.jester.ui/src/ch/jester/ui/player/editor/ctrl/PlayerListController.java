@@ -146,7 +146,7 @@ public class PlayerListController{
 		
 		@Override
 		public void partClosed(IWorkbenchPartReference partRef) {
-			if(partRef == mAccess.getReference()){
+			if(partRef.getPart(false) == mAccess.getPart()){
 				PlayerEditor closedEditor = (PlayerEditor) mAccess.getPart();
 				if(!closedEditor.wasSaved()){
 					IEditorInputAccess<?> input = (IEditorInputAccess<?>)closedEditor.getEditorInput();
@@ -154,7 +154,7 @@ public class PlayerListController{
 				}
 				System.out.println("Was saved: "+closedEditor.wasSaved());
 				getPartService().removePartListener(this);
-				mAccess.close();
+				//mAccess.close();
 			}
 	}
 	}

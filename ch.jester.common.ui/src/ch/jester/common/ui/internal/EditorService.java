@@ -2,6 +2,7 @@ package ch.jester.common.ui.internal;
 
 import java.util.HashMap;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.ui.PartInitException;
 
 import ch.jester.common.ui.services.IEditorService;
@@ -33,6 +34,7 @@ public class EditorService implements IEditorService{
 		check();
 		try {
 			EditorAccess access = accessor.lookup(pInputObject);
+			Assert.isNotNull(access, "Access was null!!!");
 			if(access.isAlreadyOpen()){
 				access.activate();
 			}else{
