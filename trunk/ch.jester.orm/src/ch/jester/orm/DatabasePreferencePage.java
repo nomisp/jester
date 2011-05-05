@@ -40,10 +40,9 @@ public class DatabasePreferencePage extends FieldEditorPreferencePage implements
 		
 		logger.info("Selected Database: " + databasePlugin);
 		
-		String[][] bundleNames = getBundleName(getDataBasePlugins());
-			//addField(new ComboFieldEditor("Database", ORMMessages.DatabasePreferencePage_DatabaseLabel, new String[][] { { "HSQLDB", "ch.jester.db.hsqldb" }, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-2$
-			//		{ "C&hoice 2", "choice2" } }, getFieldEditorParent())); //$NON-NLS-1$ //$NON-NLS-2$
-			addField(new ComboFieldEditor("Database", ORMMessages.DatabasePreferencePage_DatabaseLabel, bundleNames, getFieldEditorParent())); //$NON-NLS-1$ //$NON-NLS-2$
+		String[][] bundleNames = ORMDBUtil.getBundleName(ORMDBUtil.getDataBasePlugins());
+		addField(new ComboFieldEditor("Database", ORMMessages.DatabasePreferencePage_DatabaseLabel, bundleNames, getFieldEditorParent())); //$NON-NLS-1$ //$NON-NLS-2$
+		
 		StringFieldEditor dbNameEditor = new StringFieldEditor("DatabaseName", ORMMessages.DatabasePreferencePage_DatabaseName, getFieldEditorParent()); //$NON-NLS-1$
 		dbNameEditor.setStringValue(preferenceStore.getString("DatabaseName"));
 		addField(dbNameEditor);
@@ -72,24 +71,5 @@ public class DatabasePreferencePage extends FieldEditorPreferencePage implements
 //				getFieldEditorParent()));
 	}
 
-	private List<Bundle> getDataBasePlugins(){
-		IConfigurationElement[] elements = ExtensionPointUtil.getExtensionPointElements(ORMPlugin.getDefault().getActivationContext().getPluginId(), "Configuration");
-		List<Bundle> bundles = new ArrayList<Bundle>();
-		for(IConfigurationElement e:elements){
-			IContributor contributor = e.getContributor();
-			Bundle b = Platform.getBundle(contributor.getName());
-			String name = b.getHeaders().get("Bundle-Name").toString();
-			logger.debug("Available DB Plugins: "+b.getSymbolicName()+" ("+name+")");
-			bundles.add(b);
-		}
-		return bundles;
-	}
-	private String[][] getBundleName(List<Bundle> pList){
-		String[][] names = new String[pList.size()][2];
-		for(int i=0;i<pList.size();i++){
-			names[i][0]= pList.get(i).getHeaders().get("Bundle-Name").toString();
-			names[i][1] = pList.get(i).getSymbolicName();
-		}
-		return names;
-	}
+
 }
