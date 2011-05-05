@@ -11,7 +11,7 @@ Export-Package: ch.jester.commonservices.api.bundle,
  ch.jester.commonservices.api.importer,
  ch.jester.commonservices.api.logging,
  ch.jester.commonservices.api.persistencyevent,
- ch.jester.commonservices.api.proxy,
+ ch.jester.commonservices.api.web,
  ch.jester.commonservices.filter,
  ch.jester.commonservices.util
 Bundle-Activator: ch.jester.commonservices.internal.Activator

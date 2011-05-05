@@ -1,4 +1,4 @@
-package ch.jester.commonservices.impl.proxy;
+package ch.jester.commonservices.impl.web;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;

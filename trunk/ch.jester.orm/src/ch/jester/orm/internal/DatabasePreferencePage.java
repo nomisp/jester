@@ -1,4 +1,4 @@
-package ch.jester.orm;
+package ch.jester.orm.internal;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -17,6 +17,7 @@ import org.osgi.framework.Bundle;
 
 import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.orm.ORMPlugin;
 
 public class DatabasePreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 	
@@ -41,7 +42,7 @@ public class DatabasePreferencePage extends FieldEditorPreferencePage implements
 		logger.info("Selected Database: " + databasePlugin);
 		
 		String[][] bundleNames = ORMDBUtil.getBundleName(ORMDBUtil.getDataBasePlugins());
-		addField(new ComboFieldEditor("Database", ORMMessages.DatabasePreferencePage_DatabaseLabel, bundleNames, getFieldEditorParent())); //$NON-NLS-1$ //$NON-NLS-2$
+		addField(new ComboFieldEditor(ORMAutoDBHandler.DEFAULT_DATABASE, ORMMessages.DatabasePreferencePage_DatabaseLabel, bundleNames, getFieldEditorParent())); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		StringFieldEditor dbNameEditor = new StringFieldEditor("DatabaseName", ORMMessages.DatabasePreferencePage_DatabaseName, getFieldEditorParent()); //$NON-NLS-1$
 		dbNameEditor.setStringValue(preferenceStore.getString("DatabaseName"));

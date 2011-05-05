@@ -1,4 +1,4 @@
-package ch.jester.orm;
+package ch.jester.orm.internal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 import ch.jester.common.utility.ExtensionPointUtil;
+import ch.jester.orm.ORMPlugin;
 
 public class ORMDBUtil {
 	
@@ -19,10 +20,17 @@ public class ORMDBUtil {
 			IContributor contributor = e.getContributor();
 			Bundle b = Platform.getBundle(contributor.getName());
 			String name = b.getHeaders().get("Bundle-Name").toString();
-			//logger.debug("Available DB Plugins: "+b.getSymbolicName()+" ("+name+")");
 			bundles.add(b);
 		}
 		return bundles;
+	}
+	public static int getIndexFromBundleWithName(List<Bundle> pBundleList, String pName){
+		for(int i=0;i<pBundleList.size();i++){
+			if(pBundleList.get(i).getHeaders().get("Bundle-Name").toString().equals(pName)){
+				return i;
+			}
+		}
+		return -1;
 	}
 	public static String[][] getBundleName(List<Bundle> pList){
 		String[][] names = new String[pList.size()][2];

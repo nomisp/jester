@@ -5,13 +5,13 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="ch.jester.orm.DBPreferenceInitializer">
+            class="ch.jester.orm.internal.DBPreferenceInitializer">
       </initializer>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="ch.jester.orm.DatabasePreferencePage"
+            class="ch.jester.orm.internal.DatabasePreferencePage"
             id="ch.jester.orm.dbPrefPage"
             name="%DBPrefPage.name">
       </page>

@@ -1,4 +1,4 @@
-package ch.jester.orm;
+package ch.jester.orm.internal;
 
 import org.eclipse.osgi.util.NLS;
 

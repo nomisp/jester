@@ -3,12 +3,16 @@ package ch.jester.orm.internal;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.action.StatusLineContributionItem;
+import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IStartup;
+import org.eclipse.ui.IWorkbenchActionConstants;
 
+import ch.jester.common.ui.services.IExtendedStatusLineManager;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.orm.ORMPlugin;
 
@@ -33,7 +37,18 @@ public class ORMStarter implements IStartup{
 					    public void run(IProgressMonitor monitor) { 
 					    	monitor.beginTask("Initialize Database... please be patient", IProgressMonitor.UNKNOWN);
 							ORMPlugin.getJPAEntitManagerFactor();
+							final StatusLineContributionItem ss =new StatusLineContributionItem("LoggedInStatus");
+							ORMPlugin.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class).appendToGroup(StatusLineManager.END_GROUP, ss);
 							monitor.done();
+							UIUtility.syncExecInUIThread(new Runnable() {
+								
+								@Override
+								public void run() {
+									ss.setText("Database: "+ORMPlugin.getDefault().getDataBaseTypeName());
+									
+								}
+							});
+							
 					    } 
 					});
 				} catch (InvocationTargetException e) {

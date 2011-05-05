@@ -1,4 +1,4 @@
-package ch.jester.commonservices.impl.proxy;
+package ch.jester.commonservices.impl.web;
 
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
