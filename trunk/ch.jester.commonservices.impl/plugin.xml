@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="ch.jester.commonservices.impl.proxy.AbstractPreferenceInitializer1">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="ch.jester.commonservices.impl.proxy.MyPreferencePage1"
+            id="ch.jester.commonservices.impl.proxyprefs"
+            name="Proxy">
+      </page>
+   </extension>
+
+</plugin>

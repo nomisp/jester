@@ -5,7 +5,7 @@ import org.eclipse.ui.IWorkbenchListener;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.BundleContext;
 
-import ch.jester.common.activator.AbstractActivator;
+import ch.jester.common.ui.activator.AbstractUIActivator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
 import ch.jester.commonservices.impl.persistencyevent.PersistencyEventQueue;
@@ -13,11 +13,11 @@ import ch.jester.model.Player;
 import ch.jester.ui.player.editor.PlayerEditor;
 import ch.jester.ui.player.editor.PlayerInput;
 
-public class Activator extends AbstractActivator{
+public class Activator extends AbstractUIActivator{
 
-	private static Activator mInstance;
+	private static AbstractUIActivator mInstance;
 
-	public static Activator getDefault(){
+	public static AbstractUIActivator getDefault(){
 		return mInstance;
 	}
 
