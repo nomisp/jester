@@ -27,19 +27,22 @@ public class PageController<T> {
 	private int currentPage = 0, mPageSize, mTotalEntries, mTotalPages = -1;
 	private List<T> pagelist;
 	private int jpaDBListSize;
-
+	private IDaoService<?> mPersister;
 	public PageController(List pPageList, TableViewer pViewer,
 			IDaoService pPersister, int cSize) {
 		jpaDBList = new ScrollableResultListJPA<Player>(pPersister, cSize);
 		mViewer = pViewer;
 		mPageSize = cSize;
-
+		mPersister = pPersister;
 		pagelist = pPageList;
 		su.getService(IPersistencyEventQueue.class).addListener(
 				new IPersistencyListener() {
 
 					@Override
 					public void persistencyEvent(PersistencyEvent event) {
+						if(event.getSource()==mPersister){
+							return;
+						}
 						synchronized (jpaDBList) {
 							jpaDBListSize = jpaDBList.size();
 							calculatePages();

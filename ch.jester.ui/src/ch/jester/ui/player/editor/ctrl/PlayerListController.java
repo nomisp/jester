@@ -20,6 +20,7 @@ import org.eclipse.ui.part.ViewPart;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.EditorAccessor.EditorAccess;
 import ch.jester.common.ui.utility.IEditorInputAccess;
+import ch.jester.common.ui.utility.PartListener2Adapter;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerDao;
@@ -38,16 +39,13 @@ public class PlayerListController{
 	PageController<Player> pageController;
 	DataBindingContext context;
 	WritableList obsModel;
-	public PlayerListController(){
-
-	}
 
 	public PlayerListController(ViewPart pPart, TableViewer pViewer){
 		int cacheSize = 1000;
 		mViewer=pViewer;
 		context = new DataBindingContext();
 		obsModel = new WritableList(new ArrayList<Player>(), Player.class);
-		pageController = new PageController<Player>(obsModel,mViewer, mServices.getExclusiveService(IPlayerDao.class), cacheSize);
+		pageController = new PageController<Player>(obsModel,mViewer, persister, cacheSize);
 		mPart=pPart;
 		mViewer.setInput(obsModel);
 		ObservableListContentProvider contentProvider;
@@ -59,7 +57,13 @@ public class PlayerListController{
 		mViewer.setLabelProvider(lblprov);
 	}
 	
-
+	IPlayerDao getPlayerDao(){
+		return persister;
+	}
+	
+	protected IPartService getPartService(){
+		return (IPartService)mPart.getSite().getService(IPartService.class);
+	}
 	
 	public void addPlayer(Player pPlayer) {
 		addPlayer(createList(pPlayer));
@@ -70,21 +74,12 @@ public class PlayerListController{
 	}
 	public void openEditor(Object pObject){
 		final EditorAccess access = mServices.getService(IEditorService.class).openEditor(pObject);	
-		IPartService service = (IPartService)mPart.getSite().getService(IPartService.class);
-		service.addPartListener(new PartListener2Adapter() {
-			@Override
-			public void partClosed(IWorkbenchPartReference partRef) {
-				if(partRef == access.getReference()){
-					PlayerEditor closedEditor = (PlayerEditor) access.getReference().getEditor(false);
-					if(!closedEditor.wasSaved()){
-						IEditorInputAccess<?> input = (IEditorInputAccess<?>)closedEditor.getEditorInput();
-						obsModel.remove(input.getInput());
-					}
-					System.out.println("Was saved: "+closedEditor.wasSaved());
-				}
-				
-			}
-		});
+		System.out.println("reactive: "+access.wasReactivated());
+		if(!access.wasReactivated()){
+			((PlayerEditor)access.getPart()).setPlayerDao(persister);
+			
+			getPartService().addPartListener(new NestedPartListener(access));
+		}
 	}
 	
 	public void removePlayer(Player pPlayer) {
@@ -142,6 +137,28 @@ public class PlayerListController{
 	public PageController<?> getPageController() {
 		return pageController;
 	}
+	
+	class NestedPartListener extends PartListener2Adapter{
+		EditorAccess mAccess;
+		public NestedPartListener(EditorAccess pAccess){
+			mAccess=pAccess;
+		}
+		
+		@Override
+		public void partClosed(IWorkbenchPartReference partRef) {
+			if(partRef == mAccess.getReference()){
+				PlayerEditor closedEditor = (PlayerEditor) mAccess.getPart();
+				if(!closedEditor.wasSaved()){
+					IEditorInputAccess<?> input = (IEditorInputAccess<?>)closedEditor.getEditorInput();
+					obsModel.remove(input.getInput());
+				}
+				System.out.println("Was saved: "+closedEditor.wasSaved());
+				getPartService().removePartListener(this);
+				mAccess.close();
+			}
+	}
+	}
+	
 	class PlayerMapLabelProvider extends ObservableMapLabelProvider{
 
 		public PlayerMapLabelProvider(IObservableMap[] attributeMaps) {
