@@ -20,7 +20,7 @@ public class Activator extends AbstractUIActivator {
 		getActivationContext().getServiceUtil().registerService(IHTTPProxy.class, new HTTPProxyAdapter());
 		JavaPingService jps;
 		getActivationContext().getServiceUtil().registerService(IPingService.class, jps = new JavaPingService());
-		jps.ping("http://www.google.com", 500, 1000);
+		jps.ping("http://www.google.com", 1000 * 5);
 	}
 
 	@Override

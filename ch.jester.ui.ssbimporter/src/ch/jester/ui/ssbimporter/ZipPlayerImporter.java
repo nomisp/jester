@@ -40,6 +40,7 @@ import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
+import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.util.ServiceUtility;
 
 public class ZipPlayerImporter extends WizardPage {
@@ -66,7 +67,7 @@ public class ZipPlayerImporter extends WizardPage {
 	private ComboViewer comboProviderViewer;
 	private ComboViewer comboDownloadViewer;
 	
-	
+	private boolean enableWebOptions = false;
 	/**
 	 * @wbp.parser.constructor
 	 */
@@ -205,6 +206,8 @@ public class ZipPlayerImporter extends WizardPage {
 		//initialer Status
 		setPageComplete(false);
 		
+		enableWebOptions = mService.getService(IPingService.class).isConnected();
+		rdWeb.setEnabled(enableWebOptions);
 	}
 	
 	public ImportSelection getImportSelection(){
