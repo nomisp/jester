@@ -1,5 +1,7 @@
 package ch.jester.rcpapplication;
 
+import org.eclipse.jface.action.IStatusLineManager;
+import org.eclipse.jface.action.StatusLineContributionItem;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
@@ -42,5 +44,16 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		this.register(action);
 		action = ActionFactory.REDO.create(window);
 		this.register(action);
+	}
+	@Override
+	protected void fillStatusLine(IStatusLineManager statusLine) {
+
+	//	StatusLineContributionItem statusItem = new StatusLineContributionItem("LoggedInStatus");
+
+	//	statusItem.setText("Logged in");
+
+	//	statusLine.add(statusItem);
+
+
 	}
 }

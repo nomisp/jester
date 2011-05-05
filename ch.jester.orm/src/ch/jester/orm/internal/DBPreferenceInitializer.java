@@ -1,7 +1,9 @@
-package ch.jester.orm;
+package ch.jester.orm.internal;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
+
+import ch.jester.orm.ORMPlugin;
 
 public class DBPreferenceInitializer extends AbstractPreferenceInitializer {
 

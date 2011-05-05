@@ -1,4 +1,4 @@
-package ch.jester.commonservices.impl.proxy;
+package ch.jester.commonservices.impl.web;
 
 import java.net.Proxy;
 
@@ -8,7 +8,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 
 import ch.jester.common.web.HTTPFactory;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.proxy.IHTTPProxy;
+import ch.jester.commonservices.api.web.IHTTPProxy;
 import ch.jester.commonservices.impl.internal.Activator;
 
 public class HTTPProxyAdapter implements IHTTPProxy{

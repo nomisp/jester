@@ -1,4 +1,4 @@
-package ch.jester.commonservices.api.proxy;
+package ch.jester.commonservices.api.web;
 
 
 import java.net.Proxy;
