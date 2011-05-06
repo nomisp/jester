@@ -30,6 +30,7 @@ public class PageController<T> {
 	private List<T> pagelist;
 	private int jpaDBListSize;
 	private IDaoService<?> mPersister;
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public PageController(List pPageList, TableViewer pViewer,
 			IDaoService pPersister, int cSize) {
 		jpaDBList = new ScrollableResultListJPA<Player>(pPersister, cSize);
@@ -112,6 +113,7 @@ public class PageController<T> {
 
 		watch.start();
 		UIUtility.syncExecInUIThread(new Runnable() {
+			@SuppressWarnings("unchecked")
 			public void run() {
 				if (mViewer.getElementAt(0) != null) {
 					mViewer.setSelection(

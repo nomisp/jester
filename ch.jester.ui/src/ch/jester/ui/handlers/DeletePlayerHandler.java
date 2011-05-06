@@ -42,6 +42,7 @@ public class DeletePlayerHandler extends AbstractCommandHandler {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Object delete(IProgressMonitor monitor){
 		ISelection selection = getSelection();
 		monitor.setTaskName("Deleting Players");

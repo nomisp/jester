@@ -1,7 +1,6 @@
 package ch.jester.ui.contentprovider;
 
 import org.eclipse.jface.viewers.ILazyContentProvider;
-import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 
