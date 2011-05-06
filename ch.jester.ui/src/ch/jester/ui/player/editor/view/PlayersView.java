@@ -1,6 +1,8 @@
 package ch.jester.ui.player.editor.view;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -25,6 +27,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.internal.menus.DynamicToolBarContributionItem;
 import org.eclipse.ui.operations.RedoActionHandler;
 import org.eclipse.ui.operations.UndoActionHandler;
 import org.eclipse.ui.part.ViewPart;
@@ -32,8 +35,10 @@ import org.eclipse.ui.part.ViewPart;
 import ch.jester.common.ui.listeners.DefaultSelectionCountListener;
 import ch.jester.common.ui.listeners.OpenEditorDoubleClickListener;
 import ch.jester.common.ui.utility.MenuManagerUtility;
+import ch.jester.common.utility.AdapterUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
 import ch.jester.ui.Activator;
+import ch.jester.ui.contentprovider.PageController;
 import ch.jester.ui.player.editor.ctrl.PlayerListController;
 
 public class PlayersView extends ViewPart{
@@ -58,6 +63,7 @@ public class PlayersView extends ViewPart{
 	private TableViewer tableViewer; 
 	private PlayerListController mController;
 	private TableViewerColumn tableViewerColumn;
+	IToolBarManager toolbarManager;
 	private UndoActionHandler undoActionHandler;
 	private RedoActionHandler redoActionHandler;
 	public PlayersView() {
@@ -150,10 +156,7 @@ public class PlayersView extends ViewPart{
 		});
 		
 		
-		//Registrierung von sich selbst, als StructuredViewer
-		DefaultAdapterFactory factory = new DefaultAdapterFactory(this);
-		factory.add(StructuredViewer.class, tableViewer);
-		factory.registerAtPlatform();
+
 		
 		//wie viele Items sind selektiert
 		tableViewer.addSelectionChangedListener(new DefaultSelectionCountListener());
@@ -170,15 +173,32 @@ public class PlayersView extends ViewPart{
 		tableViewer.addDoubleClickListener(new OpenEditorDoubleClickListener());
 		mController = new PlayerListController(this, getTable());
 		Activator.getDefault().getActivationContext().getServiceUtil().registerService(PlayerListController.class, mController);
+		
+		//Registrierung von sich selbst, als StructuredViewer und PageController
+		DefaultAdapterFactory factory = new DefaultAdapterFactory(this);
+		factory.add(StructuredViewer.class, tableViewer);
+		factory.add(PageController.class, mController.getPageController());
+		factory.registerAtPlatform();
 	}
 
 	/**
 	 * Initialize the toolbar.
 	 */
 	private void initializeToolBar() {
-		IToolBarManager toolbarManager = getViewSite().getActionBars()
+		toolbarManager = getViewSite().getActionBars()
 				.getToolBarManager();
+		
 	
+	}
+	
+	public void ggg(){
+		IContributionItem item = toolbarManager.find("ch.jester.gotopagefield");
+		DynamicToolBarContributionItem tci = (DynamicToolBarContributionItem) item;
+		
+		//tci.getWorkbenchWindow()
+	
+		//AdapterUtility.getAdaptedObject(item, Text.class);
+		System.out.println(item);
 	}
 
 	/**

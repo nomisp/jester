@@ -120,7 +120,7 @@
                style="push">
          </command>
          <control
-               class="ch.jester.ui.WorkbenchWindowControlContribution1"
+               class="ch.jester.ui.GotoPageField"
                id="ch.jester.gotopagefield">
          </control>
          <command
@@ -128,13 +128,10 @@
                icon="icons/next.gif"
                style="push">
          </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:ch.jester.ui.view.players">
          <control
                class="ch.jester.common.ui.filter.FilterControlContribution"
-               id="ch.jester.ui.view.players.filter">       </control>
+               id="ch.jester.ui.view.players.filter">
+         </control>
       </menuContribution>
    </extension>
    <extension
