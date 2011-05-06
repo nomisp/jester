@@ -2,6 +2,7 @@ package ch.jester.ui.contentprovider;
 
 import java.util.List;
 
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 
@@ -29,6 +30,7 @@ public class PageController<T> {
 	private int currentPage = 0, mPageSize, mTotalEntries, mTotalPages = -1;
 	private List<T> pagelist;
 	private int jpaDBListSize;
+	private IContributionItem gotoField;
 	private IDaoService<?> mPersister;
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public PageController(List pPageList, TableViewer pViewer,
@@ -95,6 +97,7 @@ public class PageController<T> {
 	}
 
 	public void nextPage() {
+		
 		if (currentPage == mTotalPages) {
 			return;
 		}
@@ -165,5 +168,13 @@ public class PageController<T> {
 		int rest = mTotalEntries % mPageSize;
 		mTotalPages = ((mTotalEntries - rest) / mPageSize);
 
+	}
+
+	public void bindGotoField(IContributionItem find) {
+		gotoField = find;
+	}
+	public int getGotoNr(){
+		//gotoField.
+		return 1;
 	}
 }
