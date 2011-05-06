@@ -6,17 +6,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.core.internal.registry.ExtensionRegistry;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.osgi.service.component.ComponentContext;
 
-
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.components.IEPEntry;
 import ch.jester.commonservices.api.components.IEPEntryComponentService;
-//import ch.jester.commonservices.api.components.IEPService;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.ep.ExtensionPointChangeNotifier;
 
@@ -72,6 +69,7 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements I
 	protected T createProxy(IConfigurationElement pConfigurationElement){
 		String classname = pConfigurationElement.getAttribute(getClassAttribute());
 		Bundle bundle = Platform.getBundle(pConfigurationElement.getContributor().getName());
+		@SuppressWarnings("rawtypes")
 		Class clz = null;
 		try {
 			 clz = bundle.loadClass(classname);

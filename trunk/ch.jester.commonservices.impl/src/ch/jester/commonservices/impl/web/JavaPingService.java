@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.StatusLineContributionItem;
 import org.eclipse.jface.action.StatusLineManager;
+import org.eclipse.swt.widgets.Display;
 
 import ch.jester.common.ui.services.IExtendedStatusLineManager;
 import ch.jester.common.ui.utility.UIUtility;
@@ -68,6 +69,9 @@ public class JavaPingService implements IPingService{
 						
 						@Override
 						public void run() {
+							if(Display.getDefault().isDisposed()){
+								return;
+							}
 							if(result == REACHABLE){
 								sl.setText("Internetconnection: Ok");
 							}else{

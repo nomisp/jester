@@ -12,6 +12,7 @@ public class PersistencyEvent {
 	private Collection<?> mLoad;
 	private Operation mOperation;
 	private Class<?> loadClass;
+	@SuppressWarnings("unchecked")
 	public PersistencyEvent(Object pSource, Object pLoad, Operation pOps){
 		mSource=pSource;
 		mLoad=new ArrayList<Object>();
@@ -23,6 +24,7 @@ public class PersistencyEvent {
 			}	
 			mLoad = c;
 		}else{
+			@SuppressWarnings("rawtypes")
 			List l = new ArrayList<Object>();
 			mLoad = l;
 			l.add(pLoad);

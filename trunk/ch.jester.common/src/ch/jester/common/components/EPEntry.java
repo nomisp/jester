@@ -5,6 +5,7 @@ import ch.jester.commonservices.api.components.IEPEntry;
 
 public class EPEntry<T> implements IEPEntry<T> {
 	private IEPEntry<T> mService;
+	@SuppressWarnings("unchecked")
 	public EPEntry(T pService){
 		mService = (IEPEntry<T>) pService;
 	}
