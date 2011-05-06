@@ -15,7 +15,9 @@ public class HTTPFactory {
 	public static Proxy getHTTPProxy(){
 		return mProxy;
 	}
-	
+	public static void reset(){
+		mProxy=null;
+	}
 	public static HttpURLConnection connect(String pUrl, boolean open) throws IOException{
 		URL url = new URL(pUrl);
 		HttpURLConnection uc = null;

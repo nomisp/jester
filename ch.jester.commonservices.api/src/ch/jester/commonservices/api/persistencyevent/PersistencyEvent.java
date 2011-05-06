@@ -2,23 +2,39 @@ package ch.jester.commonservices.api.persistencyevent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class PersistencyEvent {
-	public enum Operation{
+	public static enum Operation{
 		SAVED, DELETED
 	}
 	private Object mSource;
-	private Collection<Object> mLoad;
+	private Collection<?> mLoad;
 	private Operation mOperation;
-	public PersistencyEvent(Object pSource, Collection<Object> pLoad){
-		mSource=pSource;
-		mLoad=pLoad;
-	}
+	private Class<?> loadClass;
 	public PersistencyEvent(Object pSource, Object pLoad, Operation pOps){
 		mSource=pSource;
 		mLoad=new ArrayList<Object>();
-		mLoad.add(pLoad);
+		mOperation = pOps;
+		if(pLoad instanceof Collection){
+			Collection<?> c = (Collection<?>) pLoad;
+			if(!c.isEmpty()){
+				loadClass = c.iterator().next().getClass();
+			}	
+			mLoad = c;
+		}else{
+			List l = new ArrayList<Object>();
+			mLoad = l;
+			l.add(pLoad);
+			loadClass = pLoad.getClass();
+		}
+	
 	}
+
+	public Class<?> getLoadClass(){
+		return loadClass;
+	}
+	
 	public Operation getCRUD(){
 		return mOperation;
 	}

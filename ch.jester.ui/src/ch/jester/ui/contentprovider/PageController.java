@@ -8,9 +8,11 @@ import org.eclipse.jface.viewers.TableViewer;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistencyevent.DaoMatchFilter;
+import ch.jester.commonservices.api.persistencyevent.EventLoadMatchingFilter;
 import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
-import ch.jester.commonservices.api.persistencyevent.IPersistencyListener;
 import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
+import ch.jester.commonservices.api.persistencyevent.PersistencyListener;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IDaoService;
 import ch.jester.dao.ScrollableResultListJPA;
@@ -35,31 +37,34 @@ public class PageController<T> {
 		mPageSize = cSize;
 		mPersister = pPersister;
 		pagelist = pPageList;
+		
+		
 		su.getService(IPersistencyEventQueue.class).addListener(
-				new IPersistencyListener() {
+				new PersistencyListener(
+						new EventLoadMatchingFilter(Player.class, 
+								new DaoMatchFilter(mPersister))) {
+			@Override
+			public void persistencyEvent(PersistencyEvent pEvent) {
+				synchronized (jpaDBList) {
+					jpaDBListSize = jpaDBList.size();
+					calculatePages();
+					UIUtility.syncExecInUIThread(new Runnable() {
 
-					@Override
-					public void persistencyEvent(PersistencyEvent event) {
-						if(event.getSource()==mPersister){
-							return;
-						}
-						synchronized (jpaDBList) {
-							jpaDBListSize = jpaDBList.size();
-							calculatePages();
-							UIUtility.syncExecInUIThread(new Runnable() {
+						@Override
+						public void run() {
 
-								@Override
-								public void run() {
-
-									loadPage();
-
-								}
-							});
+							loadPage();
 
 						}
+					});
 
-					}
-				});
+				}
+				
+			}
+		});
+		
+		
+
 		jpaDBListSize = jpaDBList.size();
 		calculatePages();
 

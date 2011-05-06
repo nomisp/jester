@@ -42,6 +42,11 @@ public class HTTPProxyAdapter implements IHTTPProxy{
 				if(created[0]==true && created[1] == true){
 					created[0] = false;
 					created[1] = false;
+					if(port.length()==0&&address.length()==0){
+						HTTPProxyAdapter.this.deleteProxy();
+						return;
+					}
+					
 					mAddress = address;
 					mPort = Integer.parseInt(port);
 					createHTTPProxy(mAddress, mPort);
@@ -72,6 +77,12 @@ public class HTTPProxyAdapter implements IHTTPProxy{
 	@Override
 	public int getPort() {
 		return mPort;
+	}
+
+
+	@Override
+	public void deleteProxy() {
+		HTTPFactory.reset();
 	}
 
 }
