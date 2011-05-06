@@ -1,7 +1,6 @@
 package ch.jester.rcpapplication;
 
 import org.eclipse.jface.action.IStatusLineManager;
-import org.eclipse.jface.action.StatusLineContributionItem;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
