@@ -1,5 +1,8 @@
 package ch.jester.ui.tournament;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -16,6 +19,9 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.widgets.Button;
 
+import ch.jester.model.Category;
+import ch.jester.model.factories.ModelFactory;
+
 /**
  * Wizard Seite um dem Turnier Kategorien hinzuzufügen
  * @author Peter
@@ -24,11 +30,14 @@ import org.eclipse.swt.widgets.Button;
 public class NewTournWizPageCategories extends WizardPage implements SelectionListener {
 	private Table categoriesTbl;
 	
+	private List<Category> categories;
+	
 	private String description;
 	private int minElo;
 	private int maxElo;
 	private int minAge;
 	private int maxAge;
+	private int rounds;
 
 	private Button addBtn;
 
@@ -42,6 +51,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		setTitle("Categories");
 		setDescription("Adding categories to the tournament");
 		setPageComplete(true);
+		categories = new ArrayList<Category>();
 	}
 
 	/**
@@ -61,6 +71,8 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		TableViewer categoriesTblViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
 		categoriesTbl = categoriesTblViewer.getTable();
 		categoriesTbl.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 3));
+		categoriesTbl.setHeaderVisible(true);
+		categoriesTbl.setLinesVisible(true);
 		
 		TableViewerColumn categoryNameColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn categoryName = categoryNameColumn.getColumn();
@@ -68,9 +80,29 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		categoryName.setText("Description");
 		
 		TableViewerColumn minEloColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
-		TableColumn minElo = minEloColumn.getColumn();
-		minElo.setWidth(100);
-		minElo.setText("Min. Elo");
+		TableColumn minEloCol = minEloColumn.getColumn();
+		minEloCol.setWidth(80);
+		minEloCol.setText("Min. Elo");
+
+		TableViewerColumn maxEloColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
+		TableColumn maxEloCol = maxEloColumn.getColumn();
+		maxEloCol.setWidth(80);
+		maxEloCol.setText("Max. Elo");
+		
+		TableViewerColumn minAgeColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
+		TableColumn minAgeCol = minAgeColumn.getColumn();
+		minAgeCol.setWidth(80);
+		minAgeCol.setText("Min. Age");
+
+		TableViewerColumn maxAgeColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
+		TableColumn maxAgeCol = maxAgeColumn.getColumn();
+		maxAgeCol.setWidth(80);
+		maxAgeCol.setText("Max. Age");
+
+		TableViewerColumn roundsColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
+		TableColumn roundsCol = roundsColumn.getColumn();
+		roundsCol.setWidth(80);
+		roundsCol.setText("Rounds");
 		
 		addBtn = new Button(container, SWT.NONE);
 		GridData gd_addBtn = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -92,7 +124,9 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		addBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				// TODO peter: Sicherheitsabfrage
 				int selection = categoriesTbl.getSelectionIndex();
+				categories.remove(selection);
 			}
 		});
 		removeBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
@@ -102,15 +136,25 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 	@Override
 	public void widgetSelected(SelectionEvent e) {
 		boolean newDialog = true;
+		Category cat = null;
 		if (e.getSource() == addBtn) {
 			newDialog = true;
+			cat = ModelFactory.getInstance().createCategory(null);
+			CategoryDialog dlg = new CategoryDialog(getShell(), newDialog, cat);
+			int retVal = dlg.open();
+			if (retVal == Dialog.OK) {
+				System.out.println("OK pressed: adding category");
+				categories.add(dlg.getCategory());
+			}
 		} else if (e.getSource() == editBtn) {
 			newDialog = false;
-		}
-		CategoryDialog dlg = new CategoryDialog(getShell(), newDialog);
-		int retVal = dlg.open();
-		if (retVal == Dialog.OK) {
-			System.out.println("OK pressed");
+			cat = categories.get(categoriesTbl.getSelectionIndex());
+			CategoryDialog dlg = new CategoryDialog(getShell(), newDialog, cat);
+			int retVal = dlg.open();
+			if (retVal == Dialog.OK) {
+				System.out.println("OK pressed");
+				
+			}
 		}
 	}
 

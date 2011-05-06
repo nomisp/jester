@@ -12,8 +12,11 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
+import ch.jester.model.Category;
+
 public class CategoryDialog extends Dialog {
 	private String dialogTitle = "Category";
+	private Category cat;
 	private Text description;
 	private Text eloMin;
 	private Text eloMax;
@@ -25,12 +28,20 @@ public class CategoryDialog extends Dialog {
 	 * Create the dialog.
 	 * @param parentShell
 	 */
-	public CategoryDialog(Shell parentShell, boolean newDialog) {
+	public CategoryDialog(Shell parentShell, boolean newDialog, Category cat) {
 		super(parentShell);
+		if (cat == null) throw new IllegalArgumentException("Category cannot be null");
+		this.cat = cat;
 		if (newDialog) {
 			dialogTitle = "New Category";
 		} else {
-			// TODO Peter: Felder müssen befüllt sein mit den alten Daten -> Edit
+			dialogTitle = "Category: " + cat.getDescription();
+			description.setText(cat.getDescription());
+			eloMin.setText(Integer.toString(cat.getMinElo()));
+			eloMax.setText(Integer.toString(cat.getMaxElo()));
+			ageMin.setText(Integer.toString(cat.getMinAge()));
+			ageMin.setText(Integer.toString(cat.getMaxAge()));
+			maxRounds.setText(Integer.toString(cat.getMaxRounds()));
 		}
 	}
 	
@@ -168,5 +179,20 @@ public class CategoryDialog extends Dialog {
 
 	public void setMaxRounds(String maxRounds) {
 		this.maxRounds.setText(maxRounds);
-	}	
+	}
+	
+	/**
+	 * Befüllt die Kategorie mit den eingegebenen Daten und
+	 * gibt das Category-Objekt zurück.
+	 * @return
+	 */
+	public Category getCategory() {
+		cat.setDescription(getDescription());
+		cat.setMinElo(getEloMin());
+		cat.setMaxElo(getEloMax());
+		cat.setMinAge(getAgeMin());
+		cat.setMaxAge(getAgeMax());
+		cat.setMaxRounds(getMaxRounds());
+		return cat;
+	}
 }
