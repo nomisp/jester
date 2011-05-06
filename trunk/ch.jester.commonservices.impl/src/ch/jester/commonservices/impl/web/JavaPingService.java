@@ -1,9 +1,7 @@
 package ch.jester.commonservices.impl.web;
 
 import java.io.IOException;
-import java.net.HttpCookie;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 
@@ -16,6 +14,7 @@ import org.eclipse.jface.action.StatusLineManager;
 
 import ch.jester.common.ui.services.IExtendedStatusLineManager;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.common.web.HTTPFactory;
 import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.impl.internal.Activator;
 
@@ -24,8 +23,7 @@ public class JavaPingService implements IPingService{
 	@Override
 	public int ping(String pInetAddress) {
 		try {
-			URL url = new URL(pInetAddress);
-			HttpURLConnection hc = (HttpURLConnection) url.openConnection();
+			HttpURLConnection hc = HTTPFactory.connect(pInetAddress, false);
 			hc.connect();
 			hc.disconnect();
 			return REACHABLE;

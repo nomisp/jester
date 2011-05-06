@@ -3,20 +3,22 @@ package ch.jester.db.hsqldb;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
+import ch.jester.commonservices.api.logging.ILogger;
 
 public class Activator extends AbstractUIActivator {
-
+	private ILogger mLogger;
 	private static Activator plugin;
 	
 	@Override
 	public void startDelegate(BundleContext pContext) {
-		getActivationContext().getLogger().info("Starting >HSQLDB-Plugin<");
+		mLogger = getActivationContext().getLogger();
+		mLogger.info("Starting >HSQLDB-Plugin<");
 		plugin = this;
 	}
 
 	@Override
 	public void stopDelegate(BundleContext pContext) {
-		getActivationContext().getLogger().info("Stopping >HSQLDB-Plugin<");
+		mLogger.info("Stopping >HSQLDB-Plugin<");
 		plugin = null;
 	}
 	/**
