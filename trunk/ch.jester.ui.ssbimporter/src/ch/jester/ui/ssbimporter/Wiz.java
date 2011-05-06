@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.Wizard;
@@ -64,7 +63,7 @@ public class Wiz extends Wizard implements IImportWizard{
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle("Import Players");
 		setNeedsProgressMonitor(true);
-		ISelection sel = workbench.getActiveWorkbenchWindow().getSelectionService().getSelection();
+		//ISelection sel = workbench.getActiveWorkbenchWindow().getSelectionService().getSelection();
 		 mainPage = new ZipPlayerImporter();
 		
 	}

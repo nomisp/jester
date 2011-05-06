@@ -1,7 +1,5 @@
 package ch.jester.ui.player.editor.view;
 
-import java.util.List;
-
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -35,15 +33,8 @@ import ch.jester.common.ui.listeners.DefaultSelectionCountListener;
 import ch.jester.common.ui.listeners.OpenEditorDoubleClickListener;
 import ch.jester.common.ui.utility.MenuManagerUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
-import ch.jester.model.Player;
 import ch.jester.ui.Activator;
 import ch.jester.ui.player.editor.ctrl.PlayerListController;
-
-import org.eclipse.core.databinding.observable.Observables;
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.property.Properties;
-import org.eclipse.jface.databinding.viewers.ViewerSupport;
-import org.eclipse.core.databinding.beans.BeanProperties;
 
 public class PlayersView extends ViewPart{
 	private DataBindingContext m_bindingContext;
