@@ -75,7 +75,6 @@ public class EditorAccessor {
 		public void openEditor(IEditorInputAccess<?> pInput, String pEditorId) throws PartInitException{
 			mPart = mPage.openEditor(pInput, pEditorId);
 			IEditorReference[] refs = mPage.getEditorReferences();
-			IEditorReference pref = null;
 			for(IEditorReference ref:refs){
 				IEditorInput input = ref.getEditorInput();
 				if(!(input instanceof IEditorInputAccess)){
@@ -83,7 +82,6 @@ public class EditorAccessor {
 				}
 				IEditorInputAccess<?> ain = (IEditorInputAccess<?>) input;
 				if(pInput.getInput().equals(mOrigInput)){
-					pref = ref;
 					mRef=ref;
 					mInputAccess = ain;
 					break;
