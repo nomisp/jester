@@ -12,7 +12,13 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.TableColumn;
@@ -43,6 +49,10 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 
 	private Button editBtn;
 
+	private Button removeBtn;
+
+	private TableViewer categoriesTblViewer;
+
 	/**
 	 * Create the wizard.
 	 */
@@ -68,41 +78,199 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		new Label(container, SWT.NONE);
 		new Label(container, SWT.NONE);
 		
-		TableViewer categoriesTblViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
+		categoriesTblViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
 		categoriesTbl = categoriesTblViewer.getTable();
 		categoriesTbl.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 3));
 		categoriesTbl.setHeaderVisible(true);
 		categoriesTbl.setLinesVisible(true);
+		categoriesTblViewer.setContentProvider(ArrayContentProvider.getInstance());
 		
 		TableViewerColumn categoryNameColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn categoryName = categoryNameColumn.getColumn();
 		categoryName.setWidth(100);
 		categoryName.setText("Description");
+		categoryNameColumn.setLabelProvider(new CellLabelProvider() {
+		    public void update(ViewerCell cell) {
+		        cell.setText(((Category) cell.getElement()).getDescription());
+		    }
+		});
+		categoryNameColumn.setEditingSupport(new EditingSupport(categoriesTblViewer) {
+
+		    protected boolean canEdit(Object element) {
+		        return true;
+		    }
+
+		    protected CellEditor getCellEditor(Object element) {
+		        return new TextCellEditor(categoriesTbl);
+		    }
+
+		    protected Object getValue(Object element) {
+		        return ((Category) element).getDescription();
+		    }
+
+		    protected void setValue(Object element, Object value) {
+		        ((Category) element).setDescription(String.valueOf(value));
+		        categoriesTblViewer.refresh(element);
+		    }
+
+		});
 		
 		TableViewerColumn minEloColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn minEloCol = minEloColumn.getColumn();
 		minEloCol.setWidth(80);
 		minEloCol.setText("Min. Elo");
+		minEloColumn.setLabelProvider(new CellLabelProvider() {
+		    public void update(ViewerCell cell) {
+		    	Integer minElo = ((Category) cell.getElement()).getMinElo() != null ? ((Category) cell.getElement()).getMinElo() : 0;
+		        cell.setText((Integer.toString(minElo)));
+		    }
+		});
+		minEloColumn.setEditingSupport(new EditingSupport(categoriesTblViewer) {
+
+		    protected boolean canEdit(Object element) {
+		        return true;
+		    }
+
+		    protected CellEditor getCellEditor(Object element) {
+		        return new TextCellEditor(categoriesTbl);
+		    }
+
+		    protected Object getValue(Object element) {
+		        return ((Category) element).getMinElo();
+		    }
+
+		    protected void setValue(Object element, Object value) {
+		        ((Category) element).setMinElo(Integer.parseInt(String.valueOf(value)));
+		        categoriesTblViewer.refresh(element);
+		    }
+
+		});
 
 		TableViewerColumn maxEloColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn maxEloCol = maxEloColumn.getColumn();
 		maxEloCol.setWidth(80);
 		maxEloCol.setText("Max. Elo");
+		maxEloColumn.setLabelProvider(new CellLabelProvider() {
+		    public void update(ViewerCell cell) {
+		    	Integer maxElo = ((Category) cell.getElement()).getMaxElo() != null ? ((Category) cell.getElement()).getMaxElo() : 0;
+		        cell.setText((Integer.toString(maxElo)));
+		    }
+		});
+		maxEloColumn.setEditingSupport(new EditingSupport(categoriesTblViewer) {
+
+		    protected boolean canEdit(Object element) {
+		        return true;
+		    }
+
+		    protected CellEditor getCellEditor(Object element) {
+		        return new TextCellEditor(categoriesTbl);
+		    }
+
+		    protected Object getValue(Object element) {
+		        return ((Category) element).getMaxElo();
+		    }
+
+		    protected void setValue(Object element, Object value) {
+		        ((Category) element).setMaxElo(Integer.parseInt(String.valueOf(value)));
+		        categoriesTblViewer.refresh(element);
+		    }
+
+		});
 		
 		TableViewerColumn minAgeColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn minAgeCol = minAgeColumn.getColumn();
 		minAgeCol.setWidth(80);
 		minAgeCol.setText("Min. Age");
+		minAgeColumn.setLabelProvider(new CellLabelProvider() {
+		    public void update(ViewerCell cell) {
+		    	Integer minAge = ((Category) cell.getElement()).getMinAge() != null ? ((Category) cell.getElement()).getMinAge() : 0;
+		        cell.setText((Integer.toString(minAge)));
+		    }
+		});
+		minAgeColumn.setEditingSupport(new EditingSupport(categoriesTblViewer) {
+
+		    protected boolean canEdit(Object element) {
+		        return true;
+		    }
+
+		    protected CellEditor getCellEditor(Object element) {
+		        return new TextCellEditor(categoriesTbl);
+		    }
+
+		    protected Object getValue(Object element) {
+		        return ((Category) element).getMinAge();
+		    }
+
+		    protected void setValue(Object element, Object value) {
+		        ((Category) element).setMinAge(Integer.parseInt(String.valueOf(value)));
+		        categoriesTblViewer.refresh(element);
+		    }
+
+		});
 
 		TableViewerColumn maxAgeColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn maxAgeCol = maxAgeColumn.getColumn();
 		maxAgeCol.setWidth(80);
 		maxAgeCol.setText("Max. Age");
+		maxAgeColumn.setLabelProvider(new CellLabelProvider() {
+		    public void update(ViewerCell cell) {
+		    	Integer maxAge = ((Category) cell.getElement()).getMaxAge() != null ? ((Category) cell.getElement()).getMaxAge() : 0;
+		        cell.setText((Integer.toString(maxAge)));
+		    }
+		});
+		maxAgeColumn.setEditingSupport(new EditingSupport(categoriesTblViewer) {
+
+		    protected boolean canEdit(Object element) {
+		        return true;
+		    }
+
+		    protected CellEditor getCellEditor(Object element) {
+		        return new TextCellEditor(categoriesTbl);
+		    }
+
+		    protected Object getValue(Object element) {
+		        return ((Category) element).getMaxAge();
+		    }
+
+		    protected void setValue(Object element, Object value) {
+		        ((Category) element).setMaxAge(Integer.parseInt(String.valueOf(value)));
+		        categoriesTblViewer.refresh(element);
+		    }
+
+		});
 
 		TableViewerColumn roundsColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn roundsCol = roundsColumn.getColumn();
 		roundsCol.setWidth(80);
 		roundsCol.setText("Rounds");
+		roundsColumn.setLabelProvider(new CellLabelProvider() {
+		    public void update(ViewerCell cell) {
+		    	Integer maxRounds = ((Category) cell.getElement()).getMaxRounds() != null ? ((Category) cell.getElement()).getMaxRounds() : 0;
+		        cell.setText((Integer.toString(maxRounds)));
+		    }
+		});
+		roundsColumn.setEditingSupport(new EditingSupport(categoriesTblViewer) {
+
+		    protected boolean canEdit(Object element) {
+		        return true;
+		    }
+
+		    protected CellEditor getCellEditor(Object element) {
+		        return new TextCellEditor(categoriesTbl);
+		    }
+
+		    protected Object getValue(Object element) {
+		        return ((Category) element).getMaxRounds();
+		    }
+
+		    protected void setValue(Object element, Object value) {
+		        ((Category) element).setMaxRounds(Integer.parseInt(String.valueOf(value)));
+		        categoriesTblViewer.refresh(element);
+		    }
+
+		});
+
+		categoriesTblViewer.setInput(categories);
 		
 		addBtn = new Button(container, SWT.NONE);
 		GridData gd_addBtn = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -120,15 +288,8 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		editBtn.addSelectionListener(this);
 		new Label(container, SWT.NONE);
 		
-		Button removeBtn = new Button(container, SWT.NONE);
-		addBtn.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// TODO peter: Sicherheitsabfrage
-				int selection = categoriesTbl.getSelectionIndex();
-				categories.remove(selection);
-			}
-		});
+		removeBtn = new Button(container, SWT.NONE);
+		removeBtn.addSelectionListener(this);
 		removeBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		removeBtn.setText("Remove");
 	}
@@ -139,22 +300,30 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		Category cat = null;
 		if (e.getSource() == addBtn) {
 			newDialog = true;
-			cat = ModelFactory.getInstance().createCategory(null);
-			CategoryDialog dlg = new CategoryDialog(getShell(), newDialog, cat);
-			int retVal = dlg.open();
-			if (retVal == Dialog.OK) {
-				System.out.println("OK pressed: adding category");
-				categories.add(dlg.getCategory());
-			}
+			cat = ModelFactory.getInstance().createCategory("Category " + (categories.size()+1));
+			categories.add(cat);
+			categoriesTblViewer.add(cat);
+			
+//			CategoryDialog dlg = new CategoryDialog(getShell(), newDialog, cat);
+//			int retVal = dlg.open();
+//			if (retVal == Dialog.OK) {
+//				System.out.println("OK pressed: adding category");
+//				categories.add(dlg.getCategory());
+//			}
 		} else if (e.getSource() == editBtn) {
 			newDialog = false;
 			cat = categories.get(categoriesTbl.getSelectionIndex());
-			CategoryDialog dlg = new CategoryDialog(getShell(), newDialog, cat);
-			int retVal = dlg.open();
-			if (retVal == Dialog.OK) {
-				System.out.println("OK pressed");
-				
-			}
+//			CategoryDialog dlg = new CategoryDialog(getShell(), newDialog, cat);
+//			int retVal = dlg.open();
+//			if (retVal == Dialog.OK) {
+//				System.out.println("OK pressed");
+//				
+//			}
+		} else if (e.getSource() == removeBtn) {
+			// TODO peter: Sicherheitsabfrage
+			int selection = categoriesTbl.getSelectionIndex();
+			categoriesTblViewer.remove(categories.get(selection));
+			categories.remove(selection);
 		}
 	}
 

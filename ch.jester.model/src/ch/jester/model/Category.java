@@ -30,19 +30,19 @@ public class Category implements Serializable, IDaoObject {
 	private String description;
 	
 	@Column(name="MinimumElo", nullable=true)
-	private int minElo;
+	private Integer minElo;
 	
 	@Column(name="MaximumElo", nullable=true)
-	private int maxElo;
+	private Integer maxElo;
 	
 	@Column(name="MinimumAge", nullable=true)
-	private int minAge;
+	private Integer minAge;
 	
 	@Column(name="MaximumAge", nullable=true)
-	private int maxAge;
+	private Integer maxAge;
 	
 	@Column(name="MaxRounds")
-	private int maxRounds; // Maximale Anzahl Runden, die in dieser Kategorie gespielt werden
+	private Integer maxRounds; // Maximale Anzahl Runden, die in dieser Kategorie gespielt werden
 	
 	@OneToMany(mappedBy="category")
 //	@JoinTable(name = "CategoryRoundAss",
@@ -66,43 +66,43 @@ public class Category implements Serializable, IDaoObject {
 		this.description = description;
 	}
 
-	public int getMinElo() {
+	public Integer getMinElo() {
 		return minElo;
 	}
 
-	public void setMinElo(int minElo) {
+	public void setMinElo(Integer minElo) {
 		this.minElo = minElo;
 	}
 
-	public int getMaxElo() {
+	public Integer getMaxElo() {
 		return maxElo;
 	}
 
-	public void setMaxElo(int maxElo) {
+	public void setMaxElo(Integer maxElo) {
 		this.maxElo = maxElo;
 	}
 
-	public int getMinAge() {
+	public Integer getMinAge() {
 		return minAge;
 	}
 
-	public void setMinAge(int minAge) {
+	public void setMinAge(Integer minAge) {
 		this.minAge = minAge;
 	}
 
-	public int getMaxAge() {
+	public Integer getMaxAge() {
 		return maxAge;
 	}
 
-	public void setMaxAge(int maxAge) {
+	public void setMaxAge(Integer maxAge) {
 		this.maxAge = maxAge;
 	}
 
-	public int getMaxRounds() {
+	public Integer getMaxRounds() {
 		return maxRounds;
 	}
 
-	public void setMaxRounds(int maxRounds) {
+	public void setMaxRounds(Integer maxRounds) {
 		this.maxRounds = maxRounds;
 	}
 
