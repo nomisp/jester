@@ -40,6 +40,7 @@ public class GotoPageField extends
 		GridData data = new GridData();
 		data.widthHint = 20;
 		text.setLayoutData(data);
+		text.setMessage("goto");
 		//text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		text.setFont(mFont);
 

@@ -10,6 +10,8 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -34,7 +36,9 @@ import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.ui.listeners.DefaultSelectionCountListener;
 import ch.jester.common.ui.listeners.OpenEditorDoubleClickListener;
+import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.MenuManagerUtility;
+import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
 import ch.jester.ui.Activator;
@@ -170,7 +174,15 @@ public class PlayersView extends ViewPart{
 		});
 		
 		//öffne editor
-		tableViewer.addDoubleClickListener(new OpenEditorDoubleClickListener());
+		tableViewer.addDoubleClickListener(new IDoubleClickListener(){
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				Object selectedObject = new SelectionUtility(event.getSelection()).getFirstSelected();
+				mController.openEditor(selectedObject);
+				
+			}
+			
+		});
 		mController = new PlayerListController(this, getTable());
 		Activator.getDefault().getActivationContext().getServiceUtil().registerService(PlayerListController.class, mController);
 		
@@ -191,15 +203,6 @@ public class PlayersView extends ViewPart{
 	
 	}
 	
-	public void ggg(){
-		IContributionItem item = toolbarManager.find("ch.jester.gotopagefield");
-		DynamicToolBarContributionItem tci = (DynamicToolBarContributionItem) item;
-		
-		//tci.getWorkbenchWindow()
-	
-		//AdapterUtility.getAdaptedObject(item, Text.class);
-		System.out.println(item);
-	}
 
 	/**
 	 * Initialize the menu.
