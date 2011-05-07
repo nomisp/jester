@@ -9,6 +9,13 @@
             id="ch.jester.ui.view.players"
             name="Players">
       </view>
+      <view
+            allowMultiple="false"
+            class="ch.jester.ui.tournament.editor.view.TournamentView"
+            id="ch.jester.ui.view.tournamentview"
+            name="Tournaments"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -16,10 +23,22 @@
             targetID="ch.jester.perspective.admin">
          <view
                closeable="false"
+               id="ch.jester.ui.view.tournamentview"
+               minimized="false"
+               moveable="true"
+               ratio="0.5f"
+               relationship="left"
+               relative="org.eclipse.ui.editorss"
+               showTitle="true"
+               standalone="false"
+               visible="true">
+         </view>
+         <view
+               closeable="false"
                id="ch.jester.ui.view.players"
                minimized="false"
-               moveable="false"
-               ratio="0.3f"
+               moveable="true"
+               ratio="0.5f"
                relationship="left"
                relative="org.eclipse.ui.editorss"
                showTitle="true"
@@ -34,7 +53,7 @@
             allPopups="true"
             locationURI="popup:ch.jester.ui.view.players">
          <command
-               commandId="ch.jester.ui.addplayer1"
+               commandId="ch.jester.ui.addplayer"
                icon="icons/plus.gif"
                style="push">
          </command>
@@ -55,6 +74,60 @@
                label="Delete Player"
                style="push">
          </command>
+         <separator
+               name="ch.jester.ui.separator2"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.eclipse.ui.navigate.back"
+               icon="icons/prev.gif"
+               style="push">
+         </command>
+         <command
+               commandId="org.eclipse.ui.navigate.next"
+               icon="icons/next.gif"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:ch.jester.ui.view.tournamentview">
+         <command
+               commandId="ch.jester.ui.tournament.newTournament"
+               icon="icons/plus.gif"
+               style="push">
+         </command>
+         <separator
+               name="ch.jester.ui.separator1"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.eclipse.ui.edit.copy"
+               style="push">
+         </command>
+         <command
+               commandId="org.eclipse.ui.edit.paste"
+               style="push">
+         </command>
+         <command
+               commandId="org.eclipse.ui.edit.delete"
+               label="Delete Player"
+               style="push">
+         </command>
+         <separator
+               name="ch.jester.ui.separator2"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.eclipse.ui.navigate.back"
+               icon="icons/prev.gif"
+               style="push">
+         </command>
+         <command
+               commandId="org.eclipse.ui.navigate.next"
+               icon="icons/next.gif"
+               style="push">
+         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -72,27 +145,23 @@
             </command>
          </toolbar>
          <toolbar
-               id="ch.jester.ui.copypaste"
-               label="Copy-Paste">
+               id="ch.jester.ui.edittoolbar"
+               label="Edit toolbar">
+            <command
+                  commandId="ch.jester.ui.add.pulldown"
+                  icon="icons/plus.gif"
+                  style="pulldown">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.edit.delete"
+                  style="push">
+            </command>
             <command
                   commandId="org.eclipse.ui.edit.copy"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.edit.paste"
-                  style="push">
-            </command>
-         </toolbar>
-         <toolbar
-               id="ch.jester.ui.players"
-               label="Players">
-            <command
-                  commandId="ch.jester.ui.addplayer"
-                  icon="icons/plus.gif"
-                  style="push">
-            </command>
-            <command
-                  commandId="org.eclipse.ui.edit.delete"
                   style="push">
             </command>
          </toolbar>
@@ -133,17 +202,31 @@
                id="ch.jester.ui.view.players.filter">
          </control>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:ch.jester.ui.add.pulldown">
+         <command
+               commandId="ch.jester.ui.addplayer"
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="ch.jester.ui.handlers.NewUndoRedoPlayerHandler"
+            defaultHandler="ch.jester.ui.handlers.AddPlayerHandler"
+            description="Adds a new Player"
             id="ch.jester.ui.addplayer"
-            name="New Player">
+            name="Player">
       </command>
       <command
             id="org.eclipse.ui.edit.delete"
             name="Delete Player">
+      </command>
+      <command
+            defaultHandler="ch.jester.common.ui.handlers.PullDownHandler"
+            id="ch.jester.ui.add.pulldown"
+            name="ch.jester.ui.add.pulldown">
       </command>
    </extension>
    <extension
@@ -180,6 +263,28 @@
             </iterate>
          </with>
       </definition>
+      <definition
+            id="ch.jester.ui.pagecontroller.next">
+         <with
+               variable="activePart">
+            <test
+                  args="next"
+                  property="ch.jester.properties.controlled"
+                  value="true">
+            </test>
+         </with>
+      </definition>
+      <definition
+            id="ch.jester.ui.pagecontroller.back">
+         <with
+               variable="activePart">
+            <test
+                  args="back"
+                  property="ch.jester.properties.controlled"
+                  value="true">
+            </test>
+         </with>
+      </definition>
    </extension>
    <extension
          point="org.eclipse.core.expressions.propertyTesters">
@@ -190,11 +295,18 @@
             properties="clipboardFilled"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="ch.jester.ui.PageControllerPropertyTester"
+            id="ch.jester.ui.pagecontroller"
+            namespace="ch.jester.properties"
+            properties="controlled"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="ch.jester.ui.handlers.DeletePlayerHandler"
+            class="ch.jester.ui.handlers.DaoDeleteHandler"
             commandId="org.eclipse.ui.edit.delete">
          <enabledWhen>
             <reference
@@ -212,11 +324,11 @@
          </activeWhen>
       </handler>
       <handler
-            class="ch.jester.ui.handlers.PlayerPasteHandler"
+            class="ch.jester.ui.handlers.DaoPasteHandler"
             commandId="org.eclipse.ui.edit.paste">
          <activeWhen>
             <test
-                  args="ch.jester.model.Player"
+                  args="ch.jester.commonservices.api.persistency.IDaoObject"
                   property="ch.jester.properties.clipboardFilled"
                   value="true">
             </test></activeWhen>
@@ -224,10 +336,20 @@
       <handler
             class="ch.jester.ui.handlers.PageHandler"
             commandId="org.eclipse.ui.navigate.next">
+         <activeWhen>
+            <reference
+                  definitionId="ch.jester.ui.pagecontroller.next">
+            </reference>
+         </activeWhen>
       </handler>
       <handler
             class="ch.jester.ui.handlers.PageHandler"
             commandId="org.eclipse.ui.navigate.back">
+         <activeWhen>
+            <reference
+                  definitionId="ch.jester.ui.pagecontroller.back">
+            </reference>
+         </activeWhen>
       </handler>
    </extension>
    <extension

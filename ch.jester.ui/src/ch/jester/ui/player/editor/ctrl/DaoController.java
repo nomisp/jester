@@ -17,82 +17,89 @@ import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.part.ViewPart;
 
+import ch.jester.common.ui.editor.AbstractEditor;
+import ch.jester.common.ui.editor.EditorAccessor.EditorAccess;
+import ch.jester.common.ui.editor.IEditorInputAccess;
 import ch.jester.common.ui.services.IEditorService;
-import ch.jester.common.ui.utility.EditorAccessor.EditorAccess;
-import ch.jester.common.ui.utility.IEditorInputAccess;
 import ch.jester.common.ui.utility.PartListener2Adapter;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
 import ch.jester.ui.contentprovider.PageController;
+import ch.jester.ui.contentprovider.TableViewerAdapter;
 import ch.jester.ui.player.editor.PlayerEditor;
 
 
-public class PlayerListController{
-	//private List<Player> mPlayers = new ArrayList<Player>();
+public abstract class DaoController<T extends IDaoObject>{
 	private TableViewer mViewer;
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
-	IPlayerDao persister = mServices.getExclusiveService(IPlayerDao.class);
-	ViewPart mPart;
-	PageController<Player> pageController;
-	DataBindingContext context;
-	WritableList obsModel;
+	private IDaoService<T> persister;
+	private ViewPart mPart;
+	private PageController<T> pageController;
+	private DataBindingContext context;
+	private WritableList obsModel;
+	
 
-	public PlayerListController(ViewPart pPart, TableViewer pViewer){
+
+	public DaoController(ViewPart pPart, TableViewer pViewer, IDaoService<T> pdaoservice){
 		int cacheSize = 1000;
+		persister = pdaoservice;
 		mViewer=pViewer;
 		context = new DataBindingContext();
-		obsModel = new WritableList(new ArrayList<Player>(), Player.class);
-		pageController = new PageController<Player>(obsModel,mViewer, persister, cacheSize);
+		obsModel = new WritableList(new ArrayList<T>(), Player.class);
+		pageController = new PageController<T>(obsModel,new TableViewerAdapter(mViewer), persister, cacheSize);
 		mPart=pPart;
 		mViewer.setInput(obsModel);
 		ObservableListContentProvider contentProvider;
 		mViewer.setContentProvider(contentProvider = new ObservableListContentProvider());
-		ObservableMapLabelProvider lblprov = new PlayerMapLabelProvider(Properties
+		ObservableMapLabelProvider lblprov = new ObsMapLblProv(Properties
 				.observeEach(contentProvider.getKnownElements(),
 						BeanProperties.values(
-								new String[] { "lastName", "firstName" } )));
+								observableProperties())));
 		mViewer.setLabelProvider(lblprov);
 	}
+
+	public abstract String[] observableProperties();
 	
-	IPlayerDao getPlayerDao(){
-		return persister;
-	}
-	
+	public abstract String callBackLabels(T pDao);
+
 	protected IPartService getPartService(){
 		return (IPartService)mPart.getSite().getService(IPartService.class);
 	}
 	
-	public void addPlayer(Player pPlayer) {
-		addPlayer(createList(pPlayer));
+	public void addDaoObject(T pPlayer) {
+		addDaoObject(createList(pPlayer));
 	}
-	public void addPlayer(Collection<Player> pPlayerCollection) {
+	public void addDaoObject(Collection<T> pPlayerCollection) {
 		obsModel.addAll(pPlayerCollection);
 		context.updateTargets();
 	}
+	@SuppressWarnings("rawtypes")
 	public void openEditor(Object pObject){
-		final EditorAccess access = mServices.getService(IEditorService.class).openEditor(pObject);	
-		System.out.println("reactive: "+access.wasReactivated());
+		IEditorService eService = mServices.getService(IEditorService.class);
+		if(!eService.isEditorRegistred(pObject)){return;}
+		final EditorAccess access = eService.openEditor(pObject);	
+		System.out.println("reactivated: "+access.wasReactivated());
 		if(!access.wasReactivated()){
-			((PlayerEditor)access.getPart()).setPlayerDao(persister);
-			
+			((AbstractEditor)access.getPart()).setPlayerDao(persister);
 			getPartService().addPartListener(new NestedPartListener(access));
 		}
 	}
 	
-	public void removePlayer(Player pPlayer) {
-		removePlayer(createList(pPlayer));
+	public void removeDaoObject(T pObject) {
+		removeDaoObject(createList(pObject));
 	}
-	public void removePlayer(final List<Player> pPlayerList) {
+	public void removeDaoObject(final List<T> pList) {
 		
 		UIUtility.syncExecInUIThread(new Runnable() {
 			@Override
 			public void run() {
 				synchronized(persister){
-				persister.delete(pPlayerList);
-				obsModel.removeAll(pPlayerList);
+				persister.delete(pList);
+				obsModel.removeAll(pList);
 				context.updateTargets();
 				}
 				
@@ -129,8 +136,8 @@ public class PlayerListController{
 	
 	}
 	
-	private List<Player> createList(Player o){
-		ArrayList<Player> list = new ArrayList<Player>();
+	private List<T> createList(T o){
+		ArrayList<T> list = new ArrayList<T>();
 		list.add(o);
 		return list;
 	}
@@ -160,9 +167,9 @@ public class PlayerListController{
 	}
 	}
 	
-	class PlayerMapLabelProvider extends ObservableMapLabelProvider{
+	class ObsMapLblProv extends ObservableMapLabelProvider{
 
-		public PlayerMapLabelProvider(IObservableMap[] attributeMaps) {
+		public ObsMapLblProv(IObservableMap[] attributeMaps) {
 			super(attributeMaps);
 			
 		}
@@ -173,11 +180,7 @@ public class PlayerListController{
 		}
 		@Override
 		public String getText(Object element) {
-			if(element instanceof Player){
-				Player p = (Player) element;
-				return p.getLastName()+", "+p.getFirstName();
-			}
-			return super.getText(element);
+			return DaoController.this.callBackLabels((T) element);
 		}
 		
 	}

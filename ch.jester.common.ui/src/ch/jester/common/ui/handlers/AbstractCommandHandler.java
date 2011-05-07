@@ -129,10 +129,13 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 		pWb.getSite().getSelectionProvider().setSelection(pSelection);
 	}
 	
+	public IViewPart getView(String pViewId){
+		return UIUtility.getActiveWorkbenchWindow().getActivePage().findView(pViewId);
+	}
+	
 	public void setSelection(String pPartId, Object pObject){
-
 		
-		IViewPart viewpart = UIUtility.getActiveWorkbenchWindow().getActivePage().findView(pPartId);
+		IViewPart viewpart = getView(pPartId);
 		if(pObject instanceof ISelection){
 			setSelection0(viewpart, (ISelection)pObject);
 		}else{

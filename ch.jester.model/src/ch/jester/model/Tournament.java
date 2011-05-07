@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import ch.jester.dao.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoObject;
 
 /**
  * Entit�t f�r die Tabelle Tournament 
@@ -28,9 +28,10 @@ import ch.jester.dao.IDaoObject;
 @Table(name="Tournament")
 @NamedQueries({
 	@NamedQuery(name="AllTournaments", query="select t from Tournament t order by t.name, t.dateFrom"),
+	@NamedQuery(name="countTournaments",query="SELECT count(Tournament) FROM Player Tournament"),
 	@NamedQuery(name="TournamentByName", query="select t from Tournament t where t.name like :name")
 })
-public class Tournament implements Serializable, IDaoObject {
+public class Tournament extends AbstractModelBean implements Serializable, IDaoObject {
 	private static final long serialVersionUID = -3356578830307874396L;
 
 	@Id

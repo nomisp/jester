@@ -1,16 +1,15 @@
-package ch.jester.dao;
+package ch.jester.common.persistency.util;
 
 import java.util.AbstractList;
 import java.util.List;
 
-
-import ch.jester.common.utility.StopWatch;
+import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoService;
 
 
 
 public class ScrollableResultListJPA<T extends IDaoObject> extends AbstractList<T> implements List<T> {
     private int startPosition;
-    private int counter=0;
     private List<T> cache = null;
     private IDaoService<T> persister;
     private int mCacheSize;
@@ -39,12 +38,7 @@ public class ScrollableResultListJPA<T extends IDaoObject> extends AbstractList<
     }
 
     public List<T> getItems(int from, int to) {
-        //System.out.println("numer of requests to the database " + counter++);
-      //  StopWatch watch = new StopWatch();
-      //  watch.start();
-        List<T> resultList = persister.getFromTo(from, to);
-      //  watch.stop();
-      //  System.out.println("getFromTo Duration: "+watch.getElapsedTime());
-        return resultList;
+       List<T> resultList = persister.getFromTo(from, to);
+       return resultList;
     }
 }

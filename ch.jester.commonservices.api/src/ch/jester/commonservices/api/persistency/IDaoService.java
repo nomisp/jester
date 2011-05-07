@@ -1,4 +1,4 @@
-package ch.jester.dao;
+package ch.jester.commonservices.api.persistency;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,6 +10,12 @@ import java.util.List;
  * @param <T>
  */
 public interface IDaoService<T extends IDaoObject> {
+	
+	/**Den Type
+	 * @return
+	 */
+	public Class<T> getDaoClass();
+	
 	/**Speicher eine Collection in einer Transaktion
 	 * @param pTCollection
 	 */

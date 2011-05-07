@@ -13,7 +13,7 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
-import ch.jester.ui.player.editor.ctrl.PlayerListController;
+import ch.jester.ui.player.editor.ctrl.DaoController;
 
 public class PlayerFilter implements IFilter{
 	ServiceUtility su = Activator.getDefault().getActivationContext().getServiceUtil();
@@ -21,13 +21,13 @@ public class PlayerFilter implements IFilter{
 	@Override
 	public IStatus filter(String pSearch, IProgressMonitor monitor) {
 		if(pSearch.length()==0){
-			su.getExclusiveService(PlayerListController.class).clearSearched();
+			su.getExclusiveService(DaoController.class).clearSearched();
 			return Status.OK_STATUS;
 		}
 		monitor.beginTask("searching for: "+pSearch, IProgressMonitor.UNKNOWN);
 		mLogger.debug("filtering: "+pSearch);
 		List<Player> players = su.getExclusiveService(IPlayerDao.class).findByName(pSearch);
-		su.getExclusiveService(PlayerListController.class).setSearched(players);
+		su.getExclusiveService(DaoController.class).setSearched(players);
 		su.getService(IExtendedStatusLineManager.class).setMessage("Found "+players.size()+" Item(s)", 1000);
 		return Status.OK_STATUS;
 	}

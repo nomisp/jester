@@ -1,4 +1,4 @@
-package ch.jester.ui.player.editor.view;
+package ch.jester.ui.tournament.editor.view;
 
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -21,19 +21,19 @@ import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.view.AbstractView;
 import ch.jester.common.utility.DefaultAdapterFactory;
 import ch.jester.commonservices.api.persistency.IDaoService;
-import ch.jester.dao.IPlayerDao;
-import ch.jester.model.Player;
+import ch.jester.dao.ITournamentDao;
+import ch.jester.model.Tournament;
 import ch.jester.ui.Activator;
 import ch.jester.ui.contentprovider.PageController;
 import ch.jester.ui.player.editor.ctrl.DaoController;
 
 
-public class PlayersView extends AbstractView{
+public class TournamentView extends AbstractView{
 	private TableViewer getTable(){
 		return tableViewer;
 	}
 
-	public static final String ID = "ch.jester.ui.view.players"; //$NON-NLS-1$
+	public static final String ID = "ch.jester.ui.view.tournamentview"; //$NON-NLS-1$
 	private Table table;
 	private TableViewer tableViewer; 
 	private DaoController mController;
@@ -60,7 +60,7 @@ public class PlayersView extends AbstractView{
 					tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 					TableColumn tblclmnPlayers = tableViewerColumn.getColumn();
 					tcl_tableViewComposite.setColumnData(tblclmnPlayers, new ColumnWeightData(1, ColumnWeightData.MINIMUM_WIDTH, true));
-					tblclmnPlayers.setText("Players");
+					tblclmnPlayers.setText("Tournaments");
 				}
 				tableViewer.setContentProvider(ArrayContentProvider.getInstance());
 			}
@@ -103,17 +103,16 @@ public class PlayersView extends AbstractView{
 		});
 
 		
-		IDaoService<Player> pdao= Activator.getDefault().getActivationContext().getService(IPlayerDao.class);
-		mController = new DaoController<Player>(this, getTable(), pdao){
-
+		IDaoService<Tournament> pdao= Activator.getDefault().getActivationContext().getService(ITournamentDao.class);
+		mController = new DaoController<Tournament>(this, getTable(), pdao){
 			@Override
 			public String[] observableProperties() {
-				return new String[]{"lastName","firstName"};
+				return new String[]{"name"};
 			}
 
 			@Override
-			public String callBackLabels(Player pDao) {
-				return pDao.getLastName()+", "+pDao.getFirstName();
+			public String callBackLabels(Tournament pDao) {
+				return pDao.getName()+" "+pDao.getDateFrom()+" - "+pDao.getDateTo();
 			}
 			
 		};

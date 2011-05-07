@@ -15,18 +15,38 @@ import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.PartListener2Adapter;
+import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
-public abstract class AbstractEditor extends EditorPart implements IDirtyListener, IDirtyManagerProvider{
+public abstract class AbstractEditor<T extends IDaoObject> extends EditorPart implements IDirtyListener, IDirtyManagerProvider{
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
+	protected IEditorDaoInputAccess<T> mDaoInput;
 	private DirtyManager mDirtyManager;
+	private boolean mSaveIndicatorFlag;
 	private IPartListener2 mPart2Listener = new NestedPart2Listener();
+	protected IDaoService<T> mDao;
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
-		 getPartService().addPartListener(mPart2Listener);
+		
+		mDaoInput = (IEditorDaoInputAccess<T>) input;
+		setSite(site);
+		setInput(input);
+		
+		getPartService().addPartListener(mPart2Listener);
+		internalInit(site, mDaoInput);
 	}
+	public void internalInit(IEditorSite site, IEditorDaoInputAccess<T> input){
+		
+	}
+
+	public void setPlayerDao(IDaoService<T> dao){
+		System.out.println("setting dao"+this+" mDAO: "+dao);
+		mDao=dao;
+	}
+	
 	protected IPartService getPartService(){
 		return (IPartService) getSite().getService(IPartService.class);
 	}
@@ -70,6 +90,12 @@ public abstract class AbstractEditor extends EditorPart implements IDirtyListene
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
 	
+	public boolean wasSaved(){
+		return mSaveIndicatorFlag;
+	}
+	protected void setSaved(boolean pSaved){
+		mSaveIndicatorFlag=pSaved;
+	}
 	
 	 public void editorClosed(){};
 	 

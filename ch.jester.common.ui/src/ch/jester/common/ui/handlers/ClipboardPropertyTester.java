@@ -13,6 +13,16 @@ public class ClipboardPropertyTester extends PropertyTester {
 
 	}
 
+	private boolean isAssignable(Object arg, Class<?>[] classes){
+		for(Class<?> c:classes){
+			if(c.getCanonicalName().equals(arg)){
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	
 	public boolean test(Object receiver, String property, Object[] args,
 			Object expectedValue) {
 		Clipboard clipBoard =GlobalClipBoard.getInstance();
@@ -21,6 +31,14 @@ public class ClipboardPropertyTester extends PropertyTester {
 		if(selection==null){
 			return false;
 		}
-		return selection.getFirstElement().getClass().getName().equals(args[0]);
+		Class<?> firsttransferedClass = selection.getFirstElement().getClass();
+		Class<?> interfaces[] = firsttransferedClass.getInterfaces();
+		for(Object argument:args){
+			boolean b = isAssignable(argument, interfaces);
+			if(!b){
+				return false;
+			}
+		}
+		return true;
 	}
 }

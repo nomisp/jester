@@ -1,4 +1,4 @@
-package ch.jester.common.ui.utility;
+package ch.jester.common.ui.editor;
 
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;

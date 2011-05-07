@@ -17,5 +17,26 @@
             name="%CreateNewTournament">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:ch.jester.ui.add.pulldown">
+         <command
+               commandId="ch.jester.ui.tournament.newTournament"
+               icon="icons/kchess_22x22.png"
+               label="%CreateNewTournament"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="ch.jester.common.ui.handlers.WizardCallingHandler"
+            id="ch.jester.ui.tournament.newTournament"
+            name="%CreateNewTournament">
+      </command>
+   </extension>
 
 </plugin>
