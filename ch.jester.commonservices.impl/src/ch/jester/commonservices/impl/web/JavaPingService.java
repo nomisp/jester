@@ -2,7 +2,6 @@ package ch.jester.commonservices.impl.web;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.UnknownHostException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -12,15 +11,24 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.StatusLineContributionItem;
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.swt.widgets.Display;
+import org.osgi.service.component.ComponentContext;
 
 import ch.jester.common.ui.services.IExtendedStatusLineManager;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.web.HTTPFactory;
+import ch.jester.commonservices.api.components.IComponentService;
+import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.impl.internal.Activator;
 
-public class JavaPingService implements IPingService{
-	PingJob job;
+public class JavaPingService implements IPingService, IComponentService<ILoggerFactory>{
+	private PingJob job;
+	private ILogger mLogger;
+	private String mPingAddress = "http://www.google.com";
+	private int mPingInterval = 5 * 1000;
+	public JavaPingService(){
+	}
 	@Override
 	public int ping(String pInetAddress) {
 		try {
@@ -115,5 +123,31 @@ public class JavaPingService implements IPingService{
 			return false;
 		}
 		return job.lastResult==REACHABLE;
+	}
+
+	@Override
+	public void start(ComponentContext pComponentContext) {
+		
+		this.ping(mPingAddress, mPingInterval);
+		mLogger.debug("Ping Component Config: pinging "+mPingAddress+" every "+mPingInterval+" ms");
+	}
+
+	@Override
+	public void stop(ComponentContext pComponentContext) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void bind(ILoggerFactory pT) {
+		mLogger = pT.getLogger(this.getClass());
+		mLogger.debug("Ping Component started");
+		
+	}
+
+	@Override
+	public void unbind(ILoggerFactory pT) {
+		// TODO Auto-generated method stub
+		
 	}
 }

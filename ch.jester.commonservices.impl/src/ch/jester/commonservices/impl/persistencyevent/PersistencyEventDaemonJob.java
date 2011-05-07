@@ -10,9 +10,9 @@ import org.eclipse.core.runtime.jobs.Job;
 
 
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
-import ch.jester.commonservices.api.persistencyevent.IPersistencyListener;
-import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
+import ch.jester.commonservices.api.persistency.IPersistencyListener;
 import ch.jester.commonservices.impl.internal.Activator;
 
 
@@ -43,7 +43,7 @@ public class PersistencyEventDaemonJob extends Job{
 		getThread().setName(getName());
 		mLogger.debug("Starting PersistencyEventDaemonJob");
 		while(!monitor.isCanceled()&&run){
-			PersistencyEvent event;
+			IPersistencyEvent event;
 			try {
 				event = mQueue.getEvent();
 				fireEvent(event);
@@ -62,7 +62,7 @@ public class PersistencyEventDaemonJob extends Job{
 		return Status.OK_STATUS;
 	}
 
-	private void fireEvent(PersistencyEvent event) {
+	private void fireEvent(IPersistencyEvent event) {
 		for(IPersistencyListener listener:mListeners){
 			try{
 				if(listener.dispatch(event)){

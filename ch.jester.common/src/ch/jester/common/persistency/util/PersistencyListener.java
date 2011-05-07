@@ -1,4 +1,8 @@
-package ch.jester.commonservices.api.persistencyevent;
+package ch.jester.common.persistency.util;
+
+import ch.jester.commonservices.api.persistency.IPersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyFilter;
+import ch.jester.commonservices.api.persistency.IPersistencyListener;
 
 public abstract class PersistencyListener implements IPersistencyListener{
 	private IPersistencyFilter mFilter;
@@ -16,7 +20,7 @@ public abstract class PersistencyListener implements IPersistencyListener{
 	}
 
 	@Override
-	public boolean dispatch(PersistencyEvent pEvent) {
+	public boolean dispatch(IPersistencyEvent pEvent) {
 		if(mFilter!=null){
 			return mFilter.dispatch(pEvent);
 		}

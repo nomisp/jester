@@ -7,7 +7,7 @@ import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
 import ch.jester.common.ui.services.IEditorService;
-import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
+import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.impl.persistencyevent.PersistencyEventQueue;
 import ch.jester.model.Player;
 import ch.jester.ui.player.editor.PlayerEditor;

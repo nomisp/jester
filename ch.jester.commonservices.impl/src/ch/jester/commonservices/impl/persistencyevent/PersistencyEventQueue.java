@@ -3,16 +3,17 @@ package ch.jester.commonservices.impl.persistencyevent;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
-import ch.jester.commonservices.api.persistencyevent.IPersistencyListener;
-import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
+import ch.jester.common.persistency.util.PersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
+import ch.jester.commonservices.api.persistency.IPersistencyListener;
 
 
 
 
 public class PersistencyEventQueue implements IPersistencyEventQueue {
 	private static PersistencyEventQueue mQ;
-	private BlockingQueue<PersistencyEvent> mQueue = new ArrayBlockingQueue<PersistencyEvent>(100);
+	private BlockingQueue<IPersistencyEvent> mQueue = new ArrayBlockingQueue<IPersistencyEvent>(100);
 	private PersistencyEventDaemonJob mSenderJob;
 	private PersistencyEventQueue(){}
 	public static synchronized PersistencyEventQueue getDefault(){
@@ -27,7 +28,7 @@ public class PersistencyEventQueue implements IPersistencyEventQueue {
 	}
 	
 	@Override
-	public void dispatch(PersistencyEvent pEvent){
+	public void dispatch(IPersistencyEvent pEvent){
 		try {
 			mQueue.put(pEvent);
 		} catch (InterruptedException e) {
@@ -36,7 +37,7 @@ public class PersistencyEventQueue implements IPersistencyEventQueue {
 		}
 	}
 	@Override
-	public PersistencyEvent getEvent() throws InterruptedException{
+	public IPersistencyEvent getEvent() throws InterruptedException{
 		return mQueue.take();
 	}
 	@Override

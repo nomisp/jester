@@ -36,7 +36,6 @@ public class PlayerInput implements IEditorInputAccess<Player>{
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return mPlayer.getLastName();
 	}
 

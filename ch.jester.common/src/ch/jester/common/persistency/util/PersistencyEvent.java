@@ -1,13 +1,13 @@
-package ch.jester.commonservices.api.persistencyevent;
+package ch.jester.common.persistency.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class PersistencyEvent {
-	public static enum Operation{
-		SAVED, DELETED
-	}
+import ch.jester.commonservices.api.persistency.IPersistencyEvent;
+
+public class PersistencyEvent implements IPersistencyEvent {
+
 	private Object mSource;
 	private Collection<?> mLoad;
 	private Operation mOperation;
@@ -33,17 +33,33 @@ public class PersistencyEvent {
 	
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.jester.common.persistency.util.IPersistencyEvent#getLoadClass()
+	 */
+	@Override
 	public Class<?> getLoadClass(){
 		return loadClass;
 	}
 	
+	/* (non-Javadoc)
+	 * @see ch.jester.common.persistency.util.IPersistencyEvent#getCRUD()
+	 */
+	@Override
 	public Operation getCRUD(){
 		return mOperation;
 	}
 	
+	/* (non-Javadoc)
+	 * @see ch.jester.common.persistency.util.IPersistencyEvent#getSource()
+	 */
+	@Override
 	public Object getSource(){
 		return mSource;
 	}
+	/* (non-Javadoc)
+	 * @see ch.jester.common.persistency.util.IPersistencyEvent#getLoad()
+	 */
+	@Override
 	public Collection<?> getLoad(){
 		return mLoad;
 	}

@@ -1,4 +1,7 @@
-package ch.jester.commonservices.api.persistencyevent;
+package ch.jester.common.persistency.util;
+
+import ch.jester.commonservices.api.persistency.IPersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyFilter;
 
 public abstract class ChainedPersistencyFilter implements IPersistencyFilter{
 	protected IPersistencyFilter mNext;
@@ -12,7 +15,7 @@ public abstract class ChainedPersistencyFilter implements IPersistencyFilter{
 	public ChainedPersistencyFilter(){
 	}
 	@Override
-	public boolean dispatch(PersistencyEvent pEvent) {
+	public boolean dispatch(IPersistencyEvent pEvent) {
 		boolean result = doDispatch(pEvent);
 		if(result && mNext!=null){
 			result = mNext.dispatch(pEvent);
@@ -21,7 +24,7 @@ public abstract class ChainedPersistencyFilter implements IPersistencyFilter{
 		return result;
 	}
 	
-	public boolean doDispatch(PersistencyEvent pEvent){
+	public boolean doDispatch(IPersistencyEvent pEvent){
 		return true;
 	}
 	

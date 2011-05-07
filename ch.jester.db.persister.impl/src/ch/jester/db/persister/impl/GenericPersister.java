@@ -9,10 +9,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
+import ch.jester.common.persistency.util.PersistencyEvent;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
-import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.dao.IDaoObject;
 import ch.jester.dao.IDaoService;
 
@@ -30,10 +31,10 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 		mEventQueue.dispatch(new PersistencyEvent(this, pLoad, pOperation));
 	}
 	private void fireDeleteEvent(Object pLoad){
-		fireEvent(pLoad, PersistencyEvent.Operation.DELETED);
+		fireEvent(pLoad, IPersistencyEvent.Operation.DELETED);
 	}
 	private void fireSaveEvent(Object pLoad){
-		fireEvent(pLoad, PersistencyEvent.Operation.SAVED);
+		fireEvent(pLoad, IPersistencyEvent.Operation.SAVED);
 	}
 	private void check(){
 		if(mFactory==null){

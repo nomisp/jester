@@ -1,9 +1,9 @@
-package ch.jester.commonservices.api.persistencyevent;
+package ch.jester.commonservices.api.persistency;
 
 
 
 public interface IPersistencyListener extends IPersistencyFilter{
 	void setFilter(IPersistencyFilter pFilter);
-	void persistencyEvent(PersistencyEvent pEvent);
+	void persistencyEvent(IPersistencyEvent pEvent);
 
 }
