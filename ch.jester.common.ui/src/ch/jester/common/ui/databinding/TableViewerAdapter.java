@@ -1,9 +1,10 @@
-package ch.jester.ui.contentprovider;
+package ch.jester.common.ui.databinding;
 
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 
-import ch.jester.ui.contentprovider.PageController.IPageControllerUIAccess;
+import ch.jester.common.ui.databinding.PageController.IPageControllerUIAccess;
+
 
 public class TableViewerAdapter implements IPageControllerUIAccess{
 	private TableViewer mViewer;

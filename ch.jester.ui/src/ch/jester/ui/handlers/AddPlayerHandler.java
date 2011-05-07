@@ -1,14 +1,13 @@
 package ch.jester.ui.handlers;
 
-import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.IViewPart;
 
+import ch.jester.common.ui.databinding.DaoController;
 import ch.jester.common.ui.handlers.AbstractCommandHandler;
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.api.persistency.IDaoObject;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
-import ch.jester.ui.player.editor.ctrl.DaoController;
 import ch.jester.ui.player.editor.view.PlayersView;
 
 public class AddPlayerHandler extends AbstractCommandHandler{

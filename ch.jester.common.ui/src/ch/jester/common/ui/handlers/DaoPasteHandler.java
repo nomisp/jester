@@ -1,11 +1,10 @@
-package ch.jester.ui.handlers;
+package ch.jester.common.ui.handlers;
 
 import java.util.List;
 
-import ch.jester.common.ui.handlers.ClonePasteHandler;
+import ch.jester.common.ui.databinding.DaoController;
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.api.persistency.IDaoObject;
-import ch.jester.ui.player.editor.ctrl.DaoController;
 
 public class DaoPasteHandler extends ClonePasteHandler<IDaoObject> {
 

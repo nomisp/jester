@@ -14,11 +14,13 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.PlatformUI;
 
 import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.filter.IFilter;
 import ch.jester.job.StackJob;
 
 public class FilterField {
@@ -27,6 +29,7 @@ public class FilterField {
 	private Text mText;
 	private String mOldSearchValue="", mId;
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	private IViewPart mPart;
 	public FilterField(Composite pParent, String pId){
 		mId=pId;
 		mText = new Text(pParent, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH | SWT.CENTER | SWT.LEFT);
@@ -34,6 +37,7 @@ public class FilterField {
 		mText.setMessage("filter                          ");
 		GridData data = new GridData();
 		data.widthHint = 100;
+		
 		mText.setLayoutData(data);
 		mText.addKeyListener(new KeyAdapter() {
 			@Override
@@ -56,8 +60,8 @@ public class FilterField {
 	
 	class FilterJob extends StackJob<String> 
 	{
-		IFilter NULL_FILTER = new ErrorFilter();
-		IFilter mFilter;
+		IUIFilter NULL_FILTER = new ErrorFilter();
+		IUIFilter mFilter;
 		public FilterJob() {
 			super("searching",mEventStack);
 		}
@@ -72,8 +76,11 @@ public class FilterField {
 				.getExtensionPointElement("ch.jester.commonservices.api","Filter", "Id",mId);
 				if(element!=null){
 					try {
-						mFilter = (IFilter) element.createExecutableExtension("class");
+						mFilter = (IUIFilter) element.createExecutableExtension("class");
+						String mPartId = element.getAttribute("TargetViewId");
+						mPart = UIUtility.getActiveWorkbenchWindow().getActivePage().findView(mPartId);
 						mLogger.debug("Created Filter: "+mFilter.getClass()+" for id: "+mId);
+						
 					} catch (CoreException e) {
 						e.printStackTrace();
 					}
@@ -82,15 +89,15 @@ public class FilterField {
 				}
 			
 			}
-			return mFilter.filter(event, monitor);
+			return mFilter.filter(event, mPart, monitor);
 
 		}
 	};
 	
-	class ErrorFilter implements IFilter{
+	class ErrorFilter implements IUIFilter{
 
 		@Override
-		public IStatus filter(String pSearch, IProgressMonitor pMonitor) {
+		public IStatus filter(String pSearch, IViewPart pPart, IProgressMonitor pMonitor) {
 			return new Status(IStatus.ERROR, "ch.jester.common.ui", "No Filter installed");
 		}
 		

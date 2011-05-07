@@ -1,11 +1,14 @@
-package ch.jester.ui.contentprovider;
+package ch.jester.common.ui.databinding;
 
 import java.util.List;
+
+import org.eclipse.ui.services.IEvaluationService;
 
 import ch.jester.common.persistency.util.DaoMatchFilter;
 import ch.jester.common.persistency.util.EventLoadMatchingFilter;
 import ch.jester.common.persistency.util.PersistencyListener;
 import ch.jester.common.persistency.util.ScrollableResultListJPA;
+import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
@@ -14,8 +17,6 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.model.Player;
-import ch.jester.ui.Activator;
 
 public class PageController<T extends IDaoObject> {
 	public interface IPageControllerUIAccess{
@@ -138,10 +139,12 @@ public class PageController<T extends IDaoObject> {
 		});
 		watch.stop();
 		mLogger.debug("loadPage took " + watch.getElapsedTime());
-
+		reevaluate();
 		return pagelist;
 	}
-
+	private void reevaluate(){
+		UIUtility.reevaluateProperty("ch.jester.properties.controlled");
+	}
 	private void printSiteInfo() {
 		mLogger.debug("Page " + currentPage + " / " + mTotalPages);
 	}
