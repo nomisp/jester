@@ -11,7 +11,8 @@ public class PlayerPasteHandler extends ClonePasteHandler<Player> {
 
 	@Override
 	public Object handlePaste(List<Player> pPasted) {
-		getServiceUtil().getService(PlayerListController.class).addPlayer(pPasted);
+		PlayerListController controller = getServiceUtil().getService(PlayerListController.class);
+		controller.addPlayer(pPasted);
 
 		//wenn nur 1 player kopiert wurde, wird der editor geöffnet
 		if(getPasteCount()==1){
@@ -19,7 +20,7 @@ public class PlayerPasteHandler extends ClonePasteHandler<Player> {
 			setSelection(PlayersView.ID, pPasted.get(0));
 	
 			// öffne Editor
-			openEditor(pPasted.get(0));
+			controller.openEditor(pPasted.get(0));
 		}
 		return null;
 	}
