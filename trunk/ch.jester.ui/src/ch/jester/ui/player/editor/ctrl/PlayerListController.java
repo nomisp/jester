@@ -88,12 +88,13 @@ public class PlayerListController{
 	public void removePlayer(final List<Player> pPlayerList) {
 		
 		UIUtility.syncExecInUIThread(new Runnable() {
-			//ToDo remove from DB
 			@Override
 			public void run() {
+				synchronized(persister){
 				persister.delete(pPlayerList);
 				obsModel.removeAll(pPlayerList);
 				context.updateTargets();
+				}
 				
 			}
 		});

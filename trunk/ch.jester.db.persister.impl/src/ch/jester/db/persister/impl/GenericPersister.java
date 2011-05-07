@@ -87,6 +87,7 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 
 	@Override
 	public void delete(T pT) {
+		if(pT.getId()==0){return;}
 		check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
@@ -102,6 +103,7 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		for(T pT:pTCollection){
+			if(pT.getId()==0){continue;}
 			IDaoObject p = mManager.find(pT.getClass(), pT.getId());
 			mManager.remove(p);
 			
