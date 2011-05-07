@@ -1,4 +1,4 @@
-package ch.jester.ui.handlers;
+package ch.jester.common.ui.handlers;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,14 +12,13 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 
-import ch.jester.common.ui.handlers.AbstractCommandHandler;
+import ch.jester.common.ui.databinding.DaoController;
+import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoObject;
-import ch.jester.model.Player;
-import ch.jester.ui.Activator;
-import ch.jester.ui.player.editor.ctrl.DaoController;
+
 
 public class DaoDeleteHandler extends AbstractCommandHandler {
 	ILogger logger;

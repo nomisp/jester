@@ -1,4 +1,4 @@
-package ch.jester.ui;
+package ch.jester.common.ui.filter;
 
 import org.eclipse.jface.action.IContributionManager;
 import org.eclipse.swt.SWT;
@@ -8,18 +8,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.internal.services.IWorkbenchLocationService;
 import org.eclipse.ui.menus.IWorkbenchContribution;
 import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
-import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.services.IServiceLocator;
 
 import ch.jester.common.ui.utility.FontUtil;
-import ch.jester.common.utility.AdapterUtility;
 import ch.jester.common.utility.DefaultAdapterFactory;
-import ch.jester.ui.player.editor.view.PlayersView;
 
 public class GotoPageField extends
 		WorkbenchWindowControlContribution implements IWorkbenchContribution {

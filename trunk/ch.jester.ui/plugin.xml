@@ -189,7 +189,7 @@
                style="push">
          </command>
          <control
-               class="ch.jester.ui.GotoPageField"
+               class="ch.jester.common.ui.filter.GotoPageField"
                id="ch.jester.gotopagefield">
          </control>
          <command
@@ -296,7 +296,7 @@
             type="java.lang.Object">
       </propertyTester>
       <propertyTester
-            class="ch.jester.ui.PageControllerPropertyTester"
+            class="ch.jester.common.ui.databinding.PageControllerPropertyTester"
             id="ch.jester.ui.pagecontroller"
             namespace="ch.jester.properties"
             properties="controlled"
@@ -306,7 +306,7 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="ch.jester.ui.handlers.DaoDeleteHandler"
+            class="ch.jester.common.ui.handlers.DaoDeleteHandler"
             commandId="org.eclipse.ui.edit.delete">
          <enabledWhen>
             <reference
@@ -324,7 +324,7 @@
          </activeWhen>
       </handler>
       <handler
-            class="ch.jester.ui.handlers.DaoPasteHandler"
+            class="ch.jester.common.ui.handlers.DaoPasteHandler"
             commandId="org.eclipse.ui.edit.paste">
          <activeWhen>
             <test
@@ -334,7 +334,7 @@
             </test></activeWhen>
       </handler>
       <handler
-            class="ch.jester.ui.handlers.PageHandler"
+            class="ch.jester.common.ui.handlers.PageHandler"
             commandId="org.eclipse.ui.navigate.next">
          <activeWhen>
             <reference
@@ -343,7 +343,7 @@
          </activeWhen>
       </handler>
       <handler
-            class="ch.jester.ui.handlers.PageHandler"
+            class="ch.jester.common.ui.handlers.PageHandler"
             commandId="org.eclipse.ui.navigate.back">
          <activeWhen>
             <reference
@@ -356,6 +356,7 @@
          point="ch.jester.commonservices.api.Filter">
       <Filter
             Id="ch.jester.ui.view.players.filter"
+            TargetViewId="ch.jester.ui.view.players"
             class="ch.jester.ui.filter.PlayerFilter">
       </Filter>
    </extension>

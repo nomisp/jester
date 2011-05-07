@@ -3,6 +3,7 @@ package ch.jester.common.ui.utility;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.services.IEvaluationService;
 
 public class UIUtility {
 	static UIStrategy[] mStrategies = new UIStrategy[2];
@@ -24,7 +25,13 @@ public class UIUtility {
 		return isUIThread()==true?0:1;
 	}
 	
+	public static IEvaluationService getEvalService(){
+		return (IEvaluationService) getActiveWorkbenchWindow().getService(IEvaluationService.class);
+	}
 	
+	public static void reevaluateProperty(String pEvaluationProperty){
+		getEvalService().requestEvaluation(pEvaluationProperty);
+	}
 	
 	public static IWorkbenchWindow getActiveWorkbenchWindow(){
 		return mStrategies[getStrategyIndex()].getWorkbenchWindow();

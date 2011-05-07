@@ -1,13 +1,14 @@
-package ch.jester.ui.handlers;
+package ch.jester.common.ui.handlers;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.ui.services.IEvaluationService;
 
-import ch.jester.common.ui.handlers.AbstractCommandHandler;
+import ch.jester.common.ui.databinding.PageController;
+import ch.jester.common.ui.filter.GotoPageField;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.ui.GotoPageField;
-import ch.jester.ui.contentprovider.PageController;
+
 
 public class PageHandler extends AbstractCommandHandler {
 	ServiceUtility su = new ServiceUtility();
@@ -39,8 +40,7 @@ public class PageHandler extends AbstractCommandHandler {
 		return null;
 	}
 	private void reevaluate(){
-		IEvaluationService evalservice = (IEvaluationService) getActivePartFromEvent().getSite().getService(IEvaluationService.class);
-		evalservice.requestEvaluation("ch.jester.properties.controlled");
+		UIUtility.reevaluateProperty("ch.jester.properties.controlled");
 	}
 
 }

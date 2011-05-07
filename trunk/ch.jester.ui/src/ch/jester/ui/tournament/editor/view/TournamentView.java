@@ -16,6 +16,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
+import ch.jester.common.ui.databinding.DaoController;
+import ch.jester.common.ui.databinding.PageController;
 import ch.jester.common.ui.listeners.DefaultSelectionCountListener;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.view.AbstractView;
@@ -24,8 +26,6 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.dao.ITournamentDao;
 import ch.jester.model.Tournament;
 import ch.jester.ui.Activator;
-import ch.jester.ui.contentprovider.PageController;
-import ch.jester.ui.player.editor.ctrl.DaoController;
 
 
 public class TournamentView extends AbstractView{

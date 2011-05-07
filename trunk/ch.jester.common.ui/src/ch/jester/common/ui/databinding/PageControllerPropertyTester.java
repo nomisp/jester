@@ -1,10 +1,9 @@
-package ch.jester.ui;
+package ch.jester.common.ui.databinding;
 
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.runtime.IAdaptable;
 
 import ch.jester.common.utility.AdapterUtility;
-import ch.jester.ui.contentprovider.PageController;
 
 public class PageControllerPropertyTester extends PropertyTester {
 
@@ -20,11 +19,11 @@ public class PageControllerPropertyTester extends PropertyTester {
 		PageController controller = AdapterUtility.getAdaptedObject(adaptable, PageController.class);
 		if(controller==null){return false;}
 		if(args[0].equals("next")){
-			System.out.println("Controller next: "+controller.hasNextPage());
+			System.out.println("Controller next: "+controller.hasNextPage()+" receiver: "+receiver);
 			return controller.hasNextPage();
 		}
 		if(args[0].equals("back")){
-			System.out.println("Controller back: "+controller.hasPreviousPage());
+			System.out.println("Controller back: "+controller.hasPreviousPage()+" receiver: "+receiver);
 			return controller.hasPreviousPage();
 		}
 		return false;

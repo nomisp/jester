@@ -1,4 +1,4 @@
-package ch.jester.ui.player.editor.ctrl;
+package ch.jester.common.ui.databinding;
 
 
 import java.util.ArrayList;
@@ -20,17 +20,16 @@ import org.eclipse.ui.part.ViewPart;
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editor.EditorAccessor.EditorAccess;
 import ch.jester.common.ui.editor.IEditorInputAccess;
+import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.PartListener2Adapter;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.persistency.IDaoObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.model.Player;
-import ch.jester.ui.Activator;
-import ch.jester.ui.contentprovider.PageController;
-import ch.jester.ui.contentprovider.TableViewerAdapter;
-import ch.jester.ui.player.editor.PlayerEditor;
+
+
+
 
 
 public abstract class DaoController<T extends IDaoObject>{
@@ -49,7 +48,7 @@ public abstract class DaoController<T extends IDaoObject>{
 		persister = pdaoservice;
 		mViewer=pViewer;
 		context = new DataBindingContext();
-		obsModel = new WritableList(new ArrayList<T>(), Player.class);
+		obsModel = new WritableList(new ArrayList<T>(), pdaoservice.getDaoClass());
 		pageController = new PageController<T>(obsModel,new TableViewerAdapter(mViewer), persister, cacheSize);
 		mPart=pPart;
 		mViewer.setInput(obsModel);
@@ -112,12 +111,12 @@ public abstract class DaoController<T extends IDaoObject>{
 	 * Für die Search
 	 * @param pPlayerCollection
 	 */
-	public void setSearched(final Collection<Player> pPlayerCollection){
+	public void setSearched(final Collection<T> pPlayerCollection){
 		UIUtility.syncExecInUIThread(new Runnable() {
 			
 			@Override
 			public void run() {
-				mViewer.setInput(new WritableList(pPlayerCollection, Player.class));
+				mViewer.setInput(new WritableList(pPlayerCollection, persister.getDaoClass()));
 				
 			}
 		});
@@ -155,7 +154,7 @@ public abstract class DaoController<T extends IDaoObject>{
 		@Override
 		public void partClosed(IWorkbenchPartReference partRef) {
 			if(partRef.getPart(false) == mAccess.getPart()){
-				PlayerEditor closedEditor = (PlayerEditor) mAccess.getPart();
+				AbstractEditor closedEditor = (AbstractEditor) mAccess.getPart();
 				if(!closedEditor.wasSaved()){
 					IEditorInputAccess<?> input = (IEditorInputAccess<?>)closedEditor.getEditorInput();
 					obsModel.remove(input.getInput());

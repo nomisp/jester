@@ -14,7 +14,8 @@ public class FilterControlContribution extends WorkbenchWindowControlContributio
 	@Override
 	protected Control createControl(Composite parent) {
 		ToolBar bar = (ToolBar)parent;
-		Text sf = new FilterField(bar, getId()).getField();
+		
+		Text sf = new FilterField(bar , getId()).getField();
 		sf.setFont(mFont);
 		return sf;
 	}

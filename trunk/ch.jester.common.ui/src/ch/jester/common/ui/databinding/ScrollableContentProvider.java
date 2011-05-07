@@ -1,27 +1,27 @@
-package ch.jester.ui.contentprovider;
+package ch.jester.common.ui.databinding;
 
 import org.eclipse.jface.viewers.ILazyContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 
 import ch.jester.common.persistency.util.ScrollableResultListJPA;
+import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.IPlayerDao;
-import ch.jester.model.Player;
 
 /**
  * Ein ContentProvider der Daten beim Scrollen von der DB nachlädt
  *
  */
-public class ScrollableContentProvider implements ILazyContentProvider {
+public class ScrollableContentProvider<T extends IDaoObject> implements ILazyContentProvider {
 	ServiceUtility su = new ServiceUtility();
-	IPlayerDao persister = su.getExclusiveService(IPlayerDao.class);
-	ScrollableResultListJPA<Player> list;
+	IDaoService<T> persister;
+	ScrollableResultListJPA<T> list;
 	TableViewer mViewer;
-	public ScrollableContentProvider(TableViewer pViewer, int pPageSize){
+	public ScrollableContentProvider(TableViewer pViewer, IDaoService<T> pPersister, int pPageSize){
 		mViewer = pViewer;
-		
-		list = new ScrollableResultListJPA<Player>(persister, pPageSize);
+		persister = pPersister;
+		list = new ScrollableResultListJPA<T>(persister, pPageSize);
 		
 	}
 	
