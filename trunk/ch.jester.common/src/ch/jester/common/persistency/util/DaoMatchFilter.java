@@ -1,4 +1,7 @@
-package ch.jester.commonservices.api.persistencyevent;
+package ch.jester.common.persistency.util;
+
+import ch.jester.commonservices.api.persistency.IPersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyFilter;
 
 public class DaoMatchFilter  extends ChainedPersistencyFilter{
 		private Object mDao;
@@ -10,7 +13,7 @@ public class DaoMatchFilter  extends ChainedPersistencyFilter{
 			super(pNext);
 			mDao = persister;
 		}
-		public boolean doDispatch(PersistencyEvent pEvent){
+		public boolean doDispatch(IPersistencyEvent pEvent){
 			return !(mDao==pEvent.getSource());
 		}
 	

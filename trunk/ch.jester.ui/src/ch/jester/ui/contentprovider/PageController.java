@@ -6,14 +6,14 @@ import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 
+import ch.jester.common.persistency.util.DaoMatchFilter;
+import ch.jester.common.persistency.util.EventLoadMatchingFilter;
+import ch.jester.common.persistency.util.PersistencyListener;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistencyevent.DaoMatchFilter;
-import ch.jester.commonservices.api.persistencyevent.EventLoadMatchingFilter;
-import ch.jester.commonservices.api.persistencyevent.IPersistencyEventQueue;
-import ch.jester.commonservices.api.persistencyevent.PersistencyEvent;
-import ch.jester.commonservices.api.persistencyevent.PersistencyListener;
+import ch.jester.commonservices.api.persistency.IPersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IDaoService;
 import ch.jester.dao.ScrollableResultListJPA;
@@ -47,7 +47,7 @@ public class PageController<T> {
 						new EventLoadMatchingFilter(Player.class, 
 								new DaoMatchFilter(mPersister))) {
 			@Override
-			public void persistencyEvent(PersistencyEvent pEvent) {
+			public void persistencyEvent(IPersistencyEvent pEvent) {
 				synchronized (jpaDBList) {
 					jpaDBListSize = jpaDBList.size();
 					calculatePages();
