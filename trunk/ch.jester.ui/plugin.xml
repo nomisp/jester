@@ -23,7 +23,7 @@
             targetID="ch.jester.perspective.admin">
          <view
                closeable="false"
-               id="ch.jester.ui.view.tournamentview"
+               id="ch.jester.ui.view.players"
                minimized="false"
                moveable="true"
                ratio="0.5f"
@@ -35,12 +35,12 @@
          </view>
          <view
                closeable="false"
-               id="ch.jester.ui.view.players"
+               id="ch.jester.ui.view.tournamentview"
                minimized="false"
                moveable="true"
                ratio="0.5f"
-               relationship="left"
-               relative="org.eclipse.ui.editorss"
+               relationship="stack"
+               relative="ch.jester.ui.view.players"
                showTitle="true"
                standalone="false"
                visible="true">

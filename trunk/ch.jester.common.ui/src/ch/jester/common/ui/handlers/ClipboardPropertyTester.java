@@ -1,5 +1,7 @@
 package ch.jester.common.ui.handlers;
 
+import java.lang.reflect.Type;
+
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -32,6 +34,8 @@ public class ClipboardPropertyTester extends PropertyTester {
 			return false;
 		}
 		Class<?> firsttransferedClass = selection.getFirstElement().getClass();
+		Class<?> all[] = firsttransferedClass.getClasses();
+		all = firsttransferedClass.getDeclaredClasses();
 		Class<?> interfaces[] = firsttransferedClass.getInterfaces();
 		for(Object argument:args){
 			boolean b = isAssignable(argument, interfaces);

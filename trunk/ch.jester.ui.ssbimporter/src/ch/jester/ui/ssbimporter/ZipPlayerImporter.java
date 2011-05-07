@@ -107,6 +107,7 @@ public class ZipPlayerImporter extends WizardPage {
 		        String[] filterExt = { "*.zip", "*.*" };
 		        fd.setFilterExtensions(filterExt);
 		        String selected = fd.open();
+		        if(selected==null){return;}
 		        text.setText(selected);
 		        mImportInput.setSelectedZipFile(text.getText());
 		        //List<String> list = ZipUtility.getZipEntries(selected, false);

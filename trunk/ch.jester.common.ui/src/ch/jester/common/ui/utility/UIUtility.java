@@ -1,9 +1,17 @@
 package ch.jester.common.ui.utility;
 
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IEvaluationService;
+
 
 public class UIUtility {
 	static UIStrategy[] mStrategies = new UIStrategy[2];
@@ -15,6 +23,7 @@ public class UIUtility {
 	interface UIStrategy{
 		public IWorkbenchWindow getWorkbenchWindow();
 		public void syncExecInUIThread(Runnable pRunnable);
+		public void asyncExecInUIThread(Runnable pRunnable);
 	}
 	
 	
@@ -39,7 +48,19 @@ public class UIUtility {
 	public static void syncExecInUIThread(Runnable r){
 		 mStrategies[getStrategyIndex()].syncExecInUIThread(r);
 	}
+	public static void asyncExecInUIThread(Runnable r){
+		 mStrategies[getStrategyIndex()].asyncExecInUIThread(r);
+	}
 	
+	public static void busyIndicatorJob(final String pName, final IBusyRunnable runnable){
+		final Display display = getActiveWorkbenchWindow().getShell().getDisplay();
+		syncExecInUIThread(new Runnable(){
+			@Override
+			public void run() {
+				BusyIndicator.showWhile(display, new BusyRunnableJobAdapter(pName, runnable));
+			}
+		});
+	}
 	
 	static class UIThreadStrategy implements UIStrategy{
 
@@ -51,6 +72,12 @@ public class UIUtility {
 		@Override
 		public void syncExecInUIThread(Runnable pRunnable) {
 			pRunnable.run();			
+		}
+
+		@Override
+		public void asyncExecInUIThread(Runnable pRunnable) {
+			Display.getDefault().asyncExec(pRunnable);
+			
 		}
 		
 	}
@@ -76,6 +103,10 @@ public class UIUtility {
 		public void syncExecInUIThread(Runnable pRunnable) {
 			mDisplay.syncExec(pRunnable);
 		}
+		@Override
+		public void asyncExecInUIThread(Runnable pRunnable) {
+			mDisplay.asyncExec(pRunnable);
+		}
 		
 	}
 	
@@ -95,7 +126,65 @@ public class UIUtility {
 		public abstract T runResult();
 		
 	}
+  public interface IBusyRunnable{
+	 	public void stepOne_InUIThread();
+	 	public void stepTwo_InJob();
+	 	public void finalStep_inUIThread();
+  }
+  static class BusyRunnableJobAdapter implements  Runnable{
 
-
-
+	 	private String mName;
+	 	private IBusyRunnable mRunnable;
+	 	public BusyRunnableJobAdapter(String pName, IBusyRunnable runnable){
+	 		mName = pName;
+	 		mRunnable=runnable;
+	 	}
+		final Display display = getActiveWorkbenchWindow().getShell().getDisplay();
+		final Shell shell = getActiveWorkbenchWindow().getShell();
+			@Override
+			public void run() {
+				final MutableBoolean done = new MutableBoolean(false);
+				Job job = new Job(mName){
+					@Override
+					protected IStatus run(IProgressMonitor monitor) {
+						UIUtility.syncExecInUIThread(new Runnable(){
+							@Override
+							public void run() {
+								mRunnable.stepOne_InUIThread();	
+							}
+						});
+						mRunnable.stepTwo_InJob();
+						UIUtility.syncExecInUIThread(new Runnable() {	
+							@Override
+							public void run() {
+								mRunnable.finalStep_inUIThread();
+							}
+						});
+						done.set(true);
+						display.wake();
+						return Status.OK_STATUS;
+					}
+					
+				};
+				job.schedule();
+				 while (!done.get() && !shell.isDisposed()) {
+		              if (!display.readAndDispatch())
+		                display.sleep();
+		         }
+				
+			}
+			
+		};
+	private static class MutableBoolean{
+			private boolean mB;
+			public MutableBoolean(boolean b) {
+				mB = b;
+			}
+			public void set(boolean b){
+				mB=b;
+			}
+			public boolean get(){
+				return mB;
+			}
+		}
 }
