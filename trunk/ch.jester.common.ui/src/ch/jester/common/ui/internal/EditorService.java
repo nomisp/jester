@@ -5,22 +5,25 @@ import java.util.HashMap;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.ui.PartInitException;
 
+import ch.jester.common.ui.editor.EditorAccessor;
+import ch.jester.common.ui.editor.IEditorInputAccess;
+import ch.jester.common.ui.editor.EditorAccessor.EditorAccess;
 import ch.jester.common.ui.services.IEditorService;
-import ch.jester.common.ui.utility.EditorAccessor;
 import ch.jester.common.ui.utility.UIUtility;
-import ch.jester.common.ui.utility.EditorAccessor.EditorAccess;
-import ch.jester.common.ui.utility.IEditorInputAccess;
 
 public class EditorService implements IEditorService{
 	private HashMap<Class<?>, RegistryEntry> mMap = new HashMap<Class<?>, RegistryEntry>();
 	private EditorAccessor accessor = null;
 	@Override
-	public EditorAccessor.EditorAccess  openEditor(Object pInputObject) {
+	public EditorAccessor.EditorAccess openEditor(Object pInputObject) {
 		check();
 		RegistryEntry entry = mMap.get(pInputObject.getClass());
 		return openEditor(pInputObject, entry.mEditorId);		
 	}
-
+	@Override
+	public boolean isEditorRegistred(Object pInputObject) {
+		return  mMap.get(pInputObject.getClass())!=null;
+	}
 	private void check() {
 		if(accessor==null){
 			accessor = new EditorAccessor(UIUtility.getActiveWorkbenchWindow().getActivePage(), this);
@@ -65,8 +68,9 @@ public class EditorService implements IEditorService{
 	}
 
 	@Override
-	public void register(Class<?> pObjectClass, Class<? extends IEditorInputAccess<?>> pEditorInputClass,
-			String pEditorId) {
+	public void register(Class pObjectClass,
+			Class<? extends IEditorInputAccess<?>> pEditorInputClass,
+					String pEditorId) {
 		RegistryEntry entry = new RegistryEntry(pObjectClass, pEditorInputClass, pEditorId);
 		mMap.put(pObjectClass, entry);
 	}
@@ -104,4 +108,8 @@ public class EditorService implements IEditorService{
 			e.printStackTrace();
 		}
 	}
+
+
+
+
 }

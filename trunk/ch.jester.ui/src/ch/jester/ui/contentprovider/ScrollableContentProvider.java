@@ -4,9 +4,9 @@ import org.eclipse.jface.viewers.ILazyContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 
+import ch.jester.common.persistency.util.ScrollableResultListJPA;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerDao;
-import ch.jester.dao.ScrollableResultListJPA;
 import ch.jester.model.Player;
 
 /**

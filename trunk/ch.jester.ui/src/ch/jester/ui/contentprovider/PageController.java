@@ -2,40 +2,41 @@ package ch.jester.ui.contentprovider;
 
 import java.util.List;
 
-import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TableViewer;
-
 import ch.jester.common.persistency.util.DaoMatchFilter;
 import ch.jester.common.persistency.util.EventLoadMatchingFilter;
 import ch.jester.common.persistency.util.PersistencyListener;
+import ch.jester.common.persistency.util.ScrollableResultListJPA;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.IDaoService;
-import ch.jester.dao.ScrollableResultListJPA;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
 
-public class PageController<T> {
-	private ServiceUtility su = Activator.getDefault().getActivationContext()
-			.getServiceUtil();
-	private ILogger mLogger = Activator.getDefault().getActivationContext()
-			.getLogger();
-	private ScrollableResultListJPA<Player> jpaDBList;
-	private TableViewer mViewer;
-	private int currentPage = 0, mPageSize, mTotalEntries, mTotalPages = -1;
+public class PageController<T extends IDaoObject> {
+	public interface IPageControllerUIAccess{
+		public Object getFirstElement();
+		public void setSelection(Object pSelection, boolean reveal);
+		public void setInput(Object pInput);
+	}
+	
+	
+	private ServiceUtility su = Activator.getDefault().getActivationContext().getServiceUtil();
+	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	private ScrollableResultListJPA<T> jpaDBList;
+	private IPageControllerUIAccess mViewer;
+	private int currentPage = 0, mPageSize, mTotalEntries, mTotalPages;
 	private List<T> pagelist;
 	private int jpaDBListSize;
-	private IContributionItem gotoField;
 	private IDaoService<?> mPersister;
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public PageController(List pPageList, TableViewer pViewer,
+	public PageController(List pPageList, IPageControllerUIAccess pViewer,
 			IDaoService pPersister, int cSize) {
-		jpaDBList = new ScrollableResultListJPA<Player>(pPersister, cSize);
+		jpaDBList = new ScrollableResultListJPA<T>(pPersister, cSize);
 		mViewer = pViewer;
 		mPageSize = cSize;
 		mPersister = pPersister;
@@ -44,7 +45,7 @@ public class PageController<T> {
 		
 		su.getService(IPersistencyEventQueue.class).addListener(
 				new PersistencyListener(
-						new EventLoadMatchingFilter(Player.class, 
+						new EventLoadMatchingFilter(mPersister.getDaoClass(), 
 								new DaoMatchFilter(mPersister))) {
 			@Override
 			public void persistencyEvent(IPersistencyEvent pEvent) {
@@ -64,10 +65,7 @@ public class PageController<T> {
 				}
 				
 			}
-		});
-		
-		
-
+		});	
 		jpaDBListSize = jpaDBList.size();
 		calculatePages();
 
@@ -107,20 +105,23 @@ public class PageController<T> {
 
 	}
 
-	public boolean hasMorePages() {
-		return currentPage != mTotalPages;
+	public boolean hasNextPage() {
+		return currentPage <mTotalPages;
 	}
 
+	public boolean hasPreviousPage() {
+		return currentPage>0;
+	}
+	
 	private List<?> loadPage() {
 		final StopWatch watch = new StopWatch();
 
 		watch.start();
 		UIUtility.syncExecInUIThread(new Runnable() {
-			@SuppressWarnings("unchecked")
 			public void run() {
-				if (mViewer.getElementAt(0) != null) {
+				if (mViewer.getFirstElement() != null) {
 					mViewer.setSelection(
-							new StructuredSelection(mViewer.getElementAt(0)),
+							mViewer.getFirstElement(),
 							true);
 				}
 				System.out.println(currentPage * mPageSize + " "
@@ -169,12 +170,6 @@ public class PageController<T> {
 		mTotalPages = ((mTotalEntries - rest) / mPageSize);
 
 	}
+	
 
-	public void bindGotoField(IContributionItem find) {
-		gotoField = find;
-	}
-	public int getGotoNr(){
-		//gotoField.
-		return 1;
-	}
 }

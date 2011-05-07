@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import ch.jester.dao.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoObject;
 
 @Entity
 @Table(name="Round")

@@ -16,7 +16,8 @@ Export-Package: ch.jester.common.ui.activator,
  ch.jester.common.ui.labelprovider,
  ch.jester.common.ui.listeners,
  ch.jester.common.ui.services,
- ch.jester.common.ui.utility
+ ch.jester.common.ui.utility,
+ ch.jester.common.ui.view
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ch.jester.common.ui.internal.Activator
 Import-Package: org.eclipse.core.expressions

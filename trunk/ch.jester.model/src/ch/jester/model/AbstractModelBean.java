@@ -3,7 +3,7 @@ package ch.jester.model;
 import java.io.Serializable;
 
 import ch.jester.common.model.AbstractPropertyChangeModel;
-import ch.jester.dao.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoObject;
 
 public abstract class AbstractModelBean extends AbstractPropertyChangeModel implements Cloneable, Serializable , IDaoObject{
 

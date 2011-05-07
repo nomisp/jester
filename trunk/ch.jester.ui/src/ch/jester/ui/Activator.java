@@ -6,12 +6,12 @@ import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
+import ch.jester.common.ui.editor.GenericDaoInputAccess;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.impl.persistencyevent.PersistencyEventQueue;
 import ch.jester.model.Player;
 import ch.jester.ui.player.editor.PlayerEditor;
-import ch.jester.ui.player.editor.PlayerInput;
 
 public class Activator extends AbstractUIActivator{
 
@@ -27,7 +27,7 @@ public class Activator extends AbstractUIActivator{
 		
 		//Editor an InputTyp binden
 		IEditorService openService = getActivationContext().getService(IEditorService.class);
-		openService.register(Player.class, PlayerInput.class, PlayerEditor.ID);
+		openService.register(Player.class, GenericDaoInputAccess.class, PlayerEditor.ID);
 		
 		//EventQueue aufsetzen
 		PersistencyEventQueue eventQueue = PersistencyEventQueue.getDefault();

@@ -1,6 +1,7 @@
 
 package ch.jester.db.persister.impl;
 
+import java.lang.reflect.TypeVariable;
 import java.util.Collection;
 import java.util.List;
 
@@ -12,10 +13,10 @@ import javax.persistence.Query;
 import ch.jester.common.persistency.util.PersistencyEvent;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
-import ch.jester.dao.IDaoObject;
-import ch.jester.dao.IDaoService;
 
 import ch.jester.orm.ORMPlugin;
 
@@ -27,7 +28,13 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 	private Query mPagingQuery;
 	private Query mCountQuery;
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	private Class<T> mClz;
+	public GenericPersister(Class<T> clz){
+		mClz = clz;
+	}
+	
 	private void fireEvent(Object pLoad, PersistencyEvent.Operation pOperation){
+		
 		mEventQueue.dispatch(new PersistencyEvent(this, pLoad, pOperation));
 	}
 	private void fireDeleteEvent(Object pLoad){
@@ -202,5 +209,10 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 	}
 	protected Query getCountQuery(){
 		return null;
+	}
+
+	@Override
+	public Class<T> getDaoClass() {
+		return mClz;
 	}
 }

@@ -14,14 +14,16 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 
 import ch.jester.common.ui.handlers.AbstractCommandHandler;
 import ch.jester.common.ui.services.IEditorService;
+import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistency.IDaoObject;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
-import ch.jester.ui.player.editor.ctrl.PlayerListController;
+import ch.jester.ui.player.editor.ctrl.DaoController;
 
-public class DeletePlayerHandler extends AbstractCommandHandler {
+public class DaoDeleteHandler extends AbstractCommandHandler {
 	ILogger logger;
-	public DeletePlayerHandler(){
+	public DaoDeleteHandler(){
 	 	logger = Activator.getDefault().getActivationContext().getLogger();
 	}
 	@Override
@@ -45,14 +47,14 @@ public class DeletePlayerHandler extends AbstractCommandHandler {
 	@SuppressWarnings("unchecked")
 	private Object delete(IProgressMonitor monitor){
 		ISelection selection = getSelection();
-		monitor.setTaskName("Deleting Players");
+		monitor.setTaskName("Deleting...");
 		monitor.beginTask("deleting", getSelectionCount()*2);
-		PlayerListController model = getServiceUtil().getService(PlayerListController.class);
+		DaoController<IDaoObject> ctrl = AdapterUtility.getAdaptedObject(getActivePartFromEvent(), DaoController.class);
 		IEditorService editors = getServiceUtil().getService(IEditorService.class);
 		if(isIStructuredSelection()){
 			IStructuredSelection structSel = (IStructuredSelection) selection;
-			List<Player> list = structSel.toList();
-			model.removePlayer(list);
+			List<IDaoObject> list = structSel.toList();
+			ctrl.removeDaoObject(list);
 			monitor.worked(getSelectionCount());
 			monitor.done();
 			Iterator<Object> selectionIterator = structSel.iterator();

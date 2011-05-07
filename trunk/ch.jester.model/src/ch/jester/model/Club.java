@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import ch.jester.dao.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoObject;
 
 @Entity
 @Table(name="Club")
