@@ -2,14 +2,13 @@ package ch.jester.common.ui.databinding;
 
 import java.util.List;
 
-import org.eclipse.ui.services.IEvaluationService;
-
 import ch.jester.common.persistency.util.DaoMatchFilter;
 import ch.jester.common.persistency.util.EventLoadMatchingFilter;
 import ch.jester.common.persistency.util.PersistencyListener;
 import ch.jester.common.persistency.util.ScrollableResultListJPA;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.common.ui.utility.UIUtility.IBusyRunnable;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoObject;
@@ -53,16 +52,7 @@ public class PageController<T extends IDaoObject> {
 				synchronized (jpaDBList) {
 					jpaDBListSize = jpaDBList.size();
 					calculatePages();
-					UIUtility.syncExecInUIThread(new Runnable() {
-
-						@Override
-						public void run() {
-
-							loadPage();
-
-						}
-					});
-
+					loadPage();
 				}
 				
 			}
@@ -116,10 +106,12 @@ public class PageController<T extends IDaoObject> {
 	
 	private List<?> loadPage() {
 		final StopWatch watch = new StopWatch();
-
 		watch.start();
-		UIUtility.syncExecInUIThread(new Runnable() {
-			public void run() {
+		UIUtility.busyIndicatorJob("Paging", new IBusyRunnable() {
+		
+			List<T> reloaded;
+			@Override
+			public void stepOne_InUIThread() {
 				if (mViewer.getFirstElement() != null) {
 					mViewer.setSelection(
 							mViewer.getFirstElement(),
@@ -130,13 +122,26 @@ public class PageController<T extends IDaoObject> {
 
 				mViewer.setInput(null);
 				pagelist.clear();
-
+				
+			}
+			
+			
+			@Override
+			public void stepTwo_InJob() {
 				System.out.println("cleared");
-				pagelist.addAll((List<T>) jpaDBList.getItems(currentPage
-						* mPageSize, currentPage * mPageSize + mPageSize));
+				reloaded = (List<T>) jpaDBList.getItems(currentPage
+						* mPageSize, currentPage * mPageSize + mPageSize);
+				
+			}
+			
+			@Override
+			public void finalStep_inUIThread() {
+				pagelist.addAll(reloaded);
 				mViewer.setInput(pagelist);
+				
 			}
 		});
+				
 		watch.stop();
 		mLogger.debug("loadPage took " + watch.getElapsedTime());
 		reevaluate();
@@ -172,6 +177,19 @@ public class PageController<T extends IDaoObject> {
 		int rest = mTotalEntries % mPageSize;
 		mTotalPages = ((mTotalEntries - rest) / mPageSize);
 
+	}
+	
+	class MutableBoolean{
+		private boolean mB;
+		public MutableBoolean(boolean b) {
+			mB = b;
+		}
+		public void set(boolean b){
+			mB=b;
+		}
+		public boolean get(){
+			return mB;
+		}
 	}
 	
 

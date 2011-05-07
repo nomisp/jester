@@ -1,5 +1,7 @@
 package ch.jester.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import ch.jester.commonservices.api.persistency.IDaoObject;
+
 @Entity
 @Table(name="Player")
 @NamedQueries({
@@ -18,7 +22,7 @@ import javax.validation.constraints.NotNull;
 @NamedQuery(name="count",query="SELECT count(player) FROM Player player"),
 @NamedQuery(name="findByName",query="SELECT player FROM Player player WHERE UPPER(player.lastName) LIKE :lastName order by lastName, firstName")
 })
-public class Player extends AbstractModelBean{
+public class Player extends AbstractModelBean implements Serializable, IDaoObject {
 	private static final long serialVersionUID = -2351315088207630377L;
 
 	
