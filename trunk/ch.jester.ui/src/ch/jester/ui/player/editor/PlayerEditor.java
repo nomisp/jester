@@ -40,6 +40,9 @@ public class PlayerEditor extends AbstractEditor{
 		
 		mPlayerDetailsController.setPlayer(mPlayerInput.getPlayer());
 		
+		mPlayerDetailsController.getDirtyManager().setDirty(mPlayerInput.isDirty());
+		
+		
 		setDirtyManager(mPlayerDetailsController.getDirtyManager());
 		getDirtyManager().addDirtyListener(this);
 		

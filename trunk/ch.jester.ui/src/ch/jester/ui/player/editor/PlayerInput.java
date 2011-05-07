@@ -61,4 +61,7 @@ public class PlayerInput implements IEditorInputAccess<Player>{
 		mPlayer=pT;
 	}
 
+	public boolean isDirty(){
+		return mPlayer.getId()==0;
+	}
 }
