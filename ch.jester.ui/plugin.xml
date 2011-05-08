@@ -6,6 +6,7 @@
       <view
             allowMultiple="false"
             class="ch.jester.ui.player.editor.view.PlayersView"
+            icon="icons/springer.png"
             id="ch.jester.ui.view.players"
             name="Players">
       </view>
@@ -54,7 +55,7 @@
             locationURI="popup:ch.jester.ui.view.players">
          <command
                commandId="ch.jester.ui.addplayer"
-               icon="icons/plus.gif"
+               icon="icons/springer.png"
                style="push">
          </command>
          <separator
@@ -207,6 +208,7 @@
             locationURI="menu:ch.jester.ui.add.pulldown">
          <command
                commandId="ch.jester.ui.addplayer"
+               icon="icons/springer.png"
                style="push">
          </command>
       </menuContribution>
