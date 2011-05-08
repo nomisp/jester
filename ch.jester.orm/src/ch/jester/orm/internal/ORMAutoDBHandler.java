@@ -130,14 +130,14 @@ public class ORMAutoDBHandler implements IPropertyChangeListener{
 							.createExecutableExtension(ORMPlugin.EP_CONFIGURATION_DATABASEMANAGERCLZ);
 					mDBManager.start();
 				} catch (CoreException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
 
 			}
 
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 
 /**
- * Interface für DAO
+ * Service welcher die möglichkeit bietet, auf eine Entität zuzugreifen.
  *
  * @param <T>
  */
@@ -29,6 +29,9 @@ public interface IDaoService<T extends IDaoObject> {
 	 */
 	public void delete(T pT);
 	
+	/**Löscht die übergebenen Objekte in der Collection
+	 * @param pTCollection
+	 */
 	public void delete(Collection<T> pTCollection);
 	/**
 	 * Schliessen und aufräumen
@@ -40,13 +43,21 @@ public interface IDaoService<T extends IDaoObject> {
 	 */
 	public List<T> getAll();
 	
+	/**Wie viele Objekte auf der DB gibt es?
+	 * @return
+	 */
 	public int count();
 	
+	/**Holt nur die Objekte im angegebenen Range
+	 * @param from
+	 * @param to
+	 * @return
+	 */
 	public List<T> getFromTo(int from, int to);
 	
 	/**
 	 * Holt alle Objekte anhand einer NamedQuery
-	 * So ist es M�glich verschiedene Named Queries zu verwenden (verschiedene Entit�ten)
+	 * So ist es Möglich verschiedene Named Queries zu verwenden (verschiedene Entitäten)
 	 * @param namedQuery
 	 * @return Liste mit den Entities
 	 */

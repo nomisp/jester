@@ -3,7 +3,7 @@ package ch.jester.common.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-
+//TODO Klasse kann gelöscht werden
 public class PropertyChangeListModel<T> extends ArrayList<T> implements IPropertyChangeSupport{
 	private static final long serialVersionUID = 1L;
 	protected PropertyChangeSupport mPCS;

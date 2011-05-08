@@ -22,7 +22,6 @@ public class Activator extends AbstractActivator{
 
 	@Override
 	public void stopDelegate(BundleContext pContext) {
-		// TODO Auto-generated method stub
 		
 	}
 

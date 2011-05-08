@@ -31,7 +31,7 @@ import ch.jester.commonservices.api.persistency.IDaoObject;
 	@NamedQuery(name="countTournaments",query="SELECT count(Tournament) FROM Player Tournament"),
 	@NamedQuery(name="TournamentByName", query="select t from Tournament t where t.name like :name")
 })
-public class Tournament extends AbstractModelBean implements Serializable, IDaoObject {
+public class Tournament extends AbstractModelBean implements IDaoObject {
 	private static final long serialVersionUID = -3356578830307874396L;
 
 	@Id

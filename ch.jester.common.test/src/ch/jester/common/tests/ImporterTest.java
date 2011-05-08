@@ -50,7 +50,7 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 		try {
 			entry.getService().handleImport(new FileInputStream("C:/Users/matthias/Desktop/players_list.txt"), new NullProgressMonitor());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		

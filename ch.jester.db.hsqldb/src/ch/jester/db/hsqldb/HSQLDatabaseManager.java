@@ -37,7 +37,6 @@ public class HSQLDatabaseManager implements IDatabaseManager {
 			//beendet db richtig... alles andere funktioniert nicht so wirklich
 			ORMPlugin.getConfiguration().getConnection().createStatement().execute("shutdown");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//async call

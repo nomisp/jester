@@ -1,7 +1,6 @@
 
 package ch.jester.db.persister.impl;
 
-import java.lang.reflect.TypeVariable;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import ch.jester.commonservices.api.persistency.IDaoObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
-
 import ch.jester.orm.ORMPlugin;
 
 public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {

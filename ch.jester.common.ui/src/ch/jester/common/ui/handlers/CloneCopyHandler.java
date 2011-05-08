@@ -41,7 +41,6 @@ public class CloneCopyHandler extends AbstractCommandHandler {
 			IEvaluationService evalservice = (IEvaluationService) HandlerUtil.getActiveWorkbenchWindowChecked(mEvent).getService(IEvaluationService.class);
 			evalservice.requestEvaluation("ch.jester.properties.clipboardFilled");
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

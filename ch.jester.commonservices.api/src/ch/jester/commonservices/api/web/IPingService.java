@@ -1,5 +1,9 @@
 package ch.jester.commonservices.api.web;
 
+/**
+ * Hilfsservice um zu Testen, ob eine Internetverbindung besteht.
+ *
+ */
 public interface IPingService {
 	public final static int REACHABLE = 0;
 	public final static int NOT_REACHABLE = -1;
@@ -9,7 +13,7 @@ public interface IPingService {
 	 * @return
 	 */
 	public int ping(String pInetAddress);
-	/**Startet einen konstanten Ping in einer Endlosschleife mit entsprechender Verzögerung
+	/**Startet einen konstanten Ping in einer Endlosschleife mit entsprechender Verzögerung.
 	 * @param pInetAddress
 	 * @param pReschedule
 	 * @return

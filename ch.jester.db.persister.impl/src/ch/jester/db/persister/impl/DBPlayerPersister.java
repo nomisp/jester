@@ -7,6 +7,10 @@ import javax.persistence.Query;
 import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Player;
 
+/**
+ * Implementierung für die Persistenz von Playern
+ *
+ */
 public class DBPlayerPersister extends GenericPersister<Player> implements IPlayerDao{
 	public DBPlayerPersister(){
 		super(Player.class);

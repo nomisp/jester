@@ -74,7 +74,6 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements I
 		try {
 			 clz = bundle.loadClass(classname);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		List<Class<?>> classes = new ArrayList<Class<?>>();
