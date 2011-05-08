@@ -18,13 +18,13 @@ public class CommonActivator extends AbstractActivator{
 	
 	@Override
 	public void startDelegate(BundleContext pContext) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	@Override
 	public void stopDelegate(BundleContext pContext) {
-		// TODO Auto-generated method stub
+
 		
 	}
 

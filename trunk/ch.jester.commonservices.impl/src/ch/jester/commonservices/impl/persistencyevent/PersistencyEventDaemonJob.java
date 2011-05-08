@@ -16,6 +16,11 @@ import ch.jester.commonservices.api.persistency.IPersistencyListener;
 import ch.jester.commonservices.impl.internal.Activator;
 
 
+/**
+ * Background Dispatcher Job für die EventQueue.
+ * Allfällig Calls werden von der Queue an diesen Job weitergereicht (z.B. shutdown, oder addListener)
+ *
+ */
 public class PersistencyEventDaemonJob extends Job{
 	private Vector<IPersistencyListener> mListeners = new Vector<IPersistencyListener>();
 	private boolean run = true;
@@ -26,6 +31,10 @@ public class PersistencyEventDaemonJob extends Job{
 		mQueue=pQueue;
 	}
 	
+	/**
+	 * Beenden des Jobs.
+	 * Wird von der Queue aus aufgerufen.
+	 */
 	public void shutdown() {
 		run=false;
 		if(getThread()!=null)getThread().interrupt();

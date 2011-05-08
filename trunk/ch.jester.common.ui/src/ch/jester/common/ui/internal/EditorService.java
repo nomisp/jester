@@ -51,13 +51,13 @@ public class EditorService implements IEditorService{
 			}
 			return access;
 		} catch (PartInitException e1) {
-			// TODO Auto-generated catch block
+
 			e1.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return null;
@@ -104,7 +104,6 @@ public class EditorService implements IEditorService{
 			
 			}
 		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

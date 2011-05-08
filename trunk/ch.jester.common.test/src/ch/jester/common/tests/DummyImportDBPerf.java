@@ -92,7 +92,6 @@ public class DummyImportDBPerf {
 					try {
 						job.join();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

@@ -19,7 +19,6 @@ public class Activator extends AbstractUIActivator {
 	
 	@Override
 	public void stopDelegate(BundleContext pContext) {
-		// TODO Auto-generated method stub
 		
 	}
 

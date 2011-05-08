@@ -23,45 +23,12 @@ public abstract class AbstractUndoRedoCommandHandler extends AbstractCommandHand
 		try {
 			mOperationHistory.execute(mCurrentOperation, new NullProgressMonitor(), null);
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 	
 	protected abstract IUndoableOperation getOperation();
-	
-/*	protected AbstractOperation getOperation(){
-				Object trigger = super.mEvent.getTrigger();
-				try {
-					IParameter params = super.mEvent.getCommand().getParameter("ch.jester.ui.operation");
-					IParameterValues values = params.getValues();
-					Object val = values.getParameterValues().get("ch.jester.undoablecommandclass");
-					System.out.println(params);
-				} catch (NotDefinedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ParameterValuesException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				String operation = super.mEvent.getParameter("ch.jester.ui.operations");
-				Map map =super.mEvent.getParameters();
-				Object op=null;
-				try {
-					op = super.mEvent.getObjectParameterForExecution("ch.jester.ui.operations");
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					
-					int k = 0;
-					k++;
-					k++;
-					e.printStackTrace();
-				}
-				System.out.println(op);
-		
-			return null;
-	}*/
 	
 	
 }

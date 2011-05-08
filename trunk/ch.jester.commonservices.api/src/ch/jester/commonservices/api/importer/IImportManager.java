@@ -25,7 +25,16 @@ public interface IImportManager extends IEPEntryComponentService<IImportHandlerE
 	 * @return das Resultat
 	 */
 	public Object doImport(IImportHandlerEntry pEntry, InputStream pObjectToImport, IProgressMonitor pMonitor);
+	
+	/**Filtert alle regsitrierten IImportHandler aufgrund des Filters
+	 * @param pFilter
+	 * @return
+	 */
 	public List<IImportHandlerEntry> filter(IImportFilter pFilter);
 	
+	/**Erzeugt ein Machting welches sich auf die Extension (z.B *.xy) bezhieht
+	 * @param pString z.B. *.xy
+	 * @return
+	 */
 	public IImportFilter createMatchingExtension(String pString);
 }

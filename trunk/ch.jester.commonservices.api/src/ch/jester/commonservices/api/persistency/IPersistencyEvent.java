@@ -4,16 +4,37 @@ import java.util.Collection;
 
 
 
+/**
+ * Interface für ein CRUD Event
+ *
+ */
 public interface IPersistencyEvent {
+	/**
+	 * Die Operation beschreibt was mit dem Event passiert ist.
+	 *
+	 */
 	public static enum Operation{
 		SAVED, DELETED
 	}
-	public abstract Class<?> getLoadClass();
+	/**Ermittelt auf welcher Entität der Event gefeuert wurde
+	 * @return
+	 */
+	public Class<?> getLoadClass();
 
-	public abstract Operation getCRUD();
+	/**Die Operation
+	 * @return
+	 */
+	public Operation getCRUD();
 
-	public abstract Object getSource();
+	/**Das Objekt welches den Event gefeurt hat.<br>
+	 * Normalerweise ein IDaoService.
+	 * @return
+	 */
+	public Object getSource();
 
-	public abstract Collection<?> getLoad();
+	/**Gibt an, auf welcher Menge die Operation durchgeführt wurde
+	 * @return
+	 */
+	public Collection<?> getLoad();
 
 }

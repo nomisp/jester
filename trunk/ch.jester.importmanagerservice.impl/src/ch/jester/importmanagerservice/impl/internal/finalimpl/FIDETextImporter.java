@@ -30,7 +30,6 @@ public class FIDETextImporter extends AbstractTableImporter<String, Player>{
 			try {
 				j.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

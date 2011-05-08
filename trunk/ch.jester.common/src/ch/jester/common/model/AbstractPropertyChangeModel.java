@@ -4,6 +4,10 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 
+/**
+ * Abstract Model, das PropertyChanges unterstütz
+ *
+ */
 public class AbstractPropertyChangeModel implements IPropertyChangeSupport{
 	protected transient PropertyChangeSupport mPCS;
 	
