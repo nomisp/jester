@@ -17,7 +17,8 @@ public class ScrollableResultListJPA<T extends IDaoObject> extends AbstractList<
     	persister = pPersister;
         this.startPosition = 0;
         mCacheSize=cacheSize;
-        this.cache = getItems(startPosition, startPosition + mCacheSize);
+       // this.cache = getItems(startPosition, startPosition + mCacheSize);
+       
     }
 
     public int size() {
@@ -26,7 +27,7 @@ public class ScrollableResultListJPA<T extends IDaoObject> extends AbstractList<
 
 
     public T get(int rowIndex) {
-        if ((rowIndex >= startPosition) && (rowIndex < (startPosition + mCacheSize)) && !cache.isEmpty()) {
+        if (this.cache!=null && (rowIndex >= startPosition) && (rowIndex < (startPosition + mCacheSize)) && !cache.isEmpty()) {
         } else {
         	this.cache = null;
             this.cache = getItems(rowIndex, rowIndex + mCacheSize);

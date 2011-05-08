@@ -9,15 +9,17 @@ import ch.jester.common.persistency.util.ScrollableResultListJPA;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.ui.utility.UIUtility.IBusyRunnable;
+import ch.jester.common.utility.DefaultAdapterFactory;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistency.IDBStartupListener;
 import ch.jester.commonservices.api.persistency.IDaoObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.util.ServiceUtility;
 
-public class PageController<T extends IDaoObject> {
+public class PageController<T extends IDaoObject> implements IDBStartupListener{
 	public interface IPageControllerUIAccess{
 		public Object getFirstElement();
 		public void setSelection(Object pSelection, boolean reveal);
@@ -42,7 +44,7 @@ public class PageController<T extends IDaoObject> {
 		mPageSize = cSize;
 		mPersister = pPersister;
 		pagelist = pPageList;
-		
+		new ServiceUtility().registerService(IDBStartupListener.class, this);
 		
 		su.getService(IPersistencyEventQueue.class).addListener(
 				new PersistencyListener(
@@ -58,11 +60,17 @@ public class PageController<T extends IDaoObject> {
 				
 			}
 		});	
-		jpaDBListSize = jpaDBList.size();
-		calculatePages();
+		
 
 	}
 
+	public void initialize(){
+		jpaDBListSize = jpaDBList.size();
+		calculatePages();
+		loadPage();
+		reevaluate();
+	}
+	
 	public void enablePaging(boolean b){
 		mPagingEnabled=b;
 		reevaluate();
