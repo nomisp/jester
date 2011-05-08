@@ -1,13 +1,17 @@
 package ch.jester.common.ui.handlers;
 
-import java.lang.reflect.Type;
-
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
+import ch.jester.common.ui.databinding.DaoController;
 import ch.jester.common.ui.utility.GlobalClipBoard;
+import ch.jester.common.utility.AdapterUtility;
 
 public class ClipboardPropertyTester extends PropertyTester {
 
@@ -31,6 +35,7 @@ public class ClipboardPropertyTester extends PropertyTester {
 		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
 		IStructuredSelection selection = (IStructuredSelection) clipBoard.getContents(transfer);
 		if(selection==null){
+			//System.out.println("Clipboard Test is: "+false);
 			return false;
 		}
 		Class<?> firsttransferedClass = selection.getFirstElement().getClass();
@@ -40,9 +45,32 @@ public class ClipboardPropertyTester extends PropertyTester {
 		for(Object argument:args){
 			boolean b = isAssignable(argument, interfaces);
 			if(!b){
+				//System.out.println("Clipboard Test is: "+false);
 				return false;
 			}
 		}
-		return true;
+		IWorkbenchPart part = safeGetActivePart();
+		if(part==null){
+			return false;
+		}
+		DaoController<?> targetController = AdapterUtility.getAdaptedObject(part,DaoController.class);
+		
+		if(targetController==null){return false;}
+		Class<?> targetClass = targetController.getTargetClass();
+		if(targetClass.isAssignableFrom(firsttransferedClass)){
+			System.out.println("Clipboard Test is: "+true);
+			return true;
+		}
+		System.out.println("Clipboard Test is: "+false);
+		return false;
+	}
+	
+	private IWorkbenchPart safeGetActivePart(){
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if(window==null){return null;}
+		IWorkbenchPage page = window.getActivePage();
+		if(page==null){return null;}
+		return page.getActivePart();
+		
 	}
 }

@@ -285,6 +285,12 @@
             </test>
          </with>
       </definition>
+      <definition
+            id="ch.jester.ui.hasPasteContentAndIsTargetValid">
+         <test
+               property="ch.jester.properties.clipboardFilled">
+         </test>
+      </definition>
    </extension>
    <extension
          point="org.eclipse.core.expressions.propertyTesters">
@@ -327,11 +333,10 @@
             class="ch.jester.common.ui.handlers.DaoPasteHandler"
             commandId="org.eclipse.ui.edit.paste">
          <activeWhen>
-            <test
-                  args="ch.jester.commonservices.api.persistency.IDaoObject"
-                  property="ch.jester.properties.clipboardFilled"
-                  value="true">
-            </test></activeWhen>
+            <reference
+                  definitionId="ch.jester.ui.hasPasteContentAndIsTargetValid">
+            </reference>
+         </activeWhen>
       </handler>
       <handler
             class="ch.jester.common.ui.handlers.PageHandler"

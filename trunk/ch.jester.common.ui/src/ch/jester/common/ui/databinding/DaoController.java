@@ -41,6 +41,9 @@ public abstract class DaoController<T extends IDaoObject>{
 	private DataBindingContext context;
 	private WritableList obsModel;
 	
+	public Class<?> getTargetClass(){
+		return persister.getDaoClass();
+	}
 
 
 	public DaoController(ViewPart pPart, TableViewer pViewer, IDaoService<T> pdaoservice){
