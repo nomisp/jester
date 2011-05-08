@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.internal.services.IWorkbenchLocationService;
 import org.eclipse.ui.menus.IWorkbenchContribution;
@@ -32,15 +33,17 @@ public class GotoPageField extends
 	@Override
 	protected Control createControl(Composite pParent) {
 		ToolBar bar = (ToolBar)pParent;
-		text = new Text(bar,  SWT.BORDER| SWT.CENTER | SWT.LEFT);
-		GridData data = new GridData();
-		data.widthHint = 20;
-		text.setLayoutData(data);
+		text = new Text(bar,  SWT.BORDER | SWT.LEFT | SWT.TRAIL);
+	//	GridData data = new GridData();
+	//	data.widthHint = 20;
+	//	text.setLayoutData(data);
 		text.setMessage("goto");
 		//text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		text.setFont(mFont);
-
-		
+	//    ToolItem itemSeparator = new ToolItem((ToolBar) pParent,   SWT.SEPARATOR | SWT.TRAIL); 
+	  //  text.setBounds(0, 0, h, height)
+	  //  itemSeparator.setWidth(text.getBounds().width+20);  
+       // itemSeparator.setControl(text); 
 		return text;
 	}
 	public void dispose(){

@@ -32,6 +32,7 @@ public class PageController<T extends IDaoObject> {
 	private int currentInternalPage = 0, currentExternalIndex=1, mPageSize, mTotalEntries, mTotalPages;
 	private List<T> pagelist;
 	private int jpaDBListSize;
+	private boolean mPagingEnabled = true;
 	private IDaoService<?> mPersister;
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public PageController(List pPageList, IPageControllerUIAccess pViewer,
@@ -62,6 +63,11 @@ public class PageController<T extends IDaoObject> {
 
 	}
 
+	public void enablePaging(boolean b){
+		mPagingEnabled=b;
+		reevaluate();
+	}
+	
 	public int getTotalEntries() {
 		return mPageSize;
 	}
@@ -105,10 +111,12 @@ public class PageController<T extends IDaoObject> {
 	}
 
 	public boolean hasNextPage() {
+		if(!mPagingEnabled){return false;}
 		return currentInternalPage <mTotalPages;
 	}
 
 	public boolean hasPreviousPage() {
+		if(!mPagingEnabled){return false;}
 		return currentInternalPage>0;
 	}
 	
