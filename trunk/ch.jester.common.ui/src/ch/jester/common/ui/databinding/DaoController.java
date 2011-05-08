@@ -25,6 +25,7 @@ import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.PartListener2Adapter;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistency.IDBStartupListener;
 import ch.jester.commonservices.api.persistency.IDaoObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
@@ -33,7 +34,7 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 
 
-public abstract class DaoController<T extends IDaoObject>{
+public abstract class DaoController<T extends IDaoObject> {
 	private TableViewer mViewer;
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();

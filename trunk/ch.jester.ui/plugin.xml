@@ -271,6 +271,7 @@
                   type="ch.jester.common.ui.databinding.PageController">
                <test
                      args="next"
+                     forcePluginActivation="false"
                      property="ch.jester.properties.controlled"
                      value="true">
                </test>
@@ -285,6 +286,7 @@
                   type="ch.jester.common.ui.databinding.PageController">
                <test
                      args="back"
+                     forcePluginActivation="false"
                      property="ch.jester.properties.controlled"
                      value="true">
                </test>
@@ -294,6 +296,7 @@
       <definition
             id="ch.jester.ui.hasPasteContentAndIsTargetValid">
          <test
+               forcePluginActivation="false"
                property="ch.jester.properties.clipboardFilled">
          </test>
       </definition>
