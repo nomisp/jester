@@ -15,6 +15,7 @@ import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.PartListener2Adapter;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
@@ -26,6 +27,7 @@ public abstract class AbstractEditor<T extends IDaoObject> extends EditorPart im
 	private DirtyManager mDirtyManager;
 	private boolean mSaveIndicatorFlag;
 	private IPartListener2 mPart2Listener = new NestedPart2Listener();
+	protected ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	protected IDaoService<T> mDao;
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
@@ -43,7 +45,7 @@ public abstract class AbstractEditor<T extends IDaoObject> extends EditorPart im
 	}
 
 	public void setPlayerDao(IDaoService<T> dao){
-		System.out.println("setting dao"+this+" mDAO: "+dao);
+		mLogger.debug(this+" setting dao to "+dao);
 		mDao=dao;
 	}
 	

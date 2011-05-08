@@ -68,7 +68,7 @@ public class GotoPageField extends
 		DefaultAdapterFactory factory = new DefaultAdapterFactory(view2);
 		factory.add(GotoPageField.class, this);
 		factory.registerAtPlatform();
-		System.out.println(serviceLocator);
+		//System.out.println(serviceLocator);
 		
 	}
 

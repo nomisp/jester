@@ -24,6 +24,7 @@ import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.PartListener2Adapter;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
@@ -35,6 +36,7 @@ import ch.jester.commonservices.util.ServiceUtility;
 public abstract class DaoController<T extends IDaoObject>{
 	private TableViewer mViewer;
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
+	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	private IDaoService<T> persister;
 	private ViewPart mPart;
 	private PageController<T> pageController;
@@ -84,7 +86,7 @@ public abstract class DaoController<T extends IDaoObject>{
 		IEditorService eService = mServices.getService(IEditorService.class);
 		if(!eService.isEditorRegistred(pObject)){return;}
 		final EditorAccess access = eService.openEditor(pObject);	
-		System.out.println("reactivated: "+access.wasReactivated());
+		mLogger.debug("Editor Reactivated: "+access.wasReactivated());
 		if(!access.wasReactivated()){
 			((AbstractEditor)access.getPart()).setPlayerDao(persister);
 			getPartService().addPartListener(new NestedPartListener(access));
@@ -162,7 +164,7 @@ public abstract class DaoController<T extends IDaoObject>{
 					IEditorInputAccess<?> input = (IEditorInputAccess<?>)closedEditor.getEditorInput();
 					obsModel.remove(input.getInput());
 				}
-				System.out.println("Was saved: "+closedEditor.wasSaved());
+				mLogger.debug("Editor wasSaved: "+closedEditor.wasSaved());
 				getPartService().removePartListener(this);
 				//mAccess.close();
 			}
