@@ -16,17 +16,21 @@ public class PageControllerPropertyTester extends PropertyTester {
 	@Override
 	public boolean test(Object receiver, String property, Object[] args,
 			Object expectedValue) {
-		if(!(receiver instanceof IAdaptable)){return false;}
+	/*	if(!(receiver instanceof IAdaptable)){return false;}
 		IAdaptable adaptable = (IAdaptable) receiver;
-		PageController<?> controller = AdapterUtility.getAdaptedObject(adaptable, PageController.class);
+		PageController<?> controller = AdapterUtility.getAdaptedObject(adaptable, PageController.class);*/
+		PageController<?> controller = (PageController<?>) receiver;
 		if(controller==null){return false;}
+		boolean result = false;
 		if(args[0].equals("next")){
-			mLogger.debug("Controller Property 'next' is " + controller.hasNextPage() + " for receiver " +receiver );
-			return controller.hasNextPage();
+			result = controller.hasNextPage();
+			mLogger.debug("Controller Property 'next' is " + result + " for receiver " +receiver );
+			return result;
 		}
 		if(args[0].equals("back")){
-			mLogger.debug("Controller Property 'back' is " + controller.hasNextPage() + " for receiver " +receiver );
-			return controller.hasPreviousPage();
+			result = controller.hasPreviousPage();
+			mLogger.debug("Controller Property 'back' is " + result + " for receiver " +receiver );
+			return result;
 		}
 		mLogger.debug("Controller Property could not be evaluated, due to wrong argument");
 		return false;

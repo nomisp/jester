@@ -29,7 +29,7 @@ public class PageController<T extends IDaoObject> {
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	private ScrollableResultListJPA<T> jpaDBList;
 	private IPageControllerUIAccess mViewer;
-	private int currentPage = 0, mPageSize, mTotalEntries, mTotalPages;
+	private int currentInternalPage = 0, currentExternalIndex=1, mPageSize, mTotalEntries, mTotalPages;
 	private List<T> pagelist;
 	private int jpaDBListSize;
 	private IDaoService<?> mPersister;
@@ -67,7 +67,7 @@ public class PageController<T extends IDaoObject> {
 	}
 
 	public int getCurrentPage() {
-		return currentPage;
+		return currentInternalPage;
 	}
 
 	public List<T> getPageContent() {
@@ -75,33 +75,41 @@ public class PageController<T extends IDaoObject> {
 	}
 
 	public int gotoPage(int i) {
-		if (currentPage == mTotalPages) {
-			currentPage = mTotalPages;
-		} else {
-			currentPage = i;
+		i = i-1;
+		if (currentInternalPage == mTotalPages ) {
+			currentInternalPage = mTotalPages;
+		} else if(i>mTotalPages){
+			currentInternalPage = mTotalPages;
+		}else if(i<1){
+			currentInternalPage = 0;
+		}
+		else{
+			currentInternalPage = i;
 		}
 		loadPage();
 		printSiteInfo();
-		return currentPage;
+		//reevaluate();
+		return currentInternalPage;
 	}
 
 	public void nextPage() {
 		
-		if (currentPage == mTotalPages) {
+		if (currentInternalPage == mTotalPages) {
 			return;
 		}
-		currentPage++;
+		currentInternalPage++;
 		loadPage();
 		printSiteInfo();
+		//reevaluate();
 
 	}
 
 	public boolean hasNextPage() {
-		return currentPage <mTotalPages;
+		return currentInternalPage <mTotalPages;
 	}
 
 	public boolean hasPreviousPage() {
-		return currentPage>0;
+		return currentInternalPage>0;
 	}
 	
 	private List<?> loadPage() {
@@ -117,8 +125,8 @@ public class PageController<T extends IDaoObject> {
 							mViewer.getFirstElement(),
 							true);
 				}
-				System.out.println(currentPage * mPageSize + " "
-						+ (currentPage * mPageSize + mPageSize));
+				System.out.println(currentInternalPage * mPageSize + " "
+						+ (currentInternalPage * mPageSize + mPageSize));
 
 				mViewer.setInput(null);
 				pagelist.clear();
@@ -129,8 +137,8 @@ public class PageController<T extends IDaoObject> {
 			@Override
 			public void stepTwo_InJob() {
 				System.out.println("cleared");
-				reloaded = (List<T>) jpaDBList.getItems(currentPage
-						* mPageSize, currentPage * mPageSize + mPageSize);
+				reloaded = (List<T>) jpaDBList.getItems(currentInternalPage
+						* mPageSize, currentInternalPage * mPageSize + mPageSize);
 				
 			}
 			
@@ -139,29 +147,32 @@ public class PageController<T extends IDaoObject> {
 				pagelist.addAll(reloaded);
 				mViewer.setInput(pagelist);
 				
+				
 			}
 		});
 				
+		reevaluate();
 		watch.stop();
 		mLogger.debug("loadPage took " + watch.getElapsedTime());
-		reevaluate();
+		
 		return pagelist;
 	}
 	private void reevaluate(){
+		//System.out.println(Thread.currentThread());
 		UIUtility.reevaluateProperty("ch.jester.properties.controlled");
 	}
 	private void printSiteInfo() {
-		mLogger.debug("Page " + currentPage + " / " + mTotalPages);
+		mLogger.debug("Page " + currentInternalPage + " / " + mTotalPages);
 	}
 
 	public void prevPage() {
-		if (currentPage == 0) {
+		if (currentInternalPage == 0) {
 			return;
 		}
-		currentPage--;
+		currentInternalPage--;
 		loadPage();
 		printSiteInfo();
-
+		//reevaluate();
 	}
 
 	public int totalPages() {
@@ -177,19 +188,6 @@ public class PageController<T extends IDaoObject> {
 		int rest = mTotalEntries % mPageSize;
 		mTotalPages = ((mTotalEntries - rest) / mPageSize);
 
-	}
-	
-	class MutableBoolean{
-		private boolean mB;
-		public MutableBoolean(boolean b) {
-			mB = b;
-		}
-		public void set(boolean b){
-			mB=b;
-		}
-		public boolean get(){
-			return mB;
-		}
 	}
 	
 

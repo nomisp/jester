@@ -267,22 +267,28 @@
             id="ch.jester.ui.pagecontroller.next">
          <with
                variable="activePart">
-            <test
-                  args="next"
-                  property="ch.jester.properties.controlled"
-                  value="true">
-            </test>
+            <adapt
+                  type="ch.jester.common.ui.databinding.PageController">
+               <test
+                     args="next"
+                     property="ch.jester.properties.controlled"
+                     value="true">
+               </test>
+            </adapt>
          </with>
       </definition>
       <definition
             id="ch.jester.ui.pagecontroller.back">
          <with
                variable="activePart">
-            <test
-                  args="back"
-                  property="ch.jester.properties.controlled"
-                  value="true">
-            </test>
+            <adapt
+                  type="ch.jester.common.ui.databinding.PageController">
+               <test
+                     args="back"
+                     property="ch.jester.properties.controlled"
+                     value="true">
+               </test>
+            </adapt>
          </with>
       </definition>
       <definition
