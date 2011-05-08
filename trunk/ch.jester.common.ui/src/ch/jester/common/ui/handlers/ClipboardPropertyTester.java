@@ -10,13 +10,15 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import ch.jester.common.ui.databinding.DaoController;
+import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.GlobalClipBoard;
 import ch.jester.common.utility.AdapterUtility;
+import ch.jester.commonservices.api.logging.ILogger;
 
 public class ClipboardPropertyTester extends PropertyTester {
-
+	private ILogger mLogger;
 	public ClipboardPropertyTester() {
-
+		mLogger = Activator.getDefault().getActivationContext().getLogger();
 	}
 
 	private boolean isAssignable(Object arg, Class<?>[] classes){
@@ -35,17 +37,13 @@ public class ClipboardPropertyTester extends PropertyTester {
 		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
 		IStructuredSelection selection = (IStructuredSelection) clipBoard.getContents(transfer);
 		if(selection==null){
-			//System.out.println("Clipboard Test is: "+false);
 			return false;
 		}
 		Class<?> firsttransferedClass = selection.getFirstElement().getClass();
-		Class<?> all[] = firsttransferedClass.getClasses();
-		all = firsttransferedClass.getDeclaredClasses();
 		Class<?> interfaces[] = firsttransferedClass.getInterfaces();
 		for(Object argument:args){
 			boolean b = isAssignable(argument, interfaces);
 			if(!b){
-				//System.out.println("Clipboard Test is: "+false);
 				return false;
 			}
 		}
@@ -58,10 +56,10 @@ public class ClipboardPropertyTester extends PropertyTester {
 		if(targetController==null){return false;}
 		Class<?> targetClass = targetController.getTargetClass();
 		if(targetClass.isAssignableFrom(firsttransferedClass)){
-			System.out.println("Clipboard Test is: "+true);
+			mLogger.debug("Clipboard Test is: "+true);
 			return true;
 		}
-		System.out.println("Clipboard Test is: "+false);
+		mLogger.debug("Clipboard Test is: "+false);
 		return false;
 	}
 	

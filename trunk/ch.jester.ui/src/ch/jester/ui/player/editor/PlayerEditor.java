@@ -6,8 +6,6 @@ import org.eclipse.swt.widgets.Composite;
 
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
-import ch.jester.commonservices.api.persistency.IDaoService;
-import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Player;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
 import ch.jester.ui.player.editor.view.PlayerDetailsView;
@@ -19,7 +17,7 @@ public class PlayerEditor extends AbstractEditor<Player>{
 	private PlayerDetailsView mPlayerDetails;
 	private PlayerDetailsController mPlayerDetailsController;
 	public PlayerEditor() {
-		System.out.println("new player editor "+this);
+		mLogger.debug("New player editor "+this);
 	}
 
 	/**
@@ -64,12 +62,12 @@ public class PlayerEditor extends AbstractEditor<Player>{
 
 	@Override
 	public void setFocus() {
-		System.out.println("Editor has focus: "+this+" mDAO: "+mDao);
+		mPlayerDetails.setFocus();
 	}
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		System.out.println(this);
+		mLogger.debug("Saving "+this);
 		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
 		try{
 			mPlayerDetailsController.updateModel();
