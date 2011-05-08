@@ -38,8 +38,17 @@ public class UIUtility {
 		return (IEvaluationService) getActiveWorkbenchWindow().getService(IEvaluationService.class);
 	}
 	
-	public static void reevaluateProperty(String pEvaluationProperty){
-		getEvalService().requestEvaluation(pEvaluationProperty);
+	public static void reevaluateProperty(final String pEvaluationProperty){
+		syncExecInUIThread(new Runnable(){
+
+			@Override
+			public void run() {
+				getEvalService().requestEvaluation(pEvaluationProperty);
+				
+			}
+			
+		});
+
 	}
 	
 	public static IWorkbenchWindow getActiveWorkbenchWindow(){
