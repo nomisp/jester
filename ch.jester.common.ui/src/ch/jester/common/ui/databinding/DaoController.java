@@ -121,6 +121,7 @@ public abstract class DaoController<T extends IDaoObject>{
 			
 			@Override
 			public void run() {
+				pageController.enablePaging(false);
 				mViewer.setInput(new WritableList(pPlayerCollection, persister.getDaoClass()));
 				
 			}
@@ -133,6 +134,7 @@ public abstract class DaoController<T extends IDaoObject>{
 			
 			@Override
 			public void run() {
+				pageController.enablePaging(true);
 				mViewer.setInput(pageController.getPageContent());
 				
 			}

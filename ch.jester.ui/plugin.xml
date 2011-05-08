@@ -72,7 +72,6 @@
          </command>
          <command
                commandId="org.eclipse.ui.edit.delete"
-               label="Delete Player"
                style="push">
          </command>
          <separator
@@ -112,7 +111,6 @@
          </command>
          <command
                commandId="org.eclipse.ui.edit.delete"
-               label="Delete Player"
                style="push">
          </command>
          <separator

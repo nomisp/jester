@@ -8,6 +8,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 
+import ch.jester.common.utility.StopWatch;
+
 /**
  * Job der einen Stack von gleichen Messages abarbeitet, 
  * wovon nur die letzte verarbeitet werden soll.
@@ -17,6 +19,7 @@ import org.eclipse.core.runtime.jobs.Job;
  */
 public abstract class StackJob<T> extends Job{
 	private Stack<T> eventStack;
+	private StopWatch watch = new StopWatch();
 	public StackJob(String name, Stack<T> pEventStack) {
 		super(name);
 		eventStack = pEventStack;
@@ -43,7 +46,11 @@ public abstract class StackJob<T> extends Job{
 				System.out.println("Ending Job");
 				return Status.CANCEL_STATUS;
 			}
-		return runInternal(monitor, lastEvent);
+		watch.start();
+		IStatus status = runInternal(monitor, lastEvent);
+		watch.stop();
+		System.out.println("Job duration for "+lastEvent+" --> "+watch.getElapsedTime());
+		return status;
 	}finally{
 			monitor.done();
 		}

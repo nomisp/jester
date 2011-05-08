@@ -26,16 +26,17 @@ public class PlayerFilter implements IUIFilter{
 		if(daoc==null){
 			daoc = AdapterUtility.getAdaptedObject(pPart, DaoController.class);
 		}
-		if(pSearch.length()==0){
-			daoc.clearSearched();
-			return Status.OK_STATUS;
-		}
+
 		monitor.beginTask("searching for: "+pSearch, IProgressMonitor.UNKNOWN);
 		mLogger.debug("filtering: "+pSearch);
 		List<Player> players = su.getExclusiveService(IPlayerDao.class).findByName(pSearch);
 		daoc.setSearched(players);
 		su.getService(IExtendedStatusLineManager.class).setMessage("Found "+players.size()+" Item(s)", 1000);
 		return Status.OK_STATUS;
+	}
+	@Override
+	public void clear() {
+		daoc.clearSearched();
 	}
 
 }

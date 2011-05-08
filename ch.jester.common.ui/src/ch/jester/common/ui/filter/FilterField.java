@@ -8,12 +8,18 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 
@@ -30,21 +36,52 @@ public class FilterField {
 	private String mOldSearchValue="", mId;
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	private IViewPart mPart;
+	ControlDecoration decoration;
 	public FilterField(Composite pParent, String pId){
 		mId=pId;
-		mText = new Text(pParent, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH | SWT.CENTER | SWT.LEFT);
-		mText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		//GridData data = new GridData();
+		//data.widthHint = 100;
+	    ToolItem itemSeparator = new ToolItem((ToolBar) pParent, SWT.SEPARATOR); 
+
+		mText = new Text(pParent, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH  | SWT.LEFT);
+
+
+		//GridData d = new GridData(SWT.RIGHT,SWT.RIGHT,false, false);
+		//mText.setLayoutData(d);
 		mText.setMessage("filter                          ");
-		GridData data = new GridData();
-		data.widthHint = 100;
+
+	    itemSeparator.setWidth(mText.getBounds().width+10);  
+	    itemSeparator.setControl(mText);
+	    
 		
-		mText.setLayoutData(data);
+		Image image = FieldDecorationRegistry.getDefault()
+        .getFieldDecoration(FieldDecorationRegistry.DEC_INFORMATION).getImage();
+		decoration = new ControlDecoration(mText, SWT.RIGHT | SWT.CENTER);
+		decoration.setImage(image);
+		decoration.setDescriptionText("Enter min. 2 characters");
+		decoration.hide();
+		
+	//	mText.setSize(500, 200);
+	//	mText.setLayoutData(data);
+
 		mText.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(mText.getText().equals(mOldSearchValue)){
+				String newText = mText.getText();
+				if(newText.length()==0){
+					if(newText.equals(mOldSearchValue)){return;}
+					mJob.clear();
 					return;
 				}
+				if(newText.equals(mOldSearchValue)||newText.length()<2){
+					decoration.show();
+					return;}
+				
+			/*	if(mText.getText().equals(mOldSearchValue)||mText.getText().length()<2){
+					return;
+				}*/
+				decoration.hide();
 				mOldSearchValue=mText.getText();
 				mEventStack.push(mOldSearchValue);
 				mJob.reschedule(150);
@@ -64,6 +101,13 @@ public class FilterField {
 		IUIFilter mFilter;
 		public FilterJob() {
 			super("searching",mEventStack);
+			System.out.println("new SearchJob");
+		}
+
+
+
+		public void clear() {
+			mFilter.clear();
 		}
 
 
@@ -99,6 +143,12 @@ public class FilterField {
 		@Override
 		public IStatus filter(String pSearch, IViewPart pPart, IProgressMonitor pMonitor) {
 			return new Status(IStatus.ERROR, "ch.jester.common.ui", "No Filter installed");
+		}
+
+		@Override
+		public void clear() {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}
