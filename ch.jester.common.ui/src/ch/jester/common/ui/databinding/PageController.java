@@ -136,6 +136,7 @@ public class PageController<T extends IDaoObject> implements IDBStartupListener{
 			List<T> reloaded;
 			@Override
 			public void stepOne_InUIThread() {
+				PageController.this.enablePaging(false);
 				if (mViewer.getFirstElement() != null) {
 					mViewer.setSelection(
 							mViewer.getFirstElement(),
@@ -162,7 +163,7 @@ public class PageController<T extends IDaoObject> implements IDBStartupListener{
 			public void finalStep_inUIThread() {
 				pagelist.addAll(reloaded);
 				mViewer.setInput(pagelist);
-				
+				PageController.this.enablePaging(true);
 				
 			}
 		});
