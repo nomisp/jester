@@ -7,6 +7,7 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.hibernate.Session;
@@ -20,7 +21,7 @@ import ch.jester.orm.ORMPlugin;
 
 public class ConfigurationHelper extends ExtensionPointSettings implements IORMConfiguration {
 	public ConfigurationHelper(){
-		super(ORMPlugin.getDefault().getPluginId(),"Configuration");
+		super(null);
 	}
 	
 	private  HashMap<String, String> configuration;
@@ -154,6 +155,12 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 	@Override
 	public Connection getConnection() {
 		return getSession().connection();
+	}
+
+	@Override
+	public void setConfigElement(IConfigurationElement pElement) {
+		super.setConfigurationElement(pElement);
+		
 	}
 
 	

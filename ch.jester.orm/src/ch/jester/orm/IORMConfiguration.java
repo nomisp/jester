@@ -4,6 +4,8 @@ import java.sql.Connection;
 
 import javax.persistence.EntityManagerFactory;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+
 public interface IORMConfiguration {
 
 	/**
@@ -68,6 +70,8 @@ public interface IORMConfiguration {
 	 * @return
 	 *
 	 */
+	
+	public void setConfigElement(IConfigurationElement pElement);
 	
 	public EntityManagerFactory getJPAEntityManagerFactory();
 

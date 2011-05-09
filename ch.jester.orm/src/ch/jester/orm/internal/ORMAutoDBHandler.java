@@ -85,6 +85,7 @@ public class ORMAutoDBHandler implements IPropertyChangeListener{
 			for(IConfigurationElement c:elements){
 				if(c.getContributor().getName()==configuredDBBundle.getSymbolicName()){
 					usedElement = c;
+					String sub = usedElement.getAttribute("Subprotocol");
 					usedBundle = configuredDBBundle;
 					break;
 				}
@@ -95,29 +96,30 @@ public class ORMAutoDBHandler implements IPropertyChangeListener{
 			usedBundle = firstDBBundle;
 		}
 		this.dbn=usedBundle.getHeaders().get("Bundle-Name").toString();
-		if(mStore.getString(DEFAULT_DATABASE)==null||mStore.getString(DEFAULT_DATABASE).length()==0){
+		//if(mStore.getString(DEFAULT_DATABASE)==null||mStore.getString(DEFAULT_DATABASE).length()==0){
 			mStore.putValue(DEFAULT_DATABASE, usedBundle.getSymbolicName());
-		}
-		dbConfig(usedElement);
+		//}
+		dbConfig(usedBundle, usedElement);
 	}
 
-	private void dbConfig(IConfigurationElement element) {
+	private void dbConfig(Bundle bundle, IConfigurationElement element) {
 		
 		String dbmClassName = element
 				.getAttribute(ORMPlugin.EP_CONFIGURATION_DATABASEMANAGERCLZ);
 
-		element = ExtensionPointUtil.getExtensionPointElement(ormPlugin.getPluginId(),
-				ORMPlugin.EP_CONFIGURATION);
+		/*element = ExtensionPointUtil.getExtensionPointElement(ormPlugin.getPluginId(),
+				ORMPlugin.EP_CONFIGURATION);*/
 		String configClass = element.getAttribute(ORMPlugin.EP_CONFIGURATION_ORMCONFIGURATION);
 		try {
 
-			Bundle contributoBundle = Platform.getBundle(element
-					.getContributor().getName());
+			//Bundle contributoBundle = Platform.getBundle(element.getContributor().getName());
+			Bundle contributoBundle = bundle;
 			mLogger.info(
 					"ORMConfiguration is " + configClass
 							+ " located in Bundle: " + contributoBundle);
 			mConfig = (IORMConfiguration) element
 					.createExecutableExtension(ORMPlugin.EP_CONFIGURATION_ORMCONFIGURATION);
+			mConfig.setConfigElement(element);
 			//nach hinten geschoben
 			if (dbmClassName != null) {
 				try {
