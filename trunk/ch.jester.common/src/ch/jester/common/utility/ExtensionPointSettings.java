@@ -14,6 +14,10 @@ public abstract class ExtensionPointSettings {
 	public ExtensionPointSettings(IConfigurationElement e){
 		mElement = e;
 	}
+	public void setConfigurationElement(IConfigurationElement e){
+		mElement = e;
+	}
+	
 	public ExtensionPointSettings(String pBundleName, String pExtensionPoint){
 		 mElement = ExtensionPointUtil.getExtensionPointElement(pBundleName, pExtensionPoint);
 	}

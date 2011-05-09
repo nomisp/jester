@@ -12,12 +12,9 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IStartup;
-import org.eclipse.ui.IWorkbenchActionConstants;
 
-import ch.jester.common.ui.databinding.DaoController;
 import ch.jester.common.ui.services.IExtendedStatusLineManager;
 import ch.jester.common.ui.utility.UIUtility;
-import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.api.persistency.IDBStartupListener;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.orm.ORMPlugin;
