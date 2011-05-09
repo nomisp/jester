@@ -136,7 +136,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		    }
 
 		    protected Object getValue(Object element) {
-		        return ((Category) element).getMinElo();
+		        return ((Category) element).getMinElo().toString();
 		    }
 
 		    protected void setValue(Object element, Object value) {
@@ -167,7 +167,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		    }
 
 		    protected Object getValue(Object element) {
-		        return ((Category) element).getMaxElo();
+		        return ((Category) element).getMaxElo().toString();
 		    }
 
 		    protected void setValue(Object element, Object value) {
@@ -198,7 +198,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		    }
 
 		    protected Object getValue(Object element) {
-		        return ((Category) element).getMinAge();
+		        return ((Category) element).getMinAge().toString();
 		    }
 
 		    protected void setValue(Object element, Object value) {
@@ -229,7 +229,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		    }
 
 		    protected Object getValue(Object element) {
-		        return ((Category) element).getMaxAge();
+		        return ((Category) element).getMaxAge().toString();
 		    }
 
 		    protected void setValue(Object element, Object value) {
@@ -260,7 +260,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		    }
 
 		    protected Object getValue(Object element) {
-		        return ((Category) element).getMaxRounds();
+		        return ((Category) element).getMaxRounds().toString();
 		    }
 
 		    protected void setValue(Object element, Object value) {

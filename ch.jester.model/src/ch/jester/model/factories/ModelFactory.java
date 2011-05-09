@@ -11,7 +11,7 @@ import ch.jester.model.Tournament;
 
 /**
  * ModelFactory zum erzeugen von Model-Objekten,
- * welche später persistiert werden können.
+ * welche spï¿½ter persistiert werden kï¿½nnen.
  * @author Peter
  *
  */
@@ -57,6 +57,11 @@ public class ModelFactory {
 	 */
 	public Category createCategory(String description) {
 		Category cat = new Category();
+		cat.setMaxElo(new Integer(0));
+		cat.setMinElo(new Integer(0));
+		cat.setMaxAge(new Integer(0));
+		cat.setMaxRounds(new Integer(0));
+		cat.setMinAge(new Integer(0));
 		cat.setDescription(description);
 		return cat;
 	}
@@ -139,7 +144,7 @@ public class ModelFactory {
 	}
 	
 	/**
-	 * Erzeugt standardmässig die erste Runde
+	 * Erzeugt standardmï¿½ssig die erste Runde
 	 * @return Runde 1
 	 */
 	public Round creataRound() {
