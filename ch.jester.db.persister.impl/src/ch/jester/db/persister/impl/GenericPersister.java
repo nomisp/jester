@@ -159,7 +159,7 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 	}
 
 	/**
-	 * Vorbereiten eines Suchparameters f�r eine Like Suche
+	 * Vorbereiten eines Suchparameters für eine Like Suche
 	 * @param pParam Suchparameter
 	 * @param mode	MatchMode
 	 * @return aufbereiteter Suchparameter (mit %-Zeichen)

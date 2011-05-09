@@ -3,6 +3,8 @@ package ch.jester.ui.tournament;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -13,7 +15,9 @@ import org.eclipse.ui.IWorkbench;
 
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.dao.ICategoryDao;
 import ch.jester.dao.ITournamentDao;
+import ch.jester.model.Category;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.internal.Activator;
@@ -55,14 +59,18 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 			this.getContainer().run(false, false, new IRunnableWithProgress() {
 				
 				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException,
-						InterruptedException {
+				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+					// Kategorien holen und persistieren
+					Set<Category> categories = getCategories();
+					ICategoryDao categoryPersister = su.getExclusiveService(ICategoryDao.class);
+					categoryPersister.save(categories);
+					
 					String tournamentName = newTournament.getTournamentName();
 					String description = newTournament.getDescription();
 					Date dateFrom = newTournament.getDateFrom();
 					Date dateTo = newTournament.getDateTo();
+					
 					ModelFactory mf = ModelFactory.getInstance();
-					// TODO peter: Kategorien
 					mLogger.debug("Creating tournament: " + tournamentName);
 					Tournament tournament = mf.createTournament(tournamentName);
 					tournament.setDescription(description);
@@ -72,7 +80,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					tournament.setPairingSystem(systemPage.getPairingAlgorithmEntry().getImplementationClass());
 					tournament.setRankingSystem(systemPage.getRankingSystemEntry().getImplementationClass());
 					tournament.setEloCalculator(systemPage.getEloCalculatorEntry().getImplementationClass());
-					
+					tournament.setCategories(categories);
 					ITournamentDao tournamentPersister = su.getExclusiveService(ITournamentDao.class);
 					tournamentPersister.save(tournament);
 					
@@ -94,5 +102,14 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 		cal.setTime(date);
 		return cal.get(Calendar.YEAR);
 	}
-
+	
+	/**
+	 * Holen der Kategorien von der WizardPage
+	 * @return
+	 */
+	private Set<Category> getCategories() {
+		Set<Category> categories = new HashSet<Category>();
+		categories.addAll(categoriesPage.getCategories());
+		return categories;
+	}
 }

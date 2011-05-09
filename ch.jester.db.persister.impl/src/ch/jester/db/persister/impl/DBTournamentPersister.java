@@ -9,21 +9,23 @@ import ch.jester.model.Tournament;
 
 public class DBTournamentPersister extends GenericPersister<Tournament> implements ITournamentDao {
 
-	public DBTournamentPersister(){
+	public DBTournamentPersister() {
 		super(Tournament.class);
 	}
-	
+
 	@Override
 	public List<Tournament> findByName(String name) {
-		return super.findByParameter("TournamentByName", "name", prepareLikeSearch(name, MatchMode.ANYWHERE));
+		return super.findByParameter("TournamentByName", "name",
+				prepareLikeSearch(name, MatchMode.ANYWHERE));
 	}
 
-	 @Override
-		protected Query getCountQuery() {
-			return super.mManager.createNamedQuery("countTournaments");
-		}
-		 @Override
-		protected Query getPagingQuery() {
-			return super.mManager.createNamedQuery("AllTournaments");
-		}
+	@Override
+	protected Query getCountQuery() {
+		return super.mManager.createNamedQuery("countTournaments");
+	}
+
+	@Override
+	protected Query getPagingQuery() {
+		return super.mManager.createNamedQuery("AllTournaments");
+	}
 }
