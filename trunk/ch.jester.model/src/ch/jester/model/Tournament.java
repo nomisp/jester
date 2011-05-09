@@ -1,6 +1,5 @@
 package ch.jester.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,14 +20,14 @@ import javax.validation.constraints.NotNull;
 import ch.jester.commonservices.api.persistency.IDaoObject;
 
 /**
- * Entit�t f�r die Tabelle Tournament 
+ * Entität für die Tabelle Tournament 
  *
  */
 @Entity
 @Table(name="Tournament")
 @NamedQueries({
 	@NamedQuery(name="AllTournaments", query="select t from Tournament t order by t.name, t.dateFrom"),
-	@NamedQuery(name="countTournaments",query="SELECT count(Tournament) FROM Player Tournament"),
+	@NamedQuery(name="countTournaments",query="SELECT count(Tournament) FROM Tournament"),
 	@NamedQuery(name="TournamentByName", query="select t from Tournament t where t.name like :name")
 })
 public class Tournament extends AbstractModelBean implements IDaoObject {

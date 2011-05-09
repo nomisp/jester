@@ -3,27 +3,25 @@ package ch.jester.ui.tournament;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 
 import ch.jester.model.Category;
 import ch.jester.model.factories.ModelFactory;
@@ -37,20 +35,8 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 	private Table categoriesTbl;
 	
 	private List<Category> categories;
-	
-	private String description;
-	private int minElo;
-	private int maxElo;
-	private int minAge;
-	private int maxAge;
-	private int rounds;
-
 	private Button addBtn;
-
-	private Button editBtn;
-
 	private Button removeBtn;
-
 	private TableViewer categoriesTblViewer;
 
 	/**
@@ -280,14 +266,6 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		addBtn.addSelectionListener(this);
 		new Label(container, SWT.NONE);
 		
-		editBtn = new Button(container, SWT.NONE);
-		GridData gd_editBtn = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_editBtn.widthHint = 55;
-		editBtn.setLayoutData(gd_editBtn);
-		editBtn.setText("Edit");
-		editBtn.addSelectionListener(this);
-		new Label(container, SWT.NONE);
-		
 		removeBtn = new Button(container, SWT.NONE);
 		removeBtn.addSelectionListener(this);
 		removeBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
@@ -296,29 +274,11 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		boolean newDialog = true;
 		Category cat = null;
 		if (e.getSource() == addBtn) {
-			newDialog = true;
 			cat = ModelFactory.getInstance().createCategory("Category " + (categories.size()+1));
 			categories.add(cat);
 			categoriesTblViewer.add(cat);
-			
-//			CategoryDialog dlg = new CategoryDialog(getShell(), newDialog, cat);
-//			int retVal = dlg.open();
-//			if (retVal == Dialog.OK) {
-//				System.out.println("OK pressed: adding category");
-//				categories.add(dlg.getCategory());
-//			}
-		} else if (e.getSource() == editBtn) {
-			newDialog = false;
-			cat = categories.get(categoriesTbl.getSelectionIndex());
-//			CategoryDialog dlg = new CategoryDialog(getShell(), newDialog, cat);
-//			int retVal = dlg.open();
-//			if (retVal == Dialog.OK) {
-//				System.out.println("OK pressed");
-//				
-//			}
 		} else if (e.getSource() == removeBtn) {
 			// TODO peter: Sicherheitsabfrage
 			int selection = categoriesTbl.getSelectionIndex();
@@ -331,4 +291,8 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
+	public List<Category> getCategories() {
+		return categories;
+	}
+	
 }

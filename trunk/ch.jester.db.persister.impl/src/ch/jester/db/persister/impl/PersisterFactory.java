@@ -13,7 +13,9 @@ import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.util.ServiceUtility;
 
+import ch.jester.dao.ICategoryDao;
 import ch.jester.dao.IPlayerDao;
+import ch.jester.dao.IRoundDao;
 import ch.jester.dao.ITournamentDao;
 
 /**
@@ -77,6 +79,8 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		mServiceUtility=mActivationContext.getServiceUtil();
 		addServiceHandling(IPlayerDao.class, DBPlayerPersister.class);
 		addServiceHandling(ITournamentDao.class, DBTournamentPersister.class);
+		addServiceHandling(ICategoryDao.class, DBCategoryPersister.class);
+		addServiceHandling(IRoundDao.class, DBRoundPersister.class);
 	}
 
 	@Override

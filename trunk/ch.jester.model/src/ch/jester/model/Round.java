@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -17,6 +19,10 @@ import ch.jester.commonservices.api.persistency.IDaoObject;
 
 @Entity
 @Table(name="Round")
+@NamedQueries({
+	@NamedQuery(name="AllRounds", query="select r from Round r order by r.number"),
+	@NamedQuery(name="RoundByNumber", query="select r from Round r where r.number = :number")
+})
 public class Round implements Serializable , IDaoObject{
 	private static final long serialVersionUID = 6672346214824111918L;
 
@@ -25,7 +31,7 @@ public class Round implements Serializable , IDaoObject{
 	private int id;
 	
 	@Column(name="RoundNumber", nullable=false)
-	private int number;
+	private Integer number;
 	
 	@ManyToOne
 	private Category category;
@@ -41,11 +47,11 @@ public class Round implements Serializable , IDaoObject{
 		this.id = id;
 	}
 
-	public int getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(Integer number) {
 		this.number = number;
 	}
 
