@@ -8,13 +8,18 @@
             name="%NewTournament">
       </category>
       <wizard
-            canFinishEarly="false"
+            canFinishEarly="true"
             category="ch.jester.ui.tournament.tournaments"
             class="ch.jester.ui.tournament.NewTournamentWizard"
+            finalPerspective="ch.jester.ui.tournament.tournamentPerspective"
             hasPages="true"
-            icon="icons/kchess_22x22.png"
+            icon="icons/tournamentIcon_32x32.png"
             id="ch.jester.ui.tournament.newTournament"
-            name="%CreateNewTournament">
+            name="%CreateNewTournament"
+            preferredPerspectives="ch.jester.ui.tournament.tournamentPerspective">
+         <description>
+            Creating a new tournament
+         </description>
       </wizard>
    </extension>
    <extension
