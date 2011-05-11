@@ -1,5 +1,6 @@
 package ch.jester.ui.player.editor.ctrl;
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -7,18 +8,16 @@ import org.eclipse.swt.SWT;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.model.Player;
-import ch.jester.ui.player.editor.view.PlayerDetailsView;
-
-import org.eclipse.core.databinding.UpdateValueStrategy;
+import ch.jester.ui.forms.PlayerFormPage;
 
 
 
 public class PlayerDetailsController {
-	private PlayerDetailsView mPlayerDetail;
+	private PlayerFormPage mPlayerDetail;
 	private DataBindingContext mBindingContext;
 	private Player player = new Player();
 	private DirtyManager mDm;
-	public PlayerDetailsController(PlayerDetailsView playerDetails) {
+	public PlayerDetailsController(PlayerFormPage playerDetails) {
 		mPlayerDetail = playerDetails;
 		mDm = playerDetails.getDirtyManager();
 		if (player != null) {
