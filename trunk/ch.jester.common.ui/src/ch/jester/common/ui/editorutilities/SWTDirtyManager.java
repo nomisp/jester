@@ -47,6 +47,7 @@ public class SWTDirtyManager extends DirtyManager implements DisposeListener{
 	class ModifyListener implements Listener{
 		@Override
 		public void handleEvent(Event event) {
+			System.out.println(event);
 			SWTDirtyManager.this.setDirty(true);
 		}
 		

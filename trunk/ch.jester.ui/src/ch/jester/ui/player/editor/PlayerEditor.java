@@ -1,36 +1,36 @@
 package ch.jester.ui.player.editor;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PartInitException;
 
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.model.Player;
+import ch.jester.ui.forms.PlayerFormPage;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
-import ch.jester.ui.player.editor.view.PlayerDetailsView;
 
 public class PlayerEditor extends AbstractEditor<Player>{
 	
 	public static final String ID = "ch.jester.ui.player.editor.PlayerEditor"; //$NON-NLS-1$
 
-	private PlayerDetailsView mPlayerDetails;
+	private PlayerFormPage mPlayerDetails;
 	private PlayerDetailsController mPlayerDetailsController;
 	public PlayerEditor() {
+		super(false);
 		mLogger.debug("New player editor "+this);
 	}
 
-	/**
-	 * Create contents of the editor part.
-	 * @param parent
-	 */
-	@Override
-	public void createPartControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NONE);
+
+	public void init_0(Object parent) {
+		//Composite container = new Composite(parent, SWT.NONE);
 		
-		mPlayerDetails = new PlayerDetailsView(container, SWT.NONE);
-		mPlayerDetails.setBounds(0, 0, 365, 300);
-		
+		//mPlayerDetails = new PlayerDetailsView(container, SWT.NONE);
+		//mPlayerDetails.setBounds(0, 0, 365, 300);
+		mPlayerDetails = (PlayerFormPage) parent;
 		mPlayerDetailsController = mPlayerDetails.getController();			
 		mPlayerDetailsController.setPlayer(mDaoInput.getInput());	
 		mPlayerDetailsController.getDirtyManager().setDirty(mDaoInput.isAlreadyDirty());
@@ -60,10 +60,12 @@ public class PlayerEditor extends AbstractEditor<Player>{
 		mPlayerDetailsController.updateUI();
 	}
 
-	@Override
+/*	@Override
 	public void setFocus() {
+		int i = getActivePage();
+		getPageSite(i).
 		mPlayerDetails.setFocus();
-	}
+	}*/
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
@@ -78,6 +80,26 @@ public class PlayerEditor extends AbstractEditor<Player>{
 			monitor.done();
 		}
 
+	}
+
+	@Override
+	protected void addPages() {
+		PlayerFormPage pfp = new PlayerFormPage(this, "PlayerFormPage", "PEditor");
+		pfp.addPartPropertyListener(new IPropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				init_0(null);
+				
+			}
+		});
+		try {
+			super.addPage(pfp);
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
