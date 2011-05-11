@@ -68,6 +68,7 @@ public class ServiceUtility {
 		ServiceTracker tracker = getServiceTracker(pServiceInterface, true);
 		Object[] service = tracker.getServices();
 		List<T> list = new ArrayList<T>();
+		if(service==null){return list;}
 		for (Object o : service) {
 			list.add((T) o);
 		}
