@@ -47,6 +47,7 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 		new Label(container, SWT.NONE);
 		
 		tournamentName = new Text(container, SWT.BORDER);
+		tournamentName.setFocus();
 		tournamentName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		tournamentName.addModifyListener(this);
 		new Label(container, SWT.NONE);

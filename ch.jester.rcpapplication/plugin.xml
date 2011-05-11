@@ -14,9 +14,16 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="Administration"
             class="ch.jester.rcpapplication.AdminPerspective"
-            id="ch.jester.perspective.admin">
+            icon="icons/database_table32x32.png"
+            id="ch.jester.perspective.admin"
+            name="%Administration">
+      </perspective>
+      <perspective
+            class="ch.jester.rcpapplication.TournamentPerspective"
+            icon="icons/tournamentIcon_32x32.png"
+            id="ch.jester.rcpapplication.tournamentPerspective"
+            name="%TournamentPerspective">
       </perspective>
    </extension>
    <extension
@@ -38,6 +45,21 @@
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="ch.jester.perspective.admin">
+         <view
+               closeable="true"
+               id="org.eclipse.ui.views.ProgressView"
+               minimized="true"
+               moveable="false"
+               ratio="0.2f"
+               relationship="fast"
+               relative="org.eclipse.ui.editorss"
+               showTitle="true"
+               standalone="false"
+               visible="true">
+         </view>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="ch.jester.ui.tournament.tournamentPerspective">
          <view
                closeable="true"
                id="org.eclipse.ui.views.ProgressView"
