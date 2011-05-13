@@ -11,6 +11,7 @@ import org.osgi.service.component.ComponentContext;
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
+import ch.jester.commonservices.api.persistency.IDaoObject;
 import ch.jester.commonservices.util.ServiceUtility;
 
 import ch.jester.dao.ICategoryDao;
@@ -52,6 +53,19 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		return null;
 	}
 	
+	public <T extends IDaoObject> T getDaoService(Class<T> objectClass){
+		Class<?> clz = mRegistry.get(objectClass.getCanonicalName());
+		try {
+			return (T) clz.newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 
 	@Override
