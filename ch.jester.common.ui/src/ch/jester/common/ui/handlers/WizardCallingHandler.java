@@ -4,7 +4,9 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -24,8 +26,8 @@ public class WizardCallingHandler extends AbstractCommandHandler{
 		String wizardId = event.getCommand().getId();
 		 IWizardDescriptor wizardDescriptor = PlatformUI.getWorkbench()
 		   .getNewWizardRegistry().findWizard(wizardId);
-	        IDialogSettings workbenchSettings = WorkbenchPlugin.getDefault()
-            .getDialogSettings();
+	      /*  IDialogSettings workbenchSettings = WorkbenchPlugin.getDefault()
+            .getDialogSettings();*/
 	
 	        
 	    	IWorkbenchWindow activeWindow;
@@ -45,7 +47,7 @@ public class WizardCallingHandler extends AbstractCommandHandler{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			wizard.init(PlatformUI.getWorkbench(), null);
+			wizard.init(PlatformUI.getWorkbench(), StructuredSelection.EMPTY);
 			
 			if (wizardDescriptor.canFinishEarly() && !wizardDescriptor.hasPages()) {
 				wizard.performFinish();
@@ -54,8 +56,13 @@ public class WizardCallingHandler extends AbstractCommandHandler{
 			
 			Shell parent = 	 HandlerUtil.getActiveWorkbenchWindow(event).getShell();
 			  
-			WizardDialog dialog = new WizardDialog(parent, wizard);
-			dialog.create();
+			WizardDialog dialog = new WizardDialog(parent, wizard){
+				@Override
+				public void updateButtons() {
+					if(getCurrentPage()==null){return;}
+					super.updateButtons();
+				}
+			};
 			dialog.open();
 
 		
