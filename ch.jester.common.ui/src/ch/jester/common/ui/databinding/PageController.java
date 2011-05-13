@@ -12,14 +12,16 @@ import ch.jester.common.ui.utility.UIUtility.IBusyRunnable;
 import ch.jester.common.utility.DefaultAdapterFactory;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistency.IDBStartupListener;
+//import ch.jester.commonservices.api.persistency.IDBStartupListener;
 import ch.jester.commonservices.api.persistency.IDaoObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IDatabaseStateService;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
+import ch.jester.commonservices.api.persistency.IDatabaseStateService.State;
 import ch.jester.commonservices.util.ServiceUtility;
 
-public class PageController<T extends IDaoObject> implements IDBStartupListener{
+public class PageController<T extends IDaoObject> /*implements IDBStartupListener*/{
 	public interface IPageControllerUIAccess{
 		public Object getFirstElement();
 		public void setSelection(Object pSelection, boolean reveal);
@@ -44,7 +46,13 @@ public class PageController<T extends IDaoObject> implements IDBStartupListener{
 		mPageSize = cSize;
 		mPersister = pPersister;
 		pagelist = pPageList;
-		new ServiceUtility().registerService(IDBStartupListener.class, this);
+		new ServiceUtility().getService(IDatabaseStateService.class).executeOnStateChange(State.RUN, new Runnable() {
+			
+			@Override
+			public void run() {
+				initialize();
+			}
+		});
 		
 		su.getService(IPersistencyEventQueue.class).addListener(
 				new PersistencyListener(

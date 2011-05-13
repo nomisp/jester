@@ -1,5 +1,6 @@
 package ch.jester.commonservices.api.persistency;
 
-public interface IDBStartupListener {
+//TODO Delete
+interface IDBStartupListener {
 	public void initialize();
 }

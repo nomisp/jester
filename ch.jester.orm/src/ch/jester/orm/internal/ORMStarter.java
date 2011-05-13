@@ -15,7 +15,9 @@ import org.eclipse.ui.IStartup;
 
 import ch.jester.common.ui.services.IExtendedStatusLineManager;
 import ch.jester.common.ui.utility.UIUtility;
-import ch.jester.commonservices.api.persistency.IDBStartupListener;
+//import ch.jester.commonservices.api.persistency.IDBStartupListener;
+import ch.jester.commonservices.api.persistency.IDatabaseStateService;
+import ch.jester.commonservices.api.persistency.IDatabaseStateService.State;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.orm.ORMPlugin;
 
@@ -42,13 +44,10 @@ public class ORMStarter implements IStartup{
 							ORMPlugin.getJPAEntitManagerFactor();
 							final StatusLineContributionItem ss =new StatusLineContributionItem("LoggedInStatus");
 							ORMPlugin.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class).appendToGroup(StatusLineManager.END_GROUP, ss);
-							String[] str = Platform.getAdapterManager().computeAdapterTypes(IDBStartupListener.class);
 							ServiceUtility su = new ServiceUtility();
 							
-							List<IDBStartupListener> listeners = su.getServices(IDBStartupListener.class);
-							for(IDBStartupListener listener:listeners){
-								listener.initialize();
-							}
+							su.getService(IDatabaseStateService.class).setState(State.RUN);
+							
 							monitor.done();
 							UIUtility.syncExecInUIThread(new Runnable() {
 								
