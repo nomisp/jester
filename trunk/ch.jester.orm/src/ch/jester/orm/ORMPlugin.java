@@ -13,6 +13,8 @@ import org.osgi.framework.BundleContext;
 import ch.jester.common.ui.activator.AbstractUIActivator;
 import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistency.IDatabaseStateService;
+import ch.jester.commonservices.impl.persistencyevent.DefaultDatabaseStateService;
 import ch.jester.orm.internal.ORMAutoDBHandler;
 
 public class ORMPlugin extends AbstractUIActivator {

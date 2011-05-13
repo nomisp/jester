@@ -29,16 +29,6 @@ public class Activator extends AbstractUIActivator{
 		IEditorService openService = getActivationContext().getService(IEditorService.class);
 		openService.register(Player.class, GenericDaoInputAccess.class, PlayerEditor.ID);
 		
-		//EventQueue aufsetzen
-		PersistencyEventQueue eventQueue = PersistencyEventQueue.getDefault();
-		eventQueue.getSenderJob().setSystem(true);
-		eventQueue.getSenderJob().schedule();		
-		
-		//Queue als Service registrieren
-		getActivationContext().getServiceUtil().registerService(IPersistencyEventQueue.class, eventQueue);
-		
-		//ShutDown Hook für queue
-		registerShutdownHookForQueue();
 	}
 
 	private void registerShutdownHookForQueue() {
