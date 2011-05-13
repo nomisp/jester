@@ -9,6 +9,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
+import org.eclipse.core.runtime.Assert;
+
 import ch.jester.common.persistency.util.PersistencyEvent;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
@@ -32,7 +34,7 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 	}
 	
 	private void fireEvent(Object pLoad, PersistencyEvent.Operation pOperation){
-		
+		Assert.isNotNull(mEventQueue, "The PersistencyEventQueue is not running");
 		mEventQueue.dispatch(new PersistencyEvent(this, pLoad, pOperation));
 	}
 	private void fireDeleteEvent(Object pLoad){
