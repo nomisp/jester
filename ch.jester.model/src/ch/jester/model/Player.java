@@ -2,9 +2,6 @@ package ch.jester.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -18,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @NamedQuery(name="count",query="SELECT count(player) FROM Player player"),
 @NamedQuery(name="findByName",query="SELECT player FROM Player player WHERE UPPER(player.lastName) LIKE :lastName order by lastName, firstName")
 })
-public class Player extends AbstractModelBean {
+public class Player extends AbstractModelBean<Player> {
 	private static final long serialVersionUID = -2351315088207630377L;
 	
 
@@ -179,21 +176,6 @@ public class Player extends AbstractModelBean {
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		Player clone = new Player();
-		clone.id=0;
-		clone.city=this.city;
-		clone.elo=this.elo;
-		clone.fideCode=this.fideCode;
-		clone.firstName=this.firstName;
-		clone.lastName=this.lastName;
-		clone.nation=this.nation;
-		clone.nationalCode=this.nationalCode;
-		clone.nationalElo=this.nationalElo;
-		clone.age=this.age;
-		clone.category=this.category;
-		clone.nationalCoefficient=this.nationalCoefficient;
-		clone.fideCoefficient=this.fideCoefficient;
-		clone.title=this.title;
-		return clone;
+		return createCompleteClone();
 	}
 }
