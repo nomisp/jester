@@ -9,10 +9,6 @@ import ch.jester.model.Tournament;
 
 public class DBTournamentPersister extends GenericPersister<Tournament> implements ITournamentDao {
 
-	public DBTournamentPersister() {
-		super(Tournament.class);
-	}
-
 	@Override
 	public List<Tournament> findByName(String name) {
 		return super.findByParameter("TournamentByName", "name",

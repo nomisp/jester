@@ -1,5 +1,7 @@
 package ch.jester.db.persister.impl;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 
 import org.osgi.framework.Bundle;
@@ -33,7 +35,8 @@ import ch.jester.dao.ITournamentDao;
 public class PersisterFactory implements ServiceFactory, IComponentService<Object>, IDaoServiceFactory{
 	private ILoggerFactory mLoggerFactory;
 	private ServiceUtility mServiceUtility;
-	private HashMap<String, Class<?>> mRegistry = new HashMap<String, Class<?>>();
+	private HashMap<String, Class<?>> mServiceInterfaceRegistry = new HashMap<String, Class<?>>();
+	private HashMap<Class<?>, Class<?>> mDaoObjectClassRegistry = new HashMap<Class<?>, Class<?>>();
 	private IActivationContext<?> mActivationContext;
 	public PersisterFactory(){
 		
@@ -42,7 +45,7 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 	@Override
 	public Object getService(Bundle bundle, ServiceRegistration registration) {
 		String objectClass = ((String[])registration.getReference().getProperty("objectClass"))[0];
-		Class<?> clz = mRegistry.get(objectClass);
+		Class<?> clz = mServiceInterfaceRegistry.get(objectClass);
 		try {
 			return clz.newInstance();
 		} catch (InstantiationException e) {
@@ -60,7 +63,13 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 	 */
 	@Override
 	public <T extends IDaoObject> IDaoService<T> getDaoService(Class<T> objectClass){
-		Class<?> clz = mRegistry.get(objectClass.getCanonicalName());
+		//wurde ev. ein ServiceInterface als Suchparameter übergen?
+		Class<?> clz = mServiceInterfaceRegistry.get(objectClass.getCanonicalName());
+		if(clz==null){
+			//wurde die DAO Klasse selber übergeben
+			clz = mDaoObjectClassRegistry.get(objectClass);
+		}
+		
 		if(clz!=null){
 		try {
 			return (IDaoService<T>) clz.newInstance();
@@ -71,6 +80,8 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 			// TODO Auto-generaated catch block
 			e.printStackTrace();
 		}}
+		
+		
 		return (IDaoService<T>)  new GenericPersister<T>(objectClass);
 	}
 	
@@ -87,8 +98,11 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 	 */
 	@Override
 	public void addServiceHandling(Class<?> pInterfaceClassName, Class<?> class1) {
-		mRegistry.put(pInterfaceClassName.getName(), class1);
+		mServiceInterfaceRegistry.put(pInterfaceClassName.getName(), class1);
 		mServiceUtility.registerServiceFactory(pInterfaceClassName, this);
+		Type actualTypeArgument = ((ParameterizedType) class1.getGenericSuperclass()).getActualTypeArguments()[0];
+		Class<?> mClz = (Class<?>) actualTypeArgument;
+		mDaoObjectClassRegistry.put(mClz, class1);
 		
 	}
 

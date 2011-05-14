@@ -8,14 +8,14 @@ public interface IDaoServiceFactory {
 	 * @param objectClass
 	 * @return
 	 */
-	public abstract <T extends IDaoObject> IDaoService<T> getDaoService(Class<T> objectClass);
+	public <T extends IDaoObject> IDaoService<T> getDaoService(Class<T> objectClass);
 
 	/**
 	 * Registriert eine implementierende Klasse und deren Service Interface
 	 * @param pInterfaceClassName das eigentlich Service Interface
 	 * @param class1 die Implementierende Klasse
 	 */
-	public abstract void addServiceHandling(Class<?> pInterfaceClassName,
+	public void addServiceHandling(Class<?> pInterfaceClassName,
 			Class<?> class1);
 
 }

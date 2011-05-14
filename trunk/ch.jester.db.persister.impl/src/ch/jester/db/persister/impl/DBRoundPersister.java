@@ -7,9 +7,7 @@ import ch.jester.model.Round;
 
 public class DBRoundPersister extends GenericPersister<Round> implements IRoundDao {
 
-	public DBRoundPersister() {
-		super(Round.class);
-	}
+	
 	
 	@Override
 	public List<Round> findByNumber(Integer number) {
