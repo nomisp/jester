@@ -1,6 +1,5 @@
 package ch.jester.model;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,15 +14,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import ch.jester.commonservices.api.persistency.IDaoObject;
-
 @Entity
 @Table(name="Category")
 @NamedQueries({
 	@NamedQuery(name="AllCategories", query="select c from Category c order by c.description"),
 	@NamedQuery(name="CategoryByName", query="select c from Category c where c.description like :description")
 })
-public class Category implements Serializable, IDaoObject {
+public class Category extends AbstractModelBean {
 	private static final long serialVersionUID = 6845187372965814476L;
 	
 	@Id
@@ -129,5 +126,11 @@ public class Category implements Serializable, IDaoObject {
 	public void removeRound(Round round) {
 		if (round == null) throw new IllegalArgumentException("round may not be null");
 		this.rounds.remove(round);
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

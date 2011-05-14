@@ -1,7 +1,5 @@
 package ch.jester.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,11 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import ch.jester.commonservices.api.persistency.IDaoObject;
-
 @Entity
 @Table(name="Club")
-public class Club implements Serializable, IDaoObject {
+public class Club extends AbstractModelBean {
 	private static final long serialVersionUID = 3749001233544554089L;
 
 	@Id
@@ -51,5 +47,11 @@ public class Club implements Serializable, IDaoObject {
 
 	public void setCode(int code) {
 		this.code = code;
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

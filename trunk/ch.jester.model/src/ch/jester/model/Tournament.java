@@ -17,8 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import ch.jester.commonservices.api.persistency.IDaoObject;
-
 /**
  * Entität für die Tabelle Tournament 
  *
@@ -30,13 +28,14 @@ import ch.jester.commonservices.api.persistency.IDaoObject;
 	@NamedQuery(name="countTournaments",query="SELECT count(Tournament) FROM Tournament"),
 	@NamedQuery(name="TournamentByName", query="select t from Tournament t where t.name like :name")
 })
-public class Tournament extends AbstractModelBean implements IDaoObject {
+public class Tournament extends AbstractModelBean {
 	private static final long serialVersionUID = -3356578830307874396L;
-
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	int id;
 	
+
 	@Column(name="Name", nullable=false, length=50)
 	//@org.hibernate.validator.constraints.Length(min=2, max=50)
 	@NotNull
@@ -76,7 +75,8 @@ public class Tournament extends AbstractModelBean implements IDaoObject {
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -182,7 +182,7 @@ public class Tournament extends AbstractModelBean implements IDaoObject {
 		return result;
 	}
 
-	@Override
+	/*@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -236,12 +236,12 @@ public class Tournament extends AbstractModelBean implements IDaoObject {
 		if (year != other.year)
 			return false;
 		return true;
-	}
+	}*/
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		Tournament clone = new Tournament();
-		clone.id = this.id;
+		clone.id = 0;
 		clone.name = this.name;
 		clone.description = this.description;
 		clone.year = this.year;
