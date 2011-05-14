@@ -89,7 +89,7 @@ public abstract class DaoController<T extends IDaoObject> {
 		final EditorAccess access = eService.openEditor(pObject);	
 		mLogger.debug("Editor Reactivated: "+access.wasReactivated());
 		if(!access.wasReactivated()){
-			((AbstractEditor)access.getPart()).setPlayerDao(persister);
+			((AbstractEditor)access.getPart()).setDaoService(persister);
 			getPartService().addPartListener(new NestedPartListener(access));
 		}
 	}
@@ -162,10 +162,14 @@ public abstract class DaoController<T extends IDaoObject> {
 		@Override
 		public void partClosed(IWorkbenchPartReference partRef) {
 			if(partRef.getPart(false) == mAccess.getPart()){
-				AbstractEditor closedEditor = (AbstractEditor) mAccess.getPart();
+				AbstractEditor<IDaoObject> closedEditor = (AbstractEditor<IDaoObject>) mAccess.getPart();
+				
 				if(!closedEditor.wasSaved()){
-					IEditorInputAccess<?> input = (IEditorInputAccess<?>)closedEditor.getEditorInput();
-					obsModel.remove(input.getInput());
+					IEditorInputAccess<IDaoObject> input = (IEditorInputAccess<IDaoObject>)closedEditor.getEditorInput();
+					//TODO Issue!!
+					if(input.getInput().getId()==0){
+						obsModel.remove(input.getInput());
+					}
 				}
 				mLogger.debug("Editor wasSaved: "+closedEditor.wasSaved());
 				getPartService().removePartListener(this);
