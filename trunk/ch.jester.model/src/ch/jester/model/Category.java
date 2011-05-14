@@ -22,10 +22,7 @@ import javax.validation.constraints.NotNull;
 })
 public class Category extends AbstractModelBean {
 	private static final long serialVersionUID = 6845187372965814476L;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+
 
 	@Column(name="Description", nullable=false, length=20)
 	//@org.hibernate.validator.constraints.Length(min=2, max=20)
@@ -53,13 +50,6 @@ public class Category extends AbstractModelBean {
 //	        inverseJoinColumns = {@JoinColumn(name = "RoundId")})
 	private Set<Round> rounds = new HashSet<Round>();
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getDescription() {
 		return description;

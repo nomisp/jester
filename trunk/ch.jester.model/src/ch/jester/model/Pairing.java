@@ -14,10 +14,6 @@ import javax.persistence.Table;
 @Table(name="Pairing")
 public class Pairing extends AbstractModelBean {
 	private static final long serialVersionUID = -5183089936204591328L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
 	
 	@OneToOne
 	@JoinColumn(name = "WhiteId", referencedColumnName = "Id")
@@ -33,13 +29,6 @@ public class Pairing extends AbstractModelBean {
 	@ManyToOne
 	private Round round;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public Player getWhite() {
 		return white;

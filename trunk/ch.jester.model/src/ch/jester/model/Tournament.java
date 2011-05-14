@@ -30,11 +30,6 @@ import javax.validation.constraints.NotNull;
 })
 public class Tournament extends AbstractModelBean {
 	private static final long serialVersionUID = -3356578830307874396L;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	int id;
-	
 
 	@Column(name="Name", nullable=false, length=50)
 	//@org.hibernate.validator.constraints.Length(min=2, max=50)
@@ -68,14 +63,6 @@ public class Tournament extends AbstractModelBean {
 	        inverseJoinColumns = {@JoinColumn(name = "CategoryId")})
 	private Set<Category> categories = new HashSet<Category>();
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
 	
 	public String getName() {
 		return name;
