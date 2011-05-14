@@ -13,9 +13,12 @@ Require-Bundle: org.eclipse.ui,
  ch.jester.model;bundle-version="1.0.0",
  ch.jester.db.persister.impl;bundle-version="1.0.0",
  ch.jester.system.api;bundle-version="1.0.0",
- org.eclipse.ui.forms;bundle-version="3.5.0"
+ org.eclipse.ui.forms;bundle-version="3.5.0",
+ org.eclipse.ui.navigator;bundle-version="3.5.0",
+ ch.jester.ui;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
 Export-Package: ch.jester.ui.tournament,
+ ch.jester.ui.tournament.cnf,
  ch.jester.ui.tournament.internal

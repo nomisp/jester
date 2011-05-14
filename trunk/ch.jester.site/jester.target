@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.6"?>
 
-<target name="jester">
+<target includeMode="feature" name="jester">
 <locations>
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
 <unit id="org.eclipse.help.source.feature.group" version="1.2.1.r362_v20101111-7e7jEVFDr6xg-LSlC_z0w1D"/>
 <unit id="org.eclipse.help.feature.group" version="1.2.1.r362_v20101111-7e7jEVFDr6xg-LSlC_z0w1D"/>
 <unit id="org.eclipse.ui.forms" version="0.0.0"/>
+<unit id="org.eclipse.ui.navigator" version="0.0.0"/>
+<unit id="org.eclipse.ui.navigator.source" version="0.0.0"/>
 <unit id="org.eclipse.equinox.p2.user.ui.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.equinox.p2.user.ui.source.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.core.net" version="0.0.0"/>

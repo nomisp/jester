@@ -5,9 +5,9 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -18,9 +18,10 @@ import javax.validation.constraints.NotNull;
 @Table(name="Category")
 @NamedQueries({
 	@NamedQuery(name="AllCategories", query="select c from Category c order by c.description"),
-	@NamedQuery(name="CategoryByName", query="select c from Category c where c.description like :description")
+	@NamedQuery(name="CategoryByName", query="select c from Category c where c.description like :description"),
+	@NamedQuery(name="CategoryByPlayer", query="select c from Category c where :player in c.players")
 })
-public class Category extends AbstractModelBean {
+public class Category extends AbstractModelBean<Category> {
 	private static final long serialVersionUID = 6845187372965814476L;
 
 
@@ -49,6 +50,15 @@ public class Category extends AbstractModelBean {
 //	        joinColumns = {@JoinColumn(name = "CategoryId")},
 //	        inverseJoinColumns = {@JoinColumn(name = "RoundId")})
 	private Set<Round> rounds = new HashSet<Round>();
+	
+	@OneToMany
+	@JoinTable(name = "CategoryPlayerAss", 
+			joinColumns = {@JoinColumn(name = "CategoryId")},
+	        inverseJoinColumns = {@JoinColumn(name = "PlayerId")})
+	private Set<Player> players = new HashSet<Player>();
+	
+	@ManyToOne
+	private Tournament tournament;
 
 
 	public String getDescription() {
@@ -116,6 +126,32 @@ public class Category extends AbstractModelBean {
 	public void removeRound(Round round) {
 		if (round == null) throw new IllegalArgumentException("round may not be null");
 		this.rounds.remove(round);
+	}
+
+	public Set<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(Set<Player> players) {
+		this.players = players;
+	}
+	
+	public void addPlayer(Player player) {
+		if (player == null) throw new IllegalArgumentException("round may not be null");
+		this.players.add(player);
+	}
+	
+	public void removePlayer(Player player) {
+		if (player == null) throw new IllegalArgumentException("round may not be null");
+		this.players.remove(player);
+	}
+
+	public Tournament getTournament() {
+		return tournament;
+	}
+
+	public void setTournament(Tournament tournament) {
+		this.tournament = tournament;
 	}
 
 	@Override
