@@ -1,6 +1,5 @@
 package ch.jester.model;
 
-import java.beans.BeanDescriptor;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -11,7 +10,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Enumeration;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -72,7 +70,8 @@ public abstract class AbstractModelBean<T extends IDaoObject> extends AbstractPr
 		return null;
 	}
 	
-	/**Erzeugt einen kompletten Klone, mit Id 0
+	/**Erzeugt einen kompletten Klon, mit Id 0<br>
+	 * Referenzen bleiben unverändert!
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -124,6 +123,34 @@ public abstract class AbstractModelBean<T extends IDaoObject> extends AbstractPr
 		}
 		
 	}
-	
+	/**
+	 * Ändert das Property auf den übergebenen Wert und feuert den 
+	 * PropertyChange
+	 * @param propertyId
+	 * @param value
+	 */
+	public void changeProperty(String propertyId, Object value){
+		try {
+			Field field = AbstractModelBean.this.getClass().getDeclaredField(propertyId);
+			field.setAccessible(true);
+			Object oldvalue = field.get(AbstractModelBean.this);
+			field.set(AbstractModelBean.this, value);
+			firePropertyChange(propertyId, oldvalue, value);
+			
+			
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public abstract Object clone() throws CloneNotSupportedException;
 }
