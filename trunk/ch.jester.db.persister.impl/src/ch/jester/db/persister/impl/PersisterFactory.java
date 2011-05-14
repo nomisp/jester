@@ -12,6 +12,8 @@ import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
 import ch.jester.commonservices.util.ServiceUtility;
 
 import ch.jester.dao.ICategoryDao;
@@ -28,7 +30,7 @@ import ch.jester.dao.ITournamentDao;
  *  
  *
  */
-public class PersisterFactory implements ServiceFactory, IComponentService<Object>{
+public class PersisterFactory implements ServiceFactory, IComponentService<Object>, IDaoServiceFactory{
 	private ILoggerFactory mLoggerFactory;
 	private ServiceUtility mServiceUtility;
 	private HashMap<String, Class<?>> mRegistry = new HashMap<String, Class<?>>();
@@ -53,18 +55,23 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		return null;
 	}
 	
-	public <T extends IDaoObject> T getDaoService(Class<T> objectClass){
+	/* (non-Javadoc)
+	 * @see ch.jester.db.persister.impl.IDaoServiceFactory#getDaoService(java.lang.Class)
+	 */
+	@Override
+	public <T extends IDaoObject> IDaoService<T> getDaoService(Class<T> objectClass){
 		Class<?> clz = mRegistry.get(objectClass.getCanonicalName());
+		if(clz!=null){
 		try {
-			return (T) clz.newInstance();
+			return (IDaoService<T>) clz.newInstance();
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generaated catch block
 			e.printStackTrace();
-		}
-		return null;
+		}}
+		return (IDaoService<T>)  new GenericPersister<T>(objectClass);
 	}
 	
 
@@ -75,11 +82,10 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		
 	}
 
-	/**
-	 * Registriert eine implementierende Klasse und deren Service Interface
-	 * @param pInterfaceClassName das eigentlich Service Interface
-	 * @param class1 die Implementierende Klasse
+	/* (non-Javadoc)
+	 * @see ch.jester.db.persister.impl.IDaoServiceFactory#addServiceHandling(java.lang.Class, java.lang.Class)
 	 */
+	@Override
 	public void addServiceHandling(Class<?> pInterfaceClassName, Class<?> class1) {
 		mRegistry.put(pInterfaceClassName.getName(), class1);
 		mServiceUtility.registerServiceFactory(pInterfaceClassName, this);
@@ -95,6 +101,7 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		addServiceHandling(ITournamentDao.class, DBTournamentPersister.class);
 		addServiceHandling(ICategoryDao.class, DBCategoryPersister.class);
 		addServiceHandling(IRoundDao.class, DBRoundPersister.class);
+	
 	}
 
 	@Override
@@ -111,7 +118,7 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 	 */
 	public void bindLoggerFactory(ILoggerFactory pFactory){
 		mLoggerFactory=pFactory;
-	}
+		}
 
 	@Override
 	public void bind(Object pT) {

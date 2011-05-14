@@ -170,6 +170,7 @@ public class ServiceUtility {
 	 * @param pServiceInterface
 	 * @return
 	 */
+	@Deprecated
 	@SuppressWarnings("unchecked")
 	public <T> T getExclusiveService(Class<T> pServiceInterface) {
 		synchronized(GLOBAL_LOCK){
