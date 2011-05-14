@@ -1,7 +1,6 @@
 package ch.jester.ui.forms;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.internal.win32.MCHITTESTINFO;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -72,7 +71,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		managedForm.getToolkit().paintBordersFor(compPersonal);
 		compPersonal.setLayout(new GridLayout(2, false));
 		
-		Section sctnPersonal = managedForm.getToolkit().createSection(compPersonal, Section.EXPANDED | Section.LEFT_TEXT_CLIENT_ALIGNMENT | Section.DESCRIPTION | Section.TWISTIE | Section.TITLE_BAR);
+		Section sctnPersonal = managedForm.getToolkit().createSection(compPersonal, Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
 		GridData gd_sctnPersonal = new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1);
 		gd_sctnPersonal.widthHint = 561;
 		sctnPersonal.setLayoutData(gd_sctnPersonal);
@@ -85,6 +84,9 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		composite_2.setLayout(new GridLayout(2, false));
 		
 		Label lblNewLabel = managedForm.getToolkit().createLabel(composite_2, "Lastname", SWT.NONE);
+		GridData gd_lblNewLabel = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_lblNewLabel.widthHint = 100;
+		lblNewLabel.setLayoutData(gd_lblNewLabel);
 		
 		lastNameText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE);
 		lastNameText.setText("");
@@ -123,7 +125,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		managedForm.getToolkit().paintBordersFor(compChess);
 		compChess.setLayout(new GridLayout(1, false));
 		
-		Section sctnChess = managedForm.getToolkit().createSection(compChess, Section.TWISTIE | Section.TITLE_BAR);
+		Section sctnChess = managedForm.getToolkit().createSection(compChess, Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
 		sctnChess.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		managedForm.getToolkit().paintBordersFor(sctnChess);
 		sctnChess.setText("Chess data");
@@ -135,6 +137,9 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		composite_3.setLayout(new GridLayout(2, false));
 		
 		Label lblNewLabel_7 = managedForm.getToolkit().createLabel(composite_3, "Title", SWT.NONE);
+		GridData gd_lblNewLabel_7 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_lblNewLabel_7.widthHint = 100;
+		lblNewLabel_7.setLayoutData(gd_lblNewLabel_7);
 		
 		txtTitle = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE);
 		txtTitle.setText("");
@@ -147,7 +152,6 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		fideCodeText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		
 		Label lblNewLabel_5 = managedForm.getToolkit().createLabel(composite_3, "Naional code", SWT.NONE);
-		lblNewLabel_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
 		nationalCodeText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE);
 		nationalCodeText.setText("");
