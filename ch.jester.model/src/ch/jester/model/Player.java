@@ -10,8 +10,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import ch.jester.commonservices.api.persistency.IDaoObject;
-
 @Entity
 @Table(name="Player")
 @NamedQueries({
@@ -20,13 +18,12 @@ import ch.jester.commonservices.api.persistency.IDaoObject;
 @NamedQuery(name="count",query="SELECT count(player) FROM Player player"),
 @NamedQuery(name="findByName",query="SELECT player FROM Player player WHERE UPPER(player.lastName) LIKE :lastName order by lastName, firstName")
 })
-public class Player extends AbstractModelBean implements IDaoObject {
+public class Player extends AbstractModelBean {
 	private static final long serialVersionUID = -2351315088207630377L;
-
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	int id;
 	
 	@Column(name="FirstName", nullable=false, length=50)
 	//@org.hibernate.validator.constraints.Length(min=2, max=50)
@@ -78,6 +75,9 @@ public class Player extends AbstractModelBean implements IDaoObject {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	
+
 
 	public String getFirstName() {
 		return firstName;
@@ -164,7 +164,7 @@ public class Player extends AbstractModelBean implements IDaoObject {
 	}
 
 	public void setNationalCoefficient(Integer nationalCoefficient) {
-		this.nationalCoefficient = nationalCoefficient;
+		firePropertyChange("nationalCoefficient",  this.nationalCoefficient, this.nationalCoefficient = nationalCoefficient);
 	}
 
 	public Integer getFideCoefficient() {
@@ -172,7 +172,7 @@ public class Player extends AbstractModelBean implements IDaoObject {
 	}
 
 	public void setFideCoefficient(Integer fideCoefficient) {
-		this.fideCoefficient = fideCoefficient;
+		firePropertyChange("fideCoefficient",  this.fideCoefficient, this.fideCoefficient = fideCoefficient);
 	}
 
 	public String getTitle() {
@@ -181,33 +181,13 @@ public class Player extends AbstractModelBean implements IDaoObject {
 
 
 	public void setTitle(String title) {
-		this.title = title;
+		firePropertyChange("title",  this.title, this.title = title);
 	}
 
 	public String toString(){
 		return firstName+" "+lastName;
 	}
 	
-	/**
-	 * Regeln:<br>
-	 * - Referenzvergleich, wenn beide Objekte id 0 haben<br>
-	 * - sonst this.id == other.id
-	 */
-	public boolean equals(Object o){
-		if(o==null){return false;}
-		if(!(o instanceof Player)){return false;}
-		Player other = (Player) o;
-		//unsafed
-		if(this.getId()==0&&other.getId()==0){
-			return other==this;
-		}
-		
-		if(this.getId()==other.getId()){
-			return true;
-		}
-		
-		return false;
-	}
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
@@ -225,6 +205,7 @@ public class Player extends AbstractModelBean implements IDaoObject {
 		clone.category=this.category;
 		clone.nationalCoefficient=this.nationalCoefficient;
 		clone.fideCoefficient=this.fideCoefficient;
+		clone.title=this.title;
 		return clone;
 	}
 }
