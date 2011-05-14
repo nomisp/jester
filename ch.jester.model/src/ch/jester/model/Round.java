@@ -23,9 +23,6 @@ import javax.persistence.Table;
 public class Round extends AbstractModelBean{
 	private static final long serialVersionUID = 6672346214824111918L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
 	
 	@Column(name="RoundNumber", nullable=false)
 	private Integer number;
@@ -35,14 +32,6 @@ public class Round extends AbstractModelBean{
 	
 	@OneToMany(mappedBy="round")
 	private Set<Pairing> pairings = new HashSet<Pairing>();
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public Integer getNumber() {
 		return number;

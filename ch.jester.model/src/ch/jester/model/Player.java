@@ -21,9 +21,7 @@ import javax.validation.constraints.NotNull;
 public class Player extends AbstractModelBean {
 	private static final long serialVersionUID = -2351315088207630377L;
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	int id;
+
 	
 	@Column(name="FirstName", nullable=false, length=50)
 	//@org.hibernate.validator.constraints.Length(min=2, max=50)
@@ -66,17 +64,7 @@ public class Player extends AbstractModelBean {
 	private Integer fideCoefficient;	// Koeffizient zur Berechnung der FIDE-Elo
 	
 	@Column(name="Title", nullable=true)
-	private String title; // Titel eines Spielers (GM, IM, FM)
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	
+	private String title; // Titel eines Spielers (GM, IM, FM)	
 
 
 	public String getFirstName() {

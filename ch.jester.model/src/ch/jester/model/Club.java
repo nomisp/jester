@@ -12,10 +12,6 @@ import javax.validation.constraints.NotNull;
 @Table(name="Club")
 public class Club extends AbstractModelBean {
 	private static final long serialVersionUID = 3749001233544554089L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
 	
 	@Column(name="Name", nullable=false, unique=true, length=50)
 	//@org.hibernate.validator.constraints.Length(min=2, max=50)
@@ -24,14 +20,6 @@ public class Club extends AbstractModelBean {
 	
 	@Column(name="Code", nullable=true)
 	private int code;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
