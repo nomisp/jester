@@ -51,7 +51,7 @@ public abstract class AbstractEditor<T extends IDaoObject> extends FormEditor im
 		
 	}
 
-	public void setPlayerDao(IDaoService<T> dao){
+	public void setDaoService(IDaoService<T> dao){
 		mLogger.debug(this+" setting dao to "+dao);
 		mDao=dao;
 	}
