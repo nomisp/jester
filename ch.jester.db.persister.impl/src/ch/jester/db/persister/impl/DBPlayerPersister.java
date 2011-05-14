@@ -12,9 +12,7 @@ import ch.jester.model.Player;
  *
  */
 public class DBPlayerPersister extends GenericPersister<Player> implements IPlayerDao{
-	public DBPlayerPersister(){
-		super(Player.class);
-	}
+
 	
 	@Override
 	public List<Player> findByName(String pName) {

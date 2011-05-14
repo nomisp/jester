@@ -1,6 +1,10 @@
 
 package ch.jester.db.persister.impl;
 
+import java.lang.reflect.GenericDeclaration;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,10 +33,14 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 	private Query mCountQuery;
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	private Class<T> mClz;
+	@SuppressWarnings("unchecked")
+	public GenericPersister(){
+		Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+		mClz = (Class<T>) actualTypeArgument;
+	}
 	public GenericPersister(Class<T> clz){
 		mClz = clz;
-	}
-	
+	}	
 	private void fireEvent(Object pLoad, PersistencyEvent.Operation pOperation){
 		Assert.isNotNull(mEventQueue, "The PersistencyEventQueue is not running");
 		mEventQueue.dispatch(new PersistencyEvent(this, pLoad, pOperation));

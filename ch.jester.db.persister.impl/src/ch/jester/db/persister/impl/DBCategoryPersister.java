@@ -7,9 +7,6 @@ import ch.jester.model.Category;
 
 public class DBCategoryPersister extends GenericPersister<Category> implements ICategoryDao {
 
-	public DBCategoryPersister() {
-		super(Category.class);
-	}
 
 	@Override
 	public List<Category> findByName(String name) {
