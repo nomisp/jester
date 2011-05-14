@@ -63,7 +63,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					// Kategorien holen und persistieren
 					Set<Category> categories = getCategories();
 					ICategoryDao categoryPersister = su.getExclusiveService(ICategoryDao.class);
-					categoryPersister.save(categories);
+//					categoryPersister.save(categories);
 					
 					String tournamentName = newTournament.getTournamentName();
 					String description = newTournament.getDescription();
@@ -83,7 +83,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					tournament.setCategories(categories);
 					ITournamentDao tournamentPersister = su.getExclusiveService(ITournamentDao.class);
 					tournamentPersister.save(tournament);
-					
+					categoryPersister.save(categories);
 					mLogger.debug("Tournament " + tournament.getName() + " with Id " + tournament.getId() + " created");
 				}
 			});

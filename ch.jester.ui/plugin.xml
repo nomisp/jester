@@ -47,6 +47,21 @@
                visible="true">
          </view>
       </perspectiveExtension>
+      <perspectiveExtension
+            targetID="ch.jester.rcpapplication.tournamentPerspective">
+         <view
+               closeable="false"
+               id="ch.jester.ui.tournament.cnf.view"
+               minimized="false"
+               moveable="false"
+               ratio="0.25f"
+               relationship="left"
+               relative="org.eclipse.ui.editorss"
+               showTitle="true"
+               standalone="false"
+               visible="true">
+         </view>
+      </perspectiveExtension>
    </extension>
    <extension
          point="org.eclipse.ui.menus">

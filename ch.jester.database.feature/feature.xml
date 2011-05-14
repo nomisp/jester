@@ -30,6 +30,7 @@
       <import plugin="org.apache.log4j"/>
       <import plugin="org.eclipse.osgi.services" version="3.2.100" match="greaterOrEqual"/>
       <import plugin="ch.jester.db.hsqldb" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.db.h2"/>
    </requires>
 
    <plugin
@@ -87,6 +88,13 @@
          install-size="0"
          version="0.0.0"
          fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.db.h2"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

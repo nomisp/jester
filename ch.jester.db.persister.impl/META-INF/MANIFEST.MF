@@ -14,3 +14,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Service-Component: OSGI-INF/PersisterFactoryComponent.xml
 Import-Package: javax.persistence
 Bundle-ActivationPolicy: lazy
+Export-Package: ch.jester.db.persister.impl

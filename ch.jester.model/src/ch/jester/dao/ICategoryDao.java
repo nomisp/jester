@@ -4,8 +4,11 @@ import java.util.List;
 
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.model.Category;
+import ch.jester.model.Player;
 
 public interface ICategoryDao extends IDaoService<Category> {
 
 	public List<Category> findByName(String name);
+	
+	public Category findByPlayer(Player player);
 }

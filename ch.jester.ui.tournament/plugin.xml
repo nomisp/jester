@@ -11,7 +11,7 @@
             canFinishEarly="true"
             category="ch.jester.ui.tournament.tournaments"
             class="ch.jester.ui.tournament.NewTournamentWizard"
-            finalPerspective="ch.jester.ui.tournament.tournamentPerspective"
+            finalPerspective="ch.jester.rcpapplication.tournamentPerspective"
             hasPages="true"
             icon="icons/tournamentIcon_32x32.png"
             id="ch.jester.ui.tournament.newTournament"
@@ -42,6 +42,54 @@
             id="ch.jester.ui.tournament.newTournament"
             name="%CreateNewTournament">
       </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="ch.jester.ui.tournament.cnf.TournamentNavigator"
+            id="ch.jester.ui.tournament.cnf.view"
+            name="%TournamentNavigator"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+     <navigatorContent
+	         activeByDefault="true"
+	         contentProvider="ch.jester.ui.tournament.cnf.TournamentContentProvider"
+	         id="ch.jester.ui.tournament.cnf.TournamentContent"
+	         labelProvider="ch.jester.ui.tournament.cnf.TournamentLabelProvider"
+	         name="Tournament content"
+	         priority="normal">
+	      <triggerPoints>
+	      	<or>
+	      		<instanceof value="ch.jester.model.Root"/>
+	      		<instanceof value="ch.jester.model.Tournament"/>
+	      	</or>
+	      </triggerPoints>
+	      <possibleChildren>
+	      	<or>
+	      		<instanceof value="ch.jester.model.Tournament"/>
+	      		<instanceof value="ch.jester.model.Category"/>
+	      		<instanceof value="ch.jester.model.Player"/>
+	      	</or>
+		  </possibleChildren>
+	   </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+         <viewer
+		       viewerId="ch.jester.ui.tournament.cnf.view">
+		 </viewer>
+		 <viewerContentBinding
+		       viewerId="ch.jester.ui.tournament.cnf.view">
+		    <includes>
+		       <contentExtension
+		             isRoot="false"
+		             pattern="ch.jester.ui.tournament.cnf.TournamentContent">
+		       </contentExtension>
+		    </includes>
+		 </viewerContentBinding>
    </extension>
 
 </plugin>

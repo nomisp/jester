@@ -5,9 +5,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,7 +17,7 @@ import javax.persistence.Table;
 	@NamedQuery(name="AllRounds", query="select r from Round r order by r.number"),
 	@NamedQuery(name="RoundByNumber", query="select r from Round r where r.number = :number")
 })
-public class Round extends AbstractModelBean{
+public class Round extends AbstractModelBean<Round> {
 	private static final long serialVersionUID = 6672346214824111918L;
 
 	
