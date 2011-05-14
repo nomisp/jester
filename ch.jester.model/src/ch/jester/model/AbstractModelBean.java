@@ -83,7 +83,8 @@ public abstract class AbstractModelBean<T extends IDaoObject> extends AbstractPr
 	}
 	
 	/**
-	 * Kopiert properties vom Originial in den Klon
+	 * Kopiert Properties vom Original in den Klon, wenn <br>
+	 * - eine getter und setter Methode vorhanden ist
 	 * @param original
 	 * @param clone
 	 */
@@ -125,7 +126,9 @@ public abstract class AbstractModelBean<T extends IDaoObject> extends AbstractPr
 	}
 	/**
 	 * Ändert das Property auf den übergebenen Wert und feuert den 
-	 * PropertyChange
+	 * PropertyChange.<br>
+	 * Achtung es wird direkt auf das Feld zugegriffen.
+	 * Feldname muss daher gleich propertyId sein.
 	 * @param propertyId
 	 * @param value
 	 */
