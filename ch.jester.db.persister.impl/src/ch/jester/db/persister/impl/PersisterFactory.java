@@ -111,6 +111,7 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		mActivationContext = Activator.getDefault().getActivationContext();
 		mLoggerFactory.getLogger(this.getClass()).debug("PersisterFactory started");
 		mServiceUtility=mActivationContext.getServiceUtil();
+		//TODO Umschreiben: wir wollen die Interfaces loswerden
 		addServiceHandling(IPlayerDao.class, DBPlayerPersister.class);
 		addServiceHandling(ITournamentDao.class, DBTournamentPersister.class);
 		addServiceHandling(ICategoryDao.class, DBCategoryPersister.class);
@@ -144,6 +145,12 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 	public void unbind(Object pT) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public <T extends IDaoObject> void registerDaoService(Class<T> pClass,
+			Class<IDaoService<T>> pServiceClass) {
+		mDaoObjectClassRegistry.put(pClass, pServiceClass);
 	}
 
 }

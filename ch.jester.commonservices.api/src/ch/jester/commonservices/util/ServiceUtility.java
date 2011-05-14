@@ -12,6 +12,9 @@ import org.osgi.framework.ServiceFactory;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
+import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
 import ch.jester.commonservices.internal.Activator;
 
 
@@ -166,11 +169,12 @@ public class ServiceUtility {
 	 * Versucht eine brandneue ServiceInstanz zu bekommen.
 	 * Dies hängt allerdings mit der Bereitstellung des Services zusammen, so dass
 	 * keine Garanntie dafür besteht.
+	 * @deprecated use {@link ServiceUtility#getDaoService(Class)}
 	 * @param <T>
 	 * @param pServiceInterface
 	 * @return
 	 */
-	@Deprecated
+	@Deprecated 
 	@SuppressWarnings("unchecked")
 	public <T> T getExclusiveService(Class<T> pServiceInterface) {
 		synchronized(GLOBAL_LOCK){
@@ -185,5 +189,17 @@ public class ServiceUtility {
 		}
 	}
 
+	/**
+	 * Holt eine brand neue Instanz eines IDaoServices.
+	 * 
+	 * @param <T>
+	 * @param pClass eine konkrete Klasse, welche IDaoServiceObject implementiert
+	 * @return eine Serviceimplementierung
+	 */
+	public <T extends IDaoObject> IDaoService<T> getDaoService(Class<T> pClass){
+		IDaoServiceFactory factory = getService(IDaoServiceFactory.class);
+		if(factory==null){return null;}
+		return factory.getDaoService(pClass);
+	}
 	
 }

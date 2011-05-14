@@ -19,11 +19,10 @@ public abstract class DaoAddHandler extends AbstractCommandHandler{
 		IViewPart view = getView(getTargetViewId());
 		
 		//View noch nicht initialisiert?
-		//dann benutzen wir eben direkt den Persister, und machen sonst nichts
+		//dann benutzen wir eben direkt einen neuen DaoService, und machen sonst nichts
 		if(view==null){
-			IDaoServiceFactory factory = this.mServiceUtility.getService(IDaoServiceFactory.class);
 			@SuppressWarnings("unchecked")
-			IDaoService<IDaoObject> service = (IDaoService<IDaoObject>) factory.getDaoService(object.getClass());
+			IDaoService<IDaoObject> service = (IDaoService<IDaoObject>) mServiceUtility.getDaoService(object.getClass());
 			service.save(object);
 			return null;
 		}
