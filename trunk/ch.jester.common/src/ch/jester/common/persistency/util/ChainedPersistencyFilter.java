@@ -3,6 +3,10 @@ package ch.jester.common.persistency.util;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyFilter;
 
+/**
+ * Chain of Resp. Basisklasse für LoadFiltering
+ *
+ */
 public abstract class ChainedPersistencyFilter implements IPersistencyFilter{
 	protected IPersistencyFilter mNext;
 	public ChainedPersistencyFilter(IPersistencyFilter pFilter){

@@ -4,12 +4,20 @@ import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyFilter;
 import ch.jester.commonservices.api.persistency.IPersistencyListener;
 
+/**
+ * Ein Listener mit der Möglichkeit Filter zu verketten.
+ *
+ */
 public abstract class PersistencyListener implements IPersistencyListener{
 	private IPersistencyFilter mFilter;
 	
 	public PersistencyListener(){
 		
 	}
+	/**
+	 * Installiert den Filter
+	 * @param pFilter
+	 */
 	public PersistencyListener(IPersistencyFilter pFilter){
 		mFilter = pFilter;
 	}
