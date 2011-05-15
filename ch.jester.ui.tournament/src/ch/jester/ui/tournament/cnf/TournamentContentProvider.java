@@ -5,6 +5,11 @@ import java.util.List;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import ch.jester.common.persistency.util.EventLoadMatchingFilter;
+import ch.jester.common.persistency.util.PersistencyListener;
+import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.commonservices.api.persistency.IPersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.ICategoryDao;
 import ch.jester.dao.ITournamentDao;
@@ -23,6 +28,25 @@ public class TournamentContentProvider implements ITreeContentProvider {
 	private static final Object[] EMPTY_ARRAY = new Object[0];
 	private Tournament[] tournaments;
 	private ServiceUtility su = new ServiceUtility();
+	private Viewer viewer;
+	
+	public TournamentContentProvider() {
+		IPersistencyEventQueue queue = su.getService(IPersistencyEventQueue.class);
+		//Installieren eines Listeners mit einem Filter, der nur Tournament Changes von der DB
+		//weiterleitet.
+		queue.addListener(new PersistencyListener(new EventLoadMatchingFilter(Tournament.class)) {		
+			@Override
+			public void persistencyEvent(IPersistencyEvent pEvent) {
+				initializeTournaments();
+				UIUtility.syncExecInUIThread(new Runnable() {
+					@Override
+					public void run() {
+						viewer.refresh();
+					}
+				});	
+			}
+		});
+	}
 	
 	@Override
 	public Object[] getChildren(Object parentElement) {
@@ -69,7 +93,7 @@ public class TournamentContentProvider implements ITreeContentProvider {
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// TODO Auto-generated method stub
+		this.viewer = viewer;
 
 	}
 	
