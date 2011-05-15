@@ -3,6 +3,10 @@ package ch.jester.common.persistency.util;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyFilter;
 
+/**
+ * Der Event wird nur weitergeleitet wenn die Persister Referenzen nicht übereinstimmen
+ *
+ */
 public class DaoMatchFilter  extends ChainedPersistencyFilter{
 		private Object mDao;
 		public DaoMatchFilter(Object persister){
