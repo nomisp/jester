@@ -8,11 +8,12 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.action.StatusLineContributionItem;
 import org.eclipse.jface.action.StatusLineManager;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.osgi.service.component.ComponentContext;
 
+import ch.jester.common.ui.labelprovider.ImageStatusLineContributionItem;
 import ch.jester.common.ui.services.IExtendedStatusLineManager;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.web.HTTPFactory;
@@ -27,6 +28,7 @@ public class JavaPingService implements IPingService, IComponentService<ILoggerF
 	private ILogger mLogger;
 	private String mPingAddress = "http://www.google.com";
 	private int mPingInterval = 5 * 1000;
+	private Image mOk, mNok, mU;
 	public JavaPingService(){
 	}
 	@Override
@@ -54,18 +56,25 @@ public class JavaPingService implements IPingService, IComponentService<ILoggerF
 		return 0;
 	}
 
+	private Image getImage(String pPath){
+		return UIUtility.getImageDescriptor(
+				Activator.getDefault().getActivationContext().getPluginId(),
+				pPath).createImage();
+	}
+
+	
 	class PingJob extends Job{
 		String mInetAddress; 
 		int mReschedule;
 		boolean uiInstalled = false;
 		int lastResult = -1;
-		final StatusLineContributionItem sl;
+		final ImageStatusLineContributionItem sl;
 		public PingJob(String pInetAddress, int pReschedule) {
 			super("PingJob");
 			setSystem(true);
 			mInetAddress =  pInetAddress;
 			mReschedule = pReschedule;
-			sl=new StatusLineContributionItem("IStatus");
+			sl=new ImageStatusLineContributionItem("IStatus");
 		}
 
 		@Override
@@ -81,9 +90,28 @@ public class JavaPingService implements IPingService, IComponentService<ILoggerF
 								return;
 							}
 							if(result == REACHABLE){
-								sl.setText("Internetconnection: Ok");
+								if(mOk==null){
+								mOk= getImage("icons/connection_ok_16px.png");
+								}
+								sl.setImage(mOk);
+								sl.setText("");
+								sl.setToolTipText("Internet Connection:ok");
+								IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
+
+								//ex.setMessage(img, "internet ok");
+								ex.update(true);
+								
 							}else{
-								sl.setText("Internetconnection: Failed");
+								if(mNok==null){
+									mNok= getImage("icons/connection_nok_16px.png");
+									}
+									sl.setImage(mNok);
+									sl.setText("");
+									sl.setToolTipText("Internet Connection: failed");
+									IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
+
+									//ex.setMessage(img, "internet ok");
+									ex.update(true);
 							}
 							
 						}
@@ -98,8 +126,17 @@ public class JavaPingService implements IPingService, IComponentService<ILoggerF
 					
 					@Override
 					public void run() {
-						Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class).appendToGroup(StatusLineManager.END_GROUP, sl);
-						sl.setText("Internetconnection: unknown");
+						IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
+						ex.appendToGroup(StatusLineManager.END_GROUP, sl);
+						sl.setParent(ex);
+						sl.setText("");
+						sl.setToolTipText("Internet Connection: unknown");
+						if(mU==null){
+							mU = getImage("icons/connection_unk_16px.png");
+					
+						}
+						sl.setImage(mU);
+						ex.update(true);
 						lastResult=UNKNOWN;
 						uiInstalled=true;
 						

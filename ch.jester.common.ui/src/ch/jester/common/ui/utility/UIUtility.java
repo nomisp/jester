@@ -5,12 +5,18 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IEvaluationService;
+import org.osgi.framework.FrameworkUtil;
+
+import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.utility.CallerUtility;
+import ch.jester.common.utility.CallerUtility.Caller;
 
 
 public class UIUtility {
@@ -53,6 +59,10 @@ public class UIUtility {
 	
 	public static IWorkbenchWindow getActiveWorkbenchWindow(){
 		return mStrategies[getStrategyIndex()].getWorkbenchWindow();
+	}
+	
+	public static ImageDescriptor getImageDescriptor(String pluginId, String imageFilePath){
+		return Activator.imageDescriptorFromPlugin(pluginId, imageFilePath);
 	}
 	public static void syncExecInUIThread(Runnable r){
 		 mStrategies[getStrategyIndex()].syncExecInUIThread(r);
