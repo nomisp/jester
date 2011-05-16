@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.6"?>
+
+<target name="jester2">
+<locations>
+<location includeAllPlatforms="false" includeMode="planner" type="InstallableUnit">
+<unit id="org.eclipse.epp.package.rcp.feature.feature.group" version="1.3.2.20110301-1807"/>
+<repository location="http://download.eclipse.org/releases/helios"/>
+</location>
+</locations>
+</target>
