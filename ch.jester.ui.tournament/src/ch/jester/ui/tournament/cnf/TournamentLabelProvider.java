@@ -7,9 +7,11 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.IDescriptionProvider;
 
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Player;
 import ch.jester.model.Tournament;
+import ch.jester.ui.tournament.internal.Activator;
 
 /**
  * LabelProvider für die Turnier-Navigation
@@ -38,14 +40,23 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 
 	public Image getImage(Object element) {
 		if (element instanceof Tournament) {
-			return PlatformUI.getWorkbench().getSharedImages()
-					.getImage(ISharedImages.IMG_OBJ_FOLDER);
+			return UIUtility.getImageDescriptor(
+					Activator.getDefault().getActivationContext().getPluginId(),
+						"icons/tournament_16x16.gif").createImage();
+//			return PlatformUI.getWorkbench().getSharedImages()
+//					.getImage(ISharedImages.IMG_OBJ_FOLDER);
 		} else if (element instanceof Category) {
-			return PlatformUI.getWorkbench().getSharedImages()
-					.getImage(ISharedImages.IMG_OBJ_FILE);
+			return UIUtility.getImageDescriptor(
+					Activator.getDefault().getActivationContext().getPluginId(),
+						"icons/category_16x16.gif").createImage();
+//			return PlatformUI.getWorkbench().getSharedImages()
+//					.getImage(ISharedImages.IMG_OBJ_FILE);
 		} else if (element instanceof Player) {
-			return PlatformUI.getWorkbench().getSharedImages()
-					.getImage(ISharedImages.IMG_OBJ_ELEMENT);
+			return UIUtility.getImageDescriptor(
+					Activator.getDefault().getActivationContext().getPluginId(),
+						"icons/player_16x16.png").createImage();
+//			return PlatformUI.getWorkbench().getSharedImages()
+//					.getImage(ISharedImages.IMG_OBJ_ELEMENT);
 }
 		return null;
 	}

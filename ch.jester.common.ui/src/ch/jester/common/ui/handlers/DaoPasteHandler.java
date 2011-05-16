@@ -4,13 +4,13 @@ import java.util.List;
 
 import ch.jester.common.ui.databinding.DaoController;
 import ch.jester.common.utility.AdapterUtility;
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 
-public class DaoPasteHandler extends ClonePasteHandler<IDaoObject> {
+public class DaoPasteHandler extends ClonePasteHandler<IEntityObject> {
 
 	@Override
-	public Object handlePaste(List<IDaoObject> pPasted) {
-		DaoController<IDaoObject> controller = AdapterUtility.getAdaptedObject(getActivePartFromEvent(), DaoController.class);
+	public Object handlePaste(List<IEntityObject> pPasted) {
+		DaoController<IEntityObject> controller = AdapterUtility.getAdaptedObject(getActivePartFromEvent(), DaoController.class);
 		controller.addDaoObject(pPasted);
 		
 		//wenn nur 1 Objekt kopiert wurde, wird der editor geöffnet

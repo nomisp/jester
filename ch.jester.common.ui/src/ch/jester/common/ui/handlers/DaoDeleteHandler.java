@@ -17,7 +17,7 @@ import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 
 
 public class DaoDeleteHandler extends AbstractCommandHandler {
@@ -48,11 +48,11 @@ public class DaoDeleteHandler extends AbstractCommandHandler {
 		ISelection selection = getSelection();
 		monitor.setTaskName("Deleting...");
 		monitor.beginTask("deleting", getSelectionCount()*2);
-		DaoController<IDaoObject> ctrl = AdapterUtility.getAdaptedObject(getActivePartFromEvent(), DaoController.class);
+		DaoController<IEntityObject> ctrl = AdapterUtility.getAdaptedObject(getActivePartFromEvent(), DaoController.class);
 		IEditorService editors = getServiceUtil().getService(IEditorService.class);
 		if(isIStructuredSelection()){
 			IStructuredSelection structSel = (IStructuredSelection) selection;
-			List<IDaoObject> list = structSel.toList();
+			List<IEntityObject> list = structSel.toList();
 			ctrl.removeDaoObject(list);
 			monitor.worked(getSelectionCount());
 			monitor.done();

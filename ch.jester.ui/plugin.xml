@@ -6,13 +6,14 @@
       <view
             allowMultiple="false"
             class="ch.jester.ui.player.editor.view.PlayersView"
-            icon="icons/springer.png"
+            icon="icons/player_16x16.png"
             id="ch.jester.ui.view.players"
             name="Players">
       </view>
       <view
             allowMultiple="false"
             class="ch.jester.ui.tournament.editor.view.TournamentView"
+            icon="icons/tournament_16x16.gif"
             id="ch.jester.ui.view.tournamentview"
             name="Tournaments"
             restorable="true">
@@ -70,7 +71,7 @@
             locationURI="popup:ch.jester.ui.view.players">
          <command
                commandId="ch.jester.ui.addplayer"
-               icon="icons/springer.png"
+               icon="icons/player_add_16x16.png"
                style="push">
          </command>
          <separator
@@ -221,7 +222,7 @@
             locationURI="menu:ch.jester.ui.add.pulldown">
          <command
                commandId="ch.jester.ui.addplayer"
-               icon="icons/springer.png"
+               icon="icons/player_add_16x16.png"
                style="push">
          </command>
       </menuContribution>

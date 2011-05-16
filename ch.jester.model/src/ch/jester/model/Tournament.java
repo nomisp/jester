@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
@@ -58,7 +59,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	@Column(name="EloCalculator", nullable=false)
 	private String eloCalculator; // EloCalculator (als deklarativer Service implementiert) entspricht dem EP-Attribut: class
 	
-	@OneToMany(mappedBy="tournament")
+	@OneToMany(mappedBy="tournament", cascade={CascadeType.ALL})
 //	@JoinTable(name = "TournamentCategoryAss",
 //	        joinColumns = {@JoinColumn(name = "TournamentId")},
 //	        inverseJoinColumns = {@JoinColumn(name = "CategoryId")})

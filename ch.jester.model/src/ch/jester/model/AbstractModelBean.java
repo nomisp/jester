@@ -17,10 +17,10 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import ch.jester.common.model.AbstractPropertyChangeModel;
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 
 @MappedSuperclass
-public abstract class AbstractModelBean<T extends IDaoObject> extends AbstractPropertyChangeModel implements Cloneable, Serializable , IDaoObject{
+public abstract class AbstractModelBean<T extends IEntityObject> extends AbstractPropertyChangeModel implements Cloneable, Serializable , IEntityObject{
 	private static final long serialVersionUID = 1L;
 
 	@Id

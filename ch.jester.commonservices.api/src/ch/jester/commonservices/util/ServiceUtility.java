@@ -12,7 +12,7 @@ import org.osgi.framework.ServiceFactory;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
 import ch.jester.commonservices.internal.Activator;
@@ -196,7 +196,7 @@ public class ServiceUtility {
 	 * @param pClass eine konkrete Klasse, welche IDaoServiceObject implementiert
 	 * @return eine Serviceimplementierung
 	 */
-	public <T extends IDaoObject> IDaoService<T> getDaoService(Class<T> pClass){
+	public <T extends IEntityObject> IDaoService<T> getDaoService(Class<T> pClass){
 		IDaoServiceFactory factory = getService(IDaoServiceFactory.class);
 		if(factory==null){return null;}
 		return factory.getDaoService(pClass);

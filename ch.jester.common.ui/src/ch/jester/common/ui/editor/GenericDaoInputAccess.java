@@ -3,17 +3,17 @@ package ch.jester.common.ui.editor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IPersistableElement;
 
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 
-public class GenericDaoInputAccess implements IEditorDaoInputAccess<IDaoObject>{
-	IDaoObject mInput;
+public class GenericDaoInputAccess implements IEditorDaoInputAccess<IEntityObject>{
+	IEntityObject mInput;
 	@Override
-	public IDaoObject getInput() {
+	public IEntityObject getInput() {
 		return mInput;
 	}
 
 	@Override
-	public void setInput(IDaoObject pT) {
+	public void setInput(IEntityObject pT) {
 		mInput = pT;
 	}
 

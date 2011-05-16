@@ -5,7 +5,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 
 import ch.jester.common.persistency.util.ScrollableResultListJPA;
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 
@@ -13,7 +13,7 @@ import ch.jester.commonservices.util.ServiceUtility;
  * Ein ContentProvider der Daten beim Scrollen von der DB nachlädt
  *
  */
-public class ScrollableContentProvider<T extends IDaoObject> implements ILazyContentProvider {
+public class ScrollableContentProvider<T extends IEntityObject> implements ILazyContentProvider {
 	ServiceUtility su = new ServiceUtility();
 	IDaoService<T> persister;
 	ScrollableResultListJPA<T> list;

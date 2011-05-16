@@ -13,7 +13,7 @@ import org.osgi.service.component.ComponentContext;
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
 import ch.jester.commonservices.util.ServiceUtility;
@@ -62,7 +62,7 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 	 * @see ch.jester.db.persister.impl.IDaoServiceFactory#getDaoService(java.lang.Class)
 	 */
 	@Override
-	public <T extends IDaoObject> IDaoService<T> getDaoService(Class<T> objectClass){
+	public <T extends IEntityObject> IDaoService<T> getDaoService(Class<T> objectClass){
 		//wurde ev. ein ServiceInterface als Suchparameter übergen?
 		Class<?> clz = mServiceInterfaceRegistry.get(objectClass.getCanonicalName());
 		if(clz==null){
@@ -148,7 +148,7 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 	}
 
 	@Override
-	public <T extends IDaoObject> void registerDaoService(Class<T> pClass,
+	public <T extends IEntityObject> void registerDaoService(Class<T> pClass,
 			Class<IDaoService<T>> pServiceClass) {
 		mDaoObjectClassRegistry.put(pClass, pServiceClass);
 	}

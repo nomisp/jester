@@ -4,14 +4,14 @@ import org.eclipse.ui.IViewPart;
 
 import ch.jester.common.ui.databinding.DaoController;
 import ch.jester.common.utility.AdapterUtility;
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
 
 
 public abstract class DaoAddHandler extends AbstractCommandHandler{
 	public Object executeInternal(org.eclipse.core.commands.ExecutionEvent event) {
-		IDaoObject object = getNewDaoObject();
+		IEntityObject object = getNewDaoObject();
 		
 		if(object == null) {return null;}
 		
@@ -22,7 +22,7 @@ public abstract class DaoAddHandler extends AbstractCommandHandler{
 		//dann benutzen wir eben direkt einen neuen DaoService, und machen sonst nichts
 		if(view==null){
 			@SuppressWarnings("unchecked")
-			IDaoService<IDaoObject> service = (IDaoService<IDaoObject>) mServiceUtility.getDaoService(object.getClass());
+			IDaoService<IEntityObject> service = (IDaoService<IEntityObject>) mServiceUtility.getDaoService(object.getClass());
 			service.save(object);
 			return null;
 		}
@@ -30,7 +30,7 @@ public abstract class DaoAddHandler extends AbstractCommandHandler{
 		//Wir gehen davon aus, dass sich die View an der Platform mit einem Controller angemeldet hat,
 		//und holen diesen
 		@SuppressWarnings("unchecked")
-		DaoController<IDaoObject> ctrl =  AdapterUtility.getAdaptedObject(view, DaoController.class);
+		DaoController<IEntityObject> ctrl =  AdapterUtility.getAdaptedObject(view, DaoController.class);
 		
 		//hinzufügen vom Objekt
 		ctrl.addDaoObject(object);
@@ -49,6 +49,6 @@ public abstract class DaoAddHandler extends AbstractCommandHandler{
 			
 	public abstract String getTargetViewId();
 	
-	public abstract IDaoObject getNewDaoObject();
+	public abstract IEntityObject getNewDaoObject();
 
 }

@@ -26,7 +26,7 @@ import ch.jester.common.ui.utility.PartListener2Adapter;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 //import ch.jester.commonservices.api.persistency.IDBStartupListener;
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 
@@ -34,7 +34,7 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 
 
-public abstract class DaoController<T extends IDaoObject> {
+public abstract class DaoController<T extends IEntityObject> {
 	private TableViewer mViewer;
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
@@ -162,10 +162,10 @@ public abstract class DaoController<T extends IDaoObject> {
 		@Override
 		public void partClosed(IWorkbenchPartReference partRef) {
 			if(partRef.getPart(false) == mAccess.getPart()){
-				AbstractEditor<IDaoObject> closedEditor = (AbstractEditor<IDaoObject>) mAccess.getPart();
+				AbstractEditor<IEntityObject> closedEditor = (AbstractEditor<IEntityObject>) mAccess.getPart();
 				
 				if(!closedEditor.wasSaved()){
-					IEditorInputAccess<IDaoObject> input = (IEditorInputAccess<IDaoObject>)closedEditor.getEditorInput();
+					IEditorInputAccess<IEntityObject> input = (IEditorInputAccess<IEntityObject>)closedEditor.getEditorInput();
 					//TODO Issue!!
 					if(input.getInput().getId()==0){
 						obsModel.remove(input.getInput());
