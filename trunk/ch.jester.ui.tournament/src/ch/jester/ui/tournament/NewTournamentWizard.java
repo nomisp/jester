@@ -14,6 +14,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.ICategoryDao;
 import ch.jester.dao.ITournamentDao;
@@ -62,7 +63,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 					// Kategorien holen und persistieren
 					Set<Category> categories = getCategories();
-					ICategoryDao categoryPersister = su.getExclusiveService(ICategoryDao.class);
+//					ICategoryDao categoryPersister = su.getExclusiveService(ICategoryDao.class);
 //					categoryPersister.save(categories);
 					
 					String tournamentName = newTournament.getTournamentName();
@@ -80,10 +81,11 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					tournament.setPairingSystem(systemPage.getPairingAlgorithmEntry().getImplementationClass());
 					tournament.setRankingSystem(systemPage.getRankingSystemEntry().getImplementationClass());
 					tournament.setEloCalculator(systemPage.getEloCalculatorEntry().getImplementationClass());
-					tournament.setCategories(categories);
-					ITournamentDao tournamentPersister = su.getExclusiveService(ITournamentDao.class);
+					tournament.setCategories(categories);	// Aufgrund des Cascadings werden die hinzugefügten Kategorien gleich mit persistiert
+					tournament.setActive(true);
+					IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);//su.getExclusiveService(ITournamentDao.class);
 					tournamentPersister.save(tournament);
-					categoryPersister.save(categories);
+//					categoryPersister.save(categories);
 					mLogger.debug("Tournament " + tournament.getName() + " with Id " + tournament.getId() + " created");
 				}
 			});

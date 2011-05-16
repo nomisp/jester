@@ -18,13 +18,13 @@ import org.eclipse.core.runtime.Assert;
 import ch.jester.common.persistency.util.PersistencyEvent;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.orm.ORMPlugin;
 
-public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
+public class GenericPersister<T extends IEntityObject> implements IDaoService<T> {
 	private StopWatch watch = new StopWatch();
 	protected EntityManagerFactory mFactory;
 	protected EntityManager mManager;
@@ -107,7 +107,7 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 		check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
-		IDaoObject p = mManager.find(pT.getClass(), pT.getId());
+		IEntityObject p = mManager.find(pT.getClass(), pT.getId());
 		mManager.remove(p);
 		trx.commit();
 		fireDeleteEvent(pT);
@@ -120,7 +120,7 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 		trx.begin();
 		for(T pT:pTCollection){
 			if(pT.getId()==0){continue;}
-			IDaoObject p = mManager.find(pT.getClass(), pT.getId());
+			IEntityObject p = mManager.find(pT.getClass(), pT.getId());
 			mManager.remove(p);
 			
 		}
@@ -148,7 +148,7 @@ public class GenericPersister<T extends IDaoObject> implements IDaoService<T> {
 	}
 
 	@Override
-	public List<T> getAll(String namedQuery) {
+	public List<T> executeNamedQuery(String namedQuery) {
 		check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();

@@ -21,7 +21,7 @@
       </perspective>
       <perspective
             class="ch.jester.rcpapplication.TournamentPerspective"
-            icon="icons/tournamentIcon_32x32.png"
+            icon="icons/tournament_16x16.gif"
             id="ch.jester.rcpapplication.tournamentPerspective"
             name="%TournamentPerspective">
       </perspective>

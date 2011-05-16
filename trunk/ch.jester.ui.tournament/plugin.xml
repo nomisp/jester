@@ -13,7 +13,7 @@
             class="ch.jester.ui.tournament.NewTournamentWizard"
             finalPerspective="ch.jester.rcpapplication.tournamentPerspective"
             hasPages="true"
-            icon="icons/tournamentIcon_32x32.png"
+            icon="icons/tournament_16x16.gif"
             id="ch.jester.ui.tournament.newTournament"
             name="%CreateNewTournament"
             preferredPerspectives="ch.jester.ui.tournament.tournamentPerspective">
@@ -29,8 +29,24 @@
             locationURI="menu:ch.jester.ui.add.pulldown">
          <command
                commandId="ch.jester.ui.tournament.newTournament"
-               icon="icons/kchess_22x22.png"
+               icon="icons/tournament_16x16.gif"
                label="%CreateNewTournament"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:ch.jester.ui.tournament.cnf.popup?after=group.edit">
+         <command
+               commandId="org.eclipse.ui.edit.delete"
+               id="cnf.popup.delete"
+               mnemonic="D"
+               style="push">
+         </command>
+         <command
+               commandId="org.eclipse.ui.edit.rename"
+               id="cnf.popup.rename"
+               mnemonic="R"
                style="push">
          </command>
       </menuContribution>
@@ -42,11 +58,20 @@
             id="ch.jester.ui.tournament.newTournament"
             name="%CreateNewTournament">
       </command>
+      <command
+            id="org.eclipse.ui.edit.delete"
+            name="%DeleteTournament">
+      </command>
+      <command
+            id="org.eclipse.ui.edit.rename"
+            name="%RenameTournament">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
             class="ch.jester.ui.tournament.cnf.TournamentNavigator"
+            icon="icons/navigator_16x16.png"
             id="ch.jester.ui.tournament.cnf.view"
             name="%TournamentNavigator"
             restorable="true">
@@ -55,12 +80,13 @@
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">
      <navigatorContent
-	         activeByDefault="true"
-	         contentProvider="ch.jester.ui.tournament.cnf.TournamentContentProvider"
-	         id="ch.jester.ui.tournament.cnf.TournamentContent"
-	         labelProvider="ch.jester.ui.tournament.cnf.TournamentLabelProvider"
-	         name="Tournament content"
-	         priority="normal">
+           activeByDefault="true"
+           contentProvider="ch.jester.ui.tournament.cnf.TournamentContentProvider"
+           icon="icons/tournament_16x16.gif"
+           id="ch.jester.ui.tournament.cnf.TournamentContent"
+           labelProvider="ch.jester.ui.tournament.cnf.TournamentLabelProvider"
+           name="Tournament content"
+           priority="normal">
 	      <triggerPoints>
 	      	<or>
 	      		<instanceof value="ch.jester.model.Root"/>
@@ -80,6 +106,22 @@
          point="org.eclipse.ui.navigator.viewer">
          <viewer
 		       viewerId="ch.jester.ui.tournament.cnf.view">
+            <popupMenu
+                  allowsPlatformContributions="true"
+                  id="ch.jester.ui.tournament.cnf.popup">
+               <insertionPoint
+                     name="group.new"
+                     separator="false">
+               </insertionPoint>
+               <insertionPoint
+                     name="group.open"
+                     separator="false">
+               </insertionPoint>
+               <insertionPoint
+                     name="group.edit"
+                     separator="true">
+               </insertionPoint>
+            </popupMenu>
 		 </viewer>
 		 <viewerContentBinding
 		       viewerId="ch.jester.ui.tournament.cnf.view">
@@ -90,6 +132,57 @@
 		       </contentExtension>
 		    </includes>
 		 </viewerContentBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="ch.jester.ui.tournament.handler.RenameTournamentHandler"
+            commandId="org.eclipse.ui.edit.rename">
+         <activeWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.tournamentSelected">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.tournamentSelected">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="ch.jester.common.ui.handlers.DaoDeleteHandler"
+            commandId="org.eclipse.ui.edit.delete">
+         <enabledWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.cnf.oneElementSelected">
+            </reference>
+         </enabledWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="ch.jester.ui.tournament.tournamentSelected">
+         <with
+               variable="selection">
+            <iterate
+                  ifEmpty="false"
+                  operator="or">
+               <instanceof
+                     value="ch.jester.model.Tournament">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
+      <definition
+            id="ch.jester.ui.tournament.cnf.oneElementSelected">
+         <with
+               variable="selection">
+            <count
+                  value="+">
+            </count>
+         </with>
+      </definition>
    </extension>
 
 </plugin>

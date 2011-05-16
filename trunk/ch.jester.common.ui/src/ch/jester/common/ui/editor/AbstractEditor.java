@@ -18,12 +18,12 @@ import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.PartListener2Adapter;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
-public abstract class AbstractEditor<T extends IDaoObject> extends FormEditor implements IDirtyListener, IDirtyManagerProvider{
+public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor implements IDirtyListener, IDirtyManagerProvider{
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
 	protected IEditorDaoInputAccess<T> mDaoInput;
 	private DirtyManager mDirtyManager;

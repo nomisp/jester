@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public interface IDaoService<T extends IDaoObject> {
+public interface IDaoService<T extends IEntityObject> {
 	
 	/**Den Type
 	 * @return
@@ -56,11 +56,11 @@ public interface IDaoService<T extends IDaoObject> {
 	public List<T> getFromTo(int from, int to);
 	
 	/**
-	 * Holt alle Objekte anhand einer NamedQuery
+	 * Führt eine Parameterlose NamedQuery aus z.B. um alle Entitäten zu holen.
 	 * So ist es Möglich verschiedene Named Queries zu verwenden (verschiedene Entitäten)
 	 * @param namedQuery
 	 * @return Liste mit den Entities
 	 */
-	public List<T> getAll(String namedQuery);
+	public List<T> executeNamedQuery(String namedQuery);
 
 }

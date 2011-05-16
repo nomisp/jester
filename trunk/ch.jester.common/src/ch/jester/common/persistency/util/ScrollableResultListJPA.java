@@ -3,12 +3,12 @@ package ch.jester.common.persistency.util;
 import java.util.AbstractList;
 import java.util.List;
 
-import ch.jester.commonservices.api.persistency.IDaoObject;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 
 
 
-public class ScrollableResultListJPA<T extends IDaoObject> extends AbstractList<T> implements List<T> {
+public class ScrollableResultListJPA<T extends IEntityObject> extends AbstractList<T> implements List<T> {
     private int startPosition;
     private List<T> cache = null;
     private IDaoService<T> persister;
