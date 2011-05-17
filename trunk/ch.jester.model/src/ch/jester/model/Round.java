@@ -3,6 +3,7 @@ package ch.jester.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -27,7 +28,7 @@ public class Round extends AbstractModelBean<Round> {
 	@ManyToOne
 	private Category category;
 	
-	@OneToMany(mappedBy="round")
+	@OneToMany(mappedBy="round", cascade={CascadeType.ALL})
 	private Set<Pairing> pairings = new HashSet<Pairing>();
 
 	public Integer getNumber() {

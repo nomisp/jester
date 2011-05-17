@@ -49,6 +49,21 @@
                mnemonic="R"
                style="push">
          </command>
+         <command
+               commandId="cnf.popup.addPlayer"
+               icon="icons/player_add_16x16.png"
+               label="%AddPlayer"
+               mnemonic="A"
+               style="push"
+               tooltip="%TTaddPlayer">
+         </command>
+         <command
+               commandId="ch.jester.ui.tournament.pairing"
+               icon="icons/categoryRunPairing_16x16.gif"
+               label="%RunPairing"
+               style="push"
+               tooltip="%TTrunPairing">
+         </command>
       </menuContribution>
    </extension>
    <extension
@@ -65,6 +80,16 @@
       <command
             id="org.eclipse.ui.edit.rename"
             name="%RenameTournament">
+      </command>
+      <command
+            defaultHandler="ch.jester.ui.tournament.handler.AddPlayerHandler"
+            id="cnf.popup.addPlayer"
+            name="%AddPlayer">
+      </command>
+      <command
+            defaultHandler="ch.jester.ui.tournament.handler.PairingHandler"
+            id="ch.jester.ui.tournament.pairing"
+            name="%RunPairing">
       </command>
    </extension>
    <extension
@@ -98,6 +123,9 @@
 	      		<instanceof value="ch.jester.model.Tournament"/>
 	      		<instanceof value="ch.jester.model.Category"/>
 	      		<instanceof value="ch.jester.model.Player"/>
+         <instanceof
+               value="ch.jester.model.Round">
+         </instanceof>
 	      	</or>
 		  </possibleChildren>
 	   </navigatorContent>
@@ -150,11 +178,30 @@
          </enabledWhen>
       </handler>
       <handler
-            class="ch.jester.common.ui.handlers.DaoDeleteHandler"
-            commandId="org.eclipse.ui.edit.delete">
+            class="ch.jester.ui.tournament.handler.AddPlayerHandler"
+            commandId="cnf.popup.addPlayer">
+         <activeWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.categorySelected">
+            </reference>
+         </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="ch.jester.ui.tournament.cnf.oneElementSelected">
+                  definitionId="ch.jester.ui.tournament.categorySelected">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="ch.jester.ui.tournament.handler.PairingHandler"
+            commandId="ch.jester.ui.tournament.pairing">
+         <activeWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.categorySelected">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.categorySelected">
             </reference>
          </enabledWhen>
       </handler>
@@ -181,6 +228,15 @@
             <count
                   value="+">
             </count>
+         </with>
+      </definition>
+      <definition
+            id="ch.jester.ui.tournament.categorySelected">
+         <with
+               variable="selection">
+            <instanceof
+                  value="ch.jester.model.Category">
+            </instanceof>
          </with>
       </definition>
    </extension>

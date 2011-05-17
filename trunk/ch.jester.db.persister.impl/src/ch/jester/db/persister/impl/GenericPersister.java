@@ -218,6 +218,10 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	protected Query getCountQuery(){
 		return null;
 	}
+	
+	public Query createQuery(String query) {
+		return mManager.createQuery(query);
+	}
 
 	@Override
 	public Class<T> getDaoClass() {

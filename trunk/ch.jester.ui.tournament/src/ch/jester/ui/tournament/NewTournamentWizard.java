@@ -110,8 +110,14 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 	 * @return
 	 */
 	private Set<Category> getCategories() {
+		ModelFactory mf = ModelFactory.getInstance();
 		Set<Category> categories = new HashSet<Category>();
 		categories.addAll(categoriesPage.getCategories());
+		for (Category category : categories) {
+			for (int i = 0; i < category.getMaxRounds(); i++) {
+				category.addRound(mf.createRound(i+1));
+			}
+		}
 		return categories;
 	}
 }

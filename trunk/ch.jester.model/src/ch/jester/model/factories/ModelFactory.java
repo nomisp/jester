@@ -144,10 +144,10 @@ public class ModelFactory {
 	}
 	
 	/**
-	 * Erzeugt standardm�ssig die erste Runde
+	 * Erzeugt standardmässig die erste Runde
 	 * @return Runde 1
 	 */
-	public Round creataRound() {
+	public Round createRound() {
 		return createRound(1);
 	}
 	
