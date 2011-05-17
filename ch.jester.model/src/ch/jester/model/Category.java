@@ -3,6 +3,7 @@ package ch.jester.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -45,7 +46,7 @@ public class Category extends AbstractModelBean<Category> {
 	@Column(name="MaxRounds")
 	private Integer maxRounds; // Maximale Anzahl Runden, die in dieser Kategorie gespielt werden
 	
-	@OneToMany(mappedBy="category")
+	@OneToMany(mappedBy="category", cascade={CascadeType.ALL})
 //	@JoinTable(name = "CategoryRoundAss",
 //	        joinColumns = {@JoinColumn(name = "CategoryId")},
 //	        inverseJoinColumns = {@JoinColumn(name = "RoundId")})

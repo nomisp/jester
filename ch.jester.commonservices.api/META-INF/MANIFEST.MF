@@ -15,3 +15,4 @@ Export-Package: ch.jester.commonservices.api.bundle,
  ch.jester.commonservices.util
 Bundle-Activator: ch.jester.commonservices.internal.Activator
 Bundle-ActivationPolicy: lazy
+Import-Package: javax.persistence

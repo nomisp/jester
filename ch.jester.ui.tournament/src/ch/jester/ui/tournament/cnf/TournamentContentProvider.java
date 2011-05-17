@@ -1,13 +1,20 @@
 package ch.jester.ui.tournament.cnf;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.ui.navigator.CommonViewer;
 
 import ch.jester.common.persistency.util.EventLoadMatchingFilter;
 import ch.jester.common.persistency.util.PersistencyListener;
+import ch.jester.common.ui.handlers.api.IHandlerDelete;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.common.utility.AdapterBinding;
+import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.util.ServiceUtility;
@@ -16,6 +23,7 @@ import ch.jester.dao.ITournamentDao;
 import ch.jester.model.Category;
 import ch.jester.model.Player;
 import ch.jester.model.Root;
+import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 
 /**
@@ -23,7 +31,7 @@ import ch.jester.model.Tournament;
  * @author Peter
  *
  */
-public class TournamentContentProvider implements ITreeContentProvider {
+public class TournamentContentProvider implements ITreeContentProvider, IHandlerDelete<Tournament> {
 
 	private static final Object[] EMPTY_ARRAY = new Object[0];
 	private Tournament[] tournaments;
@@ -58,7 +66,7 @@ public class TournamentContentProvider implements ITreeContentProvider {
 		} else if (parentElement instanceof Tournament) {
 			return getCategories((Tournament)parentElement);
 		} else if (parentElement instanceof Category) {
-			return getPlayers((Category)parentElement);
+			return getCategoryChildren((Category)parentElement);
 		}
 		return EMPTY_ARRAY;
 	}
@@ -94,14 +102,16 @@ public class TournamentContentProvider implements ITreeContentProvider {
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		this.viewer = viewer;
-
+		AdapterBinding binding = new AdapterBinding(((CommonViewer) viewer).getCommonNavigator());
+		binding.add(this, IHandlerDelete.class);
+		binding.bind();
 	}
 	
 	/**
 	 * Laden aller Turniere aus der Datenbank
 	 */
 	private void initializeTournaments() {
-		ITournamentDao tournamentPersister = su.getExclusiveService(ITournamentDao.class);
+		IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);
 		List<Tournament> allTournaments = tournamentPersister.executeNamedQuery("AllTournaments");
 //		tournaments = allTournaments.size() > 0 ? (Tournament[]) allTournaments.toArray() : new Tournament[0];
 		tournaments = getTournamentArray(allTournaments);
@@ -125,5 +135,51 @@ public class TournamentContentProvider implements ITreeContentProvider {
 		Object[] players = category.getPlayers().toArray();
 		if (players != null) return players;
 		return EMPTY_ARRAY;
+	}
+	
+	private Object[] getRounds(Category category) {
+		Object[] rounds = category.getRounds().toArray();
+		if (rounds != null) return rounds;
+		return EMPTY_ARRAY;
+	}
+	
+	/**
+	 * Liefert die Child Objekte einer Kategorie (Player und Rounds)
+	 * @param category
+	 * @return Object[] mit den Player und Round Objekten
+	 */
+	private Object[] getCategoryChildren(Category category) {
+		Set<Player> players = category.getPlayers();
+		Set<Round> rounds = category.getRounds();
+		List<Object> objects = new ArrayList<Object>();
+		objects.addAll(players);
+		objects.addAll(rounds);
+		return objects.toArray();
+	}
+
+//	@Override
+//	public void handleDelete(IEntityObject pObject) {
+//		if (pObject instanceof Tournament) {
+//			IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);
+//			tournamentPersister.delete((Tournament)pObject);
+//		}
+//	}
+//
+//	@Override
+//	public void handleDelete(List pList) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
+	@Override
+	public void handleDelete(Tournament pObject) {
+		IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);
+		tournamentPersister.delete(pObject);
+	}
+
+	@Override
+	public void handleDelete(List<Tournament> pList) {
+		// TODO Auto-generated method stub
+		
 	}
 }

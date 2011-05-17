@@ -3,6 +3,7 @@ package ch.jester.commonservices.api.persistency;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Query;
 
 /**
  * Service welcher die möglichkeit bietet, auf eine Entität zuzugreifen.
@@ -63,4 +64,5 @@ public interface IDaoService<T extends IEntityObject> {
 	 */
 	public List<T> executeNamedQuery(String namedQuery);
 
+	public Query createQuery(String query);
 }
