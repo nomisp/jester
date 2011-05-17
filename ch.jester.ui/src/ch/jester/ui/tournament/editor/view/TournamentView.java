@@ -1,5 +1,7 @@
 package ch.jester.ui.tournament.editor.view;
 
+import java.util.Collection;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -106,7 +108,7 @@ public class TournamentView extends AbstractView{
 		});
 
 		
-		IDaoService<Tournament> pdao= Activator.getDefault().getActivationContext().getService(ITournamentDao.class);
+		final IDaoService<Tournament> pdao= Activator.getDefault().getActivationContext().getService(ITournamentDao.class);
 		mController = new DaoController<Tournament>(this, getTable(), pdao){
 			@Override
 			public String[] observableProperties() {
@@ -117,6 +119,14 @@ public class TournamentView extends AbstractView{
 			public String callBackLabels(Tournament pDao) {
 				return pDao.getName()+" "+pDao.getDateFrom()+" - "+pDao.getDateTo();
 			}
+			public void handleAdd(Tournament pPlayer) {
+				super.handleAdd(pPlayer);
+				pdao.save(pPlayer);
+			};
+			public void handleAdd(Collection<Tournament> pPlayerCollection) {
+				super.handleAdd(pPlayerCollection);
+				pdao.save(pPlayerCollection);
+			};
 			
 		};
 		//Activator.getDefault().getActivationContext().getServiceUtil().registerService(DaoController.class, mController);
