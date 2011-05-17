@@ -49,7 +49,7 @@ public class DaoDeleteHandler extends AbstractCommandHandler {
 		monitor.beginTask("deleting", getSelectionCount()*2);
 		IHandlerDelete<IEntityObject> ctrl = AdapterUtility.getAdaptedObject(getActivePartFromEvent(), IHandlerDelete.class);
 		if(ctrl==null){
-			throw new RuntimeException("No IControlDelete found for: "+getActivePartFromEvent());
+			throw new RuntimeException("No IHandlerDelete found for: "+getActivePartFromEvent());
 		}
 		IEditorService editors = getServiceUtil().getService(IEditorService.class);
 		if(isIStructuredSelection()){
