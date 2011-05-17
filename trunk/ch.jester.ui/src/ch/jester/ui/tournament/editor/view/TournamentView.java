@@ -123,12 +123,9 @@ public class TournamentView extends AbstractView{
 		
 		//Registrierung von sich selbst, als StructuredViewer und PageController
 		AdapterBinding binding = new AdapterBinding(this);
-		binding.add(StructuredViewer.class, tableViewer);
-		binding.add(DaoController.class, mController);
-		binding.add(IHandlerDelete.class, mController);
-		binding.add(IHandlerAdd.class, mController);
-		binding.add(IHandlerEditor.class, mController);
-		binding.add(PageController.class, mController.getPageController());
+		binding.add(tableViewer, StructuredViewer.class);
+		binding.add(mController, DaoController.class, IHandlerDelete.class, IHandlerAdd.class, IHandlerEditor.class);
+		binding.add(mController.getPageController(), PageController.class);
 		binding.bind();
 	}
 

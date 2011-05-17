@@ -12,14 +12,19 @@ import org.eclipse.core.runtime.Platform;
 public class AdapterBinding implements IAdapterFactory{
 	private Object mInstance;
 	private HashMap<Class<?>, Object> mMap = new HashMap<Class<?>, Object>();
+	
 	/**
-	 * Assoziert die Klasse mit dem eigentlichen Objekt
+	 * Assoziert die Klassen mit dem eigentlichen Objekt
 	 * @param pType
 	 * @param object
 	 */
-	public void add(Class<?> pType, Object object){
-		mMap.put(pType, object);
+	public void add(Object object, Class<?>... pTypes){
+		for(Class<?> c:pTypes){
+			mMap.put(c, object);
+		}
+		
 	}
+	
 	/**
 	 * Registriert das Binding als IAdapterFactory an der Platform.
 	 */
@@ -31,7 +36,7 @@ public class AdapterBinding implements IAdapterFactory{
 	 * Constructor.
 	 * Das übergebene Objekt wird als Suchkriterium der Platform benutzt.
 	 * <br>
-	 * Die mit {@link AdapterBinding#add(Class, Object)} Registrationen können darauf für das Objekt <code>pInstance</code>
+	 * Die mit {@link AdapterBinding#add(Object, Class)} Registrationen können darauf für das Objekt <code>pInstance</code>
 	 * benutzt werden.
 	 * @param pInstance
 	 */

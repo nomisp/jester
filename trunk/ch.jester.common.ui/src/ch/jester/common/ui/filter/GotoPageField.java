@@ -69,7 +69,7 @@ public class GotoPageField extends
 		IWorkbenchLocationService part = (IWorkbenchLocationService) serviceLocator.getService(IWorkbenchLocationService.class);
 		Object view2 = part.getPartSite().getPart();
 		AdapterBinding factory = new AdapterBinding(view2);
-		factory.add(GotoPageField.class, this);
+		factory.add(this, GotoPageField.class);
 		factory.bind();
 		//System.out.println(serviceLocator);
 		
