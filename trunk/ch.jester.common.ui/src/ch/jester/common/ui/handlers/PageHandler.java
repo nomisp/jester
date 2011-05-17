@@ -1,7 +1,6 @@
 package ch.jester.common.ui.handlers;
 
 import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.ui.services.IEvaluationService;
 
 import ch.jester.common.ui.databinding.PageController;
 import ch.jester.common.ui.filter.GotoPageField;
