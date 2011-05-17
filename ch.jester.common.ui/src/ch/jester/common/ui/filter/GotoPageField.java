@@ -16,7 +16,7 @@ import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
 import org.eclipse.ui.services.IServiceLocator;
 
 import ch.jester.common.ui.utility.FontUtil;
-import ch.jester.common.utility.DefaultAdapterFactory;
+import ch.jester.common.utility.AdapterBinding;
 
 public class GotoPageField extends
 		WorkbenchWindowControlContribution implements IWorkbenchContribution {
@@ -68,9 +68,9 @@ public class GotoPageField extends
 	public void initialize(IServiceLocator serviceLocator) {
 		IWorkbenchLocationService part = (IWorkbenchLocationService) serviceLocator.getService(IWorkbenchLocationService.class);
 		Object view2 = part.getPartSite().getPart();
-		DefaultAdapterFactory factory = new DefaultAdapterFactory(view2);
+		AdapterBinding factory = new AdapterBinding(view2);
 		factory.add(GotoPageField.class, this);
-		factory.registerAtPlatform();
+		factory.bind();
 		//System.out.println(serviceLocator);
 		
 	}

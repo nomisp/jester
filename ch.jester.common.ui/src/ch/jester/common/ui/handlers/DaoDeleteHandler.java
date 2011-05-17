@@ -11,8 +11,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-
-import ch.jester.common.ui.databinding.DaoController;
+import ch.jester.common.ui.handlers.api.IHandlerDelete;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.utility.AdapterUtility;
@@ -48,12 +47,15 @@ public class DaoDeleteHandler extends AbstractCommandHandler {
 		ISelection selection = getSelection();
 		monitor.setTaskName("Deleting...");
 		monitor.beginTask("deleting", getSelectionCount()*2);
-		DaoController<IEntityObject> ctrl = AdapterUtility.getAdaptedObject(getActivePartFromEvent(), DaoController.class);
+		IHandlerDelete<IEntityObject> ctrl = AdapterUtility.getAdaptedObject(getActivePartFromEvent(), IHandlerDelete.class);
+		if(ctrl==null){
+			throw new RuntimeException("No IControlDelete found for: "+getActivePartFromEvent());
+		}
 		IEditorService editors = getServiceUtil().getService(IEditorService.class);
 		if(isIStructuredSelection()){
 			IStructuredSelection structSel = (IStructuredSelection) selection;
 			List<IEntityObject> list = structSel.toList();
-			ctrl.removeDaoObject(list);
+			ctrl.handleDelete(list);
 			monitor.worked(getSelectionCount());
 			monitor.done();
 			Iterator<Object> selectionIterator = structSel.iterator();

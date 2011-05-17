@@ -11,6 +11,11 @@ import org.eclipse.swt.dnd.Clipboard;
 import ch.jester.common.ui.utility.GlobalClipBoard;
 import ch.jester.common.ui.utility.SelectionUtility;
 
+/**
+ * Abstrakter PasteHandler, welcher einfach aus dem Clipborad die Daten holt, und an die Implementation
+ * weiterreicht
+ * @param <T>
+ */
 public abstract class ClonePasteHandler<T> extends AbstractCommandHandler {
 	Clipboard board = GlobalClipBoard.getInstance();
 	SelectionUtility mSelectionUtility = new SelectionUtility(null);
@@ -30,5 +35,9 @@ public abstract class ClonePasteHandler<T> extends AbstractCommandHandler {
 		return mSelectionUtility.getSelection();
 	}
 	
+	/**
+	 * @param pPastedList neue Objekte, welche eingefügt werden sollen
+	 * @return
+	 */
 	public abstract Object handlePaste(List<T> pPastedList);
 }

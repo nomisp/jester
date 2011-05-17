@@ -9,7 +9,7 @@ import ch.jester.common.persistency.util.ScrollableResultListJPA;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.ui.utility.UIUtility.IBusyRunnable;
-import ch.jester.common.utility.DefaultAdapterFactory;
+import ch.jester.common.utility.AdapterBinding;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
 //import ch.jester.commonservices.api.persistency.IDBStartupListener;

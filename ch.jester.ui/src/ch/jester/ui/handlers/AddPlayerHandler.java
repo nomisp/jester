@@ -13,7 +13,7 @@ public class AddPlayerHandler extends DaoAddHandler{
 	}
 
 	@Override
-	public IEntityObject getNewDaoObject() {
+	public IEntityObject getNewEntityObject() {
 		return ModelFactory.getInstance().createPlayer();
 	};
 			

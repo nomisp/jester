@@ -18,10 +18,13 @@ import org.eclipse.swt.widgets.TableColumn;
 
 import ch.jester.common.ui.databinding.DaoController;
 import ch.jester.common.ui.databinding.PageController;
+import ch.jester.common.ui.handlers.api.IHandlerAdd;
+import ch.jester.common.ui.handlers.api.IHandlerDelete;
+import ch.jester.common.ui.handlers.api.IHandlerEditor;
 import ch.jester.common.ui.listeners.DefaultSelectionCountListener;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.view.AbstractView;
-import ch.jester.common.utility.DefaultAdapterFactory;
+import ch.jester.common.utility.AdapterBinding;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.dao.ITournamentDao;
 import ch.jester.model.Tournament;
@@ -96,7 +99,7 @@ public class TournamentView extends AbstractView{
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				Object selectedObject = new SelectionUtility(event.getSelection()).getFirstSelected();
-				mController.openEditor(selectedObject);
+				mController.handleOpenEditor(selectedObject);
 				
 			}
 			
@@ -119,11 +122,14 @@ public class TournamentView extends AbstractView{
 		//Activator.getDefault().getActivationContext().getServiceUtil().registerService(DaoController.class, mController);
 		
 		//Registrierung von sich selbst, als StructuredViewer und PageController
-		DefaultAdapterFactory factory = new DefaultAdapterFactory(this);
-		factory.add(StructuredViewer.class, tableViewer);
-		factory.add(DaoController.class, mController);
-		factory.add(PageController.class, mController.getPageController());
-		factory.registerAtPlatform();
+		AdapterBinding binding = new AdapterBinding(this);
+		binding.add(StructuredViewer.class, tableViewer);
+		binding.add(DaoController.class, mController);
+		binding.add(IHandlerDelete.class, mController);
+		binding.add(IHandlerAdd.class, mController);
+		binding.add(IHandlerEditor.class, mController);
+		binding.add(PageController.class, mController.getPageController());
+		binding.bind();
 	}
 
 }

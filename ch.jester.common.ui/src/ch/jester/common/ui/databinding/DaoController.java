@@ -20,6 +20,9 @@ import org.eclipse.ui.part.ViewPart;
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editor.EditorAccessor.EditorAccess;
 import ch.jester.common.ui.editor.IEditorInputAccess;
+import ch.jester.common.ui.handlers.api.IHandlerAdd;
+import ch.jester.common.ui.handlers.api.IHandlerDelete;
+import ch.jester.common.ui.handlers.api.IHandlerEditor;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.PartListener2Adapter;
@@ -34,7 +37,7 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 
 
-public abstract class DaoController<T extends IEntityObject> {
+public abstract class DaoController<T extends IEntityObject> implements IHandlerDelete<T>, IHandlerAdd<T>, IHandlerEditor<T> {
 	private TableViewer mViewer;
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
@@ -75,15 +78,27 @@ public abstract class DaoController<T extends IEntityObject> {
 		return (IPartService)mPart.getSite().getService(IPartService.class);
 	}
 	
-	public void addDaoObject(T pPlayer) {
-		addDaoObject(createList(pPlayer));
+	/* (non-Javadoc)
+	 * @see ch.jester.common.ui.databinding.IControlAdd#addEntity(T)
+	 */
+	@Override
+	public void handleAdd(T pPlayer) {
+		handleAdd(createList(pPlayer));
 	}
-	public void addDaoObject(Collection<T> pPlayerCollection) {
+	/* (non-Javadoc)
+	 * @see ch.jester.common.ui.databinding.IControlAdd#addEntity(java.util.Collection)
+	 */
+	@Override
+	public void handleAdd(Collection<T> pPlayerCollection) {
 		obsModel.addAll(pPlayerCollection);
 		context.updateTargets();
 	}
+	/* (non-Javadoc)
+	 * @see ch.jester.common.ui.databinding.IControlEditor#openEditor(java.lang.Object)
+	 */
+	@Override
 	@SuppressWarnings("rawtypes")
-	public void openEditor(Object pObject){
+	public void handleOpenEditor(Object pObject){
 		IEditorService eService = mServices.getService(IEditorService.class);
 		if(!eService.isEditorRegistred(pObject)){return;}
 		final EditorAccess access = eService.openEditor(pObject);	
@@ -94,10 +109,18 @@ public abstract class DaoController<T extends IEntityObject> {
 		}
 	}
 	
-	public void removeDaoObject(T pObject) {
-		removeDaoObject(createList(pObject));
+	/* (non-Javadoc)
+	 * @see ch.jester.common.ui.databinding.IControllerDelete#removeEntity(T)
+	 */
+	@Override
+	public void handleDelete(T pObject) {
+		handleDelete(createList(pObject));
 	}
-	public void removeDaoObject(final List<T> pList) {
+	/* (non-Javadoc)
+	 * @see ch.jester.common.ui.databinding.IControllerDelete#removeEntity(java.util.List)
+	 */
+	@Override
+	public void handleDelete(final List<T> pList) {
 		
 		UIUtility.syncExecInUIThread(new Runnable() {
 			@Override

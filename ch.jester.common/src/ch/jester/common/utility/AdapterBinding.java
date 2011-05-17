@@ -5,17 +5,37 @@ import java.util.HashMap;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.Platform;
 
-public class DefaultAdapterFactory implements IAdapterFactory{
+/**
+ * Hilfklasse für die Registrierung von IAdaptable
+ *
+ */
+public class AdapterBinding implements IAdapterFactory{
 	private Object mInstance;
 	private HashMap<Class<?>, Object> mMap = new HashMap<Class<?>, Object>();
+	/**
+	 * Assoziert die Klasse mit dem eigentlichen Objekt
+	 * @param pType
+	 * @param object
+	 */
 	public void add(Class<?> pType, Object object){
 		mMap.put(pType, object);
 	}
-	public void registerAtPlatform() {
+	/**
+	 * Registriert das Binding als IAdapterFactory an der Platform.
+	 */
+	public void bind() {
 		Platform.getAdapterManager().registerAdapters(this, mInstance.getClass());
 		
 	}
-	public DefaultAdapterFactory(Object pInstance){
+	/**
+	 * Constructor.
+	 * Das übergebene Objekt wird als Suchkriterium der Platform benutzt.
+	 * <br>
+	 * Die mit {@link AdapterBinding#add(Class, Object)} Registrationen können darauf für das Objekt <code>pInstance</code>
+	 * benutzt werden.
+	 * @param pInstance
+	 */
+	public AdapterBinding(Object pInstance){
 		mInstance=pInstance;
 	}
 	@Override
