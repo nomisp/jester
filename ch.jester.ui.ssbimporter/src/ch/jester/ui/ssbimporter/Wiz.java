@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardContainer;
@@ -36,13 +38,30 @@ public class Wiz extends Wizard implements IImportWizard{
 			this.getContainer().run(false, false, new IRunnableWithProgress() {
 				
 				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException,
+				public void run(final IProgressMonitor monitor) throws InvocationTargetException,
 						InterruptedException {
-					ImportSelection input = mainPage.getImportSelection();
+					final ImportSelection input = mainPage.getImportSelection();
 					mLogger.debug("Zip: "+input.getSelectedZipFile());
 					mLogger.debug("Handler: "+input.getSelectedHandlerEntry());	
-					InputStream instream = ZipUtility.getZipEntry(input.getSelectedZipFile(), input.getSelectedZipEntry());
-					input.getSelectedHandlerEntry().getService().handleImport(instream, monitor);
+					final InputStream instream = ZipUtility.getZipEntry(input.getSelectedZipFile(), input.getSelectedZipEntry());
+					
+					SafeRunner.run(new ISafeRunnable() {
+						
+						@Override
+						public void run() throws Exception {
+							//TODO Handle Exception wenn Altes Excelfile
+							input.getSelectedHandlerEntry().getService().handleImport(instream, monitor);
+							
+						}
+						
+						@Override
+						public void handleException(Throwable exception) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+						
+					
 					
 					
 				}

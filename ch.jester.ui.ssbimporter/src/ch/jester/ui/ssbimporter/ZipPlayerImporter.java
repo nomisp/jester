@@ -16,6 +16,7 @@ import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
@@ -68,6 +69,8 @@ public class ZipPlayerImporter extends WizardPage {
 	private Button mBtnBrowse;
 	private ComboViewer comboProviderViewer;
 	private ComboViewer comboDownloadViewer;
+	
+	private ImportHandlerManager ihm = new ImportHandlerManager();
 	
 	private boolean enableWebOptions = false;
 	/**
@@ -200,6 +203,17 @@ public class ZipPlayerImporter extends WizardPage {
 		
 		
 		listViewer.setContentProvider(new ImportHandlerProvider());
+		listViewer.setLabelProvider(new LabelProvider(){
+			
+			@Override
+			public String getText(Object element) {
+				if(element instanceof IWebImportHandlerEntry){
+					IWebImportHandlerEntry entry= (IWebImportHandlerEntry) element;
+					return entry.getDescription();
+				}
+				return element.toString();
+			}
+		});
 
 		listViewer.setInput(NULL_INPUT);
 
@@ -314,17 +328,7 @@ public class ZipPlayerImporter extends WizardPage {
 			if(manager==null){
 				return new Object[]{};
 			}
-
-			List<IWebImportHandlerEntry> webHandlers = new ArrayList<IWebImportHandlerEntry>();
-			List<IImportHandlerEntry> handlers = manager.getRegistredEntries();
-			for(IImportHandlerEntry e:handlers){
-				if(e instanceof IWebImportHandlerEntry){
-					webHandlers.add((IWebImportHandlerEntry)e);
-				}
-			}
-			//handlers = manager.filter(manager.createMatchingExtension("web"));
-			//System.out.println("ab");
-			return webHandlers.toArray();
+			return ihm.getAvailableHandlers().toArray();
 		}
 		
 	}
@@ -345,17 +349,17 @@ public class ZipPlayerImporter extends WizardPage {
 			if(manager==null||inputElement==null){
 				return new Object[]{};
 			}
-			List<IImportHandlerEntry> handlers = null;
-			/*if(text.getText().length()==0 || inputElement==null){
-				handlers = manager.getRegistredEntries();
-			}else*/ if(inputElement instanceof String){
+			List<? extends IImportHandlerEntry> handlers = ihm.getAvailableHandlers();
+			if(inputElement instanceof String){
 				String input = (String) inputElement;
 				if(input.lastIndexOf(".")==-1){
 					return new Object[]{};
 				}
 				String extension = input.substring(input.lastIndexOf(".")+1);
 				
-				handlers = manager.filter(manager.createMatchingExtension(extension));
+				List<IImportHandlerEntry> allWithExtensions =  manager.filter(manager.createMatchingExtension(extension));
+				allWithExtensions.retainAll(handlers);
+				return allWithExtensions.toArray();
 			}else{
 				handlers = manager.getRegistredEntries();
 			}
@@ -364,6 +368,40 @@ public class ZipPlayerImporter extends WizardPage {
 	}
 	
 
+	private class ImportHandlerManager{
+		private List<IImportHandlerEntry> entries;
+		private List<IWebImportHandlerEntry> webentries;
+		private int mode = 2;
+		public ImportHandlerManager(){
+			IImportManager manager = mService.getService(IImportManager.class);
+			List<IImportHandlerEntry> handlers = manager.getRegistredEntries();
+			webentries = new ArrayList<IWebImportHandlerEntry>();
+			entries = new ArrayList<IImportHandlerEntry>();
+			for(IImportHandlerEntry e:handlers){
+				if(e instanceof IWebImportHandlerEntry){
+					webentries.add((IWebImportHandlerEntry)e);
+				}else{
+					entries.add(e);
+				}
+			}
+		}
+		void mode_Web(){
+			mode = 1;
+			System.out.println(mode);
+		}
+		
+		void mode_Zip(){
+			mode = 2;
+			System.out.println(mode);
+		}
+		
+		public List<? extends IImportHandlerEntry> getAvailableHandlers(){
+			return mode==2?entries:webentries;
+		}
+		
+	}
+	
+	
 	private class HandlerSelectionListener implements ISelectionChangedListener {
 		SelectionUtility su = new SelectionUtility(null);
 
@@ -422,7 +460,9 @@ public class ZipPlayerImporter extends WizardPage {
 			System.out.println(btn);
 			boolean selected = btn.getSelection();
 			if(btn == rdZip&&selected){
+				ihm.mode_Zip();
 				enable(true);
+				
 			}else{
 				text.setText("");
 				enable(false);
@@ -440,6 +480,7 @@ public class ZipPlayerImporter extends WizardPage {
 			System.out.println(btn);
 			boolean selected = btn.getSelection();
 			if(btn == rdWeb && selected){
+				ihm.mode_Web();
 				comboProviderViewer.setInput(1);
 				enable(true);
 				
