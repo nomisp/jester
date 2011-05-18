@@ -108,17 +108,6 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 			getPartService().addPartListener(new NestedPartListener(access));
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see ch.jester.common.ui.databinding.IControllerDelete#removeEntity(T)
-	 */
-	@Override
-	public void handleDelete(T pObject) {
-		handleDelete(createList(pObject));
-	}
-	/* (non-Javadoc)
-	 * @see ch.jester.common.ui.databinding.IControllerDelete#removeEntity(java.util.List)
-	 */
 	@Override
 	public void handleDelete(final List<T> pList) {
 		
