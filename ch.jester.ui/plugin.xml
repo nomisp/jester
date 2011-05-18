@@ -312,7 +312,7 @@
       <definition
             id="ch.jester.ui.hasPasteContentAndIsTargetValid">
          <test
-               forcePluginActivation="false"
+               forcePluginActivation="true"
                property="ch.jester.properties.clipboardFilled">
          </test>
       </definition>
