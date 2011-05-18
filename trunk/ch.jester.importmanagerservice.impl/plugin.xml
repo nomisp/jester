@@ -5,24 +5,28 @@
          point="ch.jester.commonservices.api.ImportHandler">
       <ImportHandler
             class="ch.jester.importmanagerservice.impl.internal.finalimpl.SSBExcelImporter2"
+            id="ch.jester.ssb.xls.importer"
             shortType="*.xls"
             typeDescription="SSB Excel Importer">
       </ImportHandler>
       <ImportHandler
             class="ch.jester.importmanagerservice.impl.internal.finalimpl.FIDETextImporter"
+            id="ch.jester.fide.txt.importer"
             shortType="*.txt"
             typeDescription="FIDE Text Importer">
       </ImportHandler>
-      <ImportHandler
-            class="ch.jester.importmanagerservice.impl.internal.finalimpl.webadapters.FIDEWebAdapter"
-            shortType="*.web"
-            typeDescription="FIDE">
-      </ImportHandler>
-      <ImportHandler
+      <WebImportAdapter
+            ImportHandlerId="ch.jester.ssb.xls.importer"
             class="ch.jester.importmanagerservice.impl.internal.finalimpl.webadapters.SSBWebAdapter"
-            shortType="*.web"
-            typeDescription="SSB">
-      </ImportHandler>
+            dataProviderDescription="SSB Webpage"
+            dataProviderId="ch.jester.dataprovider.ssb">
+      </WebImportAdapter>
+      <WebImportAdapter
+            ImportHandlerId="ch.jester.fide.txt.importer"
+            class="ch.jester.importmanagerservice.impl.internal.finalimpl.webadapters.FIDEWebAdapter"
+            dataProviderDescription="FIDE Webpage"
+            dataProviderId="ch.jester.dataprovider.fide">
+      </WebImportAdapter>
    </extension>
 
 </plugin>

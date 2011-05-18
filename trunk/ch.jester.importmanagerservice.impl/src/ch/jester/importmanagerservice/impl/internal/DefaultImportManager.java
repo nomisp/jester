@@ -10,6 +10,7 @@ import ch.jester.common.components.AbstractEPComponent;
 import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
+import ch.jester.commonservices.api.importer.IWebImportAdapter;
 
 /**
  * Defaultimplementation<br>
@@ -60,7 +61,10 @@ public class DefaultImportManager extends AbstractEPComponent<IImportHandlerEntr
 	}
 
 	@Override
-	protected DefaultImportHandlerEntry createEntry(IImportHandler o) {
+	protected IImportHandlerEntry createEntry(IImportHandler o) {
+		if(o instanceof IWebImportAdapter){
+			return new WebAdapterHandlerEntry((IWebImportAdapter) o);
+		}
 		return new DefaultImportHandlerEntry(o);
 	}
 
