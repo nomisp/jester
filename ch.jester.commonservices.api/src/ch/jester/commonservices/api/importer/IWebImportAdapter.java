@@ -13,5 +13,7 @@ public interface IWebImportAdapter extends IImportHandler<Object> {
 	 * @return
 	 * @throws IOException
 	 */
+	public void setIImportHandler(IImportHandler pAdaptedHandler);
+	
 	public List<ILink> getLinks()  throws IOException ;
 } 

@@ -9,6 +9,7 @@ import ch.jester.common.web.ExtensionFilter;
 import ch.jester.common.web.Link;
 import ch.jester.common.web.LinkFilter;
 import ch.jester.common.web.PageReader;
+import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
 
@@ -37,6 +38,12 @@ public class FIDEWebAdapter implements IWebImportAdapter {
 			mLinkList = linkfilter.getLinks();
 		}
 		return mLinkList;
+	}
+
+	@Override
+	public void setIImportHandler(IImportHandler pAdaptedHandler) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

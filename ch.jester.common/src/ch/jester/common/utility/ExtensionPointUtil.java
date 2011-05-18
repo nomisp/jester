@@ -58,6 +58,7 @@ public class ExtensionPointUtil {
 					String key = pKeyValuePair[i];
 					String value = pKeyValuePair[++i];
 					String elementValue = element.getAttribute(key);
+					if(elementValue==null){continue;}
 					if(elementValue .equals(value)){
 						return element;
 					}

@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import ch.jester.common.web.ExtensionFilter;
 import ch.jester.common.web.LinkFilter;
 import ch.jester.common.web.PageReader;
+import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
 
@@ -37,6 +38,12 @@ public class SSBWebAdapter implements IWebImportAdapter {
 			mLinkList = linkfilter.getLinks();
 		}
 		return mLinkList;
+	}
+
+	@Override
+	public void setIImportHandler(IImportHandler pAdaptedHandler) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

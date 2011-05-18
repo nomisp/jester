@@ -4,6 +4,7 @@ package ch.jester.ui.ssbimporter;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -40,6 +41,7 @@ import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
+import ch.jester.commonservices.api.importer.IWebImportHandlerEntry;
 import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.util.ServiceUtility;
 
@@ -312,10 +314,17 @@ public class ZipPlayerImporter extends WizardPage {
 			if(manager==null){
 				return new Object[]{};
 			}
-			List<IImportHandlerEntry> handlers = null;
-			handlers = manager.filter(manager.createMatchingExtension("web"));
+
+			List<IWebImportHandlerEntry> webHandlers = new ArrayList<IWebImportHandlerEntry>();
+			List<IImportHandlerEntry> handlers = manager.getRegistredEntries();
+			for(IImportHandlerEntry e:handlers){
+				if(e instanceof IWebImportHandlerEntry){
+					webHandlers.add((IWebImportHandlerEntry)e);
+				}
+			}
+			//handlers = manager.filter(manager.createMatchingExtension("web"));
 			//System.out.println("ab");
-			return handlers.toArray();
+			return webHandlers.toArray();
 		}
 		
 	}
