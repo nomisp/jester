@@ -24,7 +24,6 @@ public abstract class ClonePasteHandler<T> extends AbstractCommandHandler {
 	public Object executeInternal(ExecutionEvent event) {
 		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
 		mSelectionUtility.setSelection((IStructuredSelection) board.getContents(transfer));
-		// TODO NPE abfangen bei startup / Handler aktiv! warum?
 		return handlePaste(mSelectionUtility.getAsStructuredSelection().toList());
 	}
 	
