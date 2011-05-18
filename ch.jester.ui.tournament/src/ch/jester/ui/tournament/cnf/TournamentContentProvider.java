@@ -171,15 +171,12 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 //		
 //	}
 
-	@Override
-	public void handleDelete(Tournament pObject) {
-		IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);
-		tournamentPersister.delete(pObject);
-	}
 
 	@Override
 	public void handleDelete(List<Tournament> pList) {
-		// TODO Auto-generated method stub
-		
+		for(Tournament t:pList){
+			IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);
+			tournamentPersister.delete(t);
+		}
 	}
 }
