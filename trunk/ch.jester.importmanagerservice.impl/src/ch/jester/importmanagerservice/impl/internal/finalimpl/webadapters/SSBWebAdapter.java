@@ -19,6 +19,7 @@ public class SSBWebAdapter implements IWebImportAdapter {
 	private List<ILink> mLinkList;
 	private LinkFilter linkfilter;
 	private PageReader reader = new PageReader();
+	private IImportHandler mAdaptedHandler;
 	public SSBWebAdapter() {
 		reader.setFilter(new ExtensionFilter(".zip", linkfilter=LinkFilter.createSSBFilter()));
 		reader.setDownloadRoot(WEB_DL);
@@ -27,8 +28,7 @@ public class SSBWebAdapter implements IWebImportAdapter {
 	@Override
 	public Object handleImport(InputStream pInputStream,
 			IProgressMonitor pMonitor) {
-		// TODO Auto-generated method stub
-		return null;
+		return mAdaptedHandler.handleImport(pInputStream, pMonitor);
 	}
 
 	@Override
@@ -42,8 +42,7 @@ public class SSBWebAdapter implements IWebImportAdapter {
 
 	@Override
 	public void setIImportHandler(IImportHandler pAdaptedHandler) {
-		// TODO Auto-generated method stub
-		
+		mAdaptedHandler=pAdaptedHandler;
 	}
 
 }

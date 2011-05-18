@@ -6,7 +6,6 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.common.web.ExtensionFilter;
-import ch.jester.common.web.Link;
 import ch.jester.common.web.LinkFilter;
 import ch.jester.common.web.PageReader;
 import ch.jester.commonservices.api.importer.IImportHandler;
@@ -19,6 +18,7 @@ public class FIDEWebAdapter implements IWebImportAdapter {
 	private List<ILink> mLinkList;
 	private LinkFilter linkfilter;
 	private PageReader reader = new PageReader();
+	private IImportHandler mAdaptedHandler;
 	public FIDEWebAdapter() {
 		reader.setFilter(new ExtensionFilter(".zip", linkfilter=LinkFilter.createFIDEFilter()));
 
@@ -27,8 +27,7 @@ public class FIDEWebAdapter implements IWebImportAdapter {
 	@Override
 	public Object handleImport(InputStream pInputStream,
 			IProgressMonitor pMonitor) {
-		// TODO Auto-generated method stub
-		return null;
+		return mAdaptedHandler.handleImport(pInputStream, pMonitor);
 	}
 
 	@Override
@@ -42,8 +41,7 @@ public class FIDEWebAdapter implements IWebImportAdapter {
 
 	@Override
 	public void setIImportHandler(IImportHandler pAdaptedHandler) {
-		// TODO Auto-generated method stub
-		
+		mAdaptedHandler=pAdaptedHandler;
 	}
 
 }
