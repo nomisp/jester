@@ -13,6 +13,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import ch.jester.common.ui.editor.IEditorDaoInputAccess;
 import ch.jester.common.ui.handlers.AbstractCommandHandler;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Category;
@@ -43,7 +44,7 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 		return null;
 	}
 
-	public class CategoryEditorInput implements IEditorInput {
+	public class CategoryEditorInput implements IEditorDaoInputAccess {
 		
 		private final Integer id;
 		
@@ -105,5 +106,23 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 	            return false;
 	        return true;
 	    }
+
+		@Override
+		public Object getInput() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setInput(Object pT) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean isAlreadyDirty() {
+			// TODO Auto-generated method stub
+			return false;
+		}
 	}
 }
