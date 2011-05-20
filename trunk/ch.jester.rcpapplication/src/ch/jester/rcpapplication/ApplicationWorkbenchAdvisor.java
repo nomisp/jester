@@ -9,6 +9,7 @@ import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.eclipselabs.p2.rcpupdate.utils.P2Util;
 
 import ch.jester.commonservices.api.logging.ILogger;
 
@@ -52,5 +53,9 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
         }
         return super.restoreState(memento);
     }
-
+    
+    @Override
+    public void preStartup() {
+        P2Util.checkForUpdates();
+    }
 }
