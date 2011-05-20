@@ -14,6 +14,8 @@ import ch.jester.model.Root;
  */
 public class TournamentNavigator extends CommonNavigator {
 
+	public static final String ID = "ch.jester.ui.tournament.cnf.view";
+	
 	public TournamentNavigator() {
 		
 	}

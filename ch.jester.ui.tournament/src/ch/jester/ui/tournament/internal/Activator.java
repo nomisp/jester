@@ -3,6 +3,10 @@ package ch.jester.ui.tournament.internal;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
+import ch.jester.common.ui.editor.GenericDaoInputAccess;
+import ch.jester.common.ui.services.IEditorService;
+import ch.jester.model.Category;
+import ch.jester.ui.tournament.editors.WirePlayerEditor;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -23,7 +27,9 @@ public class Activator extends AbstractUIActivator {
 	}
 
 	public void startDelegate(BundleContext context) {
-		
+		//Editor an InputTyp binden
+		IEditorService openService = getActivationContext().getService(IEditorService.class);
+		openService.register(Category.class, GenericDaoInputAccess.class, WirePlayerEditor.ID);
 	}
 
 	public void stopDelegate(BundleContext context) {

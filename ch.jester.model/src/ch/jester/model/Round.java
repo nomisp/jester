@@ -28,7 +28,7 @@ public class Round extends AbstractModelBean<Round> {
 	@ManyToOne
 	private Category category;
 	
-	@OneToMany(mappedBy="round", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="round", cascade={CascadeType.ALL}, orphanRemoval=true)
 	private Set<Pairing> pairings = new HashSet<Pairing>();
 
 	public Integer getNumber() {

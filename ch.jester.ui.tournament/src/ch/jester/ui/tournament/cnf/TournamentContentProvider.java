@@ -21,6 +21,7 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.ICategoryDao;
 import ch.jester.dao.ITournamentDao;
 import ch.jester.model.Category;
+import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.Root;
 import ch.jester.model.Round;
@@ -67,13 +68,19 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 			return getCategories((Tournament)parentElement);
 		} else if (parentElement instanceof Category) {
 			return getCategoryChildren((Category)parentElement);
+		} else if (parentElement instanceof Round) {
+			return getPairings((Round)parentElement);
 		}
 		return EMPTY_ARRAY;
 	}
 
 	@Override
 	public Object getParent(Object element) {
-		if (element instanceof Player) {
+		if (element instanceof Pairing) {
+			return ((Pairing)element).getRound();
+		} else if (element instanceof Round) {
+			return ((Round)element).getCategory();
+		} else if (element instanceof Player) {
 			ICategoryDao categoryPersister = su.getExclusiveService(ICategoryDao.class);
 			return categoryPersister.findByPlayer((Player)element);
 		} else if (element instanceof Category) {
@@ -155,6 +162,12 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 		objects.addAll(players);
 		objects.addAll(rounds);
 		return objects.toArray();
+	}
+	
+	private Object[] getPairings(Round round) {
+		Object[] pairings = round.getPairings().toArray();
+		if (pairings != null) return pairings;
+		return EMPTY_ARRAY;
 	}
 
 //	@Override

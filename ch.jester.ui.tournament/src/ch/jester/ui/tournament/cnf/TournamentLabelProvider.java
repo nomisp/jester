@@ -7,6 +7,7 @@ import org.eclipse.ui.navigator.IDescriptionProvider;
 
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Category;
+import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
@@ -35,6 +36,15 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 			StringBuffer sb = new StringBuffer("Round ");
 			sb.append(round.getNumber());
 			return  sb.toString();
+		} else if (element instanceof Pairing) {
+			Pairing pairing = ((Pairing)element);
+			StringBuffer sb = new StringBuffer();
+			sb.append(pairing.getWhite().getLastName());
+			sb.append("-");
+			sb.append(pairing.getBlack().getLastName());
+			sb.append(" : ");
+			sb.append(pairing.getResult());
+			return  sb.toString();
 		}
 		return null;
 	}
@@ -56,6 +66,15 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 			Round round = ((Round)element);
 			StringBuffer sb = new StringBuffer("Round ");
 			sb.append(round.getNumber());
+			return  sb.toString();
+		} else if (element instanceof Pairing) {
+			Pairing pairing = ((Pairing)element);
+			StringBuffer sb = new StringBuffer();
+			sb.append(pairing.getWhite().getLastName());
+			sb.append("-");
+			sb.append(pairing.getBlack().getLastName());
+			sb.append(": ");
+			sb.append(pairing.getResult());
 			return  sb.toString();
 		}
 		return text;
@@ -84,6 +103,10 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
 						"icons/round_16x16.gif").createImage();
+		} else if (element instanceof Pairing) {
+			return UIUtility.getImageDescriptor(
+					Activator.getDefault().getActivationContext().getPluginId(),
+						"icons/player_link_16x16.png").createImage();
 		}
 		return null;
 	}
