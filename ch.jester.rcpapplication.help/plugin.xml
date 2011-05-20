@@ -50,6 +50,17 @@
                   name="ch.jester.rcpapplication.help.separator1"
                   visible="true">
             </separator>
+            <separator
+                  name="ch.jester.rcpapplication.help.separator1">
+            </separator>
+            <command
+                  commandId="org.eclipselabs.p2.rcpupdate.install"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipselabs.p2.rcpupdate.update"
+                  style="push">
+            </command>
             <command
                   commandId="org.eclipse.ui.help.aboutAction"
                   style="push">
