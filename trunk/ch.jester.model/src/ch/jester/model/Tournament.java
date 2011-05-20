@@ -59,7 +59,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	@Column(name="EloCalculator", nullable=false)
 	private String eloCalculator; // EloCalculator (als deklarativer Service implementiert) entspricht dem EP-Attribut: class
 	
-	@OneToMany(mappedBy="tournament", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="tournament", cascade={CascadeType.ALL}, orphanRemoval=true)
 //	@JoinTable(name = "TournamentCategoryAss",
 //	        joinColumns = {@JoinColumn(name = "TournamentId")},
 //	        inverseJoinColumns = {@JoinColumn(name = "CategoryId")})

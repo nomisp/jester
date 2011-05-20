@@ -46,7 +46,7 @@ public class Category extends AbstractModelBean<Category> {
 	@Column(name="MaxRounds")
 	private Integer maxRounds; // Maximale Anzahl Runden, die in dieser Kategorie gespielt werden
 	
-	@OneToMany(mappedBy="category", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
 //	@JoinTable(name = "CategoryRoundAss",
 //	        joinColumns = {@JoinColumn(name = "CategoryId")},
 //	        inverseJoinColumns = {@JoinColumn(name = "RoundId")})

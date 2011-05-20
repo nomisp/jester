@@ -82,12 +82,12 @@
             name="%RenameTournament">
       </command>
       <command
-            defaultHandler="ch.jester.ui.tournament.handler.AddPlayerHandler"
+            description="%WirePlayerToCategoryDescr"
             id="cnf.popup.addPlayer"
             name="%AddPlayer">
       </command>
       <command
-            defaultHandler="ch.jester.ui.tournament.handler.PairingHandler"
+            description="%RunPairingDescr"
             id="ch.jester.ui.tournament.pairing"
             name="%RunPairing">
       </command>
@@ -125,6 +125,9 @@
 	      		<instanceof value="ch.jester.model.Player"/>
          <instanceof
                value="ch.jester.model.Round">
+         </instanceof>
+         <instanceof
+               value="ch.jester.model.Pairing">
          </instanceof>
 	      	</or>
 		  </possibleChildren>
@@ -234,11 +237,25 @@
             id="ch.jester.ui.tournament.categorySelected">
          <with
                variable="selection">
-            <instanceof
-                  value="ch.jester.model.Category">
-            </instanceof>
+            <iterate
+                  ifEmpty="false"
+                  operator="or">
+               <instanceof
+                     value="ch.jester.model.Category">
+               </instanceof>
+            </iterate>
          </with>
       </definition>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="ch.jester.ui.tournament.editors.WirePlayerEditor"
+            default="false"
+            icon="icons/player_add_16x16.png"
+            id="ch.jester.ui.tournament.wirePlayerEditor"
+            name="%WirePlayerEditor">
+      </editor>
    </extension>
 
 </plugin>
