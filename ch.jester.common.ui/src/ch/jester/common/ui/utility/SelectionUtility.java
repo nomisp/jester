@@ -10,6 +10,9 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 public class SelectionUtility {
 	ISelection mSelection;
 	
+	/**Die aktuelle zu verarbeitende Selection oder null
+	 * @param pSelection
+	 */
 	public SelectionUtility(ISelection pSelection){
 		setSelection(pSelection);
 	}
@@ -47,6 +50,9 @@ public class SelectionUtility {
 		return (getSelection() instanceof IStructuredSelection);
 	}
 	
+	/**
+	 * @return IStructuredSelection oder null, wenn es keine StructuredSelection ist
+	 */
 	public IStructuredSelection getAsStructuredSelection(){
 		if(isIStructuredSelection()){
 			return (IStructuredSelection) mSelection;
@@ -77,6 +83,12 @@ public class SelectionUtility {
 		}
 	}
 	
+	/**
+	 * Castet das erste seleketierte Element in die übergebene Klasse und gibt dieses zurück
+	 * @param <T>
+	 * @param clz
+	 * @return Objekt von <code>clz</code> oder null, wenn es nicht gecastet werden kann
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getFirstSelectedAs(Class<T> clz){
 		if(getFirstSelected()!=null){
