@@ -140,6 +140,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <features>
       <feature id="ch.jester.rcpapplication.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.rcp.nl_de" version="3.5.0"/>
    </features>
 
    <configurations>
