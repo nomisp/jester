@@ -36,8 +36,12 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 	}
 
 	/**
-	 * Implementiert die eigentliche Logik in der Subklasse
-	 * 
+	 * Implementiert die eigentliche Logik in der Subklasse.
+	 * <br>
+	 * {@link AbstractCommandHandler#mEvent}
+	 * {@link AbstractCommandHandler#mSelUtility},
+	 * {@link AbstractCommandHandler#mServiceUtility},
+	 * sind initialisiert (mit dem aktuellen event) und von Subklassen benutzbar
 	 * @param event
 	 * @return
 	 */
