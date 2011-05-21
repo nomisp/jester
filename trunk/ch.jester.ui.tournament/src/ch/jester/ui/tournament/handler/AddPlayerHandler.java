@@ -15,6 +15,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import ch.jester.common.ui.editor.IEditorDaoInputAccess;
 import ch.jester.common.ui.handlers.AbstractCommandHandler;
+import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Category;
 import ch.jester.ui.tournament.editors.WirePlayerEditor;
@@ -23,6 +24,7 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
+		//alternative(event);
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		IWorkbenchPage page = window.getActivePage();
 		ISelection selection = getSelection();
@@ -42,6 +44,18 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 			}
 		}
 		return null;
+	}
+
+	/**Alternative zu obigen Aufruf, da ja der EditorService im Activator schon an die
+	 * Cat gebunden ist, gehts auch einfacher
+	 * @param event
+	 */
+	private void alternative(ExecutionEvent event) {
+		Category cat = mSelUtility.getFirstSelectedAs(Category.class);
+		if(cat!=null){
+			getServiceUtil().getService(IEditorService.class).openEditor(cat);
+		}
+		
 	}
 
 	public class CategoryEditorInput implements IEditorDaoInputAccess {
