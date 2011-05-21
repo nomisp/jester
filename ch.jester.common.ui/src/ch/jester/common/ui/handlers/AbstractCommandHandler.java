@@ -151,6 +151,9 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 	public void openEditor(Object pObject){
 		getServiceUtil().getService(IEditorService.class).openEditor(pObject);
 	}
+	public void openEditor(Object pObject, String pEditorId){
+		getServiceUtil().getService(IEditorService.class).openEditor(pObject,pEditorId);
+	}
 	
 	
 	public int getSelectionCount(){
