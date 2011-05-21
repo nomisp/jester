@@ -19,6 +19,10 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 
+/**
+ * Aus  org.eclipse.ui.editor.text geklaut
+ *
+ */
 public class ImageStatusLineContributionItem extends ContributionItem {
 
 	/**

@@ -9,6 +9,12 @@ import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
+/**
+ * SelectionListener welcher<br>
+ * 'x Item(s) selected' <br>
+ * dem StatusLineManager übergibt
+ *
+ */
 public class DefaultSelectionCountListener implements ISelectionChangedListener{
 		private ServiceUtility mServices = new ServiceUtility(FrameworkUtil.getBundle(
 				DefaultSelectionCountListener.this.getClass()).getBundleContext());
