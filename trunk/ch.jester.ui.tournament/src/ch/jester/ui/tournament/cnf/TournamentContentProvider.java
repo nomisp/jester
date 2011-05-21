@@ -68,6 +68,8 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 			return getCategories((Tournament)parentElement);
 		} else if (parentElement instanceof Category) {
 			return getCategoryChildren((Category)parentElement);
+		} else if (parentElement instanceof PlayerFolder) {
+			return ((PlayerFolder)parentElement).getElements();
 		} else if (parentElement instanceof Round) {
 			return getPairings((Round)parentElement);
 		}
@@ -83,6 +85,8 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 		} else if (element instanceof Player) {
 			ICategoryDao categoryPersister = su.getExclusiveService(ICategoryDao.class);
 			return categoryPersister.findByPlayer((Player)element);
+		} else if (element instanceof PlayerFolder) {
+			return ((PlayerFolder)element).getParent();
 		} else if (element instanceof Category) {
 			return ((Category)element).getTournament();
 		} else if (element instanceof Tournament) {
@@ -93,7 +97,8 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 
 	@Override
 	public boolean hasChildren(Object element) {
-		return (element instanceof Root || element instanceof Tournament || element instanceof Category);
+		return (element instanceof Root || element instanceof Tournament 
+				|| element instanceof Category || element instanceof PlayerFolder);
 	}
 
 	@Override
@@ -156,10 +161,11 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 	 * @return Object[] mit den Player und Round Objekten
 	 */
 	private Object[] getCategoryChildren(Category category) {
-		Set<Player> players = category.getPlayers();
+//		Set<Player> players = category.getPlayers();
 		Set<Round> rounds = category.getRounds();
 		List<Object> objects = new ArrayList<Object>();
-		objects.addAll(players);
+//		objects.addAll(players);
+		objects.add(new PlayerFolder(category));
 		objects.addAll(rounds);
 		return objects.toArray();
 	}
@@ -190,6 +196,23 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 		for(Tournament t:pList){
 			IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);
 			tournamentPersister.delete(t);
+		}
+	}
+	
+	public class PlayerFolder {
+		private Object[] players;
+		private Object parent;
+		public PlayerFolder(Category cat) {
+			parent = cat;
+			players = getPlayers(cat);
+		}
+		
+		public Object[] getElements() {
+			return players;
+		}
+		
+		public Object getParent() {
+			return parent;
 		}
 	}
 }

@@ -126,6 +126,9 @@
          <instanceof
                value="ch.jester.model.Pairing">
          </instanceof>
+         <instanceof
+               value="ch.jester.ui.tournament.cnf.TournamentContentProvider$PlayerFolder">
+         </instanceof>
 	      	</or>
 		  </possibleChildren>
 	   </navigatorContent>

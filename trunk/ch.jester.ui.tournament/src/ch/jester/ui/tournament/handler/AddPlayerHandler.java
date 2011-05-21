@@ -186,6 +186,8 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 			sb.append(p.getFirstName());
 			sb.append(" ");
 			sb.append(p.getLastName());
+			sb.append(" ");
+			sb.append(p.getCity());
 			return  sb.toString();
 		}
 	}
