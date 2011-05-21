@@ -10,7 +10,6 @@ import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
-import org.eclipse.ui.part.EditorPart;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
@@ -18,8 +17,8 @@ import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.PartListener2Adapter;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
@@ -32,6 +31,9 @@ public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor
 	protected ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	protected IDaoService<T> mDao;
 	private boolean isMultiPage;
+	/**Falls false, werden keine Tabs angezeigt
+	 * @param pMultiPage
+	 */
 	public AbstractEditor(boolean pMultiPage){
 		isMultiPage = pMultiPage;
 	}
