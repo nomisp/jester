@@ -36,6 +36,10 @@ public class EditorAccessor {
 		return new EditorAccess(null, pEditorInputObject, null);
 	}
 	
+	/**
+	 * Wird pro offenem Editor erzeugt
+	 *
+	 */
 	public class EditorAccess{
 		private IEditorReference mRef;
 		private IEditorPart mPart;
