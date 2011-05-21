@@ -11,6 +11,7 @@ import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
+import ch.jester.ui.tournament.cnf.TournamentContentProvider.PlayerFolder;
 import ch.jester.ui.tournament.internal.Activator;
 
 /**
@@ -32,12 +33,12 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 			sb.append(player.getLastName());
 			return  sb.toString();
 		} else if (element instanceof Round) {
-			Round round = ((Round)element);
+			Round round = (Round)element;
 			StringBuffer sb = new StringBuffer("Round ");
 			sb.append(round.getNumber());
 			return  sb.toString();
 		} else if (element instanceof Pairing) {
-			Pairing pairing = ((Pairing)element);
+			Pairing pairing = (Pairing)element;
 			StringBuffer sb = new StringBuffer();
 			sb.append(pairing.getWhite().getLastName());
 			sb.append("-");
@@ -45,6 +46,8 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 			sb.append(" : ");
 			sb.append(pairing.getResult());
 			return  sb.toString();
+		} else if (element instanceof PlayerFolder) {
+			return "Players";
 		}
 		return null;
 	}
@@ -76,6 +79,8 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 			sb.append(": ");
 			sb.append(pairing.getResult());
 			return  sb.toString();
+		} else if (element instanceof PlayerFolder) {
+			return "Players";
 		}
 		return text;
 	}
@@ -93,6 +98,10 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 						"icons/category_16x16.gif").createImage();
 //			return PlatformUI.getWorkbench().getSharedImages()
 //					.getImage(ISharedImages.IMG_OBJ_FILE);
+		} else if (element instanceof PlayerFolder) {
+			return UIUtility.getImageDescriptor(
+					Activator.getDefault().getActivationContext().getPluginId(),
+						"icons/folder_player_16x16.png").createImage();
 		} else if (element instanceof Player) {
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
