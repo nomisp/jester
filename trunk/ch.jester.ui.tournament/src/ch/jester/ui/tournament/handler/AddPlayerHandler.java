@@ -51,7 +51,7 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 	 * @param event
 	 */
 	private void alternative(ExecutionEvent event) {
-		Category cat = mSelUtility.getFirstSelectedAs(Category.class);
+		Category cat = getFirstSelectedAs(Category.class);
 		if(cat!=null){
 			openEditor(cat);
 		}
