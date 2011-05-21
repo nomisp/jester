@@ -40,6 +40,7 @@
          <command
                commandId="org.eclipse.ui.edit.delete"
                id="cnf.popup.delete"
+               label="%DeleteTournament"
                mnemonic="D"
                style="push">
          </command>
@@ -72,10 +73,6 @@
             defaultHandler="ch.jester.common.ui.handlers.WizardCallingHandler"
             id="ch.jester.ui.tournament.newTournament"
             name="%CreateNewTournament">
-      </command>
-      <command
-            id="org.eclipse.ui.edit.delete"
-            name="%DeleteTournament">
       </command>
       <command
             id="org.eclipse.ui.edit.rename"
