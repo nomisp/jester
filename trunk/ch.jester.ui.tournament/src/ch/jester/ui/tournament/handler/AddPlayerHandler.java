@@ -53,7 +53,7 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 	private void alternative(ExecutionEvent event) {
 		Category cat = getFirstSelectedAs(Category.class);
 		if(cat!=null){
-			openEditor(cat);
+			openEditor(cat, WirePlayerEditor.ID);
 		}
 		
 	}
