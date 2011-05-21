@@ -12,13 +12,15 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IEvaluationService;
-import org.osgi.framework.FrameworkUtil;
 
 import ch.jester.common.ui.internal.Activator;
-import ch.jester.common.utility.CallerUtility;
-import ch.jester.common.utility.CallerUtility.Caller;
 
 
+/**
+ * Hilfsklasse welche unterstützung bezüglich UI Manipulationen von Non-UI Jobs/Threads
+ * beinhaltet
+ *
+ */
 public class UIUtility {
 	static UIStrategy[] mStrategies = new UIStrategy[2];
 	static {
@@ -33,17 +35,29 @@ public class UIUtility {
 	}
 	
 	
+	/**Ist es der UI Thread?
+	 * @return true, false
+	 */
 	public static boolean isUIThread(){
 		return Display.getCurrent()!=null;
 	}
+	/**Basierende auf dem aktuellen Thread, wählen wir die Strategie
+	 * @return
+	 */
 	private static int getStrategyIndex(){
 		return isUIThread()==true?0:1;
 	}
 	
+	/**Liefert einen einfachen Zugriff auf den EvaluationService
+	 * @return
+	 */
 	public static IEvaluationService getEvalService(){
 		return (IEvaluationService) getActiveWorkbenchWindow().getService(IEvaluationService.class);
 	}
 	
+	/**Sendet einen Request für eine Reevaluation des Properties an den EvaluationService
+	 * @param pEvaluationProperty
+	 */
 	public static void reevaluateProperty(final String pEvaluationProperty){
 		syncExecInUIThread(new Runnable(){
 
@@ -57,6 +71,9 @@ public class UIUtility {
 
 	}
 	
+	/**Das Aktive Workbench Window. Kann von jedem Job/Thread aufgerufen werden.
+	 * @return
+	 */
 	public static IWorkbenchWindow getActiveWorkbenchWindow(){
 		return mStrategies[getStrategyIndex()].getWorkbenchWindow();
 	}
@@ -64,13 +81,24 @@ public class UIUtility {
 	public static ImageDescriptor getImageDescriptor(String pluginId, String imageFilePath){
 		return Activator.imageDescriptorFromPlugin(pluginId, imageFilePath);
 	}
+	/**Führt das Runnable direkt im UIThread aus.
+	 * @param r
+	 */
 	public static void syncExecInUIThread(Runnable r){
 		 mStrategies[getStrategyIndex()].syncExecInUIThread(r);
 	}
+	
+	/**Führt das Runnable irgendwann im UIThread aus
+	 * @param r
+	 */
 	public static void asyncExecInUIThread(Runnable r){
 		 mStrategies[getStrategyIndex()].asyncExecInUIThread(r);
 	}
 	
+	/**Job für Busy Indication im UI
+	 * @param pName
+	 * @param runnable
+	 */
 	public static void busyIndicatorJob(final String pName, final IBusyRunnable runnable){
 		final Display display = getActiveWorkbenchWindow().getShell().getDisplay();
 		syncExecInUIThread(new Runnable(){
@@ -81,6 +109,10 @@ public class UIUtility {
 		});
 	}
 	
+	/**
+	 * Strategie für den UIThread
+	 *
+	 */
 	static class UIThreadStrategy implements UIStrategy{
 
 		@Override
@@ -101,6 +133,10 @@ public class UIUtility {
 		
 	}
 	
+	/**
+	 * Strategie für einen NonUI Thread
+	 *
+	 */
 	static class NonUIThreadStrategy implements UIStrategy{
 		UIThreadStrategy mUIStrategy;
 		Display mDisplay = PlatformUI.getWorkbench().getDisplay();

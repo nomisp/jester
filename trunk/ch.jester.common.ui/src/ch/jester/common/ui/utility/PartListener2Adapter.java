@@ -3,6 +3,10 @@ package ch.jester.common.ui.utility;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;
 
+/**
+ * Leere Implementation von IPartListener2
+ *
+ */
 public class PartListener2Adapter implements IPartListener2 {
 
 	@Override

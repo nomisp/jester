@@ -8,7 +8,7 @@ import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.commonservices.util.ServiceUtility;
 
 /**
- * Default DoppelKlick Listener
+ * Default DoppelKlick Listener, der allenfalls einen Editor öffnet
  * 
  *
  */
