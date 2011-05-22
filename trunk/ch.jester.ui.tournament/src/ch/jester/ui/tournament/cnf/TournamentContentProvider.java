@@ -124,7 +124,7 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 	 */
 	private void initializeTournaments() {
 		IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);
-		List<Tournament> allTournaments = tournamentPersister.executeNamedQuery("AllTournaments");
+		List<Tournament> allTournaments = tournamentPersister.executeNamedQuery("AllActiveTournaments");
 //		tournaments = allTournaments.size() > 0 ? (Tournament[]) allTournaments.toArray() : new Tournament[0];
 		tournaments = getTournamentArray(allTournaments);
 	}

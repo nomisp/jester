@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 @Table(name="Tournament")
 @NamedQueries({
 	@NamedQuery(name="AllTournaments", query="select t from Tournament t order by t.name, t.dateFrom"),
+	@NamedQuery(name="AllActiveTournaments", query="select t from Tournament t where t.active = true order by t.name, t.dateFrom"),
 	@NamedQuery(name="countTournaments",query="SELECT count(Tournament) FROM Tournament"),
 	@NamedQuery(name="TournamentByName", query="select t from Tournament t where t.name like :name")
 })
