@@ -1,7 +1,6 @@
 package ch.jester.importmanagerservice.impl.internal.finalimpl;
 
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -11,11 +10,12 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 import ch.jester.common.utility.StopWatch;
+import ch.jester.common.utility.SubListIterator;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerDao;
+import ch.jester.importmanagerservice.impl.abstracts.AbstractTableImporter;
 import ch.jester.importmanagerservice.impl.abstracts.FixTextTableProvider;
 import ch.jester.importmanagerservice.impl.abstracts.ITableProvider;
-import ch.jester.importmanagerservice.impl.abstracts.AbstractTableImporter;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
 
@@ -85,10 +85,15 @@ public class FIDETextImporter extends AbstractTableImporter<String, Player>{
 		protected IStatus run(IProgressMonitor monitor) {
 			StopWatch watch = new StopWatch();
 			watch.start();
-			IPlayerDao playerpersister = su.getExclusiveService(IPlayerDao.class);
-			//Collections.sort(pList);
-			playerpersister.save(pList);
-			playerpersister.close();
+			
+			SubListIterator<Player> iterator = new SubListIterator<Player>(pList, 10000);
+			
+			while(iterator.hasNext()){
+				List<Player> sublist = iterator.next();
+				IPlayerDao playerpersister = su.getExclusiveService(IPlayerDao.class);
+				playerpersister.save(sublist);
+				playerpersister.close();
+			}
 			watch.stop();
 			System.out.println("Persistence done in: "+watch.getElapsedTime());	
 			return Status.OK_STATUS;
