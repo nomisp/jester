@@ -2,7 +2,6 @@ package ch.jester.importmanagerservice.impl.internal.finalimpl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -12,9 +11,9 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.IPlayerDao;
+import ch.jester.importmanagerservice.impl.abstracts.AbstractTableImporter;
 import ch.jester.importmanagerservice.impl.abstracts.ExcelSheetTableProvider;
 import ch.jester.importmanagerservice.impl.abstracts.ITableProvider;
-import ch.jester.importmanagerservice.impl.abstracts.AbstractTableImporter;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
 
@@ -29,12 +28,9 @@ public class SSBExcelImporter2 extends AbstractTableImporter<Row, Player>{
 		playerpersister.save(pDomainObjects);
 		playerpersister.close();
 	}
-	@Override
-	protected Player createDomainObject(Properties pProperties) {
-		return createPlayer(pProperties);
-	}
 
-	private Player createPlayer(Properties playerProperties) {
+	@Override
+	protected Player createDomainObject(Properties playerProperties) {
 		String name = playerProperties.getProperty("Name");
 		String firstName = playerProperties.getProperty("Vorname");
 		if(name.equals("")&&firstName.equals("")){
