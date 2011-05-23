@@ -4,25 +4,19 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-import ch.jester.common.utility.StopWatch;
-import ch.jester.common.utility.SubListIterator;
-import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.IPlayerDao;
 import ch.jester.importmanagerservice.impl.abstracts.AbstractTableImporter;
 import ch.jester.importmanagerservice.impl.abstracts.FixTextTableProvider;
 import ch.jester.importmanagerservice.impl.abstracts.ITableProvider;
+import ch.jester.importmanagerservice.impl.abstracts.JobUtil;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
 
 public class FIDETextImporter extends AbstractTableImporter<String, Player>{
 	@Override
 	protected void persist(List<Player> pDomainObjects) {
-		Job[] jobs = schedule(1, pDomainObjects);
+		Job[] jobs = JobUtil.paralleliseJob(1, pDomainObjects);
 		for(Job j:jobs){
 			j.schedule();
 		}
@@ -71,69 +65,6 @@ public class FIDETextImporter extends AbstractTableImporter<String, Player>{
 		provider.setCell(10, 40);
 		provider.setHeaderEntries("CodeFIDE","Name");
 		return provider;
-	}
-	
-	class PersisterJob extends Job{	
-		List<Player> pList;
-		private ServiceUtility su = new ServiceUtility();
-		public PersisterJob(String name, List<Player> players) {
-			super(name);
-			pList=players;
-		}
-
-		@Override
-		protected IStatus run(IProgressMonitor monitor) {
-			StopWatch watch = new StopWatch();
-			watch.start();
-			
-			SubListIterator<Player> iterator = new SubListIterator<Player>(pList, 10000);
-			
-			while(iterator.hasNext()){
-				List<Player> sublist = iterator.next();
-				IPlayerDao playerpersister = su.getExclusiveService(IPlayerDao.class);
-				playerpersister.save(sublist);
-				playerpersister.close();
-			}
-			watch.stop();
-			System.out.println("Persistence done in: "+watch.getElapsedTime());	
-			return Status.OK_STATUS;
-		}
-		
-	}
-	
-	public  PersisterJob[] schedule(int nrOfJobs, List<Player> pList){
-		int[][] balanced = schedule(nrOfJobs, pList.size());
-		PersisterJob[] job = new PersisterJob[balanced.length];
-		for(int i=0;i<nrOfJobs;i++){
-			List<Player> sublist = pList.subList(balanced[i][0], balanced[i][1]);
-			job[i] = new PersisterJob("BalancedJob - "+(i+1), sublist);
-		}
-		return job;
-		
-	}
-	
-	public static int[][] schedule(int nrOfJobs, int jobsize){
-		int[][] values = new int[nrOfJobs][2]; 
-		int rest = jobsize % nrOfJobs; 
-		int tmpjobsize = jobsize+rest;
-		int jobsizePerJob = tmpjobsize/nrOfJobs;
-		int start = 0;
-		int end = jobsizePerJob-1;
-		for(int i=0;i<nrOfJobs;i++){
-			
-			if(end>=jobsize){
-				end = jobsize-1;
-			}
-			
-			values[i][0]=start;
-			values[i][1]=end;
-			System.out.println(start+" --> "+end);
-			
-			start = start + jobsizePerJob;
-			end = start + jobsizePerJob-1;
-		}
-		return values;
-		
 	}
 	
 }
