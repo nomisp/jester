@@ -12,7 +12,7 @@ import ch.jester.system.exceptions.NotAllResultsException;
 public interface IPairingManager extends IEPEntryComponentService<IPairingAlgorithmEntry, IPairingAlgorithm> {
 	
 	/**
-	 * Ausführen der Paarungen mit dem Übergebenen Paarungsalgorithmus
+	 * AusfÃ¼hren der Paarungen mit dem Ã¼bergebenen Paarungsalgorithmus
 	 * @param pairingAlgorithm
 	 * @param progressMonitor
 	 * @return Liste mit den Paarungen Index 0 = Brett 1
@@ -21,8 +21,8 @@ public interface IPairingManager extends IEPEntryComponentService<IPairingAlgori
 	public List<Pairing> doPairings(IPairingAlgorithmEntry pairingAlgorithm, IProgressMonitor progressMonitor) throws NotAllResultsException;
 
 	/**
-	 * Ausführen der Paarungen innerhalb einer Kategorie
-	 * mit dem Übergebenen Paarungsalgorithmus
+	 * AusfÃ¼hren der Paarungen innerhalb einer Kategorie
+	 * mit dem Ã¼bergebenen Paarungsalgorithmus
 	 * @param category
 	 * @param pairingAlgorithm
 	 * @param progressMonitor
