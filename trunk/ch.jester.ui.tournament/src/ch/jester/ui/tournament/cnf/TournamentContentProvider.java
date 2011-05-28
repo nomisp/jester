@@ -162,7 +162,7 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 	 */
 	private Object[] getCategoryChildren(Category category) {
 //		Set<Player> players = category.getPlayers();
-		Set<Round> rounds = category.getRounds();
+		List<Round> rounds = category.getRounds();
 		List<Object> objects = new ArrayList<Object>();
 //		objects.addAll(players);
 		objects.add(new PlayerFolder(category));
