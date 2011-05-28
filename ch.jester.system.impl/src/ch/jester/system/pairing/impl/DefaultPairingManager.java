@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import ch.jester.common.components.AbstractEPComponent;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
+import ch.jester.model.Tournament;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
@@ -23,9 +24,9 @@ public class DefaultPairingManager extends AbstractEPComponent<IPairingAlgorithm
 	}
 
 	@Override
-	public List<Pairing> doPairings(IPairingAlgorithmEntry pairingAlgorithm,
+	public List<Pairing> doPairings(Tournament tournament, IPairingAlgorithmEntry pairingAlgorithm,
 			IProgressMonitor progressMonitor) throws NotAllResultsException {
-		return pairingAlgorithm.getService().executePairings(progressMonitor);
+		return pairingAlgorithm.getService().executePairings(tournament, progressMonitor);
 	}
 
 	@Override

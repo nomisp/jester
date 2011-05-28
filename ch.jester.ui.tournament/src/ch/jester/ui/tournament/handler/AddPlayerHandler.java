@@ -4,6 +4,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
@@ -59,7 +60,11 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 			dialog.setMessage("Select Players (Ctrl+Click for multiple selection)");
 			dialog.setElements(getPlayers());
 			dialog.setMultipleSelection(true);
-			dialog.open();
+			dialog.setIgnoreCase(true);
+			dialog.setStatusLineAboveButtons(true);
+			if (dialog.open() != Window.OK) {
+				return false;
+			}
 			Object[] result = dialog.getResult();
 			wirePlayers(result);
 			CommonNavigator cn = (CommonNavigator)getView(TournamentNavigator.ID);
