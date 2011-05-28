@@ -1,6 +1,8 @@
 package ch.jester.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -50,7 +52,7 @@ public class Category extends AbstractModelBean<Category> {
 //	@JoinTable(name = "CategoryRoundAss",
 //	        joinColumns = {@JoinColumn(name = "CategoryId")},
 //	        inverseJoinColumns = {@JoinColumn(name = "RoundId")})
-	private Set<Round> rounds = new HashSet<Round>();
+	private List<Round> rounds = new ArrayList<Round>();
 	
 	@OneToMany
 	@JoinTable(name = "CategoryPlayerAss", 
@@ -110,17 +112,17 @@ public class Category extends AbstractModelBean<Category> {
 		this.maxRounds = maxRounds;
 	}
 
-	public Set<Round> getRounds() {
+	public List<Round> getRounds() {
 		return rounds;
 	}
 
-	public void setRounds(Set<Round> rounds) {
+	public void setRounds(List<Round> rounds) {
 		this.rounds = rounds;
 	}
 	
 	public void addRound(Round round) {
 		if (round == null) throw new IllegalArgumentException("round may not be null");
-		this.rounds.add(round);
+		if (!this.rounds.contains(round)) this.rounds.add(round);
 		if (round.getCategory() != this) round.setCategory(this);
 	}
 	
