@@ -8,7 +8,9 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-public class ExcelSheetTableProvider implements ITableProvider<Row>{
+import ch.jester.commonservices.api.importer.IVirtualTable;
+
+public class ExcelSheetTableProvider implements IVirtualTable<Row>{
 	private Sheet mSheet;
 	public void setSheet(Sheet pSheet) {
 		mSheet=pSheet;	
@@ -87,5 +89,30 @@ public class ExcelSheetTableProvider implements ITableProvider<Row>{
 	@Override
 	public Row getRow(int i) {
 		return getSheet().getRow(i);
+	}
+	@Override
+	public boolean canAddCells() {
+		return false;
+	}
+	@Override
+	public String[] getDynamicInput(int pCount) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void clearCells() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void addCell(
+			ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell cell) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public List<ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell> getCells() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

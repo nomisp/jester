@@ -5,15 +5,17 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
-public class FixTextTableProvider implements ITableProvider<String>{
+import ch.jester.commonservices.api.importer.IVirtualTable;
+
+public class FixTextTableProvider implements IVirtualTable<String>{
 	private String[] mHeader;
 	//private InputStream mInput;
 	private Scanner mScanner;
 	List<String> mContent = new ArrayList<String>();
-	List<Cell> mCells = new ArrayList<Cell>();
+	List<IVirtualCell> mCells = new ArrayList<IVirtualCell>();
 	public FixTextTableProvider(InputStream pInstream) {
-	//	mInput=pInstream;
 		BufferedInputStream pis = new BufferedInputStream(pInstream);
 		mScanner = new Scanner(pis);
 		while(mScanner.hasNextLine()){
@@ -21,14 +23,15 @@ public class FixTextTableProvider implements ITableProvider<String>{
 		}
 		mScanner.close();
 	}
-	
-	public void setHeaderEntries(String...strings){
-		mHeader=strings;
-	}
+
 	
 	@Override
 	public String[] getHeaderEntries() {
-		return mHeader;
+		List<String> mCellNames = new ArrayList<String>();
+		for(IVirtualCell c:mCells){
+			mCellNames.add(c.getName());
+		}
+		return mCellNames.toArray(new String[mCellNames.size()]);
 	}
 
 	@Override
@@ -41,27 +44,111 @@ public class FixTextTableProvider implements ITableProvider<String>{
 		return mContent.size();
 	}
 
-	public void setCell(int indexBegin, int indexEnd){
-		mCells.add(new Cell(indexBegin,indexEnd));
+	public void setCell(String string, int indexBegin, int indexEnd){
+		mCells.add(new SubStringCell(string, indexBegin,indexEnd));
 	}
 	
+
 	@Override
 	public String[] processRow(String pRow, int pLenght) {
-		String[] detail = new String[mCells.size()];
-		int i = 0;
-		for(Cell c:mCells){
-			detail[i]= pRow.substring(c.start, c.stop);
-			i++;
+		List<String> details = new ArrayList<String>();
+		for(IVirtualCell c:mCells){
+			c.createCellContent(details, pRow);
 		}
-		return detail;
+		return details.toArray(new String[details.size()]);
 	}
 
-	class Cell{
-		public Cell(int s1, int s2){
-			start = s1;
-			stop = s2;
+	public class SubStringCell implements IVirtualCell{
+		String name, delim;
+		int seq;
+		public SubStringCell(String string, int s1, int s2){
+			cellStart = s1;
+			cellStop = s2;
+			name = string;
 		}
-		int start;
-		int stop;
+		int cellStart;
+		int cellStop;
+		@Override
+		public void createCellContent(List<String> detailList, String pInput) {
+			String src = pInput.substring(cellStart, cellStop);
+			if(delim==null){
+				detailList.add(src);
+			}else{
+				if(src.startsWith(delim)){
+					src = " "+src;
+				}
+				StringTokenizer token = new StringTokenizer(src, delim);
+				for(int i=0;i<seq;i++){
+					if(token.hasMoreTokens()){
+						token.nextToken();
+					}
+				}
+				if(token.hasMoreTokens()){
+					detailList.add(token.nextToken());
+				}else{
+					detailList.add("");
+				}
+			}
+		}
+		@Override
+		public String getName() {
+			// TODO Auto-generated method stub
+			return name;
+		}
+		@Override
+		public void setDelimiter(String pDelim) {
+			delim = pDelim;
+			
+		}
+		@Override
+		public String getDelimiter() {
+			return delim;
+		}
+		@Override
+		public int getDelimiterSequence() {
+			return -1;
+		}
+		@Override
+		public void setDelimiterSequence(int i) {
+			seq=i;
+		}
 	}
+	
+	
+	@Override
+	public boolean canAddCells() {
+		return true;
+	}
+
+	@Override
+	public String[] getDynamicInput(int pCount) {
+		String[] s = new String[pCount];
+		for(int i=0;i<pCount;i++){
+			s[i] = mContent.get(i);
+		}
+		return s;
+	
+	}
+
+	@Override
+	public void clearCells() {
+		mCells.clear();
+		
+	}
+
+	@Override
+	public void addCell(
+			ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell cell) {
+		mCells.add(cell);
+		
+	}
+
+	@Override
+	public List<ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell> getCells() {
+		return mCells;
+	}
+
+
+	
+
 }

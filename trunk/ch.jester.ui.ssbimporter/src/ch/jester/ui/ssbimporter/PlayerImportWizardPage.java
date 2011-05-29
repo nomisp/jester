@@ -20,6 +20,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.SWT;
@@ -46,7 +47,7 @@ import ch.jester.commonservices.api.importer.IWebImportHandlerEntry;
 import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.util.ServiceUtility;
 
-public class ZipPlayerImporter extends WizardPage {
+public class PlayerImportWizardPage extends WizardPage {
 	private Text text;
 	private Table table;
 	private CheckboxTableViewer checkboxTableViewer;
@@ -76,7 +77,7 @@ public class ZipPlayerImporter extends WizardPage {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public ZipPlayerImporter(ISelection s) {
+	public PlayerImportWizardPage(ISelection s) {
 		super("Import Player");
 		System.out.println(s);
 		setTitle("Import"); //NON-NLS-1
@@ -87,7 +88,7 @@ public class ZipPlayerImporter extends WizardPage {
 	/**
 	 * Create the wizard.
 	 */
-	public ZipPlayerImporter() {
+	public PlayerImportWizardPage() {
 		super("Import Player");
 		setTitle("Import"); //NON-NLS-1
 		setDescription("Import Players into jester"); //NON-NLS-1

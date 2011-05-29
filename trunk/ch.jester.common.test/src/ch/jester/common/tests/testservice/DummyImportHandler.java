@@ -23,5 +23,11 @@ public class DummyImportHandler implements IImportHandler{
 		return "55";
 	}
 
+	@Override
+	public Object getAdapter(Class adapter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
