@@ -3,6 +3,7 @@ package ch.jester.ui.ssbimporter;
 
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
@@ -10,24 +11,27 @@ import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardContainer;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
 import ch.jester.common.utility.ZipUtility;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.ui.ssbimporter.ZipPlayerImporter.ImportSelection;
+import ch.jester.ui.ssbimporter.PlayerImportWizardPage.ImportSelection;
 import ch.jester.ui.ssbimporter.internal.Activator;
 
 
 public class Wiz extends Wizard implements IImportWizard{
 	private ILogger mLogger;
-	private ZipPlayerImporter mainPage;
+	private PlayerImportWizardPage firstPage;
+	private PropertyChooserWizardPage secondPage;
 
 	@Override
 	public void addPages() {
 		super.addPages();
-		addPage(mainPage);
+		addPage(firstPage);
+		addPage(secondPage);
 		mLogger = Activator.getInstance().getActivationContext().getLogger();
 	}
 
@@ -40,7 +44,7 @@ public class Wiz extends Wizard implements IImportWizard{
 				@Override
 				public void run(final IProgressMonitor monitor) throws InvocationTargetException,
 						InterruptedException {
-					final ImportSelection input = mainPage.getImportSelection();
+					final ImportSelection input = firstPage.getImportSelection();
 					mLogger.debug("Zip: "+input.getSelectedZipFile());
 					mLogger.debug("Handler: "+input.getSelectedHandlerEntry());	
 					final InputStream instream = ZipUtility.getZipEntry(input.getSelectedZipFile(), input.getSelectedZipEntry());
@@ -50,6 +54,7 @@ public class Wiz extends Wizard implements IImportWizard{
 						@Override
 						public void run() throws Exception {
 							//TODO Handle Exception wenn Altes Excelfile
+							secondPage.applyChanges();
 							input.getSelectedHandlerEntry().getService().handleImport(instream, monitor);
 							
 						}
@@ -83,15 +88,19 @@ public class Wiz extends Wizard implements IImportWizard{
 		setWindowTitle("Import Players");
 		setNeedsProgressMonitor(true);
 		//ISelection sel = workbench.getActiveWorkbenchWindow().getSelectionService().getSelection();
-		 mainPage = new ZipPlayerImporter();
+		 firstPage = new PlayerImportWizardPage();
+		 
+		 secondPage = new PropertyChooserWizardPage();
+		 secondPage.setInput(firstPage.getImportSelection());
 		
 	}
-	@Override
-	public void setContainer(IWizardContainer wizardContainer) {
-		super.setContainer(wizardContainer);
-		
-
+@Override
+public IWizardPage getNextPage(IWizardPage page) {
+	if(page == secondPage){
+		secondPage.init();
 	}
+	return super.getNextPage(page);
+}
 	
 
 }

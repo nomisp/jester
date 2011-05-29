@@ -2,37 +2,75 @@ package ch.jester.importmanagerservice.impl.internal.finalimpl;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.Properties;
 
-import org.eclipse.core.runtime.jobs.Job;
 
+import ch.jester.common.utility.SubListIterator;
+import ch.jester.commonservices.api.importer.IVirtualTable;
+import ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;
+import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.importmanagerservice.impl.abstracts.AbstractTableImporter;
 import ch.jester.importmanagerservice.impl.abstracts.FixTextTableProvider;
-import ch.jester.importmanagerservice.impl.abstracts.ITableProvider;
-import ch.jester.importmanagerservice.impl.abstracts.JobUtil;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
 
 public class FIDETextImporter extends AbstractTableImporter<String, Player>{
+	private ServiceUtility su = new ServiceUtility();
+	
+	public FIDETextImporter(){
+		init_linking();
+	}
+	private void init_linking() {
+		super.mInputLinking.put("lastName","LastName");
+		super.mInputLinking.put("firstName","FirstName");
+		super.mInputLinking.put("fideCode","CodeFIDE");
+		
+	}
 	@Override
 	protected void persist(List<Player> pDomainObjects) {
-		Job[] jobs = JobUtil.paralleliseJob(1, pDomainObjects);
-		for(Job j:jobs){
-			j.schedule();
-		}
-		for(Job j:jobs){
-			try {
-				j.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		SubListIterator<Player> iterator = new SubListIterator<Player>(pDomainObjects, 10000);
+		
+		while(iterator.hasNext()){
+			List<Player> sublist = iterator.next();
+			IDaoService<Player> playerpersister = su.getDaoService(Player.class);
+			playerpersister.save(sublist);
+			playerpersister.close();
 		}
 		
+	}
+	@Override
+	public String[] getDomainObjectAttributes() {
+		return new String[]{"lastName","firstName","fideCode","elo","age","city","nation"};
 	}
 	public void done(){
 		
 	}
 	@Override
+	protected Player createNewDomainObject() {
+		return ModelFactory.getInstance().createPlayer();
+	}
+
+
+	@Override
+	public IVirtualTable<String> initialize(InputStream pInputStream) {
+		FixTextTableProvider provider = new FixTextTableProvider(pInputStream);
+		
+		provider.setCell("CodeFIDE", 0, 10);
+		IVirtualCell cell = provider.new SubStringCell("LastName", 10, 40);
+		cell.setDelimiter(",");
+		cell.setDelimiterSequence(0);
+		provider.addCell(cell);
+		
+		cell = provider.new SubStringCell("FirstName", 10, 40);
+		cell.setDelimiter(",");
+		cell.setDelimiterSequence(1);
+		provider.addCell(cell);
+		return provider;
+	}
+
+
+	
+	/*@Override
 	protected Player createDomainObject(Properties playerProperties) {
 		String name = playerProperties.getProperty("Name").trim();
 		//String firstName = playerProperties.getProperty("Vorname").trim();
@@ -56,15 +94,6 @@ public class FIDETextImporter extends AbstractTableImporter<String, Player>{
 		player.setElo(Integer.parseInt(elo));
 		player.setNation("Schweiz");
 		return player;
-	}
-
-	@Override
-	public ITableProvider<String> initialize(InputStream pInputStream) {
-		FixTextTableProvider provider = new FixTextTableProvider(pInputStream);
-		provider.setCell(0, 10);
-		provider.setCell(10, 40);
-		provider.setHeaderEntries("CodeFIDE","Name");
-		return provider;
-	}
+	}*/
 	
 }

@@ -88,10 +88,22 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements I
 	}
 	
 
-	private List<Class<?>> getProxyInterfaces(Class<T> clz) {
+	private List<Class<?>> getProxyInterfaces(Class<?> clz) {
+		List<Class<?>> allClz = new ArrayList<Class<?>>();
+		if(clz == java.lang.Object.class){
+			return allClz;
+		}
+		
 		Class<?>[] clz0 = clz.getInterfaces();
 		
-		return Arrays.asList(clz0);
+		Class<?> superclass = clz.getSuperclass();
+		List<Class<?>> lclz = getProxyInterfaces(superclass);
+		for(Class<?> cc:clz0){
+			allClz.add(cc);
+		}
+		allClz.addAll(lclz);
+		
+		return allClz;
 	}
 
 	@Override
