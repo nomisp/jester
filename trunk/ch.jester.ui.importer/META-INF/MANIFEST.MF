@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SSBImporter
-Bundle-SymbolicName: ch.jester.ui.ssbimporter;singleton:=true
+Bundle-Name: Importer UI
+Bundle-SymbolicName: ch.jester.ui.importer;singleton:=true
 Bundle-Version: 1.0.0.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.ui;bundle-version="3.6.2",
