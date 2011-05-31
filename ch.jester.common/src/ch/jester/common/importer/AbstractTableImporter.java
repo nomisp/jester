@@ -1,4 +1,4 @@
-package ch.jester.importmanagerservice.impl.abstracts;
+package ch.jester.common.importer;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;

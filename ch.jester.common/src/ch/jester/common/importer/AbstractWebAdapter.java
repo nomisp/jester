@@ -1,4 +1,4 @@
-package ch.jester.importmanagerservice.impl.internal.finalimpl.webadapters;
+package ch.jester.common.importer;
 
 import java.io.InputStream;
 import java.util.List;

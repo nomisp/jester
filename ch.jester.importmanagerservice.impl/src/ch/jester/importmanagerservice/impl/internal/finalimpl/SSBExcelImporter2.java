@@ -8,11 +8,11 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import ch.jester.common.importer.AbstractTableImporter;
 import ch.jester.common.utility.SubListIterator;
 import ch.jester.commonservices.api.importer.IVirtualTable;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.importmanagerservice.impl.abstracts.AbstractTableImporter;
 import ch.jester.importmanagerservice.impl.abstracts.ExcelSheetTableProvider;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;

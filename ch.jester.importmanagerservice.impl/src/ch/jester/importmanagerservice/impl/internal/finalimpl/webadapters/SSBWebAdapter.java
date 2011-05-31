@@ -3,6 +3,7 @@ package ch.jester.importmanagerservice.impl.internal.finalimpl.webadapters;
 import java.io.IOException;
 import java.util.List;
 
+import ch.jester.common.importer.AbstractWebAdapter;
 import ch.jester.common.web.ExtensionFilter;
 import ch.jester.common.web.LinkFilter;
 import ch.jester.commonservices.api.importer.ILink;
