@@ -11,7 +11,7 @@ public class DBRoundPersister extends GenericPersister<Round> implements IRoundD
 	
 	@Override
 	public List<Round> findByNumber(Integer number) {
-		return super.findByParameter("RoundByNumber", "number", number);
+		return super.executeNamedQuery("RoundByNumber", "number", number);
 	}
 
 }

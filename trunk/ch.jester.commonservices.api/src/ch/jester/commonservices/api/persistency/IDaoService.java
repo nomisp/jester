@@ -64,5 +64,9 @@ public interface IDaoService<T extends IEntityObject> {
 	 */
 	public List<T> executeNamedQuery(String namedQuery);
 
+	public List<T> executeNamedQuery(String queryName, String pPara, Object pVal);
+	
 	public Query createQuery(String query);
+	
+	public Query createNamedQuery(String query);
 }

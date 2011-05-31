@@ -11,7 +11,7 @@ public class DBTournamentPersister extends GenericPersister<Tournament> implemen
 
 	@Override
 	public List<Tournament> findByName(String name) {
-		return super.findByParameter("TournamentByName", "name",
+		return super.executeNamedQuery("TournamentByName", "name",
 				prepareLikeSearch(name, MatchMode.ANYWHERE));
 	}
 

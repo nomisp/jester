@@ -201,5 +201,5 @@ public class ServiceUtility {
 		if(factory==null){return null;}
 		return factory.getDaoService(pClass);
 	}
-	
+
 }
