@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import ch.jester.common.importer.AbstractTableImporter;
 import ch.jester.common.utility.SubListIterator;
 import ch.jester.commonservices.api.persistency.IDaoService;
@@ -21,26 +23,30 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 	}
 
 	@Override
-	protected void persist(List<Player> pDomainObjects) {
-		SubListIterator<Player> iterator = new SubListIterator<Player>(pDomainObjects, 10000);
+	protected void persist(List<Player> pDomainObjects, IProgressMonitor pMonitor) {
+		int chunkSize = 10000;
+		SubListIterator<Player> iterator = new SubListIterator<Player>(pDomainObjects, chunkSize);
 		
 		IDaoService<Player> checker = su.getDaoService(Player.class);
 		boolean checkDoubleEntries = checker.count()>0;
 		Query fideQuery = checker.createQuery("SELECT player FROM Player player WHERE player.fideCode in (:fideCode)");
 		
-		
+		int chunkCount = 0;
 		while(iterator.hasNext()){
 			List<Player> sublist = iterator.next();
 			IDaoService<Player> playerpersister = su.getDaoService(Player.class);
 			
 			if(checkDoubleEntries){
+				pMonitor.subTask("Checking Duplicates");
 				List<Integer> fideCodes = createFideList(sublist);
 				List<Player> duplicates = fideQuery.setParameter("fideCode", fideCodes).getResultList();
 				System.out.println("Duplicates found >>>>"+duplicates.size());
 				
 			}
+			pMonitor.subTask("Saving Players: "+(chunkSize*chunkCount)+" - "+(chunkSize*(chunkCount+1)));
 			playerpersister.save(sublist);
 			playerpersister.close();
+			chunkCount++;
 		}
 		checker.close();
 		
