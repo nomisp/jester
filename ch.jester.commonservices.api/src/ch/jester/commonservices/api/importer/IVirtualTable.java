@@ -12,6 +12,11 @@ public interface IVirtualTable<T> {
 		public int getDelimiterSequence();
 		public void setDelimiterSequence(int i);
 		public void createCellContent(List<String> detailList, String pInput);
+		public void setName(String text);
+		public int getStart();
+		public void setStart(int i);
+		public int getStop();
+		public void setStop(int i);
 	}
 	/**Column Text
 	 * @return

@@ -20,7 +20,6 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.SWT;
@@ -36,6 +35,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import ch.jester.common.ui.adapters.StructuredContentProviderAdapter;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ZipUtility;
@@ -130,18 +130,18 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 		text = new Text(container, SWT.BORDER);
 		text.setMessage("Select a Zip file");
-		text.setBounds(175, 11, 407, 29);
+		text.setBounds(175, 11, 407, 23);
 		
 		checkboxTableViewer = CheckboxTableViewer.newCheckList(container, SWT.BORDER | SWT.FULL_SELECTION);
 		table = checkboxTableViewer.getTable();
 		
 		table.addSelectionListener(new SelectionCountListener());
 		
-		table.setBounds(175, 178, 407, 112);
+		table.setBounds(175, 128, 407, 112);
 		
 		listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL);
 		org.eclipse.swt.widgets.List list = listViewer.getList();
-		list.setBounds(175, 318, 407, 72);
+		list.setBounds(175, 268, 407, 72);
 		//webCombo.set
 		
 
@@ -160,7 +160,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 		comboDownloadViewer = new ComboViewer(container, SWT.NONE);
 		comboDownload = comboDownloadViewer.getCombo();
-		comboDownload.setBounds(252, 103, 330, 29);
+		comboDownload.setBounds(252, 82, 330, 29);
 		comboDownloadViewer.setContentProvider(ArrayContentProvider.getInstance());
 		comboDownloadViewer.addSelectionChangedListener(new DownloadListener());
 		
@@ -188,16 +188,16 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 		
 		Label lblDownload = new Label(container, SWT.NONE);
-		lblDownload.setBounds(175, 106, 73, 21);
+		lblDownload.setBounds(175, 85, 73, 21);
 		lblDownload.setText("Download");
 		
 		Label lblImportHandler = new Label(container, SWT.NONE);
-		lblImportHandler.setBounds(10, 178, 154, 21);
+		lblImportHandler.setBounds(10, 128, 154, 21);
 		lblImportHandler.setText("Content");
 		
 		Label lblHandler = new Label(container, SWT.NONE);
 		lblHandler.setText("Handler");
-		lblHandler.setBounds(10, 318, 154, 21);
+		lblHandler.setBounds(10, 268, 154, 21);
 		
 		listViewer.addSelectionChangedListener(new HandlerSelectionListener());
 		
@@ -309,20 +309,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		}
 		
 	}
-	private class WebImportAdapterProvider implements IStructuredContentProvider{
-
-		@Override
-		public void dispose() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			// TODO Auto-generated method stub
-			
-		}
-
+	private class WebImportAdapterProvider extends StructuredContentProviderAdapter{
 		@Override
 		public Object[] getElements(Object inputElement) {
 			IImportManager manager = mService.getService(IImportManager.class);
@@ -334,16 +321,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 	}
 	
-	private class ImportHandlerProvider implements IStructuredContentProvider {
-		@Override
-		public void dispose() {}
-
-		@Override
-		public void inputChanged(Viewer viewer, Object oldInput,
-				Object newInput) {	
-
-		}
-
+	private class ImportHandlerProvider extends StructuredContentProviderAdapter {
 		@Override
 		public Object[] getElements(Object inputElement) {
 			IImportManager manager = mService.getService(IImportManager.class);
@@ -405,7 +383,6 @@ public class PlayerImportWizardPage extends WizardPage {
 	
 	private class HandlerSelectionListener implements ISelectionChangedListener {
 		SelectionUtility su = new SelectionUtility(null);
-
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			su.setSelection(event.getSelection());
