@@ -4,12 +4,13 @@ import java.io.InputStream;
 import java.util.List;
 
 
+import ch.jester.common.importer.AbstractTableImporter;
+import ch.jester.common.importer.VirtualCell;
 import ch.jester.common.utility.SubListIterator;
 import ch.jester.commonservices.api.importer.IVirtualTable;
 import ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.importmanagerservice.impl.abstracts.AbstractTableImporter;
 import ch.jester.importmanagerservice.impl.abstracts.FixTextTableProvider;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
@@ -56,12 +57,12 @@ public class FIDETextImporter extends AbstractTableImporter<String, Player>{
 		FixTextTableProvider provider = new FixTextTableProvider(pInputStream);
 		
 		provider.setCell("CodeFIDE", 0, 10);
-		IVirtualCell cell = provider.new SubStringCell("LastName", 10, 40);
+		IVirtualCell cell = new VirtualCell("LastName", 10, 40);
 		cell.setDelimiter(",");
 		cell.setDelimiterSequence(0);
 		provider.addCell(cell);
 		
-		cell = provider.new SubStringCell("FirstName", 10, 40);
+		cell = new VirtualCell("FirstName", 10, 40);
 		cell.setDelimiter(",");
 		cell.setDelimiterSequence(1);
 		provider.addCell(cell);

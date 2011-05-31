@@ -5,13 +5,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
+import ch.jester.common.importer.VirtualCell;
 import ch.jester.commonservices.api.importer.IVirtualTable;
 
 public class FixTextTableProvider implements IVirtualTable<String>{
-	private String[] mHeader;
-	//private InputStream mInput;
 	private Scanner mScanner;
 	List<String> mContent = new ArrayList<String>();
 	List<IVirtualCell> mCells = new ArrayList<IVirtualCell>();
@@ -45,7 +43,7 @@ public class FixTextTableProvider implements IVirtualTable<String>{
 	}
 
 	public void setCell(String string, int indexBegin, int indexEnd){
-		mCells.add(new SubStringCell(string, indexBegin,indexEnd));
+		mCells.add(new VirtualCell(string, indexBegin,indexEnd));
 	}
 	
 
@@ -57,84 +55,6 @@ public class FixTextTableProvider implements IVirtualTable<String>{
 		}
 		return details.toArray(new String[details.size()]);
 	}
-
-	public class SubStringCell implements IVirtualCell{
-		String name, delim;
-		int seq;
-		public SubStringCell(String string, int s1, int s2){
-			cellStart = s1;
-			cellStop = s2;
-			name = string;
-		}
-		int cellStart;
-		int cellStop;
-		@Override
-		public void createCellContent(List<String> detailList, String pInput) {
-			String src = pInput.substring(cellStart, cellStop);
-			if(delim==null){
-				detailList.add(src);
-			}else{
-				if(src.startsWith(delim)){
-					src = " "+src;
-				}
-				StringTokenizer token = new StringTokenizer(src, delim);
-				for(int i=0;i<seq;i++){
-					if(token.hasMoreTokens()){
-						token.nextToken();
-					}
-				}
-				if(token.hasMoreTokens()){
-					detailList.add(token.nextToken());
-				}else{
-					detailList.add("");
-				}
-			}
-		}
-		@Override
-		public String getName() {
-			// TODO Auto-generated method stub
-			return name;
-		}
-		@Override
-		public void setDelimiter(String pDelim) {
-			delim = pDelim;
-			
-		}
-		@Override
-		public String getDelimiter() {
-			return delim;
-		}
-		@Override
-		public int getDelimiterSequence() {
-			return seq;
-		}
-		@Override
-		public void setDelimiterSequence(int i) {
-			seq=i;
-		}
-		@Override
-		public void setName(String text) {
-			name = text;
-			
-		}
-		@Override
-		public int getStart() {
-			return cellStart;
-		}
-		@Override
-		public void setStart(int i) {
-			cellStart = i;
-		}
-		@Override
-		public int getStop() {
-			return cellStop;
-		}
-		@Override
-		public void setStop(int i) {
-			cellStop = i;
-		}
-	}
-	
 	
 	@Override
 	public boolean canAddCells() {
