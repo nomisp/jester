@@ -164,7 +164,7 @@ public abstract class AbstractTableImporter<T, V> implements IImportHandler<Inpu
 				}
 				if(persistencyEveryEntry()!=-1 && i%persistencyEveryEntry()==0){
 					List<V> copy= new ArrayList<V>(domainObjects);
-					persist(copy);
+					persist(copy, pMonitor);
 					domainObjects.clear();
 				}
 				
@@ -172,7 +172,7 @@ public abstract class AbstractTableImporter<T, V> implements IImportHandler<Inpu
 			}
 			if(!test){
 				pMonitor.subTask("Save to DB");
-				persist(domainObjects);
+				persist(domainObjects, pMonitor);
 				pMonitor.done();
 				done();
 				mProvider=null;
@@ -292,8 +292,9 @@ public abstract class AbstractTableImporter<T, V> implements IImportHandler<Inpu
 	/**
 	 * Speichert die Liste der Domain Objekte
 	 * @param pDomainObjects
+	 * @param pMonitor 
 	 */
-	protected abstract void persist(List<V> pDomainObjects);
+	protected abstract void persist(List<V> pDomainObjects, IProgressMonitor pMonitor);
 
 	protected abstract V createNewDomainObject();
 	
