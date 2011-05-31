@@ -6,6 +6,8 @@ import ch.jester.common.activator.AbstractActivator;
 
 public class VollrundigSystemActivator extends AbstractActivator {
 	
+	public static final String PLUGIN_ID = "ch.jester.system.vollrundig";
+	
 	private static VollrundigSystemActivator mActivator;
 
 	@Override
@@ -20,7 +22,7 @@ public class VollrundigSystemActivator extends AbstractActivator {
 		
 	}
 	
-	public static VollrundigSystemActivator getInstance() {
+	public static VollrundigSystemActivator getDefault() {
 		return mActivator;
 	}
 }

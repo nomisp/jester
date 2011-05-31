@@ -19,8 +19,13 @@
 <repository location="http://download.eclipse.org/releases/helios"/>
 </location>
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
-<unit id="org.eclipse.rcp.nl_de.feature.group" version="3.5.0"/>
-<repository location="http://www.ralfebert.de/projects/releases/"/>
+<unit id="org.eclipse.babel.nls_eclipse_fr.feature.group" version="3.6.0.v20101211043401"/>
+<unit id="org.eclipse.babel.nls_eclipse_de.feature.group" version="3.6.0.v20101211043401"/>
+<unit id="org.eclipse.babel.nls_rt.equinox_fr.feature.group" version="3.6.0.v20101211043401"/>
+<unit id="org.eclipse.babel.nls_rt.equinox_de.feature.group" version="3.6.0.v20101211043401"/>
+<unit id="org.eclipse.babel.nls_rt.equinox.p2_fr.feature.group" version="3.6.0.v20101211043401"/>
+<unit id="org.eclipse.babel.nls_rt.equinox.p2_de.feature.group" version="3.6.0.v20101211043401"/>
+<repository location="http://download.eclipse.org/technology/babel/update-site/R0.8.1/helios"/>
 </location>
 </locations>
 <environment>
