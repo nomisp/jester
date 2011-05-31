@@ -54,6 +54,9 @@ public class Category extends AbstractModelBean<Category> {
 //	        inverseJoinColumns = {@JoinColumn(name = "RoundId")})
 	private List<Round> rounds = new ArrayList<Round>();
 	
+	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
+	private List<Round> playedRounds = new ArrayList<Round>();	// Liste mit Runden welche bereits abgeschlossen sind.
+	
 	@OneToMany
 	@JoinTable(name = "CategoryPlayerAss", 
 			joinColumns = {@JoinColumn(name = "CategoryId")},
@@ -129,6 +132,25 @@ public class Category extends AbstractModelBean<Category> {
 	public void removeRound(Round round) {
 		if (round == null) throw new IllegalArgumentException("round may not be null");
 		this.rounds.remove(round);
+	}
+
+	public List<Round> getPlayedRounds() {
+		return playedRounds;
+	}
+
+	public void setPlayedRounds(List<Round> playedRounds) {
+		this.playedRounds = playedRounds;
+	}
+	
+	public void addPlayedRound(Round round) {
+		if (round == null) throw new IllegalArgumentException("round may not be null");
+		if (!this.playedRounds.contains(round)) this.playedRounds.add(round);
+		if (round.getCategory() != this) round.setCategory(this);
+	}
+	
+	public void removePlayedRound(Round round) {
+		if (round == null) throw new IllegalArgumentException("round may not be null");
+		this.playedRounds.remove(round);
 	}
 
 	public Set<Player> getPlayers() {
