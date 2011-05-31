@@ -1,10 +1,8 @@
 
 package ch.jester.db.persister.impl;
 
-import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,8 +16,8 @@ import org.eclipse.core.runtime.Assert;
 import ch.jester.common.persistency.util.PersistencyEvent;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.orm.ORMPlugin;
@@ -74,11 +72,11 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		for(T p:pTCollection){
-			if(p.getId()!=0){
+			//if(p.getId()!=0){
 				mManager.merge(p);
-			}else{
-				mManager.persist(p);
-			}
+			//}else{
+			//	mManager.persist(p);
+			//}
 		}
 		trx.commit();
 		fireSaveEvent(pTCollection);
@@ -158,13 +156,13 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		return result;
 	}
 
-	public List<T> findByParameter(String queryName, String pPara, Object pVal){
+	public List<T> executeNamedQuery(String queryName, String pPara, Object pVal){
 		check();
-		EntityTransaction trx = mManager.getTransaction();
-		trx.begin();
-		@SuppressWarnings("unchecked")
+	//	EntityTransaction trx = mManager.getTransaction();
+	//	trx.begin();
+	//	@SuppressWarnings("unchecked")
 		List<T> result = mManager.createNamedQuery(queryName).setParameter(pPara, pVal).getResultList();
-		trx.commit();
+	//	trx.commit();
 		return result;
 	}
 
@@ -226,5 +224,9 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	@Override
 	public Class<T> getDaoClass() {
 		return mClz;
+	}
+	@Override
+	public Query createNamedQuery(String query) {
+		return mManager.createNamedQuery(query);
 	}
 }

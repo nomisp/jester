@@ -10,11 +10,18 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "Player")
 @NamedQueries({
-		@NamedQuery(name = "getAll", query = "SELECT player FROM Player player order by lastName, firstName"),
-		@NamedQuery(name = "getAllUnsorted", query = "SELECT player FROM Player player"),
-		@NamedQuery(name = "count", query = "SELECT count(player) FROM Player player"),
-		@NamedQuery(name = "findByName", query = "SELECT player FROM Player player WHERE UPPER(player.lastName) LIKE :lastName order by lastName, firstName") })
+		@NamedQuery(name = Player.QUERY_GETALL, query = "SELECT player FROM Player player order by lastName, firstName"),
+		@NamedQuery(name = Player.QUERY_GETALL_UNSORTED, query = "SELECT player FROM Player player"),
+		@NamedQuery(name = Player.QUERY_COUNT, query = "SELECT count(player) FROM Player player"),
+		@NamedQuery(name = Player.QUERY_FINDBYNAME, query = "SELECT player FROM Player player WHERE UPPER(player.lastName) LIKE :lastName order by lastName, firstName") ,
+		@NamedQuery(name = Player.QUERY_VALIDFIDECODE, query = "SELECT player FROM Player player WHERE player.fideCode > 0") })
 public class Player extends AbstractModelBean<Player> {
+	public final static String QUERY_GETALL = "getAll";
+	public final static String QUERY_GETALL_UNSORTED ="getAllUnsorted";
+	public final static String QUERY_COUNT ="count";
+	public final static String QUERY_FINDBYNAME ="findByName";
+	public final static String QUERY_VALIDFIDECODE ="findByFideCode";
+	
 	private static final long serialVersionUID = -2351315088207630377L;
 
 	@Column(name = "FirstName", nullable = false, length = 50)
@@ -34,6 +41,7 @@ public class Player extends AbstractModelBean<Player> {
 	@Column(name = "Nation", nullable = true, length = 50)
 	private String nation;
 
+	@org.hibernate.annotations.Index(name = "IDX_FIDEINDEX")
 	@Column(name = "FideCode", nullable = true)
 	private Integer fideCode;
 

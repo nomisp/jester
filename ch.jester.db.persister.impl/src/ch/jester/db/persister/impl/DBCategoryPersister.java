@@ -11,13 +11,13 @@ public class DBCategoryPersister extends GenericPersister<Category> implements I
 
 	@Override
 	public List<Category> findByName(String name) {
-		return super.findByParameter("CategoryByName", "description",
+		return super.executeNamedQuery("CategoryByName", "description",
 				prepareLikeSearch(name, MatchMode.ANYWHERE));
 	}
 
 	@Override
 	public Category findByPlayer(Player player) {
-		return super.findByParameter("CategoryByPlayer", "player", player).get(0);
+		return super.executeNamedQuery("CategoryByPlayer", "player", player).get(0);
 	}
 
 }
