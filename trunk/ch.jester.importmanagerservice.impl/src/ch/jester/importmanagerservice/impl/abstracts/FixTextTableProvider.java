@@ -106,11 +106,32 @@ public class FixTextTableProvider implements IVirtualTable<String>{
 		}
 		@Override
 		public int getDelimiterSequence() {
-			return -1;
+			return seq;
 		}
 		@Override
 		public void setDelimiterSequence(int i) {
 			seq=i;
+		}
+		@Override
+		public void setName(String text) {
+			name = text;
+			
+		}
+		@Override
+		public int getStart() {
+			return cellStart;
+		}
+		@Override
+		public void setStart(int i) {
+			cellStart = i;
+		}
+		@Override
+		public int getStop() {
+			return cellStop;
+		}
+		@Override
+		public void setStop(int i) {
+			cellStop = i;
 		}
 	}
 	

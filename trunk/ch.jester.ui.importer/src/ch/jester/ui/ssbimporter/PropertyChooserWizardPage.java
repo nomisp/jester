@@ -63,14 +63,14 @@ public class PropertyChooserWizardPage extends WizardPage{
 		
 		Label lblInput = new Label(container, SWT.NONE);
 		lblInput.setBounds(5, 5, 122, 15);
-		lblInput.setText("Input (20 Testrecords)");
+		lblInput.setText("Input Preview");
 		
 		mInputTableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
 		
 		table_2 = mInputTableViewer.getTable();
 		table_2.setLinesVisible(true);
 		table_2.setHeaderVisible(true);
-		table_2.setBounds(5, 36, 617, 85);
+		table_2.setBounds(5, 26, 559, 95);
 		
 		
 	
@@ -89,28 +89,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(mMatchingTableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn_2 = tableViewerColumn_2.getColumn();
 		tblclmnNewColumn_2.setWidth(100);
-		tblclmnNewColumn_2.setText("Input Attribute");
-		
-		
-		Button btnNewButton = new Button(container, SWT.NONE);
-		btnNewButton.setBounds(159, 0, 75, 25);
-		btnNewButton.setText("refresh");
-		btnNewButton.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseUp(MouseEvent e) {			
-			}
-			
-			@Override
-			public void mouseDown(MouseEvent e) {
-				parse();
-			}
-			
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				
-			}
-		});
+		tblclmnNewColumn_2.setText("Input Columns");
 		
 	
 		
@@ -140,6 +119,10 @@ public class PropertyChooserWizardPage extends WizardPage{
 			@Override
 			protected CellEditor getCellEditor(Object element) {
 				values = getInputAttributes();
+				String[] val = new String[values.length+1];
+				System.arraycopy(values, 0, val, 1, values.length);
+				val[0]="";
+				values = val;
 				return new ComboBoxCellEditor(mMatchingTableViewer.getTable(), values);
 			}
 			
@@ -150,8 +133,8 @@ public class PropertyChooserWizardPage extends WizardPage{
 		});
 		
 		btnAddCol = new Button(container, SWT.NONE);
-		btnAddCol.setBounds(5, 125, 92, 25);
-		btnAddCol.setText("Modify Input");
+		btnAddCol.setBounds(5, 125, 109, 25);
+		btnAddCol.setText("Modify Columns");
 		btnAddCol.setEnabled(false);
 		
 	this.btnAddCol.addMouseListener(new MouseListener() {
