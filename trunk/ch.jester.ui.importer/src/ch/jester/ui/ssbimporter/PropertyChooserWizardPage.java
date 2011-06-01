@@ -231,8 +231,10 @@ public class PropertyChooserWizardPage extends WizardPage{
 		inputContent.clear();
 		for(int i=1;i<20;i++){
 			Object o = access.getRow(i);
-			String[] rowcontent = access.processRow(o, pLength);
-			inputContent.add(rowcontent);
+			if(o!=null){
+				String[] rowcontent = access.processRow(o, pLength);
+				inputContent.add(rowcontent);
+			}
 		}
 		
 		
