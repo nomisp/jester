@@ -140,7 +140,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		@SuppressWarnings("unchecked")
-		List<T> result = mManager.createNamedQuery("getAll").getResultList();
+		List<T> result = mManager.createNamedQuery(mClz.getSimpleName()+".getAll").getResultList();
 		trx.commit();
 		return result;
 	}

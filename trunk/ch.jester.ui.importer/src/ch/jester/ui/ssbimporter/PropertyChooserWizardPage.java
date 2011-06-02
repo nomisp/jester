@@ -201,6 +201,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 	}
 	private void parse() {
 		String[] headers = getInputAttributes();
+		if(headers.length==0){return;}
 		for(TableColumn c:inputCols){
 			c.dispose();
 		}
@@ -263,6 +264,9 @@ public class PropertyChooserWizardPage extends WizardPage{
 	private String[] getInputAttributes(){
 		IImportHandler handler = mSelection.getSelectedHandlerEntry().getService();
 		ITestableImportHandler testableHandler = AdapterUtility.getAdaptedObject(handler, ITestableImportHandler.class);
+		if(testableHandler==null){
+			return new String[]{};
+		}
 		final InputStream instream = ZipUtility.getZipEntry(mSelection.getSelectedZipFile(), mSelection.getSelectedZipEntry());
 		testableHandler.handleImport(instream,20, new NullProgressMonitor());
 		IVirtualTable access = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);

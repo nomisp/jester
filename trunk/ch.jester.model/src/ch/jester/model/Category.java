@@ -16,6 +16,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name="Category")
@@ -48,6 +51,7 @@ public class Category extends AbstractModelBean<Category> {
 	@Column(name="MaxRounds")
 	private Integer maxRounds; // Maximale Anzahl Runden, die in dieser Kategorie gespielt werden
 	
+
 	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
 //	@JoinTable(name = "CategoryRoundAss",
 //	        joinColumns = {@JoinColumn(name = "CategoryId")},
@@ -57,7 +61,7 @@ public class Category extends AbstractModelBean<Category> {
 	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
 	private List<Round> playedRounds = new ArrayList<Round>();	// Liste mit Runden welche bereits abgeschlossen sind.
 	
-	@OneToMany
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval=true)
 	@JoinTable(name = "CategoryPlayerAss", 
 			joinColumns = {@JoinColumn(name = "CategoryId")},
 	        inverseJoinColumns = {@JoinColumn(name = "PlayerId")})
@@ -171,6 +175,8 @@ public class Category extends AbstractModelBean<Category> {
 		this.players.remove(player);
 	}
 
+	@XmlAttribute(name="tournamentRef")
+	@XmlIDREF
 	public Tournament getTournament() {
 		return tournament;
 	}

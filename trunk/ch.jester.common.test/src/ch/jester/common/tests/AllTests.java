@@ -12,7 +12,7 @@ import ch.jester.system.ranking.test.RankingSystemTest;
 
 
 @RunWith(Suite.class)
-@SuiteClasses( {DaoEqualityTest.class,ImporterTest.class, ActivatorTest.class, CallerUtilityTest.class,  ServiceUtilityTest.class, LoggerTest.class,
+@SuiteClasses( { DaoEqualityTest.class,ImporterTest.class, ActivatorTest.class, CallerUtilityTest.class,  ServiceUtilityTest.class, LoggerTest.class,
 	CalculatorTest.class, FideCalculatorTest.class, PairingSystemTest.class, RankingSystemTest.class})
 public class AllTests {
 
