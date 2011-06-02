@@ -11,6 +11,7 @@
         <class>ch.jester.model.Pairing</class>
         <class>ch.jester.model.Player</class>
         <class>ch.jester.model.Club</class>
+        <class>ch.jester.model.PlayerCard</class>
         <!-- >properties>
          <property name="hibernate.hbm2ddl.auto" value="update" />
          <property name="hibernate.show_sql" value="true" />

@@ -10,6 +10,7 @@ import ch.jester.model.Category;
 import ch.jester.model.Club;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
+import ch.jester.model.PlayerCard;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.model.internal.Activator;
@@ -120,6 +121,19 @@ public class ModelFactory {
 	 */
 	public Player createPlayer(){
 		return createPlayer("FirstName","LastName","City",0,0,0,"Nation",0);
+	}
+	
+	/**
+	 * Erzeugen einer Spielerkarte anhand der Kategorie und des Spielers 
+	 * @param cat
+	 * @param player
+	 * @return Spielerkarte mit den Beziehungen auf die Kategorie und den Spieler
+	 */
+	public PlayerCard createPlayerCard(Category cat, Player player) {
+		PlayerCard pc = new PlayerCard();
+		pc.setCategory(cat);
+		pc.setPlayer(player);
+		return pc;
 	}
 	
 	/**

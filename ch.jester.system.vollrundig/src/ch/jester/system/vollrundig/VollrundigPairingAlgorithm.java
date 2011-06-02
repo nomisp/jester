@@ -20,6 +20,7 @@ import ch.jester.system.vollrundig.internal.VollrundigSystemActivator;
 public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 
 	private Category category;
+	private List<Round> playedRounds;
 	
 	@Override
 	public List<Pairing> executePairings(Tournament tournament, IProgressMonitor pMonitor) throws NotAllResultsException, PairingNotPossibleException {
@@ -33,8 +34,14 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	@Override
 	public List<Pairing> executePairings(Category category, IProgressMonitor pMonitor) throws PairingNotPossibleException, NotAllResultsException {
 		this.category = category;
-		isPairingPossible();
-		checkResults();
+		playedRounds = category.getPlayedRounds();
+		if (playedRounds.size() == 0) {
+			isPairingPossible();
+			
+		} else {
+//			checkResults();
+			
+		}
 		return null;
 	}
 	
@@ -58,7 +65,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	
 	/**
 	 * Überprüfen ob die Anzahl der Spieler gerade oder ungerade ist
-	 * @return
+	 * @return true, wenn die Anzahl Spieler gerade ist
 	 */
 	private boolean isNumberOfPlayersEven() {
 		int nrPlayers = category.getPlayers().size();
