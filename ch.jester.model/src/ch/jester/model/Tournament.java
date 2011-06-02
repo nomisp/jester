@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entität für die Tabelle Tournament 
@@ -23,6 +24,7 @@ import javax.validation.constraints.NotNull;
 @Table(name="Tournament")
 @NamedQueries({
 	@NamedQuery(name="AllTournaments", query="select t from Tournament t order by t.name, t.dateFrom"),
+	@NamedQuery(name="Tournament.getAll", query="select t from Tournament t order by t.name, t.dateFrom"),
 	@NamedQuery(name="AllActiveTournaments", query="select t from Tournament t where t.active = true order by t.name, t.dateFrom"),
 	@NamedQuery(name="countTournaments",query="SELECT count(Tournament) FROM Tournament"),
 	@NamedQuery(name="TournamentByName", query="select t from Tournament t where t.name like :name")
@@ -60,6 +62,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	@Column(name="EloCalculator", nullable=false)
 	private String eloCalculator; // EloCalculator (als deklarativer Service implementiert) entspricht dem EP-Attribut: class
 	
+
 	@OneToMany(mappedBy="tournament", cascade={CascadeType.ALL}, orphanRemoval=true)
 //	@JoinTable(name = "TournamentCategoryAss",
 //	        joinColumns = {@JoinColumn(name = "TournamentId")},

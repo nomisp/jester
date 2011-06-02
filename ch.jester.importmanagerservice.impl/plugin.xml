@@ -27,6 +27,12 @@
             dataProviderDescription="FIDE Webpage"
             dataProviderId="ch.jester.dataprovider.fide">
       </WebImportAdapter>
+      <ImportHandler
+            class="ch.jester.importmanagerservice.impl.internal.finalimpl.JesterDataImporter"
+            id="ch.jester.importmanagerservice.impl.jesterimporter"
+            shortType="*.xml"
+            typeDescription="Jester Data Importer">
+      </ImportHandler>
    </extension>
 
 </plugin>

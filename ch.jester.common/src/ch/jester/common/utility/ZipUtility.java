@@ -85,7 +85,7 @@ public class ZipUtility {
 	}
 
 	
-	private static InputStream deflate(ZipInputStream pZis, ZipEntry pZipEntry) {
+	public static InputStream deflate(ZipInputStream pZis, ZipEntry pZipEntry) {
 		                int size;
 		                byte[] buffer = new byte[2048];
 

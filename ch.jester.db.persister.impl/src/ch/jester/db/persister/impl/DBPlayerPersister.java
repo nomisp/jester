@@ -16,14 +16,14 @@ public class DBPlayerPersister extends GenericPersister<Player> implements IPlay
 	
 	@Override
 	public List<Player> findByName(String pName) {
-		return super.executeNamedQuery("findByName", "lastName", prepareLikeSearch(pName.toUpperCase(), MatchMode.ANYWHERE));
+		return super.executeNamedQuery(Player.QUERY_FINDBYNAME, "lastName", prepareLikeSearch(pName.toUpperCase(), MatchMode.ANYWHERE));
 	}
 	 @Override
 	protected Query getCountQuery() {
-		return super.mManager.createNamedQuery("count");
+		return super.mManager.createNamedQuery(Player.QUERY_COUNT);
 	}
 	 @Override
 	protected Query getPagingQuery() {
-		return super.mManager.createNamedQuery("getAll");
+		return super.mManager.createNamedQuery(Player.QUERY_GETALL);
 	}
 }

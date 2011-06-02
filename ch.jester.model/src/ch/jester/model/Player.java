@@ -16,11 +16,11 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Player.QUERY_FINDBYNAME, query = "SELECT player FROM Player player WHERE UPPER(player.lastName) LIKE :lastName order by lastName, firstName") ,
 		@NamedQuery(name = Player.QUERY_VALIDFIDECODE, query = "SELECT player FROM Player player WHERE player.fideCode > 0") })
 public class Player extends AbstractModelBean<Player> {
-	public final static String QUERY_GETALL = "getAll";
-	public final static String QUERY_GETALL_UNSORTED ="getAllUnsorted";
-	public final static String QUERY_COUNT ="count";
-	public final static String QUERY_FINDBYNAME ="findByName";
-	public final static String QUERY_VALIDFIDECODE ="findByFideCode";
+	public final static String QUERY_GETALL = "Player.getAll";
+	public final static String QUERY_GETALL_UNSORTED ="Player.getAllUnsorted";
+	public final static String QUERY_COUNT ="Player.count";
+	public final static String QUERY_FINDBYNAME ="Player.findByName";
+	public final static String QUERY_VALIDFIDECODE ="Player.findByFideCode";
 	
 	private static final long serialVersionUID = -2351315088207630377L;
 
