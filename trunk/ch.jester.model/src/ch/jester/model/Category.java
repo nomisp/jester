@@ -1,15 +1,11 @@
 package ch.jester.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -18,14 +14,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name="Category")
 @NamedQueries({
 	@NamedQuery(name="AllCategories", query="select c from Category c order by c.description"),
 	@NamedQuery(name="CategoryByName", query="select c from Category c where c.description like :description"),
-	@NamedQuery(name="CategoryByPlayer", query="select c from Category c where :player in c.players")
+	@NamedQuery(name="CategoryByPlayer", query="select c from Category c join fetch c.playerCards pc where :player = pc.player")
 })
 public class Category extends AbstractModelBean<Category> {
 	private static final long serialVersionUID = 6845187372965814476L;
@@ -61,11 +56,14 @@ public class Category extends AbstractModelBean<Category> {
 	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
 	private List<Round> playedRounds = new ArrayList<Round>();	// Liste mit Runden welche bereits abgeschlossen sind.
 	
-	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval=true)
-	@JoinTable(name = "CategoryPlayerAss", 
-			joinColumns = {@JoinColumn(name = "CategoryId")},
-	        inverseJoinColumns = {@JoinColumn(name = "PlayerId")})
-	private Set<Player> players = new HashSet<Player>();
+//	@OneToMany
+//	@JoinTable(name = "CategoryPlayerAss", 
+//			joinColumns = {@JoinColumn(name = "CategoryId")},
+//	        inverseJoinColumns = {@JoinColumn(name = "PlayerId")})
+//	private Set<Player> players = new HashSet<Player>();
+	
+	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
+	private List<PlayerCard> playerCards = new ArrayList<PlayerCard>();
 	
 	@ManyToOne
 	private Tournament tournament;
@@ -157,22 +155,34 @@ public class Category extends AbstractModelBean<Category> {
 		this.playedRounds.remove(round);
 	}
 
-	public Set<Player> getPlayers() {
-		return players;
+	public List<PlayerCard> getPlayerCards() {
+		return playerCards;
 	}
 
-	public void setPlayers(Set<Player> players) {
-		this.players = players;
+	public void setPlayerCards(List<PlayerCard> playerCards) {
+		this.playerCards = playerCards;
 	}
 	
-	public void addPlayer(Player player) {
-		if (player == null) throw new IllegalArgumentException("round may not be null");
-		this.players.add(player);
+	public void addPlayerCard(PlayerCard player) {
+		if (player == null) throw new IllegalArgumentException("player may not be null");
+		if (!this.playerCards.contains(player)) this.playerCards.add(player);
 	}
 	
-	public void removePlayer(Player player) {
-		if (player == null) throw new IllegalArgumentException("round may not be null");
-		this.players.remove(player);
+	public void removePlayerCard(PlayerCard player) {
+		if (player == null) throw new IllegalArgumentException("player may not be null");
+		this.playerCards.remove(player);
+	}
+
+	/**
+	 * Liefert eine Liste der Spieler
+	 * @return
+	 */
+	public List<Player> getPlayers() {
+		List<Player> players = new ArrayList<Player>();
+		for (PlayerCard playerCard : playerCards) {
+			players.add(playerCard.getPlayer());
+		}
+		return players;
 	}
 
 	@XmlAttribute(name="tournamentRef")
@@ -187,7 +197,6 @@ public class Category extends AbstractModelBean<Category> {
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
-		return null;
+		return createCompleteClone();
 	}
 }

@@ -18,6 +18,8 @@ import ch.jester.dao.ICategoryDao;
 import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Category;
 import ch.jester.model.Player;
+import ch.jester.model.PlayerCard;
+import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
 import ch.jester.ui.tournament.internal.Activator;
 
@@ -90,7 +92,8 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 	private void wirePlayers(Object[] selection) {
 		for (Object object : selection) {
 			Player p = (Player)object;
-			selectedCategory.addPlayer(p);
+			PlayerCard pc = ModelFactory.getInstance().createPlayerCard(selectedCategory, p);
+			selectedCategory.addPlayerCard(pc);
 		}
 		IDaoService<Category> catDao= Activator.getDefault().getActivationContext().getService(ICategoryDao.class);
 		catDao.save(selectedCategory);
