@@ -191,7 +191,6 @@ public class Tournament extends AbstractModelBean<Tournament> {
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result
 				+ ((eloCalculator == null) ? 0 : eloCalculator.hashCode());
-		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result
 				+ ((pairingSystem == null) ? 0 : pairingSystem.hashCode());

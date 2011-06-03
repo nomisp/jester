@@ -51,7 +51,7 @@ public class GenericDaoInputAccess implements IEditorDaoInputAccess<IEntityObjec
 
 	@Override
 	public boolean isAlreadyDirty() {
-		return mInput.getId()==0;
+		return mInput.getId()==null;
 	}
 
 }

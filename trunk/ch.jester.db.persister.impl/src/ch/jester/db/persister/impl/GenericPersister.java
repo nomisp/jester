@@ -89,7 +89,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
-		if(pT.getId()!=0){
+		if(pT.getId()!=null){
 			mManager.merge(pT);
 		}else{
 			mManager.persist(pT);
@@ -101,7 +101,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 
 	@Override
 	public void delete(T pT) {
-		if(pT.getId()==0){return;}
+		if(pT.getId()==null){return;}
 		check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
@@ -117,7 +117,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		for(T pT:pTCollection){
-			if(pT.getId()==0){continue;}
+			if(pT.getId()==null){continue;}
 			IEntityObject p = mManager.find(pT.getClass(), pT.getId());
 			mManager.remove(p);
 			

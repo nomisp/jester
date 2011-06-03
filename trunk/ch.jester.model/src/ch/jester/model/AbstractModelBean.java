@@ -29,19 +29,19 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	protected int id;
+	protected Integer id;
 	
 	@XmlAttribute(name="id")
 	@XmlID
 	public String getSerialId(){
-		return id+"";
+		return id.toString();
 	}
 	@XmlTransient
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
@@ -50,14 +50,15 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 	 * - Referenzvergleich, wenn beide Objekte id 0 haben<br>
 	 * - sonst this.id == other.id
 	 */
+	@SuppressWarnings("rawtypes")
 	public boolean equals(Object o){
 		if(o==null){return false;}
 		if (!(this.getClass().isInstance(o))) return false;
 		AbstractModelBean other = (AbstractModelBean) o;
-		if(this.getId()==0&&other.getId()==0){
+		if(this.getId()==null&&other.getId()==null){
 			return this==other;
 		}
-		return this.getId()==other.getId();
+		return this.getId().intValue()==other.getId().intValue();
 	}
 	
 	/**Erzeugt neue Instanz und setzt ID auf 0;
