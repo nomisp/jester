@@ -57,7 +57,6 @@ public class Wiz extends Wizard implements IImportWizard{
 						
 						@Override
 						public void run() throws Exception {
-							//TODO Handle Exception wenn Altes Excelfile
 							secondPage.applyChanges();
 							input.getSelectedHandlerEntry().getService().handleImport(instream, monitor);
 							
