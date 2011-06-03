@@ -140,12 +140,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <features>
       <feature id="ch.jester.rcpapplication.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.babel.nls_eclipse_de" version="3.6.0.v20101211043401"/>
-      <feature id="org.eclipse.babel.nls_eclipse_fr" version="3.6.0.v20101211043401"/>
-      <feature id="org.eclipse.babel.nls_rt.equinox.p2_de" version="3.6.0.v20101211043401"/>
-      <feature id="org.eclipse.babel.nls_rt.equinox.p2_fr" version="3.6.0.v20101211043401"/>
-      <feature id="org.eclipse.babel.nls_rt.equinox_de" version="3.6.0.v20101211043401"/>
-      <feature id="org.eclipse.babel.nls_rt.equinox_fr" version="3.6.0.v20101211043401"/>
+      <feature id="org.eclipse.rcp.nl_de" version="3.5.0"/>
    </features>
 
    <configurations>
