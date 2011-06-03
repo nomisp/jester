@@ -21,6 +21,7 @@ import ch.jester.commonservices.api.importer.IImportAttributeMatcher;
 import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.ITestableImportHandler;
 import ch.jester.commonservices.api.importer.IVirtualTable;
+import ch.jester.commonservices.exceptions.ProcessingException;
 
 public abstract class AbstractTableImporter<T, V> implements IImportHandler<InputStream>, ITestableImportHandler<InputStream>, IImportAttributeMatcher{
 	int workUnits = 10000000;
@@ -124,7 +125,7 @@ public abstract class AbstractTableImporter<T, V> implements IImportHandler<Inpu
 	}
 	@Override
 	public Object handleImport(InputStream pInputStream,
-			IProgressMonitor pMonitor) {
+			IProgressMonitor pMonitor) throws ProcessingException{
 		return handleImport(pInputStream, testLines, pMonitor);
 	}
 	@Override
@@ -177,7 +178,11 @@ public abstract class AbstractTableImporter<T, V> implements IImportHandler<Inpu
 				done();
 				mProvider=null;
 			}
-		} catch (Exception e){
+		}
+		catch (ProcessingException e){
+			throw e;
+		}
+		catch (Exception e){
 			e.printStackTrace();
 		}
 		return null;
@@ -216,9 +221,11 @@ public abstract class AbstractTableImporter<T, V> implements IImportHandler<Inpu
 		
 		Method writeMethod = desc.getWriteMethod();
 		Class<?> param = writeMethod.getParameterTypes()[0];
-		Object result = convertInput(param, object);
 		try {
+			Object result = convertInput(param, object);
 			writeMethod.invoke(domainObject, result);
+		} catch(NumberFormatException e){
+			throw new ProcessingException("Can't set value '"+object+"' to property '"+domain_property+"'!\n\nPlease check your settings.", e);
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -233,16 +240,16 @@ public abstract class AbstractTableImporter<T, V> implements IImportHandler<Inpu
 	}
 
 
-	private Object convertInput(Class<?> param, Object object) {
-		if(param == java.lang.String.class){
-			return object.toString().trim();
-		}
-		if(param == java.lang.Integer.class){
-			if(object.toString().trim().equals("")){
-				object = 0;
+	private Object convertInput(Class<?> param, Object object) throws NumberFormatException {
+			if(param == java.lang.String.class){
+				return object.toString().trim();
 			}
-			return Integer.parseInt(object.toString().trim());
-		}
+			if(param == java.lang.Integer.class){
+				if(object.toString().trim().equals("")){
+					object = 0;
+				}
+				return Integer.parseInt(object.toString().trim());
+			}
 		return object;
 	}
 	

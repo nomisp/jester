@@ -366,12 +366,12 @@ public class PlayerImportWizardPage extends WizardPage {
 		}
 		void mode_Web(){
 			mode = 1;
-			System.out.println(mode);
+		//	System.out.println(mode);
 		}
 		
 		void mode_Zip(){
 			mode = 2;
-			System.out.println(mode);
+			//System.out.println(mode);
 		}
 		
 		public List<? extends IImportHandlerEntry> getAvailableHandlers(){

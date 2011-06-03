@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.SafeRunner;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -14,8 +15,11 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
+import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.common.utility.ExceptionWrapper;
 import ch.jester.common.utility.ZipUtility;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.ui.ssbimporter.PlayerImportWizardPage.ImportSelection;
 import ch.jester.ui.ssbimporter.internal.Activator;
 
@@ -24,7 +28,7 @@ public class Wiz extends Wizard implements IImportWizard{
 	private ILogger mLogger;
 	private PlayerImportWizardPage firstPage;
 	private PropertyChooserWizardPage secondPage;
-
+	private boolean importDone = false;
 	@Override
 	public void addPages() {
 		super.addPages();
@@ -33,6 +37,8 @@ public class Wiz extends Wizard implements IImportWizard{
 		mLogger = Activator.getInstance().getActivationContext().getLogger();
 	}
 
+	
+	
 	@Override
 	public boolean performFinish() {
 		
@@ -59,7 +65,9 @@ public class Wiz extends Wizard implements IImportWizard{
 						
 						@Override
 						public void handleException(Throwable exception) {
-							// TODO Auto-generated method stub
+
+							ExceptionWrapper ew = new ExceptionWrapper(exception, ProcessingException.class);
+							MessageDialog.openError(UIUtility.getActiveWorkbenchWindow().getShell(), "Import Error", ew.getThrowableMessage());
 							
 						}
 					});
@@ -79,7 +87,8 @@ public class Wiz extends Wizard implements IImportWizard{
 		
 		return true;
 	}
-	
+
+
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
