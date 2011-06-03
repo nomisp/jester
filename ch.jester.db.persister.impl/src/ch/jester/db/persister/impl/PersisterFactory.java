@@ -58,11 +58,26 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		return null;
 	}
 	
-	/* (non-Javadoc)
-	 * @see ch.jester.db.persister.impl.IDaoServiceFactory#getDaoService(java.lang.Class)
-	 */
 	@Override
-	public <T extends IEntityObject> IDaoService<T> getDaoService(Class<T> objectClass){
+	public <T extends IDaoService<?>> T getDaoServiceByServiceInterface(
+			Class<T> objectClass) {
+		//wurde ev. ein ServiceInterface als Suchparameter übergen?
+		Class<?> clz = mServiceInterfaceRegistry.get(objectClass.getCanonicalName());
+		try {
+			return (T) clz.newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generaated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	@Override
+	public <T extends IEntityObject> IDaoService<T> getDaoServiceByEntity(Class<T> objectClass){
 		//wurde ev. ein ServiceInterface als Suchparameter übergen?
 		Class<?> clz = mServiceInterfaceRegistry.get(objectClass.getCanonicalName());
 		if(clz==null){
@@ -152,5 +167,7 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 			Class<IDaoService<T>> pServiceClass) {
 		mDaoObjectClassRegistry.put(pClass, pServiceClass);
 	}
+
+
 
 }
