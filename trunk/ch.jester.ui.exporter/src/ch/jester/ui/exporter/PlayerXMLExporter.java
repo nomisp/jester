@@ -57,7 +57,7 @@ public class PlayerXMLExporter extends Wizard implements IExportWizard {
 		for(Class c:outClass){
 			writer.prepareContext(c);
 			
-			IDaoService<?> service = su.getDaoService(c);
+			IDaoService<?> service = su.getDaoServiceByEntity(c);
 			List<?> allDomainObjects = service.getAll();
 			writer.write(allDomainObjects);
 			service.close();

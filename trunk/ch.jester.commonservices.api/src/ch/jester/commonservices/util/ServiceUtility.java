@@ -44,7 +44,8 @@ public class ServiceUtility {
 	}
 
 	/**
-	 * Versucht einen Service aus der ServiceRegistry zu bekommen.
+	 * Versucht einen Service aus der ServiceRegistry zu bekommen. <br>
+	 * IDaoService Requests werden zu {@link ServiceUtility#getDaoServiceByServiceInterface(Class)} weitergeben.
 	 * @param <T>
 	 * @param Interface
 	 * @return Ein Objekt welches das übergebene Interface implementiert oder
@@ -52,6 +53,10 @@ public class ServiceUtility {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getService(Class<T> pServiceInterface) {
+		if(IDaoService.class.isAssignableFrom(pServiceInterface)){
+			Class<IDaoService<IEntityObject>> clz = (Class<IDaoService<IEntityObject>>) pServiceInterface;
+			return (T) getDaoServiceByServiceInterface(clz);
+		}
 		ServiceTracker tracker = getServiceTracker(pServiceInterface, true);
 		Object service = tracker.getService();
 		return (T) service;
@@ -169,14 +174,14 @@ public class ServiceUtility {
 	 * Versucht eine brandneue ServiceInstanz zu bekommen.
 	 * Dies hängt allerdings mit der Bereitstellung des Services zusammen, so dass
 	 * keine Garanntie dafür besteht.
-	 * @deprecated use {@link ServiceUtility#getDaoService(Class)}
+	 * @deprecated use {@link ServiceUtility#getDaoServiceByEntity(Class)}
 	 * @param <T>
 	 * @param pServiceInterface
 	 * @return
 	 */
 	@Deprecated 
 	@SuppressWarnings("unchecked")
-	public <T> T getExclusiveService(Class<T> pServiceInterface) {
+	private <T> T getExclusiveService(Class<T> pServiceInterface) {
 		synchronized(GLOBAL_LOCK){
 		ServiceTracker tracker = createTracker(pServiceInterface);
 		tracker.open();
@@ -190,16 +195,29 @@ public class ServiceUtility {
 	}
 
 	/**
-	 * Holt eine brand neue Instanz eines IDaoServices.
+	 * Holt eine brandneue Instanz eines IDaoServices.
 	 * 
 	 * @param <T>
 	 * @param pClass eine konkrete Klasse, welche IDaoServiceObject implementiert
 	 * @return eine Serviceimplementierung
 	 */
-	public <T extends IEntityObject> IDaoService<T> getDaoService(Class<T> pClass){
+	public <T extends IEntityObject> IDaoService<T> getDaoServiceByEntity(Class<T> pClass){
 		IDaoServiceFactory factory = getService(IDaoServiceFactory.class);
 		if(factory==null){return null;}
-		return factory.getDaoService(pClass);
+		return factory.getDaoServiceByEntity(pClass);
+	}
+	
+	/**
+	 * Holt eine brandneue Instanz eines IDaoServices.
+	 * 
+	 * @param <T>
+	 * @param pClass eine konkrete Klasse, welche IDaoServiceObject implementiert
+	 * @return eine Serviceimplementierung
+	 */
+	public <T extends IDaoService<?>> T getDaoServiceByServiceInterface(Class<T> pClass){
+		IDaoServiceFactory factory = getService(IDaoServiceFactory.class);
+		if(factory==null){return null;}
+		return factory.getDaoServiceByServiceInterface(pClass);
 	}
 
 }

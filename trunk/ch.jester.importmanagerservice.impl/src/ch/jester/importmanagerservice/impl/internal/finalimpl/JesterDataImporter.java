@@ -44,7 +44,7 @@ public class JesterDataImporter implements IImportHandler {
 
 		for(IEntityObject o:list){
 			Class<IEntityObject> clz = (Class<IEntityObject>) o.getClass();
-			IDaoService<IEntityObject> service = su.getDaoService(clz);
+			IDaoService<IEntityObject> service = su.getDaoServiceByEntity(clz);
 			service.save(o);
 			service.close();
 			

@@ -83,7 +83,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					tournament.setEloCalculator(systemPage.getEloCalculatorEntry().getImplementationClass());
 					tournament.setCategories(categories);	// Aufgrund des Cascadings werden die hinzugefügten Kategorien gleich mit persistiert
 					tournament.setActive(true);
-					IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);//su.getExclusiveService(ITournamentDao.class);
+					IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);//su.getExclusiveService(ITournamentDao.class);
 					tournamentPersister.save(tournament);
 //					categoryPersister.save(categories);
 					mLogger.debug("Tournament " + tournament.getName() + " with Id " + tournament.getId() + " created");

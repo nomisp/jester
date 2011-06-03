@@ -80,8 +80,7 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 	 * @return
 	 */
 	private Object[] getPlayers() {
-		IDaoService<Player> pdao= Activator.getDefault().getActivationContext().getService(IPlayerDao.class);
-		
+		IDaoService<Player> pdao= getServiceUtil().getDaoServiceByServiceInterface(IPlayerDao.class);
 		return pdao.getAll().toArray();
 	}
 	
@@ -95,7 +94,7 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 			PlayerCard pc = ModelFactory.getInstance().createPlayerCard(selectedCategory, p);
 			selectedCategory.addPlayerCard(pc);
 		}
-		IDaoService<Category> catDao= Activator.getDefault().getActivationContext().getService(ICategoryDao.class);
+		IDaoService<Category> catDao= getServiceUtil().getDaoServiceByServiceInterface(ICategoryDao.class);
 		catDao.save(selectedCategory);
 	}
 	
