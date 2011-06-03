@@ -1,5 +1,6 @@
 package ch.jester.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -7,6 +8,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
 
 /**
  * Spielerkarte um einem Spieler für das Turnier relevante Daten
@@ -20,7 +23,7 @@ import javax.persistence.Table;
 public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	private static final long serialVersionUID = -2710264494286525315L;
 	
-	@OneToOne
+	@OneToOne(cascade={CascadeType.PERSIST})
 	@JoinTable(name="PlayerCardPlayerAss",
 				joinColumns = {@JoinColumn(name = "PlayerCardId")},
 				inverseJoinColumns = {@JoinColumn(name = "PlayerId")})
@@ -44,6 +47,8 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		return category;
 	}
 
+	@XmlIDREF
+	@XmlAttribute(name="categoryRef")
 	public void setCategory(Category category) {
 		this.category = category;
 	}

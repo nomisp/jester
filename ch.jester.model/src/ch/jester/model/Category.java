@@ -12,13 +12,16 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name="Category")
 @NamedQueries({
 	@NamedQuery(name="AllCategories", query="select c from Category c order by c.description"),
+	@NamedQuery(name="Category.getAll", query="select c from Category c order by c.description"),
 	@NamedQuery(name="CategoryByName", query="select c from Category c where c.description like :description"),
 	@NamedQuery(name="CategoryByPlayer", query="select c from Category c join fetch c.playerCards pc where :player = pc.player")
 })
@@ -63,6 +66,7 @@ public class Category extends AbstractModelBean<Category> {
 //	private Set<Player> players = new HashSet<Player>();
 	
 	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
+		
 	private List<PlayerCard> playerCards = new ArrayList<PlayerCard>();
 	
 	@ManyToOne
@@ -177,6 +181,7 @@ public class Category extends AbstractModelBean<Category> {
 	 * Liefert eine Liste der Spieler
 	 * @return
 	 */
+	@XmlTransient
 	public List<Player> getPlayers() {
 		List<Player> players = new ArrayList<Player>();
 		for (PlayerCard playerCard : playerCards) {
@@ -198,5 +203,9 @@ public class Category extends AbstractModelBean<Category> {
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return createCompleteClone();
+	}
+	
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+		    this.tournament = (Tournament)parent;
 	}
 }
