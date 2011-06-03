@@ -11,10 +11,10 @@ public interface IEntityObject extends Serializable{
 	/** Die generierte ID des Objektes
 	 * @return
 	 */
-	public int getId();
+	public Integer getId();
 
 	/**Setzt die Id
 	 * @param id
 	 */
-	public void setId(int id);
+	public void setId(Integer id);
 }

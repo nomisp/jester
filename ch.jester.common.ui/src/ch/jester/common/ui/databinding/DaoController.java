@@ -179,7 +179,7 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 				if(!closedEditor.wasSaved()){
 					IEditorInputAccess<IEntityObject> input = (IEditorInputAccess<IEntityObject>)closedEditor.getEditorInput();
 					//TODO Issue!!
-					if(input.getInput().getId()==0){
+					if(input.getInput().getId()==null){
 						obsModel.remove(input.getInput());
 					}
 				}
