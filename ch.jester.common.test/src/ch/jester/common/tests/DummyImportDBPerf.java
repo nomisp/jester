@@ -40,7 +40,7 @@ public class DummyImportDBPerf {
 			protected IStatus run(IProgressMonitor monitor) {
 				IPlayerDao persister = null;
 						//for(int i=0;i<5;i++){
-							persister = su.getExclusiveService(IPlayerDao.class);
+							persister = su.getDaoServiceByServiceInterface(IPlayerDao.class);
 							System.out.println("Persister : "+persister);
 						//}
 						StopWatch watch = new StopWatch();
@@ -104,7 +104,7 @@ public class DummyImportDBPerf {
 					System.out.println(" avg: "+avg+" trx/sec");
 					StopWatch w0 = new StopWatch();
 					w0.start();
-					int players = su.getExclusiveService(IPlayerDao.class).getAll().size();
+					int players = su.getDaoServiceByServiceInterface(IPlayerDao.class).getAll().size();
 					w0.stop();
 					System.out.println("Got "+players+" with DAO select in "+w0.getElapsedTime()+" seconds");
 					

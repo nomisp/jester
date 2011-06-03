@@ -83,7 +83,7 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 		} else if (element instanceof Round) {
 			return ((Round)element).getCategory();
 		} else if (element instanceof Player) {
-			ICategoryDao categoryPersister = su.getExclusiveService(ICategoryDao.class);
+			ICategoryDao categoryPersister = su.getDaoServiceByServiceInterface(ICategoryDao.class);
 			return categoryPersister.findByPlayer((Player)element);
 		} else if (element instanceof PlayerFolder) {
 			return ((PlayerFolder)element).getParent();
@@ -123,7 +123,7 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 	 * Laden aller Turniere aus der Datenbank
 	 */
 	private void initializeTournaments() {
-		IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);
+		IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);
 		List<Tournament> allTournaments = tournamentPersister.executeNamedQuery("AllActiveTournaments");
 //		tournaments = allTournaments.size() > 0 ? (Tournament[]) allTournaments.toArray() : new Tournament[0];
 		tournaments = getTournamentArray(allTournaments);
@@ -194,7 +194,7 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 	@Override
 	public void handleDelete(List<Tournament> pList) {
 		for(Tournament t:pList){
-			IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);
+			IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);
 			tournamentPersister.delete(t);
 		}
 	}

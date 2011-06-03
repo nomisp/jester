@@ -42,7 +42,7 @@ public abstract class DaoAddHandler extends AbstractCommandHandler {
 		if (view == null) {
 			@SuppressWarnings("unchecked")
 			IDaoService<IEntityObject> service = (IDaoService<IEntityObject>) mServiceUtility
-					.getDaoService(object.getClass());
+					.getDaoServiceByEntity(object.getClass());
 			service.save(object);
 			return null;
 		}

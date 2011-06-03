@@ -56,7 +56,7 @@ public class ImportExportTest {
 		cat1.addPlayerCard(pc1);
 		cat1.addPlayerCard(pc2);
 		
-		su.getDaoService(Tournament.class).save(tournament);
+		su.getDaoServiceByEntity(Tournament.class).save(tournament);
 		
 		return tournament;
 	}
@@ -69,13 +69,13 @@ public class ImportExportTest {
 	
 	public void testExport() throws JAXBException, IOException{
 		createAndSaveTournament();
-		List<Tournament> tlist = su.getDaoService(Tournament.class).getAll();
+		List<Tournament> tlist = su.getDaoServiceByEntity(Tournament.class).getAll();
 		Assert.assertEquals(1, tlist.size());
 		
-		List<Category> clist = su.getDaoService(Category.class).getAll();
+		List<Category> clist = su.getDaoServiceByEntity(Category.class).getAll();
 		Assert.assertEquals(2, clist.size());
 		
-		List<Player> plist = su.getDaoService(Player.class).getAll();
+		List<Player> plist = su.getDaoServiceByEntity(Player.class).getAll();
 		Assert.assertEquals(2, plist.size());
 		
 		ObjectXMLSerializer serializer = new ObjectXMLSerializer();
@@ -108,7 +108,7 @@ public class ImportExportTest {
 		}
 		Assert.assertNotNull(cat);
 		Assert.assertEquals(2, cat.getPlayerCards().size());
-		su.getDaoService(Tournament.class).save(tournament);
+		su.getDaoServiceByEntity(Tournament.class).save(tournament);
 	}
 	
 	@Test
