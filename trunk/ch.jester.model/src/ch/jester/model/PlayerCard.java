@@ -40,7 +40,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	}
 
 	public void setPlayer(Player player) {
-		this.player = player;
+		changeProperty("player", player);
 	}
 
 	public Category getCategory() {
@@ -50,7 +50,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	@XmlIDREF
 	@XmlAttribute(name="categoryRef")
 	public void setCategory(Category category) {
-		this.category = category;
+		changeProperty("category", category);
 	}
 
 	public Integer getNumber() {
@@ -58,12 +58,9 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	}
 
 	public void setNumber(Integer number) {
-		this.number = number;
+		changeProperty("number", number);
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.jester.model.AbstractModelBean#clone()
-	 */
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return createCompleteClone();
