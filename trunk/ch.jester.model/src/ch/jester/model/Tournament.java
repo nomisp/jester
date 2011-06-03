@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElementRefs;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -135,6 +137,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	public void setEloCalculator(String eloCalculator) {
 		this.eloCalculator = eloCalculator;
 	}
+
 
 	public Set<Category> getCategories() {
 		return categories;
