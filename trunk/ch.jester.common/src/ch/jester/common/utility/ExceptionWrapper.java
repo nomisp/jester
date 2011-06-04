@@ -11,11 +11,11 @@ import java.lang.reflect.InvocationTargetException;
 public class ExceptionWrapper{
 	Throwable mEx, mRoot, mT;
 	Class<?> mClz;
-	public ExceptionWrapper(Throwable pException, Class<?> pExceptionClass){
+	 ExceptionWrapper(Throwable pException, Class<?> pExceptionClass){
 		mEx = pException;
 		mClz=pExceptionClass;
 	}
-	public ExceptionWrapper(Throwable pException){
+	 ExceptionWrapper(Throwable pException){
 		mEx=pException;
 	}
 	/**
@@ -24,6 +24,9 @@ public class ExceptionWrapper{
 	 */
 	public Throwable getThrowable() {
 		Throwable current = mEx;
+		if(mClz==null){
+			return getRootThrowable();
+		}
 		for(;;){
 			if(mClz.isAssignableFrom(current.getClass())){
 				break;
