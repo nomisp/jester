@@ -179,6 +179,20 @@ public class Player extends AbstractModelBean<Player> {
 		return firstName + " " + lastName;
 	}
 	
+	@Override
+	public boolean equalProperties(Player pOther) {
+		if(this.fideCode!=null && pOther.fideCode!=null){
+			if(this.fideCode==pOther.fideCode.intValue()&&this.fideCode>0 && pOther.fideCode>0){
+				return true;
+			}
+		}
+		if(this.nationalCode!=null && pOther.nationalCode!=null){
+			if(this.nationalCode==pOther.nationalCode.intValue() && this.nationalCode>0 && pOther.nationalCode>0){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
