@@ -6,7 +6,6 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.common.utility.ExceptionUtility;
-import ch.jester.common.utility.RandomUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
@@ -23,6 +22,12 @@ import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.pairing.impl.PairingHelper;
 import ch.jester.system.vollrundig.internal.VollrundigSystemActivator;
 
+/**
+ * Implementierung des Round-Robin Paarungsalgorithmuses
+ * Erklärung zum Algorithmus: <link>http://www-i1.informatik.rwth-aachen.de/~algorithmus/algo36.php</link>
+ * @author Peter
+ *
+ */
 public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 
 	private ILogger mLogger;
@@ -58,6 +63,8 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 					if (realException instanceof NoStartingNumbersException) {
 						mLogger.info(realException.getMessage(), realException);
 						throw new PairingNotPossibleException(realException.getMessage());
+					} else {
+						e.printStackTrace();
 					}
 				}
 			}
@@ -125,7 +132,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	private void initPlayerNumbers() {
 		List<PlayerCard> playerCards = category.getPlayerCards();
 		int numberOfPlayers = playerCards.size();
-		List<Integer> startingNumbers = RandomUtility.createStartingNumbers(numberOfPlayers);
+		List<Integer> startingNumbers = PairingHelper.createRandomStartingNumbers(numberOfPlayers);
 		for (int i = 0; i < numberOfPlayers; i++) {
 			playerCards.get(i).setNumber(startingNumbers.get(i));
 		}
@@ -139,13 +146,57 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	private List<Pairing> createPairings() throws NoStartingNumbersException {
 		List<Pairing> pairings = new ArrayList<Pairing>();
 		List<Round> rounds = category.getRounds();
-		List<PlayerCard> playerCards = PairingHelper.getOrderedPlayerCards(category.getPlayerCards());
+		PlayerCard[] playerCards = PairingHelper.getOrderedPlayerCards(category.getPlayerCards());
+		int numberOfPlayers = playerCards.length;
+		boolean secondRound = false;	// Vorerst Keine Rückrunde!
 		if (isNumberOfPlayersEven()) {
-			for (int i = 0; i < rounds.size(); i++) {
-				if (i % 2 == 0) {	// Spieler 1 hat weiss!
+			int n = numberOfPlayers - 1;
+			
+			for (int i = 1; i <= n; i++) {
+				int white = numberOfPlayers;
+				int black = i;
+				// weiss, schwarz?
+				if(i % 2 != 0) {
+					int tmp = white;
+					white = black;
+					black = tmp;
+				}
+				System.out.println("White: " + white + " Black: " + black);
+				Pairing p = new Pairing();
+				p.setWhite(playerCards[white-1].getPlayer());
+				p.setBlack(playerCards[black-1].getPlayer());
+				p.setRound(rounds.get(i-1));
+				pairings.add(p);
+				
+				for (int k = 1; k <= numberOfPlayers/2-1; k++) {
+					if (i-k < 0) {
+						white = n+(i-k);
+					} else {
+						white = (i-k) % n;
+						white = white == 0 ? n : white; // 0 -> n-1
+					}
 					
+					black = (i+k) % n;
+					black = black == 0 ? n : black; // 0 -> n-1
+					
+					if (k % 2 == 0) {
+						int tmp = white;
+						white = black;
+						black = tmp;
+					}
+					p = new Pairing();
+					p.setWhite(playerCards[white-1].getPlayer());
+					p.setBlack(playerCards[black-1].getPlayer());
+					p.setRound(rounds.get(i-1));
+					pairings.add(p);
+					
+					System.out.println("White: " + white + " Black: " + black);
 				}
 			}
+		}
+		
+		for (Pairing pairing : pairings) {
+			System.out.println(pairing.toString());
 		}
 		return pairings;
 	}

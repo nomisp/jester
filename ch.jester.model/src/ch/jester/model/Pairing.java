@@ -61,7 +61,14 @@ public class Pairing extends AbstractModelBean<Pairing> {
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
-		return null;
+		return createCompleteClone();
+	}
+	
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(white.toString());
+		sb.append(" vs ");
+		sb.append(black.toString());
+		return sb.toString();
 	}
 }
