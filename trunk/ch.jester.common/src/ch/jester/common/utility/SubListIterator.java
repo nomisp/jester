@@ -1,5 +1,6 @@
 package ch.jester.common.utility;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 	
 /**
- * Iteriert über Sublisten
+ * Iteriert über Sublisten. <br>
  *
  * @param <T>
  */
@@ -39,7 +40,13 @@ public class SubListIterator<T> implements Iterator<List<T>>{
 			return mCurrentIteration<mTotalIterations;
 		}
 
-		@Override
+		
+	
+		/** 
+		 * Gibt die nächste Subliste zurück.
+		 * Die Implementation erzeugt eine neuer List, so dass Elemente hinzugefügt/entfernt werden können 
+		 * 
+		 **/
 		public List<T> next() {
 			int start = mCurrentIteration * mLoad;
 			int end = start + mLoad;
@@ -47,7 +54,7 @@ public class SubListIterator<T> implements Iterator<List<T>>{
 				end = mOrigList.size();
 			}
 			mCurrentIteration++;
-			return mOrigList.subList(start, end);
+			return new ArrayList<T>(mOrigList.subList(start, end));
 		}
 
 		@Override

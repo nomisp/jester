@@ -45,6 +45,10 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 		this.id = id;
 	}
 	
+	public boolean isUnsafed(){
+		return id == null;
+	}
+	
 	/**
 	 * Regeln:<br>
 	 * - Referenzvergleich, wenn beide Objekte id 0 haben<br>
@@ -55,10 +59,36 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 		if(o==null){return false;}
 		if (!(this.getClass().isInstance(o))) return false;
 		AbstractModelBean other = (AbstractModelBean) o;
-		if(this.getId()==null&&other.getId()==null){
+		//beide unsafed
+		if(this.id==null&&other.id==null){
 			return this==other;
 		}
-		return this.getId().intValue()==other.getId().intValue();
+		//nur einer unsafed
+		if(this.id==null&&other.id!=null || this.id!=null && other.id==null){
+			return equalProperties((T)other);
+		}else{
+			
+			return this.id.intValue()==other.id.intValue();
+		}
+		/*if(pE){
+			return pE;
+		}*/
+		
+/*		if(this.id==0 && other.id == 0){
+			return this==other;
+		}
+		return this.id.intValue()==other.id.intValue();*/
+	}
+	
+	/**Bereits überprüft wurden:<br>
+	 * - null <br>
+	 * - Klasse <br>
+	 * - id <br>
+	 * @param pOther
+	 * @return
+	 */
+	public boolean equalProperties(T pOther){
+		return false;
 	}
 	
 	/**Erzeugt neue Instanz und setzt ID auf 0;

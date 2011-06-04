@@ -10,16 +10,17 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import ch.jester.common.importer.AbstractTableImporter;
 import ch.jester.common.utility.SubListIterator;
 import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
 
-public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T, Player> {
+public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T, Player> implements DuplicateChecker<Player> {
 	protected ServiceUtility su = new ServiceUtility();
 	
 	@Override
 	public String[] getDomainObjectAttributes() {
-		return new String[]{"lastName","firstName","fideCode","elo","age","city","nation"};
+		return new String[]{"lastName","firstName","fideCode","nationalCode","elo","age","city","nation"};
 	}
 
 	@Override
@@ -28,23 +29,40 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 		SubListIterator<Player> iterator = new SubListIterator<Player>(pDomainObjects, chunkSize);
 		
 		IDaoService<Player> checker = su.getDaoServiceByEntity(Player.class);
-		boolean checkDoubleEntries = checker.count()>0;
-		Query fideQuery = checker.createQuery("SELECT player FROM Player player WHERE player.fideCode in (:fideCode)");
+		boolean checkDoubleEntries = checkDuplicates(checker);
+		Query duplQuery = createDuplicationCheckingQuery(checker);
 		
 		int chunkCount = 0;
 		while(iterator.hasNext()){
-			List<Player> sublist = iterator.next();
+			List<Player> origList = iterator.next();
 			IDaoService<Player> playerpersister = su.getDaoServiceByEntity(Player.class);
 			
+			List<Player> duplicates=null;
 			if(checkDoubleEntries){
 				pMonitor.subTask("Checking Duplicates");
-				List<Integer> fideCodes = createFideList(sublist);
-				List<Player> duplicates = fideQuery.setParameter("fideCode", fideCodes).getResultList();
+				List<?> codes = getDuplicationKeys(origList);
+				duplicates = duplQuery.setParameter(getParameter(), codes).getResultList();
 				System.out.println("Duplicates found >>>>"+duplicates.size());
 				
 			}
 			pMonitor.subTask("Saving Players: "+(chunkSize*chunkCount)+" - "+(chunkSize*(chunkCount+1)));
-			playerpersister.save(sublist);
+			
+			if(duplicates!=null){
+				origList.removeAll(duplicates);
+			}
+			
+			if(!origList.isEmpty()){
+				playerpersister.save(origList);
+			}
+			if(checkDoubleEntries){
+				handleDuplicates(checker, duplicates);
+			}
+			
+		/*	if(!checkDoubleEntries||(duplicates!=null&&duplicates.isEmpty())){
+				playerpersister.save(origList);
+			}else{
+				handleDuplicates(checker, duplicates);
+			}*/
 			playerpersister.close();
 			chunkCount++;
 		}
@@ -52,13 +70,18 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 		
 	}
 
-	private List<Integer> createFideList(List<Player> sublist) {
+	@Override
+	public boolean checkDuplicates(
+			IDaoService<? extends IEntityObject> pDaoService) {
+		return pDaoService.count()>0;
+	}
+	/*private List<Integer> createFideList(List<Player> sublist) {
 		List<Integer> fide = new ArrayList<Integer>();
 		for(Player p:sublist){
 			fide.add(p.getFideCode());
 		}
 		return fide;
-	}
+	}*/
 	@Override
 	protected Player createNewDomainObject() {
 		return ModelFactory.getInstance().createPlayer();
