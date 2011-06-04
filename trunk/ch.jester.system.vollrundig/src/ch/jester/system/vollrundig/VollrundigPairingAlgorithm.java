@@ -5,22 +5,34 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import ch.jester.common.utility.ExceptionUtility;
+import ch.jester.common.utility.RandomUtility;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoService;
-import ch.jester.dao.ICategoryDao;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
+import ch.jester.model.PlayerCard;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
+import ch.jester.system.exceptions.NoStartingNumbersException;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
+import ch.jester.system.pairing.impl.PairingHelper;
 import ch.jester.system.vollrundig.internal.VollrundigSystemActivator;
 
 public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 
+	private ILogger mLogger;
 	private Category category;
 	private List<Round> playedRounds;
+	private ServiceUtility mServiceUtil = new ServiceUtility();
+	
+	public VollrundigPairingAlgorithm() {
+		mLogger = VollrundigSystemActivator.getDefault().getActivationContext().getLogger();
+	}
 	
 	@Override
 	public List<Pairing> executePairings(Tournament tournament, IProgressMonitor pMonitor) throws NotAllResultsException, PairingNotPossibleException {
@@ -35,14 +47,26 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	public List<Pairing> executePairings(Category category, IProgressMonitor pMonitor) throws PairingNotPossibleException, NotAllResultsException {
 		this.category = category;
 		playedRounds = category.getPlayedRounds();
-		if (playedRounds.size() == 0) {
-			isPairingPossible();
-			
+		List<Pairing> pairings = null;
+		if (playedRounds.size() == 0) { // Neues Turnier
+			if (isPairingPossible()) {
+				initPlayerNumbers();
+				try {
+					pairings = createPairings();
+				} catch (Exception e) {
+					Throwable realException = ExceptionUtility.getRealException(e);
+					if (realException instanceof NoStartingNumbersException) {
+						mLogger.info(realException.getMessage(), realException);
+						throw new PairingNotPossibleException(realException.getMessage());
+					}
+				}
+			}
 		} else {
+//			TODO Peter: Erneutes Paaren, wenn wärend einem laufenden Turnier ein neuer Spieler hinzu kommt.
 //			checkResults();
 			
 		}
-		return null;
+		return pairings;
 	}
 	
 	/**
@@ -51,13 +75,13 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	 * @return false wenn weder Runden noch Spieler 
 	 */
 	private boolean isPairingPossible() throws PairingNotPossibleException {
-		if (category.getPlayers().size() == 0) {
+		if (category.getPlayerCards().size() == 0) {
 			throw new PairingNotPossibleException("No players available in Category: " + category.getDescription());
 		}
 		if (isNumberOfPlayersEven()) {
-			createRounds((category.getPlayers().size()-1)-category.getRounds().size());
+			createRounds((category.getPlayerCards().size()-1)-category.getRounds().size());
 		} else {
-			createRounds(category.getPlayers().size()-category.getRounds().size());
+			createRounds(category.getPlayerCards().size()-category.getRounds().size());
 		}
 		
 		return true;
@@ -78,8 +102,8 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	 * @param numberOfRounds Anzahl anzulegender Runden
 	 * @return true wenn Runden angelegt werden mussten.
 	 */
-	private int createRounds(int numberOfRounds) {
-		if (numberOfRounds > 0) return 0;
+	private boolean createRounds(int numberOfRounds) {
+		if (numberOfRounds == 0) return false;
 		int cnt = category.getRounds().size();
 		ModelFactory modelFactory = ModelFactory.getInstance();
 		for (int i = 0; i < numberOfRounds; i++) {
@@ -87,9 +111,43 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 			round.setCategory(category);
 			category.addRound(round);
 		}
-		IDaoService<Category> catDao= VollrundigSystemActivator.getDefault().getActivationContext().getService(ICategoryDao.class);
-		catDao.save(category);
-		return cnt-category.getRounds().size();
+		IDaoService<Category> categoryPersister = mServiceUtil.getDaoServiceByEntity(Category.class);
+		categoryPersister.save(category);
+//		IDaoService<Category> catDao = VollrundigSystemActivator.getDefault().getActivationContext().getService(ICategoryDao.class);
+//		catDao.save(category);
+		return true;
+	}
+	
+	/**
+	 * Zuweisen der Startnummern zu den Spielern
+	 * Darf nur gemacht werden, wenn es sich um die erste Runde handelt!
+	 */
+	private void initPlayerNumbers() {
+		List<PlayerCard> playerCards = category.getPlayerCards();
+		int numberOfPlayers = playerCards.size();
+		List<Integer> startingNumbers = RandomUtility.createStartingNumbers(numberOfPlayers);
+		for (int i = 0; i < numberOfPlayers; i++) {
+			playerCards.get(i).setNumber(startingNumbers.get(i));
+		}
+	}
+	
+	/**
+	 * Erzeugt die Paarungen nach dem Round-Robin Algortithmus
+	 * @return Liste mit den Paarungen
+	 * @throws NoStartingNumbersException Falls die Startnummern noch nicht zugewiesen wurden kann keine Auslosung gemacht werden
+	 */
+	private List<Pairing> createPairings() throws NoStartingNumbersException {
+		List<Pairing> pairings = new ArrayList<Pairing>();
+		List<Round> rounds = category.getRounds();
+		List<PlayerCard> playerCards = PairingHelper.getOrderedPlayerCards(category.getPlayerCards());
+		if (isNumberOfPlayersEven()) {
+			for (int i = 0; i < rounds.size(); i++) {
+				if (i % 2 == 0) {	// Spieler 1 hat weiss!
+					
+				}
+			}
+		}
+		return pairings;
 	}
 
 	/**
@@ -97,10 +155,9 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	 * @throws NotAllResultsException
 	 */
 	private void checkResults() throws NotAllResultsException {
-		List<Round> rounds = category.getRounds();
-		Round lastRound = rounds.get(rounds.size()-1);
+		Round lastRound = playedRounds.get(playedRounds.size()-1);
 		for (Pairing pairing : lastRound.getPairings()) {
-			if (pairing.getResult() == null) throw new NotAllResultsException("Not yet implemented!");
+			if (pairing.getResult() == null) throw new NotAllResultsException();
 		}
 	}
 

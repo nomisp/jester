@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -56,7 +58,10 @@ public class Category extends AbstractModelBean<Category> {
 //	        inverseJoinColumns = {@JoinColumn(name = "RoundId")})
 	private List<Round> rounds = new ArrayList<Round>();
 	
-	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
+	@OneToMany
+	@JoinTable(name = "CategoryPlayedRoundsAss",
+			joinColumns={@JoinColumn(name = "CategoryId")},
+			inverseJoinColumns = {@JoinColumn(name = "RoundId")})
 	private List<Round> playedRounds = new ArrayList<Round>();	// Liste mit Runden welche bereits abgeschlossen sind.
 	
 //	@OneToMany
@@ -66,7 +71,6 @@ public class Category extends AbstractModelBean<Category> {
 //	private Set<Player> players = new HashSet<Player>();
 	
 	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
-		
 	private List<PlayerCard> playerCards = new ArrayList<PlayerCard>();
 	
 	@ManyToOne
