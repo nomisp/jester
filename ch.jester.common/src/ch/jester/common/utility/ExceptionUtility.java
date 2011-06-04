@@ -5,7 +5,6 @@ import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  * Hilfsklasse für das ExceptionHandling, da Exceptions möglicherweise gewrapped werden.
- * @author Peter
  *
  */
 public class ExceptionUtility {
@@ -24,5 +23,23 @@ public class ExceptionUtility {
 			return targetException;
 		}
 		return e;
+	}
+	
+	/**Erzeugt einen ExceptionWrapper
+	 * {@link ExceptionWrapper}
+	 * @param e
+	 * @return
+	 */
+	public static ExceptionWrapper wrap(Throwable e){
+		return new ExceptionWrapper(e);
+	}
+	/**Erzeugt einen ExceptionWrapper
+	 * {@link ExceptionWrapper}
+	 * @param e
+	 * @param pClz die Throwableklasse, nach welcher gesucht werden kann
+	 * @return
+	 */
+	public static ExceptionWrapper wrap(Throwable e, Class<? extends Throwable> pClz){
+		return new ExceptionWrapper(e, pClz);
 	}
 }

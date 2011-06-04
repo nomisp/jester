@@ -16,6 +16,7 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.common.utility.ExceptionWrapper;
 import ch.jester.common.utility.ZipUtility;
 import ch.jester.commonservices.api.logging.ILogger;
@@ -64,8 +65,7 @@ public class Wiz extends Wizard implements IImportWizard{
 						
 						@Override
 						public void handleException(Throwable exception) {
-
-							ExceptionWrapper ew = new ExceptionWrapper(exception, ProcessingException.class);
+							ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
 							MessageDialog.openError(UIUtility.getActiveWorkbenchWindow().getShell(), "Import Error", ew.getThrowableMessage());
 							
 						}
