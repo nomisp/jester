@@ -15,12 +15,14 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.progress.UIJob;
 
 import ch.jester.common.ui.handlers.AbstractCommandHandler;
+import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.exceptions.NotAllResultsException;
+import ch.jester.system.exceptions.PairingNotPossibleException;
 
 public class PairingHandler extends AbstractCommandHandler implements IHandler {
 	
@@ -49,22 +51,39 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 				try {
 					pairingAlgorithm.executePairings(cat, monitor);
 				} catch (Exception e) {
-					// TODO Peter: Fehlermeldung übersetzen!
-					UIJob uiJob = new UIJob("Error-Message") {
-						
-						@Override
-						public IStatus runInUIThread(IProgressMonitor monitor) {
-							MessageDialog.openError(shell, "Not all Results", "There are not all results available from the last round!");
-							return Status.OK_STATUS;
-						}
-					};
-					uiJob.schedule();
+					Throwable exception = ExceptionUtility.getRealException(e);
+					if (exception != e) {
+						// TODO Peter: Fehlermeldung übersetzen!
+						if (exception instanceof PairingNotPossibleException) {
+							final String messageTitel = "Pairing not possible";
+							final String errorMessage = "Pairing is not possible!\nCheck the number of players and rounds of the category.";
+							showErrorDialog(shell, messageTitel, errorMessage);
+						} else if (exception instanceof NotAllResultsException) {
+							final String messageTitel = "Not all Results";
+							final String errorMessage = "There are not all results available from the last round!";
+							showErrorDialog(shell, messageTitel, errorMessage);
+						}	
+					} else {
+						return Status.CANCEL_STATUS;
+					}
 				}
 				return Status.OK_STATUS;
+			}
+
+			private void showErrorDialog(final Shell shell,
+					final String messageTitel, final String errorMessage) {
+				UIJob uiJob = new UIJob("Error-Message") {
+					
+					@Override
+					public IStatus runInUIThread(IProgressMonitor monitor) {
+						MessageDialog.openError(shell, messageTitel, errorMessage);
+						return Status.OK_STATUS;
+					}
+				};
+				uiJob.schedule();
 			}
 		};
 		job.schedule();
 		return null;
 	}
-
 }
