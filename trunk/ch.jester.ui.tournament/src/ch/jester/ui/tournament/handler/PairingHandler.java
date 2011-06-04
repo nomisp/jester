@@ -12,6 +12,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.progress.UIJob;
 
 import ch.jester.common.ui.handlers.AbstractCommandHandler;
@@ -23,6 +24,7 @@ import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
+import ch.jester.ui.tournament.cnf.TournamentNavigator;
 
 public class PairingHandler extends AbstractCommandHandler implements IHandler {
 	
@@ -84,6 +86,9 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 			}
 		};
 		job.schedule();
+		// Aktualisieren des CommonNavigators
+		CommonNavigator cn = (CommonNavigator)getView(TournamentNavigator.ID);
+		cn.getCommonViewer().refresh();
 		return null;
 	}
 }

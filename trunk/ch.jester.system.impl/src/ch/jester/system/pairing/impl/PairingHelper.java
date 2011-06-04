@@ -17,16 +17,16 @@ public class PairingHelper {
 	/**
 	 * Sortiert die Liste mit den PlayerCards anhand der Startnummer
 	 * @param playerCards
-	 * @return	Sortierte Liste mit den PlayerCards
+	 * @return	Sortierte Liste mit den PlayerCards (als Array)
 	 * @throws NoStartingNumbersException 
 	 */
-	public static List<PlayerCard> getOrderedPlayerCards(List<PlayerCard> playerCards) throws NoStartingNumbersException {
-		List<PlayerCard> orderedList = new ArrayList<PlayerCard>(playerCards.size());
+	public static PlayerCard[] getOrderedPlayerCards(List<PlayerCard> playerCards) throws NoStartingNumbersException {
+		PlayerCard[] orderedList = new PlayerCard[playerCards.size()];
 		Integer number;
 		for (PlayerCard playerCard : playerCards) {
 			number = playerCard.getNumber();
 			if (number == null || number == 0) throw new NoStartingNumbersException();
-			orderedList.add(playerCard.getNumber()-1, playerCard);
+			orderedList[number-1] = playerCard;
 		}
 		return orderedList;
 	}
@@ -36,7 +36,7 @@ public class PairingHelper {
 	 * @param numberOfPlayers
 	 * @return Liste mit den Startnummern
 	 */
-	public static List<Integer> createStartingNumbers(int numberOfPlayers) {
+	public static List<Integer> createRandomStartingNumbers(int numberOfPlayers) {
 		return RandomUtility.createStartingNumbers(numberOfPlayers);
 	}
 }
