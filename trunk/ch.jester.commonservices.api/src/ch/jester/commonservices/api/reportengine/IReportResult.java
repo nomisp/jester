@@ -4,12 +4,29 @@ import java.io.File;
 
 import ch.jester.commonservices.exceptions.ProcessingException;
 
+/**
+ * Das Resultat einer Reporterzeugung {@link IReportEngine#generate(IReport, java.util.Collection)}
+ *
+ */
 public interface IReportResult {
+	/**
+	 * Export als...
+	 *
+	 */
 	enum ExportType{
 		PDF, HTML, XML;
 	}
-	public String getOutputName();
-	public void setOutputName(String pOutputName);
+	/**
+	 * Soll vor {@link IReportResult#export(ExportType)} aufgerufen werden.
+	 * @param ex
+	 * @return true (Export möglich) / false (Export nicht möglich)
+	 */
 	public boolean canExport(ExportType ex);
+	/**
+	 * Exportiert den erzeugten Report in das übergebene Format.
+	 * @param ex der ExportType
+	 * @return das File wohin der Export erfolgt ist.
+	 * @throws ProcessingException
+	 */
 	public File export(ExportType ex) throws ProcessingException;
 }

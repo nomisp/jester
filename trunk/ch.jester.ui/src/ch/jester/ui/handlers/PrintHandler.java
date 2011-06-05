@@ -43,7 +43,6 @@ public class PrintHandler extends AbstractCommandHandler {
 						
 						monitor.setTaskName("Exporting...");
 						monitor.worked(1);
-						result.setOutputName("test");
 						
 						File file = result.export(ExportType.PDF);
 						
