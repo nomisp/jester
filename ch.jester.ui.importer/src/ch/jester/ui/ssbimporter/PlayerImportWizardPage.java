@@ -259,10 +259,10 @@ public class PlayerImportWizardPage extends WizardPage {
 						try {
 							
 							monitor.beginTask("Downloading: "+link.getText(), IProgressMonitor.UNKNOWN);
-							link.download(file.getAbsolutePath());
-							/*if(!new File(newFile).exists()){
-								link.download(newFile);
-							}*/
+							//link.download(file.getAbsolutePath());
+							if(!file.exists()){
+								link.download(file.getAbsolutePath());
+							}
 							
 							monitor.done();
 						} catch (IOException e) {
