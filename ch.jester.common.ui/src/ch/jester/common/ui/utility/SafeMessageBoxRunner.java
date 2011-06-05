@@ -11,8 +11,15 @@ public abstract class SafeMessageBoxRunner implements ISafeRunnable {
 
 	@Override
 	public void handleException(Throwable exception) {
-		ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
-		MessageDialog.openError(UIUtility.getActiveWorkbenchWindow().getShell(), "Error", ew.getThrowableMessage());
+		final ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
+		UIUtility.syncExecInUIThread(new Runnable() {
+			@Override
+			public void run() {
+				MessageDialog.openError(UIUtility.getActiveWorkbenchWindow().getShell(), "Error", ew.getThrowableMessage());
+				
+			}
+		});
+		
 		
 	
 		

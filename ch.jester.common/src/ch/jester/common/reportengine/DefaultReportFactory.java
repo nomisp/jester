@@ -62,6 +62,8 @@ public class DefaultReportFactory implements IReportEngineFactory {
 	public void installReport(IReport pReport) {
 		File engineFolder = mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY);
 		String reportName = pReport.getBundleFileName();
+		File tmp = new File(reportName);
+		reportName = tmp.getName();
 		File destFile = new File(engineFolder+"/"+reportName);
 		pReport.setInstalledFile(destFile);
 		if(destFile.exists()){

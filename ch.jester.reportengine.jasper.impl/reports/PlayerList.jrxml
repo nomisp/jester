@@ -61,12 +61,16 @@
 	<title>
 		<band height="35" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="146" height="35"/>
+				<reportElement x="47" y="0" width="146" height="35"/>
 				<textElement>
 					<font size="24" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Player List]]></text>
 			</staticText>
+			<image>
+				<reportElement x="2" y="0" width="45" height="35"/>
+				<imageExpression class="java.lang.String"><![CDATA["reports/img/icon128x128.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -77,22 +81,22 @@
 			<staticText>
 				<reportElement x="2" y="2" width="100" height="20"/>
 				<textElement/>
-				<text><![CDATA[lastName]]></text>
+				<text><![CDATA[Lastname]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="113" y="2" width="100" height="20"/>
 				<textElement/>
-				<text><![CDATA[firstName]]></text>
+				<text><![CDATA[Firstname]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="225" y="2" width="100" height="20"/>
 				<textElement/>
-				<text><![CDATA[nationalCode]]></text>
+				<text><![CDATA[National code]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="339" y="2" width="100" height="20"/>
 				<textElement/>
-				<text><![CDATA[fideCode]]></text>
+				<text><![CDATA[Fide code]]></text>
 			</staticText>
 		</band>
 	</columnHeader>

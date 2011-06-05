@@ -33,7 +33,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	private IFileManager mTempFileManager;
     private IReportEngineFactory factory = new DefaultReportFactory();
     public JasperReportEngine(){
-    	factory.createReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "PlayerList.jrxml");
+    	factory.createReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports/PlayerList.jrxml");
     }
     
 	@Override
@@ -67,10 +67,6 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 
 		@Override
 		public File export(ExportType ex) throws ProcessingException {
-			if(mOutptuName==null){
-				throw new ProcessingException("Name mustn't be empty");
-			}
-			
 			try{
 				switch(ex){
 				case HTML:
