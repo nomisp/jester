@@ -1,9 +1,16 @@
 package ch.jester.reportengine.impl;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.osgi.service.component.ComponentContext;
 
@@ -17,6 +24,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import ch.jester.common.reportengine.DefaultReportFactory;
 import ch.jester.common.reportengine.DefaultReportResult;
 import ch.jester.commonservices.api.components.IComponentService;
+import ch.jester.commonservices.api.io.ITempFileManager;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.api.reportengine.IReport;
@@ -25,8 +33,9 @@ import ch.jester.commonservices.api.reportengine.IReportEngineFactory;
 import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
-public class JasperReportEngine implements IReportEngine, IComponentService<ILoggerFactory>{
+public class JasperReportEngine implements IReportEngine, IComponentService<Object>{
 	private ILogger mLogger;
+	private ITempFileManager mTempFileManager;
     private IReportEngineFactory factory = new DefaultReportFactory();
     public JasperReportEngine(){
     	factory.createReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "PlayerList.jrxml");
@@ -62,7 +71,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<ILog
 		}
 
 		@Override
-		public void export(ExportType ex) throws ProcessingException {
+		public File export(ExportType ex) throws ProcessingException {
 			if(mOutptuName==null){
 				throw new ProcessingException("Name mustn't be empty");
 			}
@@ -70,24 +79,30 @@ public class JasperReportEngine implements IReportEngine, IComponentService<ILog
 			try{
 				switch(ex){
 				case HTML:
-					JasperExportManager.exportReportToHtmlFile(mResult,mOutptuName+".html");
-					break;
+					File file = mTempFileManager.createTempFileWithExtension("html");					
+					JasperExportManager.exportReportToHtmlFile(mResult,file.getAbsolutePath());
+					return file;
 				case PDF:
-					JasperExportManager.exportReportToPdfFile(mResult,mOutptuName+".pdf");
-					break;
+					//JasperExportManager.exportReportToPdfFile(mResult,mOutptuName+".pdf");
+					File f = mTempFileManager.createTempFileWithExtension("pdf");
+					JasperExportManager.exportReportToPdfFile(mResult, f.getAbsolutePath());
+					return f;
 				case XML:
-					JasperExportManager.exportReportToXmlFile(mResult,mOutptuName+".xml",true);
-					break;
+					File f1 = mTempFileManager.createTempFileWithExtension("xml");
+					JasperExportManager.exportReportToXmlFile(mResult,f1.getAbsolutePath(),true);
+					return f1;
 				}
 				
 			}catch(JRException e){
 				throw new ProcessingException(e);
 			}
+			return null;
 			
 		}
 		
 	}
 
+	
 	@Override
 	public void start(ComponentContext pComponentContext) {
 		// TODO Auto-generated method stub
@@ -101,14 +116,21 @@ public class JasperReportEngine implements IReportEngine, IComponentService<ILog
 	}
 
 	@Override
-	public void bind(ILoggerFactory pT) {
-		mLogger = pT.getLogger(getClass());
-		mLogger.info("ReportEnginge started");
+	public void bind(Object pT) {
+		if(pT instanceof ILoggerFactory){
+			ILoggerFactory fac = (ILoggerFactory) pT;
+			mLogger = fac.getLogger(getClass());
+			mLogger.info("ReportEnginge started");
+		}
+		if(pT instanceof ITempFileManager){
+			mTempFileManager=(ITempFileManager) pT;
+		}
+
 		
 	}
 
 	@Override
-	public void unbind(ILoggerFactory pT) {
+	public void unbind(Object pT) {
 		// TODO Auto-generated method stub
 		
 	}

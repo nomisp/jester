@@ -1,5 +1,7 @@
 package ch.jester.commonservices.api.reportengine;
 
+import java.io.File;
+
 import ch.jester.commonservices.exceptions.ProcessingException;
 
 public interface IReportResult {
@@ -9,5 +11,5 @@ public interface IReportResult {
 	public String getOutputName();
 	public void setOutputName(String pOutputName);
 	public boolean canExport(ExportType ex);
-	public void export(ExportType ex) throws ProcessingException;
+	public File export(ExportType ex) throws ProcessingException;
 }
