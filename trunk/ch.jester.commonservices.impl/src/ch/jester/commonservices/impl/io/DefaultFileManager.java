@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 import org.eclipse.core.runtime.Platform;
@@ -175,7 +176,21 @@ public class DefaultFileManager implements IFileManager {
 	public File getFolderInWorkingDirectory(String dirName) {
 		File newFolder = new File(getWorkingDirectory()+"/"+dirName);
 		if(!newFolder.exists()){
-			newFolder.mkdir();
+			boolean success = newFolder.mkdir();
+			if(!success){
+				StringTokenizer tokenizer = new StringTokenizer(dirName,"/");
+				String path ="";
+				while(tokenizer.hasMoreElements()){
+					String subdir = tokenizer.nextToken();
+					path=path+subdir+"/";
+					new File(getWorkingDirectory()+"/"+path).mkdir();
+					
+				}
+				
+				
+				
+			}
+			
 		}
 		return newFolder;
 	}
