@@ -1,5 +1,6 @@
 package ch.jester.ui.ssbimporter;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -269,6 +270,12 @@ public class PropertyChooserWizardPage extends WizardPage{
 		}
 		final InputStream instream = ZipUtility.getZipEntry(mSelection.getSelectedZipFile(), mSelection.getSelectedZipEntry());
 		testableHandler.handleImport(instream,20, new NullProgressMonitor());
+		try {
+			instream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		IVirtualTable access = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
 		return access.getHeaderEntries();
 	}

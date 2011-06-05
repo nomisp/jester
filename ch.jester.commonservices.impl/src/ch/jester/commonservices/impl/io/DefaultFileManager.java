@@ -1,6 +1,13 @@
 package ch.jester.commonservices.impl.io;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
@@ -9,12 +16,12 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.osgi.service.component.ComponentContext;
 
-import ch.jester.commonservices.api.io.ITempFileManager;
+import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
-public class DefaultTempFileManager implements ITempFileManager {
+public class DefaultFileManager implements IFileManager {
 	private ILogger mLogger;
 	private File tmpRoot;
 	private HashMap<String, File> mFileMap = new HashMap<String, File>();
@@ -122,4 +129,56 @@ public class DefaultTempFileManager implements ITempFileManager {
 		return f;
 	}
 
+	@Override
+	public void copyFile(File f1, File f2) {
+		try {
+			toFile(new FileInputStream(f1), f2);
+		} catch (ProcessingException e) {
+			throw e;
+		} catch (FileNotFoundException e) {
+			throw new ProcessingException(e);
+		}
+
+		 
 }
+
+	@Override
+	public void toFile(InputStream inStream, File dest)
+			throws ProcessingException {
+		  InputStream in;
+			try {
+				  in = new BufferedInputStream(inStream);
+				  OutputStream out = new BufferedOutputStream(new FileOutputStream(dest));
+
+				  byte[] buf = new byte[1024*1024*8];
+				  int len;
+				  while ((len = in.read(buf)) > 0){
+				  out.write(buf, 0, len);
+				  }
+				  in.close();
+				  out.close();
+			} catch (Exception e) {
+				throw new ProcessingException(e);
+			}
+		
+	}
+
+	@Override
+	public File getWorkingDirectory() {
+		Location workingDir = Platform.getInstanceLocation();
+		String dir =  workingDir.getURL().getFile();
+		return new File(dir);
+	}
+
+
+	@Override
+	public File getFolderInWorkingDirectory(String dirName) {
+		File newFolder = new File(getWorkingDirectory()+"/"+dirName);
+		if(!newFolder.exists()){
+			newFolder.mkdir();
+		}
+		return newFolder;
+	}
+
+	}
+

@@ -60,7 +60,7 @@ public class Wiz extends Wizard implements IImportWizard{
 						public void run() throws Exception {
 							secondPage.applyChanges();
 							input.getSelectedHandlerEntry().getService().handleImport(instream, monitor);
-							
+							instream.close();
 						}
 						
 						@Override

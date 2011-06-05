@@ -1,18 +1,10 @@
 package ch.jester.reportengine.impl;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.UUID;
-
-import org.osgi.service.component.ComponentContext;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -21,10 +13,13 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
+import org.osgi.service.component.ComponentContext;
+
 import ch.jester.common.reportengine.DefaultReportFactory;
 import ch.jester.common.reportengine.DefaultReportResult;
 import ch.jester.commonservices.api.components.IComponentService;
-import ch.jester.commonservices.api.io.ITempFileManager;
+import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.api.reportengine.IReport;
@@ -35,7 +30,7 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 
 public class JasperReportEngine implements IReportEngine, IComponentService<Object>{
 	private ILogger mLogger;
-	private ITempFileManager mTempFileManager;
+	private IFileManager mTempFileManager;
     private IReportEngineFactory factory = new DefaultReportFactory();
     public JasperReportEngine(){
     	factory.createReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "PlayerList.jrxml");
@@ -46,7 +41,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 		try {
 		    HashMap<String, Object> parameter = new HashMap<String, Object>();
 			JRBeanCollectionDataSource beancollection = new JRBeanCollectionDataSource(pBean);
-			InputStream stream = pReport.getFileAsStream();
+			InputStream stream = pReport.getInstalledFileAsStream();
 			JasperReport jasperReport =JasperCompileManager.compileReport(stream);
 			stream.close();
 			
@@ -122,8 +117,8 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			mLogger = fac.getLogger(getClass());
 			mLogger.info("ReportEnginge started");
 		}
-		if(pT instanceof ITempFileManager){
-			mTempFileManager=(ITempFileManager) pT;
+		if(pT instanceof IFileManager){
+			mTempFileManager=(IFileManager) pT;
 		}
 
 		

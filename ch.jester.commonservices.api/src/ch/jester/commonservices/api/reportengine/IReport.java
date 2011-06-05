@@ -1,5 +1,6 @@
 package ch.jester.commonservices.api.reportengine;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -10,8 +11,11 @@ public interface IReport {
 	public String getAlias();
 	public void setVisibleName(String pString);
 	public String getVisibleName();
-	public String getFileName();
-	public void setFileName(String pFileName);
-	public InputStream getFileAsStream() throws IOException;
+	public String getBundleFileName();
+	public void setBundleFileName(String pFileName);
+	public InputStream getBundleFileAsStream() throws IOException;
+	public void setInstalledFile(File pInstalled);
+	public File getInstalledFile();
+	public InputStream getInstalledFileAsStream() throws IOException;
 	public void setBundle(Bundle b);
 }

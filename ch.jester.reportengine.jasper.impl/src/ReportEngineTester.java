@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class ReportEngineTester {
 			}
 			
 			@Override
-			public void setFileName(String pFilePath) {
+			public void setBundleFileName(String pFilePath) {
 				// TODO Auto-generated method stub
 				
 			}
@@ -55,7 +56,7 @@ public class ReportEngineTester {
 			}
 			
 			@Override
-			public String getFileName() {
+			public String getBundleFileName() {
 				return "PlayerList.jrxml";
 			}
 
@@ -71,7 +72,7 @@ public class ReportEngineTester {
 			}
 
 			@Override
-			public InputStream getFileAsStream() throws IOException {
+			public InputStream getBundleFileAsStream() throws IOException {
 				// TODO Auto-generated method stub
 				return null;
 			}
@@ -80,6 +81,24 @@ public class ReportEngineTester {
 			public void setBundle(Bundle b) {
 				// TODO Auto-generated method stub
 				
+			}
+
+			@Override
+			public void setInstalledFile(File pInstalled) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public InputStream getInstalledFileAsStream() throws IOException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public File getInstalledFile() {
+				// TODO Auto-generated method stub
+				return null;
 			}
 		};
 	}
