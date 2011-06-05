@@ -1,5 +1,10 @@
 package ch.jester.common.reportengine;
 
+import java.io.File;
+
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.osgi.service.datalocation.Location;
+
 import ch.jester.commonservices.api.reportengine.IReportResult;
 
 public abstract class DefaultReportResult<T> implements IReportResult{

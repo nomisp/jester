@@ -45,9 +45,9 @@ public class PrintHandler extends AbstractCommandHandler {
 						monitor.worked(1);
 						result.setOutputName("test");
 						
-						result.export(ExportType.PDF);
+						File file = result.export(ExportType.PDF);
 						
-						Desktop.getDesktop().open(new File("test.pdf"));
+						Desktop.getDesktop().open(file);
 						monitor.done();
 						
 					}

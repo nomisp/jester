@@ -44,6 +44,7 @@ import ch.jester.commonservices.api.importer.IImportManager;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
 import ch.jester.commonservices.api.importer.IWebImportHandlerEntry;
+import ch.jester.commonservices.api.io.ITempFileManager;
 import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.util.ServiceUtility;
 
@@ -237,14 +238,17 @@ public class PlayerImportWizardPage extends WizardPage {
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			su.setSelection(event.getSelection());
+			ITempFileManager fileManager = mService.getService(ITempFileManager.class);
+			
 			final ILink link = su.getFirstSelectedAs(ILink.class);
-			Location workingDir = Platform.getInstanceLocation();
-			String tmp = workingDir.getURL().getFile() + "tmp";
-			File tmpDir = new File(tmp);
-			if(!tmpDir.exists()){
-				tmpDir.mkdir();
-			}
-			final String newFile = tmp+"/"+link.getText().replace("/", "_")+".zip";
+			//Location workingDir = Platform.getInstanceLocation();
+			//String tmp = workingDir.getURL().getFile() + "tmp";
+			//File tmpDir = new File(tmp);
+			//if(!tmpDir.exists()){
+				//tmpDir.mkdir();
+			//}
+			String newFile = link.getText().replace("/", "_")+".zip";
+			final File file = fileManager.createTempFile(newFile);
 			try {
 				
 				getContainer().run(true, false, new IRunnableWithProgress() {
@@ -255,9 +259,10 @@ public class PlayerImportWizardPage extends WizardPage {
 						try {
 							
 							monitor.beginTask("Downloading: "+link.getText(), IProgressMonitor.UNKNOWN);
-							if(!new File(newFile).exists()){
+							link.download(file.getAbsolutePath());
+							/*if(!new File(newFile).exists()){
 								link.download(newFile);
-							}
+							}*/
 							
 							monitor.done();
 						} catch (IOException e) {
@@ -266,10 +271,10 @@ public class PlayerImportWizardPage extends WizardPage {
 						}
 						UIUtility.syncExecInUIThread(new Runnable(){
 							public void run(){
-						     List<String> list = ZipUtility.getZipEntries(newFile, false);
+						     List<String> list = ZipUtility.getZipEntries(file.getAbsolutePath(), false);
 						        if(list!=null){
-						        	mImportInput.setSelectedZipFile(newFile);
-						        	checkboxTableViewer.setInput(newFile);
+						        	mImportInput.setSelectedZipFile(file.getAbsolutePath());
+						        	checkboxTableViewer.setInput(file.getAbsoluteFile());
 						        }
 							}
 								
