@@ -2,7 +2,6 @@ package ch.jester.common.components;
 
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 

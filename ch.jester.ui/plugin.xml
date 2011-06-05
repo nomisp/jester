@@ -104,6 +104,14 @@
                icon="icons/next.gif"
                style="push">
          </command>
+         <separator
+               name="ch.jester.ui.separator3"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.eclipse.ui.file.print"
+               style="push">
+         </command>
       </menuContribution>
       <menuContribution
             allPopups="true"
@@ -380,6 +388,10 @@
                   definitionId="ch.jester.ui.pagecontroller.back">
             </reference>
          </activeWhen>
+      </handler>
+      <handler
+            class="ch.jester.ui.handlers.PrintHandler"
+            commandId="org.eclipse.ui.file.print">
       </handler>
    </extension>
    <extension
