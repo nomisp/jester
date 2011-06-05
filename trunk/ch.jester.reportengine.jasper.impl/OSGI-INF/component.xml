@@ -5,5 +5,5 @@
       <provide interface="ch.jester.commonservices.api.reportengine.IReportEngine"/>
    </service>
    <reference bind="bind" cardinality="1..1" interface="ch.jester.commonservices.api.logging.ILoggerFactory" name="ILoggerFactory" policy="static" unbind="unbind"/>
-   <reference bind="bind" cardinality="1..1" interface="ch.jester.commonservices.api.io.ITempFileManager" name="ITempFileManager" policy="static" unbind="unbind"/>
+   <reference bind="bind" cardinality="1..1" interface="ch.jester.commonservices.api.io.IFileManager" name="IFileManager" policy="static" unbind="unbind"/>
 </scr:component>

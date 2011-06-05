@@ -44,7 +44,7 @@ import ch.jester.commonservices.api.importer.IImportManager;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
 import ch.jester.commonservices.api.importer.IWebImportHandlerEntry;
-import ch.jester.commonservices.api.io.ITempFileManager;
+import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.util.ServiceUtility;
 
@@ -238,7 +238,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			su.setSelection(event.getSelection());
-			ITempFileManager fileManager = mService.getService(ITempFileManager.class);
+			IFileManager fileManager = mService.getService(IFileManager.class);
 			
 			final ILink link = su.getFirstSelectedAs(ILink.class);
 			//Location workingDir = Platform.getInstanceLocation();
