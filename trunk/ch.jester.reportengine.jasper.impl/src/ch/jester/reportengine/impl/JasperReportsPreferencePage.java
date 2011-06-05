@@ -65,7 +65,7 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 		
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnFile = tableViewerColumn_1.getColumn();
-		tblclmnFile.setWidth(100);
+		tblclmnFile.setWidth(300);
 		tblclmnFile.setText("File");
 		
 		Label lblTemplates = new Label(container, SWT.NONE);
@@ -98,7 +98,7 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 					return ((IReport)element).getVisibleName();
 				}
 				if(columnIndex==1){
-					return ((IReport)element).getBundleFileName();
+					return ((IReport)element).getInstalledFile().getAbsolutePath();
 				}
 				return null;
 			}
