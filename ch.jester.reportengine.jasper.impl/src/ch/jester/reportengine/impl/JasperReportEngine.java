@@ -71,10 +71,13 @@ public class JasperReportEngine implements IReportEngine, IComponentService<ILog
 				switch(ex){
 				case HTML:
 					JasperExportManager.exportReportToHtmlFile(mResult,mOutptuName+".html");
+					break;
 				case PDF:
 					JasperExportManager.exportReportToPdfFile(mResult,mOutptuName+".pdf");
+					break;
 				case XML:
 					JasperExportManager.exportReportToXmlFile(mResult,mOutptuName+".xml",true);
+					break;
 				}
 				
 			}catch(JRException e){
