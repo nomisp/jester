@@ -36,13 +36,14 @@
       <import plugin="org.apache.log4j" version="1.0.0.0" match="greaterOrEqual"/>
       <import plugin="org.apache.poi" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.model" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.persistence" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.swt" version="3.6.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface" version="3.6.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.databinding.observable"/>
       <import plugin="org.eclipse.core.expressions" version="3.4.200" match="greaterOrEqual"/>
       <import plugin="ch.jester.commonservices.impl" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="com.ibm.icu"/>
-      <import plugin="ch.jester.persistence" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.osgi" version="3.6.2" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -117,6 +118,13 @@
 
    <plugin
          id="ch.jester.ui.exporter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.reportengine.jasper.impl"
          download-size="0"
          install-size="0"
          version="0.0.0"
