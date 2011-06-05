@@ -53,7 +53,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		this.category = category;
 		playedRounds = category.getPlayedRounds();
 		List<Pairing> pairings = null;
-		if (playedRounds.size() == 0) { // Neues Turnier
+		if (playedRounds.size() == 0) { // Neues Turnier bei einem Round-Robin Turnier können direkt alle Paarunugen ausgelost werden. 
 			if (isPairingPossible()) {
 				initPlayerNumbers();
 				try {
@@ -73,6 +73,8 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 //			checkResults();
 			
 		}
+		IDaoService<Category> categoryPersister = mServiceUtil.getDaoServiceByEntity(Category.class);
+		categoryPersister.save(category);
 		return pairings;
 	}
 	
@@ -99,7 +101,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	 * @return true, wenn die Anzahl Spieler gerade ist
 	 */
 	private boolean isNumberOfPlayersEven() {
-		int nrPlayers = category.getPlayers().size();
+		int nrPlayers = category.getPlayerCards().size();
 		return nrPlayers % 2 == 0;
 	}
 	
@@ -118,10 +120,6 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 			round.setCategory(category);
 			category.addRound(round);
 		}
-		IDaoService<Category> categoryPersister = mServiceUtil.getDaoServiceByEntity(Category.class);
-		categoryPersister.save(category);
-//		IDaoService<Category> catDao = VollrundigSystemActivator.getDefault().getActivationContext().getService(ICategoryDao.class);
-//		catDao.save(category);
 		return true;
 	}
 	
@@ -150,9 +148,9 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		int numberOfPlayers = playerCards.length;
 		boolean secondRound = false;	// Vorerst Keine Rückrunde!
 		if (isNumberOfPlayersEven()) {
-			int n = numberOfPlayers - 1;
+			int nrOfRounds = numberOfPlayers - 1;
 			
-			for (int i = 1; i <= n; i++) {
+			for (int i = 1; i <= nrOfRounds; i++) {
 				int white = numberOfPlayers;
 				int black = i;
 				// weiss, schwarz?
@@ -161,44 +159,53 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 					white = black;
 					black = tmp;
 				}
-				System.out.println("White: " + white + " Black: " + black);
-				Pairing p = new Pairing();
-				p.setWhite(playerCards[white-1].getPlayer());
-				p.setBlack(playerCards[black-1].getPlayer());
-				p.setRound(rounds.get(i-1));
-				pairings.add(p);
+				mLogger.debug("White: " + white + " Black: " + black);
+				pairings.add(createPairing(rounds, playerCards, i-1, white-1, black-1));
 				
 				for (int k = 1; k <= numberOfPlayers/2-1; k++) {
 					if (i-k < 0) {
-						white = n+(i-k);
+						white = nrOfRounds+(i-k);
 					} else {
-						white = (i-k) % n;
-						white = white == 0 ? n : white; // 0 -> n-1
+						white = (i-k) % nrOfRounds;
+						white = white == 0 ? nrOfRounds : white; // 0 -> n-1
 					}
 					
-					black = (i+k) % n;
-					black = black == 0 ? n : black; // 0 -> n-1
+					black = (i+k) % nrOfRounds;
+					black = black == 0 ? nrOfRounds : black; // 0 -> n-1
 					
 					if (k % 2 == 0) {
 						int tmp = white;
 						white = black;
 						black = tmp;
 					}
-					p = new Pairing();
-					p.setWhite(playerCards[white-1].getPlayer());
-					p.setBlack(playerCards[black-1].getPlayer());
-					p.setRound(rounds.get(i-1));
-					pairings.add(p);
+					pairings.add(createPairing(rounds, playerCards, i-1, white-1, black-1));
 					
-					System.out.println("White: " + white + " Black: " + black);
+					mLogger.debug("White: " + white + " Black: " + black);
 				}
 			}
 		}
 		
-		for (Pairing pairing : pairings) {
-			System.out.println(pairing.toString());
-		}
+//		for (Pairing pairing : pairings) {
+//			System.out.println(pairing.toString());
+//		}
 		return pairings;
+	}
+
+	/**
+	 * Erzeugen der Pairing Entitäten
+	 * @param rounds		Liste mit den Runden
+	 * @param playerCards	Sortiertes Array mit den PlayerCards
+	 * @param roundIndex	Index der Runde (List)
+	 * @param whiteIndex	Index des weissen Spielers
+	 * @param blackIndex	Index des schwarzen Spielers
+	 * @return	Pairing
+	 */
+	private Pairing createPairing(List<Round> rounds, PlayerCard[] playerCards, int roundIndex, int whiteIndex, int blackIndex) {
+		ModelFactory modelFactory = ModelFactory.getInstance();
+		Pairing p = modelFactory.createPairing(playerCards[whiteIndex].getPlayer(), 
+				playerCards[blackIndex].getPlayer(), 
+				rounds.get(roundIndex));
+		return p;
 	}
 
 	/**

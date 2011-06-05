@@ -32,8 +32,11 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	@ManyToOne
 	private Category category;
 	
-	@Column
+	@Column(nullable=true)
 	private Integer number;
+	
+	@Column(nullable=true)
+	private Double points;
 	
 	public Player getPlayer() {
 		return player;
@@ -59,6 +62,24 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 
 	public void setNumber(Integer number) {
 		changeProperty("number", number);
+	}
+
+	public Double getPoints() {
+		return points;
+	}
+
+	public void setPoints(Double points) {
+		this.points = points;
+	}
+	
+	/**
+	 * Hinzuaddieren der erzielten Punkte
+	 * @param result Sieg: 1; Niederlage: 0; Remis: 0.5
+	 */
+	public void addResult(Double result) {
+		if (result != null) {
+			this.points += result;
+		}
 	}
 
 	@Override

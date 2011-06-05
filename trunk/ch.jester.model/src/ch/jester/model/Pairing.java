@@ -56,7 +56,9 @@ public class Pairing extends AbstractModelBean<Pairing> {
 	}
 
 	public void setRound(Round round) {
+		if (round == null) throw new IllegalArgumentException("round cannot be null");
 		this.round = round;
+		this.round.addPairing(this);	// Bidirektionale Beziehung
 	}
 
 	@Override
