@@ -38,13 +38,19 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 			sb.append(round.getNumber());
 			return  sb.toString();
 		} else if (element instanceof Pairing) {
-			Pairing pairing = (Pairing)element;
+			Pairing pairing = ((Pairing)element);
 			StringBuffer sb = new StringBuffer();
+			sb.append(pairing.getWhite().getFirstName());
+			sb.append(" ");
 			sb.append(pairing.getWhite().getLastName());
 			sb.append("-");
+			sb.append(pairing.getBlack().getFirstName());
+			sb.append(" ");
 			sb.append(pairing.getBlack().getLastName());
-			sb.append(" : ");
-			sb.append(pairing.getResult());
+			if (pairing.getResult() != null) {
+				sb.append(": ");
+				sb.append(pairing.getResult());
+			}
 			return  sb.toString();
 		} else if (element instanceof PlayerFolder) {
 			return "Players";
@@ -73,11 +79,21 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 		} else if (element instanceof Pairing) {
 			Pairing pairing = ((Pairing)element);
 			StringBuffer sb = new StringBuffer();
+			sb.append(pairing.getWhite().getNationalCode());
+			sb.append(" ");
+			sb.append(pairing.getWhite().getFirstName());
+			sb.append(" ");
 			sb.append(pairing.getWhite().getLastName());
 			sb.append("-");
+			sb.append(pairing.getBlack().getNationalCode());
+			sb.append(" ");
+			sb.append(pairing.getBlack().getFirstName());
+			sb.append(" ");
 			sb.append(pairing.getBlack().getLastName());
-			sb.append(": ");
-			sb.append(pairing.getResult());
+			if (pairing.getResult() != null) {
+				sb.append(": ");
+				sb.append(pairing.getResult());
+			}
 			return  sb.toString();
 		} else if (element instanceof PlayerFolder) {
 			return "Players";

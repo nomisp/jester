@@ -98,7 +98,8 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 	@Override
 	public boolean hasChildren(Object element) {
 		return (element instanceof Root || element instanceof Tournament 
-				|| element instanceof Category || element instanceof PlayerFolder);
+				|| element instanceof Category || element instanceof PlayerFolder 
+				|| element instanceof Round);
 	}
 
 	@Override
