@@ -20,7 +20,6 @@ public class ReportEngineTester {
 		IReportEngine engine = new JasperReportEngine();
 		IReport report = getReport();
 		IReportResult result = engine.generate(report, getBeans());
-		result.setOutputName("output");
 		result.export(ExportType.HTML);
 		result.export(ExportType.PDF);
 		result.export(ExportType.XML);

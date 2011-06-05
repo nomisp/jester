@@ -1,10 +1,5 @@
 package ch.jester.common.reportengine;
 
-import java.io.File;
-
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.osgi.service.datalocation.Location;
-
 import ch.jester.commonservices.api.reportengine.IReportResult;
 
 public abstract class DefaultReportResult<T> implements IReportResult{
@@ -21,16 +16,6 @@ public abstract class DefaultReportResult<T> implements IReportResult{
 	public boolean canExport(ExportType ex) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public String getOutputName() {
-		return mOutptuName;
-	}
-
-	@Override
-	public void setOutputName(String pOutputName) {
-		mOutptuName=pOutputName;
 	}
 
 }
