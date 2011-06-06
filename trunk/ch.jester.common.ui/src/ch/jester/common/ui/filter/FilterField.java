@@ -31,7 +31,6 @@ public class FilterField {
 	private FilterJob mJob = new FilterJob();
 	private Text mText;
 	private String mOldSearchValue="", mId;
-	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	private IViewPart mPart;
 	ControlDecoration decoration;
 	public FilterField(Composite pParent, String pId){
@@ -92,13 +91,14 @@ public class FilterField {
 		return mText;
 	}
 	
-	class FilterJob extends StackJob<String> 
-	{
+	class FilterJob extends StackJob<String> {
+	ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	
 		IUIFilter NULL_FILTER = new ErrorFilter();
 		IUIFilter mFilter;
 		public FilterJob() {
 			super("searching",mEventStack);
-			System.out.println("new SearchJob");
+			mLogger.debug("new SearchJob");
 		}
 
 
@@ -144,8 +144,6 @@ public class FilterField {
 
 		@Override
 		public void clear() {
-			// TODO Auto-generated method stub
-			
 		}
 		
 	}

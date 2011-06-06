@@ -8,7 +8,9 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 
+import ch.jester.common.activator.internal.CommonActivator;
 import ch.jester.common.utility.StopWatch;
+import ch.jester.commonservices.api.logging.ILogger;
 
 /**
  * Job der einen Stack von gleichen Messages abarbeitet, 
@@ -20,6 +22,7 @@ import ch.jester.common.utility.StopWatch;
 public abstract class StackJob<T> extends Job{
 	private Stack<T> eventStack;
 	private StopWatch watch = new StopWatch();
+	private ILogger mLogger = CommonActivator.getInstance().getActivationContext().getLogger();
 	public StackJob(String name, Stack<T> pEventStack) {
 		super(name);
 		eventStack = pEventStack;
@@ -49,7 +52,7 @@ public abstract class StackJob<T> extends Job{
 		watch.start();
 		IStatus status = runInternal(monitor, lastEvent);
 		watch.stop();
-		System.out.println("Job duration for "+lastEvent+" --> "+watch.getElapsedTime());
+		mLogger.info("Job duration for "+lastEvent+": "+watch.getElapsedTime());
 		return status;
 	}finally{
 			monitor.done();

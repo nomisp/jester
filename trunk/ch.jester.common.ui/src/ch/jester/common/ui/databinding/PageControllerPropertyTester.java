@@ -19,12 +19,12 @@ public class PageControllerPropertyTester extends PropertyTester {
 		boolean result = false;
 		if(args[0].equals("next")){
 			result = controller.hasNextPage();
-			mLogger.debug("Controller Property 'next' is " + result + " for receiver " +receiver );
+			//mLogger.debug("Controller Property 'next' is " + result + " for receiver " +receiver );
 			return result;
 		}
 		if(args[0].equals("back")){
 			result = controller.hasPreviousPage();
-			mLogger.debug("Controller Property 'back' is " + result + " for receiver " +receiver );
+			//mLogger.debug("Controller Property 'back' is " + result + " for receiver " +receiver );
 			return result;
 		}
 		mLogger.debug("Controller Property could not be evaluated, due to wrong argument");
