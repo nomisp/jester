@@ -11,7 +11,7 @@ public class PageReader {
 
 	}
 	private IPageReaderFilter mFilter;
-	private String mAddress, mDL;
+	private String  mDL;
 	public void setFilter(IPageReaderFilter pFilter){
 		mFilter = pFilter;
 	}
@@ -27,7 +27,6 @@ public class PageReader {
 	}
 	
 	public void readPage(String pAddress) throws IOException{
-		mAddress = pAddress;
 		HttpURLConnection uc = HTTPFactory.connect(pAddress);
 		String line = null;
 		BufferedReader in = new BufferedReader(new InputStreamReader(

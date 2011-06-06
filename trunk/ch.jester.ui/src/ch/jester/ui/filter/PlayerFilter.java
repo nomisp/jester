@@ -20,7 +20,8 @@ import ch.jester.ui.Activator;
 public class PlayerFilter implements IUIFilter{
 	ServiceUtility su = Activator.getDefault().getActivationContext().getServiceUtil();
 	ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
-	DaoController daoc;
+	DaoController<Player> daoc;
+	@SuppressWarnings("unchecked")
 	@Override
 	public IStatus filter(String pSearch, IViewPart pPart, IProgressMonitor monitor) {
 		if(daoc==null){

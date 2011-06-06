@@ -85,7 +85,7 @@ public class ORMAutoDBHandler implements IPropertyChangeListener{
 			for(IConfigurationElement c:elements){
 				if(c.getContributor().getName()==configuredDBBundle.getSymbolicName()){
 					usedElement = c;
-					String sub = usedElement.getAttribute("Subprotocol");
+					//String sub = usedElement.getAttribute("Subprotocol");
 					usedBundle = configuredDBBundle;
 					break;
 				}

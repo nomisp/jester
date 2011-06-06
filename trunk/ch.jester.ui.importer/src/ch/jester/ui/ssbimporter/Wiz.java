@@ -29,7 +29,6 @@ public class Wiz extends Wizard implements IImportWizard{
 	private ILogger mLogger;
 	private PlayerImportWizardPage firstPage;
 	private PropertyChooserWizardPage secondPage;
-	private boolean importDone = false;
 	@Override
 	public void addPages() {
 		super.addPages();

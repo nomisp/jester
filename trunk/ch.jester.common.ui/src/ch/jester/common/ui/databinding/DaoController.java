@@ -97,7 +97,7 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 	 * @see ch.jester.common.ui.databinding.IControlEditor#openEditor(java.lang.Object)
 	 */
 	@Override
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void handleOpenEditor(Object pObject){
 		IEditorService eService = mServices.getService(IEditorService.class);
 		if(!eService.isEditorRegistred(pObject)){return;}
@@ -171,6 +171,7 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 			mAccess=pAccess;
 		}
 		
+		@SuppressWarnings("unchecked")
 		@Override
 		public void partClosed(IWorkbenchPartReference partRef) {
 			if(partRef.getPart(false) == mAccess.getPart()){
@@ -201,6 +202,7 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 			// TODO Auto-generated method stub
 			return getText(element);
 		}
+		@SuppressWarnings("unchecked")
 		@Override
 		public String getText(Object element) {
 			return DaoController.this.callBackLabels((T) element);

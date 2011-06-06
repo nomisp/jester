@@ -15,9 +15,6 @@ import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.model.Category;
-import ch.jester.model.Player;
-import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 
 public class JesterDataImporter implements IImportHandler {
@@ -26,12 +23,14 @@ public class JesterDataImporter implements IImportHandler {
 		// TODO Auto-generated constructor stub
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object handleImport(InputStream pInputStream,
 			IProgressMonitor pMonitor) {

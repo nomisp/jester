@@ -38,6 +38,7 @@ public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor
 		isMultiPage = pMultiPage;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {

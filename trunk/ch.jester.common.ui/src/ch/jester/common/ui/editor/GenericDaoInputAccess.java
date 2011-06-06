@@ -43,6 +43,7 @@ public class GenericDaoInputAccess implements IEditorDaoInputAccess<IEntityObjec
 		return "Details";
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
 		// TODO Auto-generated method stub

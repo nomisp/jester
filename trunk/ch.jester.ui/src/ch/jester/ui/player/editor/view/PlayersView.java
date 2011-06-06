@@ -39,7 +39,7 @@ public class PlayersView extends AbstractView{
 	public static final String ID = "ch.jester.ui.view.players"; //$NON-NLS-1$
 	private Table table;
 	private TableViewer tableViewer; 
-	private DaoController mController;
+	private DaoController<?> mController;
 	private TableViewerColumn tableViewerColumn;
 
 	/**

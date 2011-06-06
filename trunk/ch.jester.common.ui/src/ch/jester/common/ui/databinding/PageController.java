@@ -9,16 +9,14 @@ import ch.jester.common.persistency.util.ScrollableResultListJPA;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.ui.utility.UIUtility.IBusyRunnable;
-import ch.jester.common.utility.AdapterBinding;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
-//import ch.jester.commonservices.api.persistency.IDBStartupListener;
-import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IDatabaseStateService;
+import ch.jester.commonservices.api.persistency.IDatabaseStateService.State;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
-import ch.jester.commonservices.api.persistency.IDatabaseStateService.State;
 import ch.jester.commonservices.util.ServiceUtility;
 
 public class PageController<T extends IEntityObject> /*implements IDBStartupListener*/{
@@ -33,7 +31,7 @@ public class PageController<T extends IEntityObject> /*implements IDBStartupList
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	private ScrollableResultListJPA<T> jpaDBList;
 	private IPageControllerUIAccess mViewer;
-	private int currentInternalPage = 0, currentExternalIndex=1, mPageSize, mTotalEntries, mTotalPages;
+	private int currentInternalPage = 0, mPageSize, mTotalEntries, mTotalPages;
 	private List<T> pagelist;
 	private int jpaDBListSize;
 	private boolean mPagingEnabled = true;
@@ -150,8 +148,8 @@ public class PageController<T extends IEntityObject> /*implements IDBStartupList
 							mViewer.getFirstElement(),
 							true);
 				}
-				System.out.println(currentInternalPage * mPageSize + " "
-						+ (currentInternalPage * mPageSize + mPageSize));
+				//System.out.println(currentInternalPage * mPageSize + " "
+					//	+ (currentInternalPage * mPageSize + mPageSize));
 
 				mViewer.setInput(null);
 				pagelist.clear();
@@ -161,7 +159,7 @@ public class PageController<T extends IEntityObject> /*implements IDBStartupList
 			
 			@Override
 			public void stepTwo_InJob() {
-				System.out.println("cleared");
+				//System.out.println("cleared");
 				reloaded = (List<T>) jpaDBList.getItems(currentInternalPage
 						* mPageSize, currentInternalPage * mPageSize + mPageSize);
 				

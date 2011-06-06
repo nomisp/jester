@@ -1,18 +1,10 @@
 package ch.jester.ui.exporter;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -23,7 +15,6 @@ import ch.jester.common.utility.ObjectXMLSerializer;
 import ch.jester.common.utility.ObjectXMLSerializer.SerializationWriter;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.model.Player;
 
 
 public class PlayerXMLExporter extends Wizard implements IExportWizard {
@@ -44,12 +35,13 @@ public class PlayerXMLExporter extends Wizard implements IExportWizard {
 		addPage(firstPage);
 
 	}
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean performFinish() {
 		try {
 		ObjectXMLSerializer serializer = new ObjectXMLSerializer();
 		String outFile = firstPage.getFileName();
-		Class[] outClass = firstPage.getSelectedCalsses();
+		Class<?>[] outClass = firstPage.getSelectedCalsses();
 		SerializationWriter writer = serializer.createWriter(outFile);
 		writer.newEntry("jester-export.xml");
 		ServiceUtility su = new ServiceUtility();
@@ -57,6 +49,7 @@ public class PlayerXMLExporter extends Wizard implements IExportWizard {
 		for(Class c:outClass){
 			writer.prepareContext(c);
 			
+			@SuppressWarnings("unchecked")
 			IDaoService<?> service = su.getDaoServiceByEntity(c);
 			List<?> allDomainObjects = service.getAll();
 			writer.write(allDomainObjects);

@@ -9,7 +9,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
-import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
@@ -60,10 +59,9 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	 */
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
-		FormToolkit toolkit = managedForm.getToolkit();
+
 		ScrolledForm form = managedForm.getForm();
 		form.setText("Player Details");
-		Composite body = form.getBody();
 		managedForm.getForm().getBody().setLayout(new GridLayout(1, false));
 		
 		Composite compPersonal = managedForm.getToolkit().createComposite(managedForm.getForm().getBody(), SWT.NONE);
@@ -94,25 +92,25 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		gd_txtLastname.widthHint = 315;
 		lastNameText.setLayoutData(gd_txtLastname);
 		
-		Label lblNewLabel_2 = managedForm.getToolkit().createLabel(composite_2, "Firstname", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_2, "Firstname", SWT.NONE);
 		
 		firstNameText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE);
 		firstNameText.setText("");
 		firstNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblNewLabel_3 = managedForm.getToolkit().createLabel(composite_2, "Age", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_2, "Age", SWT.NONE);
 		
 		txtAge = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE);
 		txtAge.setText("");
 		txtAge.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblNewLabel_4 = managedForm.getToolkit().createLabel(composite_2, "City", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_2, "City", SWT.NONE);
 		
 		cityText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE);
 		cityText.setText("");
 		cityText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblNation = managedForm.getToolkit().createLabel(composite_2, "Nation", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_2, "Nation", SWT.NONE);
 		
 		nationText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE);
 		nationText.setText("");
@@ -145,25 +143,25 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		txtTitle.setText("");
 		txtTitle.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblNewLabel_1 = managedForm.getToolkit().createLabel(composite_3, "Fide code", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_3, "Fide code", SWT.NONE);
 		
 		fideCodeText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE);
 		fideCodeText.setText("");
 		fideCodeText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		
-		Label lblNewLabel_5 = managedForm.getToolkit().createLabel(composite_3, "Naional code", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_3, "Naional code", SWT.NONE);
 		
 		nationalCodeText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE);
 		nationalCodeText.setText("");
 		nationalCodeText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblNewLabel_6 = managedForm.getToolkit().createLabel(composite_3, "Elo", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_3, "Elo", SWT.NONE);
 		
 		eloText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE);
 		eloText.setText("");
 		eloText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblNationalElo = managedForm.getToolkit().createLabel(composite_3, "National Elo", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_3, "National Elo", SWT.NONE);
 		
 		nationalEloText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE);
 		nationalEloText.setText("");

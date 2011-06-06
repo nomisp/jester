@@ -1,11 +1,5 @@
 package ch.jester.orm.internal;
 
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.List;
-
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -13,9 +7,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.osgi.framework.Bundle;
 
-import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.orm.ORMPlugin;
 

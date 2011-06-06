@@ -3,8 +3,6 @@ package ch.jester.ui.player.editor;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PartInitException;
 
 import ch.jester.common.ui.editor.AbstractEditor;

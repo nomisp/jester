@@ -54,7 +54,7 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 	 * - Referenzvergleich, wenn beide Objekte id 0 haben<br>
 	 * - sonst this.id == other.id
 	 */
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public boolean equals(Object o){
 		if(o==null){return false;}
 		if (!(this.getClass().isInstance(o))) return false;
@@ -95,6 +95,7 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 	 * AbstractModelBean muss dafür typisiert sein!!
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	protected T createCloneId0(){
 		Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		try {

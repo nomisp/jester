@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -21,7 +20,6 @@ import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -80,7 +78,7 @@ public class PlayerImportWizardPage extends WizardPage {
 	 */
 	public PlayerImportWizardPage(ISelection s) {
 		super("Import Player");
-		System.out.println(s);
+		//System.out.println(s);
 		setTitle("Import"); //NON-NLS-1
 		setDescription("Import Players into jester"); //NON-NLS-1
 	}
@@ -440,7 +438,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 		public void widgetSelected(SelectionEvent e) {
 			Button btn = (Button) e.getSource();
-			System.out.println(btn);
+			//System.out.println(btn);
 			boolean selected = btn.getSelection();
 			if(btn == rdZip&&selected){
 				ihm.mode_Zip();
@@ -460,7 +458,7 @@ public class PlayerImportWizardPage extends WizardPage {
 	private class WebRadioSelectionListener extends SelectionAdapter{
 		public void widgetSelected(SelectionEvent e) {
 			Button btn = (Button) e.getSource();
-			System.out.println(btn);
+			//System.out.println(btn);
 			boolean selected = btn.getSelection();
 			if(btn == rdWeb && selected){
 				ihm.mode_Web();

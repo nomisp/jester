@@ -1,10 +1,8 @@
 package ch.jester.common.ui.databinding;
 
 import org.eclipse.core.expressions.PropertyTester;
-import org.eclipse.core.runtime.IAdaptable;
 
 import ch.jester.common.ui.internal.Activator;
-import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 
 public class PageControllerPropertyTester extends PropertyTester {
@@ -16,9 +14,6 @@ public class PageControllerPropertyTester extends PropertyTester {
 	@Override
 	public boolean test(Object receiver, String property, Object[] args,
 			Object expectedValue) {
-	/*	if(!(receiver instanceof IAdaptable)){return false;}
-		IAdaptable adaptable = (IAdaptable) receiver;
-		PageController<?> controller = AdapterUtility.getAdaptedObject(adaptable, PageController.class);*/
 		PageController<?> controller = (PageController<?>) receiver;
 		if(controller==null){return false;}
 		boolean result = false;

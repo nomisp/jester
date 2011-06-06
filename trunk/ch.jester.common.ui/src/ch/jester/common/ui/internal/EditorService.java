@@ -68,7 +68,7 @@ public class EditorService implements IEditorService{
 	}
 
 	@Override
-	public void register(Class pObjectClass,
+	public void register(Class<?> pObjectClass,
 			Class<? extends IEditorInputAccess<?>> pEditorInputClass,
 					String pEditorId) {
 		RegistryEntry entry = new RegistryEntry(pObjectClass, pEditorInputClass, pEditorId);
