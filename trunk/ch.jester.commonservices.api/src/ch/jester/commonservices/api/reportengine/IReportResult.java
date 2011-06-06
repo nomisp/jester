@@ -15,7 +15,7 @@ public interface IReportResult {
 	 *
 	 */
 	enum ExportType{
-		PDF, HTML, XML, EXCEL;
+		PDF, HTML, XML, EXCEL, CSV;
 	}
 	/**
 	 * Soll vor {@link IReportResult#export(ExportType)} aufgerufen werden.

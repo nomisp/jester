@@ -1,6 +1,5 @@
 package ch.jester.reportengine.impl;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,6 +16,8 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRCsvExporterParameter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
@@ -96,6 +97,9 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			case EXCEL:
 				file = mTempFileManager.createTempFileWithExtension("xls");
 				break;
+			case CSV:
+				file = mTempFileManager.createTempFileWithExtension("csv");
+				break;
 			}
 			try {
 				OutputStream outputfile = new FileOutputStream(file);
@@ -159,6 +163,11 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 					exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 					exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
 					break;
+				case CSV:
+					exporter = new JRCsvExporter();
+					exporter.setParameter(JRCsvExporterParameter.JASPER_PRINT, mResult);
+					exporter.setParameter(JRCsvExporterParameter.OUTPUT_STREAM, output);
+					break;	
 				}
 				exporter.exportReport();
 				output.flush();
