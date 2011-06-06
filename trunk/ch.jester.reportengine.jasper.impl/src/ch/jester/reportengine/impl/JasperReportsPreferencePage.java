@@ -114,12 +114,9 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 					public void run() throws Exception {
 						su.setSelection(event.getSelection());
 						IReport report = su.getFirstSelectedAs(IReport.class);
-						try {
-							Desktop.getDesktop().open(report.getInstalledFile());
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+
+						Desktop.getDesktop().open(report.getInstalledFile());
+		
 						
 					}
 				});
