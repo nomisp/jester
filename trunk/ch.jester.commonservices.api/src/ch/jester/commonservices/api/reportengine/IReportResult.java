@@ -1,6 +1,7 @@
 package ch.jester.commonservices.api.reportengine;
 
 import java.io.File;
+import java.io.OutputStream;
 
 import ch.jester.commonservices.exceptions.ProcessingException;
 
@@ -14,7 +15,7 @@ public interface IReportResult {
 	 *
 	 */
 	enum ExportType{
-		PDF, HTML, XML;
+		PDF, HTML, XML, EXCEL;
 	}
 	/**
 	 * Soll vor {@link IReportResult#export(ExportType)} aufgerufen werden.
@@ -29,4 +30,6 @@ public interface IReportResult {
 	 * @throws ProcessingException
 	 */
 	public File export(ExportType ex) throws ProcessingException;
+	
+	public void export(ExportType ex, OutputStream pOutputStream) throws ProcessingException;
 }
