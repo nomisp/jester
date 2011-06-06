@@ -5,29 +5,27 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.batik.gvt.event.SelectionAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import ch.jester.common.ui.adapters.TableLabelProviderAdapter;
 import ch.jester.common.ui.utility.SafeMessageBoxRunner;
@@ -36,11 +34,8 @@ import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Button;
-import org.jfree.ui.UIUtilities;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.GridData;
 
 public class JasperReportsPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	private Table table;
@@ -60,11 +55,17 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 	public Control createContents(Composite parent) {
 		final ServiceUtility su = new ServiceUtility();
 		Composite container = new Composite(parent, SWT.NULL);
+		container.setLayout(new GridLayout(1, false));
+		
+		Label lblTemplates = new Label(container, SWT.NONE);
+		lblTemplates.setText("Templates (double click to open in associated app)");
 		
 		TableViewer tableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
 		table = tableViewer.getTable();
+		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		gd_table.verticalIndent = 1;
+		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
-		table.setBounds(10, 31, 432, 272);
 		
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
@@ -78,34 +79,8 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 		
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnFile = tableViewerColumn_1.getColumn();
-		tblclmnFile.setWidth(500);
+		tblclmnFile.setWidth(200);
 		tblclmnFile.setText("File");
-		
-		Label lblTemplates = new Label(container, SWT.NONE);
-		lblTemplates.setBounds(10, 10, 345, 15);
-		lblTemplates.setText("Templates (double click to open in associated app)");
-		
-		Button btnNewButton = new Button(container, SWT.NONE);
-		btnNewButton.setBounds(10, 305, 132, 25);
-		btnNewButton.setText("Show in FileSystem");
-		btnNewButton.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				String filePath = mSelected.getInstalledFile().getParent();
-				try {
-					Desktop.getDesktop().open(new File(filePath));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
 		
 		
 		tableViewer.setContentProvider(ArrayContentProvider.getInstance());
@@ -158,6 +133,28 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 					}
 				});
 				
+				
+			}
+		});
+
+		
+		Button btnNewButton = new Button(container, SWT.NONE);
+		btnNewButton.setText("Show in FileSystem");
+		btnNewButton.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String filePath = mSelected.getInstalledFile().getParent();
+				try {
+					Desktop.getDesktop().open(new File(filePath));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
 				
 			}
 		});
