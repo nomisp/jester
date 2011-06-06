@@ -5,13 +5,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Enumeration;
 
 import org.osgi.framework.Bundle;
 
 import ch.jester.commonservices.api.reportengine.IReport;
 
 public class DefaultReport implements IReport{
-	private String mAlias, mVisibleName, mFileName;
+	private String mAlias, mVisibleName, mFileName, mBundleSourceRoot;
 	private Bundle mBundle;
 	private File mInstalledFile;
 	@Override
@@ -35,12 +36,12 @@ public class DefaultReport implements IReport{
 	}
 
 	@Override
-	public String getBundleFileName() {
+	public String getBundleReportFile() {
 		return mFileName;
 	}
 
 	@Override
-	public void setBundleFileName(String pFilePath) {
+	public void setBundleReportFile(String pFilePath) {
 		mFileName = pFilePath;
 	}
 
@@ -52,6 +53,12 @@ public class DefaultReport implements IReport{
 
 	@Override
 	public InputStream getBundleFileAsStream() throws IOException {
+		Enumeration en = mBundle.getEntryPaths("reports");
+		while(en.hasMoreElements()){
+			System.out.println(en.nextElement());
+		}
+		
+		
 		URL url = mBundle.getResource(mFileName);
 		return url.openStream();
 	}
@@ -72,6 +79,21 @@ public class DefaultReport implements IReport{
 	@Override
 	public File getInstalledFile() {
 		return mInstalledFile;
+	}
+
+	@Override
+	public void setBundleSourceRoot(String pRoot) {
+		mBundleSourceRoot=pRoot;
+	}
+
+	@Override
+	public String getBundleSourceRoot() {
+		return mBundleSourceRoot;
+	}
+
+	@Override
+	public Bundle getBundle() {
+		return mBundle;
 	}
 
 }
