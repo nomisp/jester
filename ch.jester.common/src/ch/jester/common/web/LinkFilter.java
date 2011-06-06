@@ -20,8 +20,7 @@ public class LinkFilter implements IPageReaderFilter{
 		while(matcher.find(start)){
 			String url = matcher.group(mURLGroup);
 			String text = matcher.group(mNameGroup);
-			Link l = null;
-			mLinks.add(l=pReader.createLink(text, url));
+			mLinks.add(pReader.createLink(text, url));
 			start = matcher.end()+1;
 			
 		}

@@ -19,7 +19,7 @@ public class ORMDBUtil {
 		for(IConfigurationElement e:elements){
 			IContributor contributor = e.getContributor();
 			Bundle b = Platform.getBundle(contributor.getName());
-			String name = b.getHeaders().get("Bundle-Name").toString();
+			//String name = b.getHeaders().get("Bundle-Name").toString();
 			bundles.add(b);
 		}
 		return bundles;

@@ -119,6 +119,7 @@ public abstract class AbstractTableImporter<T, V> implements IImportHandler<Inpu
 		return -1;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
 		return Platform.getAdapterManager().getAdapter(this, adapter);

@@ -52,9 +52,8 @@ public class ObjectXMLSerializer {
 			mContext = pContext;
 		}
 		
+		@SuppressWarnings("rawtypes")
 		public List read() throws IOException {
-			ZipEntry ze;
-			
 
 			try {
 				XMLList<?> pt = (XMLList<?>) mContext
@@ -81,6 +80,7 @@ public class ObjectXMLSerializer {
 			mContext = pContext;
 		}
 		
+		@SuppressWarnings("rawtypes")
 		public List read(String pEntriy) throws IOException {
 			ZipEntry ze;
 
@@ -151,6 +151,10 @@ public static class SerializationWriter{
 }
 @XmlRootElement(name = "Root")
 class XMLList<T> extends ArrayList<T> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8807328009384763155L;
 	// @XmlElement(name = "List")
 	protected List<T> item;
 

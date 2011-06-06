@@ -1,9 +1,5 @@
 package ch.jester.model.factories;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Enumeration;
 import java.util.Set;
 
 import ch.jester.model.Category;
@@ -13,7 +9,6 @@ import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
-import ch.jester.model.internal.Activator;
 
 /**
  * ModelFactory zum erzeugen von Model-Objekten,

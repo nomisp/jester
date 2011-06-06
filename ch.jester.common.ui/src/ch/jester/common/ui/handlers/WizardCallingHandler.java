@@ -1,23 +1,14 @@
 package ch.jester.common.ui.handlers;
 
 import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.wizard.IWizard;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.internal.IWorkbenchHelpContextIds;
-import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.wizards.IWizardDescriptor;
-import org.eclipse.ui.wizards.IWizardRegistry;
 
 public class WizardCallingHandler extends AbstractCommandHandler{
 
@@ -29,16 +20,6 @@ public class WizardCallingHandler extends AbstractCommandHandler{
 	      /*  IDialogSettings workbenchSettings = WorkbenchPlugin.getDefault()
             .getDialogSettings();*/
 	
-	        
-	    	IWorkbenchWindow activeWindow;
-			try {
-				activeWindow = HandlerUtil
-				.getActiveWorkbenchWindowChecked(event);
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
 	
 			IWorkbenchWizard wizard = null;;
 			try {

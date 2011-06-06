@@ -35,5 +35,5 @@ public interface IEditorService {
 	 * @param pEditorInputClass Die Inputklasse
 	 * @param pEditorId Die ID des Editors
 	 */
-	public void register(Class pObjectClass, Class<? extends IEditorInputAccess<?>> pEditorInputClass, String pEditorId);
+	public void register(Class<?> pObjectClass, Class<? extends IEditorInputAccess<?>> pEditorInputClass, String pEditorId);
 }

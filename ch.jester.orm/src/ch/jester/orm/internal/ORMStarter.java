@@ -1,10 +1,8 @@
 package ch.jester.orm.internal;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.StatusLineContributionItem;
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -15,7 +13,6 @@ import org.eclipse.ui.IStartup;
 
 import ch.jester.common.ui.services.IExtendedStatusLineManager;
 import ch.jester.common.ui.utility.UIUtility;
-//import ch.jester.commonservices.api.persistency.IDBStartupListener;
 import ch.jester.commonservices.api.persistency.IDatabaseStateService;
 import ch.jester.commonservices.api.persistency.IDatabaseStateService.State;
 import ch.jester.commonservices.util.ServiceUtility;

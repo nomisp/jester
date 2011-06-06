@@ -144,6 +144,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 			public void mouseUp(MouseEvent e) {
 			}
 			
+
 			@Override
 			public void mouseDown(MouseEvent e) {
 				AddColumnDialog dialog = new AddColumnDialog(Display.getDefault().getActiveShell());
@@ -200,6 +201,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 	public void setInput(ImportSelection importSelection) {
 		mSelection = importSelection;
 	}
+	@SuppressWarnings("unchecked")
 	private void parse() {
 		String[] headers = getInputAttributes();
 		if(headers.length==0){return;}
@@ -225,10 +227,11 @@ public class PropertyChooserWizardPage extends WizardPage{
 		btnAddCol.setEnabled(canAddColumns());
 
 	}
-	@SuppressWarnings("rawtypes")
+
+	@SuppressWarnings("unchecked")
 	public List<String[]> getContent(int pLength){
-		IImportHandler handler = mSelection.getSelectedHandlerEntry().getService();
-		IVirtualTable access = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
+		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
+		IVirtualTable<Object> access = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
 		
 		inputContent.clear();
 		for(int i=1;i<20;i++){
@@ -248,23 +251,24 @@ public class PropertyChooserWizardPage extends WizardPage{
 		return mLinking;
 	}
 	
-	@SuppressWarnings("rawtypes")
+
 	private boolean canAddColumns(){
-		IImportHandler handler = mSelection.getSelectedHandlerEntry().getService();
-		IVirtualTable virtual = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
+		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
+		IVirtualTable<?> virtual = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
 		return virtual.canAddCells();
 	}
-	@SuppressWarnings("rawtypes")
-	private IVirtualTable getVirtualTableProvider(){
-		IImportHandler handler = mSelection.getSelectedHandlerEntry().getService();
-		IVirtualTable virtual = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
+
+	private IVirtualTable<?> getVirtualTableProvider(){
+		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
+		IVirtualTable<?> virtual = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
 		return virtual;
 	}
 	
-	@SuppressWarnings("rawtypes")
+
 	private String[] getInputAttributes(){
-		IImportHandler handler = mSelection.getSelectedHandlerEntry().getService();
-		ITestableImportHandler testableHandler = AdapterUtility.getAdaptedObject(handler, ITestableImportHandler.class);
+		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
+		@SuppressWarnings("unchecked")
+		ITestableImportHandler<Object> testableHandler = AdapterUtility.getAdaptedObject(handler, ITestableImportHandler.class);
 		if(testableHandler==null){
 			return new String[]{};
 		}
@@ -276,18 +280,18 @@ public class PropertyChooserWizardPage extends WizardPage{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		IVirtualTable access = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
+		IVirtualTable<?> access = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
 		return access.getHeaderEntries();
 	}
-	@SuppressWarnings("rawtypes")
+
 	private String[] getDomainAttributes(){
-		IImportHandler handler = mSelection.getSelectedHandlerEntry().getService();
+		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
 		IImportAttributeMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportAttributeMatcher.class);
 		return attributehandler.getDomainObjectAttributes();
 	}
-	@SuppressWarnings("rawtypes")
+
 	private HashMap<String, String> getPredefiniedLinking(){
-		IImportHandler handler = mSelection.getSelectedHandlerEntry().getService();
+		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
 		IImportAttributeMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportAttributeMatcher.class);
 		return attributehandler.getInputLinking();
 		

@@ -126,7 +126,7 @@ public class PlayerXMLPage extends WizardPage {
 
 		});
 	}
-	public Class[] getSelectedCalsses(){
+	public Class<?>[] getSelectedCalsses(){
 		return mSelectedClasses;
 	}
 	

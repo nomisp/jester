@@ -32,6 +32,7 @@ public abstract class AbstractWebAdapter implements IWebImportAdapter  {
 	public void setIImportHandler(@SuppressWarnings("rawtypes") IImportHandler pAdaptedHandler) {
 		mAdaptedHandler=pAdaptedHandler;
 	}
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
 		return mAdaptedHandler.getAdapter(adapter);

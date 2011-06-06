@@ -4,17 +4,10 @@ import java.sql.Connection;
 
 import javax.persistence.EntityManagerFactory;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
-import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistency.IDatabaseStateService;
-import ch.jester.commonservices.impl.persistencyevent.DefaultDatabaseStateService;
 import ch.jester.orm.internal.ORMAutoDBHandler;
 
 public class ORMPlugin extends AbstractUIActivator {
