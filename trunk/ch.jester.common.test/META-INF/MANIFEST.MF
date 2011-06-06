@@ -20,4 +20,5 @@ Export-Package: ch.jester.common.test.internal,
  ch.jester.common.tests.commands,
  ch.jester.common.tests.testservice,
  ch.jester.common.tests.testservice.api
+Import-Package: javax.persistence
 

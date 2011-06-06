@@ -8,6 +8,8 @@ import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Round;
+import ch.jester.model.SettingItem;
+import ch.jester.model.SettingItemValue;
 import ch.jester.model.Tournament;
 
 /**
@@ -185,6 +187,26 @@ public class ModelFactory {
 		Club club = new Club();
 		club.setName(name);
 		return club;
+	}
+
+	/**
+	 * Erzeugt ein neues SettingItem und verknüpft das Turnier
+	 * @param tournament
+	 * @return settingItem
+	 */
+	public SettingItem createSettingItem(Tournament tournament) {
+		SettingItem settingItem = new SettingItem();
+		settingItem.setTournament(tournament);
+		return settingItem;
+	}
+	
+	/**
+	 * Erzeugt ein neues SettingItemValue
+	 * @return
+	 */
+	public SettingItemValue createSettingItemValue() {
+		SettingItemValue settingItemValue = new SettingItemValue();
+		return settingItemValue;
 	}
 	
 	
