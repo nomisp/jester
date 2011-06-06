@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.batik.gvt.event.SelectionAdapter;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -29,11 +30,13 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import ch.jester.common.ui.adapters.TableLabelProviderAdapter;
 import ch.jester.common.ui.utility.SafeMessageBoxRunner;
 import ch.jester.common.ui.utility.SelectionUtility;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
+import org.jfree.ui.UIUtilities;
 
 public class JasperReportsPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	private Table table;
@@ -115,7 +118,15 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 						su.setSelection(event.getSelection());
 						IReport report = su.getFirstSelectedAs(IReport.class);
 
-						Desktop.getDesktop().open(report.getInstalledFile());
+						try{
+							Desktop.getDesktop().open(report.getInstalledFile());
+						}
+						catch(Exception e){
+							String message = "Could not open: "+report.getBundleReportFile()+
+							"\n\nPlease install IReport: http://sourceforge.net/projects/ireport/";
+							MessageDialog.openInformation(UIUtility.getActiveWorkbenchWindow().getShell(), "Warning", message);
+							
+						}
 		
 						
 					}
