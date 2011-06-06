@@ -22,6 +22,8 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TableColumn;
@@ -37,9 +39,12 @@ import ch.jester.commonservices.util.ServiceUtility;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.jfree.ui.UIUtilities;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 
 public class JasperReportsPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	private Table table;
+	private IReport mSelected;
 
 	/**
 	 * Create the preference page.
@@ -59,16 +64,21 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 		TableViewer tableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
 		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
-		table.setBounds(10, 31, 345, 272);
+		table.setBounds(10, 31, 432, 272);
 		
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
 		tblclmnName.setWidth(100);
 		tblclmnName.setText("Name");
 		
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnNewColumn = tableViewerColumn_2.getColumn();
+		tblclmnNewColumn.setWidth(100);
+		tblclmnNewColumn.setText("Source Name");
+		
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnFile = tableViewerColumn_1.getColumn();
-		tblclmnFile.setWidth(300);
+		tblclmnFile.setWidth(500);
 		tblclmnFile.setText("File");
 		
 		Label lblTemplates = new Label(container, SWT.NONE);
@@ -78,29 +88,45 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 		Button btnNewButton = new Button(container, SWT.NONE);
 		btnNewButton.setBounds(10, 305, 132, 25);
 		btnNewButton.setText("Show in FileSystem");
-		btnNewButton.addListener(SWT.Selection, new Listener(){
+		btnNewButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void handleEvent(Event event) {
-				File f = su.getService(IReportEngine.class).getFactory().getInstallationDir();
+			public void widgetSelected(SelectionEvent e) {
+				String filePath = mSelected.getInstalledFile().getParent();
 				try {
-					Desktop.getDesktop().open(f);
-				} catch (IOException e) {
+					Desktop.getDesktop().open(new File(filePath));
+				} catch (IOException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
-				
 			}
 			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 		
 		tableViewer.setContentProvider(ArrayContentProvider.getInstance());
+		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			SelectionUtility su = new SelectionUtility(null);
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				su.setSelection(event.getSelection());
+				mSelected = su.getFirstSelectedAs(IReport.class);
+				
+			}
+		});
 		tableViewer.setLabelProvider(new TableLabelProviderAdapter(){
 			public String getColumnText(Object element, int columnIndex) {
 				if(columnIndex==0){
 					return ((IReport)element).getVisibleName();
 				}
 				if(columnIndex==1){
+					return ((IReport)element).getInstalledFile().getName();
+				}
+				if(columnIndex==2){
 					return ((IReport)element).getInstalledFile().getAbsolutePath();
 				}
 				return null;
@@ -122,7 +148,7 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 							Desktop.getDesktop().open(report.getInstalledFile());
 						}
 						catch(Exception e){
-							String message = "Could not open: "+report.getBundleReportFile()+
+							String message = "Could not open: "+report.getInstalledFile().getName()+
 							"\n\nPlease install IReport: http://sourceforge.net/projects/ireport/";
 							MessageDialog.openInformation(UIUtility.getActiveWorkbenchWindow().getShell(), "Warning", message);
 							
