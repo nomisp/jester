@@ -1,18 +1,30 @@
 package ch.jester.reportengine.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.JRXmlExporter;
+import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 
 import org.osgi.service.component.ComponentContext;
 
@@ -44,9 +56,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			InputStream stream = pReport.getInstalledFileAsStream();
 			JasperReport jasperReport =JasperCompileManager.compileReport(stream);
 			stream.close();
-			
 			JasperPrint jasperPrint =JasperFillManager.fillReport(jasperReport, parameter, beancollection);
-			//JasperExportManager.exportReportToPdfFile(jasperPrint,"PlayerList.pdf");
 			return new JasperReportResult(jasperPrint);
 		} catch (JRException e) {
 			throw new ProcessingException(e);
@@ -64,32 +74,105 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 		public JasperReportResult(JasperPrint pResult) {
 			super(pResult);
 		}
+		@Override
+		public boolean canExport(ExportType ex) {
+			return true;
+		}
 
 		@Override
 		public File export(ExportType ex) throws ProcessingException {
+			File file = null;
+			switch(ex){
+			case HTML:
+				file = mTempFileManager.createTempFileWithExtension("html");	
+				break;
+			case PDF:
+				file = mTempFileManager.createTempFileWithExtension("pdf");
+				break;
+			case XML:
+				file = mTempFileManager.createTempFileWithExtension("xml");
+				break;
+			
+			case EXCEL:
+				file = mTempFileManager.createTempFileWithExtension("xls");
+				break;
+			}
+			try {
+				OutputStream outputfile = new FileOutputStream(file);
+				export(ex, outputfile);
+			} catch (FileNotFoundException e) {
+				throw new ProcessingException(e);
+			}
+			
+			return file;
+		}
+		@Override
+		public void export(ExportType ex, OutputStream pOutputStream)
+				throws ProcessingException {
 			try{
+				JRExporter exporter = null;
+				OutputStream output = pOutputStream;
 				switch(ex){
 				case HTML:
-					File file = mTempFileManager.createTempFileWithExtension("html");					
-					JasperExportManager.exportReportToHtmlFile(mResult,file.getAbsolutePath());
-					return file;
+					exporter = new JRHtmlExporter();
+					//JasperExportManager.exportReportToHtmlFile(mResult,file.getAbsolutePath());
+				//	return f;
+					exporter.setParameter(JRHtmlExporterParameter.JASPER_PRINT, mResult);
+					exporter.setParameter(JRHtmlExporterParameter.OUTPUT_STREAM, output);
+			//		exporter.setParameter(JRHtmlExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+			//		exporter.setParameter(JRHtmlExporterParameter.IS_AUTO_DETECT_CELL_TYPE, Boolean.TRUE);
+					exporter.setParameter(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+					exporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+					break;
 				case PDF:
+					exporter = new JRPdfExporter();
 					//JasperExportManager.exportReportToPdfFile(mResult,mOutptuName+".pdf");
-					File f = mTempFileManager.createTempFileWithExtension("pdf");
-					JasperExportManager.exportReportToPdfFile(mResult, f.getAbsolutePath());
-					return f;
+					//f = mTempFileManager.createTempFileWithExtension("pdf");
+					//JasperExportManager.exportReportToPdfFile(mResult, f.getAbsolutePath());
+				//	return f;
+					exporter.setParameter(JRPdfExporterParameter.JASPER_PRINT, mResult);
+					exporter.setParameter(JRPdfExporterParameter.OUTPUT_STREAM, output);
+				//	exporter.setParameter(JRPdfExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+					//exporter.setParameter(JRPdfExporterParameter.IS_AUTO_DETECT_CELL_TYPE, Boolean.TRUE);
+				//	exporter.setParameter(JRPdfExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+					//exporter.setParameter(JRPdfExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+					break;
 				case XML:
-					File f1 = mTempFileManager.createTempFileWithExtension("xml");
-					JasperExportManager.exportReportToXmlFile(mResult,f1.getAbsolutePath(),true);
-					return f1;
+					exporter = new JRXmlExporter();
+					//File f1 = mTempFileManager.createTempFileWithExtension("xml");
+					//JasperExportManager.exportReportToXmlFile(mResult,f1.getAbsolutePath(),true);
+					//return f;
+					exporter.setParameter(JRXmlExporterParameter.JASPER_PRINT, mResult);
+					exporter.setParameter(JRXmlExporterParameter.OUTPUT_STREAM, output);
+					//exporter.setParameter(JRXmlExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+					//exporter.setParameter(JRXmlExporterParameter.IS_AUTO_DETECT_CELL_TYPE, Boolean.TRUE);
+					//exporter.setParameter(JRXmlExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+					//exporter.setParameter(JRXmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+					break;
+				
+				case EXCEL:
+					exporter = new JRXlsExporter();
+					exporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, mResult);
+					exporter.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, output);
+					exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+					exporter.setParameter(JRXlsExporterParameter.IS_AUTO_DETECT_CELL_TYPE, Boolean.TRUE);
+					exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+					exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+					break;
 				}
+				exporter.exportReport();
+				output.flush();
+				output.close();
 				
 			}catch(JRException e){
 				throw new ProcessingException(e);
+			} catch (FileNotFoundException e) {
+				throw new ProcessingException(e);
+			} catch (IOException e) {
+				throw new ProcessingException(e);
 			}
-			return null;
-			
 		}
+
 		
 	}
 
