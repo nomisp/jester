@@ -69,7 +69,7 @@
 			</staticText>
 			<image>
 				<reportElement x="2" y="0" width="45" height="35"/>
-				<imageExpression class="java.lang.String"><![CDATA["reports/img/icon128x128.jpg"]]></imageExpression>
+				<imageExpression class="java.lang.String"><![CDATA["/img/icon128x128.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
