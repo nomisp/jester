@@ -33,7 +33,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	private IFileManager mTempFileManager;
     private IReportEngineFactory factory = new DefaultReportFactory();
     public JasperReportEngine(){
-    	factory.createReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports/PlayerList.jrxml");
+    	factory.createReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports", "reports/PlayerList.jrxml");
     }
     
 	@Override

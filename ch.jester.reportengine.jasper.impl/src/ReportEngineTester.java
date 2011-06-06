@@ -44,7 +44,7 @@ public class ReportEngineTester {
 			}
 			
 			@Override
-			public void setBundleFileName(String pFilePath) {
+			public void setBundleReportFile(String pFilePath) {
 				// TODO Auto-generated method stub
 				
 			}
@@ -55,7 +55,7 @@ public class ReportEngineTester {
 			}
 			
 			@Override
-			public String getBundleFileName() {
+			public String getBundleReportFile() {
 				return "PlayerList.jrxml";
 			}
 
@@ -96,6 +96,24 @@ public class ReportEngineTester {
 
 			@Override
 			public File getInstalledFile() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public void setBundleSourceRoot(String pRoot) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public String getBundleSourceRoot() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Bundle getBundle() {
 				// TODO Auto-generated method stub
 				return null;
 			}
