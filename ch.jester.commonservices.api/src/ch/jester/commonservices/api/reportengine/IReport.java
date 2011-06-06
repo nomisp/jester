@@ -32,16 +32,21 @@ public interface IReport {
 	 * @return
 	 */
 	public String getVisibleName();
+
+	public void setBundleSourceRoot(String pRoot);
+	
+	public String getBundleSourceRoot();
+	
 	/**
 	 * Gibt den FilenNamen im SourceBundle zurück.
 	 * @return
 	 */
-	public String getBundleFileName();
+	public String getBundleReportFile();
 	/**
 	 * Setzt den Namen des Files im SourceBundle
 	 * @param pFileName
 	 */
-	public void setBundleFileName(String pFileName);
+	public void setBundleReportFile(String pFileName);
 	/**
 	 * Gibt das File vom Bundle als Stream zurück.
 	 * @return
@@ -70,4 +75,6 @@ public interface IReport {
 	 * @param b
 	 */
 	public void setBundle(Bundle b);
+	
+	public Bundle getBundle();
 }

@@ -12,7 +12,7 @@ public interface IReportEngine {
 	/**
 	 * Das Standardverzeichnis wohin die Templates/Reports installiert werden.
 	 */
-	public final static String TEMPLATE_DIRECTROY = "reportengine_templates";
+	public final static String TEMPLATE_DIRECTROY = "reportengine";
 	/**
 	 * Gibt die ReportEngineFactory zurück
 	 * @return

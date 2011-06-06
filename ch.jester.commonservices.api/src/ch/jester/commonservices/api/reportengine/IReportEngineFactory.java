@@ -16,7 +16,7 @@ public interface IReportEngineFactory {
 	 * @param pFileName den FileNamen im SourceBundle
 	 * @return
 	 */
-	public IReport createReport(String pBundle, String pAliasName, String pVisibleName, String pFileName);
+	public IReport createReport(String pBundle, String pAliasName, String pVisibleName, String pSource, String pFileName);
 	/**
 	 * Installiert und exportiert einen Report ins Filesystem.<br>
 	 * Soll nicht von Clients aufgerufen werden!
