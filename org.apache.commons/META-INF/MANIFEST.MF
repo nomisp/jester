@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Apache Commons
+Bundle-SymbolicName: org.apache.commons
+Bundle-Version: 1.0.0
+Bundle-ClassPath: commons-beanutils-1.7.0.jar,
+ commons-beanutils-1.7.0-javadoc.jar,
+ commons-beanutils-1.7.0-sources.jar
+Bundle-Vendor: Apache Software Foundation
+Export-Package: org.apache.commons.beanutils,
+ org.apache.commons.beanutils.converters,
+ org.apache.commons.beanutils.locale,
+ org.apache.commons.beanutils.locale.converters,
+ org.apache.commons.collections
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.apache.commons.logging;bundle-version="1.0.4"
