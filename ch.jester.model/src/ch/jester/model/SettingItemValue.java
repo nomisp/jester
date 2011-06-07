@@ -6,6 +6,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Beschreibt ein Property eines SettingItems
+ * @author Peter
+ *
+ */
 @Entity
 @Table(name="SettingItemValue")
 public class SettingItemValue extends AbstractModelBean<SettingItemValue> {
@@ -13,41 +18,24 @@ public class SettingItemValue extends AbstractModelBean<SettingItemValue> {
 	
     @ManyToOne(optional = false)
     @JoinColumn(name = "SettingItemId")
-//    @org.hibernate.annotations.ForeignKey(name = "FK_SettingItemParam_SettingItem_Id", inverseName = "FK_SettingItem_SettingItemParam_Id")
-//    @org.hibernate.validator.NotNull
     private SettingItem settingItem;
 	
     @Column(name = "FieldNameInRootClass")
-//    @org.hibernate.validator.NotNull
-//    @org.hibernate.validator.Length(max = 500)
     private String fieldNameInRootClass;
 
     @Column(name = "FieldClassNameInRootClass")
-//    @org.hibernate.validator.NotNull
-//    @org.hibernate.validator.Length(max = 500)
     private String fieldClassNameInRootClass;
 
-    @Column(name = "EntityClassName")
-//    @org.hibernate.validator.Length(max = 500)
-    private String entityClassName;
-
     @Column(name = "ValueClassName")
-//    @org.hibernate.validator.NotNull
-//    @org.hibernate.validator.Length(max = 500)
     private String valueClassName;
 
     @Column(name = "ValueFieldName")
-//    @org.hibernate.validator.Length(max = 50)
     private String valueFieldName;
 
     @Column(name = "ValueAsString")
-//    @org.hibernate.validator.NotNull
-//    @org.hibernate.validator.Length(max = 1000)
     private String valueAsString;
 
     @Column(name = "SequenceNo")
-//    @org.hibernate.validator.NotNull
-//    @org.hibernate.validator.Range(min = 0, max = 99999)
     private Integer sequenceNo = 0;
     
     // ******************************
@@ -86,14 +74,6 @@ public class SettingItemValue extends AbstractModelBean<SettingItemValue> {
 
 	public void setFieldClassNameInRootClass(String fieldClassNameInRootClass) {
 		this.fieldClassNameInRootClass = fieldClassNameInRootClass;
-	}
-
-	public String getEntityClassName() {
-		return entityClassName;
-	}
-
-	public void setEntityClassName(String entityClassName) {
-		this.entityClassName = entityClassName;
 	}
 
 	public String getValueClassName() {

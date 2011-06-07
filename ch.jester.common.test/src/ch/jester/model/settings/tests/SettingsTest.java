@@ -1,13 +1,13 @@
 package ch.jester.model.settings.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+
 import org.junit.Test;
 
 import ch.jester.common.settings.SettingHelper;
@@ -18,10 +18,6 @@ import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.orm.ORMPlugin;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 
 public class SettingsTest extends ActivatorProviderForTestCase {
 
