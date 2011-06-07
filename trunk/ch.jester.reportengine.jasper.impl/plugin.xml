@@ -59,5 +59,12 @@
             class="ch.jester.reportengine.impl.internal.Initializer">
       </initializer>
    </extension>
+   <extension
+         point="org.eclipse.equinox.http.registry.servlets">
+      <servlet
+            alias="/image"
+            class="net.sf.jasperreports.j2ee.servlets.ImageServlet">
+      </servlet>
+   </extension>
 
 </plugin>
