@@ -1,6 +1,5 @@
 package ch.jester.importmanagerservice.impl.internal.finalimpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;

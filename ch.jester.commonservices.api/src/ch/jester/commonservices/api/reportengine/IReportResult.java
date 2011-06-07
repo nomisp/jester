@@ -3,13 +3,15 @@ package ch.jester.commonservices.api.reportengine;
 import java.io.File;
 import java.io.OutputStream;
 
+import org.eclipse.core.runtime.IAdaptable;
+
 import ch.jester.commonservices.exceptions.ProcessingException;
 
 /**
  * Das Resultat einer Reporterzeugung {@link IReportEngine#generate(IReport, java.util.Collection)}
  *
  */
-public interface IReportResult {
+public interface IReportResult extends IAdaptable{
 	/**
 	 * Export als...
 	 *
@@ -48,4 +50,5 @@ public interface IReportResult {
 	public File export(ExportType ex) throws ProcessingException;
 	
 	public void export(ExportType ex, OutputStream pOutputStream) throws ProcessingException;
+	
 }

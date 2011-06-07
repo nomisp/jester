@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -26,11 +28,14 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
+import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 
+import org.eclipse.core.runtime.Platform;
 import org.osgi.service.component.ComponentContext;
 
 import ch.jester.common.reportengine.DefaultReportRepository;
 import ch.jester.common.reportengine.DefaultReportResult;
+import ch.jester.common.utility.AdapterBinding;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.api.logging.ILogger;
@@ -39,6 +44,7 @@ import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportRepository;
 import ch.jester.commonservices.api.reportengine.IReportResult;
+import ch.jester.commonservices.api.web.IHTTPSessionAware;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.reportengine.impl.internal.Initializer;
@@ -76,8 +82,26 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	
 	class JasperReportResult extends DefaultReportResult<JasperPrint>{
 		ServiceUtility su = new ServiceUtility();
+		HttpSessionAdapter sessionadapter = new HttpSessionAdapter();
+		class HttpSessionAdapter implements IHTTPSessionAware{
+			HttpSession session;
+			@Override
+			public HttpSession getSession() {
+				return session;
+			}
+
+			@Override
+			public void setSession(HttpSession pSession) {
+				session = pSession;
+			}
+			
+		}
+		
 		public JasperReportResult(JasperPrint pResult, IReportEngine pEngine) {
 			super(pResult, pEngine);
+			AdapterBinding binding = new AdapterBinding(this);
+			binding.add(sessionadapter, IHTTPSessionAware.class);
+			binding.bind();
 		}
 		@Override
 		public boolean canExport(ExportType ex) {
@@ -102,6 +126,9 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			try{
 				JRExporter exporter = null;
 				OutputStream output = pOutputStream;
+				if(sessionadapter.getSession()!=null){
+					sessionadapter.getSession().setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, mResult);
+				}
 				switch(ex){
 				case HTML:
 					exporter = new JRHtmlExporter();
@@ -144,7 +171,11 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 				}
 				exporter.exportReport();
 				output.flush();
-				output.close();
+				if(sessionadapter.getSession()==null){
+					output.close();
+				}
+		
+				
 				
 			}catch(JRException e){
 				throw new ProcessingException(e);
@@ -153,6 +184,11 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			} catch (IOException e) {
 				throw new ProcessingException(e);
 			}
+		}
+		@SuppressWarnings("rawtypes")
+		@Override
+		public Object getAdapter(Class adapter) {
+			return Platform.getAdapterManager().getAdapter(this, adapter);
 		}
 
 		

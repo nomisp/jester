@@ -49,6 +49,12 @@ public class AdapterBinding implements IAdapterFactory{
 		if(adaptableObject==mInstance){
 			return objectForClass;
 		}
+		//TODO Check!!!
+		if(objectForClass!=null){
+			if(adapterType.isAssignableFrom(objectForClass.getClass())){
+				return objectForClass;
+			}
+		}
 		return null;
 	}
 
