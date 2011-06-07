@@ -14,7 +14,11 @@ public class DummySettingObject implements ISettingObject {
 	
 	private Date now;
 	
-	private List<String> strings;
+	private Integer numberOfRounds;
+	
+	private Double result;
+	
+//	private ArrayList<String> myStringList;
 	
 	public DummySettingObject() {
 	}
@@ -42,13 +46,29 @@ public class DummySettingObject implements ISettingObject {
 	public void setNow(Date now) {
 		this.now = now;
 	}
+//
+//	public ArrayList<String> getMyStringList() {
+//		return myStringList;
+//	}
+//
+//	public void setMyStringList(ArrayList<String> myStringList) {
+//		this.myStringList = myStringList;
+//	}
 
-	public List<String> getStrings() {
-		return strings;
+	public Integer getNumberOfRounds() {
+		return numberOfRounds;
 	}
 
-	public void setStrings(List<String> strings) {
-		this.strings = strings;
+	public void setNumberOfRounds(Integer numberOfRounds) {
+		this.numberOfRounds = numberOfRounds;
+	}
+
+	public Double getResult() {
+		return result;
+	}
+
+	public void setResult(Double result) {
+		this.result = result;
 	}
 	
 }

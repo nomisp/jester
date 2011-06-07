@@ -50,11 +50,13 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		settings.setDoubleRounded(Boolean.FALSE);
 		settings.setNow(new Date());
 		settings.setPairingAlgorithm("ch.jester.system.TestPairingAlgorithm");
-		List<String> strings = new ArrayList<String>();
-		strings.add("String 1");
-		strings.add("String 2");
-		strings.add("String 3");
-		settings.setStrings(strings);
+		settings.setNumberOfRounds(7);
+		settings.setResult(3.5);
+//		ArrayList<String> strings = new ArrayList<String>();
+//		strings.add("String 1");
+//		strings.add("String 2");
+//		strings.add("String 3");
+//		settings.setMyStringList(strings);
 		SettingHelper<DummySettingObject> settingHelper = new SettingHelper<DummySettingObject>();
 		SettingItem settingItem = modelFactory.createSettingItem(tournament);
 		settingItem = settingHelper.analyzeSettingObjectToStore(settings, settingItem);
@@ -80,10 +82,12 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		
 		assertEquals(Boolean.FALSE, settingObject.getDoubleRounded());
 		assertEquals("ch.jester.system.TestPairingAlgorithm", settingObject.getPairingAlgorithm());
-		List<String> strings = settingObject.getStrings();
-		assertEquals("String 1", strings.get(0));
-		assertEquals("String 2", strings.get(1));
-		assertEquals("String 3", strings.get(2));
+		assertEquals(new Integer(7), settingObject.getNumberOfRounds());
+		assertEquals(new Double(3.5), settingObject.getResult());
+//		List<String> strings = settingObject.getMyStringList();
+//		assertEquals("String 1", strings.get(0));
+//		assertEquals("String 2", strings.get(1));
+//		assertEquals("String 3", strings.get(2));
 	}
 
 	/**

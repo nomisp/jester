@@ -48,7 +48,7 @@ public class SettingItemValue extends AbstractModelBean<SettingItemValue> {
     @Column(name = "SequenceNo")
 //    @org.hibernate.validator.NotNull
 //    @org.hibernate.validator.Range(min = 0, max = 99999)
-    private Double sequenceNo = 0d;
+    private Integer sequenceNo = 0;
     
     // ******************************
     // Bidirektionale Assoziazionen
@@ -120,11 +120,11 @@ public class SettingItemValue extends AbstractModelBean<SettingItemValue> {
 		this.valueAsString = valueAsString;
 	}
 
-	public Double getSequenceNo() {
+	public Integer getSequenceNo() {
 		return sequenceNo;
 	}
 
-	public void setSequenceNo(Double sequenceNo) {
+	public void setSequenceNo(Integer sequenceNo) {
 		this.sequenceNo = sequenceNo;
 	}
 
