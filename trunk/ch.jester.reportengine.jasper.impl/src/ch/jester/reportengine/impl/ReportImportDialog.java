@@ -28,6 +28,13 @@ public class ReportImportDialog extends Dialog {
 	 */
 	public ReportImportDialog(Shell parentShell) {
 		super(parentShell);
+	
+	}
+	
+	@Override
+	protected void configureShell(Shell newShell) {
+		super.configureShell(newShell);
+		newShell.setText("Report Importer");
 	}
 
 	/**
@@ -56,6 +63,7 @@ public class ReportImportDialog extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog fd = new FileDialog(getShell(), SWT.OPEN);
+				
 		        fd.setText("Open");
 		        fd.setFilterPath(".");
 		        String[] filterExt = { "*.jrxml", "*.*" };

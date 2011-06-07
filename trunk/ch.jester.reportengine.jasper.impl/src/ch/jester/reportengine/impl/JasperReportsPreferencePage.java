@@ -48,7 +48,6 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 	private Table table;
 	private IReport mSelected;
 	private TableViewer tableViewer;
-	private int storedExternalReports = 0;
 	private final ServiceUtility su = new ServiceUtility();
 	/**
 	 * Create the preference page.
