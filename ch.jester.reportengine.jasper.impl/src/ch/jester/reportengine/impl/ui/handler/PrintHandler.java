@@ -28,7 +28,7 @@ public class PrintHandler extends AbstractCommandHandler {
 		final String reportalias =  event.getParameter("ch.jester.reportengine.generate.property.reportalias");
 		final IReport report= engine.getFactory().getReport(reportalias);
 		
-		Job job = new Job("Printing"){
+		Job job = new Job("Generating Report"){
 
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {

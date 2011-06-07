@@ -53,5 +53,11 @@
             commandId="ch.jester.reportengine.generate">
       </handler>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="ch.jester.reportengine.impl.internal.Initializer">
+      </initializer>
+   </extension>
 
 </plugin>

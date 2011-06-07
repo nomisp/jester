@@ -40,6 +40,7 @@ import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportEngineFactory;
 import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.exceptions.ProcessingException;
+import ch.jester.reportengine.impl.internal.Initializer;
 
 public class JasperReportEngine implements IReportEngine, IComponentService<Object>{
 	private ILogger mLogger;
@@ -47,6 +48,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     private IReportEngineFactory factory = new DefaultReportFactory();
     public JasperReportEngine(){
     	factory.createReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports", "reports/PlayerList.jrxml");
+    	new Initializer().load(factory);
     }
     
 	@Override

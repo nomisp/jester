@@ -66,3 +66,4 @@ Bundle-Vendor: M. Liechti & P. Simon
 Service-Component: OSGI-INF/component.xml
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j
+Bundle-Activator: ch.jester.reportengine.impl.internal.Activator
