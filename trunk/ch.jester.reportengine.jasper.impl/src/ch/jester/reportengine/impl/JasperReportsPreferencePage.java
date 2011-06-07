@@ -4,7 +4,9 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.util.SafeRunnable;
@@ -21,6 +23,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -40,7 +43,8 @@ import org.eclipse.swt.layout.GridData;
 public class JasperReportsPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	private Table table;
 	private IReport mSelected;
-
+	private TableViewer tableViewer;
+	private final ServiceUtility su = new ServiceUtility();
 	/**
 	 * Create the preference page.
 	 */
@@ -53,16 +57,17 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 	 */
 	@Override
 	public Control createContents(Composite parent) {
-		final ServiceUtility su = new ServiceUtility();
+		
 		Composite container = new Composite(parent, SWT.NULL);
-		container.setLayout(new GridLayout(1, false));
+		container.setLayout(new GridLayout(5, false));
 		
 		Label lblTemplates = new Label(container, SWT.NONE);
+		lblTemplates.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 5, 1));
 		lblTemplates.setText("Templates (double click to open in associated app)");
 		
-		TableViewer tableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
+		tableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
 		table = tableViewer.getTable();
-		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 5, 1);
 		gd_table.verticalIndent = 1;
 		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
@@ -138,9 +143,46 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 		});
 
 		
-		Button btnNewButton = new Button(container, SWT.NONE);
-		btnNewButton.setText("Show in FileSystem");
-		btnNewButton.addSelectionListener(new SelectionListener() {
+		Button btnShowInFs = new Button(container, SWT.NONE);
+		btnShowInFs.setText("Show in Filesystem");
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+		
+		Button btnImport = new Button(container, SWT.NONE);
+		btnImport.setText("Import Report");
+		btnImport.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ReportImportDialog dialog = new ReportImportDialog(Display.getDefault().getActiveShell());
+				dialog.create();
+				dialog.setBlockOnOpen(true);
+				int i = dialog.open();
+				if(i==Dialog.OK){
+					List<IReport> allReports = importReport(dialog.getReportName(), dialog.getSelectedFile());
+					tableViewer.setInput(allReports);
+				}
+		
+			}
+			
+
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
+		
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+		btnShowInFs.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String filePath = mSelected.getInstalledFile().getParent();
@@ -165,6 +207,11 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 		return container;
 	}
 
+	private List<IReport> importReport(String reportName, String selectedFile) {
+		IReportEngine engine = su.getService(IReportEngine.class);
+		engine.getFactory().createReport(null, UUID.randomUUID().toString(), reportName, null, selectedFile);
+		return engine.getFactory().getReports();
+	}
 	/**
 	 * Initialize the preference page.
 	 */
