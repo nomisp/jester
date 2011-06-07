@@ -2,14 +2,15 @@ package ch.jester.common.utility;
 
 import java.util.HashMap;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.Platform;
 
 /**
  * Hilfklasse für die Registrierung von IAdaptable
- *
+ * TODO CHECK!
  */
-public class AdapterBinding implements IAdapterFactory{
+public class AdapterBinding implements IAdapterFactory, IAdaptable{
 	private Object mInstance;
 	private HashMap<Class<?>, Object> mMap = new HashMap<Class<?>, Object>();
 	
@@ -50,17 +51,22 @@ public class AdapterBinding implements IAdapterFactory{
 			return objectForClass;
 		}
 		//TODO Check!!!
-		if(objectForClass!=null){
+		/*if(objectForClass!=null){
 			if(adapterType.isAssignableFrom(objectForClass.getClass())){
 				return objectForClass;
 			}
-		}
+		}*/
 		return null;
 	}
 
 	@Override
 	public Class<?>[] getAdapterList() {
 		return mMap.keySet().toArray(new Class[mMap.keySet().size()]);
+	}
+
+	@Override
+	public Object getAdapter(Class adapter) {
+		return mMap.get(adapter);
 	}
 	
 }
