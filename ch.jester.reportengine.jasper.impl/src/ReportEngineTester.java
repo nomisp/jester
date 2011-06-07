@@ -8,6 +8,7 @@ import java.util.List;
 import org.osgi.framework.Bundle;
 
 import ch.jester.commonservices.api.reportengine.IReport;
+import ch.jester.commonservices.api.reportengine.IBundleReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.api.reportengine.IReportResult.ExportType;
@@ -36,7 +37,7 @@ public class ReportEngineTester {
 		return al;
 	}
 	public static IReport getReport(){
-		return new IReport() {
+		return new IBundleReport() {
 			
 			@Override
 			public void setAlias(String pString) {

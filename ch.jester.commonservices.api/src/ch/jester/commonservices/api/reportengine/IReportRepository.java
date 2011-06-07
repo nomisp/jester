@@ -7,22 +7,26 @@ import java.util.List;
  * Die ReportEngineFactory, welche das physische Reporthandling übernimmt.
  *
  */
-public interface IReportEngineFactory {
+public interface IReportRepository {
 	/**
-	 * Erzeugt und registriert einen Report.<br>
+	 * Erzeugt und registriert einen Report, welcher in einem Plugin gespeichert ist.<br>
 	 * @param pBundle Das Bundle wo die Source liegt
 	 * @param pAliasName Den internen Key
 	 * @param pVisibleName Name fürs UI
 	 * @param pFileName den FileNamen im SourceBundle
 	 * @return
 	 */
-	public IReport createReport(String pBundle, String pAliasName, String pVisibleName, String pSource, String pFileName);
+	public IBundleReport createBundleReport(String pBundle, String pAliasName, String pVisibleName, String pSource, String pFileName);
+	
 	/**
-	 * Installiert und exportiert einen Report ins Filesystem.<br>
-	 * Soll nicht von Clients aufgerufen werden!
-	 * @param pReport
+	 * Erzeugt und registriert einen Report, welcher im FileSystem gespeichert ist.<br>
+	 * @param pAliasName
+	 * @param pVisibleName
+	 * @param pFileName
+	 * @return
 	 */
-	public void installReport(IReport pReport);
+	public IReport createFSReport(String pAliasName, String pVisibleName, String pFileName);
+
 	/**
 	 * Gibt den Folder züruck, wohin die Reports installiert wurden.
 	 * @return

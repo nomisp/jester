@@ -14,12 +14,12 @@ public interface IReportEngine {
 	 */
 	public final static String TEMPLATE_DIRECTROY = "reportengine";
 	/**
-	 * Gibt die ReportEngineFactory zurück
+	 * Gibt das Report Repository zurück
 	 * @return
 	 */
-	public IReportEngineFactory getFactory();
+	public IReportRepository getRepository();
 	/**
-	 * Generiert den Report
+	 * Generiert den Report als Rohformat
 	 * @param pReport den zu erzeugenden IReport
 	 * @param pBeans die Collection von JavaBeans
 	 * @return das Resultat

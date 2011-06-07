@@ -15,7 +15,21 @@ public interface IReportResult {
 	 *
 	 */
 	enum ExportType{
-		PDF, HTML, XML, EXCEL, CSV;
+		PDF("pdf", "Pdf"), HTML("html","Html"), XML("xml","Xml"), EXCEL("xls","Excel"), CSV("csv","Csv");
+		
+		ExportType(String pExtension, String pName){
+			extension = pExtension;
+			name = pName;
+		}
+		public String getExtension(){
+			return extension;
+		}
+		public String getName(){
+			return name;
+		}
+		
+		private String extension;
+		private String name;
 	}
 	/**
 	 * Soll vor {@link IReportResult#export(ExportType)} aufgerufen werden.

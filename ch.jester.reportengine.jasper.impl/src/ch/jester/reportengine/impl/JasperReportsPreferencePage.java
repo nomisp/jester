@@ -35,6 +35,7 @@ import ch.jester.common.ui.utility.SafeMessageBoxRunner;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.reportengine.IReport;
+import ch.jester.commonservices.api.reportengine.IBundleReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.reportengine.impl.internal.Activator;
@@ -99,7 +100,7 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				su.setSelection(event.getSelection());
-				mSelected = su.getFirstSelectedAs(IReport.class);
+				mSelected = su.getFirstSelectedAs(IBundleReport.class);
 				
 			}
 		});
@@ -127,7 +128,7 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 					@Override
 					public void run() throws Exception {
 						su.setSelection(event.getSelection());
-						IReport report = su.getFirstSelectedAs(IReport.class);
+						IReport report = su.getFirstSelectedAs(IBundleReport.class);
 
 						try{
 							Desktop.getDesktop().open(report.getInstalledFile());
@@ -207,16 +208,16 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 		});
 		
 		
-		List<IReport> reports = su.getService(IReportEngine.class).getFactory().getReports();
+		List<IReport> reports = su.getService(IReportEngine.class).getRepository().getReports();
 		tableViewer.setInput(reports);
 		return container;
 	}
 
 	private List<IReport> importReport(String reportName, String selectedFile) {
 		IReportEngine engine = su.getService(IReportEngine.class);
-		IReport report = engine.getFactory().createReport(null, UUID.randomUUID().toString(), reportName, null, selectedFile);
+		IReport report = engine.getRepository().createFSReport(UUID.randomUUID().toString(), reportName, selectedFile);
 		new Initializer().storeReport(report);
-		return engine.getFactory().getReports();
+		return engine.getRepository().getReports();
 	}
 
 

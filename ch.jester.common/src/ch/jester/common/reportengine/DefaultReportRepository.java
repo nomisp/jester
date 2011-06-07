@@ -14,42 +14,44 @@ import org.osgi.framework.Bundle;
 
 import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.api.reportengine.IReport;
+import ch.jester.commonservices.api.reportengine.IBundleReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
-import ch.jester.commonservices.api.reportengine.IReportEngineFactory;
+import ch.jester.commonservices.api.reportengine.IReportRepository;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 
-public class DefaultReportFactory implements IReportEngineFactory {
+public class DefaultReportRepository implements IReportRepository {
 	private HashMap<String, IReport> mReportMap = new HashMap<String, IReport>();
 	private IFileManager mFileManager;
 	private ServiceUtility mServices = new ServiceUtility();
-	public DefaultReportFactory(){
+	public DefaultReportRepository(){
 		mFileManager = mServices.getService(IFileManager.class);
 		
 	}
 	
 	@Override
-	public IReport createReport(String pBundle, String pAliasName, String pVisibleName,
+	public IBundleReport createBundleReport(String pBundle, String pAliasName, String pVisibleName,
 			 String pSource, String pFileName) {
-		if(pBundle==null || pBundle.length()==0){
-			return createExternalReport(pAliasName, pVisibleName, pFileName);
-		}else{
 			return createInternalReport(pBundle, pAliasName, pVisibleName, pSource, pFileName);
-		}
-	//	return report;
 	}
-	protected IReport createExternalReport(String pAliasName, String pVisibleName, String pFileName){
+
+	@Override
+	public IReport createFSReport(String pAliasName, String pVisibleName,
+			String pFileName) {
+		return createExternalReport(pAliasName, pVisibleName, pFileName);
+	}
+	
+	private IReport createExternalReport(String pAliasName, String pVisibleName, String pFileName){
 		DefaultReport report = new DefaultReport();
 		report.setAlias(pAliasName);
 		report.setVisibleName(pVisibleName);
-		report.setBundleReportFile(pFileName);
 		mReportMap.put(pAliasName, report);
 		report.setInstalledFile(new File(pFileName));
 		return report;
 	}
-	public IReport createInternalReport(String pBundle, String pAliasName, String pVisibleName,
+	private IBundleReport createInternalReport(String pBundle, String pAliasName, String pVisibleName,
 			 String pSource, String pFileName) {
-		DefaultReport report = new DefaultReport();
+		DefaultFSReport report = new DefaultFSReport();
 		report.setAlias(pAliasName);
 		report.setVisibleName(pVisibleName);
 		report.setBundleReportFile(pFileName);
@@ -79,15 +81,9 @@ public class DefaultReportFactory implements IReportEngineFactory {
 		return rList;
 	}
 
-	@Override
-	public void installReport(IReport pReport) {
+	private void installReport(IBundleReport pReport) {
 		File engineFolder = mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY);
 		String fullReportPath = pReport.getBundleReportFile();
-		File tmp = new File(fullReportPath);
-		String reportName = tmp.getName();
-		//File destFile = new File(engineFolder+"/"+reportName);
-		//pReport.setInstalledFile(destFile);
-		
 		//install sourcefolder
 		String path = pReport.getBundleSourceRoot();
 		
@@ -124,33 +120,6 @@ public class DefaultReportFactory implements IReportEngineFactory {
 			
 		}
 		
-		//	en = pReport.getBundle().getEntryPaths(sourcepaths.get(0));
-		//	String e0 = en.nextElement();
-		//	System.out.println(e0);
-	
-		/*System.out.println(f.exists());
-		System.out.println(f.isDirectory());
-		System.out.println(sourcepaths);*/
-		//
-		
-		
-		
-	/*	if(destFile.exists()){
-			return;
-		}
-		try {
-			mFileManager.toFile(pReport.getBundleFileAsStream(), destFile);
-			
-
-			
-		} catch (ProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
 	}
 
 	private boolean getBundleFileEntries(List<String> entries, Enumeration<String> en, Bundle bundle) {
@@ -185,4 +154,5 @@ public class DefaultReportFactory implements IReportEngineFactory {
 	public File getInstallationDir() {
 		return mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY);
 	}
+
 }

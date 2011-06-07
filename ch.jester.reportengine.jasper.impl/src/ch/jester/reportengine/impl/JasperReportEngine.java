@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 
 import org.osgi.service.component.ComponentContext;
 
-import ch.jester.common.reportengine.DefaultReportFactory;
+import ch.jester.common.reportengine.DefaultReportRepository;
 import ch.jester.common.reportengine.DefaultReportResult;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.io.IFileManager;
@@ -37,7 +37,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
-import ch.jester.commonservices.api.reportengine.IReportEngineFactory;
+import ch.jester.commonservices.api.reportengine.IReportRepository;
 import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.reportengine.impl.internal.Initializer;
@@ -45,9 +45,9 @@ import ch.jester.reportengine.impl.internal.Initializer;
 public class JasperReportEngine implements IReportEngine, IComponentService<Object>{
 	private ILogger mLogger;
 	private IFileManager mTempFileManager;
-    private IReportEngineFactory factory = new DefaultReportFactory();
+    private IReportRepository factory = new DefaultReportRepository();
     public JasperReportEngine(){
-    	factory.createReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports", "reports/PlayerList.jrxml");
+    	factory.createBundleReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports", "reports/PlayerList.jrxml");
     	new Initializer().load(factory);
     }
     
@@ -69,7 +69,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	}
 
 	@Override
-	public IReportEngineFactory getFactory() {
+	public IReportRepository getRepository() {
 		return factory;
 	}
 	
@@ -84,25 +84,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 
 		@Override
 		public File export(ExportType ex) throws ProcessingException {
-			File file = null;
-			switch(ex){
-			case HTML:
-				file = mTempFileManager.createTempFileWithExtension("html");	
-				break;
-			case PDF:
-				file = mTempFileManager.createTempFileWithExtension("pdf");
-				break;
-			case XML:
-				file = mTempFileManager.createTempFileWithExtension("xml");
-				break;
-			
-			case EXCEL:
-				file = mTempFileManager.createTempFileWithExtension("xls");
-				break;
-			case CSV:
-				file = mTempFileManager.createTempFileWithExtension("csv");
-				break;
-			}
+			File file = mTempFileManager.createTempFileWithExtension(ex.getExtension());
 			try {
 				OutputStream outputfile = new FileOutputStream(file);
 				export(ex, outputfile);
@@ -121,39 +103,20 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 				switch(ex){
 				case HTML:
 					exporter = new JRHtmlExporter();
-					//JasperExportManager.exportReportToHtmlFile(mResult,file.getAbsolutePath());
-				//	return f;
 					exporter.setParameter(JRHtmlExporterParameter.JASPER_PRINT, mResult);
 					exporter.setParameter(JRHtmlExporterParameter.OUTPUT_STREAM, output);
-			//		exporter.setParameter(JRHtmlExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-			//		exporter.setParameter(JRHtmlExporterParameter.IS_AUTO_DETECT_CELL_TYPE, Boolean.TRUE);
 					exporter.setParameter(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 					exporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
 					break;
 				case PDF:
 					exporter = new JRPdfExporter();
-					//JasperExportManager.exportReportToPdfFile(mResult,mOutptuName+".pdf");
-					//f = mTempFileManager.createTempFileWithExtension("pdf");
-					//JasperExportManager.exportReportToPdfFile(mResult, f.getAbsolutePath());
-				//	return f;
 					exporter.setParameter(JRPdfExporterParameter.JASPER_PRINT, mResult);
 					exporter.setParameter(JRPdfExporterParameter.OUTPUT_STREAM, output);
-				//	exporter.setParameter(JRPdfExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-					//exporter.setParameter(JRPdfExporterParameter.IS_AUTO_DETECT_CELL_TYPE, Boolean.TRUE);
-				//	exporter.setParameter(JRPdfExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
-					//exporter.setParameter(JRPdfExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
 					break;
 				case XML:
 					exporter = new JRXmlExporter();
-					//File f1 = mTempFileManager.createTempFileWithExtension("xml");
-					//JasperExportManager.exportReportToXmlFile(mResult,f1.getAbsolutePath(),true);
-					//return f;
 					exporter.setParameter(JRXmlExporterParameter.JASPER_PRINT, mResult);
 					exporter.setParameter(JRXmlExporterParameter.OUTPUT_STREAM, output);
-					//exporter.setParameter(JRXmlExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-					//exporter.setParameter(JRXmlExporterParameter.IS_AUTO_DETECT_CELL_TYPE, Boolean.TRUE);
-					//exporter.setParameter(JRXmlExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
-					//exporter.setParameter(JRXmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
 					break;
 				
 				case EXCEL:

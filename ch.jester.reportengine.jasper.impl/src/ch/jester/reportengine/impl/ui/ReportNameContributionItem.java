@@ -12,6 +12,7 @@ import org.eclipse.ui.menus.CommandContributionItemParameter;
 import org.eclipse.ui.services.IServiceLocator;
 
 import ch.jester.commonservices.api.reportengine.IReport;
+import ch.jester.commonservices.api.reportengine.IBundleReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
 
@@ -29,7 +30,7 @@ public class ReportNameContributionItem extends CompoundContributionItem {
 	protected IContributionItem[] getContributionItems() {
 
 		IReportEngine engine = su.getService(IReportEngine.class);
-		List<IReport> reports = engine.getFactory().getReports();
+		List<IReport> reports = engine.getRepository().getReports();
 		IContributionItem[] list = new IContributionItem[reports.size()];
 		int i=0;
 		
