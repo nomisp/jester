@@ -37,6 +37,9 @@ import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.reportengine.impl.internal.Activator;
+import ch.jester.reportengine.impl.internal.Initializer;
+
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
@@ -44,11 +47,13 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 	private Table table;
 	private IReport mSelected;
 	private TableViewer tableViewer;
+	private int storedExternalReports = 0;
 	private final ServiceUtility su = new ServiceUtility();
 	/**
 	 * Create the preference page.
 	 */
 	public JasperReportsPreferencePage() {
+		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 	}
 
 	/**
@@ -209,9 +214,12 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 
 	private List<IReport> importReport(String reportName, String selectedFile) {
 		IReportEngine engine = su.getService(IReportEngine.class);
-		engine.getFactory().createReport(null, UUID.randomUUID().toString(), reportName, null, selectedFile);
+		IReport report = engine.getFactory().createReport(null, UUID.randomUUID().toString(), reportName, null, selectedFile);
+		new Initializer().storeReport(report);
 		return engine.getFactory().getReports();
 	}
+
+
 	/**
 	 * Initialize the preference page.
 	 */
