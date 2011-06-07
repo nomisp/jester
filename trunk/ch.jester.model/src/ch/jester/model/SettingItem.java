@@ -8,11 +8,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Beschreibt ein Setting-Objekt
+ * @author Peter
+ *
+ */
 @Entity
 @Table(name="SettingItem")
+@NamedQueries({@NamedQuery(name="SettingItemByTournament", query="select s from SettingItem s where s.tournament = :tournament")})
 public class SettingItem extends AbstractModelBean<SettingItem> {
 	private static final long serialVersionUID = -7737771947626375572L;
 

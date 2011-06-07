@@ -1,8 +1,9 @@
 package ch.jester.common.settings;
 
 /**
- * Marker Interface f�r Objekte, welche als SettingItem persistiert werden sollen.
- * Implementierungen d�rfen keine primitive Attribute verwenden, welche persistiert werden sollen! 
+ * Marker Interface für Objekte, welche als SettingItem persistiert werden sollen.
+ * Implementierungen dürfen keine primitive Attribute oder Collections verwenden,
+ * welche persistiert werden sollen! 
  * @author Peter
  *
  */

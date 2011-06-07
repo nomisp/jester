@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoService;
@@ -13,6 +14,7 @@ import ch.jester.model.Category;
 import ch.jester.model.Pairing;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Round;
+import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
@@ -34,6 +36,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	private Category category;
 	private List<Round> playedRounds;
 	private ServiceUtility mServiceUtil = new ServiceUtility();
+	private RoundRobinSettings settings;
 	
 	public VollrundigPairingAlgorithm() {
 		mLogger = VollrundigSystemActivator.getDefault().getActivationContext().getLogger();
@@ -41,6 +44,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	
 	@Override
 	public List<Pairing> executePairings(Tournament tournament, IProgressMonitor pMonitor) throws NotAllResultsException, PairingNotPossibleException {
+		loadSettings(tournament);
 		List<Pairing> allPairings = new ArrayList<Pairing>();
 		for (Category category : tournament.getCategories()) {
 			allPairings.addAll(executePairings(category, pMonitor));
@@ -51,6 +55,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	@Override
 	public List<Pairing> executePairings(Category category, IProgressMonitor pMonitor) throws PairingNotPossibleException, NotAllResultsException {
 		this.category = category;
+		loadSettings(category.getTournament());
 		playedRounds = category.getPlayedRounds();
 		List<Pairing> pairings = null;
 		if (playedRounds.size() == 0) { // Neues Turnier bei einem Round-Robin Turnier können direkt alle Paarunugen ausgelost werden. 
@@ -69,7 +74,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 				}
 			}
 		} else {
-//			TODO Peter: Erneutes Paaren, wenn wärend einem laufenden Turnier ein neuer Spieler hinzu kommt.
+//			TODO Peter: Erneutes Paaren, wenn während einem laufenden Turnier ein neuer Spieler hinzu kommt.
 //			checkResults();
 			
 		}
@@ -91,6 +96,10 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 			createRounds((category.getPlayerCards().size()-1)-category.getRounds().size());
 		} else {
 			createRounds(category.getPlayerCards().size()-category.getRounds().size());
+		}
+		// Falls es eine Rückrunde gibt brauch es nochmals soviele Runden
+		if (settings.getDoubleRounded()) {
+			createRounds(category.getRounds().size());
 		}
 		
 		return true;
@@ -146,7 +155,8 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		List<Round> rounds = category.getRounds();
 		PlayerCard[] playerCards = PairingHelper.getOrderedPlayerCards(category.getPlayerCards());
 		int numberOfPlayers = playerCards.length;
-		boolean secondRound = false;	// Vorerst Keine Rückrunde!
+//		boolean secondRound = settings.getDoubleRounded();	// Vorerst Keine Rückrunde!
+		
 		if (isNumberOfPlayersEven()) {
 			int nrOfRounds = numberOfPlayers - 1;
 			
@@ -185,6 +195,15 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 			}
 		}
 		
+		// Rückrunde mit vertauschten Farben?
+		if (settings.getDoubleRounded()) {
+			for (int i = 0; i < pairings.size(); i++) {
+				Pairing pairing = pairings.get(i);
+				ModelFactory modelFactory = ModelFactory.getInstance();
+				pairings.add(modelFactory.createPairing(pairing.getBlack(), pairing.getWhite(), rounds.get(i+pairings.size())));
+			}
+		}
+		
 //		for (Pairing pairing : pairings) {
 //			System.out.println(pairing.toString());
 //		}
@@ -209,14 +228,15 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	}
 
 	/**
-	 * Überprüfen, ob alle Resultate der letzten Runde erfasst wurden
-	 * @throws NotAllResultsException
+	 * Laden der Einstellungen aus der Datenbank
+	 * @param tournament
 	 */
-	private void checkResults() throws NotAllResultsException {
-		Round lastRound = playedRounds.get(playedRounds.size()-1);
-		for (Pairing pairing : lastRound.getPairings()) {
-			if (pairing.getResult() == null) throw new NotAllResultsException();
-		}
+	private void loadSettings(Tournament tournament) {
+		if (settings == null) settings = new RoundRobinSettings();
+		IDaoService<SettingItem> settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
+		SettingItem settingItem = (SettingItem)settingItemPersister.createNamedQuery("SettingItemByTournament")
+									.setParameter("tournament", tournament).getSingleResult();
+		SettingHelper<RoundRobinSettings> settingHelper = new SettingHelper<RoundRobinSettings>();
+		settings = settingHelper.restoreSettingObject(settings, settingItem);
 	}
-
 }
