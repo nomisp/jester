@@ -26,7 +26,7 @@ public class PrintHandler extends AbstractCommandHandler {
 		
 		final IReportEngine engine = getServiceUtil().getService(IReportEngine.class);
 		final String reportalias =  event.getParameter("ch.jester.reportengine.generate.property.reportalias");
-		final IReport report= engine.getFactory().getReport(reportalias);
+		final IReport report= engine.getRepository().getReport(reportalias);
 		
 		Job job = new Job("Generating Report"){
 

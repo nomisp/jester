@@ -6,7 +6,7 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import ch.jester.commonservices.api.reportengine.IReport;
-import ch.jester.commonservices.api.reportengine.IReportEngineFactory;
+import ch.jester.commonservices.api.reportengine.IReportRepository;
 
 
 public class Initializer extends AbstractPreferenceInitializer {
@@ -32,13 +32,13 @@ public class Initializer extends AbstractPreferenceInitializer {
 		store.setValue(STORED_REPORT_FILE+storedExternalReports, report.getInstalledFile().toString());	
 	}
 	
-	public void load(IReportEngineFactory factory) {
+	public void load(IReportRepository factory) {
 		initializeDefaultPreferences();
 		int reps = store.getInt(STORED_REPORT);
 		for(int i=0;i<=reps;i++){
 			String rName = store.getString(STORED_REPORT_NAME+i);
 			String rPath = store.getString(STORED_REPORT_FILE+i);
-			factory.createReport(null, UUID.randomUUID().toString(), rName, null, rPath);
+			factory.createFSReport(UUID.randomUUID().toString(), rName,  rPath);
 		}
 		
 	}
