@@ -1,5 +1,6 @@
 package ch.jester.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +12,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="Round")
@@ -30,6 +33,10 @@ public class Round extends AbstractModelBean<Round> {
 	
 	@OneToMany(mappedBy="round", cascade={CascadeType.ALL}, orphanRemoval=true)
 	private Set<Pairing> pairings = new HashSet<Pairing>();
+	
+	@Column(name="Date", nullable=true)
+	@Temporal(TemporalType.DATE)
+	private Date date;
 
 	public Integer getNumber() {
 		return number;
@@ -66,9 +73,16 @@ public class Round extends AbstractModelBean<Round> {
 		this.pairings.remove(pairing);
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
-		return null;
+		return createCompleteClone();
 	}
 }

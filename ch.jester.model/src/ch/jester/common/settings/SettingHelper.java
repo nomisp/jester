@@ -3,15 +3,22 @@ package ch.jester.common.settings;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.comparators.ComparatorChain;
+import org.apache.commons.collections.comparators.NullComparator;
+import org.apache.commons.collections.comparators.ReverseComparator;
 
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.model.SettingItem;
@@ -37,6 +44,7 @@ public class SettingHelper<T extends ISettingObject> {
 		mLogger = Activator.getInstance().getActivationContext().getLogger();
 		fieldsToExclude = new HashSet<String>();
         fieldsToInclude = new HashSet<String>();
+        addFieldToExclude("CLASS");
 	}
 	
 	/*
@@ -77,7 +85,7 @@ public class SettingHelper<T extends ISettingObject> {
 
     private SettingItem generateSettingItemValue(Map classDescription, T settingObject, Object propName, SettingItem settingItem) {
         if (classDescription.get(propName) instanceof Collection) {
-            double seq = 1;
+            int seq = 1;
             for (Object o : (Collection) classDescription.get(propName)) {
                 if (o != null) {
                     SettingItemValue settingItemValue = modelFactory.createSettingItemValue();
@@ -94,7 +102,7 @@ public class SettingHelper<T extends ISettingObject> {
             settingItemValue.setFieldClassNameInRootClass(getClassName(classDescription.get(propName).getClass()));
             settingItemValue.setFieldNameInRootClass((String) propName);
             settingItemValue = analyzeSettingItemValue(settingObject, propName, settingItemValue, classDescription.get(propName), false);
-            settingItemValue.setSequenceNo(0d);
+            settingItemValue.setSequenceNo(0);
             settingItemValue.setSettingItem(settingItem);
         }
         return settingItem;
@@ -142,7 +150,9 @@ public class SettingHelper<T extends ISettingObject> {
 	}
 	
 	private T restoreSettingObject(T settingObject) {
-		Set<SettingItemValue> settingItemValues = settingItem.getSettingItemValues();
+		if (settingItem.getRootClassName().isEmpty()) return settingObject;
+		List<SettingItemValue> settingItemValues = getAsMultiOrderedList(settingItem.getSettingItemValues(), "fieldNameInRootClass,sequenceNo");
+//		Set<SettingItemValue> settingItemValues = settingItem.getSettingItemValues();
 		Map<String, Collection> collections = new HashMap<String, Collection>();
         Map classDescription = null;
         try {
@@ -273,5 +283,60 @@ public class SettingHelper<T extends ISettingObject> {
             className = clazz.getName();
         }
         return className;
+    }
+    
+	/**
+	 * Liefert eine Liste zurück welche nach mehreren Kriterien sortiert ist
+	 * 
+	 * @param collectionToConvertAndOrder
+	 * @param orderPropertyAndDirection
+	 * @return
+	 */
+	private List getAsMultiOrderedList(Collection collectionToConvertAndOrder, String orderPropertyAndDirection) {
+		if (collectionToConvertAndOrder != null) {
+			String[] props = orderPropertyAndDirection.split(",");
+			ComparatorChain chain = new ComparatorChain();
+			List toOrder = new ArrayList(collectionToConvertAndOrder);
+
+			for (int i = 0; i < props.length; i++) {
+				String prop = props[i];
+				String[] instruction = prop.split(" ");
+				String propertyName = "";
+				String direction = "";
+				if (instruction.length == 1) {
+					chain.addComparator(new BeanComparator(instruction[0]
+							.trim(), new NullComparator()));
+				} else {
+					if ("asc".equalsIgnoreCase(instruction[1].trim())) {
+						chain.addComparator(new BeanComparator(instruction[0]
+								.trim(), new NullComparator()));
+					} else {
+						chain.addComparator(new ReverseComparator(
+								new BeanComparator(instruction[0].trim(),
+										new NullComparator())));
+					}
+				}
+			}
+
+			Collections.sort(toOrder, chain);
+			return toOrder;
+		}
+		return new ArrayList();
+	}
+     
+    /**
+     * Hinzufügen von Feldern, welche nicht gespeichert werden sollen
+     * @param fieldToExclude Feld, das nicht gespeichert werden soll
+     */
+    public void addFieldToExclude(String fieldToExclude) {
+        fieldsToExclude.add(fieldToExclude.toUpperCase());
+    }
+ 
+    /**
+     * Felder die gespeicher werden sollen. Per Default werden alle gespeichert.
+     * @param fieldToInclude
+     */
+    public void addFieldToInclude(String fieldToInclude) {
+        fieldsToInclude.add(fieldToInclude.toUpperCase());
     }
 }
