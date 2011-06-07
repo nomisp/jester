@@ -58,6 +58,12 @@ public class AddColumnDialog extends Dialog implements SelectionListener {
 		super(parentShell);
 	}
 
+	@Override
+	protected void configureShell(Shell newShell) {
+		super.configureShell(newShell);
+		newShell.setText("Modify Columns");
+	}
+	
 	/**
 	 * Create contents of the dialog.
 	 * 
