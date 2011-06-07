@@ -31,6 +31,24 @@ public class DefaultReportFactory implements IReportEngineFactory {
 	@Override
 	public IReport createReport(String pBundle, String pAliasName, String pVisibleName,
 			 String pSource, String pFileName) {
+		if(pBundle==null || pBundle.length()==0){
+			return createExternalReport(pAliasName, pVisibleName, pFileName);
+		}else{
+			return createInternalReport(pBundle, pAliasName, pVisibleName, pSource, pFileName);
+		}
+	//	return report;
+	}
+	protected IReport createExternalReport(String pAliasName, String pVisibleName, String pFileName){
+		DefaultReport report = new DefaultReport();
+		report.setAlias(pAliasName);
+		report.setVisibleName(pVisibleName);
+		report.setBundleReportFile(pFileName);
+		mReportMap.put(pAliasName, report);
+		report.setInstalledFile(new File(pFileName));
+		return report;
+	}
+	public IReport createInternalReport(String pBundle, String pAliasName, String pVisibleName,
+			 String pSource, String pFileName) {
 		DefaultReport report = new DefaultReport();
 		report.setAlias(pAliasName);
 		report.setVisibleName(pVisibleName);
@@ -41,7 +59,6 @@ public class DefaultReportFactory implements IReportEngineFactory {
 		installReport(report);
 		return report;
 	}
-
 	@Override
 	public IReport getReport(String pAlias) {
 		return mReportMap.get(pAlias);

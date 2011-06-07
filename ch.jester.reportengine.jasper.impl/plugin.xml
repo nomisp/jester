@@ -9,5 +9,49 @@
             name="Print Templates ">
       </page>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="ch.jester.common.ui.handlers.PullDownHandler"
+            id="ch.jester.ui.reporting.pulldown"
+            name="ch.jester.ui.reporting.pulldown">
+      </command>
+      <command
+            id="ch.jester.reportengine.generate"
+            name="Generate Report">
+         <commandParameter
+               id="ch.jester.reportengine.generate.property.reportalias"
+               name="ReportAlias"
+               optional="false">
+         </commandParameter>
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:reporting.templates">
+         <dynamic
+               class="ch.jester.reportengine.impl.ui.ReportNameContributionItem"
+               id="ch.jester.ui.dynamic6">
+         </dynamic>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:ch.jester.ui.view.players?after=ch.jester.ui.separator3">
+         <menu
+               icon="icons/filetype_pdf.png"
+               id="reporting.templates"
+               label="Reports">
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="ch.jester.reportengine.impl.ui.handler.PrintHandler"
+            commandId="ch.jester.reportengine.generate">
+      </handler>
+   </extension>
 
 </plugin>

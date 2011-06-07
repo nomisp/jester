@@ -1,4 +1,4 @@
-package ch.jester.ui.handlers;
+package ch.jester.reportengine.impl.ui.handler;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -25,8 +25,8 @@ public class PrintHandler extends AbstractCommandHandler {
 		final List<?> selectedBeans = mSelUtility.getAsStructuredSelection().toList();
 		
 		final IReportEngine engine = getServiceUtil().getService(IReportEngine.class);
-		final IReport report = engine.getFactory().getReport("playerlist");
-		
+		final String reportalias =  event.getParameter("ch.jester.reportengine.generate.property.reportalias");
+		final IReport report= engine.getFactory().getReport(reportalias);
 		
 		Job job = new Job("Printing"){
 
