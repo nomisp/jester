@@ -40,6 +40,7 @@ import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportRepository;
 import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.exceptions.ProcessingException;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.reportengine.impl.internal.Initializer;
 
 public class JasperReportEngine implements IReportEngine, IComponentService<Object>{
@@ -60,7 +61,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			JasperReport jasperReport =JasperCompileManager.compileReport(stream);
 			stream.close();
 			JasperPrint jasperPrint =JasperFillManager.fillReport(jasperReport, parameter, beancollection);
-			return new JasperReportResult(jasperPrint);
+			return new JasperReportResult(jasperPrint, this);
 		} catch (JRException e) {
 			throw new ProcessingException(e);
 		} catch (IOException e) {
@@ -74,8 +75,9 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	}
 	
 	class JasperReportResult extends DefaultReportResult<JasperPrint>{
-		public JasperReportResult(JasperPrint pResult) {
-			super(pResult);
+		ServiceUtility su = new ServiceUtility();
+		public JasperReportResult(JasperPrint pResult, IReportEngine pEngine) {
+			super(pResult, pEngine);
 		}
 		@Override
 		public boolean canExport(ExportType ex) {
@@ -107,6 +109,12 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 					exporter.setParameter(JRHtmlExporterParameter.OUTPUT_STREAM, output);
 					exporter.setParameter(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 					exporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+					exporter.setParameter(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR, Boolean.FALSE);
+					exporter.setParameter(JRHtmlExporterParameter.IGNORE_PAGE_MARGINS, Boolean.TRUE);
+					exporter.setParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, Boolean.TRUE);
+					exporter.setParameter(JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES, Boolean.TRUE);
+					exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"image?image=");
+					exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,su.getService(IFileManager.class).getRootTempDirectory());
 					break;
 				case PDF:
 					exporter = new JRPdfExporter();

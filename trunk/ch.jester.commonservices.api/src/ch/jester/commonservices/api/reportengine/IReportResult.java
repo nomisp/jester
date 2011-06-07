@@ -31,6 +31,8 @@ public interface IReportResult {
 		private String extension;
 		private String name;
 	}
+	
+	public IReportEngine getReportEngine();
 	/**
 	 * Soll vor {@link IReportResult#export(ExportType)} aufgerufen werden.
 	 * @param ex
