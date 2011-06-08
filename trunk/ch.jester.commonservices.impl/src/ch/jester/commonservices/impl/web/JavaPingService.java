@@ -82,68 +82,20 @@ public class JavaPingService implements IPingService, IComponentService<ILoggerF
 			if(uiInstalled){
 				final int result = JavaPingService.this.ping(mInetAddress);
 				if(result!=lastResult){
-					UIUtility.syncExecInUIThread(new Runnable() {
-						
-						@Override
-						public void run() {
-							if(Display.getDefault().isDisposed()){
-								return;
-							}
-							if(result == REACHABLE){
-								if(mOk==null){
-								mOk= getImage("icons/connection_ok_16px.png");
-								}
-								sl.setImage(mOk);
-								sl.setText("");
-								sl.setToolTipText("Internet Connection:ok");
-								IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
-
-								//ex.setMessage(img, "internet ok");
-								ex.update(true);
-								
-							}else{
-								if(mNok==null){
-									mNok= getImage("icons/connection_nok_16px.png");
-									}
-									sl.setImage(mNok);
-									sl.setText("");
-									sl.setToolTipText("Internet Connection: failed");
-									IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
-
-									//ex.setMessage(img, "internet ok");
-									ex.update(true);
-							}
-							
-						}
-					});
-					
+					UIUtility.syncExecInUIThread(new SettingRunnable(result));
 				}
 				lastResult = result;
 				schedule(mReschedule);
-			}else{
+			}else{				
 				try{
-				UIUtility.syncExecInUIThread(new Runnable() {
-					
-					@Override
-					public void run() {
-						IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
-						ex.appendToGroup(StatusLineManager.END_GROUP, sl);
-						sl.setParent(ex);
-						sl.setText("");
-						sl.setToolTipText("Internet Connection: unknown");
-						if(mU==null){
-							mU = getImage("icons/connection_unk_16px.png");
-					
-						}
-						sl.setImage(mU);
-						ex.update(true);
-						lastResult=UNKNOWN;
-						uiInstalled=true;
-						
+					boolean uiready = UIUtility.isUIReady();
+					if(uiready){
+						UIUtility.syncExecInUIThread(new UnknownRunnable());
+						schedule(mReschedule);
+					}else{
+						schedule(200);
 					}
-				});
-			
-				schedule(mReschedule);
+
 				}catch(Exception e){
 					schedule(200);
 				}
@@ -151,7 +103,65 @@ public class JavaPingService implements IPingService, IComponentService<ILoggerF
 			
 			return Status.OK_STATUS;
 		}
+		class SettingRunnable implements Runnable {
+			int result;
+			public SettingRunnable(int pResult) {
+				result = pResult;
+			}
+
+			@Override
+			public void run() {
+				if(Display.getDefault().isDisposed()){
+					return;
+				}
+				if(result == REACHABLE){
+					if(mOk==null){
+					mOk= getImage("icons/connection_ok_16px.png");
+					}
+					sl.setImage(mOk);
+					sl.setText("");
+					sl.setToolTipText("Internet Connection:ok");
+					IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
+
+					//ex.setMessage(img, "internet ok");
+					ex.update(true);
+					
+				}else{
+					if(mNok==null){
+						mNok= getImage("icons/connection_nok_16px.png");
+						}
+						sl.setImage(mNok);
+						sl.setText("");
+						sl.setToolTipText("Internet Connection: failed");
+						IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
+
+						//ex.setMessage(img, "internet ok");
+						ex.update(true);
+				}
+				
+			}
+		}
 		
+		class UnknownRunnable implements Runnable {
+			
+			@Override
+			public void run() {
+				IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
+				ex.appendToGroup(StatusLineManager.END_GROUP, sl);
+				sl.setParent(ex);
+				sl.setText("");
+				sl.setToolTipText("Internet Connection: unknown");
+				if(mU==null){
+					mU = getImage("icons/connection_unk_16px.png");
+			
+				}
+				sl.setImage(mU);
+				ex.update(true);
+				lastResult=UNKNOWN;
+				uiInstalled=true;
+				
+			}
+		}
 	}
 
 	@Override
@@ -187,4 +197,6 @@ public class JavaPingService implements IPingService, IComponentService<ILoggerF
 		// TODO Auto-generated method stub
 		
 	}
+	
+
 }

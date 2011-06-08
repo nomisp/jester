@@ -28,13 +28,14 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 		SubListIterator<Player> iterator = new SubListIterator<Player>(pDomainObjects, chunkSize);
 		
 		IDaoService<Player> checker = su.getDaoServiceByEntity(Player.class);
+		checker.manualEventQueueNotification(true);
 		boolean checkDoubleEntries = checkDuplicates(checker);
 		Query duplQuery = createDuplicationCheckingQuery(checker);
 		
 		int chunkCount = 0;
 		while(iterator.hasNext()){
 			List<Player> origList = iterator.next();
-			IDaoService<Player> playerpersister = su.getDaoServiceByEntity(Player.class);
+			//IDaoService<Player> playerpersister = su.getDaoServiceByEntity(Player.class);
 			
 			List<Player> duplicates=null;
 			if(checkDoubleEntries){
@@ -51,18 +52,14 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 			}
 			
 			if(!origList.isEmpty()){
-				playerpersister.save(origList);
+				checker.save(origList);
 			}
 			if(checkDoubleEntries){
 				handleDuplicates(checker, duplicates);
 			}
 			
-		/*	if(!checkDoubleEntries||(duplicates!=null&&duplicates.isEmpty())){
-				playerpersister.save(origList);
-			}else{
-				handleDuplicates(checker, duplicates);
-			}*/
-			playerpersister.close();
+
+			//playerpersister.close();
 			chunkCount++;
 		}
 		checker.close();

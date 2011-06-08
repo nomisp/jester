@@ -3,6 +3,7 @@ package ch.jester.db.persister.impl;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	private Query mCountQuery;
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	private Class<T> mClz;
+	private boolean mManualNotify;
+	private List<T> mNotificationCache;
 	@SuppressWarnings("unchecked")
 	public GenericPersister(){
 		Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
@@ -79,7 +82,14 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 			//}
 		}
 		trx.commit();
-		fireSaveEvent(pTCollection);
+		if(!mManualNotify){
+			fireSaveEvent(pTCollection);
+		}else{
+			if(mNotificationCache==null){
+				mNotificationCache = new ArrayList<T>(100);
+			}
+			mNotificationCache.addAll(pTCollection);
+		}
 	
 	}
 	
@@ -95,7 +105,14 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 			mManager.persist(pT);
 		}
 		trx.commit();
-		fireSaveEvent(pT);
+		if(!mManualNotify){
+			fireSaveEvent(pT);
+		}else{
+			if(mNotificationCache==null){
+				mNotificationCache = new ArrayList<T>(100);
+			}
+			mNotificationCache.add(pT);
+		}
 	
 	}
 
@@ -128,6 +145,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 
 	@Override
 	public void close() {
+		fireManualNotification();
 		if(mManager!=null){
 			mManager.close();
 		}
@@ -229,5 +247,22 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	@Override
 	public Query createNamedQuery(String query) {
 		return mManager.createNamedQuery(query);
+	}
+	@Override
+	public void manualEventQueueNotification(boolean pBoolean) {
+		mManualNotify = pBoolean;
+		fireManualNotification();
+	}
+	
+	@Override
+	public void notifyEventQueue() {
+		fireManualNotification();
+		
+	}
+	private void fireManualNotification(){
+		if(mManualNotify&&mNotificationCache!=null&&!mNotificationCache.isEmpty()){
+			fireSaveEvent(mNotificationCache);
+			mNotificationCache = null;
+		}
 	}
 }

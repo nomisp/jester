@@ -14,6 +14,8 @@ import ch.jester.common.ui.handlers.api.IHandlerDelete;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.AdapterBinding;
 import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IDatabaseStateService;
+import ch.jester.commonservices.api.persistency.IDatabaseStateService.State;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
@@ -124,10 +126,24 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 	 * Laden aller Turniere aus der Datenbank
 	 */
 	private void initializeTournaments() {
-		IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);
-		List<Tournament> allTournaments = tournamentPersister.executeNamedQuery("AllActiveTournaments");
-//		tournaments = allTournaments.size() > 0 ? (Tournament[]) allTournaments.toArray() : new Tournament[0];
-		tournaments = getTournamentArray(allTournaments);
+		su.getService(IDatabaseStateService.class).executeOnStateChange(State.RUN, new Runnable(){
+			@Override
+			public void run() {
+				IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);
+				List<Tournament> allTournaments = tournamentPersister.executeNamedQuery("AllActiveTournaments");
+//				tournaments = allTournaments.size() > 0 ? (Tournament[]) allTournaments.toArray() : new Tournament[0];
+				tournaments = getTournamentArray(allTournaments);
+				UIUtility.syncExecInUIThread(new Runnable(){
+					@Override
+					public void run() {
+						viewer.refresh();
+					}
+					
+				});
+			}
+			
+		});
+
 	}
 	
 	private Tournament[] getTournamentArray(List<Tournament> list) {

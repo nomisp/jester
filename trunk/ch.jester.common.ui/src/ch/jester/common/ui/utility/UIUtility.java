@@ -23,17 +23,41 @@ import ch.jester.common.ui.internal.Activator;
  */
 public class UIUtility {
 	static UIStrategy[] mStrategies = new UIStrategy[2];
-	static {
+	static boolean initDone = false;
+	static Object lock = new Object();
+	/*static {
 		UIThreadStrategy mUIStrategy = new UIThreadStrategy();
 		mStrategies[0] = mUIStrategy;
 		mStrategies[1] = new NonUIThreadStrategy(mUIStrategy);
-	}
+	}*/
 	interface UIStrategy{
 		public IWorkbenchWindow getWorkbenchWindow();
 		public void syncExecInUIThread(Runnable pRunnable);
 		public void asyncExecInUIThread(Runnable pRunnable);
 	}
 	
+	private static void init(){
+		if(!initDone){
+		 try{
+			UIThreadStrategy mUIStrategy = new UIThreadStrategy();
+			mStrategies[0] = mUIStrategy;
+			mStrategies[1] = new NonUIThreadStrategy(mUIStrategy);
+			initDone=true;
+		 }catch(Exception e){
+			 //do nothing
+		 }
+		}
+	}
+	private static void checkInit(){
+		if(!initDone){
+			synchronized (lock) {
+				if(!initDone){
+					init();
+				}
+			}
+		}
+		
+	}
 	
 	/**Ist es der UI Thread?
 	 * @return true, false
@@ -59,6 +83,7 @@ public class UIUtility {
 	 * @param pEvaluationProperty
 	 */
 	public static void reevaluateProperty(final String pEvaluationProperty){
+		checkInit();
 		syncExecInUIThread(new Runnable(){
 
 			@Override
@@ -75,16 +100,28 @@ public class UIUtility {
 	 * @return
 	 */
 	public static IWorkbenchWindow getActiveWorkbenchWindow(){
+		checkInit();
 		return mStrategies[getStrategyIndex()].getWorkbenchWindow();
 	}
 	
 	public static ImageDescriptor getImageDescriptor(String pluginId, String imageFilePath){
 		return Activator.imageDescriptorFromPlugin(pluginId, imageFilePath);
 	}
+	public static boolean isUIReady() {
+		try{
+			PlatformUI.getWorkbench().getDisplay();;
+			return true;
+		}catch(Exception e){
+			return false;
+		}
+	}
+	
+	
 	/**Führt das Runnable direkt im UIThread aus.
 	 * @param r
 	 */
 	public static void syncExecInUIThread(Runnable r){
+		checkInit();
 		 mStrategies[getStrategyIndex()].syncExecInUIThread(r);
 	}
 	
@@ -92,6 +129,7 @@ public class UIUtility {
 	 * @param r
 	 */
 	public static void asyncExecInUIThread(Runnable r){
+		checkInit();
 		 mStrategies[getStrategyIndex()].asyncExecInUIThread(r);
 	}
 	
@@ -139,9 +177,10 @@ public class UIUtility {
 	 */
 	static class NonUIThreadStrategy implements UIStrategy{
 		UIThreadStrategy mUIStrategy;
-		Display mDisplay = PlatformUI.getWorkbench().getDisplay();
+		Display mDisplay;
 		public NonUIThreadStrategy(UIThreadStrategy pStrategy){
 			mUIStrategy=pStrategy;
+			mDisplay = PlatformUI.getWorkbench().getDisplay();
 		}
 		@Override
 		public IWorkbenchWindow getWorkbenchWindow() {
@@ -242,4 +281,7 @@ public class UIUtility {
 				return mB;
 			}
 		}
+
+
+	
 }

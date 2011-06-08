@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 /**
  * Service welcher die möglichkeit bietet, auf eine Entität zuzugreifen.
+ * Es wird ein IPersistencyEvent an die IPersistencyEventQueue gefeuert wenn Objekte gespeichert oder gelöscht werden.
  *
  * @param <T>
  */
@@ -69,4 +70,18 @@ public interface IDaoService<T extends IEntityObject> {
 	public Query createQuery(String query);
 	
 	public Query createNamedQuery(String query);
+	
+	/**
+	 * Die IPersistencyEventQueue wird nicht mehr automatisch benachrichtigt.
+	 * Die gespeicherten Objekte werden zwischengespeichert und bei einem close() oder notifyEventQueue() der EventQueue übergeben.
+	 * @param pTrue
+	 */
+	public void manualEventQueueNotification(boolean pTrue);
+	
+	/**
+	 * Manuelles notifizieren der EventQueue. <br>
+	 * Hat keinen Effekt wenn der interne Cache leer ist, oder 
+	 * manualEventQueueNotification(false) gesetzt wurde.
+	 */
+	public void notifyEventQueue();
 }
