@@ -3,6 +3,9 @@ package ch.jester.system.vollrundig;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.common.settings.SettingHelper;
@@ -197,16 +200,18 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		
 		// Rückrunde mit vertauschten Farben?
 		if (settings.getDoubleRounded()) {
-			for (int i = 0; i < pairings.size(); i++) {
-				Pairing pairing = pairings.get(i);
-				ModelFactory modelFactory = ModelFactory.getInstance();
-				pairings.add(modelFactory.createPairing(pairing.getBlack(), pairing.getWhite(), rounds.get(i+pairings.size())));
+			createRounds(rounds.size());	// Nochmals soviele Runden anlegen für die Rückrunde
+			int pcnt = 0;
+			ModelFactory modelFactory = ModelFactory.getInstance();
+			for (int i = pairings.size(); i < rounds.size(); i++) {
+				Pairing pairing = pairings.get(pcnt++);
+				pairings.add(modelFactory.createPairing(pairing.getBlack(), pairing.getWhite(), rounds.get(i)));
 			}
 		}
 		
-//		for (Pairing pairing : pairings) {
-//			System.out.println(pairing.toString());
-//		}
+		for (Pairing pairing : pairings) {
+			System.out.println(pairing.toString());
+		}
 		return pairings;
 	}
 
@@ -234,9 +239,15 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	private void loadSettings(Tournament tournament) {
 		if (settings == null) settings = new RoundRobinSettings();
 		IDaoService<SettingItem> settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
-		SettingItem settingItem = (SettingItem)settingItemPersister.createNamedQuery("SettingItemByTournament")
-									.setParameter("tournament", tournament).getSingleResult();
-		SettingHelper<RoundRobinSettings> settingHelper = new SettingHelper<RoundRobinSettings>();
-		settings = settingHelper.restoreSettingObject(settings, settingItem);
+		Query namedQuery = settingItemPersister.createNamedQuery("SettingItemByTournament");
+		namedQuery.setParameter("tournament", tournament);
+		try {
+			SettingItem settingItem = (SettingItem)namedQuery.getSingleResult();
+			SettingHelper<RoundRobinSettings> settingHelper = new SettingHelper<RoundRobinSettings>();
+			if (settingItem != null) settings = settingHelper.restoreSettingObject(settings, settingItem);
+		} catch (NoResultException e) {
+			// Nothing to do
+			mLogger.info("SettingItem not found in Database");
+		}
 	}
 }

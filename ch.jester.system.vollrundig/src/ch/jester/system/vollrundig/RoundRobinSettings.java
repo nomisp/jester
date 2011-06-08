@@ -12,7 +12,7 @@ public class RoundRobinSettings implements ISettingObject {
 	private Boolean doubleRounded;
 	
 	public RoundRobinSettings() {
-		
+		doubleRounded = Boolean.FALSE;	// Default keine Rückrunde
 	}
 
 	public Boolean getDoubleRounded() {
