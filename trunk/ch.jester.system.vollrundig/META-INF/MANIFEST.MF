@@ -14,3 +14,5 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.persistence
+Export-Package: ch.jester.system.vollrundig,
+ ch.jester.system.vollrundig.internal

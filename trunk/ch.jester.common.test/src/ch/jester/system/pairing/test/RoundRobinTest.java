@@ -13,12 +13,15 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
 import ch.jester.common.utility.ExceptionUtility;
+import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
+import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
@@ -26,6 +29,7 @@ import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
+import ch.jester.system.vollrundig.RoundRobinSettings;
 
 public class RoundRobinTest extends ActivatorProviderForTestCase {
 
@@ -47,8 +51,8 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 			}
 		}
 		createData();
-//		IDaoService<Tournament> tournamentPersister = mServiceUtil.getDaoService(Tournament.class);
-//		tournamentPersister.save(tournament);
+		IDaoService<Tournament> tournamentPersister = mServiceUtil.getDaoServiceByEntity(Tournament.class);
+		tournamentPersister.save(tournament);
 	}
 	
 //	@AfterClass
@@ -69,7 +73,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		tournament.addCategory(cat1);
 		tournament.addCategory(cat2);
 		tournament.addCategory(cat3);
-		
+				
 		players.add(modelFactory.createPlayer("Peter", "Simon"));
 		players.add(modelFactory.createPlayer("Matthias", "Liechti"));
 		players.add(modelFactory.createPlayer("Thomas", "Letsch"));
@@ -98,13 +102,23 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		for (Player player : players) {
 			cat1.addPlayerCard(modelFactory.createPlayerCard(cat1, player));
 		}
+//		try {
+//			List<Pairing> pairings = pairingAlgorithm.executePairings(cat1, null);
+//			assertEquals(6, pairings.size());
+//		} catch (NotAllResultsException e) {
+//			fail();
+//		} catch (PairingNotPossibleException e) {
+//			fail();
+//		} catch (Exception e) {
+//			fail();
+//		}
 		Job job = new Job("Pairing") {
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 	
 				try {
-					List<Pairing> pairings = pairingAlgorithm.executePairings(cat1, null);
+					List<Pairing> pairings = pairingAlgorithm.executePairings(cat1, monitor);
 					assertEquals(6, pairings.size());
 				} catch (NotAllResultsException e) {
 					fail();
@@ -118,4 +132,87 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		};
 		job.schedule();
 	}
+	
+	@Test
+	public void testExecutePairingCategory2DoubleRounded() {
+		ModelFactory modelFactory = ModelFactory.getInstance();
+		IDaoService<SettingItem> settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
+		RoundRobinSettings settings = new RoundRobinSettings();
+		settings.setDoubleRounded(Boolean.TRUE);
+		SettingHelper<RoundRobinSettings> settingHelper = new SettingHelper<RoundRobinSettings>();
+		SettingItem settingItem = modelFactory.createSettingItem(tournament);
+		settingItem = settingHelper.analyzeSettingObjectToStore(settings, settingItem);
+		settingItemPersister.save(settingItem);
+		
+		for (Player player : players) {
+			cat2.addPlayerCard(modelFactory.createPlayerCard(cat2, player));
+		}
+//		try {
+//			List<Pairing> pairings = pairingAlgorithm.executePairings(cat2, null);
+//			assertEquals(12, pairings.size());
+//		} catch (NotAllResultsException e) {
+//			fail();
+//		} catch (PairingNotPossibleException e) {
+//			fail();
+//		} catch (Exception e) {
+//			fail();
+//		}
+		Job job = new Job("PairingDoubleRounded") {
+			
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+	
+				try {
+					List<Pairing> pairings = pairingAlgorithm.executePairings(cat2, null);
+					assertEquals(12, pairings.size());
+				} catch (NotAllResultsException e) {
+					fail();
+				} catch (PairingNotPossibleException e) {
+					fail();
+				} catch (Exception e) {
+					fail();
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		job.schedule();
+	}
+	
+//	@Test
+//	public void testOddNumberOfPlayers() {
+//		ModelFactory modelFactory = ModelFactory.getInstance();
+//		players.add(modelFactory.createPlayer("Gari", "Kasparov"));	// 5. Spieler
+//		for (Player player : players) {
+//			cat3.addPlayerCard(modelFactory.createPlayerCard(cat3, player));
+//		}
+//		try {
+//			List<Pairing> pairings = pairingAlgorithm.executePairings(cat3, null);
+//			assertEquals(15, pairings.size());
+//		} catch (NotAllResultsException e) {
+//			fail();
+//		} catch (PairingNotPossibleException e) {
+//			fail();
+//		} catch (Exception e) {
+//			fail();
+//		}
+////		Job job = new Job("PairingOddNrOfPlayers") {
+////			
+////			@Override
+////			protected IStatus run(IProgressMonitor monitor) {
+////	
+////				try {
+////					List<Pairing> pairings = pairingAlgorithm.executePairings(cat3, null);
+////					assertEquals(15, pairings.size());
+////				} catch (NotAllResultsException e) {
+////					fail();
+////				} catch (PairingNotPossibleException e) {
+////					fail();
+////				} catch (Exception e) {
+////					fail();
+////				}
+////				return Status.OK_STATUS;
+////			}
+////		};
+////		job.schedule();
+//	}
 }

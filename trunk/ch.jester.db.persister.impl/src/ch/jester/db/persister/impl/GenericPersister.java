@@ -246,6 +246,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	}
 	@Override
 	public Query createNamedQuery(String query) {
+		check();
 		return mManager.createNamedQuery(query);
 	}
 	@Override

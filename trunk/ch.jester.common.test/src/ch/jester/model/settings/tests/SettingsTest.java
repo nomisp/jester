@@ -58,8 +58,8 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		settingItem = settingHelper.analyzeSettingObjectToStore(settings, settingItem);
 		settingItemPersister.save(settingItem);
 		
-		Query query = settingItemPersister.createQuery("select s from SettingItem s");
-		SettingItem retrievedSettingItem = (SettingItem)query.getSingleResult();
+//		Query query = settingItemPersister.createQuery("select s from SettingItem s");
+//		SettingItem retrievedSettingItem = (SettingItem)query.getSingleResult();
 	}
 	
 	@Test
@@ -96,8 +96,9 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		EntityManager entityManager = emf.createEntityManager();
 		tournament = (Tournament)entityManager.createQuery("select t from Tournament t where t.name = :tName")
 								.setParameter("tName", "SettingsTestTournament").getSingleResult();
-		Query query = entityManager.createQuery("select s from SettingItem s");
-		SettingItem retrievedSettingItem = (SettingItem)query.getSingleResult();
+		Query namedQuery = settingItemPersister.createNamedQuery("SettingItemByTournament");
+		namedQuery.setParameter("tournament", tournament);
+		SettingItem retrievedSettingItem = (SettingItem)namedQuery.getSingleResult();
 		return retrievedSettingItem;
 	}
 }
