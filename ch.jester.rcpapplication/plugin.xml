@@ -15,13 +15,13 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="ch.jester.rcpapplication.AdminPerspective"
-            icon="icons/database_table32x32.png"
+            icon="icons/database_table.png"
             id="ch.jester.perspective.admin"
             name="%Administration">
       </perspective>
       <perspective
             class="ch.jester.rcpapplication.TournamentPerspective"
-            icon="icons/tournament_16x16.gif"
+            icon="icons/tournament.png"
             id="ch.jester.rcpapplication.tournamentPerspective"
             name="%TournamentPerspective">
       </perspective>
@@ -30,6 +30,7 @@
          point="org.eclipse.ui.views">
       <view
             class="ch.jester.rcpapplication.View"
+            icon="icons/database_connect.png"
             id="ch.jester.rcpapplication.view"
             name="%DBConnectionView">
       </view>
