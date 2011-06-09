@@ -1,6 +1,5 @@
 package ch.jester.system.pairing.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ch.jester.common.utility.RandomUtility;

@@ -10,7 +10,7 @@
       <wizard
             category="ch.jester.ui.importer.players"
             class="ch.jester.ui.ssbimporter.Wiz"
-            icon="icons/player_16x16.png"
+            icon="icons/player.png"
             id="ch.jester.ui.ssbimporter"
             name="Player">
       </wizard>
