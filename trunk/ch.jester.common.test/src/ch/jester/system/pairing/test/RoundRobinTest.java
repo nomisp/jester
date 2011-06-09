@@ -102,16 +102,6 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		for (Player player : players) {
 			cat1.addPlayerCard(modelFactory.createPlayerCard(cat1, player));
 		}
-//		try {
-//			List<Pairing> pairings = pairingAlgorithm.executePairings(cat1, null);
-//			assertEquals(6, pairings.size());
-//		} catch (NotAllResultsException e) {
-//			fail();
-//		} catch (PairingNotPossibleException e) {
-//			fail();
-//		} catch (Exception e) {
-//			fail();
-//		}
 		Job job = new Job("Pairing") {
 			
 			@Override
@@ -121,16 +111,26 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 					List<Pairing> pairings = pairingAlgorithm.executePairings(cat1, monitor);
 					assertEquals(6, pairings.size());
 				} catch (NotAllResultsException e) {
-					fail();
+//					fail();
+					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (PairingNotPossibleException e) {
-					fail();
+//					fail();
+					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (Exception e) {
-					fail();
+					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				}
 				return Status.OK_STATUS;
 			}
 		};
 		job.schedule();
+		try {
+			job.join();
+			IStatus actualStatus = job.getResult();
+			assertEquals(Status.OK_STATUS, actualStatus);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 	
 	@Test
@@ -147,16 +147,6 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		for (Player player : players) {
 			cat2.addPlayerCard(modelFactory.createPlayerCard(cat2, player));
 		}
-//		try {
-//			List<Pairing> pairings = pairingAlgorithm.executePairings(cat2, null);
-//			assertEquals(12, pairings.size());
-//		} catch (NotAllResultsException e) {
-//			fail();
-//		} catch (PairingNotPossibleException e) {
-//			fail();
-//		} catch (Exception e) {
-//			fail();
-//		}
 		Job job = new Job("PairingDoubleRounded") {
 			
 			@Override
@@ -166,53 +156,65 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 					List<Pairing> pairings = pairingAlgorithm.executePairings(cat2, null);
 					assertEquals(12, pairings.size());
 				} catch (NotAllResultsException e) {
-					fail();
+//					fail();
+					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (PairingNotPossibleException e) {
-					fail();
+//					fail();
+					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (Exception e) {
-					fail();
+//					fail();
+					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				}
 				return Status.OK_STATUS;
 			}
 		};
 		job.schedule();
+		try {
+			job.join();
+			IStatus actualStatus = job.getResult();
+			assertEquals(Status.OK_STATUS, actualStatus);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 	
-//	@Test
-//	public void testOddNumberOfPlayers() {
-//		ModelFactory modelFactory = ModelFactory.getInstance();
-//		players.add(modelFactory.createPlayer("Gari", "Kasparov"));	// 5. Spieler
-//		for (Player player : players) {
-//			cat3.addPlayerCard(modelFactory.createPlayerCard(cat3, player));
-//		}
-//		try {
-//			List<Pairing> pairings = pairingAlgorithm.executePairings(cat3, null);
-//			assertEquals(15, pairings.size());
-//		} catch (NotAllResultsException e) {
-//			fail();
-//		} catch (PairingNotPossibleException e) {
-//			fail();
-//		} catch (Exception e) {
-//			fail();
-//		}
-////		Job job = new Job("PairingOddNrOfPlayers") {
-////			
-////			@Override
-////			protected IStatus run(IProgressMonitor monitor) {
-////	
-////				try {
-////					List<Pairing> pairings = pairingAlgorithm.executePairings(cat3, null);
-////					assertEquals(15, pairings.size());
-////				} catch (NotAllResultsException e) {
-////					fail();
-////				} catch (PairingNotPossibleException e) {
-////					fail();
-////				} catch (Exception e) {
-////					fail();
-////				}
-////				return Status.OK_STATUS;
-////			}
-////		};
-////		job.schedule();
-//	}
+	@Test
+	public void testOddNumberOfPlayers() {
+		ModelFactory modelFactory = ModelFactory.getInstance();
+		players.add(modelFactory.createPlayer("Gari", "Kasparov"));	// 5. Spieler
+		for (Player player : players) {
+			cat3.addPlayerCard(modelFactory.createPlayerCard(cat3, player));
+		}
+		Job job = new Job("PairingOddNrOfPlayers") {
+			
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+	
+				try {
+					List<Pairing> pairings = pairingAlgorithm.executePairings(cat3, null);
+					assertEquals(15, pairings.size());
+				} catch (NotAllResultsException e) {
+//					fail();
+					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+				} catch (PairingNotPossibleException e) {
+//					fail();
+					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+				} catch (Exception e) {
+//					fail();
+					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		job.schedule();
+		try {
+			job.join();
+			IStatus actualStatus = job.getResult();
+			assertEquals(Status.OK_STATUS, actualStatus);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
 }

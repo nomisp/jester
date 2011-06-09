@@ -106,14 +106,10 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
 						"icons/tournament.png").createImage();
-//			return PlatformUI.getWorkbench().getSharedImages()
-//					.getImage(ISharedImages.IMG_OBJ_FOLDER);
 		} else if (element instanceof Category) {
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
 						"icons/category_16x16.gif").createImage();
-//			return PlatformUI.getWorkbench().getSharedImages()
-//					.getImage(ISharedImages.IMG_OBJ_FILE);
 		} else if (element instanceof PlayerFolder) {
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
@@ -122,8 +118,6 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
 						"icons/player.png").createImage();
-//			return PlatformUI.getWorkbench().getSharedImages()
-//					.getImage(ISharedImages.IMG_OBJ_ELEMENT);
 		} else if (element instanceof Round) {
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
