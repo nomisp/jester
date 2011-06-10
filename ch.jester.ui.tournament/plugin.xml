@@ -87,7 +87,7 @@
             name="%RunPairing">
       </command>
       <command
-            description="%%EditTournamentDescr"
+            description="%EditTournamentDescr"
             id="ch.jester.ui.tournament.edittournament"
             name="%EditTournament">
       </command>
@@ -188,12 +188,12 @@
             commandId="ch.jester.ui.tournament.pairing">
          <activeWhen>
             <reference
-                  definitionId="ch.jester.ui.tournament.categorySelected">
+                  definitionId="ch.jester.ui.tournament.tournamentOrCategorySelected">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="ch.jester.ui.tournament.categorySelected">
+                  definitionId="ch.jester.ui.tournament.tournamentOrCategorySelected">
             </reference>
          </enabledWhen>
       </handler>
@@ -242,6 +242,26 @@
                      value="ch.jester.model.Category">
                </instanceof>
             </iterate>
+         </with>
+      </definition>
+      <definition
+            id="ch.jester.ui.tournament.tournamentOrCategorySelected">
+         <with
+               variable="selection">
+            <or>
+               <iterate
+                     operator="or">
+                  <instanceof
+                        value="ch.jester.model.Tournament">
+                  </instanceof>
+               </iterate>
+               <iterate
+                     operator="or">
+                  <instanceof
+                        value="ch.jester.model.Category">
+                  </instanceof>
+               </iterate>
+            </or>
          </with>
       </definition>
    </extension>
