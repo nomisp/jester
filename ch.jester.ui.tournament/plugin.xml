@@ -274,6 +274,13 @@
             id="ch.jester.ui.tournament.wirePlayerEditor"
             name="%WirePlayerEditor">
       </editor>
+      <editor
+            class="ch.jester.ui.tournament.editors.TournamentEditor"
+            default="false"
+            icon="icons/settings.png"
+            id="ch.jester.ui.tournament.tournamentEditor"
+            name="%EditTournament">
+      </editor>
    </extension>
 
 </plugin>

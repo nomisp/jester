@@ -1,11 +1,15 @@
 package ch.jester.ui.tournament.internal;
 
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.forms.FormColors;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
 import ch.jester.common.ui.editor.GenericDaoInputAccess;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.model.Category;
+import ch.jester.model.Tournament;
+import ch.jester.ui.tournament.editors.TournamentEditor;
 import ch.jester.ui.tournament.editors.WirePlayerEditor;
 
 /**
@@ -19,6 +23,8 @@ public class Activator extends AbstractUIActivator {
 	// The shared instance
 	private static Activator plugin;
 	
+	private FormColors formColors;
+	
 	/**
 	 * The constructor
 	 */
@@ -30,9 +36,14 @@ public class Activator extends AbstractUIActivator {
 		//Editor an InputTyp binden
 		IEditorService openService = getActivationContext().getService(IEditorService.class);
 		openService.register(Category.class, GenericDaoInputAccess.class, WirePlayerEditor.ID);
+		openService.register(Tournament.class, GenericDaoInputAccess.class, TournamentEditor.ID);
 	}
 
 	public void stopDelegate(BundleContext context) {
+		if (formColors != null) {
+			formColors.dispose();
+			formColors = null;
+		}
 		plugin = null;
 	}
 
@@ -44,5 +55,12 @@ public class Activator extends AbstractUIActivator {
 	public static Activator getDefault() {
 		return plugin;
 	}
-
+	
+	public FormColors getFormColors(Display display) {
+		if (formColors == null) {
+			formColors = new FormColors(display);
+			formColors.markShared();
+		}
+		return formColors;
+	}
 }
