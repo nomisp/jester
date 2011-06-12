@@ -2,7 +2,6 @@ package ch.jester.ui.tournament.cnf;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -21,7 +20,6 @@ import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.ICategoryDao;
-import ch.jester.dao.ITournamentDao;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
@@ -34,7 +32,7 @@ import ch.jester.model.Tournament;
  * @author Peter
  *
  */
-public class TournamentContentProvider implements ITreeContentProvider, IHandlerDelete<Tournament> {
+public class TournamentContentProvider implements ITreeContentProvider, IHandlerDelete<IEntityObject> {
 
 	private static final Object[] EMPTY_ARRAY = new Object[0];
 	private Tournament[] tournaments;
@@ -166,11 +164,11 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 		return EMPTY_ARRAY;
 	}
 	
-	private Object[] getRounds(Category category) {
-		Object[] rounds = category.getRounds().toArray();
-		if (rounds != null) return rounds;
-		return EMPTY_ARRAY;
-	}
+//	private Object[] getRounds(Category category) {
+//		Object[] rounds = category.getRounds().toArray();
+//		if (rounds != null) return rounds;
+//		return EMPTY_ARRAY;
+//	}
 	
 	/**
 	 * Liefert die Child Objekte einer Kategorie (Player und Rounds)
@@ -207,12 +205,16 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 //		
 //	}
 
-
 	@Override
-	public void handleDelete(List<Tournament> pList) {
-		for(Tournament t:pList){
-			IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);
-			tournamentPersister.delete(t);
+	public void handleDelete(List<IEntityObject> pList) {
+		for(IEntityObject t:pList){
+			if (t instanceof Tournament) {
+				IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);
+				tournamentPersister.delete((Tournament)t);
+			} else if (t instanceof Category) {	// Falls im CNF eine Category selektiert wurde
+				IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);
+				tournamentPersister.delete(((Category)t).getTournament());
+			}
 		}
 	}
 	
