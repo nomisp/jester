@@ -37,11 +37,11 @@ import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.ITestableImportHandler;
 import ch.jester.commonservices.api.importer.IVirtualTable;
 import ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;
-import ch.jester.ui.ssbimporter.PlayerImportWizardPage.ImportSelection;
+import ch.jester.ui.ssbimporter.PlayerImportWizardPage.ImportHandlerManager;
 
 public class PropertyChooserWizardPage extends WizardPage{
 	Button btnAddCol;
-	private ImportSelection mSelection;
+	private ImportHandlerManager mSelection;
 	private Table table_2;
 	private Table table_3;
 	TableViewer mInputTableViewer; 
@@ -198,7 +198,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 	}
 	
 
-	public void setInput(ImportSelection importSelection) {
+	public void setInput(ImportHandlerManager importSelection) {
 		mSelection = importSelection;
 	}
 	@SuppressWarnings("unchecked")

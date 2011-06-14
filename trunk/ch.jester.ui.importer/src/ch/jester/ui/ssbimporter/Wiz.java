@@ -21,7 +21,7 @@ import ch.jester.common.utility.ExceptionWrapper;
 import ch.jester.common.utility.ZipUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.exceptions.ProcessingException;
-import ch.jester.ui.ssbimporter.PlayerImportWizardPage.ImportSelection;
+import ch.jester.ui.ssbimporter.PlayerImportWizardPage.ImportHandlerManager;
 import ch.jester.ui.ssbimporter.internal.Activator;
 
 
@@ -48,7 +48,7 @@ public class Wiz extends Wizard implements IImportWizard{
 				@Override
 				public void run(final IProgressMonitor monitor) throws InvocationTargetException,
 						InterruptedException {
-					final ImportSelection input = firstPage.getImportSelection();
+					final ImportHandlerManager input = firstPage.getImportHandlerManager();
 					mLogger.debug("Zip: "+input.getSelectedZipFile());
 					mLogger.debug("Handler: "+input.getSelectedHandlerEntry());	
 					final InputStream instream = ZipUtility.getZipEntry(input.getSelectedZipFile(), input.getSelectedZipEntry());
@@ -96,7 +96,7 @@ public class Wiz extends Wizard implements IImportWizard{
 		 firstPage = new PlayerImportWizardPage();
 		 
 		 secondPage = new PropertyChooserWizardPage();
-		 secondPage.setInput(firstPage.getImportSelection());
+		 secondPage.setInput(firstPage.getImportHandlerManager());
 		
 	}
 @Override
