@@ -48,22 +48,20 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 public class PlayerImportWizardPage extends WizardPage {
 	private Text text;
-	private Table table;
-	private CheckboxTableViewer checkboxTableViewer;
-	private ListViewer listViewer;
+	private Table mFileContentTableViewer;
+	private CheckboxTableViewer fileCheckBoxTableViewer;
+	private ListViewer mHandlerListViewer;
 
 	private ServiceUtility mService = new ServiceUtility();
 	
 	private final Object NULL_INPUT = null;
-	private ImportSelection mImportInput = new ImportSelection();
-
 	
 	//Radio
 	private Button rdZip;
 	private Button rdWeb;
 	private WebRadioSelectionListener mWebRadioListener = new WebRadioSelectionListener();
 	private ZipRadioSelectionListener mZipRadioListener = new ZipRadioSelectionListener();
-	private Combo comboProvider;
+	private Combo mProviderCombo;
 	private Combo comboDownload;
 	
 	private Button mBtnBrowse;
@@ -114,10 +112,9 @@ public class PlayerImportWizardPage extends WizardPage {
 		        String selected = fd.open();
 		        if(selected==null){return;}
 		        text.setText(selected);
-		        mImportInput.setSelectedZipFile(text.getText());
-		        //List<String> list = ZipUtility.getZipEntries(selected, false);
+		        ihm.setSelectedZipFile(text.getText());
 		        if(text.getText()!=null){
-		        	checkboxTableViewer.setInput(text.getText());
+		        	fileCheckBoxTableViewer.setInput(text.getText());
 		        }
 		        
 			}
@@ -131,24 +128,24 @@ public class PlayerImportWizardPage extends WizardPage {
 		text.setMessage("Select a Zip file");
 		text.setBounds(175, 11, 407, 23);
 		
-		checkboxTableViewer = CheckboxTableViewer.newCheckList(container, SWT.BORDER | SWT.FULL_SELECTION);
-		table = checkboxTableViewer.getTable();
+		fileCheckBoxTableViewer = CheckboxTableViewer.newCheckList(container, SWT.BORDER | SWT.FULL_SELECTION);
+		mFileContentTableViewer = fileCheckBoxTableViewer.getTable();
 		
-		table.addSelectionListener(new SelectionCountListener());
+		mFileContentTableViewer.addSelectionListener(new ZipEntrySelectionListener());
 		
-		table.setBounds(175, 128, 407, 112);
+		mFileContentTableViewer.setBounds(175, 128, 407, 112);
 		
-		listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL);
-		org.eclipse.swt.widgets.List list = listViewer.getList();
-		list.setBounds(175, 268, 407, 72);
+		mHandlerListViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL);
+		org.eclipse.swt.widgets.List mHandlerList = mHandlerListViewer.getList();
+		mHandlerList.setBounds(175, 268, 407, 72);
 		//webCombo.set
 		
 
 		
 	    comboProviderViewer = new ComboViewer(container, SWT.NONE);
-		comboProvider = comboProviderViewer.getCombo();
-		comboProvider.setBounds(252, 53, 330, 29);
-		comboProviderViewer.setContentProvider(new WebImportAdapterProvider());
+		mProviderCombo = comboProviderViewer.getCombo();
+		mProviderCombo.setBounds(252, 53, 330, 29);
+		comboProviderViewer.setContentProvider(new WebImportAdapterContentProvider());
 		comboProviderViewer.addSelectionChangedListener(new WebProviderSelectionListener());
 		comboProviderViewer.setInput(null);
 		
@@ -198,12 +195,12 @@ public class PlayerImportWizardPage extends WizardPage {
 		lblHandler.setText("Handler");
 		lblHandler.setBounds(10, 268, 154, 21);
 		
-		listViewer.addSelectionChangedListener(new HandlerSelectionListener());
+		mHandlerListViewer.addSelectionChangedListener(new HandlerSelectionListener());
 		
 		
 		
-		listViewer.setContentProvider(new ImportHandlerProvider());
-		listViewer.setLabelProvider(new LabelProvider(){
+		mHandlerListViewer.setContentProvider(new ImportHandlerContentProvider());
+		mHandlerListViewer.setLabelProvider(new LabelProvider(){
 			
 			@Override
 			public String getText(Object element) {
@@ -215,20 +212,21 @@ public class PlayerImportWizardPage extends WizardPage {
 			}
 		});
 
-		listViewer.setInput(NULL_INPUT);
+		mHandlerListViewer.setInput(NULL_INPUT);
 
 		
-		checkboxTableViewer.setContentProvider(new ZipEntryContentProvider());
+		fileCheckBoxTableViewer.setContentProvider(new ZipEntryContentProvider());
 		
 		//initialer Status
 		setPageComplete(false);
 		
 		enableWebOptions = mService.getService(IPingService.class).isConnected();
 		rdWeb.setEnabled(enableWebOptions);
-	}
+		
+}
 	
-	public ImportSelection getImportSelection(){
-		return mImportInput;
+	public ImportHandlerManager getImportHandlerManager(){
+		return ihm;
 	}
 	
 	private class DownloadListener implements ISelectionChangedListener{
@@ -239,12 +237,6 @@ public class PlayerImportWizardPage extends WizardPage {
 			IFileManager fileManager = mService.getService(IFileManager.class);
 			
 			final ILink link = su.getFirstSelectedAs(ILink.class);
-			//Location workingDir = Platform.getInstanceLocation();
-			//String tmp = workingDir.getURL().getFile() + "tmp";
-			//File tmpDir = new File(tmp);
-			//if(!tmpDir.exists()){
-				//tmpDir.mkdir();
-			//}
 			String newFile = link.getText().replace("/", "_")+".zip";
 			final File file = fileManager.createTempFile(newFile);
 			try {
@@ -271,8 +263,8 @@ public class PlayerImportWizardPage extends WizardPage {
 							public void run(){
 						     List<String> list = ZipUtility.getZipEntries(file.getAbsolutePath(), false);
 						        if(list!=null){
-						        	mImportInput.setSelectedZipFile(file.getAbsolutePath());
-						        	checkboxTableViewer.setInput(file.getAbsoluteFile());
+						        	ihm.setSelectedZipFile(file.getAbsolutePath());
+						        	fileCheckBoxTableViewer.setInput(file.getAbsoluteFile());
 						        }
 							}
 								
@@ -304,7 +296,7 @@ public class PlayerImportWizardPage extends WizardPage {
 			IWebImportAdapter adapter = (IWebImportAdapter)entry.getService();
 			try {
 				comboDownloadViewer.setInput(adapter.getLinks());
-				//System.out.println(adapter.getLinks());
+				ihm.setSelectedWebHandlerEntry(entry);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -312,26 +304,26 @@ public class PlayerImportWizardPage extends WizardPage {
 		}
 		
 	}
-	private class WebImportAdapterProvider extends StructuredContentProviderAdapter{
+	private class WebImportAdapterContentProvider extends StructuredContentProviderAdapter{
 		@Override
 		public Object[] getElements(Object inputElement) {
 			IImportManager manager = mService.getService(IImportManager.class);
 			if(manager==null){
 				return new Object[]{};
 			}
-			return ihm.getAvailableHandlers().toArray();
+			return ihm.getHandlersForCurrentMode().toArray();
 		}
 		
 	}
 	
-	private class ImportHandlerProvider extends StructuredContentProviderAdapter {
+	private class ImportHandlerContentProvider extends StructuredContentProviderAdapter {
 		@Override
 		public Object[] getElements(Object inputElement) {
 			IImportManager manager = mService.getService(IImportManager.class);
 			if(manager==null||inputElement==null){
 				return new Object[]{};
 			}
-			List<? extends IImportHandlerEntry> handlers = ihm.getAvailableHandlers();
+			List<? extends IImportHandlerEntry> handlers = ihm.getHandlersForCurrentMode();
 			if(inputElement instanceof String){
 				String input = (String) inputElement;
 				if(input.lastIndexOf(".")==-1){
@@ -350,10 +342,13 @@ public class PlayerImportWizardPage extends WizardPage {
 	}
 	
 
-	private class ImportHandlerManager{
+	 class ImportHandlerManager{
 		private List<IImportHandlerEntry> entries;
 		private List<IWebImportHandlerEntry> webentries;
 		private int mode = 2;
+		private IImportHandlerEntry entry, webEntry;
+		private String zipFile;
+		private String zipEntry;
 		public ImportHandlerManager(){
 			IImportManager manager = mService.getService(IImportManager.class);
 			List<IImportHandlerEntry> handlers = manager.getRegistredEntries();
@@ -374,29 +369,18 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 		void mode_Zip(){
 			mode = 2;
+			webEntry=null;
 			//System.out.println(mode);
 		}
 		
-		public List<? extends IImportHandlerEntry> getAvailableHandlers(){
+		public List<? extends IImportHandlerEntry> getHandlersForCurrentMode(){
 			return mode==2?entries:webentries;
 		}
 		
-	}
-	
-	
-	private class HandlerSelectionListener implements ISelectionChangedListener {
-		SelectionUtility su = new SelectionUtility(null);
-		@Override
-		public void selectionChanged(SelectionChangedEvent event) {
-			su.setSelection(event.getSelection());
-			mImportInput.setSelectedHandlerEntry(su.getFirstSelectedAs(IImportHandlerEntry.class));
+		private void setSelectedWebHandlerEntry(IImportHandlerEntry pEntry){
+			webEntry=pEntry;
+			checkState();
 		}
-	}
-
-	class ImportSelection{
-		private IImportHandlerEntry entry;
-		private String zipFile;
-		private String zipEntry;
 		
 		private void setSelectedHandlerEntry(IImportHandlerEntry pEntry){
 			entry=pEntry;
@@ -427,7 +411,41 @@ public class PlayerImportWizardPage extends WizardPage {
 				setPageComplete(false);
 			}
 		}
+		public Object[] filterZipEntries(Object[] array) {
+			if(webEntry!=null){
+				return filterWeb(array);
+			}
+			return array;
+		}
+		private Object[] filterWeb(Object[] array) {
+			String shorttype = webEntry.getShortType();
+			if(shorttype.indexOf("*.")!=-1){			
+				shorttype = shorttype.substring(shorttype.indexOf("*.")+2);
+			}else if(shorttype.indexOf(".")!=-1){			
+				shorttype = shorttype.substring(shorttype.indexOf(".")+1);
+			}
+			List<String> tmp = new ArrayList<String>();
+			for(int i=0;i<array.length;i++){
+				if(array[i].toString().endsWith("."+shorttype)){
+					tmp.add(array[i].toString());
+				}
+				//System.out.println(shorttype);
+			}
+			return tmp.toArray();
+		}
+		
 	}
+	
+	
+	private class HandlerSelectionListener implements ISelectionChangedListener {
+		SelectionUtility su = new SelectionUtility(null);
+		@Override
+		public void selectionChanged(SelectionChangedEvent event) {
+			su.setSelection(event.getSelection());
+			ihm.setSelectedHandlerEntry(su.getFirstSelectedAs(IImportHandlerEntry.class));
+		}
+	}
+
 	
 	//Radio Listener
 	private class ZipRadioSelectionListener extends SelectionAdapter{
@@ -447,8 +465,8 @@ public class PlayerImportWizardPage extends WizardPage {
 			}else{
 				text.setText("");
 				enable(false);
-				listViewer.setInput(null);
-				checkboxTableViewer.setInput(null);
+				mHandlerListViewer.setInput(null);
+				fileCheckBoxTableViewer.setInput(null);
 			}
 			
 		}
@@ -468,8 +486,8 @@ public class PlayerImportWizardPage extends WizardPage {
 			}else{
 				comboProviderViewer.setInput(null);
 				comboDownloadViewer.setInput(null);
-				listViewer.setInput(null);
-				checkboxTableViewer.setInput(null);
+				mHandlerListViewer.setInput(null);
+				fileCheckBoxTableViewer.setInput(null);
 				
 				enable(false);
 			}
@@ -478,7 +496,7 @@ public class PlayerImportWizardPage extends WizardPage {
 
 		public void enable(boolean b) {
 			comboDownload.setEnabled(b);
-			comboProvider.setEnabled(b);
+			mProviderCombo.setEnabled(b);
 			
 		}
 	}
@@ -487,7 +505,7 @@ public class PlayerImportWizardPage extends WizardPage {
 	 * SelectionListener: Welche TableItems wurden angegklickt
 	 *
 	 */
-	private class SelectionCountListener implements SelectionListener {
+	private class ZipEntrySelectionListener implements SelectionListener {
 		TableItem lastChecked = null;
 		@Override
 		public void widgetSelected(SelectionEvent e) {
@@ -499,13 +517,13 @@ public class PlayerImportWizardPage extends WizardPage {
 						lastChecked.setChecked(false);
 					}
 					lastChecked=titem;
-					mImportInput.setSelectedZipEntry(titem.getText());
-					listViewer.setInput(titem.getText());
+					ihm.setSelectedZipEntry(titem.getText());
+					mHandlerListViewer.setInput(titem.getText());
 				
 				}else{
-					mImportInput.setSelectedZipEntry(null);
-					mImportInput.setSelectedHandlerEntry(null);
-					listViewer.setInput(NULL_INPUT);
+					ihm.setSelectedZipEntry(null);
+					ihm.setSelectedHandlerEntry(null);
+					mHandlerListViewer.setInput(NULL_INPUT);
 				}
 			}
 
@@ -532,7 +550,7 @@ public class PlayerImportWizardPage extends WizardPage {
 
 		@Override
 		public Object[] getElements(Object inputElement) {
-			return ZipUtility.getZipEntries(pFileInput, false).toArray();
+			return ihm.filterZipEntries(ZipUtility.getZipEntries(pFileInput, false).toArray());
 		}
 	}
 }
