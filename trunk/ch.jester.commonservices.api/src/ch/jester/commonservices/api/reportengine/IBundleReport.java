@@ -11,29 +11,29 @@ import org.osgi.framework.Bundle;
 public interface IBundleReport extends IReport {
 	/**
 	 * Das Sourceverzeichnis für Reports
-	 * 
-	 * @param pRoot
+	 * @param  pRoot
+	 * @uml.property  name="bundleSourceRoot"
 	 */
 	public void setBundleSourceRoot(String pRoot);
 
 	/**
 	 * Gibt das Sourceverzeichnis zurück
-	 * 
 	 * @return
+	 * @uml.property  name="bundleSourceRoot"
 	 */
 	public String getBundleSourceRoot();
 
 	/**
 	 * Gibt den FilenNamen im SourceBundle zurück.
-	 * 
 	 * @return
+	 * @uml.property  name="bundleReportFile"
 	 */
 	public String getBundleReportFile();
 
 	/**
 	 * Setzt den Namen des Files im SourceBundle
-	 * 
-	 * @param pFileName
+	 * @param  pFileName
+	 * @uml.property  name="bundleReportFile"
 	 */
 	public void setBundleReportFile(String pFileName);
 
@@ -47,15 +47,15 @@ public interface IBundleReport extends IReport {
 
 	/**
 	 * Setzt das SourceBundle
-	 * 
-	 * @param b
+	 * @param  b
+	 * @uml.property  name="bundle"
 	 */
 	public void setBundle(Bundle b);
 
 	/**
 	 * Das Bundle in dem sich der Report befindet.
-	 * 
 	 * @return
+	 * @uml.property  name="bundle"
 	 */
 	public Bundle getBundle();
 }

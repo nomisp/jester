@@ -14,23 +14,56 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 public interface IReportResult extends IAdaptable{
 	/**
 	 * Export als...
-	 *
 	 */
 	enum ExportType{
-		PDF("pdf", "Pdf"), HTML("html","Html"), XML("xml","Xml"), EXCEL("xls","Excel"), CSV("csv","Csv");
+		/**
+		 * @uml.property  name="pDF"
+		 * @uml.associationEnd  
+		 */
+		PDF("pdf", "Pdf"), /**
+		 * @uml.property  name="hTML"
+		 * @uml.associationEnd  
+		 */
+		HTML("html","Html"), /**
+		 * @uml.property  name="xML"
+		 * @uml.associationEnd  
+		 */
+		XML("xml","Xml"), /**
+		 * @uml.property  name="eXCEL"
+		 * @uml.associationEnd  
+		 */
+		EXCEL("xls","Excel"), /**
+		 * @uml.property  name="cSV"
+		 * @uml.associationEnd  
+		 */
+		CSV("csv","Csv");
 		
 		ExportType(String pExtension, String pName){
 			extension = pExtension;
 			name = pName;
 		}
+		/**
+		 * @return
+		 * @uml.property  name="extension"
+		 */
 		public String getExtension(){
 			return extension;
 		}
+		/**
+		 * @return
+		 * @uml.property  name="name"
+		 */
 		public String getName(){
 			return name;
 		}
 		
+		/**
+		 * @uml.property  name="extension"
+		 */
 		private String extension;
+		/**
+		 * @uml.property  name="name"
+		 */
 		private String name;
 	}
 	
