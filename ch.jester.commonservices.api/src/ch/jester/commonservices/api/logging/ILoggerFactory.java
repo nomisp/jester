@@ -2,7 +2,6 @@ package ch.jester.commonservices.api.logging;
 
 /**
  * Factory Interface für die Logger Erstellung
- *
  */
 public interface ILoggerFactory {
 	/**
@@ -13,12 +12,14 @@ public interface ILoggerFactory {
 	public ILogger getLogger(Class<?> pClass);
 	/**
 	 * Debug ein- und ausschalten
-	 * @param debug ein- oder ausschalten
+	 * @param debug   ein- oder ausschalten
+	 * @uml.property  name="debug"
 	 */
 	public void setDebug(boolean b);
 	/**
 	 * Ist Debug eingeschaltet?
-	 * @return 
+	 * @return
+	 * @uml.property  name="debug"
 	 */
 	public boolean isDebug();
 }

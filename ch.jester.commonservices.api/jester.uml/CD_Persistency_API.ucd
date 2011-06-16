@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="CD_Persistency_API" size="1345,963" id="" metadata="uml2-1.0" initialized="true" scrolledY="397" tag="1000" key="32303037303533312D313030302063682E6A65737465722E636F6D6D6F6E73657276696365732E6170692F74313137323231">
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.1/@sourceConnections.0" name="IDaoService" location="365,24" size="451,347" id="ch.jester.commonservices.api.persistency/IDaoService" runTimeClassModel="save(LT;),getFromTo(II),executeNamedQuery(Ljava.lang.String;),save(Ljava.util.Collection;),close(),count(),delete(LT;),getAll(),createQuery(Ljava.lang.String;),manualEventQueueNotification(Z),notifyEventQueue(),createNamedQuery(Ljava.lang.String;),executeNamedQuery(Ljava.lang.String;Ljava.lang.String;Ljava.lang.Object;),delete(Ljava.util.Collection;),getDaoClass()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="428,270">
+      <children xsi:type="editmodel:MethodEditModel" name="close" id="ch.jester.commonservices.api.persistency/IDaoService#close()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="count" id="ch.jester.commonservices.api.persistency/IDaoService#count()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createNamedQuery" id="ch.jester.commonservices.api.persistency/IDaoService#createNamedQuery(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createQuery" id="ch.jester.commonservices.api.persistency/IDaoService#createQuery(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="delete" id="ch.jester.commonservices.api.persistency/IDaoService#delete(LT;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="delete" id="ch.jester.commonservices.api.persistency/IDaoService#delete(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="executeNamedQuery" id="ch.jester.commonservices.api.persistency/IDaoService#executeNamedQuery(Ljava.lang.String;Ljava.lang.String;Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="executeNamedQuery" id="ch.jester.commonservices.api.persistency/IDaoService#executeNamedQuery(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getAll" id="ch.jester.commonservices.api.persistency/IDaoService#getAll()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDaoClass" id="ch.jester.commonservices.api.persistency/IDaoService#getDaoClass()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getFromTo" id="ch.jester.commonservices.api.persistency/IDaoService#getFromTo(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="manualEventQueueNotification" id="ch.jester.commonservices.api.persistency/IDaoService#manualEventQueueNotification(Z)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="notifyEventQueue" id="ch.jester.commonservices.api.persistency/IDaoService#notifyEventQueue()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="save" id="ch.jester.commonservices.api.persistency/IDaoService#save(LT;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="save" id="ch.jester.commonservices.api.persistency/IDaoService#save(Ljava.util.Collection;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="ch.jester.commonservices.api.persistency/IDaoService-Soyatec::Import->ch.jester.commonservices.api.persistency/IEntityObject" source="//@children.0" target="//@children.3" targetEnd="//@children.0/@sourceConnections.0/@children.2" label="//@children.0/@sourceConnections.0/@children.0" sourceEnd="//@children.0/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,80" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="227,74"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="IDaoServiceFactory" location="900,15" size="425,149" id="ch.jester.commonservices.api.persistency/IDaoServiceFactory" runTimeClassModel="registerDaoService(Ljava.lang.Class;Ljava.lang.Class;),getDaoServiceByEntity(Ljava.lang.Class;),addServiceHandling(Ljava.lang.Class;Ljava.lang.Class;),getDaoServiceByServiceInterface(Ljava.lang.Class;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="447,72">
+      <children xsi:type="editmodel:MethodEditModel" name="addServiceHandling" id="ch.jester.commonservices.api.persistency/IDaoServiceFactory#addServiceHandling(Ljava.lang.Class;Ljava.lang.Class;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDaoServiceByEntity" id="ch.jester.commonservices.api.persistency/IDaoServiceFactory#getDaoServiceByEntity(Ljava.lang.Class;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDaoServiceByServiceInterface" id="ch.jester.commonservices.api.persistency/IDaoServiceFactory#getDaoServiceByServiceInterface(Ljava.lang.Class;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="registerDaoService" id="ch.jester.commonservices.api.persistency/IDaoServiceFactory#registerDaoService(Ljava.lang.Class;Ljava.lang.Class;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="ch.jester.commonservices.api.persistency/IDaoServiceFactory-Soyatec::Import->ch.jester.commonservices.api.persistency/IDaoService" source="//@children.1" target="//@children.0" targetEnd="//@children.1/@sourceConnections.0/@children.2" label="//@children.1/@sourceConnections.0/@children.0" sourceEnd="//@children.1/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,79" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="451,70"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="IDatabaseStateService" location="30,630" size="329,232" id="ch.jester.commonservices.api.persistency/IDatabaseStateService" runTimeClassModel="setState(Lch.jester.commonservices.api.persistency.IDatabaseStateService.State;),getState(),executeOnStateChange(Lch.jester.commonservices.api.persistency.IDatabaseStateService.State;Ljava.lang.Runnable;),ch.jester.commonservices.api.persistency.IDatabaseStateService.State">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="306,54">
+      <children xsi:type="editmodel:MethodEditModel" name="executeOnStateChange" id="ch.jester.commonservices.api.persistency/IDatabaseStateService#executeOnStateChange(Lch.jester.commonservices.api.persistency.IDatabaseStateService.State;Ljava.lang.Runnable;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getState" id="ch.jester.commonservices.api.persistency/IDatabaseStateService#getState()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setState" id="ch.jester.commonservices.api.persistency/IDatabaseStateService#setState(Lch.jester.commonservices.api.persistency.IDatabaseStateService.State;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="94,91">
+      <children xsi:type="editmodel:EnumerationEditModel" name="State" size="94,89" id="ch.jester.commonservices.api.persistency/IDatabaseStateService$State" runTimeClassModel="INIT%,RUN%">
+        <children xsi:type="editmodel:CompartmentEditModel" size="40,36">
+          <children xsi:type="editmodel:EnumerationLiteralEditModel" name="INIT" id="ch.jester.commonservices.api.persistency/IDatabaseStateService$State#INIT%"/>
+          <children xsi:type="editmodel:EnumerationLiteralEditModel" name="RUN" id="ch.jester.commonservices.api.persistency/IDatabaseStateService$State#RUN%"/>
+        </children>
+        <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+      </children>
+    </children>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.0/@sourceConnections.0" name="IEntityObject" location="30,30" size="227,149" id="ch.jester.commonservices.api.persistency/IEntityObject" runTimeClassModel="id,getId(),isUnsafed(),setId(Ljava.lang.Integer;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="66,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="id" id="ch.jester.commonservices.api.persistency/IEntityObject#id"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="123,54">
+      <children xsi:type="editmodel:MethodEditModel" name="getId" id="ch.jester.commonservices.api.persistency/IEntityObject#getId()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="isUnsafed" id="ch.jester.commonservices.api.persistency/IEntityObject#isUnsafed()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setId" id="ch.jester.commonservices.api.persistency/IEntityObject#setId(Ljava.lang.Integer;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.5/@sourceConnections.0 //@children.7/@sourceConnections.1 //@children.6/@sourceConnections.0" name="IPersistencyEvent" location="555,434" size="227,250" id="ch.jester.commonservices.api.persistency/IPersistencyEvent" runTimeClassModel="ch.jester.commonservices.api.persistency.IPersistencyEvent.Operation,getCRUD(),getLoad(),getLoadClass(),getSource()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="147,72">
+      <children xsi:type="editmodel:MethodEditModel" name="getCRUD" id="ch.jester.commonservices.api.persistency/IPersistencyEvent#getCRUD()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getLoad" id="ch.jester.commonservices.api.persistency/IPersistencyEvent#getLoad()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getLoadClass" id="ch.jester.commonservices.api.persistency/IPersistencyEvent#getLoadClass()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getSource" id="ch.jester.commonservices.api.persistency/IPersistencyEvent#getSource()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="105,91">
+      <children xsi:type="editmodel:EnumerationEditModel" name="Operation" size="105,89" id="ch.jester.commonservices.api.persistency/IPersistencyEvent$Operation" runTimeClassModel="SAVED%,DELETED%">
+        <children xsi:type="editmodel:CompartmentEditModel" size="63,36">
+          <children xsi:type="editmodel:EnumerationLiteralEditModel" name="DELETED" id="ch.jester.commonservices.api.persistency/IPersistencyEvent$Operation#DELETED%"/>
+          <children xsi:type="editmodel:EnumerationLiteralEditModel" name="SAVED" id="ch.jester.commonservices.api.persistency/IPersistencyEvent$Operation#SAVED%"/>
+        </children>
+        <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+      </children>
+    </children>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="IPersistencyEventQueue" location="45,465" size="260,149" id="ch.jester.commonservices.api.persistency/IPersistencyEventQueue" runTimeClassModel="getEvent(),addListener(Lch.jester.commonservices.api.persistency.IPersistencyListener;),dispatch(Lch.jester.commonservices.api.persistency.IPersistencyEvent;),shutdown()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="237,72">
+      <children xsi:type="editmodel:MethodEditModel" name="addListener" id="ch.jester.commonservices.api.persistency/IPersistencyEventQueue#addListener(Lch.jester.commonservices.api.persistency.IPersistencyListener;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="dispatch" id="ch.jester.commonservices.api.persistency/IPersistencyEventQueue#dispatch(Lch.jester.commonservices.api.persistency.IPersistencyEvent;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getEvent" id="ch.jester.commonservices.api.persistency/IPersistencyEventQueue#getEvent()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="shutdown" id="ch.jester.commonservices.api.persistency/IPersistencyEventQueue#shutdown()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="ch.jester.commonservices.api.persistency/IPersistencyEventQueue-Soyatec::Import->ch.jester.commonservices.api.persistency/IPersistencyEvent" source="//@children.5" target="//@children.4" targetEnd="//@children.5/@sourceConnections.0/@children.2" label="//@children.5/@sourceConnections.0/@children.0" sourceEnd="//@children.5/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="260,74" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,105"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="ch.jester.commonservices.api.persistency/IPersistencyEventQueue-Soyatec::Import->ch.jester.commonservices.api.persistency/IPersistencyListener" source="//@children.5" target="//@children.7" targetEnd="//@children.5/@sourceConnections.1/@children.2" label="//@children.5/@sourceConnections.1/@children.0" sourceEnd="//@children.5/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="260,102" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,37"/>
+      <bendpoints secondRelativeDimension="-431,-2" firstRelativeDimension="240,151"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.7/@sourceConnections.0" name="IPersistencyFilter" location="976,434" size="274,95" id="ch.jester.commonservices.api.persistency/IPersistencyFilter" runTimeClassModel="dispatch(Lch.jester.commonservices.api.persistency.IPersistencyEvent;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="251,18">
+      <children xsi:type="editmodel:MethodEditModel" name="dispatch" id="ch.jester.commonservices.api.persistency/IPersistencyFilter#dispatch(Lch.jester.commonservices.api.persistency.IPersistencyEvent;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="ch.jester.commonservices.api.persistency/IPersistencyFilter-Soyatec::Import->ch.jester.commonservices.api.persistency/IPersistencyEvent" source="//@children.6" target="//@children.4" targetEnd="//@children.6/@sourceConnections.0/@children.2" label="//@children.6/@sourceConnections.0/@children.0" sourceEnd="//@children.6/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,26" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="227,27"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.5/@sourceConnections.1" name="IPersistencyListener" location="976,683" size="273,113" id="ch.jester.commonservices.api.persistency/IPersistencyListener" runTimeClassModel="persistencyEvent(Lch.jester.commonservices.api.persistency.IPersistencyEvent;),setFilter(Lch.jester.commonservices.api.persistency.IPersistencyFilter;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="250,36">
+      <children xsi:type="editmodel:MethodEditModel" name="persistencyEvent" id="ch.jester.commonservices.api.persistency/IPersistencyListener#persistencyEvent(Lch.jester.commonservices.api.persistency.IPersistencyEvent;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setFilter" id="ch.jester.commonservices.api.persistency/IPersistencyListener#setFilter(Lch.jester.commonservices.api.persistency.IPersistencyFilter;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="ch.jester.commonservices.api.persistency/IPersistencyFilter&lt;-ch.jester.commonservices.api.persistency/IPersistencyListener" source="//@children.7" target="//@children.6" targetEnd="//@children.7/@sourceConnections.0/@children.1" sourceEnd="//@children.7/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="136,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="136,95"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="ch.jester.commonservices.api.persistency/IPersistencyListener-Soyatec::Import->ch.jester.commonservices.api.persistency/IPersistencyEvent" source="//@children.7" target="//@children.4" targetEnd="//@children.7/@sourceConnections.1/@children.2" label="//@children.7/@sourceConnections.1/@children.0" sourceEnd="//@children.7/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="227,249"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+</editmodel:ClassDiagramEditModel>

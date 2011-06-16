@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="ReportEngine" size="788,336" id="" metadata="uml2-1.0" initialized="true" zoom="0.75" scrolledX="85" tag="1000" key="32303037303533312D313030302063682E6A65737465722E636F6D6D6F6E73657276696365732E6170692F74313137323231">
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.2/@sourceConnections.1" name="IReportResult" location="164,230" size="329,304" id="ch.jester.commonservices.api.reportengine/IReportResult">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="306,72">
+      <children xsi:type="editmodel:MethodEditModel" name="canExport" id="ch.jester.commonservices.api.reportengine/IReportResult#canExport(Lch.jester.commonservices.api.reportengine.IReportResult.ExportType;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="export" id="ch.jester.commonservices.api.reportengine/IReportResult#export(Lch.jester.commonservices.api.reportengine.IReportResult.ExportType;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="export" id="ch.jester.commonservices.api.reportengine/IReportResult#export(Lch.jester.commonservices.api.reportengine.IReportResult.ExportType;Ljava.io.OutputStream;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getReportEngine" id="ch.jester.commonservices.api.reportengine/IReportResult#getReportEngine()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="114,145">
+      <children xsi:type="editmodel:EnumerationEditModel" name="ExportType" size="114,143" id="ch.jester.commonservices.api.reportengine/IReportResult$ExportType">
+        <children xsi:type="editmodel:CompartmentEditModel" size="51,90">
+          <children xsi:type="editmodel:EnumerationLiteralEditModel" name="HTML" id="ch.jester.commonservices.api.reportengine/IReportResult$ExportType#HTML%"/>
+          <children xsi:type="editmodel:EnumerationLiteralEditModel" name="CSV" id="ch.jester.commonservices.api.reportengine/IReportResult$ExportType#CSV%"/>
+          <children xsi:type="editmodel:EnumerationLiteralEditModel" name="EXCEL" id="ch.jester.commonservices.api.reportengine/IReportResult$ExportType#EXCEL%"/>
+          <children xsi:type="editmodel:EnumerationLiteralEditModel" name="PDF" id="ch.jester.commonservices.api.reportengine/IReportResult$ExportType#PDF%"/>
+          <children xsi:type="editmodel:EnumerationLiteralEditModel" name="XML" id="ch.jester.commonservices.api.reportengine/IReportResult$ExportType#XML%"/>
+        </children>
+      </children>
+    </children>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.2/@sourceConnections.2" name="IReportRepository" location="149,29" size="722,185" id="ch.jester.commonservices.api.reportengine/IReportRepository">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="699,108">
+      <children xsi:type="editmodel:MethodEditModel" name="createBundleReport" id="ch.jester.commonservices.api.reportengine/IReportRepository#createBundleReport(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createFSReport" id="ch.jester.commonservices.api.reportengine/IReportRepository#createFSReport(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="deleteReport" id="ch.jester.commonservices.api.reportengine/IReportRepository#deleteReport(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getInstallationDir" id="ch.jester.commonservices.api.reportengine/IReportRepository#getInstallationDir()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getReport" id="ch.jester.commonservices.api.reportengine/IReportRepository#getReport(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getReports" id="ch.jester.commonservices.api.reportengine/IReportRepository#getReports()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="IReportEngine" location="405,689" size="379,131" id="ch.jester.commonservices.api.reportengine/IReportEngine">
+    <children xsi:type="editmodel:CompartmentEditModel" size="169,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="tEMPLATE_DIRECTROY" id="ch.jester.commonservices.api.reportengine/IReportEngine#tEMPLATE_DIRECTROY"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="356,36">
+      <children xsi:type="editmodel:MethodEditModel" name="generate" id="ch.jester.commonservices.api.reportengine/IReportEngine#generate(Lch.jester.commonservices.api.reportengine.IReport;Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getRepository" id="ch.jester.commonservices.api.reportengine/IReportEngine#getRepository()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="ch.jester.commonservices.api.reportengine/IReportEngine-Soyatec::Import->ch.jester.commonservices.api.reportengine/IReport" source="//@children.2" target="//@children.3" targetEnd="//@children.2/@sourceConnections.0/@children.2" label="//@children.2/@sourceConnections.0/@children.0" sourceEnd="//@children.2/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="235,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="45,203"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="ch.jester.commonservices.api.reportengine/IReportEngine-Soyatec::Import->ch.jester.commonservices.api.reportengine/IReportResult" source="//@children.2" target="//@children.0" targetEnd="//@children.2/@sourceConnections.1/@children.2" label="//@children.2/@sourceConnections.1/@children.0" sourceEnd="//@children.2/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="43,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="284,304"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="ch.jester.commonservices.api.reportengine/IReportEngine-Soyatec::Import->ch.jester.commonservices.api.reportengine/IReportRepository" source="//@children.2" target="//@children.1" targetEnd="//@children.2/@sourceConnections.2/@children.2" label="//@children.2/@sourceConnections.2/@children.0" sourceEnd="//@children.2/@sourceConnections.2/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="189,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="445,185"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.4/@sourceConnections.0 //@children.2/@sourceConnections.0" name="IReport" location="920,29" size="234,203" id="ch.jester.commonservices.api.reportengine/IReport" runTimeClassModel="getAlias(),setAlias(Ljava.lang.String;),getInstalledFileAsStream(),setInstalledFile(Ljava.io.File;),getVisibleName(),setVisibleName(Ljava.lang.String;),getInstalledFile()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="211,126">
+      <children xsi:type="editmodel:MethodEditModel" name="getAlias" id="ch.jester.commonservices.api.reportengine/IReport#getAlias()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getInstalledFile" id="ch.jester.commonservices.api.reportengine/IReport#getInstalledFile()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getInstalledFileAsStream" id="ch.jester.commonservices.api.reportengine/IReport#getInstalledFileAsStream()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getVisibleName" location="5,120" id="ch.jester.commonservices.api.reportengine/IReport#getVisibleName()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setAlias" id="ch.jester.commonservices.api.reportengine/IReport#setAlias(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setInstalledFile" id="ch.jester.commonservices.api.reportengine/IReport#setInstalledFile(Ljava.io.File;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setVisibleName" id="ch.jester.commonservices.api.reportengine/IReport#setVisibleName(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="IBundleReport" location="915,331" size="243,203" id="ch.jester.commonservices.api.reportengine/IBundleReport" runTimeClassModel="getBundle(),setBundleReportFile(Ljava.lang.String;),getBundleReportFile(),setBundleSourceRoot(Ljava.lang.String;),setBundle(Lorg.osgi.framework.Bundle;),getBundleFileAsStream(),getBundleSourceRoot()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="220,126">
+      <children xsi:type="editmodel:MethodEditModel" name="getBundle" id="ch.jester.commonservices.api.reportengine/IBundleReport#getBundle()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getBundleFileAsStream" id="ch.jester.commonservices.api.reportengine/IBundleReport#getBundleFileAsStream()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getBundleReportFile" id="ch.jester.commonservices.api.reportengine/IBundleReport#getBundleReportFile()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getBundleSourceRoot" id="ch.jester.commonservices.api.reportengine/IBundleReport#getBundleSourceRoot()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setBundle" id="ch.jester.commonservices.api.reportengine/IBundleReport#setBundle(Lorg.osgi.framework.Bundle;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setBundleReportFile" id="ch.jester.commonservices.api.reportengine/IBundleReport#setBundleReportFile(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setBundleSourceRoot" id="ch.jester.commonservices.api.reportengine/IBundleReport#setBundleSourceRoot(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="ch.jester.commonservices.api.reportengine/IReport&lt;-ch.jester.commonservices.api.reportengine/IBundleReport" source="//@children.4" target="//@children.3" targetEnd="//@children.4/@sourceConnections.0/@children.1" sourceEnd="//@children.4/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="121,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="116,203"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+</editmodel:ClassDiagramEditModel>

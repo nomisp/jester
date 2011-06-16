@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="CD_Bundle_API" size="1361,778" id="" metadata="uml2-1.0" initialized="true" zoom="0.75" scrolledX="222" tag="1000" key="32303037303533312D313030302063682E6A65737465722E636F6D6D6F6E73657276696365732E6170692F74313137323231">
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.1/@sourceConnections.0" name="IActivationContext" location="360,284" size="233,203" id="ch.jester.commonservices.api.bundle/IActivationContext" runTimeClassModel="getLogger(),getService(Ljava.lang.Class;),getLogger(Ljava.lang.Class;),getPluginId(),getServiceUtil(),getActivator(),getBundleContext()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="210,126">
+      <children xsi:type="editmodel:MethodEditModel" name="getActivator" id="ch.jester.commonservices.api.bundle/IActivationContext#getActivator()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getBundleContext" id="ch.jester.commonservices.api.bundle/IActivationContext#getBundleContext()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getLogger" id="ch.jester.commonservices.api.bundle/IActivationContext#getLogger(Ljava.lang.Class;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getLogger" id="ch.jester.commonservices.api.bundle/IActivationContext#getLogger()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getPluginId" id="ch.jester.commonservices.api.bundle/IActivationContext#getPluginId()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getService" id="ch.jester.commonservices.api.bundle/IActivationContext#getService(Ljava.lang.Class;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getServiceUtil" id="ch.jester.commonservices.api.bundle/IActivationContext#getServiceUtil()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="ch.jester.commonservices.api.bundle/IActivationContext-Soyatec::Import->org.osgi.framework/BundleContext" source="//@children.0" target="//@children.3" targetEnd="//@children.0/@sourceConnections.0/@children.2" label="//@children.0/@sourceConnections.0/@children.0" sourceEnd="//@children.0/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="233,102" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,101"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.2/@sourceConnections.0" name="IActivationContextProvider" location="435,75" size="264,95" id="ch.jester.commonservices.api.bundle/IActivationContextProvider" runTimeClassModel="getActivationContext()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="241,18">
+      <children xsi:type="editmodel:MethodEditModel" name="getActivationContext" id="ch.jester.commonservices.api.bundle/IActivationContextProvider#getActivationContext()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="ch.jester.commonservices.api.bundle/IActivationContextProvider-Soyatec::Import->ch.jester.commonservices.api.bundle/IActivationContext" source="//@children.1" target="//@children.0" targetEnd="//@children.1/@sourceConnections.0/@children.2" label="//@children.1/@sourceConnections.0/@children.0" sourceEnd="//@children.1/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="78,95" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="153,0"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="IDelegationActivator" location="824,75" size="247,113" id="ch.jester.commonservices.api.bundle/IDelegationActivator" runTimeClassModel="stopDelegate(Lorg.osgi.framework.BundleContext;),startDelegate(Lorg.osgi.framework.BundleContext;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="224,36">
+      <children xsi:type="editmodel:MethodEditModel" name="startDelegate" id="ch.jester.commonservices.api.bundle/IDelegationActivator#startDelegate(Lorg.osgi.framework.BundleContext;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="stopDelegate" id="ch.jester.commonservices.api.bundle/IDelegationActivator#stopDelegate(Lorg.osgi.framework.BundleContext;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="ch.jester.commonservices.api.bundle/IActivationContextProvider&lt;-ch.jester.commonservices.api.bundle/IDelegationActivator" source="//@children.2" target="//@children.1" targetEnd="//@children.2/@sourceConnections.0/@children.1" sourceEnd="//@children.2/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,47" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="264,47"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="ch.jester.commonservices.api.bundle/IDelegationActivator-Soyatec::Import->org.osgi.framework/BundleContext" source="//@children.2" target="//@children.3" targetEnd="//@children.2/@sourceConnections.1/@children.2" label="//@children.2/@sourceConnections.1/@children.0" sourceEnd="//@children.2/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="123,113" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="165,0"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.2/@sourceConnections.1 //@children.0/@sourceConnections.0" name="BundleContext" location="782,285" size="559,473" id="org.osgi.framework/BundleContext" runTimeClassModel="registerService(Ljava.lang.String;Ljava.lang.Object;Ljava.util.Dictionary;),getBundle(),getServiceReference(Ljava.lang.String;),getBundles(),addFrameworkListener(Lorg.osgi.framework.FrameworkListener;),registerService([Ljava.lang.String;Ljava.lang.Object;Ljava.util.Dictionary;),getBundle(J),addBundleListener(Lorg.osgi.framework.BundleListener;),removeBundleListener(Lorg.osgi.framework.BundleListener;),getServiceReferences(Ljava.lang.String;Ljava.lang.String;),getAllServiceReferences(Ljava.lang.String;Ljava.lang.String;),addServiceListener(Lorg.osgi.framework.ServiceListener;Ljava.lang.String;),installBundle(Ljava.lang.String;),ungetService(Lorg.osgi.framework.ServiceReference;),removeFrameworkListener(Lorg.osgi.framework.FrameworkListener;),createFilter(Ljava.lang.String;),removeServiceListener(Lorg.osgi.framework.ServiceListener;),getService(Lorg.osgi.framework.ServiceReference;),getDataFile(Ljava.lang.String;),addServiceListener(Lorg.osgi.framework.ServiceListener;),getProperty(Ljava.lang.String;),installBundle(Ljava.lang.String;Ljava.io.InputStream;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="536,396">
+      <children xsi:type="editmodel:MethodEditModel" name="addBundleListener" id="org.osgi.framework/BundleContext#addBundleListener(Lorg.osgi.framework.BundleListener;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addFrameworkListener" id="org.osgi.framework/BundleContext#addFrameworkListener(Lorg.osgi.framework.FrameworkListener;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addServiceListener" id="org.osgi.framework/BundleContext#addServiceListener(Lorg.osgi.framework.ServiceListener;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addServiceListener" id="org.osgi.framework/BundleContext#addServiceListener(Lorg.osgi.framework.ServiceListener;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createFilter" id="org.osgi.framework/BundleContext#createFilter(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getAllServiceReferences" id="org.osgi.framework/BundleContext#getAllServiceReferences(Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getBundle" id="org.osgi.framework/BundleContext#getBundle()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getBundle" id="org.osgi.framework/BundleContext#getBundle(J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getBundles" id="org.osgi.framework/BundleContext#getBundles()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDataFile" id="org.osgi.framework/BundleContext#getDataFile(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getProperty" id="org.osgi.framework/BundleContext#getProperty(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getService" id="org.osgi.framework/BundleContext#getService(Lorg.osgi.framework.ServiceReference;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getServiceReference" id="org.osgi.framework/BundleContext#getServiceReference(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getServiceReferences" id="org.osgi.framework/BundleContext#getServiceReferences(Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="installBundle" id="org.osgi.framework/BundleContext#installBundle(Ljava.lang.String;Ljava.io.InputStream;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="installBundle" id="org.osgi.framework/BundleContext#installBundle(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="registerService" id="org.osgi.framework/BundleContext#registerService(Ljava.lang.String;Ljava.lang.Object;Ljava.util.Dictionary;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="registerService" id="org.osgi.framework/BundleContext#registerService([Ljava.lang.String;Ljava.lang.Object;Ljava.util.Dictionary;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeBundleListener" id="org.osgi.framework/BundleContext#removeBundleListener(Lorg.osgi.framework.BundleListener;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeFrameworkListener" id="org.osgi.framework/BundleContext#removeFrameworkListener(Lorg.osgi.framework.FrameworkListener;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeServiceListener" id="org.osgi.framework/BundleContext#removeServiceListener(Lorg.osgi.framework.ServiceListener;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="ungetService" id="org.osgi.framework/BundleContext#ungetService(Lorg.osgi.framework.ServiceReference;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+</editmodel:ClassDiagramEditModel>

@@ -3,7 +3,14 @@ package ch.jester.commonservices.internal;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+/**
+ * @author  t117221
+ */
 public class Activator implements BundleActivator {
+	/**
+	 * @uml.property  name="mInstance"
+	 * @uml.associationEnd  
+	 */
 	private static Activator mInstance;
 	private BundleContext mContext;
 	public static Activator getDefault(){
