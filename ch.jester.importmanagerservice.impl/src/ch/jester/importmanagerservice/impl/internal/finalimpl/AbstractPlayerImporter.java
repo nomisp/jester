@@ -8,13 +8,21 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.common.importer.AbstractTableImporter;
 import ch.jester.common.utility.SubListIterator;
+import ch.jester.commonservices.api.importer.IDuplicateChecker;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
 
-public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T, Player> implements DuplicateChecker<Player> {
+/**
+ * @author  t117221
+ */
+public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T, Player> implements IDuplicateChecker<Player> {
+	/**
+	 * @uml.property  name="su"
+	 * @uml.associationEnd  
+	 */
 	protected ServiceUtility su = new ServiceUtility();
 	
 	@Override
