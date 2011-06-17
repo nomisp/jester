@@ -2,6 +2,7 @@ package ch.jester.orm;
 
 import java.sql.Connection;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import org.osgi.framework.BundleContext;
@@ -25,6 +26,8 @@ public class ORMPlugin extends AbstractUIActivator {
 
 	private static ORMAutoDBHandler handler;
 
+	private static EntityManager mManager;
+	
 	public ORMPlugin() {
 		mPlugin = this;
 	}
@@ -63,8 +66,18 @@ public class ORMPlugin extends AbstractUIActivator {
 		return getActivationContext().getPluginId();
 	}
 
-	public static EntityManagerFactory getJPAEntitManagerFactor() {
+	public static EntityManagerFactory getJPAEntityManagerFactory() {
 		return handler.getORMConfiguration().getJPAEntityManagerFactory();
+	}
+	public static EntityManager getJPAEntityManager() {
+		if(mManager==null){
+			synchronized (ORMPlugin.class) {
+				if(mManager==null){
+					mManager = getJPAEntityManagerFactory().createEntityManager();
+				}
+			}
+		}
+		return mManager;
 	}
 
 	/**

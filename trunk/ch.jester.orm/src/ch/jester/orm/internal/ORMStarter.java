@@ -38,7 +38,7 @@ public class ORMStarter implements IStartup{
 					dialog.run(true, false, new IRunnableWithProgress(){ 
 					    public void run(IProgressMonitor monitor) { 
 					    	monitor.beginTask("Initialize Database... please be patient", IProgressMonitor.UNKNOWN);
-							ORMPlugin.getJPAEntitManagerFactor();
+							ORMPlugin.getJPAEntityManagerFactory();
 							final StatusLineContributionItem ss =new StatusLineContributionItem("LoggedInStatus");
 							ORMPlugin.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class).appendToGroup(StatusLineManager.END_GROUP, ss);
 							ServiceUtility su = new ServiceUtility();
