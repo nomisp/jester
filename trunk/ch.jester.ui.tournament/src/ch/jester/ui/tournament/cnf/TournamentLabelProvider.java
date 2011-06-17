@@ -11,7 +11,7 @@ import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
-import ch.jester.ui.tournament.cnf.TournamentContentProvider.PlayerFolder;
+
 import ch.jester.ui.tournament.internal.Activator;
 
 /**

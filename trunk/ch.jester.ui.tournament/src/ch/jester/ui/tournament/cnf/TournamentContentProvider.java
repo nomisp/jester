@@ -65,8 +65,17 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 					@Override
 					public void run() {
 						Object o[] = viewer.getExpandedElements();
-						viewer.setExpandedState(o[o.length-1], true);
-						viewer.refresh(o[o.length-1], false);
+						viewer.setExpandedElements(o);
+						TreePath[] paths = viewer.getExpandedTreePaths();
+						paths[0].getLastSegment();
+
+						viewer.refresh();
+						viewer.setExpandedTreePaths(paths);
+						
+						for(TreePath path:paths){
+							Object lastLeaf = path.getLastSegment();
+							viewer.expandToLevel(lastLeaf, path.getSegmentCount());
+						}
 					}
 				});	
 			}
@@ -175,11 +184,7 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 		return EMPTY_ARRAY;
 	}
 	
-	private Object[] getPlayers(Category category) {
-		Object[] players = category.getPlayers().toArray();
-		if (players != null) return players;
-		return EMPTY_ARRAY;
-	}
+
 	
 //	private Object[] getRounds(Category category) {
 //		Object[] rounds = category.getRounds().toArray();
@@ -239,20 +244,5 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 		}
 	}
 	
-	public class PlayerFolder {
-		private Object[] players;
-		private Object parent;
-		public PlayerFolder(Category cat) {
-			parent = cat;
-			players = getPlayers(cat);
-		}
-		
-		public Object[] getElements() {
-			return players;
-		}
-		
-		public Object getParent() {
-			return parent;
-		}
-	}
+
 }
