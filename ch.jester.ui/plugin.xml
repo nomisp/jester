@@ -62,6 +62,18 @@
                standalone="false"
                visible="true">
          </view>
+         <view
+               closeable="false"
+               id="ch.jester.ui.view.players"
+               minimized="false"
+               moveable="true"
+               ratio="0.5f"
+               relationship="bottom"
+               relative="ch.jester.ui.tournament.cnf.view"
+               showTitle="true"
+               standalone="false"
+               visible="true">
+         </view>
       </perspectiveExtension>
    </extension>
    <extension

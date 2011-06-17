@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.navigator.CommonViewer;
 
@@ -18,6 +20,7 @@ import ch.jester.commonservices.api.persistency.IDatabaseStateService.State;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
+import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.ICategoryDao;
 import ch.jester.model.Category;
@@ -37,7 +40,7 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 	private static final Object[] EMPTY_ARRAY = new Object[0];
 	private Tournament[] tournaments;
 	private ServiceUtility su = new ServiceUtility();
-	private Viewer viewer;
+	private CommonViewer viewer;
 	
 	public TournamentContentProvider() {
 		IPersistencyEventQueue queue = su.getService(IPersistencyEventQueue.class);
@@ -51,6 +54,19 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 					@Override
 					public void run() {
 						viewer.refresh();
+					}
+				});	
+			}
+		});
+		queue.addListener(new PersistencyListener(new EventLoadMatchingFilter(Category.class)) {		
+			@Override
+			public void persistencyEvent(IPersistencyEvent pEvent) {
+				UIUtility.syncExecInUIThread(new Runnable() {
+					@Override
+					public void run() {
+						Object o[] = viewer.getExpandedElements();
+						viewer.setExpandedState(o[o.length-1], true);
+						viewer.refresh(o[o.length-1], false);
 					}
 				});	
 			}
@@ -114,7 +130,7 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		this.viewer = viewer;
+		this.viewer = (CommonViewer) viewer;
 		AdapterBinding binding = new AdapterBinding(((CommonViewer) viewer).getCommonNavigator());
 		binding.add(this, IHandlerDelete.class);
 		binding.bind();
@@ -207,7 +223,8 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 //	}
 
 	@Override
-	public void handleDelete(List<IEntityObject> pList) {
+	public void handleDelete(List<IEntityObject> pList) throws ProcessingException{
+		try{
 		for(IEntityObject t:pList){
 			if (t instanceof Tournament) {
 				IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);
@@ -216,6 +233,9 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 				IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);
 				tournamentPersister.delete(((Category)t).getTournament());
 			}
+		}
+		}catch(Exception e){
+			throw new ProcessingException(e);
 		}
 	}
 	

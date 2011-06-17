@@ -134,6 +134,15 @@
          </instanceof>
 	      	</or>
 		  </possibleChildren>
+       <dropAssistant
+             class="ch.jester.ui.tournament.CommonDropPlayerAdapter"
+             id="ch.jester.ui.tournament.dropAssistant1">
+          <possibleDropTargets>
+             <instanceof
+                   value="ch.jester.model.Category">
+             </instanceof>
+          </possibleDropTargets>
+       </dropAssistant>
 	   </navigatorContent>
    </extension>
    <extension
