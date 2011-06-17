@@ -13,6 +13,7 @@ import org.eclipse.core.databinding.property.Properties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.part.ViewPart;
@@ -31,6 +32,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 //import ch.jester.commonservices.api.persistency.IDBStartupListener;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
@@ -109,19 +111,40 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 		}
 	}
 	@Override
-	public void handleDelete(final List<T> pList) {
-		
-		UIUtility.syncExecInUIThread(new Runnable() {
+	public void handleDelete(final List<T> pList) throws ProcessingException {
+		ProcessingException exception;
+		abstract class ExceptionRunnable implements Runnable {
+			ProcessingException e;
+			public ProcessingException getException(){
+				return e;
+			}
+			public void setException(ProcessingException e){
+				this.e=e;
+			}
+		};
+		ExceptionRunnable runner;
+		UIUtility.syncExecInUIThread(runner = new ExceptionRunnable() {
+			
 			@Override
 			public void run() {
 				synchronized(persister){
-				persister.delete(pList);
-				obsModel.removeAll(pList);
-				context.updateTargets();
+				try{
+					persister.delete(pList);
+					obsModel.removeAll(pList);
+					context.updateTargets();
+				}catch(ProcessingException e){
+					setException(e);
+				
+				}catch(RuntimeException e){
+					setException(new ProcessingException(e));
+				}
 				}
 				
 			}
 		});
+		if(runner.getException()!=null){
+			throw runner.getException();
+		}
 
 	}
 	
