@@ -38,9 +38,11 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	public GenericPersister(){
 		Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		mClz = (Class<T>) actualTypeArgument;
+		check();
 	}
 	public GenericPersister(Class<T> clz){
 		mClz = clz;
+		check();
 	}	
 	private void fireEvent(Object pLoad, PersistencyEvent.Operation pOperation){
 		Assert.isNotNull(mEventQueue, "The PersistencyEventQueue is not running");
@@ -54,10 +56,10 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	}
 	private void check(){
 		if(mFactory==null){
-			mFactory = ORMPlugin.getJPAEntitManagerFactor();
+			mFactory = ORMPlugin.getJPAEntityManagerFactory();
 		}
 		if(mManager==null){
-			mManager = mFactory.createEntityManager();
+			mManager = ORMPlugin.getJPAEntityManager();
 			mPagingQuery = getPagingQuery();
 			mCountQuery = getCountQuery();
 		}
@@ -71,7 +73,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		if(pTCollection.isEmpty()){
 			return;
 		}
-		check();
+		//check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		for(T p:pTCollection){
@@ -96,7 +98,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	
 	@Override
 	public void save(T pT) {
-		check();
+	//	check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		if(pT.getId()!=null){
@@ -119,7 +121,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	@Override
 	public void delete(T pT) {
 		if(pT.getId()==null){return;}
-		check();
+		//check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		IEntityObject p = mManager.find(pT.getClass(), pT.getId());
@@ -130,7 +132,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	
 	@Override
 	public void delete(Collection<T> pTCollection) {
-		check();
+		//check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		for(T pT:pTCollection){
@@ -147,14 +149,14 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	public void close() {
 		fireManualNotification();
 		if(mManager!=null){
-			mManager.close();
+		//	mManager.close();
 		}
 		//mFactory.close();
 	}
 
 	@Override
 	public List<T> getAll() {
-		check();
+		//check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		@SuppressWarnings("unchecked")
@@ -165,7 +167,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 
 	@Override
 	public List<T> executeNamedQuery(String namedQuery) {
-		check();
+		//check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		@SuppressWarnings("unchecked")
@@ -211,7 +213,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	}
 	@Override
 	public int count() {
-		check();
+		//check();
 		EntityTransaction trx = mManager.getTransaction();
 		trx.begin();
 		int result = ((Long) mCountQuery.getSingleResult()).intValue();
@@ -220,7 +222,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	}
 	@Override
 	public List<T> getFromTo(int from, int to) {
-		check();
+		//check();
 		watch.start();
 		mManager.getTransaction().begin();
 		List<T> result =  mPagingQuery.setMaxResults(to-from).setFirstResult(from).getResultList();
@@ -246,7 +248,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	}
 	@Override
 	public Query createNamedQuery(String query) {
-		check();
+		//check();
 		return mManager.createNamedQuery(query);
 	}
 	@Override
