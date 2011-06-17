@@ -92,7 +92,7 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 	 */
 	private SettingItem retrieveSettingItem() {
 		settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
-		EntityManagerFactory emf = ORMPlugin.getJPAEntitManagerFactor();
+		EntityManagerFactory emf = ORMPlugin.getJPAEntityManagerFactory();
 		EntityManager entityManager = emf.createEntityManager();
 		tournament = (Tournament)entityManager.createQuery("select t from Tournament t where t.name = :tName")
 								.setParameter("tName", "SettingsTestTournament").getSingleResult();
