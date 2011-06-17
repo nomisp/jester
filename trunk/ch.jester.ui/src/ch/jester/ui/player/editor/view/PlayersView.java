@@ -1,16 +1,24 @@
 package ch.jester.ui.player.editor.view;
 
+
 import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.dnd.DragSourceListener;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
@@ -128,6 +136,37 @@ public class PlayersView extends AbstractView{
 		binding.add(mController, DaoController.class, IHandlerDelete.class, IHandlerAdd.class, IHandlerEditor.class);
 		binding.add(mController.getPageController(), PageController.class);
 		binding.bind();
+		Transfer[] transferTypes = new Transfer[]{LocalSelectionTransfer.getTransfer()};
+		tableViewer.addDragSupport(DND.DROP_COPY | DND.DROP_MOVE, transferTypes, new DNDListener());
 	}
 
+	class DNDListener implements DragSourceListener{
+
+		@Override
+		public void dragStart(DragSourceEvent event) {
+			
+			System.out.println(event);
+			
+		}
+
+		@Override
+		public void dragSetData(DragSourceEvent event) {
+			// Here you do the convertion to the type which is expected.
+			IStructuredSelection selection = (IStructuredSelection) tableViewer
+			.getSelection();
+
+				LocalSelectionTransfer.getTransfer().setSelection(selection);
+
+
+		}
+
+		@Override
+		public void dragFinished(DragSourceEvent event) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		
+	}
+	
 }
