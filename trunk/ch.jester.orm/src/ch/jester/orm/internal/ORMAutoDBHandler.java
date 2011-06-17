@@ -83,7 +83,7 @@ public class ORMAutoDBHandler implements IPropertyChangeListener{
 		}else{
 			IConfigurationElement[] elements =  ExtensionPointUtil.getExtensionPointElements(ormPlugin.getPluginId(), ORMPlugin.EP_CONFIGURATION);
 			for(IConfigurationElement c:elements){
-				if(c.getContributor().getName()==configuredDBBundle.getSymbolicName()){
+				if(c.getContributor().getName().equals(configuredDBBundle.getSymbolicName())){
 					usedElement = c;
 					//String sub = usedElement.getAttribute("Subprotocol");
 					usedBundle = configuredDBBundle;
