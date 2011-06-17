@@ -122,6 +122,56 @@
                visible="true">
          </separator>
          <command
+               commandId="ch.jester.ui.activate"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false">
+                     <instanceof
+                           value="ch.jester.model.Tournament">
+                     </instanceof>
+                     <and>
+                        <test
+                              args="active"
+                              property="ch.jester.properties.beantest"
+                              value="false">
+                        </test>
+                     </and>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="ch.jester.ui.deactivate"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false">
+                     <instanceof
+                           value="ch.jester.model.Tournament">
+                     </instanceof>
+                     <and>
+                        <test
+                              args="active"
+                              property="ch.jester.properties.beantest"
+                              value="true">
+                        </test>
+                     </and>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <separator
+               name="ch.jester.ui.separator3"
+               visible="true">
+         </separator>
+         <command
                commandId="org.eclipse.ui.edit.copy"
                style="push">
          </command>
@@ -248,6 +298,14 @@
             id="ch.jester.ui.add.pulldown"
             name="ch.jester.ui.add.pulldown">
       </command>
+      <command
+            id="ch.jester.ui.activate"
+            name="%Activate">
+      </command>
+      <command
+            id="ch.jester.ui.deactivate"
+            name="%Deactivate">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
@@ -338,6 +396,13 @@
             properties="controlled"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="ch.jester.ui.BeanStringPropertyTester"
+            id="ch.jester.ui.beanpropertytester"
+            namespace="ch.jester.properties"
+            properties="beantest"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -385,6 +450,14 @@
                   definitionId="ch.jester.ui.pagecontroller.back">
             </reference>
          </activeWhen>
+      </handler>
+      <handler
+            class="ch.jester.ui.handlers.ActivateHandler"
+            commandId="ch.jester.ui.activate">
+      </handler>
+      <handler
+            class="ch.jester.ui.handlers.DeactivateHandler"
+            commandId="ch.jester.ui.deactivate">
       </handler>
    </extension>
    <extension
