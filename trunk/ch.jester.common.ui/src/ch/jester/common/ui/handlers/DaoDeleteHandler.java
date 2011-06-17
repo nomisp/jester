@@ -15,8 +15,11 @@ import ch.jester.common.ui.handlers.api.IHandlerDelete;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.utility.AdapterUtility;
+import ch.jester.common.utility.ExceptionUtility;
+import ch.jester.common.utility.ExceptionWrapper;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IEntityObject;
+import ch.jester.commonservices.exceptions.ProcessingException;
 
 
 public class DaoDeleteHandler extends AbstractCommandHandler {
@@ -30,7 +33,12 @@ public class DaoDeleteHandler extends AbstractCommandHandler {
 
 			@Override
 			public IStatus run(IProgressMonitor monitor) {
-				delete(monitor);
+				try{
+					delete(monitor);
+				}catch(ProcessingException e){
+					ExceptionWrapper wrapper = ExceptionUtility.wrap(e);
+					return new Status(IStatus.ERROR, Activator.getDefault().getActivationContext().getPluginId(), wrapper.getThrowableMessage(), e);
+				}
 				return Status.OK_STATUS;
 			}
 			
@@ -38,12 +46,13 @@ public class DaoDeleteHandler extends AbstractCommandHandler {
 		};
 		//job.setUser(true);
 		job.schedule();
+		
 	
 		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
-	private Object delete(IProgressMonitor monitor){
+	private Object delete(IProgressMonitor monitor) throws ProcessingException{
 		ISelection selection = getSelection();
 		monitor.setTaskName("Deleting...");
 		monitor.beginTask("deleting", getSelectionCount()*2);
