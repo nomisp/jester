@@ -20,6 +20,7 @@ import ch.jester.model.Category;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.factories.ModelFactory;
+import ch.jester.ui.tournament.cnf.PlayerFolder;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
 import ch.jester.ui.tournament.internal.Activator;
 
@@ -54,6 +55,12 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 //			}
 //		}
 		Category cat = getFirstSelectedAs(Category.class);
+		if(cat==null){
+			PlayerFolder folder = getFirstSelectedAs(PlayerFolder.class);
+			if(folder!=null){
+				cat = (Category) folder.getParent();
+			}
+		}
 		if(cat!=null){
 			selectedCategory = cat;
 //			openEditor(cat);

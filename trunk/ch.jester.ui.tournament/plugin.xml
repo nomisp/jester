@@ -38,13 +38,16 @@
             allPopups="false"
             locationURI="popup:ch.jester.ui.tournament.cnf.popup?after=group.edit">
          <command
-               commandId="org.eclipse.ui.edit.delete"
-               icon="icons/tournament_delete.png"
-               id="cnf.popup.delete"
-               label="%DeleteTournament"
-               mnemonic="D"
-               style="push">
+               commandId="ch.jester.ui.tournament.pairing"
+               icon="icons/pairing_go.png"
+               label="%RunPairing"
+               style="push"
+               tooltip="%TTrunPairing">
          </command>
+         <separator
+               name="ch.jester.ui.tournament.separator1"
+               visible="true">
+         </separator>
          <command
                commandId="cnf.popup.addPlayer"
                icon="icons/player_add.png"
@@ -54,11 +57,23 @@
                tooltip="%TTaddPlayer">
          </command>
          <command
-               commandId="ch.jester.ui.tournament.pairing"
-               icon="icons/pairing_go.png"
-               label="%RunPairing"
+               commandId="cnf.popup.removePlayer"
+               icon="icons/player_delete.png"
+               label="%RemovePlayer"
                style="push"
-               tooltip="%TTrunPairing">
+               tooltip="%TTremovePlayer">
+         </command>
+         <separator
+               name="ch.jester.ui.tournament.separator2"
+               visible="true">
+         </separator>
+         <command
+               commandId="cnf.popup.deleteTournament"
+               icon="icons/tournament_delete.png"
+               id="cnf.popup.delete"
+               label="%DeleteTournament"
+               mnemonic="D"
+               style="push">
          </command>
          <command
                commandId="ch.jester.ui.tournament.edittournament"
@@ -90,6 +105,14 @@
             description="%EditTournamentDescr"
             id="ch.jester.ui.tournament.edittournament"
             name="%EditTournament">
+      </command>
+      <command
+            id="cnf.popup.removePlayer"
+            name="%RemovePlayer">
+      </command>
+      <command
+            id="cnf.popup.deleteTournament"
+            name="%DeleteTournament">
       </command>
    </extension>
    <extension
@@ -187,13 +210,36 @@
             class="ch.jester.ui.tournament.handler.AddPlayerHandler"
             commandId="cnf.popup.addPlayer">
          <activeWhen>
+            <or>
+               <reference
+                     definitionId="ch.jester.ui.tournament.categorySelected">
+               </reference>
+               <reference
+                     definitionId="ch.jester.ui.tournament.playerFolderSelected">
+               </reference>
+            </or>
+         </activeWhen>
+         <enabledWhen>
+            <or>
+               <reference
+                     definitionId="ch.jester.ui.tournament.categorySelected">
+               </reference>
+               <reference
+                     definitionId="ch.jester.ui.tournament.playerFolderSelected">
+               </reference></or>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="ch.jester.ui.tournament.handler.RemovePlayerHandler"
+            commandId="cnf.popup.removePlayer">
+         <activeWhen>
             <reference
-                  definitionId="ch.jester.ui.tournament.categorySelected">
+                  definitionId="ch.jester.ui.tournament.playerSelected">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="ch.jester.ui.tournament.categorySelected">
+                  definitionId="ch.jester.ui.tournament.playerSelected">
             </reference>
          </enabledWhen>
       </handler>
@@ -214,6 +260,15 @@
       <handler
             class="ch.jester.ui.tournament.handler.EditTournamentHandler"
             commandId="ch.jester.ui.tournament.edittournament">
+         <activeWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.tournamentSelected">
+            </reference>
+         </activeWhen>
+      </handler>
+      <handler
+            class="ch.jester.common.ui.handlers.DaoDeleteHandler"
+            commandId="cnf.popup.deleteTournament">
          <activeWhen>
             <reference
                   definitionId="ch.jester.ui.tournament.tournamentSelected">
@@ -276,6 +331,32 @@
                   </instanceof>
                </iterate>
             </or>
+         </with>
+      </definition>
+      <definition
+            id="ch.jester.ui.tournament.playerFolderSelected">
+         <with
+               variable="selection">
+            <iterate
+                  ifEmpty="false"
+                  operator="or">
+               <instanceof
+                     value="ch.jester.ui.tournament.cnf.PlayerFolder">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
+      <definition
+            id="ch.jester.ui.tournament.playerSelected">
+         <with
+               variable="selection">
+            <iterate
+                  ifEmpty="false"
+                  operator="or">
+               <instanceof
+                     value="ch.jester.model.Player">
+               </instanceof>
+            </iterate>
          </with>
       </definition>
    </extension>

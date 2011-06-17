@@ -17,7 +17,11 @@ public class DBCategoryPersister extends GenericPersister<Category> implements I
 
 	@Override
 	public Category findByPlayer(Player player) {
-		return super.executeNamedQuery("CategoryByPlayer", "player", player).get(0);
+		List<Category> list =  super.executeNamedQuery("CategoryByPlayer", "player", player);
+		if(list.isEmpty()){
+			return null;
+		}
+		return list.get(0);
 	}
 
 }
