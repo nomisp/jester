@@ -9,11 +9,13 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.model.Tournament;
 
 public class ActivateHandler extends AbstractCommandHandler {
-
+	public final String ACTIVATION_ID ="ch.jester.ui.tournamentactivation";
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
+		String parameter = mEvent.getParameter(ACTIVATION_ID);
+		boolean setActive = Boolean.parseBoolean(parameter);
 		Tournament selectedTournament = mSelUtility.getFirstSelectedAs(Tournament.class);
-		selectedTournament.setActive(true);
+		selectedTournament.setActive(setActive);
 		IDaoService<Tournament> tdao = getServiceUtil().getDaoServiceByEntity(Tournament.class);
 		tdao.save(selectedTournament);
 		tdao.close();

@@ -143,6 +143,10 @@
                   </iterate>
                </with>
             </visibleWhen>
+            <parameter
+                  name="ch.jester.ui.tournamentactivation"
+                  value="true">
+            </parameter>
          </command>
          <command
                commandId="ch.jester.ui.deactivate"
@@ -166,6 +170,10 @@
                   </iterate>
                </with>
             </visibleWhen>
+            <parameter
+                  name="ch.jester.ui.tournamentactivation"
+                  value="false">
+            </parameter>
          </command>
          <separator
                name="ch.jester.ui.separator3"
@@ -291,7 +299,7 @@
       </command>
       <command
             id="org.eclipse.ui.edit.delete"
-            name="Delete Player">
+            name="Delete">
       </command>
       <command
             defaultHandler="ch.jester.common.ui.handlers.PullDownHandler"
@@ -301,10 +309,20 @@
       <command
             id="ch.jester.ui.activate"
             name="%Activate">
+         <commandParameter
+               id="ch.jester.ui.tournamentactivation"
+               name="name"
+               optional="false">
+         </commandParameter>
       </command>
       <command
             id="ch.jester.ui.deactivate"
             name="%Deactivate">
+         <commandParameter
+               id="ch.jester.ui.tournamentactivation"
+               name="name"
+               optional="false">
+         </commandParameter>
       </command>
    </extension>
    <extension
@@ -397,7 +415,7 @@
             type="java.lang.Object">
       </propertyTester>
       <propertyTester
-            class="ch.jester.ui.BeanStringPropertyTester"
+            class="ch.jester.common.ui.handlers.BeanStringPropertyTester"
             id="ch.jester.ui.beanpropertytester"
             namespace="ch.jester.properties"
             properties="beantest"
@@ -452,12 +470,16 @@
          </activeWhen>
       </handler>
       <handler
-            class="ch.jester.ui.handlers.ActivateHandler"
             commandId="ch.jester.ui.activate">
+         <class
+               class="ch.jester.ui.handlers.ActivateHandler">
+         </class>
       </handler>
       <handler
-            class="ch.jester.ui.handlers.DeactivateHandler"
             commandId="ch.jester.ui.deactivate">
+         <class
+               class="ch.jester.ui.handlers.ActivateHandler">
+         </class>
       </handler>
    </extension>
    <extension
