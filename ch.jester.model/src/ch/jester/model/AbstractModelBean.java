@@ -19,7 +19,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlTransient;
 
-import ch.jester.common.model.AbstractPropertyChangeModel;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 
 @MappedSuperclass
