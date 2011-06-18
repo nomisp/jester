@@ -153,19 +153,5 @@
          </property>
       </product>
    </extension>
-   <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="ch.jester.rcpapplication.PreferencesInitializer">
-      </initializer>
-   </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            class="ch.jester.rcpapplication.GeneralPreferencePage"
-            id="ch.jester.rcpapplication.generalPrefPage"
-            name="%GeneralPreferences">
-      </page>
-   </extension>
 
 </plugin>
