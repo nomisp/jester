@@ -144,7 +144,7 @@ public class PlayersView extends AbstractView{
 		@Override
 		public void dragStart(DragSourceEvent event) {
 			
-			System.out.println(event);
+			//System.out.println(event);
 			
 		}
 
