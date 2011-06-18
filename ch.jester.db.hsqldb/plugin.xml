@@ -64,16 +64,10 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="ch.jester.orm.dbPrefPage"
-            class="ch.jester.db.hsqldb.HSQLPreferencePage"
+            class="ch.jester.orm.prefs.DataBaseSubPreferencePage"
             id="ch.jester.db.hsqldb.hsqlPrefPage"
             name="%HSQLPreferences">
       </page>
-   </extension>
-   <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="ch.jester.db.hsqldb.HSQLPreferenceInitializer">
-      </initializer>
    </extension>
 
 </plugin>

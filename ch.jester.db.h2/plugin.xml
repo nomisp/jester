@@ -19,5 +19,14 @@
          </Property>
       </Configuration>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.orm.dbPrefPage"
+            class="ch.jester.orm.prefs.DataBaseSubPreferencePage"
+            id="ch.jester.db.h2.h2Prefpage"
+            name="H2">
+      </page>
+   </extension>
 
 </plugin>

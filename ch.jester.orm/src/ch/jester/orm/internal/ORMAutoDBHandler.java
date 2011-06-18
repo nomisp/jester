@@ -6,7 +6,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
 import ch.jester.common.utility.ExtensionPointUtil;
@@ -14,6 +13,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.orm.IDatabaseManager;
 import ch.jester.orm.IORMConfiguration;
 import ch.jester.orm.ORMPlugin;
+import ch.jester.orm.ORMStoreHandler;
 
 public class ORMAutoDBHandler implements IPropertyChangeListener{
 	public static String DEFAULT_DATABASE = "ch.jester.orm.defaultdatabase";
@@ -59,7 +59,7 @@ public class ORMAutoDBHandler implements IPropertyChangeListener{
 
 	private void changeDataBase(Object newValue) {
 		System.out.println("new default db.plugin "+newValue);
-		PlatformUI.getWorkbench().restart();
+		ORMDBUtil.openRestartConfirmation();
 	}
 	
 	
@@ -120,6 +120,7 @@ public class ORMAutoDBHandler implements IPropertyChangeListener{
 			mConfig = (IORMConfiguration) element
 					.createExecutableExtension(ORMPlugin.EP_CONFIGURATION_ORMCONFIGURATION);
 			mConfig.setConfigElement(element);
+			mConfig.setORMStoreHandler(new ORMStoreHandler(mStore, element.getContributor()));
 			//nach hinten geschoben
 			if (dbmClassName != null) {
 				try {
@@ -147,5 +148,7 @@ public class ORMAutoDBHandler implements IPropertyChangeListener{
 	public String getDataBaseTypeName() {
 		return this.dbn;
 	}
+
+
 	
 }

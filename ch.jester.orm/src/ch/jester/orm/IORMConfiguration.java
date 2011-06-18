@@ -1,13 +1,19 @@
 package ch.jester.orm;
 
 import java.sql.Connection;
+import java.util.HashMap;
 
 import javax.persistence.EntityManagerFactory;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 
+import ch.jester.orm.internal.ORMAutoDBHandler;
+
+
 public interface IORMConfiguration {
 
+	public HashMap<String, String> getConfiguration();
+	
 	/**
 	 * liefert das Passwort	
 	 */
@@ -74,5 +80,7 @@ public interface IORMConfiguration {
 	public void setConfigElement(IConfigurationElement pElement);
 	
 	public EntityManagerFactory getJPAEntityManagerFactory();
+
+	public void setORMStoreHandler(ORMStoreHandler pHandler);
 
 }
