@@ -259,11 +259,13 @@
                label="Undo/Redo">
             <command
                   commandId="org.eclipse.ui.edit.undo"
+                  id="undoredo.undo"
                   label="Undo"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.edit.redo"
+                  id="undoredo.redo"
                   label="Redo"
                   style="push">
             </command>
@@ -433,6 +435,13 @@
             properties="beantest"
             type="java.lang.Object">
       </propertyTester>
+      <propertyTester
+            class="ch.jester.common.ui.handlers.UndoPropertyTester"
+            id="ch.jester.ui.undopropertytester"
+            namespace="ch.jester.properties"
+            properties="canundo"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -440,9 +449,17 @@
             class="ch.jester.common.ui.handlers.DaoDeleteHandler"
             commandId="org.eclipse.ui.edit.delete">
          <enabledWhen>
-            <reference
-                  definitionId="oneElementSelected">
-            </reference>
+            <and>
+               <reference
+                     definitionId="oneElementSelected">
+               </reference>
+               <with
+                     variable="activePart">
+                  <adapt
+                        type="ch.jester.common.ui.handlers.api.IHandlerDelete">
+                  </adapt>
+               </with>
+            </and>
          </enabledWhen>
       </handler>
       <handler

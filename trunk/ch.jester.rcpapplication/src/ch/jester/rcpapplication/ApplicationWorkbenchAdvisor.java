@@ -3,16 +3,12 @@ package ch.jester.rcpapplication;
 import java.text.DateFormat;
 import java.util.Date;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
-import org.eclipse.ui.progress.UIJob;
 import org.eclipselabs.p2.rcpupdate.utils.P2Util;
 
 import ch.jester.commonservices.api.logging.ILogger;

@@ -22,6 +22,7 @@ import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
+
 public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor implements IDirtyListener, IDirtyManagerProvider{
 	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
 	protected IEditorDaoInputAccess<T> mDaoInput;
@@ -49,10 +50,12 @@ public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor
 		
 		getPartService().addPartListener(mPart2Listener);
 		internalInit(site, mDaoInput);
+		
 	}
 	public void internalInit(IEditorSite site, IEditorDaoInputAccess<T> input){
 		
 	}
+
 
 	public void setDaoService(IDaoService<T> dao){
 		mLogger.debug(this+" setting dao to "+dao);

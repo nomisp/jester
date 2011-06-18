@@ -4,6 +4,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.operations.UndoActionHandler;
 
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
@@ -20,6 +21,7 @@ public class PlayerEditor extends AbstractEditor<Player>{
 	public PlayerEditor() {
 		super(false);
 		mLogger.debug("New player editor "+this);
+		
 	}
 
 
@@ -28,6 +30,7 @@ public class PlayerEditor extends AbstractEditor<Player>{
 		
 		//mPlayerDetails = new PlayerDetailsView(container, SWT.NONE);
 		//mPlayerDetails.setBounds(0, 0, 365, 300);
+		
 		mPlayerDetails = (PlayerFormPage) parent;
 		mPlayerDetailsController = mPlayerDetails.getController();			
 		mPlayerDetailsController.setPlayer(mDaoInput.getInput());	

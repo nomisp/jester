@@ -17,7 +17,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DragSourceListener;
-import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -152,10 +151,8 @@ public class PlayersView extends AbstractView{
 		@Override
 		public void dragSetData(DragSourceEvent event) {
 			// Here you do the convertion to the type which is expected.
-			IStructuredSelection selection = (IStructuredSelection) tableViewer
-			.getSelection();
-
-				LocalSelectionTransfer.getTransfer().setSelection(selection);
+			IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
+			LocalSelectionTransfer.getTransfer().setSelection(selection);
 
 
 		}
