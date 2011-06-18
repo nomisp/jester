@@ -32,6 +32,7 @@ import ch.jester.model.internal.Activator;
  *
  * @param <T>
  */
+@SuppressWarnings({"rawtypes","unchecked"})
 public class SettingHelper<T extends ISettingObject> {
 
 	private ILogger mLogger;
