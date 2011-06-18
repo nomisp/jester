@@ -17,6 +17,7 @@ import org.eclipse.ui.operations.UndoActionHandler;
 import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.ui.utility.MenuManagerUtility;
+import ch.jester.common.utility.AdapterBinding;
 
 public class AbstractView extends ViewPart{
 	protected MenuManager mPopupManager;
@@ -32,6 +33,8 @@ public class AbstractView extends ViewPart{
 				installUndoRedoHandlers();
 			}
 	}
+	
+	
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -89,7 +92,10 @@ public class AbstractView extends ViewPart{
 		// Register the global menu actions
 		actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(), mUndoActionHandler);
 		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), mRedoActionHandler);
+	
 	}
+	
+
 	
 	protected boolean enableUndoRedo(){
 		return true;

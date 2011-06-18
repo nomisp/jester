@@ -15,6 +15,9 @@ public class BeanStringPropertyTester extends PropertyTester {
 	public boolean test(Object receiver, String property, Object[] args,
 			Object expectedValue) {
 		try {
+			if(args.length==0){
+				return false;
+			}
 			String xx = BeanUtils.getProperty(receiver, args[0].toString());
 			boolean result = xx.equals(expectedValue.toString());
 			return result;
