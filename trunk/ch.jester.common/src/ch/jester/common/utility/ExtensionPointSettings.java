@@ -17,6 +17,9 @@ public abstract class ExtensionPointSettings {
 	public void setConfigurationElement(IConfigurationElement e){
 		mElement = e;
 	}
+	public IConfigurationElement getConfigurationElement(){
+		return mElement;
+	}
 	
 	public ExtensionPointSettings(String pBundleName, String pExtensionPoint){
 		 mElement = ExtensionPointUtil.getExtensionPointElement(pBundleName, pExtensionPoint);
@@ -43,7 +46,7 @@ public abstract class ExtensionPointSettings {
 		}
 		return null;
 	}
-	protected HashMap<String, String> getAllProperties(String pChildName){
+	protected HashMap<String, String> getAllExtensionPointProperties(String pChildName){
 		IConfigurationElement element =mElement;
 		IConfigurationElement[] children = element.getChildren(pChildName);
 		HashMap<String, String> map = new HashMap<String, String>();

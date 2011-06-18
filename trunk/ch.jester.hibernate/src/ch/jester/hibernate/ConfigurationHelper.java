@@ -2,7 +2,9 @@ package ch.jester.hibernate;
 
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -17,12 +19,17 @@ import org.hibernate.cfg.Configuration;
 import ch.jester.common.utility.ExtensionPointSettings;
 import ch.jester.orm.IORMConfiguration;
 import ch.jester.orm.ORMPlugin;
+import ch.jester.orm.ORMStoreHandler;
+
+
 
 
 public class ConfigurationHelper extends ExtensionPointSettings implements IORMConfiguration {
 	public ConfigurationHelper(){
 		super(null);
 	}
+	
+	
 	
 	private  HashMap<String, String> configuration;
 	private  SessionFactory factory;	
@@ -31,12 +38,14 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 	//die Hibernate Configuration
 	private Configuration hibernateConfiguration;
 
+	private ORMStoreHandler handler;
+	
 	/**
 	 * liefert die Hibernate Configuration	 
 	 */
-	  synchronized HashMap<String, String> getConfiguration() {
+	public  synchronized HashMap<String, String> getConfiguration() {
 		if (configuration == null) {
-			configuration = new HashMap<String, String>();
+			configuration = new LinkedHashMap<String, String>();
 
 			configuration.put("hibernate.hbm2ddl.auto", "update");
 			configuration.put("hibernate.dialect", getSqldialect());
@@ -56,9 +65,13 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 			configuration.put("hibernate.c3p0.idle_test_period","3000"  );
 	 
 			
-			configuration.putAll(getAllProperties("Property"));
-		//	configuration.setProperty("hibernate.connection.driver_class","org.hsqldb.jdbcDriver");
-			//configuration.setProperty("hibernate.connection.url","jdbc:hsqldb:hsql://localhost/jester");
+			configuration.putAll(getAllExtensionPointProperties("Property"));
+			Set<String> keys = configuration.keySet();	
+			
+			handler.setDefaultStoredConfiguration(configuration);
+
+			HashMap<String, String> storedMap = handler.getStoredORMConfiguration(keys);
+			configuration.putAll(storedMap);
 
 			
 		}
@@ -73,7 +86,6 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 				if(emFactory==null){
 					emFactory = Persistence.createEntityManagerFactory("jester", getConfiguration());
 				}
-
 			}
 		}
 		return emFactory;
@@ -121,7 +133,7 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 	}
 
 	@Override
-	public   String getLocalConnection() {
+	public String getLocalConnection() {
 	return "jdbc:"+getSubprotocol()+"://"+getDefaultPath()+"/"+getDbname();
 	}
 
@@ -161,6 +173,11 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 	public void setConfigElement(IConfigurationElement pElement) {
 		super.setConfigurationElement(pElement);
 		
+	}
+
+	@Override
+	public void setORMStoreHandler(ORMStoreHandler autoHandler) {
+		handler = autoHandler;
 	}
 
 	

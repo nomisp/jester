@@ -3,12 +3,6 @@
 <plugin>
    <extension-point id="Configuration" name="HibernateConfiguration" schema="schema/Configuration.exsd"/>
    <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="ch.jester.orm.internal.DBPreferenceInitializer">
-      </initializer>
-   </extension>
-   <extension
          point="org.eclipse.ui.preferencePages">
       <page
             class="ch.jester.orm.internal.DatabasePreferencePage"

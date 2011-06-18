@@ -1,10 +1,8 @@
 package ch.jester.orm.internal;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -36,32 +34,6 @@ public class DatabasePreferencePage extends FieldEditorPreferencePage implements
 		String[][] bundleNames = ORMDBUtil.getBundleName(ORMDBUtil.getDataBasePlugins());
 		addField(new ComboFieldEditor(ORMAutoDBHandler.DEFAULT_DATABASE, ORMMessages.DatabasePreferencePage_DatabaseLabel, bundleNames, getFieldEditorParent())); //$NON-NLS-1$ //$NON-NLS-2$
 		
-		StringFieldEditor dbNameEditor = new StringFieldEditor("DatabaseName", ORMMessages.DatabasePreferencePage_DatabaseName, getFieldEditorParent()); //$NON-NLS-1$
-		dbNameEditor.setStringValue(preferenceStore.getString("DatabaseName"));
-		addField(dbNameEditor);
-		
-		String jdbcDriver = Platform.getPreferencesService().getString(databasePlugin, "JDBCDriverClass", "org.hsqldb.jdbcDriver", null);
-		StringFieldEditor jdbcDriverEditor = new StringFieldEditor("JDBCDriverClass", ORMMessages.DatabasePreferencePage_JDBCDriver, getFieldEditorParent()); //$NON-NLS-1$
-		jdbcDriverEditor.setStringValue(jdbcDriver);
-		jdbcDriverEditor.setEnabled(false, getFieldEditorParent());
-		addField(jdbcDriverEditor);
-		
-		String sqlDialect = Platform.getPreferencesService().getString(databasePlugin, "SQLDialectClass", "org.hibernate.dialect.HSQLDialect", null);
-		StringFieldEditor sqlDialectEditor = new StringFieldEditor("SQLDialectClass", ORMMessages.DatabasePreferencePage_SQLDialect, getFieldEditorParent()); //$NON-NLS-1$
-		sqlDialectEditor.setStringValue(sqlDialect);
-		sqlDialectEditor.setEnabled(false, getFieldEditorParent());
-		addField(sqlDialectEditor);
-		
-		String subProtocol = Platform.getPreferencesService().getString(databasePlugin, "Subprotocol", "hsqldb", null);
-		StringFieldEditor subProtocolEditor = new StringFieldEditor("Subprotocol", ORMMessages.DatabasePreferencePage_Subprotocol, getFieldEditorParent()); //$NON-NLS-1$
-		subProtocolEditor.setStringValue(subProtocol);
-		subProtocolEditor.setEnabled(false, getFieldEditorParent());
-		addField(subProtocolEditor);
-		
-//		addField(new StringFieldEditor("DatabaseManagerClass", ORMMessages.DatabasePreferencePage_DatabaseManager, //$NON-NLS-1$
-//				getFieldEditorParent()));
-//		addField(new StringFieldEditor("ORMConfiguration", ORMMessages.DatabasePreferencePage_ORMConfiguration, //$NON-NLS-1$
-//				getFieldEditorParent()));
 	}
 
 

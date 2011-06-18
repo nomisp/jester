@@ -6,6 +6,9 @@ import java.util.List;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
 import ch.jester.common.utility.ExtensionPointUtil;
@@ -40,4 +43,19 @@ public class ORMDBUtil {
 		}
 		return names;
 	}
+	
+	public static void openRestartConfirmation(String pText){
+		if(pText==null){
+			pText = "Restart now?";
+		}
+		boolean b = MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Restart needed", pText);
+		if(b){
+			PlatformUI.getWorkbench().restart();
+		}
+	}
+	public static void openRestartConfirmation(){
+		openRestartConfirmation(null);
+	}
+
+
 }
