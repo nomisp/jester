@@ -1,4 +1,4 @@
-package ch.jester.ui.ssbimporter;
+package ch.jester.ui.importer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
