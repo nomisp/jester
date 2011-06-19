@@ -1,4 +1,4 @@
-package ch.jester.ui.ssbimporter;
+package ch.jester.ui.importer;
 
 
 import java.io.InputStream;
@@ -21,8 +21,8 @@ import ch.jester.common.utility.ExceptionWrapper;
 import ch.jester.common.utility.ZipUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.exceptions.ProcessingException;
-import ch.jester.ui.ssbimporter.PlayerImportWizardPage.ImportHandlerManager;
-import ch.jester.ui.ssbimporter.internal.Activator;
+import ch.jester.ui.importer.internal.Activator;
+import ch.jester.ui.importer.internal.ImportData;
 
 
 public class Wiz extends Wizard implements IImportWizard{
@@ -48,7 +48,7 @@ public class Wiz extends Wizard implements IImportWizard{
 				@Override
 				public void run(final IProgressMonitor monitor) throws InvocationTargetException,
 						InterruptedException {
-					final ImportHandlerManager input = firstPage.getImportHandlerManager();
+					final ImportData input = firstPage.getData();
 					mLogger.debug("Zip: "+input.getSelectedZipFile());
 					mLogger.debug("Handler: "+input.getSelectedHandlerEntry());	
 					final InputStream instream = ZipUtility.getZipEntry(input.getSelectedZipFile(), input.getSelectedZipEntry());
@@ -76,10 +76,8 @@ public class Wiz extends Wizard implements IImportWizard{
 				}
 			});
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -92,16 +90,15 @@ public class Wiz extends Wizard implements IImportWizard{
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle("Import Players");
 		setNeedsProgressMonitor(true);
-		//ISelection sel = workbench.getActiveWorkbenchWindow().getSelectionService().getSelection();
 		 firstPage = new PlayerImportWizardPage();
-		 
 		 secondPage = new PropertyChooserWizardPage();
-		 secondPage.setInput(firstPage.getImportHandlerManager());
+		 secondPage.setInput(firstPage.getData());
 		
 	}
 @Override
 public IWizardPage getNextPage(IWizardPage page) {
 	if(page == secondPage){
+		secondPage.setInput(firstPage.getData());
 		secondPage.init();
 	}
 	return super.getNextPage(page);

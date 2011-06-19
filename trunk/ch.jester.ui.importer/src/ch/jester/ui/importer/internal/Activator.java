@@ -1,4 +1,4 @@
-package ch.jester.ui.ssbimporter.internal;
+package ch.jester.ui.importer.internal;
 
 import org.osgi.framework.BundleContext;
 

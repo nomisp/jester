@@ -1,4 +1,4 @@
-package ch.jester.ui.ssbimporter;
+package ch.jester.ui.importer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,11 +37,13 @@ import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.ITestableImportHandler;
 import ch.jester.commonservices.api.importer.IVirtualTable;
 import ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;
-import ch.jester.ui.ssbimporter.PlayerImportWizardPage.ImportHandlerManager;
+import ch.jester.ui.importer.internal.ImportData;
+
+
 
 public class PropertyChooserWizardPage extends WizardPage{
 	Button btnAddCol;
-	private ImportHandlerManager mSelection;
+	private ImportData mSelection;
 	private Table table_2;
 	private Table table_3;
 	TableViewer mInputTableViewer; 
@@ -198,7 +200,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 	}
 	
 
-	public void setInput(ImportHandlerManager importSelection) {
+	public void setInput(ImportData importSelection) {
 		mSelection = importSelection;
 	}
 	@SuppressWarnings("unchecked")
