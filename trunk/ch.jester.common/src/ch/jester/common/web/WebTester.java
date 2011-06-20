@@ -11,16 +11,16 @@ public class WebTester {
 	static String address_ssb_dl = "http://www.schachbund.ch/schachsport";
 	public static void main(String args[]) throws IOException{
 		HTTPFactory.createHTTPProxy("zh-netchild.web.proxy.ubs.com", 8080);
-		ssb(null);
-		fide(null);
+		//ssb(null);
+		//fide(null);
 	}
 	
 	
-	public static void ssb(Object object) throws IOException {
+	/*public static void ssb(Object object) throws IOException {
 	
 		PageReader reader = new PageReader();
 		reader.setDownloadRoot(address_ssb_dl);
-		LinkFilter linkfilter = LinkFilter.createSSBFilter();
+	//	LinkFilter linkfilter = LinkFilter.createSSBFilter();
 		reader.setFilter(new ExtensionFilter( ".zip", linkfilter));
 		reader.readPage(address_ssb);
 		List<ILink> links = linkfilter.getLinks();
@@ -35,7 +35,7 @@ public class WebTester {
 	public static void fide(String args[]) throws IOException {
 		PageReader reader = new PageReader();
 		LinkFilter linkfilter;
-		reader.setFilter(new ExtensionFilter(".zip", linkfilter=LinkFilter.createFIDEFilter()));
+	//	reader.setFilter(new ExtensionFilter(".zip", linkfilter=LinkFilter.createFIDEFilter()));
 		reader.readPage(address_fide);
 		List<ILink> links = linkfilter.getLinks();
 		for(ILink l:links){
@@ -43,7 +43,7 @@ public class WebTester {
 			l.download("D:/Documents and Settings/t117221/Desktop/down/"+l.getText()+".zip");
 		}
 		
-	}
+	}*/
 
 }
 
