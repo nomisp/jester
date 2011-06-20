@@ -11,10 +11,10 @@
             SQLDialectClass="org.hibernate.dialect.H2Dialect"
             Subprotocol="h2">
          <Property
-               name="hibernate.connection.password">
+               name="connection.password">
          </Property>
          <Property
-               name="hibernate.connection.username"
+               name="connection.username"
                value="sa">
          </Property>
       </Configuration>
@@ -22,9 +22,9 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="ch.jester.orm.dbPrefPage"
-            class="ch.jester.orm.prefs.DataBaseSubPreferencePage"
-            id="ch.jester.db.h2.h2Prefpage"
+            category="ch.jester.orm.pref"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.db.h2.pref"
             name="H2">
       </page>
    </extension>

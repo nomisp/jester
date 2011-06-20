@@ -20,7 +20,7 @@ public class HSQLDatabaseManager implements IDatabaseManager {
 		String ip = ORMPlugin.getConfiguration().getDefaultPath();
 		
 		server.setDatabaseName(0, ORMPlugin.getConfiguration().getDbname());
-		server.setDatabasePath(0, ip+"/"+ORMPlugin.getConfiguration().getDbname()+mDbOptions);  //;hsqldb.cache_scale=15 default_table_type=cached --> damit tables auch auf der platte landen
+		server.setDatabasePath(0, ip+"/"+ORMPlugin.getConfiguration().getDbname()+mDbOptions);  
 		//http://hsqldb.org/doc/2.0/guide/sessions-chapt.html#sqlgeneral_trans_cc-sect for mvcc
 	
 		server.start();

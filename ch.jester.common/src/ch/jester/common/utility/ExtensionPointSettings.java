@@ -35,7 +35,7 @@ public abstract class ExtensionPointSettings {
 		return value;
 	}
 
-	protected String getProperties(String elementname,String attributename ){
+	protected String getProperties(/*String elementname,*/String attributename ){
 		IConfigurationElement element = mElement;
 		IConfigurationElement[] children = element.getChildren("Property");
 	

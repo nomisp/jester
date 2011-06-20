@@ -1,19 +1,28 @@
 package ch.jester.orm.internal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IContributor;
+import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.osgi.framework.Bundle;
 
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.preferences.IPreferenceManager;
+import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
+import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.orm.IDatabaseManager;
 import ch.jester.orm.IORMConfiguration;
 import ch.jester.orm.ORMPlugin;
-import ch.jester.orm.ORMStoreHandler;
 
 public class ORMAutoDBHandler implements IPropertyChangeListener{
 	public static String DEFAULT_DATABASE = "ch.jester.orm.defaultdatabase";
@@ -59,15 +68,79 @@ public class ORMAutoDBHandler implements IPropertyChangeListener{
 
 	private void changeDataBase(Object newValue) {
 		System.out.println("new default db.plugin "+newValue);
-		ORMDBUtil.openRestartConfirmation();
+		UIUtility.openRestartConfirmation();
 	}
 	
 	
 	public void initialize() {
 		start();
+		addDBPrefs();
 		mStore.addPropertyChangeListener(this);
 	}
 
+	private void addDBPrefs(){
+		List<Bundle> bundles = ORMDBUtil.getDataBasePlugins();
+		for(Bundle b:bundles){
+			BundlePrefProvider prov = new BundlePrefProvider(b);
+		}
+
+	}
+	class BundlePrefProvider implements IPreferenceManagerProvider{
+		Bundle bundle;
+		IPreferenceManager manager;
+		public BundlePrefProvider(Bundle b){
+			bundle = b;
+			IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor("ch.jester.orm", "Configuration");
+			List<Bundle> names = new ArrayList<Bundle>();
+			names.add(bundle);
+			String name = ORMDBUtil.getBundleName(names)[0][1];
+			IConfigurationElement bundleElement=null;
+			for(IConfigurationElement e:elements){
+				if(e.getContributor().getName().equals(name)){
+					bundleElement=e;
+					break;
+				}
+			}
+			System.out.println(bundleElement);
+			IExtension extension =  getContributorConfig(bundleElement.getContributor());
+			IConfigurationElement el = extension.getConfigurationElements()[0];
+			IORMConfiguration config;
+			try {
+				config = (IORMConfiguration) el.createExecutableExtension("ORMConfiguration");
+				config.setConfigElement(el);
+				manager = config.initializePreferenceManager(name);
+				manager.setNeedRestartAfterChange(true);
+				
+			} catch (CoreException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			ServiceUtility mServices = new ServiceUtility();
+			IPreferenceRegistration registration = mServices.getService(IPreferenceRegistration.class);
+			registration.registerPreferenceProvider(manager.getPrefixKey(), this);
+			mServices.closeAllTrackers();
+		}
+
+		
+		@Override
+		public IPreferenceManager getPreferenceManager(String pKey) {
+			if(bundle.getSymbolicName().equals(pKey)){
+				return manager;
+			}
+			return null;
+		}
+		private IExtension getContributorConfig(IContributor pContributor){
+			IExtension[] extensions = Platform.getExtensionRegistry().getExtensions(pContributor);
+			for(IExtension ex:extensions){
+				if(ex.getExtensionPointUniqueIdentifier().equals("ch.jester.orm."+ORMPlugin.EP_CONFIGURATION)){
+					return ex;
+				}
+			}
+			return null;
+		}
+		
+	}
+	
 	private void start(){
 		Bundle configuredDBBundle = getConfiguredDatabaseBundle();
 		Bundle firstDBBundle = null;
@@ -120,7 +193,7 @@ public class ORMAutoDBHandler implements IPropertyChangeListener{
 			mConfig = (IORMConfiguration) element
 					.createExecutableExtension(ORMPlugin.EP_CONFIGURATION_ORMCONFIGURATION);
 			mConfig.setConfigElement(element);
-			mConfig.setORMStoreHandler(new ORMStoreHandler(mStore, element.getContributor()));
+			//mConfig.setORMStoreHandler(new ORMStoreHandler(mStore, element.getContributor()));
 			//nach hinten geschoben
 			if (dbmClassName != null) {
 				try {

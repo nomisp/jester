@@ -11,18 +11,25 @@ import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
+import ch.jester.commonservices.api.importer.IWebImportHandlerEntry;
+import ch.jester.commonservices.api.preferences.IPreferenceManager;
+import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
+import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
+import ch.jester.commonservices.util.ServiceUtility;
 
 /**
  * Defaultimplementation<br>
  * Dieser Manager horcht auf Einträge/Änderungen am ExtensionPoint ch.jester.commonservices.api.ImportHandler
  *
  */
-public class DefaultImportManager extends AbstractEPComponent<IImportHandlerEntry, IImportHandler> implements IImportManager{
+public class DefaultImportManager extends AbstractEPComponent<IImportHandlerEntry, IImportHandler> implements IImportManager, IPreferenceManagerProvider{
+	ServiceUtility mServices = new ServiceUtility();
 	public DefaultImportManager(){
 		super(IImportHandler.class, 
 				ImportManagerActivator.getInstance().getActivationContext(),
 				"ch.jester.commonservices.api", 
 				"ImportHandler");
+		mServices.getService(IPreferenceRegistration.class).registerPreferenceProvider(this);
 	}
 
 
@@ -66,6 +73,22 @@ public class DefaultImportManager extends AbstractEPComponent<IImportHandlerEntr
 			return new WebAdapterHandlerEntry((IWebImportAdapter) o);
 		}
 		return new DefaultImportHandlerEntry(o);
+	}
+
+
+	@Override
+	public IPreferenceManager getPreferenceManager(String pId) {
+		for(IImportHandlerEntry e:getRegistredEntries()){
+			if(e instanceof IWebImportHandlerEntry){
+				IWebImportHandlerEntry entry= (IWebImportHandlerEntry) e;
+				IWebImportAdapter adapter = (IWebImportAdapter) entry.getService();
+				IPreferenceManager pm = adapter.getPreferenceManager(pId);
+				if(pm!=null){
+					return pm;
+				}
+			}
+		}
+		return null;
 	}
 
 

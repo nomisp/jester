@@ -6,7 +6,7 @@ import ch.jester.common.importer.AbstractWebAdapter;
 import ch.jester.common.web.ExtensionFilter;
 import ch.jester.common.web.LinkFilter;
 import ch.jester.commonservices.api.importer.ILink;
-import ch.jester.commonservices.api.preferences.PreferenceProperty;
+import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 
 
 public class FIDEWebAdapter extends AbstractWebAdapter {
@@ -15,14 +15,15 @@ public class FIDEWebAdapter extends AbstractWebAdapter {
 	public FIDEWebAdapter() {
 		super();
 		setDownloadAddress(WEB);
+		mPrefManager.setPrefixKey("ch.jester.fide.txt.importer");
 		reader.setFilter(new ExtensionFilter(".zip", linkfilter=createDefaultFIDEFilter()));
 
 		//
-		getPreferenceManager().create("webaddress", "Web Address", WEB);
-		getPreferenceManager().create("pattern", "Pattern", FIDE_PATTERN);
-		getPreferenceManager().create("extensionFilter", "ExtensionFilter",".zip");
-		getPreferenceManager().create("groupName", "Name Group", 4);
-		getPreferenceManager().create("groupURL", "URL Group", 2);
+		mPrefManager.create("webaddress", "Web Address", WEB);
+		mPrefManager.create("pattern", "Pattern", FIDE_PATTERN);
+		mPrefManager.create("extensionFilter", "ExtensionFilter",".zip");
+		mPrefManager.create("groupName", "Name Group", 4);
+		mPrefManager.create("groupURL", "URL Group", 2);
 		//
 		
 	}
@@ -45,7 +46,7 @@ public class FIDEWebAdapter extends AbstractWebAdapter {
 
 	@Override
 	public void propertyValueChanged(String internalKey, Object mValue,
-			PreferenceProperty preferenceProperty) {
+			IPreferenceProperty preferenceProperty) {
 		System.out.println("internalKey; "+internalKey);
 	}
 

@@ -11,8 +11,7 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.6.0",
  ch.jester.common.ui;bundle-version="1.0.0",
  ch.jester.commonservices.impl;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Export-Package: ch.jester.orm,
- ch.jester.orm.prefs
+Export-Package: ch.jester.orm
 Bundle-Activator: ch.jester.orm.ORMPlugin
 Import-Package: javax.persistence
 Service-Component: OSGI-INF/IDatabaseStateService.xml, OSGI-INF/IPersistencyEventQueue.xml

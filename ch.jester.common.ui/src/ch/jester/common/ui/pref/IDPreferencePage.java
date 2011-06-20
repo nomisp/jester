@@ -1,4 +1,4 @@
-package ch.jester.ui.pref;
+package ch.jester.common.ui.pref;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
@@ -13,21 +13,21 @@ import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import ch.jester.commonservices.api.importer.IImportHandlerEntry;
-import ch.jester.commonservices.api.importer.IImportManager;
-import ch.jester.commonservices.api.importer.IWebImportAdapter;
-import ch.jester.commonservices.api.importer.IWebImportHandlerEntry;
+import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
+import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
+import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.ui.importer.internal.Activator;
 
 
-public class GenericImporterPref extends FieldEditorPreferencePage implements IWorkbenchPreferencePage, IExecutableExtension{
+public class IDPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage, IExecutableExtension{
 
 
 	private ILogger logger;
@@ -35,11 +35,11 @@ public class GenericImporterPref extends FieldEditorPreferencePage implements IW
 	private IConfigurationElement mContributorElement;
 	private String savekey;
 	private ServiceUtility mService = new ServiceUtility();
-	private IImportHandlerEntry entry;
 	private IPreferenceManager prefManager;
-	public GenericImporterPref() {
-		super(GRID);
-		logger = Activator.getInstance().getActivationContext().getLogger();
+	private boolean hasChanges;
+	public IDPreferencePage() {
+		super(FieldEditorPreferencePage.GRID);
+		logger = Activator.getDefault().getActivationContext().getLogger();
 	}
 	@Override
 	public void setInitializationData(IConfigurationElement config,
@@ -49,22 +49,9 @@ public class GenericImporterPref extends FieldEditorPreferencePage implements IW
 		
 		String subkey = config.getAttribute("id").trim().substring(0, config.getAttribute("id").trim().lastIndexOf("."));
 		savekey = subkey;
-		System.out.println(savekey);
-		IImportManager manager = mService.getService(IImportManager.class);
-		IWebImportHandlerEntry e = null;
-		for(IImportHandlerEntry entry :manager.getRegistredEntries()){
-			String property = entry.getProperty("ImportHandlerId");
-			if(savekey.equals(entry.getProperty("ImportHandlerId"))){
-				if(!(entry instanceof IWebImportHandlerEntry)){continue;}
-				e=(IWebImportHandlerEntry) entry;
-				break;
-			}
-		}
-		entry=e;
-		IWebImportAdapter adapter = (IWebImportAdapter) entry.getService();
-		prefManager = adapter.getPreferenceManager();
-		prefManager.setPrefixKey(savekey);
-		//System.out.println(entry);
+		IPreferenceManagerProvider provider = mService.getService(IPreferenceRegistration.class).findProvider(savekey);
+		System.out.println("Provider: "+provider);
+		prefManager = provider.getPreferenceManager(savekey);
 		
 	}
 	public IPreferenceManager getPreferenceManager(){
@@ -73,14 +60,32 @@ public class GenericImporterPref extends FieldEditorPreferencePage implements IW
 	
 	@Override
 	public void init(IWorkbench workbench) {
-		setPreferenceStore(Activator.getInstance().getPreferenceStore());
+		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+	}
+	protected void createInvalidUI() {
+		setDescription("Service not found");
+		setTitle(getTitle()+": "+getDescription());
+		
+	}
+	private boolean isSetupValid() {
+		return prefManager!=null;
 	}
 
 	@Override
 	protected void createFieldEditors() {
-		IPreferenceStore preferenceStore = getPreferenceStore();
-
+		if(!isSetupValid()){
+			createInvalidUI();
+			return;
+		}else{
+			createValidUI();
+		}
 		
+		
+
+	}
+	protected void createValidUI() {
+		hasChanges = false;
+		IPreferenceStore preferenceStore = getPreferenceStore();
 		Set<IPreferenceProperty> props = getPreferenceManager().getProperties();
 		for(IPreferenceProperty p:props){
 			String key = p.getExternalKey();
@@ -95,9 +100,9 @@ public class GenericImporterPref extends FieldEditorPreferencePage implements IW
 			}else{
 				editor = new StringFieldEditor(key, p.getLabel(), getFieldEditorParent());
 			}
-			String prefName = editor.getPreferenceName();
-			
+			editor.setEnabled(p.getEnabled(), getFieldEditorParent());
 			addField(editor);
+			
 		}
 		getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
@@ -105,13 +110,22 @@ public class GenericImporterPref extends FieldEditorPreferencePage implements IW
 				if(event.getProperty().startsWith(getPreferenceManager().getPrefixKey())){
 					IPreferenceProperty prefProp = getPreferenceManager().getPropertyByExternalKey(event.getProperty());
 					prefProp.setValue(event.getNewValue());
+					hasChanges = true;
 				}
 				
 			}
 		});
-
+		
+		
 	}
-
+	@Override
+	public boolean performOk() {
+		boolean result =  super.performOk();
+		if(hasChanges&&getPreferenceManager().getNeedRestartAfterChange()){
+			UIUtility.openRestartConfirmation();
+		}
+		return result;
+	}
 
 
 }

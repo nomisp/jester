@@ -1,8 +1,10 @@
 package ch.jester.commonservices.api.preferences;
 
-public interface IPropertyValueChangedListener {
+
+
+public interface IPreferencePropertyChanged {
 
 	void propertyValueChanged(String internalKey, Object mValue,
-			PreferenceProperty preferenceProperty);
+			IPreferenceProperty preferenceProperty);
 
 }

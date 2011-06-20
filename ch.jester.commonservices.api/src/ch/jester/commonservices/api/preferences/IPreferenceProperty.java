@@ -2,28 +2,36 @@ package ch.jester.commonservices.api.preferences;
 
 public interface IPreferenceProperty {
 
-	public abstract String getInternalKey();
+	public String getInternalKey();
 
-	public abstract void setInternalKey(String key);
+	public void setInternalKey(String key);
 	
-	public abstract String getExternalKey();
+	public String getExternalKey();
 
-	public abstract String getLabel();
+	public String getLabel();
 
-	public abstract void setLabel(String label);
+	public void setLabel(String label);
 
-	public abstract Object getValue();
+	public Object getValue();
 
-	public abstract void setValue(Object value);
+	public void setValue(Object value);
 	
-	public abstract Object getDefaultValue();
+	public Object getDefaultValue();
 
-	public abstract void setDefaultValue(Object value);
+	public void setDefaultValue(Object value);
 
-	public abstract Class getType();
+	public Class<?> getType();
 
-	public abstract void setType(Class type);
+	public void setType(Class<?> type);
 	
 	public IPreferenceManager getManager();
+	
+	public IPreferenceProperty setNeedRestartAfterChange(boolean b);
+	
+	public boolean getNeedRestartAfterChange();
+	
+	public boolean getEnabled();
+	
+	public IPreferenceProperty setEnabled(boolean b);
 
 }

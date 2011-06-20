@@ -1,10 +1,10 @@
-package ch.jester.ui.pref;
+package ch.jester.common.ui.pref;
 
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-public class ImpoerterPref extends FieldEditorPreferencePage implements IWorkbenchPreferencePage{
+public class EmptyPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage{
 
 	@Override
 	public void init(IWorkbench workbench) {

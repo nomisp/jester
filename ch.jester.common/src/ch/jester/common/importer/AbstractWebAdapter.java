@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import ch.jester.common.preferences.PreferenceManager;
 import ch.jester.common.web.LinkFilter;
 import ch.jester.common.web.PageReader;
 import ch.jester.common.web.PageReader.IPageReaderFilter;
@@ -13,15 +14,15 @@ import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
-import ch.jester.commonservices.api.preferences.IPropertyValueChangedListener;
-import ch.jester.commonservices.api.preferences.PreferenceManager;
+import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
 
-public abstract class AbstractWebAdapter implements IWebImportAdapter, IPropertyValueChangedListener{
+
+public abstract class AbstractWebAdapter implements IWebImportAdapter, IPreferencePropertyChanged{
 	private String mDownloadAddress;
 	protected List<ILink> mLinkList;
 	protected LinkFilter linkfilter;
 	protected PageReader reader = new PageReader();
-	private IPreferenceManager mPrefManager = new PreferenceManager();
+	protected IPreferenceManager mPrefManager = new PreferenceManager();
 	@SuppressWarnings("rawtypes")
 	private IImportHandler mAdaptedHandler;
 
@@ -51,7 +52,10 @@ public abstract class AbstractWebAdapter implements IWebImportAdapter, IProperty
 	}
 	
 	@Override
-	public IPreferenceManager getPreferenceManager() {
-		return mPrefManager;
+	public IPreferenceManager getPreferenceManager(String pId) {
+		if(mPrefManager.getPrefixKey().equals(pId)){
+			return mPrefManager;
+		}
+		return null;
 	}
 }

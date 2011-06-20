@@ -1,7 +1,9 @@
 package ch.jester.hibernate;
 
+import java.awt.image.DataBufferUShort;
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.Set;
@@ -16,21 +18,30 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import ch.jester.common.preferences.PreferenceManager;
 import ch.jester.common.utility.ExtensionPointSettings;
+import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.logging.ILoggerFactory;
+import ch.jester.commonservices.api.preferences.IPreferenceManager;
+import ch.jester.commonservices.api.preferences.IPreferenceProperty;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.orm.IORMConfiguration;
 import ch.jester.orm.ORMPlugin;
-import ch.jester.orm.ORMStoreHandler;
 
 
 
 
 public class ConfigurationHelper extends ExtensionPointSettings implements IORMConfiguration {
+	private PreferenceManager mPrefManager;
+	private ILogger mLogger;
+	private ServiceUtility mService = new ServiceUtility();
 	public ConfigurationHelper(){
 		super(null);
+		mPrefManager=new PreferenceManager();
+		mLogger = mService.getService(ILoggerFactory.class).getLogger(this.getClass());
+
 	}
-	
-	
-	
+
 	private  HashMap<String, String> configuration;
 	private  SessionFactory factory;	
 	private  EntityManagerFactory emFactory;
@@ -38,52 +49,74 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 	//die Hibernate Configuration
 	private Configuration hibernateConfiguration;
 
-	private ORMStoreHandler handler;
 	
 	/**
 	 * liefert die Hibernate Configuration	 
 	 */
+	@Override
 	public  synchronized HashMap<String, String> getConfiguration() {
 		if (configuration == null) {
-			configuration = new LinkedHashMap<String, String>();
+		newConfig();
 
-			configuration.put("hibernate.hbm2ddl.auto", "update");
-			configuration.put("hibernate.dialect", getSqldialect());
-			configuration.put("hibernate.connection.driver_class",getConnectiondriverclass());
-		   // configuration.put("hibernate.connection.url", getConnectionurl()+";hsqldb.default_table_type=cached;hsqldb.tx=mvcc");		
-			configuration.put("hibernate.connection.pool_size", "1");
-			configuration.put("hibernate.connection.autocommit", "false");
-			configuration.put("hibernate.show_sql",	"false");
-			configuration.put("hibernate.format_sql","false");
-			configuration.put("hibernate.connection.url",getConnectionurl());
-			
-			
-			configuration.put("hibernate.c3p0.min_size" ,"5" );
-			configuration.put("hibernate.c3p0.max_size" ,"20" );
-			configuration.put("hibernate.c3p0.timeout" ,"300"  );
-			configuration.put("hibernate.c3p0.max_statements" ,"50" );
-			configuration.put("hibernate.c3p0.idle_test_period","3000"  );
-	 
-			
-			configuration.putAll(getAllExtensionPointProperties("Property"));
-			Set<String> keys = configuration.keySet();	
-			
-			handler.setDefaultStoredConfiguration(configuration);
-
-			HashMap<String, String> storedMap = handler.getStoredORMConfiguration(keys);
-			configuration.putAll(storedMap);
-
-			
 		}
 		
 		return configuration;
 	}
+
+	private void newConfig() {
+		configuration = new LinkedHashMap<String, String>();
+		//Create Defaults
+		mPrefManager.create("hibernate.hbm2ddl.auto", "DDL", "update").setEnabled(false);
+		mPrefManager.create("hibernate.dialect","Dialect",getSqldialect()).setEnabled(false);
+		mPrefManager.create("hibernate.connection.driver_class","Driver",getConnectiondriverclass());		
+		mPrefManager.create("hibernate.connection.pool_size","PoolSize", "1");
+		mPrefManager.create("hibernate.connection.autocommit", "Autocommit", false).setEnabled(false);
+		mPrefManager.create("hibernate.show_sql",	"Show SQL",false);
+		mPrefManager.create("hibernate.format_sql","Format SQL",false);
+		mPrefManager.create("hibernate.connection.url","Connection URL",getLocalConnection()+getConnectionOptions()).setEnabled(false);
+		mPrefManager.create("hibernate.c3p0.min_size","Cache.MinSize","5" );
+		mPrefManager.create("hibernate.c3p0.max_size","Cache.MaxSize" ,"20" );
+		mPrefManager.create("hibernate.c3p0.timeout","Cache.TimeOut" ,"300"  );
+		mPrefManager.create("hibernate.c3p0.max_statements","Cache.MaxStatements" ,"50" );
+		mPrefManager.create("hibernate.c3p0.idle_test_period","Cache.IdleTestPeriod","3000"  );
+		
+		
+		
+		//Put Properties for EP
+		HashMap<String, String> map = getAllExtensionPointProperties("Property");
+		Iterator<String> it = map.keySet().iterator();
+		while(it.hasNext()){
+			String key = it.next();
+			String value = map.get(key);
+			if(key.equals("connection.username")||key.equals("connection.password")){
+				IPreferenceProperty prop = mPrefManager.getPropertyByInternalKey(key);
+				if(prop==null){
+					prop = mPrefManager.create("hibernate."+key, key, value);
+				}
+			}else{
+				mPrefManager.create(key, key, value);
+			}
+		}
+		
+		
+		
+		
+		Set<IPreferenceProperty> set = mPrefManager.getProperties();
+		mLogger.info("Listing: ****** HIBERNATE CONFIG FOR "+mPrefManager.getPrefixKey()+" ******");
+		for(IPreferenceProperty prop:set){
+			configuration.put(prop.getInternalKey(), prop.getValue().toString());
+			mLogger.info(" - "+prop.getInternalKey()+" = "+prop.getValue());
+		}
+	}
+
+
 
 	@Override
 	public EntityManagerFactory getJPAEntityManagerFactory(){
 		if(emFactory==null){
 			synchronized (ConfigurationHelper.class) {
 				if(emFactory==null){
+					
 					emFactory = Persistence.createEntityManagerFactory("jester", getConfiguration());
 				}
 			}
@@ -119,16 +152,20 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 
 	@Override
 	public  String getPassword() {
-		return getProperties("Configuration", "hibernate.connection.password");
+		return getProperties("connection.password");
 	}
 
 	@Override
 	public  String getUser() {
-		return getProperties("Configuration", "hibernate.connection.username");
+		return getProperties("connection.username");
+	}
+	
+	public String getConnectionString(){
+		return "jdbc:"+getSubprotocol()+"://"+getDefaultPath()+"/"+getDbname();
 	}
 
 	@Override
-	public   String getConnectionurl() {
+	public String getConnectionurl() {
 		return ORMPlugin.getDefault().getDataBaseManager().getIP();
 	}
 
@@ -162,7 +199,14 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 	public  String getSubprotocol() {
 		return getExtensionPointValueFromElement("Subprotocol");		
 	}
-
+	@Override
+	public String getConnectionOptions() {
+		String options =  getProperties("connection.options");
+		if(options==null){
+			options ="";
+		}
+		return options;
+	}
 	@SuppressWarnings("deprecation")
 	@Override
 	public Connection getConnection() {
@@ -172,13 +216,24 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 	@Override
 	public void setConfigElement(IConfigurationElement pElement) {
 		super.setConfigurationElement(pElement);
+		String id = super.getConfigurationElement().getContributor().getName();
+		mPrefManager.setPrefixKey(id);
 		
 	}
 
 	@Override
-	public void setORMStoreHandler(ORMStoreHandler autoHandler) {
-		handler = autoHandler;
+	public IPreferenceManager getPreferenceManager(String pKey) {
+		return mPrefManager.checkId(pKey);
 	}
+
+	@Override
+	public IPreferenceManager initializePreferenceManager(String pKey) {
+		mPrefManager.setPrefixKey(pKey);
+		this.getConfiguration();
+		return mPrefManager;
+	}
+
+
 
 	
 }

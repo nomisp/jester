@@ -11,11 +11,15 @@
             SQLDialectClass="org.hibernate.dialect.HSQLDialect"
             Subprotocol="hsqldb">
          <Property
-               name="hibernate.connection.username"
+               name="connection.username"
                value="sa">
          </Property>
          <Property
-               name="hibernate.connection.password">
+               name="connection.password">
+         </Property>
+         <Property
+               name="connection.options"
+               value=";hsqldb.default_table_type=cached;hsqldb.tx=mvcc">
          </Property>
       </Configuration>
    </extension>
@@ -63,9 +67,9 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="ch.jester.orm.dbPrefPage"
-            class="ch.jester.orm.prefs.DataBaseSubPreferencePage"
-            id="ch.jester.db.hsqldb.hsqlPrefPage"
+            category="ch.jester.orm.pref"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.db.hsqldb.pref"
             name="%HSQLPreferences">
       </page>
    </extension>

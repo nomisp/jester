@@ -24,19 +24,19 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="ch.jester.ui.pref.ImpoerterPref"
+            class="ch.jester.common.ui.pref.EmptyPreferencePage"
             id="ch.jester.ui.importer.pref"
             name="Importer">
       </page>
       <page
             category="ch.jester.ui.importer.pref"
-            class="ch.jester.ui.pref.GenericImporterPref"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
             id="ch.jester.ssb.xls.importer.pref"
             name="SSB">
       </page>
       <page
             category="ch.jester.ui.importer.pref"
-            class="ch.jester.ui.pref.GenericImporterPref"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
             id="ch.jester.fide.txt.importer.pref"
             name="FIDE">
       </page>

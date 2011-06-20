@@ -1,8 +1,16 @@
-package ch.jester.commonservices.api.preferences;
+package ch.jester.common.preferences;
+
+import ch.jester.commonservices.api.preferences.IPreferenceManager;
+import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 
 public class PreferenceProperty implements IPreferenceProperty {
-	IPreferenceManager mManager;
-	
+	private IPreferenceManager mManager;
+	private String mKey;
+	private String mLabel;
+	private Object mValue;
+	private Class<?> mType;
+	private boolean mEnabled = true;
+	private boolean mRestart = false;
 	public PreferenceProperty(IPreferenceManager pManager){
 		mManager=pManager;
 	}
@@ -66,17 +74,14 @@ public class PreferenceProperty implements IPreferenceProperty {
 		mManager.propertyValueChanged(this);
 	}
 	@Override
-	public Class getType() {
+	public Class<?> getType() {
 		return mType;
 	}
 	@Override
-	public void setType(Class type) {
+	public void setType(Class<?> type) {
 		this.mType = type;
 	}
-	String mKey;
-	String mLabel;
-	Object mValue;
-	Class mType;
+
 	private Object mDefValue;
 	@Override
 	public IPreferenceManager getManager() {
@@ -96,5 +101,27 @@ public class PreferenceProperty implements IPreferenceProperty {
 	@Override
 	public void setDefaultValue(Object value) {
 		mDefValue=convert(value);
+	}
+
+	@Override
+	public IPreferenceProperty setNeedRestartAfterChange(boolean b) {
+		mRestart = b;
+		return this;
+	}
+
+	@Override
+	public boolean getNeedRestartAfterChange() {
+		return mRestart;
+	}
+
+	@Override
+	public boolean getEnabled() {
+		return mEnabled;
+	}
+
+	@Override
+	public IPreferenceProperty setEnabled(boolean b) {
+		mEnabled=b;
+		return this;
 	}
 }

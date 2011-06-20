@@ -1,5 +1,6 @@
-package ch.jester.commonservices.api.preferences;
+package ch.jester.common.preferences;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -11,13 +12,34 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
+import ch.jester.commonservices.api.preferences.IPreferenceManager;
+import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
+import ch.jester.commonservices.api.preferences.IPreferenceProperty;
+import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
+import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
+import ch.jester.commonservices.util.ServiceUtility;
+
+
 public class PreferenceManager implements IPreferenceManager {
 	public Set<IPreferenceProperty> mSet = new LinkedHashSet<IPreferenceProperty>();
-	private List<IPropertyValueChangedListener> listeners = new ArrayList<IPropertyValueChangedListener>();
+	private List<WeakReference<IPreferencePropertyChanged>> listeners = new ArrayList<WeakReference<IPreferencePropertyChanged>>();
 	private String mPrefix ="";
 	private boolean armed = true;
+	private ServiceUtility mServices = new ServiceUtility();
+	private boolean mRestart;
 	private IPreferencesService service = Platform.getPreferencesService();
 
+	public IPreferenceRegistration getRegistrationService(){
+		return mServices.getService(IPreferenceRegistration.class); 
+	}
+	public void registerProviderAtRegistrationService(IPreferenceManagerProvider prov){
+		getRegistrationService().registerPreferenceProvider(prov);
+	}
+
+	public IPreferenceManager checkId(String pId){
+		return getPrefixKey().equals(pId)?this:null;
+	}
+	
 	@Override
 	public Set<IPreferenceProperty> getProperties(){
 		return mSet;
@@ -84,7 +106,7 @@ public class PreferenceManager implements IPreferenceManager {
 	}
 	
 	@Override
-	public void propertyValueChanged(PreferenceProperty preferenceProperty) {
+	public void propertyValueChanged(IPreferenceProperty preferenceProperty) {
 		if(!armed){return;}
 		
 		Preferences node = getNode();
@@ -96,15 +118,18 @@ public class PreferenceManager implements IPreferenceManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(IPropertyValueChangedListener l:listeners){
-			l.propertyValueChanged(preferenceProperty.getInternalKey(), preferenceProperty.mValue, preferenceProperty);
+		for(WeakReference<IPreferencePropertyChanged> ref:listeners){
+			IPreferencePropertyChanged l = ref.get();
+			if(l!=null){
+				l.propertyValueChanged(preferenceProperty.getInternalKey(), preferenceProperty.getValue(), preferenceProperty);
+			}
 		}
 		
 	}
 
 	@Override
-	public void addListener(IPropertyValueChangedListener pListener) {
-		listeners.add(pListener);
+	public void addListener(IPreferencePropertyChanged pListener) {
+		listeners.add(new WeakReference<IPreferencePropertyChanged>(pListener));
 		
 	}
 
@@ -134,5 +159,21 @@ public class PreferenceManager implements IPreferenceManager {
 		armed=true;
 		
 		return prop;
+	}
+	@Override
+	public void setNeedRestartAfterChange(boolean b) {
+		mRestart=b;
+		
+	}
+	@Override
+	public boolean getNeedRestartAfterChange() {
+		if(!mRestart){
+			for(IPreferenceProperty p:mSet){
+				if(p.getNeedRestartAfterChange()){
+					return true;
+				}
+			}
+		}
+		return mRestart;
 	}
 }

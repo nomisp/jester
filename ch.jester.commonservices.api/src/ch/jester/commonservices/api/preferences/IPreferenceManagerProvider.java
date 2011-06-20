@@ -1,5 +1,5 @@
 package ch.jester.commonservices.api.preferences;
 
 public interface IPreferenceManagerProvider {
-	public IPreferenceManager getPreferenceManager();
+	public IPreferenceManager getPreferenceManager(String pKey);
 }
