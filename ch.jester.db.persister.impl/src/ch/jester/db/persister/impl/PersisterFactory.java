@@ -152,7 +152,7 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 
 	@Override
 	public void bind(Object pT) {
-		System.out.println("bind "+pT);
+		//System.out.println("bind "+pT);
 		
 	}
 

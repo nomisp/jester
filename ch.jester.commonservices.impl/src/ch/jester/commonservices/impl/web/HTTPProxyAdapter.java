@@ -38,7 +38,7 @@ public class HTTPProxyAdapter implements IHTTPProxy, IPreferenceManagerProvider{
 			@Override
 			public void propertyValueChanged(String internalKey, Object mValue,
 					IPreferenceProperty preferenceProperty) {
-				System.out.println(internalKey);
+				//System.out.println(internalKey);
 				if(internalKey=="address"){
 					address = mValue.toString();
 					created[0] = true;

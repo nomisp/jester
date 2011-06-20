@@ -108,7 +108,7 @@ public class Controller {
 			return;
 		}
 		oldIsPageFinished=finalized;
-		System.out.println(finalized);
+		//System.out.println(finalized);
 		UIUtility.syncExecInUIThread(new Runnable() {
 			@Override
 			public void run() {

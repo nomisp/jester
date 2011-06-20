@@ -19,7 +19,7 @@ public class UndoPropertyTester extends PropertyTester {
 			Object expectedValue) {
 		IUndoContext mUndoContext = PlatformUI.getWorkbench().getOperationSupport().getUndoContext();
 		boolean b =  PlatformUI.getWorkbench().getOperationSupport().getOperationHistory().canUndo(mUndoContext);
-		System.out.println(b);
+		//System.out.println(b);
 		return b;
 	}
 	

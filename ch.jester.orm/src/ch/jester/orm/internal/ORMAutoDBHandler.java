@@ -91,7 +91,7 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 	}*/
 
 	private void changeDataBase(Object newValue) {
-		System.out.println("new default db.plugin "+newValue);
+		mLogger.info("New default db bundle "+newValue);
 		UIUtility.openRestartConfirmation();
 	}
 	
@@ -213,7 +213,7 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 					break;
 				}
 			}
-			System.out.println(bundleElement);
+			//System.out.println(bundleElement);
 			IExtension extension =  getContributorConfig(bundleElement.getContributor());
 			IConfigurationElement el = extension.getConfigurationElements()[0];
 			IORMConfiguration config = mConfigs.get(name);
