@@ -98,6 +98,7 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 			String value = p.getValue().toString();
 			//System.out.println(key+" = "+value);
 			preferenceStore.setDefault(p.getExternalKey(), p.getDefaultValue().toString());
+			preferenceStore.setValue(p.getExternalKey(), p.getValue().toString());
 			FieldEditor editor = null;
 			if(p.getSelectableValues()!=null){
 				editor = new ComboFieldEditor(key, p.getLabel(), p.getSelectableValues(), getFieldEditorParent()); 
@@ -108,6 +109,7 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 			}else{
 				editor = new StringFieldEditor(key, p.getLabel(), getFieldEditorParent());
 			}
+			
 			editor.setEnabled(p.getEnabled(), getFieldEditorParent());
 			addField(editor);
 			

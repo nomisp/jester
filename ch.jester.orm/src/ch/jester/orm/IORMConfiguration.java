@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.IConfigurationElement;
 
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
-import ch.jester.orm.internal.ORMAutoDBHandler;
 
 
 public interface IORMConfiguration extends IPreferenceManagerProvider {
@@ -87,7 +86,8 @@ public interface IORMConfiguration extends IPreferenceManagerProvider {
 	 *
 	 */
 	public EntityManagerFactory getJPAEntityManagerFactory();
+	
+	public void setConnectionurl(String pUrl);
 
-	//public void setORMStoreHandler(ORMStoreHandler pHandler);
 
 }

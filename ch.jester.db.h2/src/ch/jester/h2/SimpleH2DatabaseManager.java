@@ -3,6 +3,7 @@ package ch.jester.h2;
 import java.sql.SQLException;
 
 import ch.jester.orm.IDatabaseManager;
+import ch.jester.orm.IORMConfiguration;
 import ch.jester.orm.ORMPlugin;
 
 
@@ -36,9 +37,14 @@ public class SimpleH2DatabaseManager implements IDatabaseManager {
 
 	}
 
-	@Override
+/*	@Override
 	public String getIP() {
 		return ORMPlugin.getConfiguration().getLocalConnection()+mDbOptions;
+	}*/
+	@Override
+	public void editORMConfiguration(IORMConfiguration pConfig) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
