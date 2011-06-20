@@ -21,5 +21,25 @@
             name="Jester Data">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="ch.jester.ui.pref.ImpoerterPref"
+            id="ch.jester.ui.importer.pref"
+            name="Importer">
+      </page>
+      <page
+            category="ch.jester.ui.importer.pref"
+            class="ch.jester.ui.pref.GenericImporterPref"
+            id="ch.jester.ssb.xls.importer.pref"
+            name="SSB">
+      </page>
+      <page
+            category="ch.jester.ui.importer.pref"
+            class="ch.jester.ui.pref.GenericImporterPref"
+            id="ch.jester.fide.txt.importer.pref"
+            name="FIDE">
+      </page>
+   </extension>
 
 </plugin>
