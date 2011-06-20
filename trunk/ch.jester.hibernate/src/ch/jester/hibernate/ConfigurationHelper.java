@@ -1,6 +1,5 @@
 package ch.jester.hibernate;
 
-import java.awt.image.DataBufferUShort;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,7 +9,9 @@ import java.util.Set;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnitUtil;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.datalocation.Location;
@@ -26,7 +27,6 @@ import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.orm.IORMConfiguration;
-import ch.jester.orm.ORMPlugin;
 
 
 
@@ -35,10 +35,12 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 	private PreferenceManager mPrefManager;
 	private ILogger mLogger;
 	private ServiceUtility mService = new ServiceUtility();
+	private IPreferenceProperty mConnectionURLProp;
 	public ConfigurationHelper(){
 		super(null);
 		mPrefManager=new PreferenceManager();
 		mLogger = mService.getService(ILoggerFactory.class).getLogger(this.getClass());
+		System.out.println("Configuration : "+this);
 
 	}
 
@@ -48,6 +50,7 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 	
 	//die Hibernate Configuration
 	private Configuration hibernateConfiguration;
+	private String mConnectionURL;
 
 	
 	/**
@@ -67,19 +70,23 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 		configuration = new LinkedHashMap<String, String>();
 		//Create Defaults
 		mPrefManager.create("hibernate.hbm2ddl.auto", "DDL", "update").setEnabled(false);
-		mPrefManager.create("hibernate.dialect","Dialect",getSqldialect()).setEnabled(false);
+		mPrefManager.create("hibernate.dialect","Dialect",getSqldialect());
 		mPrefManager.create("hibernate.connection.driver_class","Driver",getConnectiondriverclass());		
 		mPrefManager.create("hibernate.connection.pool_size","PoolSize", "1");
 		mPrefManager.create("hibernate.connection.autocommit", "Autocommit", false).setEnabled(false);
 		mPrefManager.create("hibernate.show_sql",	"Show SQL",false);
 		mPrefManager.create("hibernate.format_sql","Format SQL",false);
-		mPrefManager.create("hibernate.connection.url","Connection URL",getLocalConnection()+getConnectionOptions()).setEnabled(false);
+		mConnectionURLProp = mPrefManager.create("hibernate.connection.url","Connection URL","").setEnabled(false);
 		mPrefManager.create("hibernate.c3p0.min_size","Cache.MinSize","5" );
 		mPrefManager.create("hibernate.c3p0.max_size","Cache.MaxSize" ,"20" );
 		mPrefManager.create("hibernate.c3p0.timeout","Cache.TimeOut" ,"300"  );
 		mPrefManager.create("hibernate.c3p0.max_statements","Cache.MaxStatements" ,"50" );
-		mPrefManager.create("hibernate.c3p0.idle_test_period","Cache.IdleTestPeriod","3000"  );
+		mPrefManager.create("hibernate.c3p0.idle_test_period","Cache.IdleTestPeriod","300"  );
 		
+		//mPrefManager.create("javax.persistence.query.timeout","javax.persistence.query.timeout","0"  );
+		//mPrefManager.create("javax.persistence.lock.timeout","javax.persistence.lock.timeout","0"  );
+		
+		mConnectionURLProp.setValue(getConnectionurl());
 		
 		
 		//Put Properties for EP
@@ -166,9 +173,19 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 
 	@Override
 	public String getConnectionurl() {
-		return ORMPlugin.getDefault().getDataBaseManager().getIP();
+		if(mConnectionURL == null){
+			return getLocalConnection();
+		}
+		return mConnectionURL;
+		//return ORMPlugin.getDefault().getDataBaseManager().getIP();
 	}
 
+	public void setConnectionurl(String pUrl){
+		Assert.isTrue(configuration==null);
+		mConnectionURL = pUrl;
+		
+	}
+	
 	@Override
 	public String getLocalConnection() {
 	return "jdbc:"+getSubprotocol()+"://"+getDefaultPath()+"/"+getDbname();

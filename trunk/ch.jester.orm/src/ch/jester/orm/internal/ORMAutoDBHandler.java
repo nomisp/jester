@@ -1,6 +1,7 @@
 package ch.jester.orm.internal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -8,9 +9,6 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.osgi.framework.Bundle;
 
 import ch.jester.common.preferences.PreferenceManager;
@@ -35,6 +33,7 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 	private String dbn;
 	private PreferenceManager pManager;
 	private IPreferenceProperty mDBProperty;
+	private HashMap<String, IORMConfiguration> mConfigs = new HashMap<String, IORMConfiguration>();
 	//state = 0 initialize; state = 1 running;
 	private int state = 0;
 	public ORMAutoDBHandler(ORMPlugin orm){
@@ -158,9 +157,16 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 			mLogger.info(
 					"ORMConfiguration is " + configClass
 							+ " located in Bundle: " + contributoBundle);
-			mConfig = (IORMConfiguration) element
+			synchronized(mConfigs){
+				if(mConfigs.get(getDefaultDataBaseBundleName())!=null){
+					mConfig = mConfigs.get(getDefaultDataBaseBundleName());
+				}else{
+					mConfig = (IORMConfiguration) element
 					.createExecutableExtension(ORMPlugin.EP_CONFIGURATION_ORMCONFIGURATION);
-			mConfig.setConfigElement(element);
+					mConfig.setConfigElement(element);
+					mConfigs.put(getDefaultDataBaseBundleName(), mConfig);
+				}
+			}
 			//nach hinten geschoben
 			if (dbmClassName != null) {
 				try {
@@ -169,8 +175,10 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 					mLogger.info(
 							"DatabaseManagerClass is " + dbmClassName
 									+ " located in Bundle: " + databaseBundle);
+					
 					mDBManager = (IDatabaseManager) element
 							.createExecutableExtension(ORMPlugin.EP_CONFIGURATION_DATABASEMANAGERCLZ);
+					mDBManager.editORMConfiguration(mConfig);
 					mDBManager.start();
 				} catch (CoreException e) {
 
@@ -208,16 +216,21 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 			System.out.println(bundleElement);
 			IExtension extension =  getContributorConfig(bundleElement.getContributor());
 			IConfigurationElement el = extension.getConfigurationElements()[0];
-			IORMConfiguration config;
-			try {
-				config = (IORMConfiguration) el.createExecutableExtension("ORMConfiguration");
-				config.setConfigElement(el);
-				manager = config.initializePreferenceManager(name);
+			IORMConfiguration config = mConfigs.get(name);
+			if(config == null){
+				try {
+					config = (IORMConfiguration) el.createExecutableExtension("ORMConfiguration");
+					config.setConfigElement(el);
+					manager=config.initializePreferenceManager(name);
+					manager.setNeedRestartAfterChange(true);
+					
+				} catch (CoreException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}else{
+				manager=config.initializePreferenceManager(name);
 				manager.setNeedRestartAfterChange(true);
-				
-			} catch (CoreException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
 			ServiceUtility mServices = new ServiceUtility();
 			IPreferenceRegistration registration = mServices.getService(IPreferenceRegistration.class);

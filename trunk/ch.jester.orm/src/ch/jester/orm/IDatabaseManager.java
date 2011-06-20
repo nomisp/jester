@@ -24,6 +24,8 @@ public interface IDatabaseManager {
 	 */
 	public void shutdown();
 	
-	public String getIP();
+	public void editORMConfiguration(IORMConfiguration pConfig);
+	
+	//public String getIP();
 	
 }
