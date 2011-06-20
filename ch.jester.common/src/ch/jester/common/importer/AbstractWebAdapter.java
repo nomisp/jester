@@ -7,20 +7,26 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.common.web.LinkFilter;
 import ch.jester.common.web.PageReader;
+import ch.jester.common.web.PageReader.IPageReaderFilter;
 import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
+import ch.jester.commonservices.api.preferences.IPreferenceManager;
+import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
+import ch.jester.commonservices.api.preferences.IPropertyValueChangedListener;
+import ch.jester.commonservices.api.preferences.PreferenceManager;
 
-public abstract class AbstractWebAdapter implements IWebImportAdapter  {
-
+public abstract class AbstractWebAdapter implements IWebImportAdapter, IPropertyValueChangedListener{
+	private String mDownloadAddress;
 	protected List<ILink> mLinkList;
 	protected LinkFilter linkfilter;
 	protected PageReader reader = new PageReader();
+	private IPreferenceManager mPrefManager = new PreferenceManager();
 	@SuppressWarnings("rawtypes")
 	private IImportHandler mAdaptedHandler;
 
 	public AbstractWebAdapter(){
-		
+		mPrefManager.addListener(AbstractWebAdapter.this);
 	}
 	
 	@Override
@@ -36,5 +42,16 @@ public abstract class AbstractWebAdapter implements IWebImportAdapter  {
 	@Override
 	public Object getAdapter(Class adapter) {
 		return mAdaptedHandler.getAdapter(adapter);
+	}
+	public void setDownloadAddress(String pAddress){
+		mDownloadAddress=pAddress;
+	}
+	public String getDownloadAddress(){
+		return mDownloadAddress;
+	}
+	
+	@Override
+	public IPreferenceManager getPreferenceManager() {
+		return mPrefManager;
 	}
 }
