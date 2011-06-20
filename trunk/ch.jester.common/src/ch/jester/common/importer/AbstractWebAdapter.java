@@ -12,6 +12,7 @@ import ch.jester.common.web.PageReader;
 import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
 
@@ -22,6 +23,7 @@ public abstract class AbstractWebAdapter implements IWebImportAdapter, IPreferen
 	protected LinkFilter linkfilter;
 	protected PageReader reader = new PageReader();
 	protected IPreferenceManager mPrefManager = new PreferenceManager();
+	protected ILogger mLogger;
 	@SuppressWarnings("rawtypes")
 	private IImportHandler mAdaptedHandler;
 
@@ -68,7 +70,7 @@ public abstract class AbstractWebAdapter implements IWebImportAdapter, IPreferen
 		linkfilter = f;
 		ExtensionFilter ef = new ExtensionFilter(exFilter, f);
 		reader.setFilter(ef);
-		System.out.println("New Filter created: "+pattern+" "+exFilter+" "+grpName+" "+grpURL);
+		//System.out.println("New Filter created: "+pattern+" "+exFilter+" "+grpName+" "+grpURL);
 		return ef;
 	}
 }

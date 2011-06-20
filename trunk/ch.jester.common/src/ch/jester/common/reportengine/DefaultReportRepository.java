@@ -93,7 +93,7 @@ public class DefaultReportRepository implements IReportRepository {
 		List<String> pathEntries = new ArrayList<String>();
 		getBundlePathEntries(pathEntries, pReport.getBundle().getEntryPaths(path), pReport.getBundle());
 	
-		System.out.println(fileEntries);
+		//System.out.println(fileEntries);
 		
 		for(String dir:pathEntries){
 			mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY+"/"+dir);

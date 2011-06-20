@@ -51,7 +51,7 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 		String subkey = config.getAttribute("id").trim().substring(0, config.getAttribute("id").trim().lastIndexOf("."));
 		savekey = subkey;
 		IPreferenceManagerProvider provider = mService.getService(IPreferenceRegistration.class).findProvider(savekey);
-		System.out.println("Provider: "+provider);
+		//System.out.println("Provider: "+provider);
 		prefManager = provider.getPreferenceManager(savekey);
 		
 	}

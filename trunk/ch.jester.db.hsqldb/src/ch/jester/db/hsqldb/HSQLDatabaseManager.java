@@ -19,7 +19,6 @@ public class HSQLDatabaseManager implements IDatabaseManager {
 
 	@Override
 	public void start() {
-		System.out.println("Editing Configuration : "+mConfig);
 		String ip = mConfig.getDefaultPath();
 		String connection = ip+"/"+mConfig.getDbname()+mConfig.getConnectionOptions();
 		connection = "jdbc:hsqldb:hsql://localhost:9001/"+mConfig.getDbname();

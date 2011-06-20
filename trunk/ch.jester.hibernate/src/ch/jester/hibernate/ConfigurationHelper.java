@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceUnitUtil;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -40,7 +39,6 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 		super(null);
 		mPrefManager=new PreferenceManager();
 		mLogger = mService.getService(ILoggerFactory.class).getLogger(this.getClass());
-		System.out.println("Configuration : "+this);
 
 	}
 
