@@ -6,7 +6,7 @@
          point="org.eclipse.ui.preferencePages">
       <page
             class="ch.jester.orm.internal.DatabasePreferencePage"
-            id="ch.jester.orm.dbPrefPage"
+            id="ch.jester.orm.pref"
             name="%DBPrefPage.name">
       </page>
    </extension>

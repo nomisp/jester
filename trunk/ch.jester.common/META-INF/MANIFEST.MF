@@ -13,6 +13,7 @@ Export-Package: ch.jester.common.activator;uses:="ch.jester.commonservices.api.l
  ch.jester.common.importer,
  ch.jester.common.logging;uses:="ch.jester.commonservices.api.logging,org.eclipse.core.runtime,org.osgi.framework",
  ch.jester.common.persistency.util,
+ ch.jester.common.preferences,
  ch.jester.common.reportengine,
  ch.jester.common.utility;uses:="org.eclipse.core.runtime,org.osgi.framework",
  ch.jester.common.web,

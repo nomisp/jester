@@ -17,8 +17,11 @@ public interface IPreferenceManager {
 	public String getPrefixKey();
 
 	public abstract void propertyValueChanged(
-			PreferenceProperty preferenceProperty);
+			IPreferenceProperty preferenceProperty);
 
-	public abstract void addListener(IPropertyValueChangedListener abstractWebAdapter);
+	public abstract void addListener(IPreferencePropertyChanged abstractWebAdapter);
 
+	public void setNeedRestartAfterChange(boolean b);
+	
+	public boolean getNeedRestartAfterChange();
 }

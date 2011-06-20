@@ -2,16 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="ch.jester.commonservices.impl.web.HTTPProxyInitializer">
-      </initializer>
-   </extension>
-   <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="ch.jester.commonservices.impl.web.HTTPProxyPreferencePage"
-            id="ch.jester.commonservices.impl.proxyprefs"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.ui.proxy.pref"
             name="Proxy">
       </page>
    </extension>

@@ -7,7 +7,7 @@ import ch.jester.common.importer.AbstractWebAdapter;
 import ch.jester.common.web.ExtensionFilter;
 import ch.jester.common.web.LinkFilter;
 import ch.jester.commonservices.api.importer.ILink;
-import ch.jester.commonservices.api.preferences.PreferenceProperty;
+import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 
 public class SSBWebAdapter extends AbstractWebAdapter {
 	private String WEB = "http://www.schachbund.ch/schachsport/fldownload.php";
@@ -18,13 +18,13 @@ public class SSBWebAdapter extends AbstractWebAdapter {
 		setDownloadAddress(WEB);
 		reader.setFilter(new ExtensionFilter(".zip", super.linkfilter=createDefaultSSBFilter()));
 		reader.setDownloadRoot(WEB_DL);
-		getPreferenceManager().setPrefixKey("ch.jester.ssb.xls.importer");
-		getPreferenceManager().create("webaddress", "Web Address", WEB);
-		getPreferenceManager().create("webdl", "Absolut Path", WEB_DL);
-		getPreferenceManager().create("pattern", "Pattern", pattern);
-		getPreferenceManager().create("extensionFilter", "ExtensionFilter", ".zip");
-		getPreferenceManager().create("groupName", "Name Group", 2);
-		getPreferenceManager().create("groupURL", "URL Group", 2);
+		mPrefManager.setPrefixKey("ch.jester.ssb.xls.importer");
+		mPrefManager.create("webaddress", "Web Address", WEB);
+		mPrefManager.create("webdl", "Absolut Path", WEB_DL);
+		mPrefManager.create("pattern", "Pattern", pattern);
+		mPrefManager.create("extensionFilter", "ExtensionFilter", ".zip");
+		mPrefManager.create("groupName", "Name Group", 2);
+		mPrefManager.create("groupURL", "URL Group", 2);
 		
 		
 		reader.setFilter(createFilterFromProps());
@@ -39,10 +39,10 @@ public class SSBWebAdapter extends AbstractWebAdapter {
 	}
 	protected ExtensionFilter createFilterFromProps() {
 		LinkFilter f = new LinkFilter();
-		String pattern = getPreferenceManager().getPropertyByInternalKey("pattern").getValue().toString();
-		String exFilter = getPreferenceManager().getPropertyByInternalKey("extensionFilter").getValue().toString();
-		int grpName = (Integer) getPreferenceManager().getPropertyByInternalKey("groupName").getValue();
-		int grpURL = (Integer) getPreferenceManager().getPropertyByInternalKey("groupURL").getValue();
+		String pattern = mPrefManager.getPropertyByInternalKey("pattern").getValue().toString();
+		String exFilter = mPrefManager.getPropertyByInternalKey("extensionFilter").getValue().toString();
+		int grpName = (Integer) mPrefManager.getPropertyByInternalKey("groupName").getValue();
+		int grpURL = (Integer) mPrefManager.getPropertyByInternalKey("groupURL").getValue();
 		f.setPattern(pattern, grpName, grpURL);
 		super.linkfilter = f;
 		ExtensionFilter ef = new ExtensionFilter(exFilter, f);
@@ -62,7 +62,7 @@ public class SSBWebAdapter extends AbstractWebAdapter {
 
 	@Override
 	public void propertyValueChanged(String internalKey, Object mValue,
-			PreferenceProperty preferenceProperty) {
+			IPreferenceProperty preferenceProperty) {
 		if(internalKey.equals("webaddress")){
 			setDownloadAddress(mValue.toString());
 		}else{

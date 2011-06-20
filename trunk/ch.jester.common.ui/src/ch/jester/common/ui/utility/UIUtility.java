@@ -5,6 +5,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
@@ -34,6 +35,19 @@ public class UIUtility {
 		public IWorkbenchWindow getWorkbenchWindow();
 		public void syncExecInUIThread(Runnable pRunnable);
 		public void asyncExecInUIThread(Runnable pRunnable);
+	}
+	
+	public static void openRestartConfirmation(String pText){
+		if(pText==null){
+			pText = "Restart now?";
+		}
+		boolean b = MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Restart needed", pText);
+		if(b){
+			PlatformUI.getWorkbench().restart();
+		}
+	}
+	public static void openRestartConfirmation(){
+		openRestartConfirmation(null);
 	}
 	
 	private static void init(){
