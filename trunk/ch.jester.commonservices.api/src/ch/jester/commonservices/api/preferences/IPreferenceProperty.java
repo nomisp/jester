@@ -34,4 +34,8 @@ public interface IPreferenceProperty {
 	
 	public IPreferenceProperty setEnabled(boolean b);
 
+	public void setSelectableValues(String[][] names);
+	
+	public String[][] getSelectableValues();
+
 }

@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -61,6 +62,9 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+		if(getPreferenceManager()!=null&&getPreferenceManager().getDescription()!=null){
+			setDescription(getPreferenceManager().getDescription());
+		}
 	}
 	protected void createInvalidUI() {
 		setDescription("Service not found");
@@ -86,6 +90,8 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 	protected void createValidUI() {
 		hasChanges = false;
 		IPreferenceStore preferenceStore = getPreferenceStore();
+	
+		
 		Set<IPreferenceProperty> props = getPreferenceManager().getProperties();
 		for(IPreferenceProperty p:props){
 			String key = p.getExternalKey();
@@ -93,7 +99,9 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 			//System.out.println(key+" = "+value);
 			preferenceStore.setDefault(p.getExternalKey(), p.getDefaultValue().toString());
 			FieldEditor editor = null;
-			if(p.getType() == Boolean.class){
+			if(p.getSelectableValues()!=null){
+				editor = new ComboFieldEditor(key, p.getLabel(), p.getSelectableValues(), getFieldEditorParent()); 
+			}else if(p.getType() == Boolean.class){
 				editor = new BooleanFieldEditor(key, p.getLabel(), getFieldEditorParent());
 			}else if(p.getType() == Integer.class){
 				editor = new IntegerFieldEditor(key, p.getLabel(), getFieldEditorParent());

@@ -5,9 +5,9 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="ch.jester.orm.internal.DatabasePreferencePage"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
             id="ch.jester.orm.pref"
-            name="%DBPrefPage.name">
+            name="Datenbank">
       </page>
    </extension>
    <extension

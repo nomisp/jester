@@ -6,14 +6,13 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.common.preferences.PreferenceManager;
+import ch.jester.common.web.ExtensionFilter;
 import ch.jester.common.web.LinkFilter;
 import ch.jester.common.web.PageReader;
-import ch.jester.common.web.PageReader.IPageReaderFilter;
 import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
-import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
 
 
@@ -57,5 +56,19 @@ public abstract class AbstractWebAdapter implements IWebImportAdapter, IPreferen
 			return mPrefManager;
 		}
 		return null;
+	}
+	
+	protected ExtensionFilter createFilterFromProperties() {
+		LinkFilter f = new LinkFilter();
+		String pattern = mPrefManager.getPropertyByInternalKey("pattern").getValue().toString();
+		String exFilter = mPrefManager.getPropertyByInternalKey("extensionFilter").getValue().toString();
+		int grpName = (Integer) mPrefManager.getPropertyByInternalKey("groupName").getValue();
+		int grpURL = (Integer) mPrefManager.getPropertyByInternalKey("groupURL").getValue();
+		f.setPattern(pattern, grpName, grpURL);
+		linkfilter = f;
+		ExtensionFilter ef = new ExtensionFilter(exFilter, f);
+		reader.setFilter(ef);
+		System.out.println("New Filter created: "+pattern+" "+exFilter+" "+grpName+" "+grpURL);
+		return ef;
 	}
 }

@@ -27,6 +27,7 @@ public class PreferenceManager implements IPreferenceManager {
 	private boolean armed = true;
 	private ServiceUtility mServices = new ServiceUtility();
 	private boolean mRestart;
+	private String mDesc;
 	private IPreferencesService service = Platform.getPreferencesService();
 
 	public IPreferenceRegistration getRegistrationService(){
@@ -34,6 +35,9 @@ public class PreferenceManager implements IPreferenceManager {
 	}
 	public void registerProviderAtRegistrationService(IPreferenceManagerProvider prov){
 		getRegistrationService().registerPreferenceProvider(prov);
+	}
+	public void registerProviderAtRegistrationService(String pKey, IPreferenceManagerProvider prov){
+		getRegistrationService().registerPreferenceProvider(pKey, prov);
 	}
 
 	public IPreferenceManager checkId(String pId){
@@ -89,7 +93,7 @@ public class PreferenceManager implements IPreferenceManager {
 		if(result==null){
 			def.put(p.getInternalKey(), p.getDefaultValue().toString());
 			try {
-				def.sync();
+				//def.sync();
 				def.flush();
 			} catch (BackingStoreException e) {
 				// TODO Auto-generated catch block
@@ -113,7 +117,8 @@ public class PreferenceManager implements IPreferenceManager {
 		
 		node.put(preferenceProperty.getInternalKey(), preferenceProperty.getValue().toString());
 		try {
-			node.sync();
+			//node.sync();
+			node.flush();
 		} catch (BackingStoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -175,5 +180,13 @@ public class PreferenceManager implements IPreferenceManager {
 			}
 		}
 		return mRestart;
+	}
+	@Override
+	public void setDescription(String pDesc) {
+		mDesc = pDesc;
+	}
+	@Override
+	public String getDescription() {
+		return mDesc;
 	}
 }

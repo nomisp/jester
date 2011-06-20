@@ -3,8 +3,6 @@ import java.io.IOException;
 import java.util.List;
 
 import ch.jester.common.importer.AbstractWebAdapter;
-import ch.jester.common.web.ExtensionFilter;
-import ch.jester.common.web.LinkFilter;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 
@@ -16,25 +14,14 @@ public class FIDEWebAdapter extends AbstractWebAdapter {
 		super();
 		setDownloadAddress(WEB);
 		mPrefManager.setPrefixKey("ch.jester.fide.txt.importer");
-		reader.setFilter(new ExtensionFilter(".zip", linkfilter=createDefaultFIDEFilter()));
-
-		//
 		mPrefManager.create("webaddress", "Web Address", WEB);
 		mPrefManager.create("pattern", "Pattern", FIDE_PATTERN);
 		mPrefManager.create("extensionFilter", "ExtensionFilter",".zip");
 		mPrefManager.create("groupName", "Name Group", 4);
 		mPrefManager.create("groupURL", "URL Group", 2);
-		//
+		reader.setFilter(createFilterFromProperties());
 		
 	}
-
-	private LinkFilter createDefaultFIDEFilter(){
-		LinkFilter f = new LinkFilter();
-		f.setPattern(FIDE_PATTERN, 4, 2);
-		return f;
-		
-	}
-
 	@Override
 	public List<ILink> getLinks() throws IOException {
 		if(mLinkList==null){
@@ -47,11 +34,14 @@ public class FIDEWebAdapter extends AbstractWebAdapter {
 	@Override
 	public void propertyValueChanged(String internalKey, Object mValue,
 			IPreferenceProperty preferenceProperty) {
-		System.out.println("internalKey; "+internalKey);
+		if(internalKey.equals("webaddress")){
+			setDownloadAddress(mValue.toString());
+		}else{
+			createFilterFromProperties();
+			mLinkList=null;
+		}
+		
 	}
-
-
-
 
 
 

@@ -34,7 +34,7 @@ public class ORMPlugin extends AbstractUIActivator {
 
 	@Override
 	public void startDelegate(BundleContext context) {
-		handler = new ORMAutoDBHandler(this.getPreferenceStore(), this);
+		handler = new ORMAutoDBHandler(/*this.getPreferenceStore(),*/ this);
 		mLogger = getActivationContext().getLogger();
 		mLogger.info("ORMPlugin started");
 		handler.initialize();

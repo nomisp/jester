@@ -8,6 +8,7 @@ public class PreferenceProperty implements IPreferenceProperty {
 	private String mKey;
 	private String mLabel;
 	private Object mValue;
+	private String[][] mSelectableValues;
 	private Class<?> mType;
 	private boolean mEnabled = true;
 	private boolean mRestart = false;
@@ -123,5 +124,15 @@ public class PreferenceProperty implements IPreferenceProperty {
 	public IPreferenceProperty setEnabled(boolean b) {
 		mEnabled=b;
 		return this;
+	}
+
+	@Override
+	public void setSelectableValues(String[][] names) {
+		mSelectableValues=names;
+	}
+
+	@Override
+	public String[][] getSelectableValues() {
+		return mSelectableValues;
 	}
 }
