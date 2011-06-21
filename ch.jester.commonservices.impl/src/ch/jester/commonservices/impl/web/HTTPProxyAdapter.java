@@ -19,7 +19,7 @@ public class HTTPProxyAdapter implements IHTTPProxy, IPreferenceManagerProvider{
 	private ILogger mLogger;
 	private PreferenceManager pm = new PreferenceManager();
 	public HTTPProxyAdapter(){
-		pm.setPrefixKey("ch.jester.ui.proxy");
+		pm.setId("ch.jester.ui.proxy");
 		pm.registerProviderAtRegistrationService(this);
 		mAddress = pm.create("address", "Address", NULL_STRING).getValue().toString();
 		mPort = (Integer)pm.create("port", "Port", 0).getValue();

@@ -54,7 +54,7 @@ public abstract class AbstractWebAdapter implements IWebImportAdapter, IPreferen
 	
 	@Override
 	public IPreferenceManager getPreferenceManager(String pId) {
-		if(mPrefManager.getPrefixKey().equals(pId)){
+		if(mPrefManager.getId().equals(pId)){
 			return mPrefManager;
 		}
 		return null;

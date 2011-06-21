@@ -41,7 +41,7 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 		mLogger = orm.getActivationContext().getLogger();
 		pManager = new PreferenceManager();
 		pManager.setDescription("Available Databases");
-		pManager.setPrefixKey("ch.jester.orm");
+		pManager.setId("ch.jester.orm");
 		pManager.registerProviderAtRegistrationService("ch.jester.orm", this);
 		String[][] names = ORMDBUtil.getBundleName(ORMDBUtil.getDataBasePlugins());
 		mDBProperty = pManager.create("selectedDB", "Selected DataBase", "ch.jester.db.h2");
@@ -234,7 +234,7 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 			}
 			ServiceUtility mServices = new ServiceUtility();
 			IPreferenceRegistration registration = mServices.getService(IPreferenceRegistration.class);
-			registration.registerPreferenceProvider(manager.getPrefixKey(), this);
+			registration.registerPreferenceProvider(manager.getId(), this);
 			mServices.closeAllTrackers();
 		}
 

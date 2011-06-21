@@ -1,5 +1,6 @@
 package ch.jester.commonservices.api.preferences;
 
+import java.util.HashMap;
 import java.util.Set;
 
 
@@ -13,12 +14,14 @@ public interface IPreferenceManager {
 	public IPreferenceProperty create(String pKey, String pLabel,Object value);
 
 	public IPreferenceProperty getPropertyByInternalKey(String key);
+	
 	public IPreferenceProperty getPropertyByExternalKey(String key);
-	public void setPrefixKey(String savekey);
-	public String getPrefixKey();
+	
+	public void setId(String savekey);
+	
+	public String getId();
 
-	public  void propertyValueChanged(
-			IPreferenceProperty preferenceProperty);
+	public  void propertyValueChanged(IPreferenceProperty preferenceProperty);
 
 	public void addListener(IPreferencePropertyChanged abstractWebAdapter);
 
@@ -29,4 +32,7 @@ public interface IPreferenceManager {
 	public void setDescription(String pDesc);
 	
 	public String getDescription();
+	
+	public HashMap<String, String> getPropertiesAsStringMap();
+	public HashMap<String, Object> getPropertiesAsObjectMap();
 }

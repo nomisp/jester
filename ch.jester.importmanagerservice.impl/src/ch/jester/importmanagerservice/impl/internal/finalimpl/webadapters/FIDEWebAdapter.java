@@ -13,7 +13,7 @@ public class FIDEWebAdapter extends AbstractWebAdapter {
 	public FIDEWebAdapter() {
 		super();
 		setDownloadAddress(WEB);
-		mPrefManager.setPrefixKey("ch.jester.fide.txt.importer");
+		mPrefManager.setId("ch.jester.fide.txt.importer");
 		mPrefManager.create("webaddress", "Web Address", WEB);
 		mPrefManager.create("pattern", "Pattern", FIDE_PATTERN);
 		mPrefManager.create("extensionFilter", "ExtensionFilter",".zip");
