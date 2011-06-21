@@ -6,8 +6,8 @@ import java.util.concurrent.BlockingQueue;
 import org.eclipse.core.runtime.Assert;
 import org.osgi.service.component.ComponentContext;
 
-import ch.jester.commonservices.api.components.IComponentService;
-import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.common.components.ComponentAdapter;
+import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
@@ -21,11 +21,10 @@ import ch.jester.commonservices.api.persistency.IPersistencyListener;
  * Sie ist eine Komponente, mit einem separaten DispatcherJob
  *
  */
-public class PersistencyEventQueue implements IPersistencyEventQueue, IComponentService<ILoggerFactory> {
+public class PersistencyEventQueue extends InjectedLogFactoryComponentAdapter<Void> implements IPersistencyEventQueue{
 	private static PersistencyEventQueue mQ;
 	private BlockingQueue<IPersistencyEvent> mQueue = new ArrayBlockingQueue<IPersistencyEvent>(100);
 	private PersistencyEventDaemonJob mSenderJob;
-	private ILogger mLogger;
 	public PersistencyEventQueue(){
 		Assert.isTrue(mQ==null,"mQ already here: duplicate instance!");
 		mQ = this;
@@ -62,27 +61,10 @@ public class PersistencyEventQueue implements IPersistencyEventQueue, IComponent
 		mSenderJob.shutdown();
 		
 	}
-	@Override
-	public void start(ComponentContext pComponentContext) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public void stop(ComponentContext pComponentContext) {
-		mLogger.debug("Shutting down EventQueue");
-		mQ.shutdown();
-	
-		
-	}
-	@Override
-	public void bind(ILoggerFactory pT) {
-		mLogger = pT.getLogger(this.getClass());
-		mLogger.debug("Component started: PersistencyEventQueue");
-		
-	}
-	@Override
-	public void unbind(ILoggerFactory pT) {
-		// TODO Auto-generated method stub
-		
+		getLogger().debug("Shutting down EventQueue");
+		mQ.shutdown();	
 	}
 }

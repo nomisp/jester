@@ -41,4 +41,6 @@ public interface IPreferenceRegistration {
 	 * @return den IPreferenceProvider oder null, wenn keiner gefunden worden ist
 	 */
 	public IPreferenceManagerProvider findProvider(String pId);
+	
+	public IPreferenceManager createManager();
 }

@@ -1,6 +1,5 @@
-package ch.jester.common.preferences;
+package ch.jester.commonservices.impl.preferences;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -16,8 +15,8 @@ import org.osgi.service.prefs.Preferences;
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
-import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
+import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
@@ -29,8 +28,12 @@ public class PreferenceManager implements IPreferenceManager {
 	private ServiceUtility mServices = new ServiceUtility();
 	private boolean mRestart;
 	private String mDesc;
-	private IPreferencesService service = Platform.getPreferencesService();
+	//private IPreferencesService service = Platform.getPreferencesService();
 
+	protected PreferenceManager() {
+	
+	}
+	
 	public IPreferenceRegistration getRegistrationService(){
 		return mServices.getService(IPreferenceRegistration.class); 
 	}

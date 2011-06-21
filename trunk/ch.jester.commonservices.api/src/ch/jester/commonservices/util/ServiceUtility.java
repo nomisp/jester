@@ -43,6 +43,9 @@ public class ServiceUtility {
 		this(Activator.getDefault().getBundleContext());
 	}
 
+	public static ServiceUtility getUtility(){
+		return new ServiceUtility();
+	}
 	/**
 	 * Versucht einen Service aus der ServiceRegistry zu bekommen. <br>
 	 * IDaoService Requests werden zu {@link ServiceUtility#getDaoServiceByServiceInterface(Class)} weitergeben.

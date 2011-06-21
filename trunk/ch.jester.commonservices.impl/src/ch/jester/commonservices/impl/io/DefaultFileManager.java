@@ -17,13 +17,13 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.osgi.service.component.ComponentContext;
 
+import ch.jester.common.components.ComponentAdapter;
+import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
 import ch.jester.commonservices.api.io.IFileManager;
-import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
-public class DefaultFileManager implements IFileManager {
-	private ILogger mLogger;
+public class DefaultFileManager extends InjectedLogFactoryComponentAdapter<Void> implements IFileManager {
 	private File tmpRoot;
 	private HashMap<String, File> mFileMap = new HashMap<String, File>();
 	@Override
@@ -38,16 +38,11 @@ public class DefaultFileManager implements IFileManager {
 		clearTempDirectories();
 	}
 
-	@Override
+/*	@Override
 	public void bind(ILoggerFactory pT) {
 		mLogger = pT.getLogger(getClass());
 		mLogger.info("TempFileManager started");
-	}
-
-	@Override
-	public void unbind(ILoggerFactory pT) {
-
-	}
+	}*/
 
 	@Override
 	public File createTempFile() {
@@ -93,7 +88,7 @@ public class DefaultFileManager implements IFileManager {
 			newRoot.mkdir();
 		}
 		tmpRoot = newRoot;
-		mLogger.debug("New tempfolder is: "+tmpRoot.getAbsolutePath());
+		getLogger().debug("New tempfolder is: "+tmpRoot.getAbsolutePath());
 	}
 
 	@Override
@@ -103,7 +98,7 @@ public class DefaultFileManager implements IFileManager {
 			String key = it.next();
 			File f = mFileMap.get(key);
 			boolean result = f.delete();
-			mLogger.debug("Deleting: "+f.getName()+" successful: "+result);
+			getLogger().debug("Deleting: "+f.getName()+" successful: "+result);
 		}
 		
 	}
