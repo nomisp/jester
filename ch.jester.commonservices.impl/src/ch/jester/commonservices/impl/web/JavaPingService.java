@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
@@ -18,15 +19,44 @@ import ch.jester.common.ui.labelprovider.ImageStatusLineContributionItem;
 import ch.jester.common.ui.services.IExtendedStatusLineManager;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.web.HTTPFactory;
+import ch.jester.commonservices.api.preferences.IPreferenceManager;
+import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
+import ch.jester.commonservices.api.preferences.IPreferenceProperty;
+import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
+import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.impl.internal.Activator;
+import ch.jester.commonservices.util.ServiceUtility;
 
-public class JavaPingService extends InjectedLogFactoryComponentAdapter<Void>implements IPingService{
+public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPreferenceRegistration>implements IPingService, IPreferenceManagerProvider{
 	private PingJob job;
-	private String mPingAddress = "http://www.google.com";
-	private int mPingInterval = 5 * 1000;
 	private Image mOk, mNok, mU;
+	private ServiceUtility mService = ServiceUtility.getUtility();
+	private IPreferenceManager mPrefManager;
 	public JavaPingService(){
+
+	}
+	
+	@Override
+	public void bind(IPreferenceRegistration pT) {
+		mPrefManager = pT.createManager();
+		mPrefManager.setId("ch.jester.pingservice");
+		mPrefManager.create("address", "Ping Address", "http://www.google.com");
+		mPrefManager.create("interval", "Ping Interval (ms)", 5*1000);
+
+		mPrefManager.addListener(new IPreferencePropertyChanged() {
+			@Override
+			public void propertyValueChanged(String internalKey, Object mNewValue,
+					IPreferenceProperty preferenceProperty) {
+				
+			}
+		});
+		mPrefManager.registerProviderAtRegistrationService(this);
+		
+		String adr = mPrefManager.getPropertyByInternalKey("address").getValue().toString();
+		int intr = (Integer) mPrefManager.getPropertyByInternalKey("interval").getValue();
+		this.ping(adr, intr);
+		getLogger().debug("Ping Component Config: pinging "+adr+" every "+intr+" ms");
 	}
 	@Override
 	public int ping(String pInetAddress) {
@@ -47,7 +77,7 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<Void>imp
 	@Override
 	public int ping(String pInetAddress, int pReschedule) {
 		if(job==null){
-			job = new PingJob(pInetAddress,  pReschedule);
+			job = new PingJob();
 			job.schedule(5000);
 		}
 		return 0;
@@ -66,16 +96,22 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<Void>imp
 		boolean uiInstalled = false;
 		int lastResult = -1;
 		final ImageStatusLineContributionItem sl;
-		public PingJob(String pInetAddress, int pReschedule) {
+		public PingJob() {
 			super("PingJob");
 			setSystem(true);
-			mInetAddress =  pInetAddress;
-			mReschedule = pReschedule;
 			sl=new ImageStatusLineContributionItem("IStatus");
+			
+		}
+		
+		private void updateVars(){
+			mInetAddress =  mPrefManager.getPropertyByInternalKey("address").getValue().toString();
+			mReschedule = (Integer)mPrefManager.getPropertyByInternalKey("interval").getValue();
+			
 		}
 
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
+			updateVars();
 			if(uiInstalled){
 				final int result = JavaPingService.this.ping(mInetAddress);
 				if(result!=lastResult){
@@ -170,9 +206,8 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<Void>imp
 	}
 
 	@Override
-	public void start(ComponentContext pComponentContext) {
-		this.ping(mPingAddress, mPingInterval);
-		getLogger().debug("Ping Component Config: pinging "+mPingAddress+" every "+mPingInterval+" ms");
+	public IPreferenceManager getPreferenceManager(String pKey) {
+		return mPrefManager.checkId(pKey);
 	}
 
 }
