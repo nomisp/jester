@@ -14,7 +14,6 @@ import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -28,6 +27,15 @@ import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
+/**
+ * Die {@link IDPreferencePage} 
+ * versucht über einen {@link IPreferenceRegistration} service einen Provider zu finden:<br>
+ * Der letzte Qualifier der eigenen ID des ExtensionPoints wird gelöscht und damit versucht einen registrierte {@link IPreferenceManagerProvider} zu finden
+ * Beispiel:<br>
+ * - Die ID am Extensionpoint  <code>acme.pref</code><br>
+ * - Suchparameter für den service ist dann <code>acme</code><br>
+ *Wird kein Provider gefunden, so wird eine leere Seite angezeigt
+ */
 public class IDPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage, IExecutableExtension{
 
 
