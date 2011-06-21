@@ -117,7 +117,7 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 		getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if(event.getProperty().startsWith(getPreferenceManager().getPrefixKey())){
+				if(event.getProperty().startsWith(getPreferenceManager().getId())){
 					IPreferenceProperty prefProp = getPreferenceManager().getPropertyByExternalKey(event.getProperty());
 					prefProp.setValue(event.getNewValue());
 					hasChanges = true;

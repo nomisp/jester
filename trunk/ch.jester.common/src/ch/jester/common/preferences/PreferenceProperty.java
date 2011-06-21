@@ -91,7 +91,7 @@ public class PreferenceProperty implements IPreferenceProperty {
 
 	@Override
 	public String getExternalKey() {
-		return mManager.getPrefixKey()+"."+mKey;
+		return mManager.getId()+"."+mKey;
 	}
 
 	@Override

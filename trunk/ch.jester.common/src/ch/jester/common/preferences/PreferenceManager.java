@@ -2,6 +2,7 @@ package ch.jester.common.preferences;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +23,7 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 public class PreferenceManager implements IPreferenceManager {
 	public Set<IPreferenceProperty> mSet = new LinkedHashSet<IPreferenceProperty>();
-	private List<WeakReference<IPreferencePropertyChanged>> listeners = new ArrayList<WeakReference<IPreferencePropertyChanged>>();
+	private List<IPreferencePropertyChanged> listeners = new ArrayList<IPreferencePropertyChanged>();
 	private String mPrefix ="";
 	private boolean armed = true;
 	private ServiceUtility mServices = new ServiceUtility();
@@ -41,7 +42,7 @@ public class PreferenceManager implements IPreferenceManager {
 	}
 
 	public IPreferenceManager checkId(String pId){
-		return getPrefixKey().equals(pId)?this:null;
+		return getId().equals(pId)?this:null;
 	}
 	
 	@Override
@@ -65,13 +66,13 @@ public class PreferenceManager implements IPreferenceManager {
 	}
 
 	@Override
-	public void setPrefixKey(String savekey) {
+	public void setId(String savekey) {
 		mPrefix=savekey;
 		
 	}
 
 	@Override
-	public String getPrefixKey() {
+	public String getId() {
 		return mPrefix;
 	}
 
@@ -84,7 +85,7 @@ public class PreferenceManager implements IPreferenceManager {
 	private Preferences getNode(){
 		IPreferencesService service = Platform.getPreferencesService();
 		Preferences root = service.getRootNode();
-		Preferences node = root.node(InstanceScope.SCOPE).node(getPrefixKey());
+		Preferences node = root.node(InstanceScope.SCOPE).node(getId());
 		return node;
 	}
 	private void saveDefault(IPreferenceProperty p){
@@ -105,7 +106,7 @@ public class PreferenceManager implements IPreferenceManager {
 	private Preferences getDefaultNode(){
 		IPreferencesService service = Platform.getPreferencesService();
 		Preferences root = service.getRootNode();
-		Preferences node = root.node(InstanceScope.SCOPE).node(getPrefixKey()+"/default");
+		Preferences node = root.node(InstanceScope.SCOPE).node(getId()+"/default");
 		return node;
 	}
 	
@@ -123,18 +124,17 @@ public class PreferenceManager implements IPreferenceManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(WeakReference<IPreferencePropertyChanged> ref:listeners){
-			IPreferencePropertyChanged l = ref.get();
-			if(l!=null){
-				l.propertyValueChanged(preferenceProperty.getInternalKey(), preferenceProperty.getValue(), preferenceProperty);
-			}
+		for(IPreferencePropertyChanged ref:listeners){
+
+				ref.propertyValueChanged(preferenceProperty.getInternalKey(), preferenceProperty.getValue(), preferenceProperty);
+		
 		}
 		
 	}
 
 	@Override
 	public void addListener(IPreferencePropertyChanged pListener) {
-		listeners.add(new WeakReference<IPreferencePropertyChanged>(pListener));
+		listeners.add(pListener);
 		
 	}
 
@@ -188,5 +188,21 @@ public class PreferenceManager implements IPreferenceManager {
 	@Override
 	public String getDescription() {
 		return mDesc;
+	}
+	@Override
+	public HashMap<String, String> getPropertiesAsStringMap() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		for(IPreferenceProperty p:mSet){
+			map.put(p.getInternalKey(), p.getValue().toString());
+		}
+		return map;
+	}
+	@Override
+	public HashMap<String, Object> getPropertiesAsObjectMap() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		for(IPreferenceProperty p:mSet){
+			map.put(p.getInternalKey(), p.getValue());
+		}
+		return map;
 	}
 }

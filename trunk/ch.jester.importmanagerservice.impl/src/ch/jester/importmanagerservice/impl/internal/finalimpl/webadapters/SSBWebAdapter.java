@@ -15,7 +15,7 @@ public class SSBWebAdapter extends AbstractWebAdapter {
 		super();
 		setDownloadAddress(WEB);
 		reader.setDownloadRoot(WEB_DL);
-		mPrefManager.setPrefixKey("ch.jester.ssb.xls.importer");
+		mPrefManager.setId("ch.jester.ssb.xls.importer");
 		mPrefManager.create("webaddress", "Web Address", WEB);
 		mPrefManager.create("webdl", "Absolut Path", WEB_DL);
 		mPrefManager.create("pattern", "Pattern", pattern);

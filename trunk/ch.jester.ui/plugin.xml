@@ -519,4 +519,18 @@
             class="ch.jester.ui.filter.PlayerFilter">
       </Filter>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.ui.general"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.LoggingFactoryComponent.pref"
+            name="Logging">
+      </page>
+      <page
+            class="ch.jester.common.ui.pref.EmptyPreferencePage"
+            id="ch.jester.ui.general"
+            name="General">
+      </page>
+   </extension>
 </plugin>

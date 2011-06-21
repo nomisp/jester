@@ -104,12 +104,15 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 		}
 		
 		
+		configuration.putAll(mPrefManager.getPropertiesAsStringMap());
 		
+		
+		
+		//Only sysouts
 		
 		Set<IPreferenceProperty> set = mPrefManager.getProperties();
-		mLogger.info("Listing: ****** HIBERNATE CONFIG FOR "+mPrefManager.getPrefixKey()+" ******");
+		mLogger.info("Listing: ****** HIBERNATE CONFIG FOR "+mPrefManager.getId()+" ******");
 		for(IPreferenceProperty prop:set){
-			configuration.put(prop.getInternalKey(), prop.getValue().toString());
 			mLogger.info(" - "+prop.getInternalKey()+" = "+prop.getValue());
 		}
 	}
@@ -232,7 +235,7 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 	public void setConfigElement(IConfigurationElement pElement) {
 		super.setConfigurationElement(pElement);
 		String id = super.getConfigurationElement().getContributor().getName();
-		mPrefManager.setPrefixKey(id);
+		mPrefManager.setId(id);
 		
 	}
 
@@ -243,7 +246,7 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 
 	@Override
 	public IPreferenceManager initializePreferenceManager(String pKey) {
-		mPrefManager.setPrefixKey(pKey);
+		mPrefManager.setId(pKey);
 		this.getConfiguration();
 		return mPrefManager;
 	}
