@@ -11,7 +11,6 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
-import ch.jester.common.preferences.PreferenceManager;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.commonservices.api.logging.ILogger;
@@ -20,6 +19,7 @@ import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
+import ch.jester.commonservices.impl.preferences.PreferenceManager;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.orm.IDatabaseManager;
 import ch.jester.orm.IORMConfiguration;
@@ -31,7 +31,7 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 	private IORMConfiguration mConfig;
 	private IDatabaseManager mDBManager;
 	private String dbn;
-	private PreferenceManager pManager;
+	private IPreferenceManager pManager;
 	private IPreferenceProperty mDBProperty;
 	private HashMap<String, IORMConfiguration> mConfigs = new HashMap<String, IORMConfiguration>();
 	//state = 0 initialize; state = 1 running;
@@ -39,7 +39,7 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 	public ORMAutoDBHandler(ORMPlugin orm){
 		ormPlugin = orm;
 		mLogger = orm.getActivationContext().getLogger();
-		pManager = new PreferenceManager();
+		pManager = orm.getActivationContext().getService(IPreferenceRegistration.class).createManager();
 		pManager.setDescription("Available Databases");
 		pManager.setId("ch.jester.orm");
 		pManager.registerProviderAtRegistrationService("ch.jester.orm", this);

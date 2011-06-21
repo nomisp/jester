@@ -18,12 +18,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import ch.jester.common.preferences.PreferenceManager;
 import ch.jester.common.utility.ExtensionPointSettings;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
+import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.orm.IORMConfiguration;
 
@@ -31,13 +31,13 @@ import ch.jester.orm.IORMConfiguration;
 
 
 public class ConfigurationHelper extends ExtensionPointSettings implements IORMConfiguration {
-	private PreferenceManager mPrefManager;
+	private IPreferenceManager mPrefManager;
 	private ILogger mLogger;
 	private ServiceUtility mService = new ServiceUtility();
 	private IPreferenceProperty mConnectionURLProp;
 	public ConfigurationHelper(){
 		super(null);
-		mPrefManager=new PreferenceManager();
+		mPrefManager=mService.getService(IPreferenceRegistration.class).createManager();
 		mLogger = mService.getService(ILoggerFactory.class).getLogger(this.getClass());
 
 	}

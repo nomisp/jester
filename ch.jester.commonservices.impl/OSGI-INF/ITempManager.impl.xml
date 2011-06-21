@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="start" deactivate="stop" name="ch.jester.commonservices.impl">
    <implementation class="ch.jester.commonservices.impl.io.DefaultFileManager"/>
-   <reference bind="bind" cardinality="1..1" interface="ch.jester.commonservices.api.logging.ILoggerFactory" name="ILoggerFactory" policy="static" unbind="unbind"/>
+   <reference bind="bindLoggerFactory" cardinality="1..1" interface="ch.jester.commonservices.api.logging.ILoggerFactory" name="ILoggerFactory" policy="static" unbind="unbindLoggerFactory"/>
    <service>
       <provide interface="ch.jester.commonservices.api.io.IFileManager"/>
    </service>

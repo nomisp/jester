@@ -82,6 +82,11 @@ public interface IPreferenceManager {
 	 */
 	public String getDescription();
 	
+	public IPreferenceManager checkId(String pId);
+	
+	public void registerProviderAtRegistrationService(IPreferenceManagerProvider prov);
+	public void registerProviderAtRegistrationService(String pKey, IPreferenceManagerProvider prov);
+	
 	public HashMap<String, String> getPropertiesAsStringMap();
 	public HashMap<String, Object> getPropertiesAsObjectMap();
 }

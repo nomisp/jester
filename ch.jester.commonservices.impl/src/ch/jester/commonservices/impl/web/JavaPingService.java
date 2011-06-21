@@ -13,19 +13,16 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.osgi.service.component.ComponentContext;
 
+import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
 import ch.jester.common.ui.labelprovider.ImageStatusLineContributionItem;
 import ch.jester.common.ui.services.IExtendedStatusLineManager;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.web.HTTPFactory;
-import ch.jester.commonservices.api.components.IComponentService;
-import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.impl.internal.Activator;
 
-public class JavaPingService implements IPingService, IComponentService<ILoggerFactory>{
+public class JavaPingService extends InjectedLogFactoryComponentAdapter<Void>implements IPingService{
 	private PingJob job;
-	private ILogger mLogger;
 	private String mPingAddress = "http://www.google.com";
 	private int mPingInterval = 5 * 1000;
 	private Image mOk, mNok, mU;
@@ -174,29 +171,8 @@ public class JavaPingService implements IPingService, IComponentService<ILoggerF
 
 	@Override
 	public void start(ComponentContext pComponentContext) {
-		
 		this.ping(mPingAddress, mPingInterval);
-		mLogger.debug("Ping Component Config: pinging "+mPingAddress+" every "+mPingInterval+" ms");
+		getLogger().debug("Ping Component Config: pinging "+mPingAddress+" every "+mPingInterval+" ms");
 	}
-
-	@Override
-	public void stop(ComponentContext pComponentContext) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void bind(ILoggerFactory pT) {
-		mLogger = pT.getLogger(this.getClass());
-		mLogger.debug("Ping Component started");
-		
-	}
-
-	@Override
-	public void unbind(ILoggerFactory pT) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 
 }

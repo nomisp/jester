@@ -10,6 +10,8 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
 
 
+import ch.jester.common.components.ComponentAdapter;
+import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
@@ -32,8 +34,7 @@ import ch.jester.dao.ITournamentDao;
  *  
  *
  */
-public class PersisterFactory implements ServiceFactory, IComponentService<Object>, IDaoServiceFactory{
-	private ILoggerFactory mLoggerFactory;
+public class PersisterFactory extends InjectedLogFactoryComponentAdapter<Object> implements ServiceFactory, IDaoServiceFactory{
 	private ServiceUtility mServiceUtility;
 	private HashMap<String, Class<?>> mServiceInterfaceRegistry = new HashMap<String, Class<?>>();
 	private HashMap<Class<?>, Class<?>> mDaoObjectClassRegistry = new HashMap<Class<?>, Class<?>>();
@@ -108,9 +109,6 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.jester.db.persister.impl.IDaoServiceFactory#addServiceHandling(java.lang.Class, java.lang.Class)
-	 */
 	@Override
 	public void addServiceHandling(Class<?> pInterfaceClassName, Class<?> class1) {
 		mServiceInterfaceRegistry.put(pInterfaceClassName.getName(), class1);
@@ -124,7 +122,6 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 	@Override
 	public void start(ComponentContext pComponentContext) {
 		mActivationContext = Activator.getDefault().getActivationContext();
-		mLoggerFactory.getLogger(this.getClass()).debug("PersisterFactory started");
 		mServiceUtility=mActivationContext.getServiceUtil();
 		//TODO Umschreiben: wir wollen die Interfaces loswerden
 		addServiceHandling(IPlayerDao.class, DBPlayerPersister.class);
@@ -132,34 +129,6 @@ public class PersisterFactory implements ServiceFactory, IComponentService<Objec
 		addServiceHandling(ICategoryDao.class, DBCategoryPersister.class);
 		addServiceHandling(IRoundDao.class, DBRoundPersister.class);
 	
-	}
-
-	@Override
-	public void stop(ComponentContext pComponentContext) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	/**DS Dependency Injection<br>
-	 * Da dies eine Komponente ist, kann der ILogger nicht über den IActivationContext bezogen werden,
-	 * denn die Komponente für den ILogger kann unter umständen noch nicht gestartet worden sein.<br>
-	 * Also wird die Zuteilung der Factory DS überlassen.
-	 * @param pFactory
-	 */
-	public void bindLoggerFactory(ILoggerFactory pFactory){
-		mLoggerFactory=pFactory;
-		}
-
-	@Override
-	public void bind(Object pT) {
-		//System.out.println("bind "+pT);
-		
-	}
-
-	@Override
-	public void unbind(Object pT) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

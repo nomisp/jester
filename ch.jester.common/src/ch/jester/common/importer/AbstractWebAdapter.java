@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import ch.jester.common.preferences.PreferenceManager;
 import ch.jester.common.web.ExtensionFilter;
 import ch.jester.common.web.LinkFilter;
 import ch.jester.common.web.PageReader;
@@ -15,6 +14,8 @@ import ch.jester.commonservices.api.importer.IWebImportAdapter;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
+import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
+import ch.jester.commonservices.util.ServiceUtility;
 
 
 public abstract class AbstractWebAdapter implements IWebImportAdapter, IPreferencePropertyChanged{
@@ -22,13 +23,16 @@ public abstract class AbstractWebAdapter implements IWebImportAdapter, IPreferen
 	protected List<ILink> mLinkList;
 	protected LinkFilter linkfilter;
 	protected PageReader reader = new PageReader();
-	protected IPreferenceManager mPrefManager = new PreferenceManager();
+	protected IPreferenceManager mPrefManager;
 	protected ILogger mLogger;
+	protected ServiceUtility mService = new ServiceUtility();
 	@SuppressWarnings("rawtypes")
 	private IImportHandler mAdaptedHandler;
 
 	public AbstractWebAdapter(){
+		mPrefManager = mService.getService(IPreferenceRegistration.class).createManager();
 		mPrefManager.addListener(AbstractWebAdapter.this);
+		
 	}
 	
 	@Override

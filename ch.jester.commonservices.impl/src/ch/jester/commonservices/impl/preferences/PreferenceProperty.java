@@ -1,4 +1,4 @@
-package ch.jester.common.preferences;
+package ch.jester.commonservices.impl.preferences;
 
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;

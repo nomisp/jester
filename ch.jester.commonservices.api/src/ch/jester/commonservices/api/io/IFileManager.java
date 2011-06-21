@@ -12,7 +12,7 @@ import ch.jester.commonservices.exceptions.ProcessingException;
  * Temporäre Files, welche mit dem Parameter <code>deleteOnExit =  true</code> erzeugt wurden, werden beim Herunterfahren
  * der Komponente gelöscht.
  */
-public interface IFileManager extends IComponentService<ILoggerFactory>{
+public interface IFileManager{
 	/**
 	 * Erzeugt ein File mit einem zufälligen UUID Namen im TempFolder.
 	 * @return

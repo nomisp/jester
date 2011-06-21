@@ -7,8 +7,9 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.component.ComponentContext;
 
+import ch.jester.common.components.ComponentAdapter;
 import ch.jester.common.logging.DefaultLogger;
-import ch.jester.common.preferences.PreferenceManager;
+import ch.jester.common.utility.ServiceConsumer;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
@@ -20,16 +21,18 @@ import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 
 
 
-public class DefaultLoggerFactory implements ILoggerFactory, IComponentService<IPreferenceRegistration>, IPreferenceManagerProvider{
+public class DefaultLoggerFactory extends ComponentAdapter<IPreferenceRegistration> implements ILoggerFactory, IPreferenceManagerProvider{
 	private boolean mDebug = true;
 	private String name = null;
 	private IPreferenceRegistration mRegistration;
+	private IPreferenceManager mPrefManager;
 	private ILogger mLogger;
-	private PreferenceManager mPrefManager;
+	
 	public DefaultLoggerFactory(){
-		mLogger = getLogger(this.getClass());
+		mLogger = this.getLogger(this.getClass());
 		mLogger.info("LoggerFactory started");
 	}
+	
 	@Override
 	public ILogger getLogger(Class<?> pClass) {
 		Bundle bundle = FrameworkUtil.getBundle(pClass);
@@ -49,10 +52,15 @@ public class DefaultLoggerFactory implements ILoggerFactory, IComponentService<I
 	}
 	@Override
 	public void start(ComponentContext pComponentContext) {
-		Dictionary props = pComponentContext.getProperties();
-		name = props.get("component.name").toString();
+		name = pComponentContext.getProperties().get("component.name").toString();
+	}
+	@Override
+	public void bind(IPreferenceRegistration pT) {
+		mRegistration = pT;
+		mLogger.debug("IPreferenceRegistration injected");
+		mRegistration.registerPreferenceProvider(name, this);
 		mLogger.debug("ComponentContext injected: Name -> "+name);
-		mPrefManager = new PreferenceManager();
+		mPrefManager = mRegistration.createManager();
 		mPrefManager.setId(name);
 		String[][] values = new String[][]{{"true","true"},{"false","false"}};
 		mPrefManager.create("debug", "Debug", this.isDebug()).setSelectableValues(values);
@@ -65,30 +73,10 @@ public class DefaultLoggerFactory implements ILoggerFactory, IComponentService<I
 				
 			}
 		});
-		
-		
-	}
-	@Override
-	public void stop(ComponentContext pComponentContext) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void bind(IPreferenceRegistration pT) {
-		mRegistration = pT;
-		mLogger.debug("IPreferenceRegistration injected");
-		mRegistration.registerPreferenceProvider(name, this);
-	}
-	@Override
-	public void unbind(IPreferenceRegistration pT) {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public IPreferenceManager getPreferenceManager(String pKey) {
 		return mPrefManager.checkId(pKey);
 	}
 
-
-	
 }
