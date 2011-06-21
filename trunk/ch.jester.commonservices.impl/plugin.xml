@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            class="ch.jester.common.ui.pref.IDPreferencePage"
-            id="ch.jester.ui.proxy.pref"
-            name="Proxy">
-      </page>
-   </extension>
 
 </plugin>

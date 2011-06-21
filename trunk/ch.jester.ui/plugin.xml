@@ -532,5 +532,22 @@
             id="ch.jester.ui.general"
             name="General">
       </page>
+      <page
+            category="ch.jester.ui.web"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.pingservice.pref"
+            name="Ping">
+      </page>
+      <page
+            class="ch.jester.common.ui.pref.EmptyPreferencePage"
+            id="ch.jester.ui.web"
+            name="Internet">
+      </page>
+      <page
+            category="ch.jester.ui.web"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.proxyservice.pref"
+            name="Proxy">
+      </page>
    </extension>
 </plugin>

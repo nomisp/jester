@@ -17,7 +17,7 @@ public class HTTPProxyAdapter extends ServiceConsumer implements IHTTPProxy, IPr
 	private String NULL_STRING ="";
 	private IPreferenceManager pm = getServiceUtility().getService(IPreferenceRegistration.class).createManager();
 	public HTTPProxyAdapter(){
-		pm.setId("ch.jester.ui.proxy");
+		pm.setId("ch.jester.proxyservice");
 		pm.registerProviderAtRegistrationService(this);
 		mAddress = pm.create("address", "Address", NULL_STRING).getValue().toString();
 		mPort = (Integer)pm.create("port", "Port", 0).getValue();
