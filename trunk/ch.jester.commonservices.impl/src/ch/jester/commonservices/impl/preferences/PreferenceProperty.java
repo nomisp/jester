@@ -135,4 +135,28 @@ public class PreferenceProperty implements IPreferenceProperty {
 	public String[][] getSelectableValues() {
 		return mSelectableValues;
 	}
+
+	@Override
+	public String getStringValue() {
+		if(mValue instanceof String){
+			return (String) mValue;
+		}
+		return null;
+	}
+
+	@Override
+	public Boolean getBooleanValue() {
+		if(mValue instanceof Boolean){
+			return (Boolean) mValue;
+		}
+		return null;
+	}
+
+	@Override
+	public Integer getIntegerValue() {
+		if(mValue instanceof Integer){
+			return (Integer) mValue;
+		}
+		return null;
+	}
 }

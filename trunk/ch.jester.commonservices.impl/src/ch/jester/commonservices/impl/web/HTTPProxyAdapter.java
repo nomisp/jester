@@ -12,18 +12,24 @@ import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.api.web.IHTTPProxy;
 
 public class HTTPProxyAdapter extends ServiceConsumer implements IHTTPProxy, IPreferenceManagerProvider{
+	//Preference Stuff
+	private static final String PP_ID_PORT = "port";
+	private static final String PP_ID_ADDRESS = "address";
+	private static final String PP_DEF_ADDRESS ="";
+	private static final String PM_ID = "ch.jester.proxyservice";
+	
+	//Class Members
 	private String mAddress;
 	private int mPort;
-	private String NULL_STRING ="";
+
 	private IPreferenceManager pm = getServiceUtility().getService(IPreferenceRegistration.class).createManager();
 	public HTTPProxyAdapter(){
-		pm.setId("ch.jester.proxyservice");
+		pm.setId(PM_ID);
 		pm.registerProviderAtRegistrationService(this);
-		mAddress = pm.create("address", "Address", NULL_STRING).getValue().toString();
-		mPort = (Integer)pm.create("port", "Port", 0).getValue();
-		//mLogger = Activator.getDefault().getActivationContext().getLogger();
+		mAddress = pm.create(PP_ID_ADDRESS, "Address", PP_DEF_ADDRESS).getValue().toString();
+		mPort = (Integer)pm.create(PP_ID_PORT, "Port", 0).getValue();
 		getLogger().debug("HTTPProxyInit: "+mAddress+" / "+mPort);
-		if(mAddress!=NULL_STRING && mPort!=0){
+		if(mAddress!=PP_DEF_ADDRESS && mPort!=0){
 			createHTTPProxy(mAddress, mPort);
 		}else{
 			getLogger().info("no HTTPProxy created");
@@ -36,25 +42,25 @@ public class HTTPProxyAdapter extends ServiceConsumer implements IHTTPProxy, IPr
 			public void propertyValueChanged(String internalKey, Object mValue,
 					IPreferenceProperty preferenceProperty) {
 				//System.out.println(internalKey);
-				if(internalKey=="address"){
+				if(internalKey==PP_ID_ADDRESS){
 					address = mValue.toString();
 					created[0] = true;
 				}
-				if(internalKey=="port"){
+				if(internalKey==PP_ID_PORT){
 					port = (Integer) mValue;
 					created[1] = true;
 				}
 				if(created[0]==true && created[1] == true){
 					created[0] = false;
 					created[1] = false;
-					if(port==0&&address.equals(NULL_STRING)){
+					if(port==0&&address.equals(PP_DEF_ADDRESS)){
 						HTTPProxyAdapter.this.deleteProxy();
 						getLogger().info("Deleted HTTP proxy: "+mAddress+" / "+mPort);
 						return;
 					}
 					
 					mAddress = address;
-					mPort = (Integer) pm.getPropertyByInternalKey("port").getValue();
+					mPort = (Integer) pm.getPropertyByInternalKey(PP_ID_PORT).getValue();
 					createHTTPProxy(mAddress, mPort);
 				}
 				

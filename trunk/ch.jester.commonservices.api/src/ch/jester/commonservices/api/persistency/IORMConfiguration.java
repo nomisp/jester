@@ -1,4 +1,4 @@
-package ch.jester.orm;
+package ch.jester.commonservices.api.persistency;
 
 import java.sql.Connection;
 import java.util.HashMap;

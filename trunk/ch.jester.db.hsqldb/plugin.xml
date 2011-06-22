@@ -40,18 +40,6 @@
                      label="%DBViewer"
                      style="push">
                </command>
-               <separator
-                     name="separator"
-                     visible="true">
-               </separator>
-               <command
-                     commandId="ch.jester.common.test.commands.insertjpa"
-                     style="push">
-               </command>
-               <command
-                     commandId="ch.jester.common.test.commands.inserthibernate"
-                     style="push">
-               </command>
             </menu>
          </menu>
       </menuContribution>

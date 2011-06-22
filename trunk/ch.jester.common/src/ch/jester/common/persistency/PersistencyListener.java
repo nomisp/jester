@@ -1,4 +1,4 @@
-package ch.jester.common.persistency.util;
+package ch.jester.common.persistency;
 
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyFilter;

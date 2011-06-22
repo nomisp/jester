@@ -22,13 +22,12 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 public class PreferenceManager implements IPreferenceManager {
 	public Set<IPreferenceProperty> mSet = new LinkedHashSet<IPreferenceProperty>();
-	private List<IPreferencePropertyChanged> listeners = new ArrayList<IPreferencePropertyChanged>();
+	private List<IPreferencePropertyChanged> mListeners = new ArrayList<IPreferencePropertyChanged>();
 	private String mPrefix ="";
-	private boolean armed = true;
+	private boolean mArmed = true;
 	private ServiceUtility mServices = new ServiceUtility();
 	private boolean mRestart;
 	private String mDesc;
-	//private IPreferencesService service = Platform.getPreferencesService();
 
 	protected PreferenceManager() {
 	
@@ -97,10 +96,8 @@ public class PreferenceManager implements IPreferenceManager {
 		if(result==null){
 			def.put(p.getInternalKey(), p.getDefaultValue().toString());
 			try {
-				//def.sync();
 				def.flush();
 			} catch (BackingStoreException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -115,36 +112,32 @@ public class PreferenceManager implements IPreferenceManager {
 	
 	@Override
 	public void propertyValueChanged(IPreferenceProperty preferenceProperty) {
-		if(!armed){return;}
+		if(!mArmed){return;}
 		
 		Preferences node = getNode();
 		
 		node.put(preferenceProperty.getInternalKey(), preferenceProperty.getValue().toString());
 		try {
-			//node.sync();
 			node.flush();
 		} catch (BackingStoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(IPreferencePropertyChanged ref:listeners){
-
+		for(IPreferencePropertyChanged ref:mListeners){
 				ref.propertyValueChanged(preferenceProperty.getInternalKey(), preferenceProperty.getValue(), preferenceProperty);
-		
 		}
 		
 	}
 
 	@Override
 	public void addListener(IPreferencePropertyChanged pListener) {
-		listeners.add(pListener);
+		mListeners.add(pListener);
 		
 	}
 
 	
 	@Override
 	public IPreferenceProperty create(String pKey, String pLabel, Object value) {
-		armed=false;
+		mArmed=false;
 		IPreferenceProperty prop = new PreferenceProperty(this);
 		prop.setLabel(pLabel);
 		prop.setInternalKey(pKey);
@@ -164,7 +157,7 @@ public class PreferenceManager implements IPreferenceManager {
 		}else{
 			prop.setValue(prop.getDefaultValue());
 		}
-		armed=true;
+		mArmed=true;
 		
 		return prop;
 	}

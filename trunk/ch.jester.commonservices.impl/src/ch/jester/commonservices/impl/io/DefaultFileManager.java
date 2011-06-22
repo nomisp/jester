@@ -17,10 +17,8 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.osgi.service.component.ComponentContext;
 
-import ch.jester.common.components.ComponentAdapter;
 import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
 import ch.jester.commonservices.api.io.IFileManager;
-import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
 public class DefaultFileManager extends InjectedLogFactoryComponentAdapter<Void> implements IFileManager {
@@ -37,12 +35,6 @@ public class DefaultFileManager extends InjectedLogFactoryComponentAdapter<Void>
 	public void stop(ComponentContext pComponentContext) {
 		clearTempDirectories();
 	}
-
-/*	@Override
-	public void bind(ILoggerFactory pT) {
-		mLogger = pT.getLogger(getClass());
-		mLogger.info("TempFileManager started");
-	}*/
 
 	@Override
 	public File createTempFile() {

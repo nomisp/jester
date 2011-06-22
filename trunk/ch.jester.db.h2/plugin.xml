@@ -4,7 +4,6 @@
    <extension
          point="ch.jester.orm.Configuration">
       <Configuration
-            DatabaseManagerClass="ch.jester.h2.SimpleH2DatabaseManager"
             DatabaseName="jester"
             JDBCDriverClass="org.h2.Driver"
             ORMConfiguration="ch.jester.hibernate.ConfigurationHelper"

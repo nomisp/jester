@@ -8,11 +8,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.osgi.service.component.ComponentContext;
 
 import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
 import ch.jester.common.ui.labelprovider.ImageStatusLineContributionItem;
@@ -26,24 +24,37 @@ import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.impl.internal.Activator;
-import ch.jester.commonservices.util.ServiceUtility;
 
 public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPreferenceRegistration>implements IPingService, IPreferenceManagerProvider{
+	//Preference Stuff
+	private static String PP_ID_ADDRESS = "address";
+	private static String PP_DEF_ADDRESS = "http://www.google.com";
+	private static String PP_ID_INTERVAL = "interval";
+	private static int PP_DEF_INTERVAL = 5*1000;
+	private static String PM_ID = "ch.jester.pingservice";
+	
+	//Icon Paths
+	private static final String ICONS_CONNECTION_NOK_16PX_PNG = "icons/connection_nok_16px.png";
+	private static final String ICONS_CONNECTION_OK_16PX_PNG = "icons/connection_ok_16px.png";
+	private static final String ICONS_CONNECTION_UNK_16PX_PNG = "icons/connection_unk_16px.png";
+	
+	//Tooltip Text
+	private static final String INTERNET_CONNECTION_OK = "Internet Connection: ok";
+	private static final String INTERNET_CONNECTION_FAILED = "Internet Connection: failed";
+	private static final String INTERNET_CONNECTION_UNKNOWN = "Internet Connection: unknown";
+	
+	//Class Memebers
 	private PingJob job;
 	private Image mOk, mNok, mU;
-	private ServiceUtility mService = ServiceUtility.getUtility();
 	private IPreferenceManager mPrefManager;
 	public JavaPingService(){
-
 	}
 	
-	@Override
-	public void bind(IPreferenceRegistration pT) {
+	private void initPreferences(IPreferenceRegistration pT){
 		mPrefManager = pT.createManager();
-		mPrefManager.setId("ch.jester.pingservice");
-		mPrefManager.create("address", "Ping Address", "http://www.google.com");
-		mPrefManager.create("interval", "Ping Interval (ms)", 5*1000);
-
+		mPrefManager.setId(PM_ID);
+		mPrefManager.create(PP_ID_ADDRESS, "Ping Address", PP_DEF_ADDRESS);
+		mPrefManager.create(PP_ID_INTERVAL, "Ping Interval (ms)", PP_DEF_INTERVAL);
 		mPrefManager.addListener(new IPreferencePropertyChanged() {
 			@Override
 			public void propertyValueChanged(String internalKey, Object mNewValue,
@@ -52,10 +63,23 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 			}
 		});
 		mPrefManager.registerProviderAtRegistrationService(this);
-		
-		String adr = mPrefManager.getPropertyByInternalKey("address").getValue().toString();
-		int intr = (Integer) mPrefManager.getPropertyByInternalKey("interval").getValue();
-		this.ping(adr, intr);
+	}
+	private String getAddressProperty(){
+		return mPrefManager.getPropertyByInternalKey(PP_ID_ADDRESS).getStringValue();
+	}
+	private int getIntervalProperty(){
+		return mPrefManager.getPropertyByInternalKey(PP_ID_INTERVAL).getIntegerValue();
+	}
+	@Override
+	public IPreferenceManager getPreferenceManager(String pKey) {
+		return mPrefManager.checkId(pKey);
+	}
+	@Override
+	public void bind(IPreferenceRegistration pT) {
+		initPreferences(pT);
+		String adr = getAddressProperty();
+		int intr = getIntervalProperty();
+		ping(adr, intr);
 		getLogger().debug("Ping Component Config: pinging "+adr+" every "+intr+" ms");
 	}
 	@Override
@@ -104,9 +128,8 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 		}
 		
 		private void updateVars(){
-			mInetAddress =  mPrefManager.getPropertyByInternalKey("address").getValue().toString();
-			mReschedule = (Integer)mPrefManager.getPropertyByInternalKey("interval").getValue();
-			
+			mInetAddress =  getAddressProperty();
+			mReschedule = getIntervalProperty();
 		}
 
 		@Override
@@ -137,6 +160,8 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 			return Status.OK_STATUS;
 		}
 		class SettingRunnable implements Runnable {
+
+
 			int result;
 			public SettingRunnable(int pResult) {
 				result = pResult;
@@ -149,11 +174,11 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 				}
 				if(result == REACHABLE){
 					if(mOk==null){
-					mOk= getImage("icons/connection_ok_16px.png");
+					mOk= getImage(ICONS_CONNECTION_OK_16PX_PNG);
 					}
 					sl.setImage(mOk);
 					sl.setText("");
-					sl.setToolTipText("Internet Connection:ok");
+					sl.setToolTipText(INTERNET_CONNECTION_OK);
 					IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
 
 					//ex.setMessage(img, "internet ok");
@@ -161,11 +186,11 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 					
 				}else{
 					if(mNok==null){
-						mNok= getImage("icons/connection_nok_16px.png");
+						mNok= getImage(ICONS_CONNECTION_NOK_16PX_PNG);
 						}
 						sl.setImage(mNok);
 						sl.setText("");
-						sl.setToolTipText("Internet Connection: failed");
+						sl.setToolTipText(INTERNET_CONNECTION_FAILED);
 						IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
 
 						//ex.setMessage(img, "internet ok");
@@ -177,15 +202,19 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 		
 		class UnknownRunnable implements Runnable {
 			
+			
+
+			
+
 			@Override
 			public void run() {
 				IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
 				ex.appendToGroup(StatusLineManager.END_GROUP, sl);
 				sl.setParent(ex);
 				sl.setText("");
-				sl.setToolTipText("Internet Connection: unknown");
+				sl.setToolTipText(INTERNET_CONNECTION_UNKNOWN);
 				if(mU==null){
-					mU = getImage("icons/connection_unk_16px.png");
+					mU = getImage(ICONS_CONNECTION_UNK_16PX_PNG);
 			
 				}
 				sl.setImage(mU);
@@ -205,9 +234,6 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 		return job.lastResult==REACHABLE;
 	}
 
-	@Override
-	public IPreferenceManager getPreferenceManager(String pKey) {
-		return mPrefManager.checkId(pKey);
-	}
+
 
 }

@@ -1,4 +1,4 @@
-package ch.jester.common.persistency.util;
+package ch.jester.common.persistency;
 
 import java.util.ArrayList;
 import java.util.Collection;

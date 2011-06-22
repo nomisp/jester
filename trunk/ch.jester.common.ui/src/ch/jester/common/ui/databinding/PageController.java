@@ -2,10 +2,10 @@ package ch.jester.common.ui.databinding;
 
 import java.util.List;
 
-import ch.jester.common.persistency.util.DaoMatchFilter;
-import ch.jester.common.persistency.util.EventLoadMatchingFilter;
-import ch.jester.common.persistency.util.PersistencyListener;
-import ch.jester.common.persistency.util.ScrollableResultListJPA;
+import ch.jester.common.persistency.DaoMatchFilter;
+import ch.jester.common.persistency.EventLoadMatchingFilter;
+import ch.jester.common.persistency.PersistencyListener;
+import ch.jester.common.persistency.ScrollableResultListJPA;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.ui.utility.UIUtility.IBusyRunnable;
