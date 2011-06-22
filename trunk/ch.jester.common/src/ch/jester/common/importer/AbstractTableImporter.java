@@ -17,13 +17,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
 import ch.jester.common.utility.AdapterBinding;
+import ch.jester.common.utility.ServiceConsumer;
 import ch.jester.commonservices.api.importer.IImportAttributeMatcher;
 import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.ITestableImportHandler;
 import ch.jester.commonservices.api.importer.IVirtualTable;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
-public abstract class AbstractTableImporter<T, V> implements IImportHandler<InputStream>, ITestableImportHandler<InputStream>, IImportAttributeMatcher{
+public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implements IImportHandler<InputStream>, ITestableImportHandler<InputStream>, IImportAttributeMatcher{
 	int workUnits = 10000000;
 	int singleUnitOfWork = -1;
 	int testLines = -1;
@@ -133,9 +134,21 @@ public abstract class AbstractTableImporter<T, V> implements IImportHandler<Inpu
 	public Object handleImport(InputStream pInputStream,int pContentLines,
 			IProgressMonitor pMonitor) {
 		boolean test = testLines!=pContentLines;
-		if(mProvider==null){
+		mProvider = null;
+		try{
 			mProvider = initialize(pInputStream);
+		}catch(ProcessingException e){
+			mProvider = null;
+			throw e;
 		}
+		/*if(mProvider==null){
+			try{
+				mProvider = initialize(pInputStream);
+			}catch(ProcessingException e){
+				mProvider = null;
+				throw e;
+			}
+		}*/
 		int rowsToRead = mProvider.getTotalRows();
 		if(test){
 			rowsToRead = pContentLines;
@@ -185,6 +198,8 @@ public abstract class AbstractTableImporter<T, V> implements IImportHandler<Inpu
 		}
 		catch (Exception e){
 			e.printStackTrace();
+		}finally{
+
 		}
 		return null;
 	}
@@ -306,5 +321,5 @@ public abstract class AbstractTableImporter<T, V> implements IImportHandler<Inpu
 
 	protected abstract V createNewDomainObject();
 	
-	public abstract IVirtualTable<T> initialize(InputStream pInputStream);
+	public abstract IVirtualTable<T> initialize(InputStream pInputStream) throws ProcessingException;
 }

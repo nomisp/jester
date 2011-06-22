@@ -10,6 +10,8 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -91,6 +93,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		setDescription("Import Players into jester"); //NON-NLS-1
 		mController = Controller.createController(this);
 	}
+	
 
 	/**
 	 * Create contents of the wizard.

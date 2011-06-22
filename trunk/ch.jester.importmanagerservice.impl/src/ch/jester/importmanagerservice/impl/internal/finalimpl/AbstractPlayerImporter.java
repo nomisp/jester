@@ -23,7 +23,6 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 	 * @uml.property  name="su"
 	 * @uml.associationEnd  
 	 */
-	protected ServiceUtility su = new ServiceUtility();
 	
 	@Override
 	public String[] getDomainObjectAttributes() {
@@ -35,7 +34,7 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 		int chunkSize = 10000;
 		SubListIterator<Player> iterator = new SubListIterator<Player>(pDomainObjects, chunkSize);
 		
-		IDaoService<Player> checker = su.getDaoServiceByEntity(Player.class);
+		IDaoService<Player> checker = getServiceUtility().getDaoServiceByEntity(Player.class);
 		checker.manualEventQueueNotification(true);
 		boolean checkDoubleEntries = checkDuplicates(checker);
 		Query duplQuery = createDuplicationCheckingQuery(checker);
@@ -43,14 +42,12 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 		int chunkCount = 0;
 		while(iterator.hasNext()){
 			List<Player> origList = iterator.next();
-			//IDaoService<Player> playerpersister = su.getDaoServiceByEntity(Player.class);
-			
 			List<Player> duplicates=null;
 			if(checkDoubleEntries){
 				pMonitor.subTask("Checking Duplicates");
 				List<?> codes = getDuplicationKeys(origList);
 				duplicates = duplQuery.setParameter(getParameter(), codes).getResultList();
-				System.out.println("Duplicates found >>>>"+duplicates.size());
+				getLogger().info("Duplicates found >>>>"+duplicates.size());
 				
 			}
 			pMonitor.subTask("Saving Players: "+(chunkSize*chunkCount)+" - "+(chunkSize*(chunkCount+1)));
@@ -79,13 +76,6 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 			IDaoService<? extends IEntityObject> pDaoService) {
 		return pDaoService.count()>0;
 	}
-	/*private List<Integer> createFideList(List<Player> sublist) {
-		List<Integer> fide = new ArrayList<Integer>();
-		for(Player p:sublist){
-			fide.add(p.getFideCode());
-		}
-		return fide;
-	}*/
 	@Override
 	protected Player createNewDomainObject() {
 		return ModelFactory.getInstance().createPlayer();

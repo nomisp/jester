@@ -13,7 +13,7 @@ import ch.jester.commonservices.util.ServiceUtility;
  */
 public class ServiceConsumer {
 	private ServiceUtility mService = ServiceUtility.getUtility();
-	private ILogger mLogger = CommonActivator.getInstance().getActivationContext().getLogger();
+	private ILogger mLogger = CommonActivator.getInstance().getActivationContext().getLogger(ServiceConsumer.this.getClass());
 	public ServiceUtility getServiceUtility(){
 		return mService;
 	}

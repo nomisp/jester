@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import ch.jester.commonservices.api.importer.IVirtualTable;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
+import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.importmanagerservice.impl.abstracts.ExcelSheetTableProvider;
 import ch.jester.model.Player;
 
@@ -41,17 +42,16 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 	
 	
 	@Override
-	public IVirtualTable<Row> initialize(InputStream pInputStream) {
+	public IVirtualTable<Row> initialize(InputStream pInputStream) throws ProcessingException {
 		ExcelSheetTableProvider provider = new ExcelSheetTableProvider();
 		try {
 			provider.setSheet(WorkbookFactory.create(pInputStream).getSheetAt(0));
 			return provider;
 		} catch (InvalidFormatException e) {
-			e.printStackTrace();
+			throw new ProcessingException(e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new ProcessingException(e);
 		}
-		return null;
 	}
 
 
