@@ -4,8 +4,8 @@ import java.sql.SQLException;
 
 import org.hsqldb.Server;
 
-import ch.jester.orm.IDatabaseManager;
-import ch.jester.orm.IORMConfiguration;
+import ch.jester.commonservices.api.persistency.IDatabaseManager;
+import ch.jester.commonservices.api.persistency.IORMConfiguration;
 import ch.jester.orm.ORMPlugin;
 
 
@@ -56,12 +56,7 @@ public class HSQLDatabaseManager implements IDatabaseManager {
 	public void shutdown() {
 		server.shutdown();
 	}
-
-	/*@Override
-	public String getIP() {
-		return "jdbc:hsqldb:hsql://localhost/"+ORMPlugin.getConfiguration().getDbname();
-	}*/
-
+	
 	@Override
 	public void editORMConfiguration(IORMConfiguration pConfig) {
 		mConfig = pConfig;

@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 import org.eclipse.core.runtime.Assert;
 
-import ch.jester.common.persistency.util.PersistencyEvent;
+import ch.jester.common.persistency.PersistencyEvent;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoService;

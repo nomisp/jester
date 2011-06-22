@@ -14,6 +14,8 @@ import org.osgi.framework.Bundle;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistency.IDatabaseManager;
+import ch.jester.commonservices.api.persistency.IORMConfiguration;
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
@@ -21,8 +23,6 @@ import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.impl.preferences.PreferenceManager;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.orm.IDatabaseManager;
-import ch.jester.orm.IORMConfiguration;
 import ch.jester.orm.ORMPlugin;
 
 public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreferencePropertyChanged{

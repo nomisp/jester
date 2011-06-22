@@ -39,6 +39,12 @@ public interface IPreferenceProperty {
 	 * @return den Wert des Properties oder der {@link #getDefaultValue()}
 	 */
 	public Object getValue();
+	
+	public String getStringValue();
+	
+	public Boolean getBooleanValue();
+	
+	public Integer getIntegerValue();
 
 	/**
 	 * Setzt den Wert des Properties

@@ -21,11 +21,11 @@ import org.hibernate.cfg.Configuration;
 import ch.jester.common.utility.ExtensionPointSettings;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
+import ch.jester.commonservices.api.persistency.IORMConfiguration;
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.orm.IORMConfiguration;
 
 
 

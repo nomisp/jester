@@ -1,4 +1,4 @@
-package ch.jester.common.persistency.util;
+package ch.jester.common.persistency;
 
 import java.util.AbstractList;
 import java.util.List;

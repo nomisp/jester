@@ -9,6 +9,8 @@ import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistency.IDatabaseManager;
+import ch.jester.commonservices.api.persistency.IORMConfiguration;
 import ch.jester.orm.internal.ORMAutoDBHandler;
 
 public class ORMPlugin extends AbstractUIActivator {
@@ -34,7 +36,7 @@ public class ORMPlugin extends AbstractUIActivator {
 
 	@Override
 	public void startDelegate(BundleContext context) {
-		handler = new ORMAutoDBHandler(/*this.getPreferenceStore(),*/ this);
+		handler = new ORMAutoDBHandler( this);
 		mLogger = getActivationContext().getLogger();
 		mLogger.info("ORMPlugin started");
 		handler.initialize();
@@ -48,6 +50,9 @@ public class ORMPlugin extends AbstractUIActivator {
 			manager.shutdown();
 
 		}
+		getJPAEntityManager().close();
+		getJPAEntityManager().getEntityManagerFactory().close();
+		mLogger.info("ORMPlugin stopped");
 	}
 
 	/**

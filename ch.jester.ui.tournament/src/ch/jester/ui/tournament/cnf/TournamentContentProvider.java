@@ -9,8 +9,8 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.navigator.CommonViewer;
 
-import ch.jester.common.persistency.util.EventLoadMatchingFilter;
-import ch.jester.common.persistency.util.PersistencyListener;
+import ch.jester.common.persistency.EventLoadMatchingFilter;
+import ch.jester.common.persistency.PersistencyListener;
 import ch.jester.common.ui.handlers.api.IHandlerDelete;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.AdapterBinding;
@@ -32,7 +32,6 @@ import ch.jester.model.Tournament;
 
 /**
  * ContentProvider für den NavigationTree des Turnieres
- * @author Peter
  *
  */
 public class TournamentContentProvider implements ITreeContentProvider, IHandlerDelete<IEntityObject> {
