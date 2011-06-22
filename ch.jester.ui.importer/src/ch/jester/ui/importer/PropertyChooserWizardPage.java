@@ -1,12 +1,11 @@
 package ch.jester.ui.importer;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
@@ -30,14 +29,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-import ch.jester.common.utility.AdapterUtility;
-import ch.jester.common.utility.ZipUtility;
-import ch.jester.commonservices.api.importer.IImportAttributeMatcher;
-import ch.jester.commonservices.api.importer.IImportHandler;
-import ch.jester.commonservices.api.importer.ITestableImportHandler;
-import ch.jester.commonservices.api.importer.IVirtualTable;
+import ch.jester.common.utility.ExceptionUtility;
+import ch.jester.common.utility.ExceptionWrapper;
 import ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;
+import ch.jester.commonservices.exceptions.ProcessingException;
+import ch.jester.ui.importer.internal.Controller;
 import ch.jester.ui.importer.internal.ImportData;
+import ch.jester.ui.importer.internal.ParseController;
 
 
 
@@ -50,8 +48,10 @@ public class PropertyChooserWizardPage extends WizardPage{
 	TableViewer mMatchingTableViewer ;
 	String[] values;
 	List<TableColumn> inputCols = new ArrayList<TableColumn>();
-	List<String[]> inputContent = new ArrayList<String[]>();
+	//List<String[]> inputContent = new ArrayList<String[]>();
 	HashMap<String, String> mLinking;
+	private ParseController mParseController = ParseController.getController();
+	
 	protected PropertyChooserWizardPage() {
 		super("Property Page");
 		setTitle("Property Matching"); //NON-NLS-1
@@ -121,7 +121,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 			
 			@Override
 			protected CellEditor getCellEditor(Object element) {
-				values = getInputAttributes();
+				values =mParseController.getInputAttributes();
 				String[] val = new String[values.length+1];
 				System.arraycopy(values, 0, val, 1, values.length);
 				val[0]="";
@@ -152,14 +152,14 @@ public class PropertyChooserWizardPage extends WizardPage{
 				AddColumnDialog dialog = new AddColumnDialog(Display.getDefault().getActiveShell());
 				dialog.create();
 				dialog.setBlockOnOpen(true);
-				dialog.setInputText(PropertyChooserWizardPage.this.getVirtualTableProvider().getDynamicInput(20));
-				dialog.setCell(PropertyChooserWizardPage.this.getVirtualTableProvider().getCells());
+				dialog.setInputText(mParseController.getVirtualTableProvider().getDynamicInput(20));
+				dialog.setCell(mParseController.getVirtualTableProvider().getCells());
 				int ret = dialog.open();
 				if(IDialogConstants.OK_ID!=ret){return;}
 				List<IVirtualCell> cell = dialog.getCell();
-				getVirtualTableProvider().clearCells();
+				mParseController.getVirtualTableProvider().clearCells();
 				for(IVirtualCell c:cell){
-					getVirtualTableProvider().addCell(c);
+					mParseController.getVirtualTableProvider().addCell(c);
 				}
 				parse();
 			
@@ -202,14 +202,15 @@ public class PropertyChooserWizardPage extends WizardPage{
 
 	public void setInput(ImportData importSelection) {
 		mSelection = importSelection;
+		mParseController.setData(mSelection);
 	}
+	
+	
 	@SuppressWarnings("unchecked")
 	private void parse() {
-		String[] headers = getInputAttributes();
+		String[] headers = mParseController.getInputAttributes();
 		if(headers.length==0){return;}
-		for(TableColumn c:inputCols){
-			c.dispose();
-		}
+		resetTableColumns();
 		
 		for(String h:headers){
 			TableViewerColumn tableViewerColumn = new TableViewerColumn(mInputTableViewer, SWT.NONE);
@@ -220,84 +221,27 @@ public class PropertyChooserWizardPage extends WizardPage{
 			
 		}
 
+		mLinking = (HashMap<String, String>) mParseController.getPredefiniedLinking().clone();
 		mInputTableViewer.setInput(null);
 		mInputTableViewer.setLabelProvider(new InputTableViewerLabelProvider());
-		mInputTableViewer.setInput(getContent(headers.length));
-		
-		mLinking = (HashMap<String, String>) getPredefiniedLinking().clone();
-		mMatchingTableViewer.setInput(getDomainAttributes());
-		btnAddCol.setEnabled(canAddColumns());
+		mInputTableViewer.setInput(mParseController.getContent(headers.length));
+		mMatchingTableViewer.setInput(mParseController.getDomainAttributes());
+		btnAddCol.setEnabled(mParseController.canAddColumns());
 
 	}
-
-	@SuppressWarnings("unchecked")
-	public List<String[]> getContent(int pLength){
-		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
-		IVirtualTable<Object> access = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
-		
-		inputContent.clear();
-		for(int i=1;i<20;i++){
-			Object o = access.getRow(i);
-			if(o!=null){
-				String[] rowcontent = access.processRow(o, pLength);
-				inputContent.add(rowcontent);
-			}
+	private void resetTableColumns(){
+		for(TableColumn c:inputCols){
+			c.dispose();
 		}
-		
-		
-		return inputContent;
+	}
+	private void reset(){
+		resetTableColumns();
+		mInputTableViewer.setInput(null);
+		mMatchingTableViewer.setInput(null);
+		btnAddCol.setEnabled(false);
+	}	
 
-	}
-	
-	public HashMap<String, String> getLinking(){
-		return mLinking;
-	}
-	
 
-	private boolean canAddColumns(){
-		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
-		IVirtualTable<?> virtual = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
-		return virtual.canAddCells();
-	}
-
-	private IVirtualTable<?> getVirtualTableProvider(){
-		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
-		IVirtualTable<?> virtual = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
-		return virtual;
-	}
-	
-
-	private String[] getInputAttributes(){
-		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
-		@SuppressWarnings("unchecked")
-		ITestableImportHandler<Object> testableHandler = AdapterUtility.getAdaptedObject(handler, ITestableImportHandler.class);
-		if(testableHandler==null){
-			return new String[]{};
-		}
-		final InputStream instream = ZipUtility.getZipEntry(mSelection.getSelectedZipFile(), mSelection.getSelectedZipEntry());
-		testableHandler.handleImport(instream,20, new NullProgressMonitor());
-		try {
-			instream.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		IVirtualTable<?> access = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
-		return access.getHeaderEntries();
-	}
-
-	private String[] getDomainAttributes(){
-		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
-		IImportAttributeMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportAttributeMatcher.class);
-		return attributehandler.getDomainObjectAttributes();
-	}
-
-	private HashMap<String, String> getPredefiniedLinking(){
-		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
-		IImportAttributeMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportAttributeMatcher.class);
-		return attributehandler.getInputLinking();
-		
-	}
 	
 	class MatchingTableViewerLabelProvider implements ITableLabelProvider{
 
@@ -365,16 +309,44 @@ public class PropertyChooserWizardPage extends WizardPage{
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	public void applyChanges() {
 		if(mLinking==null){return;}
-		IImportHandler handler = mSelection.getSelectedHandlerEntry().getService();
-		IImportAttributeMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportAttributeMatcher.class);
-		attributehandler.setInputLinking(mLinking);
-		
+		mParseController.getImportAttributeMatcher().setInputLinking(mLinking);
 	}
-
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if(visible){
+			init();
+		}
+	}
+	
 	public void init() {
-		parse();
+		SafeRunner.run(new ISafeRunnable() {
+			
+			@Override
+			public void run() throws Exception {
+				Controller.getController().setImportPossible(false);
+				setPageComplete(false);
+				PropertyChooserWizardPage.this.getContainer().updateButtons();
+				setErrorMessage(null);
+				reset();
+				parse();
+				Controller.getController().setImportPossible(true);
+				setPageComplete(true);
+				PropertyChooserWizardPage.this.getContainer().updateButtons();
+			}
+			
+			@Override
+			public void handleException(Throwable exception) {
+				Controller.getController().setImportPossible(false);
+				setPageComplete(false);
+				PropertyChooserWizardPage.this.getContainer().updateButtons();
+				ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
+				setErrorMessage(ew.getThrowableMessage());
+			}
+		});
 	}
+	
+	
 }

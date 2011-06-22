@@ -4,20 +4,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.WizardPage;
 
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.common.utility.ExceptionUtility;
+import ch.jester.common.utility.ExceptionWrapper;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
 import ch.jester.commonservices.api.importer.IWebImportHandlerEntry;
+import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.ui.importer.PropertyChooserWizardPage;
 
 public class Controller {
 	private StructuredViewer mProvV, mDLV;
@@ -32,6 +37,8 @@ public class Controller {
 	private int mode = 2;
 	private ImportData model = new ImportData();
 	private boolean oldIsPageFinished;
+	private boolean importPossible = true;
+
 	private Controller(WizardPage pPage){
 		mPage = pPage;
 		IImportManager manager = mService.getService(IImportManager.class);
@@ -46,6 +53,8 @@ public class Controller {
 			}
 		}
 	}
+	
+
 	
 	
 	public void setWebMode(){
@@ -76,6 +85,7 @@ public class Controller {
 		mFEV.getControl().setEnabled(b);
 		mHV.getControl().setEnabled(b);
 	}
+
 	
 	public void reset(){
 		model.reset();
@@ -102,7 +112,7 @@ public class Controller {
 				pageComplete=false;
 			}
 		}
-		
+
 		final boolean finalized = pageComplete;
 		if(oldIsPageFinished==finalized){
 			return;
@@ -116,8 +126,42 @@ public class Controller {
 				mPage.getWizard().getContainer().updateButtons();
 			}
 		});
+		if(oldIsPageFinished){
+			
+			doTestRun();
+		}
 		
 	}
+	private void doTestRun() {
+		SafeRunner.run(new ISafeRunnable() {
+			
+			@Override
+			public void run() throws Exception {
+				setImportPossible(false);
+				mPage.setPageComplete(false);
+				mPage.getWizard().getContainer().updateButtons();
+				mPage.setErrorMessage(null);
+				ParseController.getController().testRun();
+				setImportPossible(true);
+				mPage.setPageComplete(true);
+				mPage.getWizard().getContainer().updateButtons();
+			}
+			
+			@Override
+			public void handleException(Throwable exception) {
+				Controller.getController().setImportPossible(false);
+				mPage.setPageComplete(false);
+				mPage.getWizard().getContainer().updateButtons();
+				ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
+				mPage.setErrorMessage(ew.getThrowableMessage());
+			}
+		});
+		
+	}
+
+
+
+
 	public Object[] filterZipEntries(Object[] array) {
 		if(model.webEntry!=null){
 			return filterWeb(array);
@@ -235,7 +279,6 @@ public class Controller {
 	public void setSelectedHandlerEntry(IImportHandlerEntry entry) {
 		model.handlerEntry=entry;
 		checkState();
-		
 	}
 
 
@@ -248,4 +291,17 @@ public class Controller {
 		return oldIsPageFinished;
 	}
 
+
+	public boolean canFinish() {
+		checkState();
+			if(!oldIsPageFinished){
+				return false;
+			}
+		
+		return importPossible;
+	}
+
+	public void setImportPossible(boolean b){
+		b = importPossible;
+	}
 }
