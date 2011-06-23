@@ -14,7 +14,7 @@ Require-Bundle: ch.jester.commonservices.api;bundle-version="1.0.0",
  org.eclipse.equinox.ds;bundle-version="1.2.1"
 Import-Package: org.eclipse.core.runtime,
  org.osgi.framework
-Service-Component: OSGI-INF/ILoggingFactoryProvider.xml, OSGI-INF/IPingProvider.xml, OSGI-INF/IHTTPProxyAdapter.xml, OSGI-INF/ITempManager.impl.xml, OSGI-INF/IPreferenceRegistration.xml
+Service-Component: OSGI-INF/ILoggingFactoryProvider.xml, OSGI-INF/IPingProvider.xml, OSGI-INF/IHTTPProxyAdapter.xml, OSGI-INF/ITempManager.impl.xml, OSGI-INF/IPreferenceRegistration.xml, OSGI-INF/PeriodicUpdateHanlder.xml
 Bundle-ActivationPolicy: lazy
 Export-Package: ch.jester.commonservices.impl.persistencyevent,
  ch.jester.commonservices.impl.preferences
