@@ -45,6 +45,10 @@ public class P2Util {
 
 	}
 
+	public static void checkForUpdates(IProgressMonitor monitor){
+		doCheckForUpdates(new AccumulatingProgressMonitor(monitor, Display.getDefault()));
+	}
+	
 	private static void doCheckForUpdates(IProgressMonitor monitor) {
 		BundleContext bundleContext = Activator.getDefault().getBundle().getBundleContext();
 		ServiceReference reference = bundleContext.getServiceReference(IProvisioningAgent.SERVICE_NAME);
