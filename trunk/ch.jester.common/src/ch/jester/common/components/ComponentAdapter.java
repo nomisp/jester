@@ -12,6 +12,7 @@ import ch.jester.commonservices.api.logging.ILogger;
  */
 public class ComponentAdapter<T> implements IComponentService<T>{
 	private ILogger mLogger;
+	private ComponentContext mContext;
 	@Override
 	public void start(ComponentContext pComponentContext) {
 
@@ -19,7 +20,11 @@ public class ComponentAdapter<T> implements IComponentService<T>{
 
 	@Override
 	public void stop(ComponentContext pComponentContext) {
-
+		
+	}
+	
+	public ComponentContext getContext(){
+		return mContext;
 	}
 
 	@Override
