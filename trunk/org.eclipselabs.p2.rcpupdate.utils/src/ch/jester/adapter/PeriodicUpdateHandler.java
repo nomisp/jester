@@ -1,4 +1,4 @@
-package jester.adapter;
+package ch.jester.adapter;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -20,7 +20,13 @@ public class PeriodicUpdateHandler extends InjectedLogFactoryComponentAdapter<IP
 	private final static String PP_DEF_INTERVAL = "startup";
 	private static final String[][] PP_SELECTDEF_INTERVAL= new String[][]{{"on startup","startup"},{"manually","manually"}};
 	private IPreferenceProperty mInterval;
+	
 	private IPreferenceManager mManager;
+	
+	public PeriodicUpdateHandler(){
+		
+	}
+	
 	void initPreferences(IPreferenceRegistration pT){
 		mManager = pT.createManager();
 		mManager.setId(PM_ID);
