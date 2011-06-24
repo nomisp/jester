@@ -83,7 +83,7 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 		
 		//mPrefManager.create("javax.persistence.query.timeout","javax.persistence.query.timeout","0"  );
 		//mPrefManager.create("javax.persistence.lock.timeout","javax.persistence.lock.timeout","0"  );
-		
+		mConnectionURLProp.setDefaultValue(getConnectionurl());
 		mConnectionURLProp.setValue(getConnectionurl());
 		
 		
