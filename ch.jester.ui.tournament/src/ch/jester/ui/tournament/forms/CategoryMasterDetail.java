@@ -9,6 +9,17 @@ import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.FormData;
 
 public class CategoryMasterDetail extends MasterDetailsBlock {
 
@@ -31,13 +42,40 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	protected void createMasterPart(IManagedForm managedForm, Composite parent) {
 		toolkit = managedForm.getToolkit();
 		//		
-		Section section = toolkit.createSection(parent,
+		Section sctnCategories = toolkit.createSection(parent,
 				ExpandableComposite.EXPANDED | ExpandableComposite.TITLE_BAR);
-		section.setText("Empty Master Section");
+		sctnCategories.setText("Categories");
 		//
-		Composite composite = toolkit.createComposite(section, SWT.NONE);
+		Composite tableComposite = toolkit.createComposite(sctnCategories, SWT.NONE);
+		toolkit.paintBordersFor(tableComposite);
+		sctnCategories.setClient(tableComposite);
+		GridLayout gl_tableComposite = new GridLayout(2, false);
+		tableComposite.setLayout(gl_tableComposite);
+		
+		Section sctnAllCategories = toolkit.createSection(tableComposite, Section.TWISTIE | Section.TITLE_BAR);
+		GridData gd_sctnAllCategories = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_sctnAllCategories.widthHint = 281;
+		sctnAllCategories.setLayoutData(gd_sctnAllCategories);
+		toolkit.paintBordersFor(sctnAllCategories);
+		sctnAllCategories.setText("All Categories");
+		sctnAllCategories.setExpanded(true);
+		
+		Composite composite = toolkit.createComposite(sctnAllCategories, SWT.NONE);
 		toolkit.paintBordersFor(composite);
-		section.setClient(composite);
+		sctnAllCategories.setClient(composite);
+		composite.setLayout(new FormLayout());
+		
+		Section sctnCategoryDetails = toolkit.createSection(tableComposite, Section.TWISTIE | Section.TITLE_BAR);
+		GridData gd_sctnCategoryDetails = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_sctnCategoryDetails.widthHint = 326;
+		sctnCategoryDetails.setLayoutData(gd_sctnCategoryDetails);
+		toolkit.paintBordersFor(sctnCategoryDetails);
+		sctnCategoryDetails.setText("Category Details");
+		sctnCategoryDetails.setExpanded(true);
+		
+		Composite composite_1 = toolkit.createComposite(sctnCategoryDetails, SWT.NONE);
+		toolkit.paintBordersFor(composite_1);
+		sctnCategoryDetails.setClient(composite_1);
 	}
 
 	/**
@@ -57,5 +95,4 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	protected void createToolBarActions(IManagedForm managedForm) {
 		// Create the toolbar actions
 	}
-
 }

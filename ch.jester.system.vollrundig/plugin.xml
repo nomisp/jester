@@ -5,6 +5,8 @@
          point="ch.jester.system.api.PairingAlgorithm">
       <PairingAlgorithm
             class="ch.jester.system.vollrundig.VollrundigPairingAlgorithm"
+            pluginId="ch.jester.system.vollrundig"
+            settingsPage="ch.jester.system.vollrundig.ui.RoundRobinSettingsPage"
             shortType="Round-Robin"
             typeDescription="Round-Robin Pairing-System">
       </PairingAlgorithm>

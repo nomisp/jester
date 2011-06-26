@@ -7,7 +7,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.ui.forms.editor.FormEditor;
 
+import ch.jester.common.settings.ISettingObject;
 import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.commonservices.api.logging.ILogger;
@@ -21,11 +23,13 @@ import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
+import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.system.exceptions.NoStartingNumbersException;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.pairing.impl.PairingHelper;
 import ch.jester.system.vollrundig.internal.VollrundigSystemActivator;
+import ch.jester.system.vollrundig.ui.RoundRobinSettingsPage;
 
 /**
  * Implementierung des Round-Robin Paarungsalgorithmuses
@@ -249,5 +253,10 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 			// Nothing to do
 			mLogger.info("SettingItem not found in Database");
 		}
+	}
+
+	@Override
+	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor) {
+		return new RoundRobinSettingsPage(editor, "RoundRobinSettingsPage", "Settings.title");
 	}
 }

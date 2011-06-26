@@ -1,13 +1,21 @@
 package ch.jester.ui.tournament.editors;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.PartInitException;
 
+import ch.jester.common.settings.ISettingObject;
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Tournament;
+import ch.jester.system.api.pairing.IPairingAlgorithm;
+import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
+import ch.jester.system.api.pairing.IPairingManager;
+import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.ui.tournament.ctrl.TournamentDetailsController;
 import ch.jester.ui.tournament.forms.CategoryFormPage;
 import ch.jester.ui.tournament.forms.TournamentFormPage;
@@ -22,6 +30,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 	public static final String ID = "ch.jester.ui.tournament.tournamentEditor";
 	private TournamentFormPage mTournamentPage;
 	private TournamentDetailsController mTournamentController;
+	private ServiceUtility mService = new ServiceUtility();
 	
 	public TournamentEditor() {
 		super(true);
@@ -44,9 +53,12 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 			}
 		});
 		CategoryFormPage categoryPage = new CategoryFormPage(this);
+		AbstractSystemSettingsFormPage settingsPage = findSettingsPage();
+		
 		try {
 			addPage(tournamentPage);
 			addPage(categoryPage);
+			if (settingsPage != null) addPage(settingsPage);
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
@@ -100,5 +112,21 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 			mTournamentController.getTournament();
 		}
 		mTournamentController.updateUI();
+	}
+	
+	private AbstractSystemSettingsFormPage findSettingsPage() {
+		Tournament tourn = mDaoInput.getInput();
+		String settingsPage = tourn.getSettingsPage();
+		IPairingManager manager = mService.getService(IPairingManager.class);
+		IPairingAlgorithm pairingAlgorithm = null;
+		List<IPairingAlgorithmEntry> pairingSystems = manager.getRegistredEntries();
+		for (IPairingAlgorithmEntry pairingAlgorithmEntry : pairingSystems) {
+			if (pairingAlgorithmEntry.getSettingsPage().equals(settingsPage)) {
+				pairingAlgorithm = pairingAlgorithmEntry.getService();
+				break;
+			}
+		}
+		
+		return pairingAlgorithm != null ? pairingAlgorithm.getSettingsFormPage(this) : null;
 	}
 }

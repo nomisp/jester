@@ -1,6 +1,11 @@
 package ch.jester.ui.tournament.ctrl;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
+import org.eclipse.core.databinding.beans.BeansObservables;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.swt.SWT;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.model.Tournament;
@@ -23,6 +28,21 @@ public class TournamentDetailsController {
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		// TODO Peter: Bindings!
+		IObservableValue nameObserveWidget = SWTObservables.observeText(tournamentDetails.getNameText(), SWT.Modify);
+		IObservableValue nameObserveValue = BeansObservables.observeValue(tournament, "name");
+		bindingContext.bindValue(nameObserveWidget, nameObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+		
+		IObservableValue descriptionObserveWidget = SWTObservables.observeText(tournamentDetails.getDescriptionText(), SWT.Modify);
+		IObservableValue descriptionObserveValue = BeansObservables.observeValue(tournament, "description");
+		bindingContext.bindValue(descriptionObserveWidget, descriptionObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+		
+		IObservableValue dateFromWidget = SWTObservables.observeSelection(tournamentDetails.getDateFrom());
+		IObservableValue dateFromValue = BeansObservables.observeValue(tournament, "dateFrom");
+		bindingContext.bindValue(dateFromWidget, dateFromValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+		
+		IObservableValue dateToWidget = SWTObservables.observeSelection(tournamentDetails.getDateTo());
+		IObservableValue dateToValue = BeansObservables.observeValue(tournament, "dateTo");
+		bindingContext.bindValue(dateToWidget, dateToValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
 		return bindingContext;
 	}
 

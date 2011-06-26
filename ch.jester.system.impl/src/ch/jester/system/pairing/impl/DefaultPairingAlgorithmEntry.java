@@ -9,6 +9,11 @@ public class DefaultPairingAlgorithmEntry extends EPEntry<IPairingAlgorithm> imp
 	public DefaultPairingAlgorithmEntry(IPairingAlgorithm pService) {
 		super(pService);
 	}
+
+	@Override
+	public String getPluginId() {
+		return getProperty(IPairingAlgorithmEntry.PLUGINID);
+	}
 	
 	@Override
 	public String getImplementationClass() {
@@ -23,6 +28,11 @@ public class DefaultPairingAlgorithmEntry extends EPEntry<IPairingAlgorithm> imp
 	@Override
 	public String getDescription() {
 		return getProperty(IPairingAlgorithmEntry.TYPEDESCRIPTION);
+	}
+
+	@Override
+	public String getSettingsPage() {
+		return getProperty(IPairingAlgorithmEntry.SETTINGSPAGE);
 	}
 	
 	public String toString() {

@@ -1,29 +1,32 @@
 package ch.jester.ui.tournament.forms;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.Section;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.ui.tournament.ctrl.TournamentDetailsController;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.swt.widgets.Text;
+import ch.jester.ui.tournament.editors.TournamentEditor;
+import org.eclipse.swt.widgets.DateTime;
 
 public class TournamentFormPage extends FormPage implements IDirtyManagerProvider {
-
 	private TournamentDetailsController mController;
 	private SWTDirtyManager dm = new SWTDirtyManager();
 	private Text nameText;
 	private Text descriptionText;
+	private DateTime dateFrom;
+	private DateTime dateTo;
 	
 	/**
 	 * Create the form page.
@@ -116,6 +119,23 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 		Composite clientCategory = managedForm.getToolkit().createComposite(sctnCategory, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(clientCategory);
 		sctnCategory.setClient(clientCategory);
+		
+		Label lblDateFrom = managedForm.getToolkit().createLabel(clientTournament, "Date From", SWT.NONE);
+		
+		dateFrom = new DateTime(clientTournament, SWT.BORDER);
+		managedForm.getToolkit().adapt(dateFrom);
+		managedForm.getToolkit().paintBordersFor(dateFrom);
+		
+		Label lblDateTo = managedForm.getToolkit().createLabel(clientTournament, "Date To", SWT.NONE);
+		
+		dateTo = new DateTime(clientTournament, SWT.BORDER);
+		managedForm.getToolkit().adapt(dateTo);
+		managedForm.getToolkit().paintBordersFor(dateTo);
+
+		dm.add(nameText, descriptionText, dateFrom, dateTo);
+		
+		mController = new TournamentDetailsController(this);
+		((TournamentEditor)getEditor()).init_0(this);
 	}
 
 	@Override
@@ -141,5 +161,21 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 
 	public void setDescriptionText(Text descriptionText) {
 		this.descriptionText = descriptionText;
+	}
+
+	public DateTime getDateFrom() {
+		return dateFrom;
+	}
+
+	public void setDateFrom(DateTime dateFrom) {
+		this.dateFrom = dateFrom;
+	}
+
+	public DateTime getDateTo() {
+		return dateTo;
+	}
+
+	public void setDateTo(DateTime dateTo) {
+		this.dateTo = dateTo;
 	}
 }

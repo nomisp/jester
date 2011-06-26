@@ -3,10 +3,13 @@ package ch.jester.system.api.pairing;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.ui.forms.editor.FormEditor;
 
+import ch.jester.common.settings.ISettingObject;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
 import ch.jester.model.Tournament;
+import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 
@@ -35,4 +38,6 @@ public interface IPairingAlgorithm {
 	 * @throws PairingNotPossibleException Paarungsauslosung kann nicht durchgeführt werden z.B. sind weder Runden noch Spieler zugewiesen
 	 */
 	public List<Pairing> executePairings(Category category, IProgressMonitor pMonitor) throws NotAllResultsException, PairingNotPossibleException;
+	
+	public AbstractSystemSettingsFormPage<ISettingObject> getSettingsFormPage(FormEditor editor);
 }
