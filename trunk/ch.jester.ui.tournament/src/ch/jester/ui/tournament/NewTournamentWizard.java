@@ -78,7 +78,9 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					tournament.setYear(getYear(dateFrom));
 					tournament.setDateFrom(dateFrom);
 					tournament.setDateTo(dateTo);
+					tournament.setPairingSystemPlugin(systemPage.getPairingAlgorithmEntry().getPluginId());
 					tournament.setPairingSystem(systemPage.getPairingAlgorithmEntry().getImplementationClass());
+					tournament.setSettingsPage(systemPage.getPairingAlgorithmEntry().getSettingsPage());
 					tournament.setRankingSystem(systemPage.getRankingSystemEntry().getImplementationClass());
 					tournament.setEloCalculator(systemPage.getEloCalculatorEntry().getImplementationClass());
 					tournament.setCategories(categories);	// Aufgrund des Cascadings werden die hinzugefügten Kategorien gleich mit persistiert

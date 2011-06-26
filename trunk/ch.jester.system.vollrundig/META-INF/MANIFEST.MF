@@ -10,9 +10,13 @@ Require-Bundle: org.eclipse.core.runtime,
  ch.jester.commonservices.api;bundle-version="1.0.0",
  ch.jester.system.api;bundle-version="1.0.0",
  ch.jester.system.impl;bundle-version="1.0.0",
- ch.jester.model;bundle-version="1.0.0"
+ ch.jester.model;bundle-version="1.0.0",
+ org.eclipse.ui.forms;bundle-version="3.5.0",
+ ch.jester.common.ui;bundle-version="1.0.0",
+ org.eclipse.ui;bundle-version="3.6.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.persistence
 Export-Package: ch.jester.system.vollrundig,
- ch.jester.system.vollrundig.internal
+ ch.jester.system.vollrundig.internal,
+ ch.jester.system.vollrundig.ui

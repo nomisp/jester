@@ -52,8 +52,14 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	@Temporal(TemporalType.DATE)
 	private Date dateTo;
 	
+	@Column(name="PairingSystemPlugin", nullable=false)
+	private String pairingSystemPlugin;	// Plugin-Id des PairingSystems um Eindeutigkeit der Implementierungsklasse zu garantieren
+	
 	@Column(name="PairingSystem", nullable=false)
 	private String pairingSystem; // Paarungssystem (als deklarativer Service implementiert) entspricht dem EP-Attribut: class
+	
+	@Column(name="SettingsPage", nullable=true)
+	private String settingsPage; // FormPage-Klasse für die Benutzereinstellungen
 	
 	@Column(name="RankingSystem", nullable=false)
 	private String rankingSystem; // Feinwertung (als deklarativer Service implementiert) entspricht dem EP-Attribut: class
@@ -111,12 +117,28 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		this.dateTo = dateTo;
 	}
 
+	public String getPairingSystemPlugin() {
+		return pairingSystemPlugin;
+	}
+
+	public void setPairingSystemPlugin(String pairingSystemPlugin) {
+		this.pairingSystemPlugin = pairingSystemPlugin;
+	}
+
 	public String getPairingSystem() {
 		return pairingSystem;
 	}
 
 	public void setPairingSystem(String pairingSystem) {
 		this.pairingSystem = pairingSystem;
+	}
+
+	public String getSettingsPage() {
+		return settingsPage;
+	}
+
+	public void setSettingsPage(String settingsPage) {
+		this.settingsPage = settingsPage;
 	}
 
 	public String getRankingSystem() {

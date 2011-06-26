@@ -8,6 +8,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
@@ -23,7 +24,11 @@ public class SWTDirtyManager extends DirtyManager implements DisposeListener{
 	}
 	private Listener installListener(Control pControl) {
 		Listener l = new ModifyListener();
-		pControl.addListener(SWT.Modify, l);
+		if (pControl instanceof DateTime) {
+			pControl.addListener(SWT.Selection, l);
+		} else {
+			pControl.addListener(SWT.Modify, l);
+		}
 		pControl.addDisposeListener(this);
 		return l;
 		
@@ -41,7 +46,11 @@ public class SWTDirtyManager extends DirtyManager implements DisposeListener{
 	public void widgetDisposed(DisposeEvent e) {
 		Object object = e.widget;
 		Listener listener = mListeners.get(object);
-		((Control)object).removeListener(SWT.Modify, listener);
+		if (object instanceof DateTime) {
+			((Control)object).removeListener(SWT.Selection, listener);
+		} else {
+			((Control)object).removeListener(SWT.Modify, listener);
+		}
 		((Control)object).removeDisposeListener(SWTDirtyManager.this);
 	}
 	class ModifyListener implements Listener{
