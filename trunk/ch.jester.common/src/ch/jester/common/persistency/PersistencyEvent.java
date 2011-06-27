@@ -6,11 +6,21 @@ import java.util.List;
 
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 
+/**
+ * @author  t117221
+ */
 public class PersistencyEvent implements IPersistencyEvent {
 
 	private Object mSource;
 	private Collection<?> mLoad;
+	/**
+	 * @uml.property  name="mOperation"
+	 * @uml.associationEnd  
+	 */
 	private Operation mOperation;
+	/**
+	 * @uml.property  name="loadClass"
+	 */
 	private Class<?> loadClass;
 	@SuppressWarnings("unchecked")
 	public PersistencyEvent(Object pSource, Object pLoad, Operation pOps){
@@ -35,6 +45,10 @@ public class PersistencyEvent implements IPersistencyEvent {
 
 	/* (non-Javadoc)
 	 * @see ch.jester.common.persistency.util.IPersistencyEvent#getLoadClass()
+	 */
+	/**
+	 * @return
+	 * @uml.property  name="loadClass"
 	 */
 	@Override
 	public Class<?> getLoadClass(){

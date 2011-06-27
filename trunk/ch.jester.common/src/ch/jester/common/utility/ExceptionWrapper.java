@@ -9,7 +9,9 @@ import java.lang.reflect.InvocationTargetException;
  *
  */
 public class ExceptionWrapper{
-	Throwable mEx, mRoot, mT;
+	Throwable mEx;
+	Throwable mRoot;
+	Throwable mT;
 	Class<?> mClz;
 	 ExceptionWrapper(Throwable pException, Class<?> pExceptionClass){
 		mEx = pException;

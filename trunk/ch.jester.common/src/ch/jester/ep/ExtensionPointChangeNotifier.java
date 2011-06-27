@@ -16,11 +16,19 @@ import org.eclipse.core.runtime.dynamichelpers.IFilter;
 import ch.jester.common.activator.internal.CommonActivator;
 import ch.jester.commonservices.api.logging.ILogger;
 
+/**
+ * @author  t117221
+ */
 public class ExtensionPointChangeNotifier implements IExtensionChangeHandler,
 		IRegistryChangeListener {
 	ExtensionTracker tracker;
-	private String mId, mName;
+	private String mId;
+	private String mName;
 	private boolean open;
+	/**
+	 * @uml.property  name="mLogger"
+	 * @uml.associationEnd  
+	 */
 	private ILogger mLogger = CommonActivator.getInstance().getActivationContext().getLogger();
 	public ExtensionPointChangeNotifier(String id, String name) {
 		mId = id;

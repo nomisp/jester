@@ -8,7 +8,9 @@ import java.net.HttpURLConnection;
 import ch.jester.commonservices.api.importer.ILink;
 
 public class Link implements ILink{
-	private String mText, mURL, mRoot;
+	private String mText;
+	private String mURL;
+	private String mRoot;
 	public Link(String pText, String pURL){
 		mText=pText;
 		mURL=pURL;

@@ -5,11 +5,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
+/**
+ * @author  t117221
+ */
 public class PageReader {
 	public interface IPageReaderFilter{
 		public void filter(String pContentLine, PageReader pReader);
 
 	}
+	/**
+	 * @uml.property  name="mFilter"
+	 * @uml.associationEnd  
+	 */
 	private IPageReaderFilter mFilter;
 	private String  mDL;
 	public void setFilter(IPageReaderFilter pFilter){

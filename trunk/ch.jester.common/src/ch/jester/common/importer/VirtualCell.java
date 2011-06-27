@@ -6,8 +6,11 @@ import java.util.StringTokenizer;
 import ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;
 
 public class VirtualCell implements IVirtualCell {
-		String delim, mName;
-		int seq = -1, cellStart, cellStop;
+		String delim;
+		String mName;
+		int seq = -1;
+		int cellStart;
+		int cellStop;
 
 		public VirtualCell(String name, int pCellStart, int pCellStop) {
 			cellStart = pCellStart;

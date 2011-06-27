@@ -10,12 +10,14 @@ import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.util.ServiceUtility;
 
 /**
- * Die Defaultimplementierung von IActivationContext.
- * Die Informationen werden vom BundleContext zur Verfügung gestellt
- * 
+ * Die Defaultimplementierung von IActivationContext. Die Informationen werden vom BundleContext zur Verfügung gestellt
  */
 public class DefaultBundleActivatorContext<V> implements IActivationContext<V> {
 	protected BundleContext mContext;
+	/**
+	 * @uml.property  name="mServiceUtility"
+	 * @uml.associationEnd  
+	 */
 	private ServiceUtility mServiceUtility;
 	private String mPluginId;
 	private V mActivator;
