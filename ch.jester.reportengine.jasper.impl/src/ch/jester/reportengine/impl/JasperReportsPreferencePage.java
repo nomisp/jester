@@ -44,10 +44,21 @@ import ch.jester.reportengine.impl.internal.Initializer;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
+/**
+ * @author  t117221
+ */
 public class JasperReportsPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	private Table table;
+	/**
+	 * @uml.property  name="mSelected"
+	 * @uml.associationEnd  
+	 */
 	private IReport mSelected;
 	private TableViewer tableViewer;
+	/**
+	 * @uml.property  name="su"
+	 * @uml.associationEnd  
+	 */
 	private final ServiceUtility su = new ServiceUtility();
 	/**
 	 * Create the preference page.

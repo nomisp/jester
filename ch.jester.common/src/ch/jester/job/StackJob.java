@@ -13,15 +13,20 @@ import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
 
 /**
- * Job der einen Stack von gleichen Messages abarbeitet, 
- * wovon nur die letzte verarbeitet werden soll.
- * 
- *
- * @param <T>
+ * Job der einen Stack von gleichen Messages abarbeitet,  wovon nur die letzte verarbeitet werden soll.
+ * @param  <T >
  */
 public abstract class StackJob<T> extends Job{
 	private Stack<T> eventStack;
+	/**
+	 * @uml.property  name="watch"
+	 * @uml.associationEnd  
+	 */
 	private StopWatch watch = new StopWatch();
+	/**
+	 * @uml.property  name="mLogger"
+	 * @uml.associationEnd  
+	 */
 	private ILogger mLogger = CommonActivator.getInstance().getActivationContext().getLogger();
 	public StackJob(String name, Stack<T> pEventStack) {
 		super(name);

@@ -17,17 +17,27 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.ep.ExtensionPointChangeNotifier;
 
 /**
- * Abstrakte Komponente welche, auf einen ExtensionPoint horcht und die daran
- * registrierten Services als Proxies bei sich registriert
- *
- * @param <V> der EntryTyp
- * @param <T> der Handler
+ * Abstrakte Komponente welche, auf einen ExtensionPoint horcht und die daran registrierten Services als Proxies bei sich registriert
+ * @param  < V  >  der EntryTyp
+ * @param  < T  >  der Handler
  */
 public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements IEPEntryComponentService<V, T> {
 	private Object mLock=new Object();
 	private ComponentContext mContext;
+	/**
+	 * @uml.property  name="mLogger"
+	 * @uml.associationEnd  
+	 */
 	private ILogger mLogger;
+	/**
+	 * @uml.property  name="mActivationContext"
+	 * @uml.associationEnd  
+	 */
 	private IActivationContext<?> mActivationContext;
+	/**
+	 * @uml.property  name="mEPNotifier"
+	 * @uml.associationEnd  
+	 */
 	private ExtensionPointChangeNotifier mEPNotifier;
 	private Class<T> mClassType;
 	private HashMap<V,T> mImportHandlers = new HashMap<V,T>();

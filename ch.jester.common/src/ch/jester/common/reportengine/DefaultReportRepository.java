@@ -20,9 +20,20 @@ import ch.jester.commonservices.api.reportengine.IReportRepository;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 
+/**
+ * @author  t117221
+ */
 public class DefaultReportRepository implements IReportRepository {
 	private HashMap<String, IReport> mReportMap = new HashMap<String, IReport>();
+	/**
+	 * @uml.property  name="mFileManager"
+	 * @uml.associationEnd  
+	 */
 	private IFileManager mFileManager;
+	/**
+	 * @uml.property  name="mServices"
+	 * @uml.associationEnd  
+	 */
 	private ServiceUtility mServices = new ServiceUtility();
 	public DefaultReportRepository(){
 		mFileManager = mServices.getService(IFileManager.class);

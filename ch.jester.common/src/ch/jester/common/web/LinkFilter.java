@@ -10,7 +10,8 @@ import ch.jester.commonservices.api.importer.ILink;
 
 public class LinkFilter implements IPageReaderFilter{
 	private Pattern mLinkPattern;
-	private int mURLGroup, mNameGroup;
+	private int mURLGroup;
+	private int mNameGroup;
 	//public static String FIDE_PATTERN = "(<a href=)(.*[^\\S>])(.*>)(.*)(</a>)";
 	List<ILink> mLinks = new ArrayList<ILink>();
 	private String mStringPattern;

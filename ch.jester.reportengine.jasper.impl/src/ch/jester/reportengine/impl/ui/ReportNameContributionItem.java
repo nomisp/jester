@@ -15,7 +15,14 @@ import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
 
+/**
+ * @author  t117221
+ */
 public class ReportNameContributionItem extends CompoundContributionItem {
+	/**
+	 * @uml.property  name="su"
+	 * @uml.associationEnd  
+	 */
 	ServiceUtility su = new ServiceUtility();
 	public ReportNameContributionItem() {
 

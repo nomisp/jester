@@ -21,7 +21,8 @@ import org.eclipse.swt.layout.GridLayout;
 public class ReportImportDialog extends Dialog {
 	private Text txtFileName;
 	private Text txtReportName;
-	private String fName, rName;
+	private String fName;
+	private String rName;
 	/**
 	 * Create the dialog.
 	 * @param parentShell

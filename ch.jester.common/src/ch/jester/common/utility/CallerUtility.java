@@ -25,7 +25,8 @@ public class CallerUtility {
 	 * 
 	 */
 	public static class Caller {
-		private String mClass, mMethod;
+		private String mClass;
+		private String mMethod;
 
 		Caller(String pClass, String pMethod) {
 			mClass = pClass;

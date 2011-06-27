@@ -24,10 +24,20 @@ import ch.jester.commonservices.api.importer.ITestableImportHandler;
 import ch.jester.commonservices.api.importer.IVirtualTable;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
+/**
+ * @author  t117221
+ */
 public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implements IImportHandler<InputStream>, ITestableImportHandler<InputStream>, IImportAttributeMatcher{
 	int workUnits = 10000000;
+	/**
+	 * @uml.property  name="singleUnitOfWork"
+	 */
 	int singleUnitOfWork = -1;
 	int testLines = -1;
+	/**
+	 * @uml.property  name="mProvider"
+	 * @uml.associationEnd  
+	 */
 	private IVirtualTable<T> mProvider;
 	protected HashMap<String, String> mInputLinking = new HashMap<String, String>();
 //	private IVirtualTable<T> mProvider;
@@ -92,6 +102,10 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 		
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="singleUnitOfWork"
+	 */
 	protected int getSingleUnitOfWork(){
 		if(singleUnitOfWork==-1){
 			singleUnitOfWork = getTotalUnitsOfWork() / mProvider.getTotalRows();

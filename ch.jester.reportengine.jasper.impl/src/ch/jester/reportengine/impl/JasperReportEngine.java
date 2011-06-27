@@ -51,9 +51,24 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.reportengine.impl.internal.Initializer;
 
+/**
+ * @author  t117221
+ */
 public class JasperReportEngine implements IReportEngine, IComponentService<Object>{
+	/**
+	 * @uml.property  name="mLogger"
+	 * @uml.associationEnd  
+	 */
 	private ILogger mLogger;
+	/**
+	 * @uml.property  name="mTempFileManager"
+	 * @uml.associationEnd  
+	 */
 	private IFileManager mTempFileManager;
+    /**
+	 * @uml.property  name="factory"
+	 * @uml.associationEnd  
+	 */
     private IReportRepository factory = new DefaultReportRepository();
     public JasperReportEngine(){
     	factory.createBundleReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports", "reports/PlayerList.jrxml");
@@ -87,17 +102,46 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 		return factory;
 	}
 	
+	/**
+	 * @author  t117221
+	 */
 	class JasperReportResult extends DefaultReportResult<JasperPrint>{
+		/**
+		 * @uml.property  name="su"
+		 * @uml.associationEnd  
+		 */
 		ServiceUtility su = new ServiceUtility();
+		/**
+		 * @uml.property  name="sessionadapter"
+		 * @uml.associationEnd  
+		 */
 		HttpSessionAdapter sessionadapter;
+		/**
+		 * @uml.property  name="binding"
+		 * @uml.associationEnd  
+		 */
 		AdapterBinding binding;
+		/**
+		 * @author  t117221
+		 */
 		class HttpSessionAdapter implements IHTTPSessionAware{
+			/**
+			 * @uml.property  name="session"
+			 */
 			HttpSession session;
+			/**
+			 * @return
+			 * @uml.property  name="session"
+			 */
 			@Override
 			public HttpSession getSession() {
 				return session;
 			}
 
+			/**
+			 * @param pSession
+			 * @uml.property  name="session"
+			 */
 			@Override
 			public void setSession(HttpSession pSession) {
 				if(pSession==null){throw new IllegalArgumentException("Session can't be null");};

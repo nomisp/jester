@@ -8,9 +8,16 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 
 
 
+/**
+ * @author  t117221
+ */
 public class ScrollableResultListJPA<T extends IEntityObject> extends AbstractList<T> implements List<T> {
     private int startPosition;
     private List<T> cache = null;
+    /**
+	 * @uml.property  name="persister"
+	 * @uml.associationEnd  
+	 */
     private IDaoService<T> persister;
     private int mCacheSize;
     public ScrollableResultListJPA(IDaoService<T> pPersister, int cacheSize) {
