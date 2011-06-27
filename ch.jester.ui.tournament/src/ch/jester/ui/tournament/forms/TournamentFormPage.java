@@ -56,6 +56,7 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 	 */
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
+		managedForm.getForm().setShowFocusedControl(true);
 		FormToolkit toolkit = managedForm.getToolkit();
 		ScrolledForm form = managedForm.getForm();
 		form.setText("TournamentEditor");
@@ -67,14 +68,14 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 		Composite compTournament = managedForm.getToolkit().createComposite(managedForm.getForm().getBody(), SWT.NONE);
 		GridData gd_compTournament = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_compTournament.widthHint = 584;
-		gd_compTournament.heightHint = 212;
+		gd_compTournament.heightHint = 191;
 		compTournament.setLayoutData(gd_compTournament);
 		managedForm.getToolkit().paintBordersFor(compTournament);
 		compTournament.setLayout(new GridLayout(1, false));
 		
-		Section sctnTournament = managedForm.getToolkit().createSection(compTournament, Section.TWISTIE | Section.TITLE_BAR);
+		Section sctnTournament = managedForm.getToolkit().createSection(compTournament, Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
 		GridData gd_sctnTournament = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_sctnTournament.heightHint = 201;
+		gd_sctnTournament.heightHint = 180;
 		gd_sctnTournament.widthHint = 573;
 		sctnTournament.setLayoutData(gd_sctnTournament);
 		managedForm.getToolkit().paintBordersFor(sctnTournament);
@@ -103,13 +104,13 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 		compCategory.setLayout(new GridLayout(1, false));
 		GridData gd_compCategory = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_compCategory.widthHint = 578;
-		gd_compCategory.heightHint = 212;
+		gd_compCategory.heightHint = 188;
 		compCategory.setLayoutData(gd_compCategory);
 		managedForm.getToolkit().paintBordersFor(compCategory);
 		
-		Section sctnCategory = managedForm.getToolkit().createSection(compCategory, Section.TWISTIE | Section.TITLE_BAR);
+		Section sctnCategory = managedForm.getToolkit().createSection(compCategory, Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
 		GridData gd_sctnCategory = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_sctnCategory.heightHint = 201;
+		gd_sctnCategory.heightHint = 177;
 		gd_sctnCategory.widthHint = 569;
 		sctnCategory.setLayoutData(gd_sctnCategory);
 		managedForm.getToolkit().paintBordersFor(sctnCategory);

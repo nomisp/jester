@@ -1,6 +1,9 @@
 package ch.jester.system.vollrundig.ui;
 
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
@@ -16,8 +19,16 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import ch.jester.common.settings.ISettingObject;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
+import ch.jester.system.api.pairing.StartingNumberGenerationType;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.system.vollrundig.RoundRobinSettings;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 
 /**
  * Form-page für die Einstellungen des Round-Robin Paarungssystemes
@@ -25,14 +36,18 @@ import ch.jester.system.vollrundig.RoundRobinSettings;
  *
  */
 public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<RoundRobinSettings> {
+	// TODO Peter: Texte übersetzen!
 
-//	private RoundRobinSettings settings;
+	private DataBindingContext m_bindingContext;
+
+	private RoundRobinSettings settings;
 	private SWTDirtyManager dm = new SWTDirtyManager();
 	private Button btnDoublerounded;
+	private ComboViewer comboViewer;
 	
-	public RoundRobinSettingsPage(FormEditor editor, String id, String title) {
+	public RoundRobinSettingsPage(ISettingObject settings, FormEditor editor, String id, String title) {
 		super(editor, id, title);
-//		this.settings = settings;
+		this.settings = (RoundRobinSettings)settings;
 	}
 
 	/**
@@ -47,35 +62,67 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 		Composite body = form.getBody();
 		toolkit.decorateFormHeading(form.getForm());
 		toolkit.paintBordersFor(body);
-		{
-			TableWrapLayout tableWrapLayout = new TableWrapLayout();
-			tableWrapLayout.numColumns = 2;
-			managedForm.getForm().getBody().setLayout(tableWrapLayout);
-		}
-		
-		Composite compSettings = managedForm.getToolkit().createComposite(managedForm.getForm().getBody(), SWT.NONE);
-		managedForm.getToolkit().paintBordersFor(compSettings);
-		{
-			compSettings.setLayout(new TableWrapLayout());
-		}
-		
-		btnDoublerounded = new Button(managedForm.getForm().getBody(), SWT.CHECK);
-		managedForm.getToolkit().adapt(btnDoublerounded, true, true);
-		btnDoublerounded.setText("DoubleRounded");
-//		btnDoublerounded.setSelection(settings.getDoubleRounded());
+		managedForm.getForm().getBody().setLayout(new GridLayout(2, false));
 		
 		Label lblStartingnumbergeneration = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), "StartingNumberGeneration", SWT.NONE);
-		lblStartingnumbergeneration.setLayoutData(new TableWrapData(TableWrapData.RIGHT, TableWrapData.TOP, 1, 1));
+		lblStartingnumbergeneration.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
 		
-		ComboViewer comboViewer = new ComboViewer(managedForm.getForm().getBody(), SWT.NONE);
+		comboViewer = new ComboViewer(managedForm.getForm().getBody(), SWT.NONE);
+		comboViewer.setContentProvider(new ArrayContentProvider());
+		comboViewer.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				StartingNumberGenerationType type = (StartingNumberGenerationType)element;
+				if (type == StartingNumberGenerationType.RANDOM) {
+					return "Random";
+				} else if (type == StartingNumberGenerationType.ELO) {
+					return "Elo";
+				} else if (type == StartingNumberGenerationType.ADDING_ORDER) {
+					return "AddingOrder";
+				}
+				return type.toString();
+			}
+		});
+		comboViewer.setInput(StartingNumberGenerationType.values());
+		comboViewer.setSelection(new StructuredSelection(settings.getStartingNumberGenerationType()));
+		
 		Combo combo = comboViewer.getCombo();
-		combo.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB, TableWrapData.TOP, 1, 1));
+		GridData gd_combo = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
+		gd_combo.widthHint = 329;
+		combo.setLayoutData(gd_combo);
 		managedForm.getToolkit().paintBordersFor(combo);
+				
+		btnDoublerounded = new Button(managedForm.getForm().getBody(), SWT.CHECK);
+		btnDoublerounded.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+		managedForm.getToolkit().adapt(btnDoublerounded, true, true);
+		btnDoublerounded.setText("DoubleRounded");
+		btnDoublerounded.setSelection(settings.getDoubleRounded());
+		new Label(managedForm.getForm().getBody(), SWT.NONE);
+		m_bindingContext = initDataBindings();
+//		dm.add();
 	}
 
 	@Override
 	public DirtyManager getDirtyManager() {
 		return this.dm;
 	}
+	
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		
+		IObservableValue btnDoubleroundedObserveSelectionObserveWidget = SWTObservables.observeSelection(btnDoublerounded);
+		IObservableValue settingsDoubleRoundedObserveValue = PojoObservables.observeValue(settings, "doubleRounded");
+		bindingContext.bindValue(btnDoubleroundedObserveSelectionObserveWidget, settingsDoubleRoundedObserveValue, null, null);
+		
+		IObservableValue comboViewerObserveSingleSelection = ViewersObservables.observeSingleSelection(comboViewer);
+		IObservableValue settingsStartingNumberGenerationTypeObserveValue = PojoObservables.observeValue(settings, "startingNumberGenerationType");
+		bindingContext.bindValue(comboViewerObserveSingleSelection, settingsStartingNumberGenerationTypeObserveValue, null, null);
+		
+		return bindingContext;
+	}
 
+	@Override
+	public ISettingObject getSettingObject() {
+		return this.settings;
+	}
 }
