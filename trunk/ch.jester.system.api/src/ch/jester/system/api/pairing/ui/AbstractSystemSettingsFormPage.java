@@ -15,4 +15,10 @@ public abstract class AbstractSystemSettingsFormPage<T extends ISettingObject> e
 	public AbstractSystemSettingsFormPage(FormEditor editor, String id, String title) {
 		super(editor, id, title);
 	}
+	
+	public AbstractSystemSettingsFormPage(ISettingObject settingObject, FormEditor editor, String id, String title) {
+		super(editor, id, title);
+	}
+	
+	public abstract ISettingObject getSettingObject();
 }

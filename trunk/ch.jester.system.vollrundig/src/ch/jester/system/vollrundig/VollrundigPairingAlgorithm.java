@@ -257,6 +257,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 
 	@Override
 	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor) {
-		return new RoundRobinSettingsPage(editor, "RoundRobinSettingsPage", "Settings.title");
+		if (settings == null) settings = new RoundRobinSettings();
+		return new RoundRobinSettingsPage(settings, editor, "RoundRobinSettingsPage", "Settings.title");
 	}
 }

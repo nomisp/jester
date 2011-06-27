@@ -8,10 +8,14 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.PartInitException;
 
 import ch.jester.common.settings.ISettingObject;
+import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
+import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
+import ch.jester.model.factories.ModelFactory;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
@@ -31,6 +35,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 	private TournamentFormPage mTournamentPage;
 	private TournamentDetailsController mTournamentController;
 	private ServiceUtility mService = new ServiceUtility();
+	private AbstractSystemSettingsFormPage settingsPage;
 	
 	public TournamentEditor() {
 		super(true);
@@ -53,7 +58,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 			}
 		});
 		CategoryFormPage categoryPage = new CategoryFormPage(this);
-		AbstractSystemSettingsFormPage settingsPage = findSettingsPage();
+		settingsPage = findSettingsPage();
 		
 		try {
 			addPage(tournamentPage);
@@ -66,10 +71,6 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 	}
 	
 	public void init_0(Object parent) {
-		//Composite container = new Composite(parent, SWT.NONE);
-		
-		//mPlayerDetails = new PlayerDetailsView(container, SWT.NONE);
-		//mPlayerDetails.setBounds(0, 0, 365, 300);
 		mTournamentPage = (TournamentFormPage) parent;
 		mTournamentController = mTournamentPage.getController();			
 		mTournamentController.setTournament(mDaoInput.getInput());	
@@ -91,8 +92,23 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
-
+		mLogger.debug("Saving "+this);
+		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
+		try{
+			mTournamentController.updateModel();
+			Tournament tournament = mTournamentController.getTournament();
+			IDaoService<SettingItem> settingItemPersister = mService.getDaoServiceByEntity(SettingItem.class);
+			SettingHelper<ISettingObject> settingHelper = new SettingHelper<ISettingObject>();
+			SettingItem settingItem = ModelFactory.getInstance().createSettingItem(tournament);
+			settingItem = settingHelper.analyzeSettingObjectToStore(settingsPage.getSettingObject(), settingItem);
+			settingItemPersister.save(settingItem);
+			
+			mDao.save(tournament);
+			getDirtyManager().reset();
+			setSaved(true);
+		} finally {
+			monitor.done();
+		}
 	}
 
 	@Override
