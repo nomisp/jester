@@ -58,13 +58,13 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 	protected void createFormContent(IManagedForm managedForm) {
 		FormToolkit toolkit = managedForm.getToolkit();
 		ScrolledForm form = managedForm.getForm();
-		form.setText("RoundRobinSettingsPage");
+		form.setText(Messages.RoundRobinSettingsPage_Title);
 		Composite body = form.getBody();
 		toolkit.decorateFormHeading(form.getForm());
 		toolkit.paintBordersFor(body);
 		managedForm.getForm().getBody().setLayout(new GridLayout(2, false));
 		
-		Label lblStartingnumbergeneration = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), "StartingNumberGeneration", SWT.NONE);
+		Label lblStartingnumbergeneration = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.RoundRobinSettingsPage_StartingNumberGeneration, SWT.NONE);
 		lblStartingnumbergeneration.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
 		
 		comboViewer = new ComboViewer(managedForm.getForm().getBody(), SWT.NONE);
@@ -74,11 +74,11 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 			public String getText(Object element) {
 				StartingNumberGenerationType type = (StartingNumberGenerationType)element;
 				if (type == StartingNumberGenerationType.RANDOM) {
-					return "Random";
+					return Messages.RoundRobinSettingsPage_Random;
 				} else if (type == StartingNumberGenerationType.ELO) {
-					return "Elo";
+					return Messages.RoundRobinSettingsPage_Elo;
 				} else if (type == StartingNumberGenerationType.ADDING_ORDER) {
-					return "AddingOrder";
+					return Messages.RoundRobinSettingsPage_AddingOrder;
 				}
 				return type.toString();
 			}
@@ -95,7 +95,7 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 		btnDoublerounded = new Button(managedForm.getForm().getBody(), SWT.CHECK);
 		btnDoublerounded.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
 		managedForm.getToolkit().adapt(btnDoublerounded, true, true);
-		btnDoublerounded.setText("DoubleRounded");
+		btnDoublerounded.setText(Messages.RoundRobinSettingsPage_DoubleRounded);
 		btnDoublerounded.setSelection(settings.getDoubleRounded());
 		new Label(managedForm.getForm().getBody(), SWT.NONE);
 		m_bindingContext = initDataBindings();
@@ -114,11 +114,11 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 		DataBindingContext bindingContext = new DataBindingContext();
 		
 		IObservableValue btnDoubleroundedObserveSelectionObserveWidget = SWTObservables.observeSelection(btnDoublerounded);
-		IObservableValue settingsDoubleRoundedObserveValue = PojoObservables.observeValue(settings, "doubleRounded");
+		IObservableValue settingsDoubleRoundedObserveValue = PojoObservables.observeValue(settings, "doubleRounded"); //$NON-NLS-1$
 		bindingContext.bindValue(btnDoubleroundedObserveSelectionObserveWidget, settingsDoubleRoundedObserveValue, null, null);
 		
 		IObservableValue comboViewerObserveSingleSelection = ViewersObservables.observeSingleSelection(comboViewer);
-		IObservableValue settingsStartingNumberGenerationTypeObserveValue = PojoObservables.observeValue(settings, "startingNumberGenerationType");
+		IObservableValue settingsStartingNumberGenerationTypeObserveValue = PojoObservables.observeValue(settings, "startingNumberGenerationType"); //$NON-NLS-1$
 		bindingContext.bindValue(comboViewerObserveSingleSelection, settingsStartingNumberGenerationTypeObserveValue, null, null);
 		
 		return bindingContext;

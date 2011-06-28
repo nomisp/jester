@@ -33,16 +33,4 @@ public class RoundRobinSettings implements ISettingObject {
 	public void setStartingNumberGenerationType(StartingNumberGenerationType startingNumberGenerationType) {
 		this.startingNumberGenerationType = startingNumberGenerationType;
 	}
-	
-	/**
-	 * Liefert den StartingNumberGenerationType als Enum
-	 * 
-	 * @return Enum des gespeicherten Typs oder als Default StartingNumberGenerationType.RANDOM
-	 */
-	public StartingNumberGenerationType getStartingNumberGenType() {
-		for (StartingNumberGenerationType type : StartingNumberGenerationType.values()) {
-			if (type.toString().equals(startingNumberGenerationType)) return type;
-		}
-		return StartingNumberGenerationType.RANDOM;
-	}
 }

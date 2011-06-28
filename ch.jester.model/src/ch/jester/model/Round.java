@@ -1,7 +1,8 @@
 package ch.jester.model;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -32,7 +33,7 @@ public class Round extends AbstractModelBean<Round> {
 	private Category category;
 	
 	@OneToMany(mappedBy="round", cascade={CascadeType.ALL}, orphanRemoval=true)
-	private Set<Pairing> pairings = new HashSet<Pairing>();
+	private List<Pairing> pairings = new ArrayList<Pairing>();
 	
 	@Column(name="Date", nullable=true)
 	@Temporal(TemporalType.DATE)
@@ -54,11 +55,11 @@ public class Round extends AbstractModelBean<Round> {
 		this.category = category;
 	}
 
-	public Set<Pairing> getPairings() {
+	public List<Pairing> getPairings() {
 		return pairings;
 	}
 
-	public void setPairings(Set<Pairing> pairings) {
+	public void setPairings(List<Pairing> pairings) {
 		this.pairings = pairings;
 	}
 	
