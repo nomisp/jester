@@ -66,5 +66,14 @@
             class="net.sf.jasperreports.j2ee.servlets.ImageServlet">
       </servlet>
    </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            class="ch.jester.reportengine.impl.ui.export.ReportExportWizard"
+            icon="icons/filetype_pdf.png"
+            id="ch.jester.ui.export.jester.reports"
+            name="Reports">
+      </wizard>
+   </extension>
 
 </plugin>

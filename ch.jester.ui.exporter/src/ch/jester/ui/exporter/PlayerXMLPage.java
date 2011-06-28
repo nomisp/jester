@@ -3,25 +3,24 @@ package ch.jester.ui.exporter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Text;
 
 import ch.jester.common.ui.utility.SelectionUtility;
-import ch.jester.model.Player;
 import ch.jester.model.Tournament;
 
 public class PlayerXMLPage extends WizardPage {
@@ -36,7 +35,7 @@ public class PlayerXMLPage extends WizardPage {
 		super("wizardPage");
 		setTitle("Export");
 		setDescription("Export data");
-		mMap.put("Players", Player.class);
+		//mMap.put("Players", Player.class);
 		mMap.put("Tournaments", Tournament.class);
 	}
 
