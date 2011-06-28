@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
+import ch.jester.common.ui.utility.SafeMessageBoxRunner;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.util.ServiceUtility;
@@ -51,19 +53,23 @@ public class ReportExportWizard extends Wizard implements IExportWizard {
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException,
 						InterruptedException {
-					try{
-					ServiceUtility su = new ServiceUtility();
-					File outputFile = new File(firstPage.getSelectedFile());
-					IReportEngine engine = su.getService(IReportEngine.class);
-					List<Tournament> input = new ArrayList<Tournament>();
-					input.add(firstPage.getSelectedTournament());
-					IReportResult result = engine.generate(firstPage.getSelectedReport(), input);
-					FileOutputStream fos;
-					result.export(firstPage.getSelectedExportType(), fos = new FileOutputStream(outputFile));
-					fos.close();
-					}catch (Exception e){
-						e.printStackTrace();
-					}
+					SafeRunner.run(new SafeMessageBoxRunner() {
+						
+						@Override
+						public void run() throws Exception {
+							ServiceUtility su = new ServiceUtility();
+							File outputFile = new File(firstPage.getSelectedFile());
+							IReportEngine engine = su.getService(IReportEngine.class);
+							List<Tournament> input = new ArrayList<Tournament>();
+							input.add(firstPage.getSelectedTournament());
+							IReportResult result = engine.generate(firstPage.getSelectedReport(), input);
+							FileOutputStream fos;
+							result.export(firstPage.getSelectedExportType(), fos = new FileOutputStream(outputFile));
+							fos.close();
+							
+						}
+					});
+					
 				}
 			});
 		} catch (InvocationTargetException e) {
