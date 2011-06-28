@@ -82,7 +82,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		changeProperty("name", name);
 	}
 
 	public String getDescription() {
@@ -90,7 +90,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		changeProperty("description", description);
 	}
 
 	public int getYear() {
@@ -98,7 +98,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	}
 
 	public void setYear(int year) {
-		this.year = year;
+		changeProperty("year", year);
 	}
 
 	public Date getDateFrom() {
@@ -106,7 +106,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	}
 
 	public void setDateFrom(Date dateFrom) {
-		this.dateFrom = dateFrom;
+		changeProperty("dateFrom", dateFrom);
 	}
 
 	public Date getDateTo() {
@@ -114,7 +114,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	}
 
 	public void setDateTo(Date dateTo) {
-		this.dateTo = dateTo;
+		changeProperty("dateTo", dateTo);
 	}
 
 	public String getPairingSystemPlugin() {
