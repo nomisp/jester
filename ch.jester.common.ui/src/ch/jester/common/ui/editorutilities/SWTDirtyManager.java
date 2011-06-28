@@ -7,14 +7,19 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import ch.jester.common.ui.internal.Activator;
+import ch.jester.commonservices.api.logging.ILogger;
+
 public class SWTDirtyManager extends DirtyManager implements DisposeListener{
 	private List<Control> mControls = new ArrayList<Control>();
 	private HashMap<Control, Listener> mListeners = new HashMap<Control, Listener>();
+	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	public void add(Control pControl){
 		if(!mControls.contains(pControl)){
 			mControls.add(pControl);
@@ -24,7 +29,7 @@ public class SWTDirtyManager extends DirtyManager implements DisposeListener{
 	}
 	private Listener installListener(Control pControl) {
 		Listener l = new ModifyListener();
-		if (pControl instanceof DateTime) {
+		if (pControl instanceof DateTime || pControl instanceof Button) {
 			pControl.addListener(SWT.Selection, l);
 		} else {
 			pControl.addListener(SWT.Modify, l);
@@ -57,6 +62,7 @@ public class SWTDirtyManager extends DirtyManager implements DisposeListener{
 		@Override
 		public void handleEvent(Event event) {
 			SWTDirtyManager.this.setDirty(true);
+			mLogger.debug("Changed Property! Source =  "+event.widget);
 		}
 		
 	}

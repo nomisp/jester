@@ -26,7 +26,6 @@ import ch.jester.ui.tournament.forms.TournamentFormPage;
 
 /**
  * Turnier-Editor
- * @author Peter
  *
  */
 public class TournamentEditor extends AbstractEditor<Tournament> {
@@ -59,6 +58,14 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 		});
 		CategoryFormPage categoryPage = new CategoryFormPage(this);
 		settingsPage = findSettingsPage();
+		settingsPage.getDirtyManager().addDirtyListener(new IDirtyListener() {
+			
+			@Override
+			public void propertyIsDirty() {
+				TournamentEditor.this.getDirtyManager().setDirty(true);
+				
+			}
+		});
 		
 		try {
 			addPage(tournamentPage);

@@ -99,6 +99,9 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 		btnDoublerounded.setSelection(settings.getDoubleRounded());
 		new Label(managedForm.getForm().getBody(), SWT.NONE);
 		m_bindingContext = initDataBindings();
+		dm.add(comboViewer.getControl());
+		dm.add(btnDoublerounded);
+		//dm.add(btnDoublerounded.);
 //		dm.add();
 	}
 
