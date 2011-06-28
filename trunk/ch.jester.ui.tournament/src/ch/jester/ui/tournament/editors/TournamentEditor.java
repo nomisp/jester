@@ -75,7 +75,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 		mTournamentController = mTournamentPage.getController();			
 		mTournamentController.setTournament(mDaoInput.getInput());	
 		mTournamentController.getDirtyManager().setDirty(mDaoInput.isAlreadyDirty());
-		
+		setDaoService(super.getServiceUtil().getDaoServiceByEntity(Tournament.class));
 		
 		setDirtyManager(mTournamentController.getDirtyManager());
 		getDirtyManager().addDirtyListener(this);

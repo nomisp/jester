@@ -66,7 +66,7 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 		managedForm.getForm().getBody().setLayout(new GridLayout(1, false));
 		
 		Composite compTournament = managedForm.getToolkit().createComposite(managedForm.getForm().getBody(), SWT.NONE);
-		GridData gd_compTournament = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		GridData gd_compTournament = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_compTournament.widthHint = 584;
 		gd_compTournament.heightHint = 191;
 		compTournament.setLayoutData(gd_compTournament);
@@ -74,7 +74,7 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 		compTournament.setLayout(new GridLayout(1, false));
 		
 		Section sctnTournament = managedForm.getToolkit().createSection(compTournament, Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
-		GridData gd_sctnTournament = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_sctnTournament = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
 		gd_sctnTournament.heightHint = 180;
 		gd_sctnTournament.widthHint = 573;
 		sctnTournament.setLayoutData(gd_sctnTournament);
