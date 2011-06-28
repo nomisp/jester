@@ -150,6 +150,6 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 			}
 		}
 		
-		return pairingAlgorithm != null ? pairingAlgorithm.getSettingsFormPage(this) : null;
+		return pairingAlgorithm != null ? pairingAlgorithm.getSettingsFormPage(this, tourn) : null;
 	}
 }

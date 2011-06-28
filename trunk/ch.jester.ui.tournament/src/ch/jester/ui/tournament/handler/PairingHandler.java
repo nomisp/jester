@@ -19,6 +19,7 @@ import ch.jester.common.ui.handlers.AbstractCommandHandler;
 import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
+import ch.jester.model.Tournament;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
@@ -34,7 +35,13 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 	public Object executeInternal(ExecutionEvent event) {
 		MessageDialog.openInformation(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), "ExecutePairing", "Execute pairings");
 		final Category cat = getFirstSelectedAs(Category.class);
-		String pairingSystemClass = cat.getTournament().getPairingSystem();
+		Tournament tournament = null;
+		if (cat == null) {
+			tournament = getFirstSelectedAs(Tournament.class);
+		} else {
+			tournament = cat.getTournament();
+		}
+		String pairingSystemClass = tournament.getPairingSystem();
 		ServiceUtility su = new ServiceUtility();
 		IPairingManager pairingManager = su.getService(IPairingManager.class);
 		List<IPairingAlgorithmEntry> registredEntries = pairingManager.getRegistredEntries();

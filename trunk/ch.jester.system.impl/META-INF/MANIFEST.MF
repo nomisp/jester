@@ -20,3 +20,4 @@ Export-Package: ch.jester.system.calculator.impl,
  ch.jester.system.internal,
  ch.jester.system.pairing.impl,
  ch.jester.system.ranking.impl
+Import-Package: javax.persistence

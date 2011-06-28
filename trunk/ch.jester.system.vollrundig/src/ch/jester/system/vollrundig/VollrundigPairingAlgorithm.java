@@ -9,7 +9,6 @@ import javax.persistence.Query;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.forms.editor.FormEditor;
 
-import ch.jester.common.settings.ISettingObject;
 import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.commonservices.api.logging.ILogger;
@@ -17,6 +16,7 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
+import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Round;
 import ch.jester.model.SettingItem;
@@ -67,6 +67,10 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		List<Pairing> pairings = null;
 		if (playedRounds.size() == 0) { // Neues Turnier bei einem Round-Robin Turnier können direkt alle Paarunugen ausgelost werden. 
 			if (isPairingPossible()) {
+				if (!isNumberOfPlayersEven()) { // Bei einer ungeraden Anzahl Spieler braucht es einen Dummy-Spieler für Freilose!
+					Player dummy = PairingHelper.getDummyPlayer();
+					category.addPlayerCard(ModelFactory.getInstance().createPlayerCard(category, dummy));
+				}
 				initPlayerNumbers();
 				try {
 					pairings = createPairings();
@@ -103,10 +107,6 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 			createRounds((category.getPlayerCards().size()-1)-category.getRounds().size());
 		} else {
 			createRounds(category.getPlayerCards().size()-category.getRounds().size());
-		}
-		// Falls es eine Rückrunde gibt brauch es nochmals soviele Runden
-		if (settings.getDoubleRounded()) {
-			createRounds(category.getRounds().size());
 		}
 		
 		return true;
@@ -196,8 +196,6 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 						black = tmp;
 					}
 					pairings.add(createPairing(rounds, playerCards, i-1, white-1, black-1));
-					
-					mLogger.debug("White: " + white + " Black: " + black);
 				}
 			}
 		}
@@ -205,16 +203,15 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		// Rückrunde mit vertauschten Farben?
 		if (settings.getDoubleRounded()) {
 			createRounds(rounds.size());	// Nochmals soviele Runden anlegen für die Rückrunde
-			int pcnt = 0;
+			int rCnt = rounds.size()/2;
 			ModelFactory modelFactory = ModelFactory.getInstance();
-			for (int i = pairings.size(); i < rounds.size(); i++) {
-				Pairing pairing = pairings.get(pcnt++);
-				pairings.add(modelFactory.createPairing(pairing.getBlack(), pairing.getWhite(), rounds.get(i)));
+			for (int i = 0; i < rounds.size()/2; i++) {
+				List<Pairing> roundPairings = rounds.get(i).getPairings();
+				for (int p = 0; p < roundPairings.size(); p++) {
+					Pairing pair = roundPairings.get(p);
+					pairings.add(modelFactory.createPairing(pair.getBlack(), pair.getWhite(), rounds.get(rCnt+i)));
+				}
 			}
-		}
-		
-		for (Pairing pairing : pairings) {
-			System.out.println(pairing.toString());
 		}
 		return pairings;
 	}
@@ -256,8 +253,8 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	}
 
 	@Override
-	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor) {
-		if (settings == null) settings = new RoundRobinSettings();
+	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor, Tournament tournament) {
+		if (settings == null) loadSettings(tournament);
 		return new RoundRobinSettingsPage(settings, editor, "RoundRobinSettingsPage", "Settings.title");
 	}
 }

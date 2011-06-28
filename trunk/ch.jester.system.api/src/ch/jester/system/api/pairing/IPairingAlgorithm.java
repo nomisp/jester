@@ -39,5 +39,11 @@ public interface IPairingAlgorithm {
 	 */
 	public List<Pairing> executePairings(Category category, IProgressMonitor pMonitor) throws NotAllResultsException, PairingNotPossibleException;
 	
-	public AbstractSystemSettingsFormPage<ISettingObject> getSettingsFormPage(FormEditor editor);
+	/**
+	 * Liefert die Settings-Form-Page für das entsprechende Paarungssystem 
+	 * @param editor
+	 * @param tournament
+	 * @return
+	 */
+	public AbstractSystemSettingsFormPage<ISettingObject> getSettingsFormPage(FormEditor editor, Tournament tournament);
 }
