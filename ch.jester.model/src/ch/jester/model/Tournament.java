@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -68,14 +69,17 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	private String eloCalculator; // EloCalculator (als deklarativer Service implementiert) entspricht dem EP-Attribut: class
 	
 
-	@OneToMany(mappedBy="tournament", cascade={CascadeType.ALL}, orphanRemoval=true)
-//	@JoinTable(name = "TournamentCategoryAss",
-//	        joinColumns = {@JoinColumn(name = "TournamentId")},
-//	        inverseJoinColumns = {@JoinColumn(name = "CategoryId")})
+	@OneToMany(mappedBy="tournament", cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<Category> categories = new HashSet<Category>();
 
 	@Column(name="Active")
 	private Boolean active;
+	
+	@Column(name="Started")
+	private Boolean started;
+	
+	@OneToOne(optional=true, cascade=CascadeType.ALL, orphanRemoval=true)
+	private SettingItem settingItem;
 	
 	public String getName() {
 		return name;
@@ -195,6 +199,24 @@ public class Tournament extends AbstractModelBean<Tournament> {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public Boolean getStarted() {
+		return started;
+	}
+
+	public void setStarted(Boolean started) {
+		this.started = started;
+	}
+
+	public SettingItem getSettingItem() {
+		return settingItem;
+	}
+
+	public void setSettingItem(SettingItem settingItem) {
+		this.settingItem = settingItem;
+		// Bidirektion
+		if (settingItem.getTournament() != this) settingItem.setTournament(this);
 	}
 
 	@Override

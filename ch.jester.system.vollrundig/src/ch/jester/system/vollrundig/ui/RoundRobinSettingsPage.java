@@ -67,7 +67,7 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 		Label lblStartingnumbergeneration = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.RoundRobinSettingsPage_StartingNumberGeneration, SWT.NONE);
 		lblStartingnumbergeneration.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
 		
-		comboViewer = new ComboViewer(managedForm.getForm().getBody(), SWT.NONE);
+		comboViewer = new ComboViewer(managedForm.getForm().getBody(), SWT.READ_ONLY);
 		comboViewer.setContentProvider(new ArrayContentProvider());
 		comboViewer.setLabelProvider(new LabelProvider() {
 			@Override
