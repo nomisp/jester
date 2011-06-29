@@ -54,9 +54,9 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 
 	@Override
 	protected void addPages() {
-		RoundForm form = new RoundForm(this, "roundeditor", "Round Editor");
-		
+		RoundForm form = new RoundForm(this, "roundeditor", "Graph Overview");
 		form.setContentProvider(getContentProvider(mDaoInput.getInput()));
+		
 		try {
 			addPage(form);
 		} catch (PartInitException e) {

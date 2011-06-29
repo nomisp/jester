@@ -6,13 +6,16 @@ import java.util.List;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.Round;
-import ch.jester.ui.round.form.MyConnection;
-import ch.jester.ui.round.form.MyNode;
+import ch.jester.ui.round.form.PlayerDataNode;
+import ch.jester.ui.round.form.ZestConnection;
+import ch.jester.ui.round.form.ZestDataNode;
+import ch.jester.ui.round.form.PlayerDataNode.PlayerColor;
 
 public class RoundNodeModelContentProvider {
-	private List<MyConnection> connections;
-	private List<MyNode> nodes;
-	private Object mInput;
+	private List<ZestConnection> connections;
+	private List<ZestDataNode> allnodes;
+	private List<ZestDataNode> parentNodes;
+	protected Object mInput;
 	private ZestUtil util = new ZestUtil();
 	public RoundNodeModelContentProvider() {
 		// Image here a fancy DB access
@@ -51,28 +54,34 @@ public class RoundNodeModelContentProvider {
 		}*/
 	}
 
-	public List<MyNode> getNodes() {
-		return nodes;
+	public List<ZestDataNode> getAllNodes() {
+		return allnodes;
+	}
+	public List<ZestDataNode> getParentNodes() {
+		return parentNodes;
 	}
 
-	public void setNode(List<MyNode> pNodes){
-		nodes = pNodes;
+	public void setNode(List<ZestDataNode> pNodes){
+		allnodes = pNodes;
 	}
 	protected void buildRound(Round pRound){
-		nodes = new ArrayList<MyNode>();
-		connections = new ArrayList<MyConnection>();
+		allnodes = new ArrayList<ZestDataNode>();
+		parentNodes = new ArrayList<ZestDataNode>();
+		connections = new ArrayList<ZestConnection>();
 		List<Pairing> pairings = pRound.getPairings();
 		for(Pairing p:pairings){
-			MyNode pairingNode = new MyNode(p.getId()+"", "Pairing ");
+			ZestDataNode pairingNode = new ZestDataNode(p.getId()+"", "Pairing ", p);
+			parentNodes.add(pairingNode);
 			Player p1 = p.getBlack();
 			Player p2 = p.getWhite();
-			MyNode pnode1 = new MyNode(p1.getId()+"", p1.getLastName()+", "+p1.getFirstName());
-			MyNode pnode2 = new MyNode(p2.getId()+"", p2.getLastName()+", "+p2.getFirstName());
-			nodes.add(pairingNode);
+			
+			ZestDataNode pnode1 = new PlayerDataNode(p1.getId()+"", p1.getLastName()+", "+p1.getFirstName(), p1, PlayerColor.B);
+			ZestDataNode pnode2 = new PlayerDataNode(p2.getId()+"", p2.getLastName()+", "+p2.getFirstName(), p2, PlayerColor.W);
+			allnodes.add(pairingNode);
 			util.connect(pairingNode, pnode1);
 			util.connect(pairingNode, pnode2);
-			nodes.add(pnode1);
-			nodes.add(pnode2);
+			allnodes.add(pnode1);
+			allnodes.add(pnode2);
 			//util.connect(pnode1, pnode2);
 		}
 		util.establishConnections();

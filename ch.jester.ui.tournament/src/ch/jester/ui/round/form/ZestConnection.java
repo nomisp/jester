@@ -1,12 +1,12 @@
 package ch.jester.ui.round.form;
 
-public class MyConnection {
+public class ZestConnection {
 	final String id; 
 	final String label; 
-	final MyNode source;
-	final MyNode destination;
+	final ZestDataNode source;
+	final ZestDataNode destination;
 	
-	public MyConnection(String id, String label, MyNode source, MyNode destination) {
+	public ZestConnection(String id, String label, ZestDataNode source, ZestDataNode destination) {
 		this.id = id;
 		this.label = label;
 		this.source = source;
@@ -17,10 +17,10 @@ public class MyConnection {
 		return label;
 	}
 	
-	public MyNode getSource() {
+	public ZestDataNode getSource() {
 		return source;
 	}
-	public MyNode getDestination() {
+	public ZestDataNode getDestination() {
 		return destination;
 	}
 	
