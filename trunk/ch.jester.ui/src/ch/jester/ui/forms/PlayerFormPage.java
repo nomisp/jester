@@ -63,6 +63,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		ScrolledForm form = managedForm.getForm();
 		form.setText("Player Details");
 		managedForm.getForm().getBody().setLayout(new GridLayout(1, false));
+		managedForm.getToolkit().decorateFormHeading(form.getForm());
 		
 		Composite compPersonal = managedForm.getToolkit().createComposite(managedForm.getForm().getBody(), SWT.NONE);
 		compPersonal.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1));

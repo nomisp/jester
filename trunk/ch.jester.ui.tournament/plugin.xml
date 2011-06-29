@@ -44,6 +44,10 @@
                style="push"
                tooltip="%TTrunPairing">
          </command>
+         <command
+               commandId="ch.jester.ui.tournament.editresult"
+               style="push">
+         </command>
          <separator
                name="ch.jester.ui.tournament.separator1"
                visible="true">
@@ -113,6 +117,10 @@
       <command
             id="cnf.popup.deleteTournament"
             name="%DeleteTournament">
+      </command>
+      <command
+            id="ch.jester.ui.tournament.editresult"
+            name="Result Graph">
       </command>
    </extension>
    <extension
@@ -275,6 +283,10 @@
             </reference>
          </activeWhen>
       </handler>
+      <handler
+            class="ch.jester.ui.round.form.handler.EditResultHandler"
+            commandId="ch.jester.ui.tournament.editresult">
+      </handler>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -375,6 +387,12 @@
             icon="icons/settings.png"
             id="ch.jester.ui.tournament.tournamentEditor"
             name="%EditTournament">
+      </editor>
+      <editor
+            class="ch.jester.ui.round.editors.RoundEditor"
+            default="false"
+            id="ch.jester.ui.tournament.roundeditor"
+            name="Round Editor">
       </editor>
    </extension>
 

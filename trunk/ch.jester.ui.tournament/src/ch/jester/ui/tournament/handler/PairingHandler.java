@@ -33,7 +33,7 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
-		MessageDialog.openInformation(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), "ExecutePairing", "Execute pairings");
+		//MessageDialog.openInformation(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), "ExecutePairing", "Execute pairings");
 		final Category cat = getFirstSelectedAs(Category.class);
 		Tournament tournament = null;
 		if (cat == null) {
