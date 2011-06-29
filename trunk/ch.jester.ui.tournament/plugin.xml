@@ -44,6 +44,10 @@
                style="push"
                tooltip="%TTrunPairing">
          </command>
+         <separator
+               name="ch.jester.ui.tournament.separator5"
+               visible="true">
+         </separator>
          <command
                commandId="ch.jester.ui.tournament.editresult"
                style="push">
@@ -120,7 +124,7 @@
       </command>
       <command
             id="ch.jester.ui.tournament.editresult"
-            name="Result Graph">
+            name="%Result">
       </command>
    </extension>
    <extension
@@ -286,6 +290,11 @@
       <handler
             class="ch.jester.ui.round.form.handler.EditResultHandler"
             commandId="ch.jester.ui.tournament.editresult">
+         <enabledWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.categoryOrRoundSelected">
+            </reference>
+         </enabledWhen>
       </handler>
    </extension>
    <extension
@@ -369,6 +378,26 @@
                      value="ch.jester.model.Player">
                </instanceof>
             </iterate>
+         </with>
+      </definition>
+      <definition
+            id="ch.jester.ui.tournament.categoryOrRoundSelected">
+         <with
+               variable="selection">
+            <or>
+               <iterate
+                     operator="or">
+                  <instanceof
+                        value="ch.jester.model.Round">
+                  </instanceof>
+               </iterate>
+               <iterate
+                     operator="or">
+                  <instanceof
+                        value="ch.jester.model.Category">
+                  </instanceof>
+               </iterate>
+            </or>
          </with>
       </definition>
    </extension>

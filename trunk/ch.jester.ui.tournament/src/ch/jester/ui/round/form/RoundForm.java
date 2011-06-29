@@ -18,6 +18,8 @@ import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
+import org.eclipse.zest.layouts.algorithms.GridLayoutAlgorithm;
+import org.eclipse.zest.layouts.algorithms.HorizontalTreeLayoutAlgorithm;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 import org.eclipse.swt.widgets.Control;
@@ -27,6 +29,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Label;
 
+import ch.jester.model.Category;
 import ch.jester.model.Round;
 import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
 
@@ -34,11 +37,12 @@ public class RoundForm extends FormPage{
 	private int layout = 1;
 	private GraphViewer viewer;
 	private RoundNodeModelContentProvider modelContentProvider = new RoundNodeModelContentProvider();
-
+	private String title;
 
 	public RoundForm(FormEditor editor, String id, String title) {
 		super(editor, id, title);
 	}
+
 	protected void createFormContent(IManagedForm managedForm) {
 		
 		managedForm.getForm().getBody().setLayout(new GridLayout());
@@ -55,7 +59,7 @@ public class RoundForm extends FormPage{
 		
 		
 		
-		managedForm.getForm().setText("Round Graph");
+		managedForm.getForm().setText(title);
 		managedForm.getToolkit().decorateFormHeading(managedForm.getForm().getForm());
 		
 		viewer = new GraphViewer(compPersonal, SWT.NONE);
@@ -67,10 +71,11 @@ public class RoundForm extends FormPage{
 		viewer.setContentProvider(new ZestNodeContentProvider());
 		viewer.setLabelProvider(new ZestLabelProvider());
 		
-		viewer.setInput(modelContentProvider.getNodes());
+		viewer.setInput(modelContentProvider.getAllNodes());
 		LayoutAlgorithm layout = setLayout();
 		viewer.setLayoutAlgorithm(layout, true);
 		viewer.applyLayout();
+		
 		//fillToolBar();
 
 	}
@@ -78,11 +83,12 @@ public class RoundForm extends FormPage{
 		LayoutAlgorithm layout;
 		// layout = new
 		// SpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
-		layout = new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
-		// layout = new
-		// GridLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
-		// layout = new
-		// HorizontalTreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+		//layout = new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+		 //layout = new
+		 //GridLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+		layout = new
+		HorizontalTreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING );
+
 		// layout = new
 		// RadialLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
 		return layout;
@@ -115,6 +121,12 @@ public class RoundForm extends FormPage{
 	}
 	public void setContentProvider(RoundNodeModelContentProvider contentProvider) {
 		modelContentProvider = contentProvider;
+		Object input = modelContentProvider.getInput();
+		if(input instanceof Category){
+			title = ((Category)input).getDescription();
+		}else if(input instanceof Round){
+			title = "Round "+((Round)input).getNumber()+"";
+		}
 		
 	}
 

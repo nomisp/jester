@@ -7,8 +7,8 @@ public class ZestNodeContentProvider extends ArrayContentProvider  implements IG
 
 	@Override
 	public Object[] getConnectedTo(Object entity) {
-		if (entity instanceof MyNode) {
-			MyNode node = (MyNode) entity;
+		if (entity instanceof ZestDataNode) {
+			ZestDataNode node = (ZestDataNode) entity;
 			return node.getConnectedTo().toArray();
 		}
 		throw new RuntimeException("Type not supported");

@@ -5,31 +5,32 @@ import java.util.List;
 
 import ch.jester.model.Category;
 import ch.jester.model.Round;
-import ch.jester.ui.round.form.MyConnection;
-import ch.jester.ui.round.form.MyNode;
+import ch.jester.ui.round.form.ZestConnection;
+import ch.jester.ui.round.form.ZestDataNode;
 
 public class CategoryNodeModelContentProvider extends RoundNodeModelContentProvider{
 	private ZestUtil util = new ZestUtil();
-	private List<MyNode> nodes;
+	private List<ZestDataNode> nodes;
 
 	public void setInput(Object input) {
+		mInput = input;
 		buildCategory((Category) input);
-
-		
 	}
 
 	private void buildCategory(Category input) {
-		nodes = new ArrayList<MyNode>();
+		nodes = new ArrayList<ZestDataNode>();
 
 		List<Round> rounds = input.getRounds();
 		for(Round r:input.getRounds()){
-			MyNode parentRound = new MyNode(r.getId()+"", "Round "+r.getNumber());
+			ZestDataNode parentRound = new ZestDataNode(r.getId()+"", "Round "+r.getNumber(), r);
 			nodes.add(parentRound);
 			super.buildRound(r);
-			List<MyNode> roundNodes = super.getNodes();
+			List<ZestDataNode> roundNodes = super.getParentNodes();
 			util.connect(parentRound, roundNodes);
 			util.establishConnections();
+			nodes.addAll(super.getAllNodes());
 		}
+		
 		setNode(nodes);
 	}
 }
