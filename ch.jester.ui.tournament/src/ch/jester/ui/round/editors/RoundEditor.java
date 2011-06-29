@@ -1,5 +1,6 @@
-package ch.jester.ui.tournament.editors;
+package ch.jester.ui.round.editors;
 
+import java.math.RoundingMode;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -12,7 +13,10 @@ import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.model.Category;
+import ch.jester.model.Round;
 import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
@@ -21,6 +25,8 @@ import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.ui.round.form.RoundForm;
+import ch.jester.ui.round.form.contentprovider.CategoryNodeModelContentProvider;
+import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
 import ch.jester.ui.tournament.ctrl.TournamentDetailsController;
 import ch.jester.ui.tournament.forms.CategoryFormPage;
 import ch.jester.ui.tournament.forms.TournamentFormPage;
@@ -29,17 +35,17 @@ import ch.jester.ui.tournament.forms.TournamentFormPage;
  * Turnier-Editor
  *
  */
-public class TournamentEditor extends AbstractEditor<Tournament> {
+public class RoundEditor extends AbstractEditor<IEntityObject> {
 	
-	public static final String ID = "ch.jester.ui.tournament.tournamentEditor";
+	public static final String ID = "ch.jester.ui.tournament.roundeditor";
 	private TournamentFormPage mTournamentPage;
 	private TournamentDetailsController mTournamentController;
 	private ServiceUtility mService = new ServiceUtility();
-	private AbstractSystemSettingsFormPage settingsPage;
+
 	
-	public TournamentEditor() {
+	public RoundEditor() {
 		super(true);
-//		mLogger.debug("Tournament Editor: " + mDaoInput.getInput().getName());
+		//mLogger.debug("Round Editor: " + mDaoInput.getInput().getName());
 	}
 	
 //	protected FormToolkit createToolkit(Display display) {
@@ -48,39 +54,34 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 
 	@Override
 	protected void addPages() {
-		TournamentFormPage tournamentPage = new TournamentFormPage(this, "TournamentFormPage", "TournamentEditor");
-		tournamentPage.addPartPropertyListener(new IPropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				init_0(null);
-				
-			}
-		});
-		CategoryFormPage categoryPage = new CategoryFormPage(this);
-		settingsPage = findSettingsPage();
-		settingsPage.getDirtyManager().addDirtyListener(new IDirtyListener() {
-			
-			@Override
-			public void propertyIsDirty() {
-				TournamentEditor.this.getDirtyManager().setDirty(true);
-				
-			}
-		});
+		RoundForm form = new RoundForm(this, "roundeditor", "Round Editor");
 		
+		form.setContentProvider(getContentProvider(mDaoInput.getInput()));
 		try {
-			addPage(tournamentPage);
-			addPage(categoryPage);
-			//addPage(new RoundForm(this, "abcd", "xyz"));
-			if (settingsPage != null) addPage(settingsPage);
+			addPage(form);
 		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+	}
+	
+	private RoundNodeModelContentProvider getContentProvider(Object o){
+		if(o instanceof Round){
+			RoundNodeModelContentProvider prov = new RoundNodeModelContentProvider();
+			prov.setInput(o);
+			return prov;
+		}
+		if(o instanceof Category){
+			CategoryNodeModelContentProvider prov = new CategoryNodeModelContentProvider();
+			prov.setInput(o);
+			return prov;
+		}
+		
+		return null;
 	}
 	
 	public void init_0(Object parent) {
-		mTournamentPage = (TournamentFormPage) parent;
+		/*mTournamentPage = (TournamentFormPage) parent;
 		mTournamentController = mTournamentPage.getController();			
 		mTournamentController.setTournament(mDaoInput.getInput());	
 		mTournamentController.getDirtyManager().setDirty(mDaoInput.isAlreadyDirty());
@@ -95,13 +96,13 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 				
 			}
 		});
-		setPartName(mTournamentPage.getNameText().getText()+", "+mTournamentPage.getDescriptionText().getText());
+		setPartName(mTournamentPage.getNameText().getText()+", "+mTournamentPage.getDescriptionText().getText());*/
 	
 	}
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		mLogger.debug("Saving "+this);
+	/*	mLogger.debug("Saving "+this);
 		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
 		try{
 			mTournamentController.updateModel();
@@ -117,7 +118,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 			setSaved(true);
 		} finally {
 			monitor.done();
-		}
+		}*/
 	}
 
 	@Override
@@ -139,19 +140,5 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 		mTournamentController.updateUI();
 	}
 	
-	private AbstractSystemSettingsFormPage findSettingsPage() {
-		Tournament tourn = mDaoInput.getInput();
-		String settingsPage = tourn.getSettingsPage();
-		IPairingManager manager = mService.getService(IPairingManager.class);
-		IPairingAlgorithm pairingAlgorithm = null;
-		List<IPairingAlgorithmEntry> pairingSystems = manager.getRegistredEntries();
-		for (IPairingAlgorithmEntry pairingAlgorithmEntry : pairingSystems) {
-			if (pairingAlgorithmEntry.getSettingsPage().equals(settingsPage)) {
-				pairingAlgorithm = pairingAlgorithmEntry.getService();
-				break;
-			}
-		}
-		
-		return pairingAlgorithm != null ? pairingAlgorithm.getSettingsFormPage(this, tourn) : null;
-	}
+
 }
