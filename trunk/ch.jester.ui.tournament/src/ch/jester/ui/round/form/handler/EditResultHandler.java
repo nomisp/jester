@@ -12,7 +12,6 @@ public class EditResultHandler extends AbstractCommandHandler {
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
 		Object selected = mSelUtility.getFirstSelectedAs(Round.class);
-		System.out.println(selected);
 		if(selected!=null){
 			openEditor(selected, RoundEditor.ID);
 			return null;

@@ -1,6 +1,7 @@
 package ch.jester.ui.round.editors;
 
 import java.math.RoundingMode;
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -12,10 +13,12 @@ import ch.jester.common.settings.ISettingObject;
 import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
+import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
+import ch.jester.model.Pairing;
 import ch.jester.model.Round;
 import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
@@ -24,10 +27,13 @@ import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
+import ch.jester.ui.round.form.ResultForm;
+import ch.jester.ui.round.form.ResultForm.PairingResult;
 import ch.jester.ui.round.form.RoundForm;
 import ch.jester.ui.round.form.contentprovider.CategoryNodeModelContentProvider;
 import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
 import ch.jester.ui.tournament.ctrl.TournamentDetailsController;
+import ch.jester.ui.tournament.editors.TournamentEditor;
 import ch.jester.ui.tournament.forms.CategoryFormPage;
 import ch.jester.ui.tournament.forms.TournamentFormPage;
 
@@ -36,31 +42,28 @@ import ch.jester.ui.tournament.forms.TournamentFormPage;
  *
  */
 public class RoundEditor extends AbstractEditor<IEntityObject> {
-	
 	public static final String ID = "ch.jester.ui.tournament.roundeditor";
-	private TournamentFormPage mTournamentPage;
-	private TournamentDetailsController mTournamentController;
 	private ServiceUtility mService = new ServiceUtility();
-
+	private ResultForm resForm;
 	
 	public RoundEditor() {
 		super(true);
-		//mLogger.debug("Round Editor: " + mDaoInput.getInput().getName());
 	}
-	
-//	protected FormToolkit createToolkit(Display display) {
-//		return new FormToolkit(ExamplePlugin.getDefault().getFormColors(display));
-//	}
+
 
 	@Override
 	protected void addPages() {
 		RoundForm form = new RoundForm(this, "roundeditor", "Graph Overview");
+		resForm = new ResultForm(this, "resultform", "Results");
 		form.setContentProvider(getContentProvider(mDaoInput.getInput()));
+		resForm.setInput(mDaoInput.getInput());
+		setDirtyManager(resForm.getDirtyManager());
+		getDirtyManager().addDirtyListener(this);
 		
 		try {
 			addPage(form);
+			addPage(resForm);
 		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -102,43 +105,23 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-	/*	mLogger.debug("Saving "+this);
+		mLogger.debug("Saving "+this);
 		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
 		try{
-			mTournamentController.updateModel();
-			Tournament tournament = mTournamentController.getTournament();
-			IDaoService<SettingItem> settingItemPersister = mService.getDaoServiceByEntity(SettingItem.class);
-			SettingHelper<ISettingObject> settingHelper = new SettingHelper<ISettingObject>();
-			SettingItem settingItem = ModelFactory.getInstance().createSettingItem(tournament);
-			settingItem = settingHelper.analyzeSettingObjectToStore(settingsPage.getSettingObject(), settingItem);
-			settingItemPersister.save(settingItem);
-			
-			mDao.save(tournament);
+			IDaoService<Pairing> pairingservice = mService.getDaoServiceByEntity(Pairing.class);
+			pairingservice.manualEventQueueNotification(true);
+			List<PairingResult> set = resForm.getChangedPairings();
+			for(PairingResult pr:set){
+				pr.pairing.setResult(pr.result.getShortResult());
+				pairingservice.save(pr.pairing);
+			}
+			pairingservice.notifyEventQueue();
+			pairingservice.close();
 			getDirtyManager().reset();
 			setSaved(true);
 		} finally {
 			monitor.done();
-		}*/
-	}
-
-	@Override
-	public void doSaveAs() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean isSaveAsAllowed() {
-		return false;
-	}
-
-	@Override
-	public void editorClosed() {
-		if (!wasSaved()) {
-			mTournamentController.getTournament();
 		}
-		mTournamentController.updateUI();
 	}
-	
 
 }
