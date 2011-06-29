@@ -1,5 +1,7 @@
 package ch.jester.ui.round.form;
 
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -76,6 +78,14 @@ public class RoundForm extends FormPage{
 		viewer.setLayoutAlgorithm(layout, true);
 		viewer.applyLayout();
 		
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
+			
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				System.out.println(event);
+				
+			}
+		});
 		//fillToolBar();
 
 	}
