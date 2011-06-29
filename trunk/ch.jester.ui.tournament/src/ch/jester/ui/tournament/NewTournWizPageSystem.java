@@ -65,7 +65,7 @@ public class NewTournWizPageSystem extends WizardPage {
 		lblPairingSystem.setLayoutData(fd_lblPairingSystem);
 		lblPairingSystem.setText("Pairing System");
 		
-		comboPairingSystemViewer = new ComboViewer(container, SWT.NONE);
+		comboPairingSystemViewer = new ComboViewer(container, SWT.READ_ONLY);
 		Combo comboPairingSystem = comboPairingSystemViewer.getCombo();
 		comboPairingSystemViewer.setContentProvider(new PairingSystemProvider());
 		comboPairingSystemViewer.addSelectionChangedListener(new PairingSystemSelectionListener());
@@ -90,7 +90,7 @@ public class NewTournWizPageSystem extends WizardPage {
 		lblRankingsystem.setLayoutData(fd_lblRankingsystem);
 		lblRankingsystem.setText("Ranking-System");
 		
-		comboRankingSystemViewer = new ComboViewer(container, SWT.NONE);
+		comboRankingSystemViewer = new ComboViewer(container, SWT.READ_ONLY);
 		Combo comboRankingSystem = comboRankingSystemViewer.getCombo();
 		comboRankingSystemViewer.setContentProvider(new RankingSystemProvider());
 		comboRankingSystemViewer.addSelectionChangedListener(new RankingSystemSelectionListener());
@@ -119,7 +119,7 @@ public class NewTournWizPageSystem extends WizardPage {
 		lblEloperformanceCalculator.setLayoutData(fd_lblEloperformanceCalculator);
 		lblEloperformanceCalculator.setText("Elo-/Performance Calculator");
 		
-		comboEloCalculatorViewer = new ComboViewer(container, SWT.NONE);
+		comboEloCalculatorViewer = new ComboViewer(container, SWT.READ_ONLY);
 		Combo comboEloCalculator = comboEloCalculatorViewer.getCombo();
 		comboEloCalculatorViewer.setContentProvider(new EloCalculatorProvider());
 		comboEloCalculatorViewer.addSelectionChangedListener(new EloCalculatorSelectionListener());

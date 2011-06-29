@@ -67,11 +67,13 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		List<Pairing> pairings = null;
 		if (playedRounds.size() == 0) { // Neues Turnier bei einem Round-Robin Turnier können direkt alle Paarunugen ausgelost werden. 
 			if (isPairingPossible()) {
-				if (!isNumberOfPlayersEven()) { // Bei einer ungeraden Anzahl Spieler braucht es einen Dummy-Spieler für Freilose!
-					Player dummy = PairingHelper.getDummyPlayer();
-					category.addPlayerCard(ModelFactory.getInstance().createPlayerCard(category, dummy));
-				}
 				initPlayerNumbers();
+				if (!isNumberOfPlayersEven()) { // Bei einer ungeraden Anzahl Spieler braucht es einen Dummy-Spieler für Freilose!
+//					Player dummy = PairingHelper.getDummyPlayer();
+					PlayerCard dummyPlayer = ModelFactory.getInstance().createPlayerCard(category, null);
+					dummyPlayer.setNumber(category.getPlayers().size()+1); // Die letzte Startnummer erhält der Dummy
+					category.addPlayerCard(dummyPlayer);
+				}
 				try {
 					pairings = createPairings();
 				} catch (Exception e) {
@@ -91,6 +93,10 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		}
 		IDaoService<Category> categoryPersister = mServiceUtil.getDaoServiceByEntity(Category.class);
 		categoryPersister.save(category);
+		
+		for (Pairing pairing : pairings) {
+			System.out.println(pairing.getWhite() + " - " + pairing.getBlack());
+		}
 		return pairings;
 	}
 	
@@ -164,7 +170,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		int numberOfPlayers = playerCards.length;
 //		boolean secondRound = settings.getDoubleRounded();	// Vorerst Keine Rückrunde!
 		
-		if (isNumberOfPlayersEven()) {
+		if (isNumberOfPlayersEven()) {	// Sollte immer der Fall sein, da ja ein Dummy Player eingefügt wurde bei ungerader Anzahl Spieler
 			int nrOfRounds = numberOfPlayers - 1;
 			
 			for (int i = 1; i <= nrOfRounds; i++) {
@@ -177,7 +183,8 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 					black = tmp;
 				}
 				mLogger.debug("White: " + white + " Black: " + black);
-				pairings.add(createPairing(rounds, playerCards, i-1, white-1, black-1));
+				Pairing p = createPairing(rounds, playerCards, i-1, white-1, black-1);
+				if (p != null) pairings.add(p);
 				
 				for (int k = 1; k <= numberOfPlayers/2-1; k++) {
 					if (i-k < 0) {
@@ -227,10 +234,10 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	 */
 	private Pairing createPairing(List<Round> rounds, PlayerCard[] playerCards, int roundIndex, int whiteIndex, int blackIndex) {
 		ModelFactory modelFactory = ModelFactory.getInstance();
-		Pairing p = modelFactory.createPairing(playerCards[whiteIndex].getPlayer(), 
-				playerCards[blackIndex].getPlayer(), 
-				rounds.get(roundIndex));
-		return p;
+		Player white = playerCards[whiteIndex].getPlayer();
+		Player black = playerCards[blackIndex].getPlayer();
+//		Pairing p = modelFactory.createPairing(white, black, rounds.get(roundIndex));
+		return white != null && black != null ? modelFactory.createPairing(white, black, rounds.get(roundIndex)) : null;
 	}
 
 	/**

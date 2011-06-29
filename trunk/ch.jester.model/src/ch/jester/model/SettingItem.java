@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -24,8 +25,7 @@ import javax.persistence.Table;
 public class SettingItem extends AbstractModelBean<SettingItem> {
 	private static final long serialVersionUID = -7737771947626375572L;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "TournamentId", referencedColumnName = "Id")
+    @OneToOne(optional = true, cascade=CascadeType.ALL)
 	private Tournament tournament;
 	
 	@Column(name="RootClassName")
@@ -40,6 +40,8 @@ public class SettingItem extends AbstractModelBean<SettingItem> {
 
 	public void setTournament(Tournament tournament) {
 		this.tournament = tournament;
+		// Bidirektion
+		if (tournament.getSettingItem() != this) tournament.setSettingItem(this);
 	}
 
 	public String getRootClassName() {
