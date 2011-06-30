@@ -1,6 +1,8 @@
 package ch.jester.ui.tournament.cnf;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import ch.jester.model.Category;
@@ -29,12 +31,8 @@ public class PlayerFolder {
 	}
 
 	private Object[] checkNullPlayers(Object[] players) {
-		List<Object> list = new ArrayList<Object>();
-		for(Object o:players){
-			if(o!=null){
-				list.add(o);
-			}
-		}
+		List<Object> list = new ArrayList<Object>(Arrays.asList(players));
+		list.removeAll(Collections.singleton(null));
 		return list.toArray();
 	}
 }
