@@ -1,5 +1,6 @@
 package ch.jester.model.factories;
 
+import java.util.List;
 import java.util.Set;
 
 import ch.jester.model.Category;
@@ -47,7 +48,7 @@ public class ModelFactory {
 	 * @param categories
 	 * @return Turnier
 	 */
-	public Tournament createTournament(String name, Set<Category> categories) {
+	public Tournament createTournament(String name, List<Category> categories) {
 		Tournament tournament = createTournament(name);
 		tournament.setCategories(categories);
 		return tournament;

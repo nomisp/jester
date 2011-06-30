@@ -1,10 +1,10 @@
 package ch.jester.ui.tournament;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -16,8 +16,6 @@ import org.eclipse.ui.IWorkbench;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.dao.ICategoryDao;
-import ch.jester.dao.ITournamentDao;
 import ch.jester.model.Category;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
@@ -62,7 +60,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 					// Kategorien holen und persistieren
-					Set<Category> categories = getCategories();
+					List<Category> categories = getCategories();
 //					ICategoryDao categoryPersister = su.getExclusiveService(ICategoryDao.class);
 //					categoryPersister.save(categories);
 					
@@ -111,9 +109,9 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 	 * Holen der Kategorien von der WizardPage
 	 * @return
 	 */
-	private Set<Category> getCategories() {
+	private List<Category> getCategories() {
 		ModelFactory mf = ModelFactory.getInstance();
-		Set<Category> categories = new HashSet<Category>();
+		List<Category> categories = new ArrayList<Category>();
 		categories.addAll(categoriesPage.getCategories());
 		for (Category category : categories) {
 			for (int i = 0; i < category.getMaxRounds(); i++) {
