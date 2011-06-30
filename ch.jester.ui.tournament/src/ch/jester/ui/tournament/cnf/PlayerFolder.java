@@ -1,5 +1,8 @@
 package ch.jester.ui.tournament.cnf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.jester.model.Category;
 
 public class PlayerFolder {
@@ -20,7 +23,18 @@ public class PlayerFolder {
 	}
 	private Object[] getPlayers(Category category) {
 		Object[] players = category.getPlayers().toArray();
+		players = checkNullPlayers(players);
 		if (players != null) return players;
 		return EMPTY_ARRAY;
+	}
+
+	private Object[] checkNullPlayers(Object[] players) {
+		List<Object> list = new ArrayList<Object>();
+		for(Object o:players){
+			if(o!=null){
+				list.add(o);
+			}
+		}
+		return list.toArray();
 	}
 }
