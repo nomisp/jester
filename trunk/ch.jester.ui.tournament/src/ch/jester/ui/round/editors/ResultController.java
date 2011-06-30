@@ -12,6 +12,7 @@ import ch.jester.common.persistency.PersistencyListener;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.api.persistency.IPersistencyFilter;
@@ -34,9 +35,19 @@ public class ResultController implements IDirtyManagerProvider{
 		EventLoadMatchingFilter filter = new EventLoadMatchingFilter(Pairing.class);
 		mServices.getService(IPersistencyEventQueue.class).addListener(queueListener = new PersistencyListener(filter) {
 			@Override
-			public void persistencyEvent(IPersistencyEvent pEvent) {
-				mDirtyManager.setDirty(true);
-				pcs.firePropertyChange("input",null, mInput);
+			public void persistencyEvent(final IPersistencyEvent pEvent) {
+				Object oo = pEvent.getLoad();
+				System.out.println(oo);
+				UIUtility.syncExecInUIThread(new Runnable(){
+					@Override
+					public void run() {
+						//mDirtyManager.setDirty(true);
+						//pcs.firePropertyChange("input",null, mInput);
+						
+					}
+				});
+
+				
 			}
 		});
 	
