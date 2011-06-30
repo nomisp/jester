@@ -1,30 +1,39 @@
 package ch.jester.ui.tournament.forms;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.MasterDetailsBlock;
+import org.eclipse.ui.forms.SectionPart;
 import org.eclipse.ui.forms.editor.FormPage;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.FormData;
+
+import ch.jester.common.ui.editor.IEditorDaoInputAccess;
+import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.model.Category;
+import ch.jester.model.Tournament;
+import ch.jester.ui.tournament.internal.Activator;
 
 public class CategoryMasterDetail extends MasterDetailsBlock {
 
 	private FormPage page;
-	private FormToolkit toolkit;
+	private Button btAdd, btRemove;
 
 	/**
 	 * Create the master details block.
@@ -32,67 +41,109 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	public CategoryMasterDetail(FormPage page) {
 		this.page = page;
 	}
-
 	/**
-	 * Create contents of the master details block.
-	 * @param managedForm
-	 * @param parent
+	 * @param id
+	 * @param title
 	 */
-	@Override
-	protected void createMasterPart(IManagedForm managedForm, Composite parent) {
-		toolkit = managedForm.getToolkit();
-		//		
-		Section sctnCategories = toolkit.createSection(parent,
-				ExpandableComposite.EXPANDED | ExpandableComposite.TITLE_BAR);
-		sctnCategories.setText("Categories");
-		//
-		Composite tableComposite = toolkit.createComposite(sctnCategories, SWT.NONE);
-		toolkit.paintBordersFor(tableComposite);
-		sctnCategories.setClient(tableComposite);
-		GridLayout gl_tableComposite = new GridLayout(2, false);
-		tableComposite.setLayout(gl_tableComposite);
-		
-		Section sctnAllCategories = toolkit.createSection(tableComposite, Section.TWISTIE | Section.TITLE_BAR);
-		GridData gd_sctnAllCategories = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_sctnAllCategories.widthHint = 281;
-		sctnAllCategories.setLayoutData(gd_sctnAllCategories);
-		toolkit.paintBordersFor(sctnAllCategories);
-		sctnAllCategories.setText("All Categories");
-		sctnAllCategories.setExpanded(true);
-		
-		Composite composite = toolkit.createComposite(sctnAllCategories, SWT.NONE);
-		toolkit.paintBordersFor(composite);
-		sctnAllCategories.setClient(composite);
-		composite.setLayout(new FormLayout());
-		
-		Section sctnCategoryDetails = toolkit.createSection(tableComposite, Section.TWISTIE | Section.TITLE_BAR);
-		GridData gd_sctnCategoryDetails = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_sctnCategoryDetails.widthHint = 326;
-		sctnCategoryDetails.setLayoutData(gd_sctnCategoryDetails);
-		toolkit.paintBordersFor(sctnCategoryDetails);
-		sctnCategoryDetails.setText("Category Details");
-		sctnCategoryDetails.setExpanded(true);
-		
-		Composite composite_1 = toolkit.createComposite(sctnCategoryDetails, SWT.NONE);
-		toolkit.paintBordersFor(composite_1);
-		sctnCategoryDetails.setClient(composite_1);
+	class MasterContentProvider implements IStructuredContentProvider {
+		public Object[] getElements(Object inputElement) {
+			if (inputElement instanceof IEditorDaoInputAccess) {
+				IEditorDaoInputAccess<Tournament> input = (IEditorDaoInputAccess<Tournament>) page.getEditor().getEditorInput();
+				Tournament tournament = (Tournament)input.getInput();
+				return tournament.getCategories().toArray();
+			}
+			return new Object[0];
+		}
+		public void dispose() {
+		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		}
 	}
-
-	/**
-	 * Register the pages.
-	 * @param part
-	 */
-	@Override
-	protected void registerPages(DetailsPart part) {
-		// Register the pages
+	class MasterLabelProvider extends LabelProvider implements ITableLabelProvider {
+		public String getColumnText(Object obj, int index) {
+			Category cat = (Category) obj;
+			return cat.getDescription();
+		}
+		public Image getColumnImage(Object obj, int index) {
+			if (obj instanceof Category) {
+				return UIUtility.getImageDescriptor(Activator.getDefault().getActivationContext().getPluginId(),
+							"icons/category_16x16.gif").createImage();
+			}
+//			if (obj instanceof TypeTwo) {
+//				return PlatformUI.getWorkbench().getSharedImages().getImage(
+//						ISharedImages.IMG_OBJ_FILE);
+//			}
+			return null;
+		}
 	}
-
-	/**
-	 * Create the toolbar actions.
-	 * @param managedForm
-	 */
-	@Override
+	protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
+		//final ScrolledForm form = managedForm.getForm();
+		FormToolkit toolkit = managedForm.getToolkit();
+		Section section = toolkit.createSection(parent, Section.DESCRIPTION|Section.TITLE_BAR);
+		section.setText("CategoryPropertiesBlock.sname");
+		section.setDescription("CategoryPropertiesBlock.sdesc"); 
+		section.marginWidth = 10;
+		section.marginHeight = 5;
+		Composite client = toolkit.createComposite(section, SWT.WRAP);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		layout.marginWidth = 2;
+		layout.marginHeight = 2;
+		client.setLayout(layout);
+		Table t = toolkit.createTable(client, SWT.NULL);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.verticalSpan = 2;
+		gd.heightHint = 20;
+		gd.widthHint = 100;
+		t.setLayoutData(gd);
+		toolkit.paintBordersFor(client);
+		btAdd = toolkit.createButton(client, "CategoryPropertiesBlock.add", SWT.PUSH);
+		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		btAdd.setLayoutData(gd);
+		section.setClient(client);
+		final SectionPart spart = new SectionPart(section);
+		managedForm.addPart(spart);
+		TableViewer viewer = new TableViewer(t);
+		btRemove = toolkit.createButton(client, "CategoryPropertiesBlock.remove", SWT.PUSH);
+		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		btRemove.setLayoutData(gd);
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				managedForm.fireSelectionChanged(spart, event.getSelection());
+			}
+		});
+		viewer.setContentProvider(new MasterContentProvider());
+		viewer.setLabelProvider(new MasterLabelProvider());
+		viewer.setInput(page.getEditor().getEditorInput());
+	}
 	protected void createToolBarActions(IManagedForm managedForm) {
-		// Create the toolbar actions
+		final ScrolledForm form = managedForm.getForm();
+		Action haction = new Action("hor", Action.AS_RADIO_BUTTON) { //$NON-NLS-1$
+			public void run() {
+				sashForm.setOrientation(SWT.HORIZONTAL);
+				form.reflow(true);
+			}
+		};
+		haction.setChecked(true);
+		haction.setToolTipText("CategoryPropertiesBlock.horizontal");
+		haction.setImageDescriptor(UIUtility.getImageDescriptor(Activator.getDefault().getActivationContext().getPluginId(),
+					"icons/application_tile_horizontal.png"));
+		Action vaction = new Action("ver", Action.AS_RADIO_BUTTON) {
+			public void run() {
+				sashForm.setOrientation(SWT.VERTICAL);
+				form.reflow(true);
+			}
+		};
+		vaction.setChecked(false);
+		vaction.setToolTipText("CategoryPropertiesBlock.vertical");
+		vaction.setImageDescriptor(UIUtility.getImageDescriptor(Activator.getDefault().getActivationContext().getPluginId(),
+					"icons/application_tile_vertical.png"));
+		form.getToolBarManager().add(haction);
+		form.getToolBarManager().add(vaction);
+	}
+	
+	protected void registerPages(DetailsPart detailsPart) {
+		detailsPart.registerPage(Category.class, new CategoryDetailsPage());
+//		detailsPart.registerPage(TypeTwo.class, new TypeTwoDetailsPage());
 	}
 }

@@ -19,9 +19,13 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import ch.jester.common.settings.ISettingObject;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.system.api.pairing.StartingNumberGenerationType;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.system.vollrundig.RoundRobinSettings;
+import ch.jester.system.vollrundig.internal.VollrundigSystemActivator;
+
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -73,14 +77,16 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 			@Override
 			public String getText(Object element) {
 				StartingNumberGenerationType type = (StartingNumberGenerationType)element;
-				if (type == StartingNumberGenerationType.RANDOM) {
+				switch (type) {
+				case RANDOM:
 					return Messages.RoundRobinSettingsPage_Random;
-				} else if (type == StartingNumberGenerationType.ELO) {
+				case ELO:
 					return Messages.RoundRobinSettingsPage_Elo;
-				} else if (type == StartingNumberGenerationType.ADDING_ORDER) {
+				case ADDING_ORDER:
 					return Messages.RoundRobinSettingsPage_AddingOrder;
+				default:
+					return type.toString();
 				}
-				return type.toString();
 			}
 		});
 		comboViewer.setInput(StartingNumberGenerationType.values());

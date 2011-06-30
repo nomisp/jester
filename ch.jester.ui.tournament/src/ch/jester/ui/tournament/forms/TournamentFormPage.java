@@ -100,27 +100,6 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 		descriptionText.setText("");
 		descriptionText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Composite compCategory = managedForm.getToolkit().createComposite(managedForm.getForm().getBody(), SWT.NONE);
-		compCategory.setLayout(new GridLayout(1, false));
-		GridData gd_compCategory = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_compCategory.widthHint = 578;
-		gd_compCategory.heightHint = 188;
-		compCategory.setLayoutData(gd_compCategory);
-		managedForm.getToolkit().paintBordersFor(compCategory);
-		
-		Section sctnCategory = managedForm.getToolkit().createSection(compCategory, Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
-		GridData gd_sctnCategory = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_sctnCategory.heightHint = 177;
-		gd_sctnCategory.widthHint = 569;
-		sctnCategory.setLayoutData(gd_sctnCategory);
-		managedForm.getToolkit().paintBordersFor(sctnCategory);
-		sctnCategory.setText("Categories");
-		sctnCategory.setExpanded(true);
-		
-		Composite clientCategory = managedForm.getToolkit().createComposite(sctnCategory, SWT.NONE);
-		managedForm.getToolkit().paintBordersFor(clientCategory);
-		sctnCategory.setClient(clientCategory);
-		
 		Label lblDateFrom = managedForm.getToolkit().createLabel(clientTournament, "Date From", SWT.NONE);
 		
 		dateFrom = new DateTime(clientTournament, SWT.BORDER);

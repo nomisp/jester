@@ -1,8 +1,8 @@
 package ch.jester.model;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -70,7 +70,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	
 
 	@OneToMany(mappedBy="tournament", cascade=CascadeType.ALL, orphanRemoval=true)
-	private Set<Category> categories = new HashSet<Category>();
+	private List<Category> categories = new ArrayList<Category>();
 
 	@Column(name="Active")
 	private Boolean active;
@@ -162,11 +162,11 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	}
 
 
-	public Set<Category> getCategories() {
+	public List<Category> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(Set<Category> categories) {
+	public void setCategories(List<Category> categories) {
 		for (Category category : categories) {
 			category.setTournament(this);
 		}
@@ -175,7 +175,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	
 	public void addCategory(Category cat) {
 		if (cat == null) throw new IllegalArgumentException("category may not be null");
-		this.categories.add(cat);
+		if (!this.categories.contains(cat)) this.categories.add(cat);
 		cat.setTournament(this);
 	}
 	
