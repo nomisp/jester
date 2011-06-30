@@ -1,0 +1,23 @@
+#labels Phase-Implementation,HowTo,PairingSystem
+On this Page developers who like to write Plugins for jester can find usefull informations to do so.
+
+= Writing a plugin for a new Pairing-System =
+
+To write new Pairing-System plugins some points have to be regarded.
+  * API
+  * ExtensionPoint
+  * UI / Settings-FormPage
+
+== Pairing-System API ==
+
+TODO: Description of the API
+
+
+== ExtensionPoint ==
+
+TODO: Description of the ExtensionPoint
+
+
+== UI / Settings-FormPage ==
+
+TODO: Description of the UI
