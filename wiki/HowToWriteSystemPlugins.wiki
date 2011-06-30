@@ -1,5 +1,5 @@
+#summary Developers'guide: How To write Pairing-System Plugins
 #labels Phase-Implementation,HowTo,PairingSystem
-On this Page developers who like to write Plugins for jester can find usefull informations to do so.
 
 = Writing a plugin for a new Pairing-System =
 
