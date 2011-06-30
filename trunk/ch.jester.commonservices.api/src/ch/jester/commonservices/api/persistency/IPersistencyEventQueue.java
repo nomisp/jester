@@ -25,5 +25,7 @@ public interface IPersistencyEventQueue {
 	 * @param pEvent
 	 */
 	public void dispatch(IPersistencyEvent pEvent);
+	
+	public void removeListener(IPersistencyListener queueListener);
 
 }

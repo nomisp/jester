@@ -6,6 +6,7 @@ import java.util.List;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.Round;
+import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.round.form.PlayerDataNode;
 import ch.jester.ui.round.form.ZestConnection;
 import ch.jester.ui.round.form.ZestDataNode;
@@ -17,7 +18,9 @@ public class RoundNodeModelContentProvider {
 	private List<ZestDataNode> parentNodes;
 	protected Object mInput;
 	private ZestUtil util = new ZestUtil();
-	public RoundNodeModelContentProvider() {
+	private ResultController mController;
+	public RoundNodeModelContentProvider(ResultController controller) {
+		mController = controller;
 		// Image here a fancy DB access
 		// Now create a few nodes
 	/*	nodes = new ArrayList<MyNode>();
@@ -75,11 +78,11 @@ public class RoundNodeModelContentProvider {
 			Player p1 = p.getBlack();
 			Player p2 = p.getWhite();
 			
-			ZestDataNode pnode1 = new PlayerDataNode(p1.getId()+"", p1.getLastName()+", "+p1.getFirstName(), p1, PlayerColor.B);
-			ZestDataNode pnode2 = new PlayerDataNode(p2.getId()+"", p2.getLastName()+", "+p2.getFirstName(), p2, PlayerColor.W);
+			ZestDataNode pnode1 = new PlayerDataNode(p1.getId()+"", p1.getLastName()+", "+p1.getFirstName(),p, p1, PlayerColor.B, mController);
+			ZestDataNode pnode2 = new PlayerDataNode(p2.getId()+"", p2.getLastName()+", "+p2.getFirstName(),p, p2, PlayerColor.W, mController);
 			allnodes.add(pairingNode);
-			util.connect(pairingNode, pnode1);
 			util.connect(pairingNode, pnode2);
+			util.connect(pairingNode, pnode1);
 			allnodes.add(pnode1);
 			allnodes.add(pnode2);
 			//util.connect(pnode1, pnode2);

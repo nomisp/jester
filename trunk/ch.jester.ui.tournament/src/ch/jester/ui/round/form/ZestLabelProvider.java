@@ -8,15 +8,17 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.zest.core.viewers.EntityConnectionData;
 import org.eclipse.zest.core.viewers.IEntityStyleProvider;
 
+import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.ui.tournament.internal.Activator;
 
 public class ZestLabelProvider extends LabelProvider implements IEntityStyleProvider{
 	private Image playerImage;
-	private static Color ORANGE = new Color(Display.getDefault(), new RGB(238,118,33));
+	private Color ORANGE = new Color(Display.getDefault(), new RGB(238,118,33));
 	@Override
 	public String getText(Object element) {
 		if (element instanceof ZestDataNode) {
@@ -52,13 +54,13 @@ public class ZestLabelProvider extends LabelProvider implements IEntityStyleProv
 		return playerImage;
 	}
 	
-	private Player toPlayer(Object element){
+	/*private Player toPlayer(Object element){
 		if(element instanceof PlayerDataNode){
 			PlayerDataNode node = (PlayerDataNode) element;
 			return node.getPlayer();
 		}
 		return null;
-	}
+	}*/
 	private PlayerDataNode toPlayerNode(Object element){
 		if(element instanceof PlayerDataNode){
 			PlayerDataNode node = (PlayerDataNode) element;
@@ -73,14 +75,23 @@ public class ZestLabelProvider extends LabelProvider implements IEntityStyleProv
 	}
 	@Override
 	public Color getBorderColor(Object entity) {
+		PlayerDataNode player = toPlayerNode(entity);
+		if(player!=null && player.hasWon()){
+			return Display.getDefault().getSystemColor (SWT.COLOR_GREEN);
+		}
 		return null;
 	}
+
 	@Override
 	public Color getBorderHighlightColor(Object entity) {
 		return null;
 	}
 	@Override
 	public int getBorderWidth(Object entity) {
+		PlayerDataNode player = toPlayerNode(entity);
+		if(player!=null && player.hasWon()){
+			return 1;
+		}
 		return 0;
 	}
 	@Override
@@ -111,6 +122,12 @@ public class ZestLabelProvider extends LabelProvider implements IEntityStyleProv
 	@Override
 	public boolean fisheyeNode(Object entity) {
 		return false;
+	}
+	@Override
+	public void dispose() {
+		super.dispose();
+		playerImage.dispose();
+		ORANGE.dispose();
 	}
 
 }

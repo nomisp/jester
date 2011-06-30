@@ -5,10 +5,15 @@ import java.util.List;
 
 import ch.jester.model.Category;
 import ch.jester.model.Round;
+import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.round.form.ZestConnection;
 import ch.jester.ui.round.form.ZestDataNode;
 
 public class CategoryNodeModelContentProvider extends RoundNodeModelContentProvider{
+	public CategoryNodeModelContentProvider(ResultController controller) {
+		super(controller);
+	}
+
 	private ZestUtil util = new ZestUtil();
 	private List<ZestDataNode> nodes;
 

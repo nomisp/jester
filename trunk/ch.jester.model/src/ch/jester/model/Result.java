@@ -5,12 +5,11 @@ public enum Result {
 	BLACK_WINS_F("0F",1.0f,0.0f), 
 	REMIS("X",0.5f,0.5f),
 	WHITE_WINS("1",0.0f,1.0f), 
-	WITHE_WINS_F("1F",0.0f,1.0f);
+	WHITE_WINS_F("1F",0.0f,1.0f);
 	
 	
 	Result(String pShortResult, float pPointsBlack, float pPointsWhite){
 		mShortResult=pShortResult;
-		//mDescription=pDes;
 		mPointsForBlack=pPointsBlack;
 		mPointsForWhite=pPointsWhite;
 	}

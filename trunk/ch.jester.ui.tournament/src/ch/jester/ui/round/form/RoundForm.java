@@ -1,50 +1,81 @@
 package ch.jester.ui.round.form;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
+
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.MenuDetectEvent;
+import org.eclipse.swt.events.MenuDetectListener;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
+import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
 import org.eclipse.zest.core.viewers.ZoomContributionViewItem;
 import org.eclipse.zest.core.widgets.Graph;
-import org.eclipse.zest.core.widgets.GraphConnection;
 import org.eclipse.zest.core.widgets.GraphNode;
-import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
-import org.eclipse.zest.layouts.algorithms.GridLayoutAlgorithm;
 import org.eclipse.zest.layouts.algorithms.HorizontalTreeLayoutAlgorithm;
-import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
-import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Label;
 
+import ch.jester.common.ui.utility.MenuManagerUtility;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Category;
+import ch.jester.model.Pairing;
+import ch.jester.model.Player;
+import ch.jester.model.Result;
 import ch.jester.model.Round;
+import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
 
-public class RoundForm extends FormPage{
-	private int layout = 1;
+public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 	private GraphViewer viewer;
-	private RoundNodeModelContentProvider modelContentProvider = new RoundNodeModelContentProvider();
+	private RoundNodeModelContentProvider modelContentProvider ;/*= new RoundNodeModelContentProvider();*/
 	private String title;
-
+	private ResultController mController;
+	private PropertyChangeListener updater;
+	private MenuDetectListener mdl;
 	public RoundForm(FormEditor editor, String id, String title) {
 		super(editor, id, title);
 	}
-
+	public void setResultController(ResultController pController){
+		mController=pController;
+		installListener();
+	}
+	private void installListener(){
+		mController.addPropertyChangeListener(updater = new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent arg0) {
+				
+				UIUtility.syncExecInUIThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						viewer.refresh();
+						
+					}
+				});
+			}
+		});
+	}
+	
+	
 	protected void createFormContent(IManagedForm managedForm) {
 		
 		managedForm.getForm().getBody().setLayout(new GridLayout());
@@ -78,16 +109,98 @@ public class RoundForm extends FormPage{
 		viewer.setLayoutAlgorithm(layout, true);
 		viewer.applyLayout();
 		
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
+		
+		ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
+		managedForm.getForm().getToolBarManager().add(toolbarZoomContributionViewItem);
+		managedForm.getForm().getToolBarManager().update(true);
+		
+		/*MenuManager menuMgr = new MenuManager() ;
+		final Menu menu = menuMgr.createContextMenu( viewer.getGraphControl());
+		viewer.getGraphControl().setMenu( menu );
+		this.getSite().registerContextMenu( menuMgr, viewer );*/
+		
+		viewer.getGraphControl().addMenuDetectListener(mdl = new MenuDetectListener() {
 			
 			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				System.out.println(event);
+			public void menuDetected(MenuDetectEvent e) {
+				System.out.println(e.widget);
+				if(e.widget instanceof Graph){
+					Graph graph = (Graph) e.widget;
+					List<GraphNode> glist = graph.getSelection();
+					if(glist.isEmpty()||glist.size()>1){return;}
+					GraphNode selected = glist.get(0);
+					Object data = selected.getData();
+					
+					if(data instanceof ZestDataNode){
+						ZestDataNode node = (ZestDataNode) data;
+						Pairing pairing = null;
+						if(node.getData() instanceof Pairing){
+							pairing = (Pairing) node.getData();
+						}
+						if(node.getData() instanceof Player){
+							pairing = ((PlayerDataNode)node).getPairing();
+						}
+						if(pairing!=null){
+							if(graph.getMenu()!=null){
+								graph.getMenu().dispose();
+							}
+							graph.setMenu(getMenu(pairing));
+						}else{
+							graph.setMenu(null);
+						}
+					}
+					
+					
+				}
+
 				
 			}
 		});
-		//fillToolBar();
+		
+		mController.getDirtyManager().reset();
+		//item.setMenu(menu);
 
+	}
+	
+	private Menu getMenu(Pairing pairing){
+		Menu menu = new Menu(Display.getCurrent().getActiveShell(), SWT.CASCADE);
+		Result currentResult = mController.getChangedResults().get(pairing);
+		if(currentResult == null && pairing.getResult()!=null){
+			currentResult = Result.findByShortResult(pairing.getResult());
+		}
+		for(Result r:Result.values()){
+			MenuItem item = new MenuItem(menu, SWT.CHECK);
+			installMenuSelectionListener(item);
+			item.setData(new Object[]{pairing, r});
+			item.setText(r.getShortResult());
+			if(currentResult!=null){
+				if(currentResult.getShortResult().equals(r.getShortResult())){
+					item.setSelection(true);
+				}
+			}
+		}
+		return menu;
+	}
+
+	
+	private void installMenuSelectionListener(MenuItem item) {
+		item.addSelectionListener(new SelectionListener(){
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Object[] data = (Object[]) e.widget.getData();
+				Pairing p = (Pairing) data[0];
+				Result r = (Result) data[1];
+				mController.addChangedResults(p, r);
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+
+			}
+			
+		});
+		
 	}
 	private LayoutAlgorithm setLayout() {
 		LayoutAlgorithm layout;
@@ -138,6 +251,18 @@ public class RoundForm extends FormPage{
 			title = "Round "+((Round)input).getNumber()+"";
 		}
 		
+	}
+	@Override
+	public AbstractZoomableViewer getZoomableViewer() {
+		return viewer;
+	}
+	
+	@Override
+	public void dispose() {
+
+	//	viewer.getGraphControl().removeMenuDetectListener(mdl);
+		mController.removePropertyChangeListener(updater);
+		super.dispose();
 	}
 
 }

@@ -1,7 +1,8 @@
 package ch.jester.ui.round.form;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -23,29 +24,71 @@ import org.eclipse.ui.forms.widgets.Section;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
-import ch.jester.commonservices.api.persistency.IEntityObject;
-import ch.jester.model.Category;
 import ch.jester.model.Pairing;
 import ch.jester.model.Result;
 import ch.jester.model.Round;
+import ch.jester.ui.round.editors.ResultController;
 
 public class ResultForm extends FormPage implements IDirtyManagerProvider{
-	private IEntityObject mInput;
-	private SWTDirtyManager mDirtyManager = new SWTDirtyManager();
-	private List<PairingResult> changedPairings = new ArrayList<PairingResult>();
+	class SelectionSetter implements PropertyChangeListener{
+		ComboViewer mViewer;
+		Pairing mPairing;
+		public SelectionSetter(ComboViewer viewer, Pairing p){
+			mViewer = viewer;
+			mPairing = p;
+		}
+		@Override
+		public void propertyChange(PropertyChangeEvent arg0) {
+			if(arg0.getSource()==mPairing){
+				System.out.println(mViewer+" updating");
+				setSelection();
+				mViewer.refresh();
+			}
+			
+		}
+		public void setSelection(){
+			String resultString = null;
+			Result result = null;
+			Result changedResult = mController.getChangedResults().get(mPairing);
+			if(changedResult!=null){
+				resultString = changedResult.getShortResult();
+			}else{
+				resultString = mPairing.getResult();
+			}
+			
+			if(resultString!=null){	
+				result = Result.findByShortResult(resultString);
+			}
+			if(result!=null){
+				Result selected = (Result) ((IStructuredSelection)mViewer.getSelection()).getFirstElement();
+				if(selected!=result){
+					mViewer.setSelection(new StructuredSelection(result));
+				}
+			}
+		}
+		
+	}
+	private List<SelectionSetter> mSelectionSetters = new ArrayList<SelectionSetter>();
+	private ResultController mController;
 	public ResultForm(FormEditor editor, String id, String title) {
 		super(editor, id, title);
 	}
+	
+	public void setResultController(ResultController pController){
+		mController=pController;
+	}
+	
 	protected void createFormContent(IManagedForm managedForm) {
 		ScrolledForm form = managedForm.getForm();
 		form.setText("Pairing Results");
 		managedForm.getForm().getBody().setLayout(new GridLayout(1, false));
 		managedForm.getToolkit().decorateFormHeading(form.getForm());
 		buildSections(managedForm);
+		mController.getDirtyManager().reset();
 	}
 
 	private void buildSections(IManagedForm managedForm) {
-		List<Round> rounds = getRounds();
+		List<Round> rounds = mController.getRounds();
 		
 		for(Round r:rounds){
 			Composite c = createSection(managedForm, "Round: "+r.getNumber());
@@ -60,22 +103,34 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		String black = p.getBlack().getLastName()+", "+p.getBlack().getFirstName();
 		String white = p.getWhite().getLastName()+", "+p.getWhite().getFirstName();
 		Result result = null;
-		if(p.getResult()!=null){	
+		/*if(p.getResult()!=null){	
 			result = Result.findByShortResult(p.getResult());
-		}
+		}*/
 		String text = "Black: "+black+" vs White: "+white;
 		
 		managedForm.getToolkit().createLabel(c, text, SWT.NONE);
 		ComboViewer viewer = new ComboViewer(c, SWT.READ_ONLY);
+
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
 		viewer.addSelectionChangedListener(new PairingResultChanged(p));
 		viewer.setInput(Result.values());
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		if(result!=null){
-			viewer.setSelection(new StructuredSelection(result));
-		}
-		mDirtyManager.add(viewer.getControl());
+		SelectionSetter setter = new SelectionSetter(viewer, p);
+		setter.setSelection();
+		mSelectionSetters.add(setter);
+		mController.addPropertyChangeListener("changedResults",setter);
 		
+		/*if(result!=null){
+			viewer.setSelection(new StructuredSelection(result));
+		}*/
+		mController.getSWTDirtyManager().add(viewer.getControl());
+		
+	}
+	public void dispose(){
+		super.dispose();
+		for(SelectionSetter setter:mSelectionSetters){
+			mController.removePropertyChangeListener("changedResults",setter);
+		}
 	}
 	private Composite createSection(IManagedForm managedForm, String title){
 		Composite compPersonal = managedForm.getToolkit().createComposite(managedForm.getForm().getBody(), SWT.NONE);
@@ -96,33 +151,10 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		composite_2.setLayout(new GridLayout(2, false));
 		return composite_2;
 	}
-	public void setInput(IEntityObject input) {
-		mInput = input;
-		
-	}
-	public List<PairingResult> getChangedPairings(){
-		return changedPairings;
-	}
 	
-	private List<Round> getRounds(){
-		if(mInput instanceof Category){
-			Category cat = (Category) mInput;
-			return cat.getRounds();
-		}
-		if(mInput instanceof Round){
-			List<Round> list = new ArrayList<Round>();
-			list.add((Round) mInput);
-			return list;
-		}
-		return null;
-	}
 	@Override
 	public DirtyManager getDirtyManager() {
-		return mDirtyManager;
-	}
-	public class PairingResult{
-		public Pairing pairing;
-		public Result result;
+		return mController.getDirtyManager();
 	}
 	
 	class PairingResultChanged implements ISelectionChangedListener{
@@ -135,10 +167,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		public void selectionChanged(SelectionChangedEvent event) {
 			IStructuredSelection sts = (IStructuredSelection) event.getSelection();
 			Result res = (Result)sts.getFirstElement();
-			PairingResult result = new PairingResult();
-			result.pairing=pairing;
-			result.result=res;
-			changedPairings.add(result);
+			mController.addChangedResults(pairing, res);
 		}
 	}
 }
