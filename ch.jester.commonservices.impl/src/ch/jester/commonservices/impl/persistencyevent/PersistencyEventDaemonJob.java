@@ -84,4 +84,12 @@ public class PersistencyEventDaemonJob extends Job{
 		}
 	}
 
+	public void removeListener(IPersistencyListener queueListener) {
+		synchronized (mListeners) {
+			mListeners.remove(queueListener);
+		}
+
+		
+	}
+
 }

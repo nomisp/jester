@@ -1,41 +1,23 @@
 package ch.jester.ui.round.editors;
 
-import java.math.RoundingMode;
-import java.util.HashSet;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.PartInitException;
 
-import ch.jester.common.settings.ISettingObject;
-import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.ui.editor.AbstractEditor;
-import ch.jester.common.ui.editorutilities.IDirtyListener;
-import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
+import ch.jester.model.Result;
 import ch.jester.model.Round;
-import ch.jester.model.SettingItem;
-import ch.jester.model.Tournament;
-import ch.jester.model.factories.ModelFactory;
-import ch.jester.system.api.pairing.IPairingAlgorithm;
-import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
-import ch.jester.system.api.pairing.IPairingManager;
-import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.ui.round.form.ResultForm;
-import ch.jester.ui.round.form.ResultForm.PairingResult;
 import ch.jester.ui.round.form.RoundForm;
 import ch.jester.ui.round.form.contentprovider.CategoryNodeModelContentProvider;
 import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
-import ch.jester.ui.tournament.ctrl.TournamentDetailsController;
-import ch.jester.ui.tournament.editors.TournamentEditor;
-import ch.jester.ui.tournament.forms.CategoryFormPage;
-import ch.jester.ui.tournament.forms.TournamentFormPage;
 
 /**
  * Turnier-Editor
@@ -45,18 +27,26 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 	public static final String ID = "ch.jester.ui.tournament.roundeditor";
 	private ServiceUtility mService = new ServiceUtility();
 	private ResultForm resForm;
-	
+	private ResultController mController = new ResultController();
 	public RoundEditor() {
 		super(true);
+		System.out.println("Editor");
 	}
 
 
 	@Override
 	protected void addPages() {
+		mController.setInput(mDaoInput.getInput());
+		
+		
 		RoundForm form = new RoundForm(this, "roundeditor", "Graph Overview");
+		form.setResultController(mController);
+		
 		resForm = new ResultForm(this, "resultform", "Results");
+		resForm.setResultController(mController);
+	
 		form.setContentProvider(getContentProvider(mDaoInput.getInput()));
-		resForm.setInput(mDaoInput.getInput());
+		
 		setDirtyManager(resForm.getDirtyManager());
 		getDirtyManager().addDirtyListener(this);
 		
@@ -70,12 +60,12 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 	
 	private RoundNodeModelContentProvider getContentProvider(Object o){
 		if(o instanceof Round){
-			RoundNodeModelContentProvider prov = new RoundNodeModelContentProvider();
+			RoundNodeModelContentProvider prov = new RoundNodeModelContentProvider(mController);
 			prov.setInput(o);
 			return prov;
 		}
 		if(o instanceof Category){
-			CategoryNodeModelContentProvider prov = new CategoryNodeModelContentProvider();
+			CategoryNodeModelContentProvider prov = new CategoryNodeModelContentProvider(mController);
 			prov.setInput(o);
 			return prov;
 		}
@@ -110,11 +100,21 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 		try{
 			IDaoService<Pairing> pairingservice = mService.getDaoServiceByEntity(Pairing.class);
 			pairingservice.manualEventQueueNotification(true);
-			List<PairingResult> set = resForm.getChangedPairings();
-			for(PairingResult pr:set){
+			
+			HashMap<Pairing, Result> map = mController.getChangedResults();
+			//List<PairingResult> set = resForm.getChangedPairings();
+			Iterator<Pairing> it = map.keySet().iterator();
+			
+			while(it.hasNext()){
+				Pairing p = it.next();
+				p.setResult(map.get(p).getShortResult());
+				pairingservice.save(p);
+			}
+			
+			/*for(Pairing p:set){
 				pr.pairing.setResult(pr.result.getShortResult());
 				pairingservice.save(pr.pairing);
-			}
+			}*/
 			pairingservice.notifyEventQueue();
 			pairingservice.close();
 			getDirtyManager().reset();

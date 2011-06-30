@@ -67,4 +67,9 @@ public class PersistencyEventQueue extends InjectedLogFactoryComponentAdapter<Vo
 		getLogger().debug("Shutting down EventQueue");
 		mQ.shutdown();	
 	}
+	@Override
+	public void removeListener(IPersistencyListener queueListener) {
+		mSenderJob.removeListener(queueListener);
+		
+	}
 }
