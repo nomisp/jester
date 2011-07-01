@@ -46,7 +46,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 			
 		}
 		public void setSelection(){
-			String resultString = null;
+		/*	String resultString = null;
 			Result result = null;
 			Result changedResult = mController.getChangedResults().get(mPairing);
 			if(changedResult!=null){
@@ -57,7 +57,9 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 			
 			if(resultString!=null){	
 				result = Result.findByShortResult(resultString);
-			}
+			}*/
+			Result result = mController.getLastPairingResult(mPairing);
+			//System.out.println(rr);
 			if(result!=null){
 				Result selected = (Result) ((IStructuredSelection)mViewer.getSelection()).getFirstElement();
 				if(selected!=result){

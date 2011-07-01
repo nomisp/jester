@@ -4,10 +4,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuDetectEvent;
 import org.eclipse.swt.events.MenuDetectListener;
@@ -34,7 +30,6 @@ import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.HorizontalTreeLayoutAlgorithm;
 
-import ch.jester.common.ui.utility.MenuManagerUtility;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.model.Category;
@@ -167,10 +162,11 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 	
 	private Menu getMenu(Pairing pairing){
 		Menu menu = new Menu(Display.getCurrent().getActiveShell(), SWT.CASCADE);
-		Result currentResult = mController.getChangedResults().get(pairing);
+	/*	Result currentResult = mController.getChangedResults().get(pairing);
 		if(currentResult == null && pairing.getResult()!=null){
 			currentResult = Result.findByShortResult(pairing.getResult());
-		}
+		}*/
+		Result currentResult = mController.getLastPairingResult(pairing);
 		for(Result r:Result.values()){
 			MenuItem item = new MenuItem(menu, SWT.CHECK);
 			installMenuSelectionListener(item);
