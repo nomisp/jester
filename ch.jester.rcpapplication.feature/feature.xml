@@ -44,6 +44,10 @@
          id="org.eclipselabs.p2.rcpupdate"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.draw2d"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
@@ -123,6 +127,20 @@
 
    <plugin
          id="org.eclipse.ui.navigator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.zest.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.zest.layouts"
          download-size="0"
          install-size="0"
          version="0.0.0"
