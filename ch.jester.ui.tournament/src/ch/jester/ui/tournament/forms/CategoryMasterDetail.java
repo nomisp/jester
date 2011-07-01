@@ -28,12 +28,15 @@ import ch.jester.common.ui.editor.IEditorDaoInputAccess;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Tournament;
+import ch.jester.ui.tournament.editors.TournamentEditor;
 import ch.jester.ui.tournament.internal.Activator;
 
 public class CategoryMasterDetail extends MasterDetailsBlock {
 
 	private FormPage page;
 	private Button btAdd, btRemove;
+	private CategoryDetailsPage categoryDetailsPage = new CategoryDetailsPage(this);
+	private TableViewer viewer;
 
 	/**
 	 * Create the master details block.
@@ -41,6 +44,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	public CategoryMasterDetail(FormPage page) {
 		this.page = page;
 	}
+	
 	/**
 	 * @param id
 	 * @param title
@@ -48,6 +52,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	class MasterContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof IEditorDaoInputAccess) {
+				@SuppressWarnings("unchecked")
 				IEditorDaoInputAccess<Tournament> input = (IEditorDaoInputAccess<Tournament>) page.getEditor().getEditorInput();
 				Tournament tournament = (Tournament)input.getInput();
 				return tournament.getCategories().toArray();
@@ -59,6 +64,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
+	
 	class MasterLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
 			Category cat = (Category) obj;
@@ -103,7 +109,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		section.setClient(client);
 		final SectionPart spart = new SectionPart(section);
 		managedForm.addPart(spart);
-		TableViewer viewer = new TableViewer(t);
+		viewer = new TableViewer(t);
 		btRemove = toolkit.createButton(client, "CategoryPropertiesBlock.remove", SWT.PUSH);
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		btRemove.setLayoutData(gd);
@@ -116,6 +122,10 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		viewer.setLabelProvider(new MasterLabelProvider());
 		viewer.setInput(page.getEditor().getEditorInput());
 	}
+	
+	/**
+	 * Toolbar-Actions für Tile-Horizontal / Tile-Vertical
+	 */
 	protected void createToolBarActions(IManagedForm managedForm) {
 		final ScrolledForm form = managedForm.getForm();
 		Action haction = new Action("hor", Action.AS_RADIO_BUTTON) { //$NON-NLS-1$
@@ -142,8 +152,24 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		form.getToolBarManager().add(vaction);
 	}
 	
+	/**
+	 * DetailsPages registrieren
+	 */
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(Category.class, new CategoryDetailsPage());
+		detailsPart.registerPage(Category.class, categoryDetailsPage);
 //		detailsPart.registerPage(TypeTwo.class, new TypeTwoDetailsPage());
+	}
+	
+	public void setEditorDirty() {
+		((TournamentEditor)page.getEditor()).getDirtyManager().setDirty(true);
+	}
+	
+	public CategoryDetailsPage getCategoryDetailsPage() {
+		return categoryDetailsPage;
+	}
+	
+	public void save() {
+		categoryDetailsPage.commit(true);
+		viewer.setInput(page.getEditor().getEditorInput());
 	}
 }

@@ -35,6 +35,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 	private TournamentDetailsController mTournamentController;
 	private ServiceUtility mService = new ServiceUtility();
 	private AbstractSystemSettingsFormPage settingsPage;
+	private CategoryFormPage categoryPage;
 	
 	public TournamentEditor() {
 		super(true);
@@ -56,7 +57,15 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 				
 			}
 		});
-		CategoryFormPage categoryPage = new CategoryFormPage(this);
+		categoryPage = new CategoryFormPage(this);
+		categoryPage.getCategoryDetailsDirtyManager().addDirtyListener(new IDirtyListener() {
+			
+			@Override
+			public void propertyIsDirty() {
+				TournamentEditor.this.getDirtyManager().setDirty(true);
+				
+			}
+		});
 		settingsPage = findSettingsPage();
 		settingsPage.getDirtyManager().addDirtyListener(new IDirtyListener() {
 			
@@ -66,6 +75,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 				
 			}
 		});
+		
 		
 		try {
 			addPage(tournamentPage);
@@ -103,6 +113,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 		mLogger.debug("Saving "+this);
 		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
 		try{
+			categoryPage.doSave(monitor);
 			mTournamentController.updateModel();
 			Tournament tournament = mTournamentController.getTournament();
 			IDaoService<SettingItem> settingItemPersister = mService.getDaoServiceByEntity(SettingItem.class);
