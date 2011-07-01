@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.PartInitException;
 
 import ch.jester.common.ui.editor.AbstractEditor;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
@@ -18,6 +19,7 @@ import ch.jester.ui.round.form.ResultForm;
 import ch.jester.ui.round.form.RoundForm;
 import ch.jester.ui.round.form.contentprovider.CategoryNodeModelContentProvider;
 import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
+import ch.jester.ui.tournament.internal.Activator;
 
 /**
  * Turnier-Editor
@@ -28,9 +30,10 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 	private ServiceUtility mService = new ServiceUtility();
 	private ResultForm resForm;
 	private ResultController mController = new ResultController();
+	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	public RoundEditor() {
 		super(true);
-		System.out.println("Editor");
+		mLogger.debug("new "+this);
 	}
 
 

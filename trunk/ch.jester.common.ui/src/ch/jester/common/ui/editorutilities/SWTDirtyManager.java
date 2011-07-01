@@ -62,7 +62,7 @@ public class SWTDirtyManager extends DirtyManager implements DisposeListener{
 		@Override
 		public void handleEvent(Event event) {
 			SWTDirtyManager.this.setDirty(true);
-			mLogger.debug("Changed Property! Source =  "+event.widget);
+			mLogger.debug("Changed widget data! Source =  "+event.widget);
 		}
 		
 	}

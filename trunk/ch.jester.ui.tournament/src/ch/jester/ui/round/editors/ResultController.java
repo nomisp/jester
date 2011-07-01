@@ -13,27 +13,29 @@ import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
-import ch.jester.commonservices.api.persistency.IPersistencyFilter;
 import ch.jester.commonservices.api.persistency.IPersistencyListener;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
 import ch.jester.model.Result;
 import ch.jester.model.Round;
+import ch.jester.ui.tournament.internal.Activator;
 
 public class ResultController implements IDirtyManagerProvider{
-	PropertyChangeSupport pcs;
+	PropertyChangeSupport mPcs;
 	private Object mInput;
 	private HashMap<Pairing, Result> mResultMap = new HashMap<Pairing, Result>();
 	private ServiceUtility mServices = new ServiceUtility();
 	private SWTDirtyManager mDirtyManager = new SWTDirtyManager();
-	private IPersistencyListener queueListener = null;
+	private IPersistencyListener mQueueListener = null;
+	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	public ResultController() {
-		pcs = new PropertyChangeSupport(this);
+		mPcs = new PropertyChangeSupport(this);
 		EventLoadMatchingFilter filter = new EventLoadMatchingFilter(Pairing.class);
-		mServices.getService(IPersistencyEventQueue.class).addListener(queueListener = new PersistencyListener(filter) {
+		mServices.getService(IPersistencyEventQueue.class).addListener(mQueueListener = new PersistencyListener(filter) {
 			@Override
 			public void persistencyEvent(final IPersistencyEvent pEvent) {
 				Object oo = pEvent.getLoad();
@@ -54,15 +56,15 @@ public class ResultController implements IDirtyManagerProvider{
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener l){
-		pcs.addPropertyChangeListener(l);
+		mPcs.addPropertyChangeListener(l);
 	}
 	public void addPropertyChangeListener(String pProperty, PropertyChangeListener l){
-		pcs.addPropertyChangeListener(pProperty, l);
+		mPcs.addPropertyChangeListener(pProperty, l);
 	}
 
 	public void setInput(Object pInput){
 		mDirtyManager.setDirty(true);
-		pcs.firePropertyChange("input",mInput, mInput = pInput);
+		mPcs.firePropertyChange("input",mInput, mInput = pInput);
 	}
 	
 	public Object getInput(){
@@ -102,8 +104,8 @@ public class ResultController implements IDirtyManagerProvider{
 		mResultMap.put(pairing, result);
 		PropertyChangeEvent pe = new PropertyChangeEvent(pairing, "changedResults", lastStringResult, result.getShortResult());
 		mDirtyManager.setDirty(true);
-		System.out.println("propertychangeevent: "+pe+" -- "+pairing.getResult()+" -- "+result.getShortResult());
-		pcs.firePropertyChange(pe);
+		mLogger.debug("fire PropertyChangeEvent: "+pe+" -- "+pairing.getResult()+" -- "+result.getShortResult());
+		mPcs.firePropertyChange(pe);
 
 	}
 	public HashMap<Pairing, Result> getChangedResults(){
@@ -111,12 +113,12 @@ public class ResultController implements IDirtyManagerProvider{
 	}
 
 	public void removePropertyChangeListener(PropertyChangeListener l) {
-		pcs.removePropertyChangeListener(l);
+		mPcs.removePropertyChangeListener(l);
 	}
 
 	public void removePropertyChangeListener(String string,
 			PropertyChangeListener setter) {
-		pcs.removePropertyChangeListener(string, setter);
+		mPcs.removePropertyChangeListener(string, setter);
 		
 	}
 
@@ -129,7 +131,7 @@ public class ResultController implements IDirtyManagerProvider{
 		return mDirtyManager;
 	}
 	public void dispose(){
-		mServices.getService(IPersistencyEventQueue.class).removeListener(queueListener);
+		mServices.getService(IPersistencyEventQueue.class).removeListener(mQueueListener);
 	}
 	
 }
