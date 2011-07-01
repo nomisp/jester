@@ -1,19 +1,12 @@
 package ch.jester.ui.round.editors;
 
-import java.util.HashMap;
-import java.util.Iterator;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.PartInitException;
 
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
-import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
-import ch.jester.model.Pairing;
-import ch.jester.model.Result;
 import ch.jester.model.Round;
 import ch.jester.ui.round.form.ResultForm;
 import ch.jester.ui.round.form.RoundForm;
@@ -27,8 +20,8 @@ import ch.jester.ui.tournament.internal.Activator;
  */
 public class RoundEditor extends AbstractEditor<IEntityObject> {
 	public static final String ID = "ch.jester.ui.tournament.roundeditor";
-	private ServiceUtility mService = new ServiceUtility();
-	private ResultForm resForm;
+	private ResultForm tableResultFormPage;
+	private RoundForm graphResultFormPage;
 	private ResultController mController = new ResultController();
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	public RoundEditor() {
@@ -42,20 +35,20 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 		mController.setInput(mDaoInput.getInput());
 		
 		
-		RoundForm form = new RoundForm(this, "roundeditor", "Graph Overview");
-		form.setResultController(mController);
+		graphResultFormPage = new RoundForm(this, "roundeditor", "Graph Overview");
+		graphResultFormPage.setResultController(mController);
 		
-		resForm = new ResultForm(this, "resultform", "Results");
-		resForm.setResultController(mController);
+		tableResultFormPage = new ResultForm(this, "resultform", "Results");
+		tableResultFormPage.setResultController(mController);
 	
-		form.setContentProvider(getContentProvider(mDaoInput.getInput()));
+		graphResultFormPage.setContentProvider(getContentProvider(mDaoInput.getInput()));
 		
-		setDirtyManager(resForm.getDirtyManager());
+		setDirtyManager(tableResultFormPage.getDirtyManager());
 		getDirtyManager().addDirtyListener(this);
 		
 		try {
-			addPage(form);
-			addPage(resForm);
+			addPage(graphResultFormPage);
+			addPage(tableResultFormPage);
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
@@ -95,32 +88,18 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 		setPartName(mTournamentPage.getNameText().getText()+", "+mTournamentPage.getDescriptionText().getText());*/
 	
 	}
-
+	
+	@Override
+	public void dispose() {
+		mController.dispose();
+		super.dispose();
+	}
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		mLogger.debug("Saving "+this);
 		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
 		try{
-			IDaoService<Pairing> pairingservice = mService.getDaoServiceByEntity(Pairing.class);
-			pairingservice.manualEventQueueNotification(true);
-			
-			HashMap<Pairing, Result> map = mController.getChangedResults();
-			//List<PairingResult> set = resForm.getChangedPairings();
-			Iterator<Pairing> it = map.keySet().iterator();
-			
-			while(it.hasNext()){
-				Pairing p = it.next();
-				p.setResult(map.get(p).getShortResult());
-				pairingservice.save(p);
-			}
-			
-			/*for(Pairing p:set){
-				pr.pairing.setResult(pr.result.getShortResult());
-				pairingservice.save(pr.pairing);
-			}*/
-			pairingservice.notifyEventQueue();
-			pairingservice.close();
-			getDirtyManager().reset();
+			mController.saveChangedResults();
 			setSaved(true);
 		} finally {
 			monitor.done();
