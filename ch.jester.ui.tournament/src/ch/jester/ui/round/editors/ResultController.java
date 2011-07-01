@@ -5,18 +5,15 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import ch.jester.common.persistency.EventLoadMatchingFilter;
-import ch.jester.common.persistency.PersistencyListener;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
-import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.commonservices.api.persistency.IPersistencyEvent;
-import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
-import ch.jester.commonservices.api.persistency.IPersistencyListener;
+import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
@@ -25,17 +22,50 @@ import ch.jester.model.Round;
 import ch.jester.ui.tournament.internal.Activator;
 
 public class ResultController implements IDirtyManagerProvider{
+	private static class ControllerSynchronizer{
+		private List<ResultController> mOpenedControllers = new ArrayList<ResultController>();
+		
+		void addController(ResultController ctrl){
+			mOpenedControllers.add(ctrl);
+		}
+		void remController(ResultController ctrl){
+			mOpenedControllers.remove(ctrl);
+		}
+		
+		void changed(ResultController ctrl, Pairing pairing, Result result){
+			for(ResultController c:mOpenedControllers){
+				if(c==ctrl){continue;}
+				if(c.getLastPairingResult(pairing)!=result){
+					c.addChangedResults(pairing, result);
+				}
+			}
+		}
+		public void changesSaved(ResultController resultController,
+				HashMap<Pairing, Result> changedResults) {
+			for(ResultController c:mOpenedControllers){
+				if(c==resultController){continue;}
+				c.clearChangedResults(changedResults);
+			}
+			
+		}
+	}
+	
+	
+	
 	PropertyChangeSupport mPcs;
 	private Object mInput;
 	private HashMap<Pairing, Result> mResultMap = new HashMap<Pairing, Result>();
 	private ServiceUtility mServices = new ServiceUtility();
+	private IDaoService<Pairing> mPairingDao = mServices.getDaoServiceByEntity(Pairing.class);
 	private SWTDirtyManager mDirtyManager = new SWTDirtyManager();
-	private IPersistencyListener mQueueListener = null;
+	//private IPersistencyListener mQueueListener = null; x
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	private static ControllerSynchronizer mSync = new ControllerSynchronizer();
 	public ResultController() {
+		mSync.addController(this);
 		mPcs = new PropertyChangeSupport(this);
 		EventLoadMatchingFilter filter = new EventLoadMatchingFilter(Pairing.class);
-		mServices.getService(IPersistencyEventQueue.class).addListener(mQueueListener = new PersistencyListener(filter) {
+		/*mServices.getService(IPersistencyEventQueue.class).addListener(mQueueListener = new PersistencyListener(filter) {
 			@Override
 			public void persistencyEvent(final IPersistencyEvent pEvent) {
 				Object oo = pEvent.getLoad();
@@ -51,7 +81,7 @@ public class ResultController implements IDirtyManagerProvider{
 
 				
 			}
-		});
+		});*/
 	
 	}
 	
@@ -106,6 +136,7 @@ public class ResultController implements IDirtyManagerProvider{
 		mDirtyManager.setDirty(true);
 		mLogger.debug("fire PropertyChangeEvent: "+pe+" -- "+pairing.getResult()+" -- "+result.getShortResult());
 		mPcs.firePropertyChange(pe);
+		mSync.changed(this, pairing, result);
 
 	}
 	public HashMap<Pairing, Result> getChangedResults(){
@@ -131,7 +162,46 @@ public class ResultController implements IDirtyManagerProvider{
 		return mDirtyManager;
 	}
 	public void dispose(){
-		mServices.getService(IPersistencyEventQueue.class).removeListener(mQueueListener);
+		//mServices.getService(IPersistencyEventQueue.class).removeListener(mQueueListener);
+		mSync.remController(this);
 	}
+	private void clearChangedResults(HashMap<Pairing, Result> mMap) {
+		if(mMap==mResultMap){
+			mResultMap.clear();
+			return;
+		}
+		Iterator<Pairing> pIt = mMap.keySet().iterator();
+		while(pIt.hasNext()){
+			mResultMap.remove(pIt.next());
+		}
+		if(mResultMap.isEmpty()){
+			getDirtyManager().reset();
+		}
+		
+	}
+
+
+	public void saveChangedResults() {
+		
+		mPairingDao.manualEventQueueNotification(true);
+		
+		HashMap<Pairing, Result> map = getChangedResults();
+		Iterator<Pairing> it = map.keySet().iterator();
+		
+		while(it.hasNext()){
+			Pairing p = it.next();
+			p.setResult(map.get(p).getShortResult());
+			mPairingDao.save(p);
+		}
+		mSync.changesSaved(this, getChangedResults());
+		
+		mPairingDao.notifyEventQueue();
+		mPairingDao.close();
+		clearChangedResults(mResultMap);
+		getDirtyManager().reset();
+		
+	}
+
+
 	
 }
