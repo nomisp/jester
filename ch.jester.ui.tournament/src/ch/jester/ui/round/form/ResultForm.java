@@ -23,7 +23,6 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
-import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.model.Pairing;
 import ch.jester.model.Result;
 import ch.jester.model.Round;
@@ -106,7 +105,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		/*if(p.getResult()!=null){	
 			result = Result.findByShortResult(p.getResult());
 		}*/
-		String text = "Black: "+black+" vs White: "+white;
+		String text = "White: "+white+" vs Black: "+black;
 		
 		managedForm.getToolkit().createLabel(c, text, SWT.NONE);
 		ComboViewer viewer = new ComboViewer(c, SWT.READ_ONLY);

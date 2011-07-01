@@ -36,6 +36,7 @@ import org.eclipse.zest.layouts.algorithms.HorizontalTreeLayoutAlgorithm;
 
 import ch.jester.common.ui.utility.MenuManagerUtility;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
@@ -43,14 +44,16 @@ import ch.jester.model.Result;
 import ch.jester.model.Round;
 import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
+import ch.jester.ui.tournament.internal.Activator;
 
 public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
-	private GraphViewer viewer;
-	private RoundNodeModelContentProvider modelContentProvider ;/*= new RoundNodeModelContentProvider();*/
-	private String title;
+	private GraphViewer mViewer;
+	private RoundNodeModelContentProvider mModelContentProvider ;/*= new RoundNodeModelContentProvider();*/
+	private String mTitle;
 	private ResultController mController;
-	private PropertyChangeListener updater;
-	private MenuDetectListener mdl;
+	private PropertyChangeListener mUpdater;
+	private MenuDetectListener mMdl;
+	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	public RoundForm(FormEditor editor, String id, String title) {
 		super(editor, id, title);
 	}
@@ -59,7 +62,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 		installListener();
 	}
 	private void installListener(){
-		mController.addPropertyChangeListener(updater = new PropertyChangeListener() {
+		mController.addPropertyChangeListener(mUpdater = new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent arg0) {
 				
@@ -67,7 +70,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 					
 					@Override
 					public void run() {
-						viewer.refresh();
+						mViewer.refresh();
 						
 					}
 				});
@@ -92,22 +95,22 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 		
 		
 		
-		managedForm.getForm().setText(title);
+		managedForm.getForm().setText(mTitle);
 		managedForm.getToolkit().decorateFormHeading(managedForm.getForm().getForm());
 		
-		viewer = new GraphViewer(compPersonal, SWT.NONE);
-		Control control = viewer.getControl();
+		mViewer = new GraphViewer(compPersonal, SWT.NONE);
+		Control control = mViewer.getControl();
 		control.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		new Label(compPersonal, SWT.NONE);
 
 		
-		viewer.setContentProvider(new ZestNodeContentProvider());
-		viewer.setLabelProvider(new ZestLabelProvider());
+		mViewer.setContentProvider(new ZestNodeContentProvider());
+		mViewer.setLabelProvider(new ZestLabelProvider());
 		
-		viewer.setInput(modelContentProvider.getAllNodes());
+		mViewer.setInput(mModelContentProvider.getAllNodes());
 		LayoutAlgorithm layout = setLayout();
-		viewer.setLayoutAlgorithm(layout, true);
-		viewer.applyLayout();
+		mViewer.setLayoutAlgorithm(layout, true);
+		mViewer.applyLayout();
 		
 		
 		ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
@@ -119,11 +122,11 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 		viewer.getGraphControl().setMenu( menu );
 		this.getSite().registerContextMenu( menuMgr, viewer );*/
 		
-		viewer.getGraphControl().addMenuDetectListener(mdl = new MenuDetectListener() {
+		mViewer.getGraphControl().addMenuDetectListener(mMdl = new MenuDetectListener() {
 			
 			@Override
 			public void menuDetected(MenuDetectEvent e) {
-				System.out.println(e.widget);
+				mLogger.debug("MenuDetectEvent: "+e.widget);
 				if(e.widget instanceof Graph){
 					Graph graph = (Graph) e.widget;
 					List<GraphNode> glist = graph.getSelection();
@@ -243,25 +246,25 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 	public void setFocus() {
 	}
 	public void setContentProvider(RoundNodeModelContentProvider contentProvider) {
-		modelContentProvider = contentProvider;
-		Object input = modelContentProvider.getInput();
+		mModelContentProvider = contentProvider;
+		Object input = mModelContentProvider.getInput();
 		if(input instanceof Category){
-			title = ((Category)input).getDescription();
+			mTitle = ((Category)input).getDescription();
 		}else if(input instanceof Round){
-			title = "Round "+((Round)input).getNumber()+"";
+			mTitle = "Round "+((Round)input).getNumber()+"";
 		}
 		
 	}
 	@Override
 	public AbstractZoomableViewer getZoomableViewer() {
-		return viewer;
+		return mViewer;
 	}
 	
 	@Override
 	public void dispose() {
 
 	//	viewer.getGraphControl().removeMenuDetectListener(mdl);
-		mController.removePropertyChangeListener(updater);
+		mController.removePropertyChangeListener(mUpdater);
 		super.dispose();
 	}
 
