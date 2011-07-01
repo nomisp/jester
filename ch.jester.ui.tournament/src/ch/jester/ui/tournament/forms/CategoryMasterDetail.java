@@ -1,20 +1,20 @@
 package ch.jester.ui.tournament.forms;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.MasterDetailsBlock;
@@ -27,7 +27,11 @@ import org.eclipse.ui.forms.widgets.Section;
 import ch.jester.common.ui.editor.IEditorDaoInputAccess;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Category;
+import ch.jester.model.Round;
 import ch.jester.model.Tournament;
+import ch.jester.ui.tournament.actions.AddRoundAction;
+import ch.jester.ui.tournament.actions.DeleteRoundAction;
+import ch.jester.ui.tournament.cnf.TournamentLabelProvider;
 import ch.jester.ui.tournament.editors.TournamentEditor;
 import ch.jester.ui.tournament.internal.Activator;
 
@@ -36,54 +40,20 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	private FormPage page;
 	private Button btAdd, btRemove;
 	private CategoryDetailsPage categoryDetailsPage = new CategoryDetailsPage(this);
-	private TableViewer viewer;
+//	private TableViewer viewer;
+	private TreeViewer treeViewer;
+	private Tournament tournament;
 
 	/**
 	 * Create the master details block.
 	 */
 	public CategoryMasterDetail(FormPage page) {
 		this.page = page;
+		IEditorDaoInputAccess<Tournament> input = (IEditorDaoInputAccess<Tournament>) page.getEditor().getEditorInput();
+		tournament = (Tournament)input.getInput();
 	}
 	
-	/**
-	 * @param id
-	 * @param title
-	 */
-	class MasterContentProvider implements IStructuredContentProvider {
-		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof IEditorDaoInputAccess) {
-				@SuppressWarnings("unchecked")
-				IEditorDaoInputAccess<Tournament> input = (IEditorDaoInputAccess<Tournament>) page.getEditor().getEditorInput();
-				Tournament tournament = (Tournament)input.getInput();
-				return tournament.getCategories().toArray();
-			}
-			return new Object[0];
-		}
-		public void dispose() {
-		}
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
-	}
-	
-	class MasterLabelProvider extends LabelProvider implements ITableLabelProvider {
-		public String getColumnText(Object obj, int index) {
-			Category cat = (Category) obj;
-			return cat.getDescription();
-		}
-		public Image getColumnImage(Object obj, int index) {
-			if (obj instanceof Category) {
-				return UIUtility.getImageDescriptor(Activator.getDefault().getActivationContext().getPluginId(),
-							"icons/category_16x16.gif").createImage();
-			}
-//			if (obj instanceof TypeTwo) {
-//				return PlatformUI.getWorkbench().getSharedImages().getImage(
-//						ISharedImages.IMG_OBJ_FILE);
-//			}
-			return null;
-		}
-	}
 	protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
-		//final ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
 		Section section = toolkit.createSection(parent, Section.DESCRIPTION|Section.TITLE_BAR);
 		section.setText("CategoryPropertiesBlock.sname");
@@ -96,12 +66,13 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		layout.marginWidth = 2;
 		layout.marginHeight = 2;
 		client.setLayout(layout);
-		Table t = toolkit.createTable(client, SWT.NULL);
+//		Table t = toolkit.createTable(client, SWT.NULL);
+		Tree tree = toolkit.createTree(client, SWT.NULL);
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.verticalSpan = 2;
 		gd.heightHint = 20;
 		gd.widthHint = 100;
-		t.setLayoutData(gd);
+		tree.setLayoutData(gd);
 		toolkit.paintBordersFor(client);
 		btAdd = toolkit.createButton(client, "CategoryPropertiesBlock.add", SWT.PUSH);
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
@@ -109,18 +80,49 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		section.setClient(client);
 		final SectionPart spart = new SectionPart(section);
 		managedForm.addPart(spart);
-		viewer = new TableViewer(t);
 		btRemove = toolkit.createButton(client, "CategoryPropertiesBlock.remove", SWT.PUSH);
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		btRemove.setLayoutData(gd);
-		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		
+		treeViewer = new TreeViewer(tree);
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(spart, event.getSelection());
+				createContextMenu();
 			}
 		});
-		viewer.setContentProvider(new MasterContentProvider());
-		viewer.setLabelProvider(new MasterLabelProvider());
-		viewer.setInput(page.getEditor().getEditorInput());
+		treeViewer.setContentProvider(new TournamentTreeContentProvider());
+		treeViewer.setLabelProvider(new TournamentLabelProvider());
+		treeViewer.setInput(tournament);
+		treeViewer.expandAll();
+//		createContextMenu();
+	}
+	
+	private void createContextMenu() {
+		MenuManager menuMgr = new MenuManager();
+		Menu menu = menuMgr.createContextMenu(treeViewer.getControl());
+		menuMgr.addMenuListener(new IMenuListener() {
+			@Override
+			public void menuAboutToShow(IMenuManager manager) {
+				if (treeViewer.getSelection().isEmpty()) {
+					return;
+				}
+
+				if (treeViewer.getSelection() instanceof IStructuredSelection) {
+					IStructuredSelection selection = (IStructuredSelection) treeViewer.getSelection();
+					if (selection.getFirstElement() instanceof Category) {
+						Category category = (Category) selection.getFirstElement();
+						manager.add(new AddRoundAction(category));
+					} else if (selection.getFirstElement() instanceof Round) {
+						Round round = (Round) selection.getFirstElement();
+						manager.add(new DeleteRoundAction(round));
+					}
+				}
+			}
+		});
+
+		menuMgr.setRemoveAllWhenShown(true);
+		treeViewer.getControl().setMenu(menu);
 	}
 	
 	/**
@@ -170,6 +172,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	
 	public void save() {
 		categoryDetailsPage.commit(true);
-		viewer.setInput(page.getEditor().getEditorInput());
+		treeViewer.setInput(tournament);
 	}
+	
 }
