@@ -7,6 +7,8 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -20,6 +22,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
+import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.model.Category;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
@@ -29,23 +32,41 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
  *
  */
 public class CategoryDetailsPage implements IDetailsPage {
+	private CategoryMasterDetail masterDetailsBlock;
 	private DataBindingContext m_bindingContext;
-	public CategoryDetailsPage() {
-	}
-
+	private SWTDirtyManager dm = new SWTDirtyManager();
 	private IManagedForm mForm;
 	private Category category;
 	private Text description;
+	private boolean dirty = false;
+
+
+	private ModifyListener textModifyListener = new ModifyListener() {
+		
+		@Override
+		public void modifyText(ModifyEvent e) {
+			masterDetailsBlock.setEditorDirty();
+			dirty = true;
+		}
+	};
+	
+	/**
+	 * Konstruktor
+	 * @param masterDetailBlock
+	 */
+	public CategoryDetailsPage(CategoryMasterDetail masterDetailBlock) {
+		this.masterDetailsBlock = masterDetailBlock;
+	}
 	
 	@Override
 	public void commit(boolean onSave) {
-		// TODO Auto-generated method stub
-
+		if (category != null) {
+			category.setDescription(description.getText());
+		}
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -56,20 +77,18 @@ public class CategoryDetailsPage implements IDetailsPage {
 
 	@Override
 	public boolean isDirty() {
-		// TODO Auto-generated method stub
-		return false;
+		return dirty;
 	}
 
 	@Override
 	public boolean isStale() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
-
+		removeListeners();
+		addListeners();
 	}
 
 	@Override
@@ -79,20 +98,14 @@ public class CategoryDetailsPage implements IDetailsPage {
 
 	@Override
 	public boolean setFormInput(Object input) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	public void selectionChanged(IFormPart part, ISelection selection) {
-		IStructuredSelection ssel = (IStructuredSelection)selection;
-		if (ssel.size()==1) {
-			category = (Category)ssel.getFirstElement();
-		}
-		else {
-			category = null;
-		}
-//		update();
+	public void updateModel(){
+		m_bindingContext.updateModels();
+	}
+	public void updateUI(){
+		m_bindingContext.updateTargets();
 	}
 
 	@Override
@@ -127,7 +140,21 @@ public class CategoryDetailsPage implements IDetailsPage {
 
 		toolkit.paintBordersFor(s1);
 		s1.setClient(client);
-//		m_bindingContext = initDataBindings();
+		
+//		dm.add(description);
+	}
+
+	@Override
+	public void selectionChanged(IFormPart part, ISelection selection) {
+		IStructuredSelection ssel = (IStructuredSelection)selection;
+		if (ssel.size()==1) {
+			category = (Category)ssel.getFirstElement();
+			m_bindingContext = initDataBindings();
+		}
+		else {
+			category = null;
+		}
+		refresh();
 	}
 	
 	private void createSpacer(FormToolkit toolkit, Composite parent, int span) {
@@ -137,13 +164,25 @@ public class CategoryDetailsPage implements IDetailsPage {
 		spacer.setLayoutData(gd);
 	}
 	
-//	protected DataBindingContext initDataBindings() {
-//		DataBindingContext bindingContext = new DataBindingContext();
-//		//
-//		IObservableValue descriptionObserveTextObserveWidget = SWTObservables.observeText(description, SWT.Modify);
-//		IObservableValue categoryDescriptionObserveValue = BeansObservables.observeValue(category, "description");
-//		bindingContext.bindValue(descriptionObserveTextObserveWidget, categoryDescriptionObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
-//		//
-//		return bindingContext;
-//	}
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		IObservableValue descriptionObserveTextObserveWidget = SWTObservables.observeText(description, SWT.Modify);
+		IObservableValue categoryDescriptionObserveValue = BeansObservables.observeValue(category, "description");
+		bindingContext.bindValue(descriptionObserveTextObserveWidget, categoryDescriptionObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+		//
+		return bindingContext;
+	}
+	
+	public SWTDirtyManager getDirtyManager() {
+		return dm;
+	}
+	
+	private void addListeners() {
+		description.addModifyListener(textModifyListener);
+	}
+
+	private void removeListeners() {
+		description.removeModifyListener(textModifyListener);
+	}
 }

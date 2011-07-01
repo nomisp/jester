@@ -1,11 +1,14 @@
 package ch.jester.ui.tournament.forms;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+
+import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 
 public class CategoryFormPage extends FormPage {
 
@@ -51,6 +54,19 @@ public class CategoryFormPage extends FormPage {
 		toolkit.decorateFormHeading(form.getForm());
 		toolkit.paintBordersFor(body);
 		block.createContent(managedForm);
+	}
+	
+	@Override
+	public void doSave(IProgressMonitor monitor) {
+		block.save();
+	}
+	
+	/**
+	 * Liefert den DirtyManager der CategoryDetailsPage
+	 * @return
+	 */
+	public SWTDirtyManager getCategoryDetailsDirtyManager() {
+		return block.getCategoryDetailsPage().getDirtyManager();
 	}
 
 }
