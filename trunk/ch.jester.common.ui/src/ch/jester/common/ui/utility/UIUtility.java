@@ -1,6 +1,10 @@
 package ch.jester.common.ui.utility;
 
 
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -108,6 +112,21 @@ public class UIUtility {
 			
 		});
 
+	}
+	
+	public static DisplayMode getLargestDisplay(){
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] gs = ge.getScreenDevices();
+		DisplayMode biggestDisplay = gs[0].getDisplayMode();
+		// Get size of each screen
+		for (int i=0; i<gs.length; i++) {
+		    DisplayMode dm = gs[i].getDisplayMode();
+		    int screenWidth = dm.getWidth();
+		    if(screenWidth>biggestDisplay.getWidth()){
+		    	biggestDisplay = dm;
+		    }
+		}
+		return biggestDisplay;
 	}
 	
 	/**Das Aktive Workbench Window. Kann von jedem Job/Thread aufgerufen werden.
