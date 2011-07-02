@@ -35,10 +35,10 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 		mController.setInput(mDaoInput.getInput());
 		
 		
-		graphResultFormPage = new RoundForm(this, "roundeditor", "Graph Overview");
+		graphResultFormPage = new RoundForm(this, "roundeditor", "Result Graph");
 		graphResultFormPage.setResultController(mController);
 		
-		tableResultFormPage = new ResultForm(this, "resultform", "Results");
+		tableResultFormPage = new ResultForm(this, "resultform", "Result Table");
 		tableResultFormPage.setResultController(mController);
 	
 		graphResultFormPage.setContentProvider(getContentProvider(mDaoInput.getInput()));

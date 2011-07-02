@@ -421,7 +421,7 @@
             class="ch.jester.ui.round.editors.RoundEditor"
             default="false"
             id="ch.jester.ui.tournament.roundeditor"
-            name="Round Editor">
+            name="Result Editor">
       </editor>
    </extension>
 
