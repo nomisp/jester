@@ -31,3 +31,5 @@ Export-Package: ch.jester.ui.round.form,
  ch.jester.ui.tournament,
  ch.jester.ui.tournament.cnf,
  ch.jester.ui.tournament.internal
+Bundle-ClassPath: .,
+ swt-grouplayout.jar

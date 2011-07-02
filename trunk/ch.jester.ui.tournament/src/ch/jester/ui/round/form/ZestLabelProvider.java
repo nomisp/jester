@@ -156,18 +156,17 @@ public class ZestLabelProvider extends LabelProvider implements IEntityStyleProv
 	}
 
 	@Override
-	public void selfStyleConnection(Object element, GraphConnection connection) {
-		
+	public void selfStyleConnection(Object element, GraphConnection connection) {	
 	}
 	@Override
 	public void selfStyleNode(Object element, GraphNode node) {
-		node.setSize(-1, -1);
-		if(toRound(element)!=null){
+		node.setLocation(0, -100);
+	/*	if(toRound(element)!=null){
 			node.setLocation(1, 1);
 		}
 		if(toPairing(element)!=null){
 			
-		}
+		}*/
 	}
 
 
