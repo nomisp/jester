@@ -85,6 +85,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		managedForm.getForm().getBody().setLayout(new GridLayout(1, false));
 		managedForm.getToolkit().decorateFormHeading(form.getForm());
 		buildSections(managedForm);
+		managedForm.reflow(true);
 		mController.getDirtyManager().reset();
 	}
 
