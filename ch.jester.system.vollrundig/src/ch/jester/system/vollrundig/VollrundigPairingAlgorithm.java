@@ -30,6 +30,7 @@ import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.pairing.impl.PairingHelper;
 import ch.jester.system.vollrundig.internal.VollrundigSystemActivator;
 import ch.jester.system.vollrundig.ui.RoundRobinSettingsPage;
+import ch.jester.system.vollrundig.ui.nl1.Messages;
 
 /**
  * Implementierung des Round-Robin Paarungsalgorithmuses
@@ -95,7 +96,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		categoryPersister.save(category);
 		
 		for (Pairing pairing : pairings) {
-			System.out.println(pairing.getWhite() + " - " + pairing.getBlack());
+			System.out.println(pairing.getWhite() + " - " + pairing.getBlack()); //$NON-NLS-1$
 		}
 		return pairings;
 	}
@@ -107,7 +108,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	 */
 	private boolean isPairingPossible() throws PairingNotPossibleException {
 		if (category.getPlayerCards().size() == 0) {
-			throw new PairingNotPossibleException("No players available in Category: " + category.getDescription());
+			throw new PairingNotPossibleException("No players available in Category: " + category.getDescription()); //$NON-NLS-1$
 		}
 		if (isNumberOfPlayersEven()) {
 			createRounds((category.getPlayerCards().size()-1)-category.getRounds().size());
@@ -182,7 +183,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 					white = black;
 					black = tmp;
 				}
-				mLogger.debug("White: " + white + " Black: " + black);
+				mLogger.debug("White: " + white + " Black: " + black); //$NON-NLS-1$ //$NON-NLS-2$
 				Pairing p = createPairing(rounds, playerCards, i-1, white-1, black-1);
 				if (p != null) pairings.add(p);
 				
@@ -247,21 +248,21 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	private void loadSettings(Tournament tournament) {
 		if (settings == null) settings = new RoundRobinSettings();
 		IDaoService<SettingItem> settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
-		Query namedQuery = settingItemPersister.createNamedQuery("SettingItemByTournament");
-		namedQuery.setParameter("tournament", tournament);
+		Query namedQuery = settingItemPersister.createNamedQuery("SettingItemByTournament"); //$NON-NLS-1$
+		namedQuery.setParameter("tournament", tournament); //$NON-NLS-1$
 		try {
 			SettingItem settingItem = (SettingItem)namedQuery.getSingleResult();
 			SettingHelper<RoundRobinSettings> settingHelper = new SettingHelper<RoundRobinSettings>();
 			if (settingItem != null) settings = settingHelper.restoreSettingObject(settings, settingItem);
 		} catch (NoResultException e) {
 			// Nothing to do
-			mLogger.info("SettingItem not found in Database");
+			mLogger.info("SettingItem not found in Database"); //$NON-NLS-1$
 		}
 	}
 
 	@Override
 	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor, Tournament tournament) {
 		if (settings == null) loadSettings(tournament);
-		return new RoundRobinSettingsPage(settings, editor, "RoundRobinSettingsPage", "Settings.title");
+		return new RoundRobinSettingsPage(settings, editor, "RoundRobinSettingsPage", Messages.VollrundigPairingAlgorithm__settingsPage_title); //$NON-NLS-1$
 	}
 }

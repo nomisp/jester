@@ -25,6 +25,8 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.model.Category;
+import ch.jester.ui.tournament.nl1.Messages;
+
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
 /**
@@ -130,31 +132,31 @@ public class CategoryDetailsPage implements IDetailsPage {
 		FormToolkit toolkit = mForm.getToolkit();
 		Section s1 = toolkit.createSection(parent, Section.DESCRIPTION|Section.TITLE_BAR);
 		s1.marginWidth = 10;
-		s1.setText("CategoryDetails.sname");
-		s1.setDescription("CategoryDetails.sdescr");
+		s1.setText(Messages.CategoryDetailsPage_s_name);
+		s1.setDescription(Messages.CategoryDetailsPage_s_descr);
 		TableWrapData td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
 		td.grabHorizontal = true;
 		s1.setLayoutData(td);
 		Composite client = toolkit.createComposite(s1);
 		client.setLayout(new GridLayout(2, false));
-		Label lblDescription = toolkit.createLabel(client, "Description");
-		description = toolkit.createText(client, "", SWT.SINGLE);
+		Label lblDescription = toolkit.createLabel(client, Messages.CategoryDetailsPage_description);
+		description = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
 		description.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblMinElo = toolkit.createLabel(client, "Min. Elo", SWT.NONE);
-		minElo = toolkit.createText(client, "", SWT.NONE);
+		Label lblMinElo = toolkit.createLabel(client, Messages.CategoryDetailsPage_minElo, SWT.NONE);
+		minElo = toolkit.createText(client, "", SWT.NONE); //$NON-NLS-1$
 		minElo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblMaxElo = toolkit.createLabel(client, "Max. Elo", SWT.NONE);
-		maxElo = toolkit.createText(client, "", SWT.NONE);
+		Label lblMaxElo = toolkit.createLabel(client, Messages.CategoryDetailsPage_maxElo, SWT.NONE);
+		maxElo = toolkit.createText(client, "", SWT.NONE); //$NON-NLS-1$
 		maxElo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblMinAge = toolkit.createLabel(client, "Min. Age", SWT.NONE);
-		minAge = toolkit.createText(client, "", SWT.NONE);
+		Label lblMinAge = toolkit.createLabel(client, Messages.CategoryDetailsPage_minAge, SWT.NONE);
+		minAge = toolkit.createText(client, "", SWT.NONE); //$NON-NLS-1$
 		minAge.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblMaxAge = toolkit.createLabel(client, "Max. Age", SWT.NONE);
-		maxAge = toolkit.createText(client, "", SWT.NONE);
+		Label lblMaxAge = toolkit.createLabel(client, Messages.CategoryDetailsPage_maxAge, SWT.NONE);
+		maxAge = toolkit.createText(client, "", SWT.NONE); //$NON-NLS-1$
 		maxAge.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		toolkit.paintBordersFor(s1);
@@ -180,19 +182,19 @@ public class CategoryDetailsPage implements IDetailsPage {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
 		IObservableValue descriptionObserveTextObserveWidget = SWTObservables.observeText(description, SWT.Modify);
-		IObservableValue categoryDescriptionObserveValue = BeansObservables.observeValue(category, "description");
+		IObservableValue categoryDescriptionObserveValue = BeansObservables.observeValue(category, "description"); //$NON-NLS-1$
 		bindingContext.bindValue(descriptionObserveTextObserveWidget, categoryDescriptionObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
 		IObservableValue minEloObserveTextObserveWidget = SWTObservables.observeText(minElo, SWT.Modify);
-		IObservableValue categoryMinEloObserveValue = BeansObservables.observeValue(category, "minElo");
+		IObservableValue categoryMinEloObserveValue = BeansObservables.observeValue(category, "minElo"); //$NON-NLS-1$
 		bindingContext.bindValue(minEloObserveTextObserveWidget, categoryMinEloObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
 		IObservableValue maxEloObserveTextObserveWidget = SWTObservables.observeText(maxElo, SWT.Modify);
-		IObservableValue categoryMaxEloObserveValue = BeansObservables.observeValue(category, "maxElo");
+		IObservableValue categoryMaxEloObserveValue = BeansObservables.observeValue(category, "maxElo"); //$NON-NLS-1$
 		bindingContext.bindValue(maxEloObserveTextObserveWidget, categoryMaxEloObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
 		IObservableValue minAgeObserveTextObserveWidget = SWTObservables.observeText(minAge, SWT.Modify);
-		IObservableValue categoryMinAgeObserveValue = BeansObservables.observeValue(category, "minAge");
+		IObservableValue categoryMinAgeObserveValue = BeansObservables.observeValue(category, "minAge"); //$NON-NLS-1$
 		bindingContext.bindValue(minAgeObserveTextObserveWidget, categoryMinAgeObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
 		IObservableValue maxAgeObserveTextObserveWidget = SWTObservables.observeText(maxAge, SWT.Modify);
-		IObservableValue categoryMaxAgeObserveValue = BeansObservables.observeValue(category, "maxAge");
+		IObservableValue categoryMaxAgeObserveValue = BeansObservables.observeValue(category, "maxAge"); //$NON-NLS-1$
 		bindingContext.bindValue(maxAgeObserveTextObserveWidget, categoryMaxAgeObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
 		//
 		return bindingContext;

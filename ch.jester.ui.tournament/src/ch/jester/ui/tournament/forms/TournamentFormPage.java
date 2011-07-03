@@ -18,6 +18,8 @@ import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.ui.tournament.ctrl.TournamentDetailsController;
 import ch.jester.ui.tournament.editors.TournamentEditor;
+import ch.jester.ui.tournament.nl1.Messages;
+
 import org.eclipse.swt.widgets.DateTime;
 
 public class TournamentFormPage extends FormPage implements IDirtyManagerProvider {
@@ -59,7 +61,7 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 		managedForm.getForm().setShowFocusedControl(true);
 		FormToolkit toolkit = managedForm.getToolkit();
 		ScrolledForm form = managedForm.getForm();
-		form.setText("TournamentEditor");
+		form.setText(Messages.TournamentFormPage_title);
 		Composite body = form.getBody();
 		toolkit.decorateFormHeading(form.getForm());
 		toolkit.paintBordersFor(body);
@@ -79,7 +81,7 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 		gd_sctnTournament.widthHint = 573;
 		sctnTournament.setLayoutData(gd_sctnTournament);
 		managedForm.getToolkit().paintBordersFor(sctnTournament);
-		sctnTournament.setText("Tournament");
+		sctnTournament.setText(Messages.TournamentFormPage_s_name);
 		sctnTournament.setExpanded(true);
 		
 		Composite clientTournament = managedForm.getToolkit().createComposite(sctnTournament, SWT.NONE);
@@ -87,26 +89,26 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 		sctnTournament.setClient(clientTournament);
 		clientTournament.setLayout(new GridLayout(2, false));
 		
-		Label lblName = managedForm.getToolkit().createLabel(clientTournament, "Name", SWT.NONE);
+		Label lblName = managedForm.getToolkit().createLabel(clientTournament, Messages.TournamentFormPage_lbl_name, SWT.NONE);
 		
-		nameText = managedForm.getToolkit().createText(clientTournament, "New Text", SWT.NONE);
-		nameText.setText("");
+		nameText = managedForm.getToolkit().createText(clientTournament, "New Text", SWT.NONE); //$NON-NLS-1$
+		nameText.setText(""); //$NON-NLS-1$
 		nameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblDescription = managedForm.getToolkit().createLabel(clientTournament, "Description", SWT.NONE);
+		Label lblDescription = managedForm.getToolkit().createLabel(clientTournament, Messages.TournamentFormPage_lbl_description, SWT.NONE);
 		lblDescription.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
-		descriptionText = managedForm.getToolkit().createText(clientTournament, "New Text", SWT.NONE);
-		descriptionText.setText("");
+		descriptionText = managedForm.getToolkit().createText(clientTournament, "New Text", SWT.NONE); //$NON-NLS-1$
+		descriptionText.setText(""); //$NON-NLS-1$
 		descriptionText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblDateFrom = managedForm.getToolkit().createLabel(clientTournament, "Date From", SWT.NONE);
+		Label lblDateFrom = managedForm.getToolkit().createLabel(clientTournament, Messages.TournamentFormPage_lbl_dateFrom, SWT.NONE);
 		
 		dateFrom = new DateTime(clientTournament, SWT.BORDER);
 		managedForm.getToolkit().adapt(dateFrom);
 		managedForm.getToolkit().paintBordersFor(dateFrom);
 		
-		Label lblDateTo = managedForm.getToolkit().createLabel(clientTournament, "Date To", SWT.NONE);
+		Label lblDateTo = managedForm.getToolkit().createLabel(clientTournament, Messages.TournamentFormPage_lbl_dateTo, SWT.NONE);
 		
 		dateTo = new DateTime(clientTournament, SWT.BORDER);
 		managedForm.getToolkit().adapt(dateTo);

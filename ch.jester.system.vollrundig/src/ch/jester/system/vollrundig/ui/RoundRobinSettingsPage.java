@@ -24,6 +24,7 @@ import ch.jester.system.api.pairing.StartingNumberGenerationType;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.system.vollrundig.RoundRobinSettings;
 import ch.jester.system.vollrundig.internal.VollrundigSystemActivator;
+import ch.jester.system.vollrundig.ui.nl1.Messages;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
@@ -69,7 +70,7 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 		managedForm.getForm().getBody().setLayout(new GridLayout(2, false));
 		
 		Label lblStartingnumbergeneration = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.RoundRobinSettingsPage_StartingNumberGeneration, SWT.NONE);
-		lblStartingnumbergeneration.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
+		lblStartingnumbergeneration.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
 		comboViewer = new ComboViewer(managedForm.getForm().getBody(), SWT.READ_ONLY);
 		comboViewer.setContentProvider(new ArrayContentProvider());
@@ -107,8 +108,6 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 		m_bindingContext = initDataBindings();
 		dm.add(comboViewer.getControl());
 		dm.add(btnDoublerounded);
-		//dm.add(btnDoublerounded.);
-//		dm.add();
 	}
 
 	@Override

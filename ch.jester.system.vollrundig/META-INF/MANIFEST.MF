@@ -25,4 +25,5 @@ Bundle-ActivationPolicy: lazy
 Import-Package: javax.persistence
 Export-Package: ch.jester.system.vollrundig,
  ch.jester.system.vollrundig.internal,
- ch.jester.system.vollrundig.ui
+ ch.jester.system.vollrundig.ui,
+ ch.jester.system.vollrundig.ui.nl1

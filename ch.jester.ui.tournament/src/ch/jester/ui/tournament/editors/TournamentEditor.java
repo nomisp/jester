@@ -23,6 +23,7 @@ import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.ui.tournament.ctrl.TournamentDetailsController;
 import ch.jester.ui.tournament.forms.CategoryFormPage;
 import ch.jester.ui.tournament.forms.TournamentFormPage;
+import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Turnier-Editor
@@ -30,7 +31,7 @@ import ch.jester.ui.tournament.forms.TournamentFormPage;
  */
 public class TournamentEditor extends AbstractEditor<Tournament> {
 	
-	public static final String ID = "ch.jester.ui.tournament.tournamentEditor";
+	public static final String ID = "ch.jester.ui.tournament.tournamentEditor"; //$NON-NLS-1$
 	private TournamentFormPage mTournamentPage;
 	private TournamentDetailsController mTournamentController;
 	private ServiceUtility mService = new ServiceUtility();
@@ -48,7 +49,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 
 	@Override
 	protected void addPages() {
-		TournamentFormPage tournamentPage = new TournamentFormPage(this, "TournamentFormPage", "TournamentEditor");
+		TournamentFormPage tournamentPage = new TournamentFormPage(this, "TournamentFormPage", Messages.TournamentEditor_title); //$NON-NLS-1$
 		tournamentPage.addPartPropertyListener(new IPropertyChangeListener() {
 			
 			@Override
@@ -104,14 +105,14 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 				
 			}
 		});
-		setPartName(mTournamentPage.getNameText().getText()+", "+mTournamentPage.getDescriptionText().getText());
+		setPartName(mTournamentPage.getNameText().getText()+", "+mTournamentPage.getDescriptionText().getText()); //$NON-NLS-1$
 	
 	}
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		mLogger.debug("Saving "+this);
-		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
+		mLogger.debug("Saving "+this); //$NON-NLS-1$
+		monitor.beginTask(Messages.TournamentEditor_progress_saving, IProgressMonitor.UNKNOWN);
 		try{
 			categoryPage.doSave(monitor);
 			mTournamentController.updateModel();
