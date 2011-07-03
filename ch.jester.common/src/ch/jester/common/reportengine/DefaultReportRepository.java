@@ -68,7 +68,9 @@ public class DefaultReportRepository implements IReportRepository {
 		report.setBundleReportFile(pFileName);
 		report.setBundle(Platform.getBundle(pBundle));
 		report.setBundleSourceRoot(pSource);
-		mReportMap.put(pAliasName, report);
+		if(pAliasName!=null){
+			mReportMap.put(pAliasName, report);
+		}
 		installReport(report);
 		return report;
 	}
