@@ -124,7 +124,7 @@
 		</box>
 	</style>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\matthias\\Documents\\Masterarbeit\\Workspace\\runtime-jester.product\\reportengine\\reports\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[".//"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[]]>
@@ -189,6 +189,7 @@
 		<band height="196" splitType="Stretch">
 			<subreport>
 				<reportElement x="1" y="0" width="554" height="196"/>
+				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{categories})]]></dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "Category_sub.jasper"]]></subreportExpression>
 			</subreport>
