@@ -20,11 +20,11 @@ import ch.jester.model.Player;
 
 public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 	public SSBExcelImporter2(){
-		init_Linking();
+		init_linking();
 	}
 	
 	
-	private void init_Linking(){
+	 void init_linking(){
 		mInputLinking.put("lastName", "Name");
 		mInputLinking.put("firstName", "Vorname");
 		mInputLinking.put("fideCode", "CodeFIDE");
