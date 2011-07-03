@@ -16,13 +16,14 @@ import org.eclipse.jface.wizard.WizardPage;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.common.utility.ExceptionWrapper;
+import ch.jester.common.web.Link;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
+import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.importer.IWebImportAdapter;
 import ch.jester.commonservices.api.importer.IWebImportHandlerEntry;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.ui.importer.PropertyChooserWizardPage;
 
 public class Controller {
 	private StructuredViewer mProvV, mDLV;
@@ -288,14 +289,41 @@ public class Controller {
 		checkState();
 		
 	}
-	void setWebAdapter(IWebImportAdapter entry){
-		try {
+	void setWebAdapter(final IWebImportAdapter entry){
+		UIUtility.busyIndicatorJob("Parsing Page", new UIUtility.IBusyRunnable() {
+			List<ILink> links;
+			@Override
+			public void stepTwo_InJob() {
+				
+				try {
+					links = entry.getLinks();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
+			@Override
+			public void stepOne_InUIThread() {
+				setHierarchyChangingInput(mDLV, null);
+		
+				
+			}
+			
+			@Override
+			public void finalStep_inUIThread() {
+				mDLV.setInput(links);
+				
+			}
+		});
+		/*try {
 			setHierarchyChangingInput(mDLV, entry.getLinks());
 			//mDLV.setInput(entry.getLinks());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	public void setZipFile(String pZip){
 		model.zipFile=pZip;

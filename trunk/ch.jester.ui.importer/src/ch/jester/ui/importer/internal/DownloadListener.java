@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.wizard.IWizardContainer;
 
 import ch.jester.common.ui.utility.SelectionUtility;
@@ -29,8 +28,14 @@ public class DownloadListener implements ISelectionChangedListener{
 	
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
-		final StructuredViewer mFileTableViewer = (StructuredViewer) event.getSource();
+		//final StructuredViewer mFileTableViewer = (StructuredViewer) event.getSource();
 		Controller.getController().setZipFile(null);
+		download(event);
+		
+	}
+
+	private void download(SelectionChangedEvent event) {
+		
 		su.setSelection(event.getSelection());
 		IFileManager fileManager = mService.getService(IFileManager.class);
 		
@@ -76,7 +81,6 @@ public class DownloadListener implements ISelectionChangedListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 }
