@@ -61,7 +61,12 @@ public class CategoryDetailsPage implements IDetailsPage {
 	@Override
 	public void commit(boolean onSave) {
 		if (category != null) {
-			category.setDescription(description.getText());
+			if (onSave) {
+//				category.setDescription(description.getText());
+				m_bindingContext.updateModels();
+			} else {
+				updateUI();
+			}
 		}
 	}
 
@@ -88,6 +93,7 @@ public class CategoryDetailsPage implements IDetailsPage {
 	@Override
 	public void refresh() {
 		removeListeners();
+		updateUI();
 		addListeners();
 	}
 

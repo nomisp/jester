@@ -9,6 +9,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -23,13 +25,17 @@ import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.handlers.IHandlerService;
 
 import ch.jester.common.ui.editor.IEditorDaoInputAccess;
+import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
+import ch.jester.ui.tournament.actions.AddCategoryAction;
 import ch.jester.ui.tournament.actions.AddRoundAction;
+import ch.jester.ui.tournament.actions.DeleteCategoryAction;
 import ch.jester.ui.tournament.actions.DeleteRoundAction;
 import ch.jester.ui.tournament.cnf.TournamentLabelProvider;
 import ch.jester.ui.tournament.editors.TournamentEditor;
@@ -43,6 +49,8 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 //	private TableViewer viewer;
 	private TreeViewer treeViewer;
 	private Tournament tournament;
+	private CategoryMasterDetail categoryMDBlock = this;
+	private SWTDirtyManager dm = new SWTDirtyManager();
 
 	/**
 	 * Create the master details block.
@@ -77,12 +85,24 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		btAdd = toolkit.createButton(client, "CategoryPropertiesBlock.add", SWT.PUSH);
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		btAdd.setLayoutData(gd);
+		btAdd.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				new AddCategoryAction(tournament, categoryMDBlock).run();
+			}
+		});
 		section.setClient(client);
 		final SectionPart spart = new SectionPart(section);
 		managedForm.addPart(spart);
 		btRemove = toolkit.createButton(client, "CategoryPropertiesBlock.remove", SWT.PUSH);
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		btRemove.setLayoutData(gd);
+		btRemove.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				new DeleteCategoryAction((Category)((IStructuredSelection)treeViewer.getSelection()).getFirstElement(), categoryMDBlock).run();
+			}
+		});
 		
 		treeViewer = new TreeViewer(tree);
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -98,6 +118,9 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 //		createContextMenu();
 	}
 	
+	/**
+	 * Erzeugen des Kontextmenüs für den Tree-Viewer
+	 */
 	private void createContextMenu() {
 		MenuManager menuMgr = new MenuManager();
 		Menu menu = menuMgr.createContextMenu(treeViewer.getControl());
@@ -112,10 +135,10 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 					IStructuredSelection selection = (IStructuredSelection) treeViewer.getSelection();
 					if (selection.getFirstElement() instanceof Category) {
 						Category category = (Category) selection.getFirstElement();
-						manager.add(new AddRoundAction(category));
+						manager.add(new AddRoundAction(category, categoryMDBlock));
 					} else if (selection.getFirstElement() instanceof Round) {
 						Round round = (Round) selection.getFirstElement();
-						manager.add(new DeleteRoundAction(round));
+						manager.add(new DeleteRoundAction(round, categoryMDBlock));
 					}
 				}
 			}
@@ -172,7 +195,10 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	
 	public void save() {
 		categoryDetailsPage.commit(true);
-		treeViewer.setInput(tournament);
+		treeViewer.refresh();
 	}
 	
+	public void refresh() {
+		treeViewer.refresh();
+	}
 }
