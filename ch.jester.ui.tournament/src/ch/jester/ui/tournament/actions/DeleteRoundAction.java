@@ -3,6 +3,7 @@ package ch.jester.ui.tournament.actions;
 import org.eclipse.jface.action.Action;
 
 import ch.jester.model.Round;
+import ch.jester.ui.tournament.forms.CategoryMasterDetail;
 
 /**
  * Action zum löschen von Runden
@@ -12,9 +13,11 @@ import ch.jester.model.Round;
 public class DeleteRoundAction extends Action {
 	
 	private Round round;
+	private CategoryMasterDetail categoryMasterDetail;
 	
-	public DeleteRoundAction(Round round) {
+	public DeleteRoundAction(Round round, CategoryMasterDetail categoryMDBlock) {
 		this.round = round;
+		this.categoryMasterDetail = categoryMDBlock;
 	}
 	
 	@Override
@@ -25,5 +28,7 @@ public class DeleteRoundAction extends Action {
 	@Override
 	public void run() {
 		round.getCategory().removeRound(round);
+		categoryMasterDetail.refresh();
+		categoryMasterDetail.setEditorDirty();
 	}
 }

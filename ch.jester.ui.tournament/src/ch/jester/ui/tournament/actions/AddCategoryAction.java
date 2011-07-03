@@ -4,6 +4,7 @@ import org.eclipse.jface.action.Action;
 
 import ch.jester.model.Category;
 import ch.jester.model.Round;
+import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.forms.CategoryMasterDetail;
 
@@ -12,24 +13,24 @@ import ch.jester.ui.tournament.forms.CategoryMasterDetail;
  * @author Peter
  *
  */
-public class AddRoundAction extends Action {
-	private Category category;
+public class AddCategoryAction extends Action {
+	private Tournament tournament;
 	private CategoryMasterDetail categoryMasterDetail;
 	
-	public AddRoundAction(Category cat, CategoryMasterDetail categoryMDBlock) {
-		this.category = cat;
+	public AddCategoryAction(Tournament tournament, CategoryMasterDetail categoryMDBlock) {
+		this.tournament = tournament;
 		this.categoryMasterDetail = categoryMDBlock;
 	}
 	
 	@Override
 	public String getText() {
-		return "AddRound";
+		return "AddCategory";
 	}
 
 	@Override
 	public void run() {
-		Round round = ModelFactory.getInstance().createRound(category.getRounds().size()+1);
-		category.addRound(round);
+		Category cat = ModelFactory.getInstance().createCategory("Category " + (tournament.getCategories().size()+1));
+		tournament.addCategory(cat);
 		categoryMasterDetail.refresh();
 		categoryMasterDetail.setEditorDirty();
 	}
