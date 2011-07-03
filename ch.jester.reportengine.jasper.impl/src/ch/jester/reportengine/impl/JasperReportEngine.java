@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 
+import org.apache.xmlbeans.impl.jam.mutable.MField;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -132,6 +133,8 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			StopWatch watch = new StopWatch();
 			watch.start();
 		    HashMap<String, Object> parameter = new HashMap<String, Object>();
+		    File reportDir = mTempFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY+"/reports/");
+		    parameter.put("SUBREPORT_DIR", reportDir.getAbsolutePath()+"/");
 			JRBeanCollectionDataSource beancollection = new JRBeanCollectionDataSource(pBean);
 			JasperReport cachedReport = cache.getCachedReport(pReport);
 			JasperPrint jasperPrint =JasperFillManager.fillReport(cachedReport, parameter, beancollection);

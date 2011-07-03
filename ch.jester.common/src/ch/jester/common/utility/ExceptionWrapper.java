@@ -41,7 +41,11 @@ public class ExceptionWrapper{
 			}
 			current = current.getCause();
 		}
-		mT = exList.get(exList.size()-1);
+		if(exList.isEmpty()){
+			mT = current;
+		}else{
+			mT = exList.get(exList.size()-1);
+		}
 		return mT;
 	}
 
