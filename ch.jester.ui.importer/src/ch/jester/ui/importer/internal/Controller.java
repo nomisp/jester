@@ -38,7 +38,7 @@ public class Controller {
 	private ImportData model = new ImportData();
 	private boolean oldIsPageFinished;
 	private boolean importPossible = true;
-
+	private int mCurrentPage = 1;
 	private Controller(WizardPage pPage){
 		mPage = pPage;
 		IImportManager manager = mService.getService(IImportManager.class);
@@ -151,6 +151,9 @@ public class Controller {
 			public void handleException(Throwable exception) {
 				Controller.getController().setImportPossible(false);
 				mPage.setPageComplete(false);
+				if(mCurrentPage==1){
+					mPage.setPageComplete(true);
+				}
 				mPage.getWizard().getContainer().updateButtons();
 				ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
 				mPage.setErrorMessage(ew.getThrowableMessage());
@@ -287,9 +290,9 @@ public class Controller {
 	}
 
 
-	public boolean isPageComplete() {
+	/*public boolean isPageComplete() {
 		return oldIsPageFinished;
-	}
+	}*/
 
 
 	public boolean canFinish() {
@@ -303,5 +306,13 @@ public class Controller {
 
 	public void setImportPossible(boolean b){
 		b = importPossible;
+	}
+
+
+
+
+	public void setCurrentPageIndex(int i) {
+		mCurrentPage = i;
+		
 	}
 }

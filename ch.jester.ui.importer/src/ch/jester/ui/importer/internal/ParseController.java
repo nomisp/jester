@@ -20,9 +20,12 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 public class ParseController {
 	private ImportData mSelection;
 	private static ParseController mInstance = new ParseController();
-	
+	private Exception lastException;
 	ParseController(){
 		
+	}
+	public boolean hasException(){
+		return lastException!=null;
 	}
 	public void setData(ImportData mSeData){
 		mSelection = mSeData;
@@ -33,15 +36,26 @@ public class ParseController {
 	}
 	
 	public void testRun() throws ProcessingException{
+	
+			try{
+			
 			String[] headers = getInputAttributes();
 			getContent(headers.length);
+			}catch(ProcessingException e){
+				lastException = e;
+				throw e;
+			}
 	}
 	public void importRun(IProgressMonitor mMonitor) throws ProcessingException{
-		final InputStream instream = ZipUtility.getZipEntry(mSelection.getSelectedZipFile(), mSelection.getSelectedZipEntry());
-		mSelection.getSelectedHandlerEntry().getService().handleImport(instream, mMonitor);
 		try {
+			final InputStream instream = ZipUtility.getZipEntry(mSelection.getSelectedZipFile(), mSelection.getSelectedZipEntry());
+			mSelection.getSelectedHandlerEntry().getService().handleImport(instream, mMonitor);
 			instream.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
+			lastException = e;
+			if(e instanceof ProcessingException){
+				throw (ProcessingException)e;
+			}
 			throw new ProcessingException(e);
 		}
 }
@@ -68,6 +82,11 @@ public class ParseController {
 	
 
 	public String[] getInputAttributes(){
+		if(hasException()){
+			getImportAttributeMatcher().resetInputLinking();
+			
+			lastException = null;
+		}
 		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
 		@SuppressWarnings("unchecked")
 		ITestableImportHandler<Object> testableHandler = AdapterUtility.getAdaptedObject(handler, ITestableImportHandler.class);

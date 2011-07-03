@@ -25,6 +25,14 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 	 */
 	
 	@Override
+	public void resetInputLinking() {
+		mInputLinking.clear();
+		init_linking();
+		
+	}
+	abstract void init_linking();
+	
+	@Override
 	public String[] getDomainObjectAttributes() {
 		return new String[]{"lastName","firstName","fideCode","nationalCode","elo","age","city","nation"};
 	}

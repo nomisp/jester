@@ -19,7 +19,7 @@ public class FIDETextImporter extends AbstractPlayerImporter<String>{
 	public FIDETextImporter(){
 		init_linking();
 	}
-	private void init_linking() {
+	 void init_linking() {
 		mInputLinking.put("lastName","LastName");
 		mInputLinking.put("firstName","FirstName");
 		mInputLinking.put("fideCode","CodeFIDE");

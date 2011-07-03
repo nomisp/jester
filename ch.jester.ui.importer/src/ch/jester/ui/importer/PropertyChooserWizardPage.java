@@ -19,8 +19,12 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -203,6 +207,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 	public void setInput(ImportData importSelection) {
 		mSelection = importSelection;
 		mParseController.setData(mSelection);
+		
 	}
 	
 	
@@ -315,6 +320,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 	}
 	@Override
 	public void setVisible(boolean visible) {
+		
 		super.setVisible(visible);
 		if(visible){
 			init();

@@ -84,6 +84,8 @@ public class Wiz extends Wizard implements IImportWizard, IPageChangedListener{
 						public void handleException(Throwable exception) {
 							ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
 							MessageDialog.openError(UIUtility.getActiveWorkbenchWindow().getShell(), "Import Error", ew.getThrowableMessage());
+							firstPage.setErrorMessage(null);
+							secondPage.setErrorMessage(null);
 							
 						}
 					});
@@ -119,6 +121,9 @@ public class Wiz extends Wizard implements IImportWizard, IPageChangedListener{
 public void pageChanged(PageChangedEvent event) {
 	if(event.getSelectedPage() == secondPage){
 		secondPage.setInput(firstPage.getData());
+		Controller.getController().setCurrentPageIndex(2);
+	}else{
+		Controller.getController().setCurrentPageIndex(1);
 	}
 	
 }

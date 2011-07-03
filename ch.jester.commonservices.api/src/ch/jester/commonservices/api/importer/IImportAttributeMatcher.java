@@ -18,4 +18,5 @@ public interface IImportAttributeMatcher {
 	 * @uml.property  name="inputLinking"
 	 */
 	public HashMap<String, String> getInputLinking();
+	public void resetInputLinking();
 }
