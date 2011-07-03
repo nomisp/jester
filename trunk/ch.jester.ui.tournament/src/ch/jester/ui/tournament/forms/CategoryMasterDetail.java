@@ -40,6 +40,7 @@ import ch.jester.ui.tournament.actions.DeleteRoundAction;
 import ch.jester.ui.tournament.cnf.TournamentLabelProvider;
 import ch.jester.ui.tournament.editors.TournamentEditor;
 import ch.jester.ui.tournament.internal.Activator;
+import ch.jester.ui.tournament.nl1.Messages;
 
 public class CategoryMasterDetail extends MasterDetailsBlock {
 
@@ -64,8 +65,8 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
 		FormToolkit toolkit = managedForm.getToolkit();
 		Section section = toolkit.createSection(parent, Section.DESCRIPTION|Section.TITLE_BAR);
-		section.setText("CategoryPropertiesBlock.sname");
-		section.setDescription("CategoryPropertiesBlock.sdesc"); 
+		section.setText(Messages.CategoryMasterDetail_s_name);
+		section.setDescription(Messages.CategoryMasterDetail_s_descr); 
 		section.marginWidth = 10;
 		section.marginHeight = 5;
 		Composite client = toolkit.createComposite(section, SWT.WRAP);
@@ -82,7 +83,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		gd.widthHint = 100;
 		tree.setLayoutData(gd);
 		toolkit.paintBordersFor(client);
-		btAdd = toolkit.createButton(client, "CategoryPropertiesBlock.add", SWT.PUSH);
+		btAdd = toolkit.createButton(client, Messages.CategoryMasterDetail_add, SWT.PUSH);
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		btAdd.setLayoutData(gd);
 		btAdd.addSelectionListener(new SelectionAdapter() {
@@ -94,7 +95,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		section.setClient(client);
 		final SectionPart spart = new SectionPart(section);
 		managedForm.addPart(spart);
-		btRemove = toolkit.createButton(client, "CategoryPropertiesBlock.remove", SWT.PUSH);
+		btRemove = toolkit.createButton(client, Messages.CategoryMasterDetail_remove, SWT.PUSH);
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		btRemove.setLayoutData(gd);
 		btRemove.addSelectionListener(new SelectionAdapter() {
@@ -160,19 +161,19 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 			}
 		};
 		haction.setChecked(true);
-		haction.setToolTipText("CategoryPropertiesBlock.horizontal");
+		haction.setToolTipText(Messages.CategoryMasterDetail_tt_horizontal);
 		haction.setImageDescriptor(UIUtility.getImageDescriptor(Activator.getDefault().getActivationContext().getPluginId(),
-					"icons/application_tile_horizontal.png"));
-		Action vaction = new Action("ver", Action.AS_RADIO_BUTTON) {
+					"icons/application_tile_horizontal.png")); //$NON-NLS-1$
+		Action vaction = new Action("ver", Action.AS_RADIO_BUTTON) { //$NON-NLS-1$
 			public void run() {
 				sashForm.setOrientation(SWT.VERTICAL);
 				form.reflow(true);
 			}
 		};
 		vaction.setChecked(false);
-		vaction.setToolTipText("CategoryPropertiesBlock.vertical");
+		vaction.setToolTipText(Messages.CategoryMasterDetail_tt_vertical);
 		vaction.setImageDescriptor(UIUtility.getImageDescriptor(Activator.getDefault().getActivationContext().getPluginId(),
-					"icons/application_tile_vertical.png"));
+					"icons/application_tile_vertical.png")); //$NON-NLS-1$
 		form.getToolBarManager().add(haction);
 		form.getToolBarManager().add(vaction);
 	}

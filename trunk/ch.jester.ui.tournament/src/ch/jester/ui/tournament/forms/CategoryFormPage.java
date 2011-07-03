@@ -9,13 +9,14 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
+import ch.jester.ui.tournament.nl1.Messages;
 
 public class CategoryFormPage extends FormPage {
 
 	private CategoryMasterDetail block;
 	
 	public CategoryFormPage(FormEditor editor) {
-		this(editor, "CategoryPage", "CategoryPage.title");
+		this(editor, "CategoryPage", Messages.CategoryFormPage_title); //$NON-NLS-1$
 		block = new CategoryMasterDetail(this);
 	}
 	
@@ -49,7 +50,7 @@ public class CategoryFormPage extends FormPage {
 	protected void createFormContent(IManagedForm managedForm) {
 		FormToolkit toolkit = managedForm.getToolkit();
 		ScrolledForm form = managedForm.getForm();
-		form.setText("CategoryPage.title");
+		form.setText(Messages.CategoryFormPage_title);
 		Composite body = form.getBody();
 		toolkit.decorateFormHeading(form.getForm());
 		toolkit.paintBordersFor(body);
