@@ -19,12 +19,8 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -41,6 +37,8 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.ui.importer.internal.Controller;
 import ch.jester.ui.importer.internal.ImportData;
 import ch.jester.ui.importer.internal.ParseController;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.GridData;
 
 
 
@@ -67,27 +65,73 @@ public class PropertyChooserWizardPage extends WizardPage{
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
 		setControl(container);
-		container.setLayout(null);
+		container.setLayout(new GridLayout(1, false));
 		
 		Label lblInput = new Label(container, SWT.NONE);
-		lblInput.setBounds(5, 5, 122, 15);
 		lblInput.setText("Input Preview");
 		
 		mInputTableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
 		
 		table_2 = mInputTableViewer.getTable();
+		GridData gd_table_2 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_table_2.heightHint = 122;
+		gd_table_2.widthHint = 572;
+		table_2.setLayoutData(gd_table_2);
 		table_2.setLinesVisible(true);
 		table_2.setHeaderVisible(true);
-		table_2.setBounds(5, 26, 559, 95);
+		
+		btnAddCol = new Button(container, SWT.NONE);
+		btnAddCol.setText("Modify Columns");
+		btnAddCol.setEnabled(false);
+		
+	this.btnAddCol.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseUp(MouseEvent e) {
+			}
+			
+
+			@Override
+			public void mouseDown(MouseEvent e) {
+				AddColumnDialog dialog = new AddColumnDialog(Display.getDefault().getActiveShell());
+				dialog.create();
+				dialog.setBlockOnOpen(true);
+				dialog.setInputText(mParseController.getVirtualTableProvider().getDynamicInput(20));
+				dialog.setCell(mParseController.getVirtualTableProvider().getCells());
+				int ret = dialog.open();
+				if(IDialogConstants.OK_ID!=ret){return;}
+				List<IVirtualCell> cell = dialog.getCell();
+				IVirtualTable<?> provider = mParseController.getVirtualTableProvider();
+				provider.clearCells();
+				for(IVirtualCell c:cell){
+					mParseController.getVirtualTableProvider().addCell(c);
+				}
+				parse();
+				mInputTableViewer.refresh();
+				mMatchingTableViewer.refresh();
+			
+				
+				
+				
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				
+			}
+
+		});
 		
 		
 	
 		
 		mMatchingTableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
 		table_3 = mMatchingTableViewer.getTable();
+		GridData gd_table_3 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_table_3.heightHint = 156;
+		table_3.setLayoutData(gd_table_3);
 		table_3.setLinesVisible(true);
 		table_3.setHeaderVisible(true);
-		table_3.setBounds(5, 187, 301, 220);
 		
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(mMatchingTableViewer, SWT.NONE);
 		TableColumn tblClInputAttribute = tableViewerColumn_1.getColumn();
@@ -138,49 +182,6 @@ public class PropertyChooserWizardPage extends WizardPage{
 			protected boolean canEdit(Object element) {
 				return true;
 			}
-		});
-		
-		btnAddCol = new Button(container, SWT.NONE);
-		btnAddCol.setBounds(5, 125, 109, 25);
-		btnAddCol.setText("Modify Columns");
-		btnAddCol.setEnabled(false);
-		
-	this.btnAddCol.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseUp(MouseEvent e) {
-			}
-			
-
-			@Override
-			public void mouseDown(MouseEvent e) {
-				AddColumnDialog dialog = new AddColumnDialog(Display.getDefault().getActiveShell());
-				dialog.create();
-				dialog.setBlockOnOpen(true);
-				dialog.setInputText(mParseController.getVirtualTableProvider().getDynamicInput(20));
-				dialog.setCell(mParseController.getVirtualTableProvider().getCells());
-				int ret = dialog.open();
-				if(IDialogConstants.OK_ID!=ret){return;}
-				List<IVirtualCell> cell = dialog.getCell();
-				IVirtualTable<?> provider = mParseController.getVirtualTableProvider();
-				provider.clearCells();
-				for(IVirtualCell c:cell){
-					mParseController.getVirtualTableProvider().addCell(c);
-				}
-				parse();
-				mInputTableViewer.refresh();
-				mMatchingTableViewer.refresh();
-			
-				
-				
-				
-			}
-			
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				
-			}
-
 		});
 		
 		mInputTableViewer.setContentProvider(ArrayContentProvider.getInstance());
