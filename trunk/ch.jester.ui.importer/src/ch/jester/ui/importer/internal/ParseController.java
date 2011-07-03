@@ -84,7 +84,6 @@ public class ParseController {
 	public String[] getInputAttributes(){
 		if(hasException()){
 			getImportAttributeMatcher().resetInputLinking();
-			
 			lastException = null;
 		}
 		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();

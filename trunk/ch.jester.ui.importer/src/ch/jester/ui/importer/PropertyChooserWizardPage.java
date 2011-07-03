@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.TableColumn;
 
 import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.common.utility.ExceptionWrapper;
+import ch.jester.commonservices.api.importer.IVirtualTable;
 import ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.ui.importer.internal.Controller;
@@ -161,11 +162,14 @@ public class PropertyChooserWizardPage extends WizardPage{
 				int ret = dialog.open();
 				if(IDialogConstants.OK_ID!=ret){return;}
 				List<IVirtualCell> cell = dialog.getCell();
-				mParseController.getVirtualTableProvider().clearCells();
+				IVirtualTable<?> provider = mParseController.getVirtualTableProvider();
+				provider.clearCells();
 				for(IVirtualCell c:cell){
 					mParseController.getVirtualTableProvider().addCell(c);
 				}
 				parse();
+				mInputTableViewer.refresh();
+				mMatchingTableViewer.refresh();
 			
 				
 				

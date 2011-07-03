@@ -1,6 +1,8 @@
 package ch.jester.common.utility;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Wrapper um Exception<br>
@@ -26,20 +28,20 @@ public class ExceptionWrapper{
 	 */
 	public Throwable getThrowable() {
 		Throwable current = mEx;
+		List<Exception> exList = new ArrayList<Exception>();
 		if(mClz==null){
 			return getRootThrowable();
 		}
 		for(;;){
 			if(mClz.isAssignableFrom(current.getClass())){
-				break;
+				exList.add((Exception) current);
 			}
 			if(current.getCause()==null){
 				break;
 			}
 			current = current.getCause();
-			
 		}
-		mT = current;
+		mT = exList.get(exList.size()-1);
 		return mT;
 	}
 
