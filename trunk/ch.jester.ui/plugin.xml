@@ -270,6 +270,15 @@
                   style="push">
             </command>
          </toolbar>
+         <toolbar
+               id="ch.jester.ui.toolbar.reporting"
+               label="Reports">
+            <command
+                  commandId="ch.jester.ui.reporting.pulldown"
+                  icon="icons/filetype_pdf.png"
+                  style="pulldown">
+            </command>
+         </toolbar>
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -301,6 +310,14 @@
                icon="icons/player_add.png"
                style="push">
          </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:ch.jester.ui.reporting.pulldown">
+         <dynamic
+               class="ch.jester.reportengine.impl.ui.ReportNameContributionItem"
+               id="ch.jester.ui.dynamic2">
+         </dynamic>
       </menuContribution>
    </extension>
    <extension

@@ -1,13 +1,20 @@
 package ch.jester.reportengine.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.servlet.http.HttpSession;
 
@@ -30,8 +37,10 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.osgi.service.component.ComponentContext;
 
 import ch.jester.common.reportengine.DefaultReportRepository;
@@ -42,6 +51,7 @@ import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
+import ch.jester.commonservices.api.reportengine.IBundleReport;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportRepository;
@@ -51,10 +61,18 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.reportengine.impl.internal.Initializer;
 
+
+
+
 /**
- * @author  t117221
+ * 
  */
 public class JasperReportEngine implements IReportEngine, IComponentService<Object>{
+
+	private ReentrantLock compilingLock = new ReentrantLock();
+	
+	private CompileCache cache = new CompileCache();
+	
 	/**
 	 * @uml.property  name="mLogger"
 	 * @uml.associationEnd  
@@ -70,30 +88,60 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	 * @uml.associationEnd  
 	 */
     private IReportRepository factory = new DefaultReportRepository();
+
     public JasperReportEngine(){
     	factory.createBundleReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports", "reports/PlayerList.jrxml");
+    	factory.createBundleReport("ch.jester.reportengine.jasper.impl", "pairinglist", "Pairing List", "reports", "reports/PairingList.jrxml");
+    	IBundleReport src = factory.createBundleReport("ch.jester.reportengine.jasper.impl", null, null, "reports", "reports/Category_RoundSubReport.jrxml");
+    	cache.addCachedReport(src, null, null);
+    	src = factory.createBundleReport("ch.jester.reportengine.jasper.impl", null, null, "reports", "reports/Category_sub.jrxml");
+    	cache.addCachedReport(src, null, null);
     	new Initializer().load(factory);
+    }
+    
+
+    
+    protected void precompileAllReports(IProgressMonitor monitor) throws ProcessingException{
+    	compilingLock.lock();
+		int visibleReports = JasperReportEngine.this.getRepository().getReports().size();
+		int sourceReports = cache.keySet().size();
+		int work = visibleReports+sourceReports;
+		monitor.beginTask("Precompiling Reports", work);
+		
+		
+    	List<IReport> reports = getRepository().getReports();
+    	Iterator<IReport> sourceIterator = cache.keySet().iterator();
+    	while(sourceIterator.hasNext()){
+    		IReport report = sourceIterator.next();
+    		cache.compileReport(report);
+    	}
+    	for(IReport report:reports){
+    		monitor.subTask("Compiling "+report.getVisibleName());
+    		cache.compileReport(report);
+			monitor.worked(1);
+			
+    	}
+    	compilingLock.unlock();
     }
     
 	@Override
 	public IReportResult generate(IReport pReport, Collection<?> pBean) throws ProcessingException{
 		try {
+			compilingLock.lock();
 			mLogger.info("Generating Report. Inputsize: "+pBean.size()+" Objects ...");
 			StopWatch watch = new StopWatch();
 			watch.start();
 		    HashMap<String, Object> parameter = new HashMap<String, Object>();
 			JRBeanCollectionDataSource beancollection = new JRBeanCollectionDataSource(pBean);
-			InputStream stream = pReport.getInstalledFileAsStream();
-			JasperReport jasperReport =JasperCompileManager.compileReport(stream);
-			stream.close();
-			JasperPrint jasperPrint =JasperFillManager.fillReport(jasperReport, parameter, beancollection);
+			JasperReport cachedReport = cache.getCachedReport(pReport);
+			JasperPrint jasperPrint =JasperFillManager.fillReport(cachedReport, parameter, beancollection);
 			watch.stop();
 			mLogger.info("Report created after "+watch.getElapsedTime()+" seconds");
 			return new JasperReportResult(jasperPrint, this);
 		} catch (JRException e) {
 			throw new ProcessingException(e);
-		} catch (IOException e) {
-			throw new ProcessingException(e);
+		}finally{
+			compilingLock.unlock();
 		}
 	}
 
@@ -103,7 +151,6 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	}
 	
 	/**
-	 * @author  t117221
 	 */
 	class JasperReportResult extends DefaultReportResult<JasperPrint>{
 		/**
@@ -270,7 +317,10 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			mTempFileManager=(IFileManager) pT;
 		}
 
-		
+		if(mTempFileManager!=null&&mLogger!=null){
+			CompileJob cj = new CompileJob();
+			cj.schedule();
+		}
 	}
 
 	@Override
@@ -278,4 +328,91 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 		// TODO Auto-generated method stub
 		
 	}
+	class CompileJob extends Job{
+		public CompileJob(){
+			super("Compiling Reports");
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+	
+			precompileAllReports(monitor);
+			mLogger.info("Precompiling done!");
+			return Status.OK_STATUS;
+		}
+	}
+	
+	class CompileCache extends HashMap<IReport, CompileCacheEntry>{
+		private boolean mEnabled;
+		public void setEnabled(boolean pEnabled){
+			mEnabled = pEnabled;
+		}
+	    protected void compileReport(IReport pReport) throws ProcessingException{
+	    	try {
+				InputStream stream = pReport.getInstalledFileAsStream();
+				JasperReport jasperReport =JasperCompileManager.compileReport(stream);
+				File reportDir = mTempFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY+"/reports");
+				String fileName = pReport.getInstalledFile().getName().replace("jrxml", "jasper");
+				File compiledFile = new File(reportDir.getAbsoluteFile()+"/"+fileName);
+				ObjectOutput out = new ObjectOutputStream(new FileOutputStream(compiledFile));
+				out.writeObject(jasperReport);
+				out.flush();
+				out.close();
+				stream.close();
+				addCachedReport(pReport, jasperReport, compiledFile);
+			} catch (Exception e) {
+				throw new ProcessingException(e);
+			}
+	    }
+		
+		JasperReport getCachedReport(IReport pReport){
+			if(get(pReport)==null || !mEnabled){
+				compileReport(pReport);
+			}
+			return get(pReport).getJReport();
+		}
+		
+		void addCachedReport(IReport pReport, JasperReport pCompiledReport, File pCompiledFile){
+			put(pReport, new CompileCacheEntry(pReport, pCompiledReport, pCompiledFile));
+		}
+	}
+	class CompileCacheEntry{
+		private File mCompiledFile;
+		private JasperReport mCompiledReport;
+		private IReport mReport;
+		
+		public CompileCacheEntry(IReport pReport, JasperReport pCompiledReport, File pCompiledFile){
+			
+			mReport = pReport;
+			mCompiledReport = pCompiledReport;
+			mCompiledFile = pCompiledFile;
+		}
+		public JasperReport getJReport(){
+			if(mCompiledReport==null){
+				loadReportFromFS();
+			}
+			return mCompiledReport;
+		}
+		public IReport getReport(){
+			return mReport;
+		}
+		private void loadReportFromFS(){
+			try {
+				ObjectInputStream ois = new ObjectInputStream(new FileInputStream(mCompiledFile));
+				mCompiledReport = (JasperReport) ois.readObject();
+				ois.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
+
+
