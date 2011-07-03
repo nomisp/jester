@@ -148,9 +148,11 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 	public Object handleImport(InputStream pInputStream,int pContentLines,
 			IProgressMonitor pMonitor) {
 		boolean test = testLines!=pContentLines;
-		mProvider = null;
+		//mProvider = null;
 		try{
-			mProvider = initialize(pInputStream);
+			if(mProvider==null){
+				mProvider = initialize(pInputStream);
+			}
 		}catch(ProcessingException e){
 			mProvider = null;
 			throw e;

@@ -133,7 +133,53 @@ public class Controller {
 		
 	}
 	private void doTestRun() {
-		SafeRunner.run(new ISafeRunnable() {
+		UIUtility.busyIndicatorJob("Test Run", new UIUtility.IBusyRunnable() {
+			@Override
+			public void stepOne_InUIThread() {
+				setImportPossible(false);
+				mPage.setPageComplete(false);
+				mPage.getWizard().getContainer().updateButtons();
+				mPage.setErrorMessage(null);
+				
+			}
+			
+			@Override
+			public void stepTwo_InJob() {
+				ParseController.getController().testRun();
+				SafeRunner.run(new ISafeRunnable() {
+					
+					@Override
+					public void run() throws Exception {
+						ParseController.getController().testRun();
+					}
+					
+					@Override
+					public void handleException(Throwable exception) {
+						Controller.getController().setImportPossible(false);
+						mPage.setPageComplete(false);
+						if(mCurrentPage==1){
+							mPage.setPageComplete(true);
+						}
+						mPage.getWizard().getContainer().updateButtons();
+						ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
+						mPage.setErrorMessage(ew.getThrowableMessage());
+					}
+				});
+				
+			}
+			
+
+			
+			@Override
+			public void finalStep_inUIThread() {
+				setImportPossible(true);
+				mPage.setPageComplete(true);
+				mPage.getWizard().getContainer().updateButtons();
+				
+			}
+		});
+		
+		/*SafeRunner.run(new ISafeRunnable() {
 			
 			@Override
 			public void run() throws Exception {
@@ -158,7 +204,7 @@ public class Controller {
 				ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
 				mPage.setErrorMessage(ew.getThrowableMessage());
 			}
-		});
+		});*/
 		
 	}
 
