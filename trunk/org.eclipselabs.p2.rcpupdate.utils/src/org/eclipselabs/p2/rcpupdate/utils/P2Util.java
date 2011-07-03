@@ -46,7 +46,9 @@ public class P2Util {
 	}
 
 	public static void checkForUpdates(IProgressMonitor monitor){
-		doCheckForUpdates(new AccumulatingProgressMonitor(monitor, Display.getDefault()));
+		AccumulatingProgressMonitor mon;
+		doCheckForUpdates(mon = new AccumulatingProgressMonitor(monitor, Display.getDefault()));
+		mon.done();
 	}
 	
 	private static void doCheckForUpdates(IProgressMonitor monitor) {
