@@ -132,12 +132,12 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 		mFileTable.setBounds(175, 128, 407, 112);
 		
-		mHandlerListViewer = new ComboViewer(container, SWT.BORDER | SWT.V_SCROLL);
+		mHandlerListViewer = new ComboViewer(container, SWT.READ_ONLY);
 		Combo combo = mHandlerListViewer.getCombo();
 		combo.setBounds(175, 265, 407, 23);
 		mHandlerListViewer.getCombo().setBounds(175, 268, 407, 72);
 		
-	    mComboProviderViewer = new ComboViewer(container, SWT.NONE);
+	    mComboProviderViewer = new ComboViewer(container, SWT.READ_ONLY);
 		mProviderCombo = mComboProviderViewer.getCombo();
 		mProviderCombo.setBounds(252, 53, 330, 29);
 		mComboProviderViewer.setContentProvider(new WebImportAdapterContentProvider());
@@ -149,7 +149,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		lblProvider.setBounds(175, 56, 73, 21);
 		lblProvider.setText("Provider");
 		
-		mComboDownloadViewer = new ComboViewer(container, SWT.NONE);
+		mComboDownloadViewer = new ComboViewer(container, SWT.READ_ONLY);
 		mDownloadCombo = mComboDownloadViewer.getCombo();
 		mDownloadCombo.setBounds(252, 82, 330, 29);
 		mComboDownloadViewer.setContentProvider(ArrayContentProvider.getInstance());
