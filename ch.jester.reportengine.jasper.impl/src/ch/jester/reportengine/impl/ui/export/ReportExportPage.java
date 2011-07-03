@@ -27,6 +27,7 @@ import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportResult;
+import ch.jester.commonservices.api.reportengine.IReportResult.ExportType;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Tournament;
 import org.eclipse.swt.widgets.Combo;
@@ -41,6 +42,7 @@ public class ReportExportPage extends WizardPage {
 	ComboViewer exportTypeComboViewer;
 	ComboViewer tournamentComboViewer;
 	ComboViewer reportComboViewer;
+	String currentFilter = "*.*";
 	/**
 	 * Create the wizard.
 	 */
@@ -76,13 +78,13 @@ public class ReportExportPage extends WizardPage {
 		lblExportWhat.setBounds(23, 62, 75, 13);
 		lblExportWhat.setText("Tournament");
 		
-		exportTypeComboViewer = new ComboViewer(container, SWT.NONE);
+		exportTypeComboViewer = new ComboViewer(container, SWT.NONE | SWT.READ_ONLY);
 		Combo TypeCombo = exportTypeComboViewer.getCombo();
 		TypeCombo.setBounds(113, 7, 320, 21);
 		
 		exportTypeComboViewer.setContentProvider(ArrayContentProvider.getInstance());
 		
-		tournamentComboViewer = new ComboViewer(container, SWT.NONE);
+		tournamentComboViewer = new ComboViewer(container, SWT.NONE | SWT.READ_ONLY);
 		Combo TournamentCombo = tournamentComboViewer.getCombo();
 		TournamentCombo.setBounds(113, 59, 320, 21);
 		
@@ -90,7 +92,7 @@ public class ReportExportPage extends WizardPage {
 		lblReport.setBounds(23, 37, 49, 13);
 		lblReport.setText("Report");
 		
-		reportComboViewer = new ComboViewer(container, SWT.NONE);
+		reportComboViewer = new ComboViewer(container, SWT.NONE | SWT.READ_ONLY);
 		Combo combo = reportComboViewer.getCombo();
 		combo.setBounds(113, 34, 320, 21);
 		reportComboViewer.setContentProvider(ArrayContentProvider.getInstance());
@@ -111,7 +113,7 @@ public class ReportExportPage extends WizardPage {
 				FileDialog fd = new FileDialog(getShell(), SWT.SAVE);
 		        fd.setText("Open");
 		        fd.setFilterPath(".");
-		        String[] filterExt = { "*.*" };
+		        String[] filterExt = { currentFilter};
 		        fd.setFilterExtensions(filterExt);
 		        String selected = fd.open();
 		        if(selected==null){return;}
@@ -122,6 +124,23 @@ public class ReportExportPage extends WizardPage {
 
 		});
 		PageCompleteListener completeListener = new PageCompleteListener();
+		
+		exportTypeComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			SelectionUtility su = new SelectionUtility(null);
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				String lastFilter = currentFilter;
+				su.setSelection(event.getSelection());
+				ExportType ex = su.getFirstSelectedAs(IReportResult.ExportType.class);
+				currentFilter = "*."+ex.getExtension();
+				if(text.getText()!=null && text.getText().length()>0){
+					String oldText = text.getText();
+					String sold = oldText.substring(0, oldText.length()-lastFilter.length()+1);
+					text.setText(sold+currentFilter.substring(1));
+				}
+				
+			}
+		});
 		
 		exportTypeComboViewer.setInput(IReportResult.ExportType.values());
 		tournamentComboViewer.setInput(mServices.getDaoServiceByEntity(Tournament.class).getAll());
