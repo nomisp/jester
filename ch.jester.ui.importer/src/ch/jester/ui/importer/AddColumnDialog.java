@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -36,8 +38,11 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import ch.jester.common.importer.VirtualCell;
 import ch.jester.common.ui.adapters.TableLabelProviderAdapter;
+import ch.jester.common.ui.utility.SafeMessageBoxRunner;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;
+import ch.jester.ui.importer.nl1.Messages;
+
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
@@ -63,7 +68,7 @@ public class AddColumnDialog extends Dialog implements SelectionListener {
 	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("Modify Columns");
+		newShell.setText(Messages.AddColumnDialog_lbl_btn_modify);
 	}
 	
 	/**
@@ -79,7 +84,7 @@ public class AddColumnDialog extends Dialog implements SelectionListener {
 		Label lblInputSelection = new Label(container, SWT.NONE);
 		lblInputSelection.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		lblInputSelection
-				.setText("Input Selection (mark Text and right click to create columns)");
+				.setText(Messages.AddColumnDialog_lbl_input_selection);
 
 		mText = new Text(container, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.CANCEL | SWT.MULTI);
@@ -87,19 +92,19 @@ public class AddColumnDialog extends Dialog implements SelectionListener {
 		gd_mText.heightHint = 154;
 		gd_mText.widthHint = 506;
 		mText.setLayoutData(gd_mText);
-		mText.setFont(SWTResourceManager.getFont("Courier", 9, SWT.NORMAL));
+		mText.setFont(SWTResourceManager.getFont("Courier", 9, SWT.NORMAL)); //$NON-NLS-1$
 
 		Menu menu = new Menu(mText);
 		mText.setMenu(menu);
 
 		MenuItem mntmAddColumn = new MenuItem(menu, SWT.NONE);
-		mntmAddColumn.setText("new Column");
+		mntmAddColumn.setText(Messages.AddColumnDialog_lbl_newcolumn);
 				
 						Group grpColumns = new Group(container, SWT.NONE);
 						GridData gd_grpColumns = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
 						gd_grpColumns.heightHint = 156;
 						grpColumns.setLayoutData(gd_grpColumns);
-						grpColumns.setText("Columns");
+						grpColumns.setText(Messages.AddColumnDialog_lbl_columns);
 						
 								tableViewer = new TableViewer(grpColumns, SWT.BORDER
 										| SWT.FULL_SELECTION);
@@ -110,13 +115,13 @@ public class AddColumnDialog extends Dialog implements SelectionListener {
 												tableViewer, SWT.NONE);
 										TableColumn tblclmnAttribute = tableViewerColumn.getColumn();
 										tblclmnAttribute.setWidth(170);
-										tblclmnAttribute.setText("Attribute");
+										tblclmnAttribute.setText(Messages.AddColumnDialog_lbl_attributes);
 										
 												Menu menu_1 = new Menu(mTable);
 												mTable.setMenu(menu_1);
 												
 														MenuItem mntmDelete = new MenuItem(menu_1, SWT.NONE);
-														mntmDelete.setText("Delete");
+														mntmDelete.setText(Messages.AddColumnDialog_lbl_delete);
 														mntmDelete.addSelectionListener(new SelectionAdapter() {
 															SelectionUtility su = new SelectionUtility(null);
 
@@ -164,18 +169,18 @@ public class AddColumnDialog extends Dialog implements SelectionListener {
 																						if (c.getDelimiter() != null) {
 																							mTxtDelim.setText(c.getDelimiter());
 																						} else {
-																							mTxtDelim.setText("");
+																							mTxtDelim.setText(""); //$NON-NLS-1$
 																						}
 																						if (c.getDelimiterSequence() != -1) {
-																							mTxtSeq.setText(c.getDelimiterSequence() + "");
+																							mTxtSeq.setText(c.getDelimiterSequence() + ""); //$NON-NLS-1$
 																						} else {
-																							mTxtSeq.setText("");
+																							mTxtSeq.setText(""); //$NON-NLS-1$
 																						}
 																						if (c.getName() != null) {
 																							mTxtName.setText(c.getName());
 																							tableViewer.refresh();
 																						} else {
-																							mTxtName.setText("");
+																							mTxtName.setText(""); //$NON-NLS-1$
 																							tableViewer.refresh();
 																						}
 																
@@ -188,7 +193,7 @@ public class AddColumnDialog extends Dialog implements SelectionListener {
 				GridData gd_grpAttributes = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
 				gd_grpAttributes.heightHint = 157;
 				grpAttributes.setLayoutData(gd_grpAttributes);
-				grpAttributes.setText("Properties");
+				grpAttributes.setText(Messages.AddColumnDialog_lbl_properties);
 				
 						mTxtSeq = new Text(grpAttributes, SWT.BORDER);
 						mTxtSeq.setBounds(71, 75, 76, 21);
@@ -200,15 +205,15 @@ public class AddColumnDialog extends Dialog implements SelectionListener {
 								
 										Label lblMatch = new Label(grpAttributes, SWT.NONE);
 										lblMatch.setBounds(10, 78, 55, 15);
-										lblMatch.setText("Sequence");
+										lblMatch.setText(Messages.AddColumnDialog_lbl_sequence);
 										
 												Label lblDelimiter = new Label(grpAttributes, SWT.NONE);
 												lblDelimiter.setBounds(10, 51, 55, 15);
-												lblDelimiter.setText("Delimiter");
+												lblDelimiter.setText(Messages.AddColumnDialog_lbl_delimiter);
 												
 														Label lblName = new Label(grpAttributes, SWT.NONE);
 														lblName.setBounds(10, 23, 55, 15);
-														lblName.setText("Name");
+														lblName.setText(Messages.AddColumnDialog_lbl_name);
 														
 																mTxtName = new Text(grpAttributes, SWT.BORDER);
 																mTxtName.setBounds(71, 23, 76, 21);
@@ -278,8 +283,8 @@ public class AddColumnDialog extends Dialog implements SelectionListener {
 		mInput = Arrays.asList(pInput);
 		StringBuilder flatInput = new StringBuilder();
 		for (int i = 0; i < mInput.size(); i++) {
-			if (!mInput.get(i).endsWith("\r\n")) {
-				mInput.set(i, mInput.get(i) + "\r\n");
+			if (!mInput.get(i).endsWith("\r\n")) { //$NON-NLS-1$
+				mInput.set(i, mInput.get(i) + "\r\n"); //$NON-NLS-1$
 			}
 			flatInput.append(mInput.get(i));
 		}
@@ -288,11 +293,21 @@ public class AddColumnDialog extends Dialog implements SelectionListener {
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		final String name = "Col-" + colcounter;
+		SafeRunner.run(new SafeMessageBoxRunner() {
+			@Override
+			public void run() throws Exception {
+				createColumnFromSelection();
+				
+			}
+		});
+	}
+
+	private void createColumnFromSelection() {
+		final String name = Messages.AddColumnDialog_predefined_column_name + colcounter;
 		colcounter++;
 		String selection = mText.getSelectionText();
-		if (selection.contains("\n")) {
-			throw new RuntimeException("Ah... Linefeeds sind schlecht");
+		if (selection.contains("\n")) { //$NON-NLS-1$
+			throw new RuntimeException(Messages.AddColumnDialog_exception_linefeed);
 		}
 
 		Point selectionPoint = mText.getSelection();
@@ -309,12 +324,11 @@ public class AddColumnDialog extends Dialog implements SelectionListener {
 		final int cellStop = cellStart + selection.length();
 		boolean check = mInput.get(selectionLineNr)
 				.substring(cellStart, cellStop).equals(selection);
-		Assert.isTrue(check, "Testselection falsch");
+		Assert.isTrue(check, "Testselection falsch"); //$NON-NLS-1$
 
 		IVirtualCell c = new VirtualCell(name, cellStart, cellStop);
 		mCells.add(c);
 		AddColumnDialog.this.tableViewer.setInput(mCells);
-
 	}
 
 	public List<IVirtualCell> getCell() {

@@ -17,6 +17,7 @@ import ch.jester.common.utility.ZipUtility;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.ui.importer.nl1.Messages;
 
 public class DownloadListener implements ISelectionChangedListener{
 	SelectionUtility su = new SelectionUtility(null);
@@ -40,7 +41,7 @@ public class DownloadListener implements ISelectionChangedListener{
 		IFileManager fileManager = mService.getService(IFileManager.class);
 		
 		final ILink link = su.getFirstSelectedAs(ILink.class);
-		String newFile = link.getText().replace("/", "_")+".zip";
+		String newFile = link.getText().replace("/", "_")+".zip"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		final File file = fileManager.createTempFile(newFile);
 		try {
 			
@@ -51,7 +52,7 @@ public class DownloadListener implements ISelectionChangedListener{
 						InterruptedException {
 					try {
 						
-						monitor.beginTask("Downloading: "+link.getText(), IProgressMonitor.UNKNOWN);
+						monitor.beginTask(Messages.DownloadListener_progress_dl+link.getText(), IProgressMonitor.UNKNOWN);
 						if(!file.exists()){
 							link.download(file.getAbsolutePath());
 						}

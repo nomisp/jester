@@ -33,6 +33,7 @@ import ch.jester.ui.importer.internal.ImportData;
 import ch.jester.ui.importer.internal.ImportHandlerContentProvider;
 import ch.jester.ui.importer.internal.WebImportAdapterContentProvider;
 import ch.jester.ui.importer.internal.ZipEntryContentProvider;
+import ch.jester.ui.importer.nl1.Messages;
 
 public class PlayerImportWizardPage extends WizardPage {
 	private Text text;
@@ -71,9 +72,9 @@ public class PlayerImportWizardPage extends WizardPage {
 	 * @wbp.parser.constructor
 	 */
 	public PlayerImportWizardPage(ISelection s) {
-		super("Import Player");
-		setTitle("Import"); //NON-NLS-1
-		setDescription("Import Players into jester"); //NON-NLS-1
+		super(Messages.PlayerImportWizardPage_lbl_import_player);
+		setTitle(Messages.PlayerImportWizardPage_lbl_import); //NON-NLS-1
+		setDescription(Messages.PlayerImportWizardPage_lbl_import_into_jester); //NON-NLS-1
 		mController = Controller.createController(this);
 	}
 	
@@ -82,9 +83,9 @@ public class PlayerImportWizardPage extends WizardPage {
 	 * Create the wizard.
 	 */
 	public PlayerImportWizardPage() {
-		super("Import Player");
-		setTitle("Import"); //NON-NLS-1
-		setDescription("Import Players into jester"); //NON-NLS-1
+		super(Messages.PlayerImportWizardPage_lbl_import_player); 
+		setTitle(Messages.PlayerImportWizardPage_lbl_import); 
+		setDescription(Messages.PlayerImportWizardPage_lbl_import_into_jester);
 		mController = Controller.createController(this);
 	}
 	
@@ -102,9 +103,9 @@ public class PlayerImportWizardPage extends WizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog fd = new FileDialog(getShell(), SWT.OPEN);
-		        fd.setText("Open");
-		        fd.setFilterPath(".");
-		        String[] filterExt = { "*.zip", "*.*" };
+		        fd.setText(Messages.PlayerImportWizardPage_lbl_btn_open);
+		        fd.setFilterPath("."); //$NON-NLS-1$
+		        String[] filterExt = { "*.zip", "*.*" }; //$NON-NLS-1$ //$NON-NLS-2$
 		        fd.setFilterExtensions(filterExt);
 		        String selected = fd.open();
 		        if(selected==null){return;}
@@ -119,10 +120,10 @@ public class PlayerImportWizardPage extends WizardPage {
 
 		});
 		mBtnBrowse.setBounds(588, 13, 57, 23);
-		mBtnBrowse.setText("Browse");
+		mBtnBrowse.setText(Messages.PlayerImportWizardPage_lbl_btn_browse);
 		
 		text = new Text(container, SWT.BORDER);
-		text.setMessage("Select a Zip file");
+		text.setMessage(Messages.PlayerImportWizardPage_lbl_select_zipfile);
 		text.setBounds(175, 11, 407, 23);
 		
 		mFileTableViewer = CheckboxTableViewer.newCheckList(container, SWT.BORDER | SWT.FULL_SELECTION);
@@ -147,7 +148,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 		Label lblProvider = new Label(container, SWT.NONE);
 		lblProvider.setBounds(175, 56, 73, 21);
-		lblProvider.setText("Provider");
+		lblProvider.setText(Messages.PlayerImportWizardPage_lbl_provider);
 		
 		mComboDownloadViewer = new ComboViewer(container, SWT.READ_ONLY);
 		mDownloadCombo = mComboDownloadViewer.getCombo();
@@ -157,16 +158,16 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 		Label lblSource = new Label(container, SWT.NONE);
 		lblSource.setBounds(10, 14, 65, 29);
-		lblSource.setText("Source");
+		lblSource.setText(Messages.PlayerImportWizardPage_lbl_source);
 		
 		//Radios
 		rdZip = new Button(container, SWT.RADIO);
 		rdZip.setBounds(92, 10, 65, 29);
-		rdZip.setText("Zip");
+		rdZip.setText(Messages.PlayerImportWizardPage_lbl_zip);
 		rdZip.addSelectionListener(mZipRadioListener);
 		
 	    rdWeb = new Button(container, SWT.RADIO);
-		rdWeb.setText("Web");
+		rdWeb.setText(Messages.PlayerImportWizardPage_lbl_web);
 		rdWeb.setBounds(92, 52, 65, 29);
 		rdWeb.addSelectionListener(mWebRadioListener);
 		
@@ -175,14 +176,14 @@ public class PlayerImportWizardPage extends WizardPage {
 
 		Label lblDownload = new Label(container, SWT.NONE);
 		lblDownload.setBounds(175, 85, 73, 21);
-		lblDownload.setText("Download");
+		lblDownload.setText(Messages.PlayerImportWizardPage_lbl_dl);
 		
 		Label lblImportHandler = new Label(container, SWT.NONE);
 		lblImportHandler.setBounds(10, 128, 154, 21);
-		lblImportHandler.setText("Content");
+		lblImportHandler.setText(Messages.PlayerImportWizardPage_lbl_content);
 		
 		Label lblHandler = new Label(container, SWT.NONE);
-		lblHandler.setText("Handler");
+		lblHandler.setText(Messages.PlayerImportWizardPage_lbl_handler);
 		lblHandler.setBounds(10, 268, 154, 21);
 		
 		mHandlerListViewer.addSelectionChangedListener(new HandlerSelectionListener());
@@ -256,7 +257,7 @@ public class PlayerImportWizardPage extends WizardPage {
 				Controller.getController().setZipMode();
 				enable(true);
 			}else{
-				text.setText("");
+				text.setText(""); //$NON-NLS-1$
 				enable(false);
 			}
 			

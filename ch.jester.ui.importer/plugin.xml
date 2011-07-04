@@ -9,13 +9,13 @@
       </category>
       <wizard
             category="ch.jester.ui.importer.players"
-            class="ch.jester.ui.importer.Wiz"
+            class="ch.jester.ui.importer.ImportPlayerWizard"
             icon="icons/player.png"
             id="ch.jester.ui.importer"
             name="Player">
       </wizard>
       <wizard
-            class="ch.jester.ui.importer.Wiz"
+            class="ch.jester.ui.importer.ImportPlayerWizard"
             icon="icons/icon16x16.png"
             id="ch.jester.ui.jesterdataimporter"
             name="Jester Data">

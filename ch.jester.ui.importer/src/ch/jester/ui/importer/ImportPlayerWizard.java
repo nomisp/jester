@@ -26,9 +26,10 @@ import ch.jester.ui.importer.internal.Activator;
 import ch.jester.ui.importer.internal.Controller;
 import ch.jester.ui.importer.internal.ImportData;
 import ch.jester.ui.importer.internal.ParseController;
+import ch.jester.ui.importer.nl1.Messages;
 
 
-public class Wiz extends Wizard implements IImportWizard, IPageChangedListener{
+public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageChangedListener{
 	private ILogger mLogger;
 	private PlayerImportWizardPage firstPage;
 	private PropertyChooserWizardPage secondPage;
@@ -70,8 +71,8 @@ public class Wiz extends Wizard implements IImportWizard, IPageChangedListener{
 				public void run(final IProgressMonitor monitor) throws InvocationTargetException,
 						InterruptedException {
 					final ImportData input = firstPage.getData();
-					mLogger.debug("Zip: "+input.getSelectedZipFile());
-					mLogger.debug("Handler: "+input.getSelectedHandlerEntry());	
+					mLogger.debug("Zip: "+input.getSelectedZipFile()); //$NON-NLS-1$
+					mLogger.debug("Handler: "+input.getSelectedHandlerEntry());	 //$NON-NLS-1$
 					SafeRunner.run(new ISafeRunnable() {
 						
 						@Override
@@ -83,7 +84,7 @@ public class Wiz extends Wizard implements IImportWizard, IPageChangedListener{
 						@Override
 						public void handleException(Throwable exception) {
 							ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
-							MessageDialog.openError(UIUtility.getActiveWorkbenchWindow().getShell(), "Import Error", ew.getThrowableMessage());
+							MessageDialog.openError(UIUtility.getActiveWorkbenchWindow().getShell(), Messages.ImportPlayerWizard_lbl_import_error, ew.getThrowableMessage());
 							firstPage.setErrorMessage(null);
 							secondPage.setErrorMessage(null);
 							
@@ -108,7 +109,7 @@ public class Wiz extends Wizard implements IImportWizard, IPageChangedListener{
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		setWindowTitle("Import Players");
+		setWindowTitle(Messages.ImportPlayerWizard_lbl_titel);
 		setNeedsProgressMonitor(true);
 		firstPage = new PlayerImportWizardPage();
 		secondPage = new PropertyChooserWizardPage();
