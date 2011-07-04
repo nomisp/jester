@@ -6,3 +6,4 @@ Bundle-Version: 1.0.0.0
 Fragment-Host: ch.jester.hibernate;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: ch.jester.model
+Bundle-Vendor: M. Liechti & P. Simon

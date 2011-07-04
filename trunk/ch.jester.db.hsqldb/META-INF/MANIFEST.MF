@@ -39,3 +39,4 @@ Require-Bundle: ch.jester.orm;bundle-version="1.0.0",
  ch.jester.common;bundle-version="1.0.0",
  ch.jester.commonservices.api
 Bundle-Activator: ch.jester.db.hsqldb.Activator
+Bundle-Vendor: M. Liechti & P. Simon
