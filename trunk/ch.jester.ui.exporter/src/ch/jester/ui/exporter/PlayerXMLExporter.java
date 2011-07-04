@@ -19,6 +19,7 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 public class PlayerXMLExporter extends Wizard implements IExportWizard {
 	PlayerXMLPage firstPage = new PlayerXMLPage();
+	public final static String EXPORT_ZIP_ENTRY = "jester-export.xml";
 	public PlayerXMLExporter() {
 		// TODO Auto-generated constructor stub
 	}
@@ -43,7 +44,7 @@ public class PlayerXMLExporter extends Wizard implements IExportWizard {
 		String outFile = firstPage.getFileName();
 		Class<?>[] outClass = firstPage.getSelectedCalsses();
 		SerializationWriter writer = serializer.createWriter(outFile);
-		writer.newEntry("jester-export.xml");
+		writer.newEntry(EXPORT_ZIP_ENTRY);
 		ServiceUtility su = new ServiceUtility();
 		
 		for(Class c:outClass){
