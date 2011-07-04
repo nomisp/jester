@@ -50,6 +50,7 @@
          </separator>
          <command
                commandId="ch.jester.ui.tournament.editresult"
+               label="%Result"
                style="push">
          </command>
          <separator
@@ -68,8 +69,7 @@
                commandId="cnf.popup.removePlayer"
                icon="icons/player_delete.png"
                label="%RemovePlayer"
-               style="push"
-               tooltip="%TTremovePlayer">
+               style="push">
          </command>
          <separator
                name="ch.jester.ui.tournament.separator2"
@@ -421,7 +421,7 @@
             class="ch.jester.ui.round.editors.RoundEditor"
             default="false"
             id="ch.jester.ui.tournament.roundeditor"
-            name="Result Editor">
+            name="%ResultEditor">
       </editor>
    </extension>
 
