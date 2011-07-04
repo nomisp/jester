@@ -20,4 +20,4 @@ Export-Package: ch.jester.common.activator;uses:="ch.jester.commonservices.api.l
  ch.jester.job
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ch.jester.common.activator.internal.CommonActivator
-Bundle-Vendor: M.Liechti & P.Simon
+Bundle-Vendor: M. Liechti & P. Simon
