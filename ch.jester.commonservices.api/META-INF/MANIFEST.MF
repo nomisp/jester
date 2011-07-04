@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Common Services Api
+Bundle-Name: Common Services API
 Bundle-SymbolicName: ch.jester.commonservices.api;singleton:=true
 Bundle-Version: 1.0.0.0
 Require-Bundle: org.eclipse.core.runtime,
@@ -21,3 +21,4 @@ Export-Package: ch.jester.commonservices.api.bundle,
 Bundle-Activator: ch.jester.commonservices.internal.Activator
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.persistence
+Bundle-Vendor: M. Liechti & P. Simon

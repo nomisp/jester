@@ -496,3 +496,4 @@ Require-Bundle: ch.jester.persistence;bundle-version="1.0.0",
  ch.jester.commonservices.api;bundle-version="1.0.0",
  ch.jester.common;bundle-version="1.0.0"
 Import-Package: org.apache.log4j
+Bundle-Vendor: M. Liechti & P. Simon

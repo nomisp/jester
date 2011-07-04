@@ -19,4 +19,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: ch.jester.commonservices.impl.persistencyevent,
  ch.jester.commonservices.impl.preferences
 Bundle-Activator: ch.jester.commonservices.impl.internal.Activator
-Bundle-Vendor: M.Liechti & P.Simon
+Bundle-Vendor: M. Liechti & P. Simon

@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Common Ui
+Bundle-Name: Common UI
 Bundle-SymbolicName: ch.jester.common.ui
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.0.0
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  ch.jester.common;bundle-version="1.0.0",
@@ -31,3 +31,4 @@ Export-Package: ch.jester.common.ui.activator,
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ch.jester.common.ui.internal.Activator
 Import-Package: org.eclipse.core.expressions
+Bundle-Vendor: M. Liechti & P. Simon
