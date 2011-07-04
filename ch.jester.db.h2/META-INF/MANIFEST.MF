@@ -44,3 +44,4 @@ Export-Package: org.h2,
  org.h2.util,
  org.h2.value
 Import-Package: ch.jester.commonservices.api.persistency
+Bundle-Vendor: M. Liechti & P. Simon

@@ -21,3 +21,4 @@ Export-Package: javax.persistence,
  javax.validation.groups,
  javax.validation.metadata,
  javax.validation.spi
+Bundle-Vendor: M. Liechti & P. Simon
