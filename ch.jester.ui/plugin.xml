@@ -203,20 +203,6 @@
                commandId="org.eclipse.ui.edit.delete"
                style="push">
          </command>
-         <separator
-               name="ch.jester.ui.separator2"
-               visible="true">
-         </separator>
-         <command
-               commandId="org.eclipse.ui.navigate.back"
-               icon="icons/prev.gif"
-               style="push">
-         </command>
-         <command
-               commandId="org.eclipse.ui.navigate.next"
-               icon="icons/next.gif"
-               style="push">
-         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -275,7 +261,7 @@
                label="Reports">
             <command
                   commandId="ch.jester.ui.reporting.pulldown"
-                  icon="icons/filetype_pdf.png"
+                  icon="icons/report.png"
                   style="pulldown">
             </command>
          </toolbar>
@@ -315,7 +301,7 @@
             allPopups="false"
             locationURI="menu:ch.jester.ui.reporting.pulldown">
          <dynamic
-               class="ch.jester.reportengine.impl.ui.ReportNameContributionItem"
+               class="ch.jester.common.ui.contributions.ReportNameContributionItem"
                id="ch.jester.ui.dynamic2">
          </dynamic>
       </menuContribution>

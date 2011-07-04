@@ -1,4 +1,4 @@
-package ch.jester.common.ui.labelprovider;
+package ch.jester.common.ui.contributions;
 
 import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -6,25 +6,24 @@ import org.eclipse.jface.action.LegacyActionTools;
 import org.eclipse.jface.action.StatusLineLayoutData;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Link;
 
 
 /**
  * Aus  org.eclipse.ui.editor.text geklaut
  *
  */
-public class LinkStatusLineContributionItem extends ContributionItem {
+public class ImageStatusLineContributionItem extends ContributionItem {
 
 	/**
 	 * Internal mouse listener to track double clicking the status line item.
@@ -40,12 +39,6 @@ public class LinkStatusLineContributionItem extends ContributionItem {
 		}
 	}
 
-	SelectionListener fLinkListener;
-	
-	public void setLinkListener(SelectionListener l){
-		fLinkListener = l;
-	}
-	
 	/**
 	 * Left and right margin used in CLabel.
 	 * @since 2.1
@@ -91,7 +84,7 @@ public class LinkStatusLineContributionItem extends ContributionItem {
 	 */
 	private int fWidthInChars;
 	/** The status line label widget */
-	private Link fLabel;
+	private CLabel fLabel;
 	/**
 	 * The action handler.
 	 * @since 3.0
@@ -109,7 +102,7 @@ public class LinkStatusLineContributionItem extends ContributionItem {
 	 *
 	 * @param id the item's id
 	 */
-	public LinkStatusLineContributionItem(String id) {
+	public ImageStatusLineContributionItem(String id) {
 		this(id, true, DEFAULT_WIDTH_IN_CHARS);
 	}
 
@@ -121,7 +114,7 @@ public class LinkStatusLineContributionItem extends ContributionItem {
 	 * @param widthInChars the width in characters
 	 * @since 3.0
 	 */
-	public LinkStatusLineContributionItem(String id, boolean visible, int widthInChars) {
+	public ImageStatusLineContributionItem(String id, boolean visible, int widthInChars) {
 		super(id);
 		setVisible(visible);
 		fWidthInChars= widthInChars;
@@ -135,7 +128,13 @@ public class LinkStatusLineContributionItem extends ContributionItem {
 		updateMessageLabel();
 	}
 
-
+	/*
+	 * @see IStatusField#setImage(Image)
+	 */
+	public void setImage(Image image) {
+		fImage= image;
+		updateMessageLabel();
+	}
 
 	/*
 	 * @see org.eclipse.ui.texteditor.IStatusFieldExtension#setErrorText(java.lang.String)
@@ -170,10 +169,8 @@ public class LinkStatusLineContributionItem extends ContributionItem {
 	public void fill(Composite parent) {
 
 		Label sep= new Label(parent, SWT.SEPARATOR);
-		fLabel= new Link(parent, SWT.NONE);
-		if(fLinkListener!=null){
-		fLabel.addSelectionListener(fLinkListener);
-		}
+		fLabel= new CLabel(parent, SWT.SHADOW_NONE);
+
 		fLabel.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				fMouseListener= null;
@@ -257,6 +254,7 @@ public class LinkStatusLineContributionItem extends ContributionItem {
 				String escapedErrorText= escape(fErrorText);
 				fLabel.setForeground(JFaceColors.getErrorText(display));
 				fLabel.setText(escapedErrorText);
+				fLabel.setImage(fErrorImage);
 				if (fToolTipText != null)
 					fLabel.setToolTipText(escape(fToolTipText));
 				else if (fErrorText.length() > fWidthInChars)
@@ -268,6 +266,7 @@ public class LinkStatusLineContributionItem extends ContributionItem {
 				String escapedText= escape(fText);
 				fLabel.setForeground(display.getSystemColor(SWT.COLOR_WIDGET_FOREGROUND));
 				fLabel.setText(escapedText);
+				fLabel.setImage(fImage);
 				if (fToolTipText != null)
 					fLabel.setToolTipText(escape(fToolTipText));
 				else if (fText != null && fText.length() > fWidthInChars)

@@ -1,4 +1,4 @@
-package ch.jester.reportengine.impl.ui;
+package ch.jester.common.ui.contributions;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +16,6 @@ import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
 
 /**
- * @author  t117221
  */
 public class ReportNameContributionItem extends CompoundContributionItem {
 	/**
