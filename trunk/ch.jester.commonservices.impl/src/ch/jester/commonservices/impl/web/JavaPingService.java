@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
 import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
-import ch.jester.common.ui.labelprovider.ImageStatusLineContributionItem;
+import ch.jester.common.ui.contributions.ImageStatusLineContributionItem;
 import ch.jester.common.ui.services.IExtendedStatusLineManager;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.web.HTTPFactory;

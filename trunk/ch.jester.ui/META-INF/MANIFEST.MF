@@ -23,7 +23,6 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.6.2",
  org.apache.commons;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: ch.jester.reportengine.impl.ui,
- ch.jester.ui,
+Export-Package: ch.jester.ui,
  ch.jester.ui.handlers,
  ch.jester.ui.player.editor

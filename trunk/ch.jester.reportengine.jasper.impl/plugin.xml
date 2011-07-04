@@ -32,7 +32,7 @@
             allPopups="false"
             locationURI="popup:reporting.templates">
          <dynamic
-               class="ch.jester.reportengine.impl.ui.ReportNameContributionItem"
+               class="ch.jester.common.ui.contributions.ReportNameContributionItem"
                id="ch.jester.ui.dynamic6">
          </dynamic>
       </menuContribution>
