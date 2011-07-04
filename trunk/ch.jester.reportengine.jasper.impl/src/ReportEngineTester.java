@@ -118,6 +118,18 @@ public class ReportEngineTester {
 				// TODO Auto-generated method stub
 				return null;
 			}
+
+			@Override
+			public void setInputBeanClass(Class<?> pClass) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public Class<?> getInputBeanClass() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 	}
 }

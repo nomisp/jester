@@ -2,6 +2,7 @@ package ch.jester.reportengine.impl.ui.handler;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
@@ -27,7 +28,7 @@ public class PrintHandler extends AbstractCommandHandler {
 		final IReportEngine engine = getServiceUtil().getService(IReportEngine.class);
 		final String reportalias =  event.getParameter("ch.jester.reportengine.generate.property.reportalias");
 		final IReport report= engine.getRepository().getReport(reportalias);
-		
+		//final Collection<?> test = ReportEngineInputTester.getInputCollectionForReport(report.getInputBeanClass(), selectedBeans);
 		Job job = new Job("Generating Report"){
 
 			@Override
