@@ -13,20 +13,21 @@ import ch.jester.ui.round.form.RoundForm;
 import ch.jester.ui.round.form.contentprovider.CategoryNodeModelContentProvider;
 import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
 import ch.jester.ui.tournament.internal.Activator;
+import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Turnier-Editor
  *
  */
 public class RoundEditor extends AbstractEditor<IEntityObject> {
-	public static final String ID = "ch.jester.ui.tournament.roundeditor";
+	public static final String ID = "ch.jester.ui.tournament.roundeditor"; //$NON-NLS-1$
 	private ResultForm tableResultFormPage;
 	private RoundForm graphResultFormPage;
 	private ResultController mController = new ResultController();
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	public RoundEditor() {
 		super(true);
-		mLogger.debug("new "+this);
+		mLogger.debug("new "+this); //$NON-NLS-1$
 	}
 
 
@@ -35,10 +36,10 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 		mController.setInput(mDaoInput.getInput());
 		
 		
-		graphResultFormPage = new RoundForm(this, "roundeditor", "Result Graph");
+		graphResultFormPage = new RoundForm(this, "roundeditor", Messages.RoundEditor_Graph); //$NON-NLS-1$
 		graphResultFormPage.setResultController(mController);
 		
-		tableResultFormPage = new ResultForm(this, "resultform", "Result Table");
+		tableResultFormPage = new ResultForm(this, "resultform", Messages.RoundEditor_Table); //$NON-NLS-1$
 		tableResultFormPage.setResultController(mController);
 	
 		graphResultFormPage.setContentProvider(getContentProvider(mDaoInput.getInput()));
@@ -96,8 +97,8 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 	}
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		mLogger.debug("Saving "+this);
-		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
+		mLogger.debug(Messages.RoundEditor_Saving+this);
+		monitor.beginTask(Messages.RoundEditor_Saving, IProgressMonitor.UNKNOWN);
 		try{
 			mController.saveChangedResults();
 			setSaved(true);

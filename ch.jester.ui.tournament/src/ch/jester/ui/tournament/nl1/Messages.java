@@ -18,6 +18,9 @@ public class Messages extends NLS {
 	public static String CategoryMasterDetail_s_name;
 	public static String CategoryMasterDetail_tt_horizontal;
 	public static String CategoryMasterDetail_tt_vertical;
+	public static String RoundEditor_Graph;
+	public static String RoundEditor_Saving;
+	public static String RoundEditor_Table;
 	public static String TournamentEditor_progress_saving;
 	public static String TournamentEditor_title;
 	public static String TournamentFormPage_lbl_dateFrom;
