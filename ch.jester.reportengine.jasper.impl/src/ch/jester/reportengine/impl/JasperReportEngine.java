@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 
-import org.apache.xmlbeans.impl.jam.mutable.MField;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -60,6 +59,8 @@ import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.api.web.IHTTPSessionAware;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.model.Player;
+import ch.jester.model.Tournament;
 import ch.jester.reportengine.impl.internal.Initializer;
 
 
@@ -91,8 +92,10 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     private IReportRepository factory = new DefaultReportRepository();
 
     public JasperReportEngine(){
-    	factory.createBundleReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports", "reports/PlayerList.jrxml");
-    	factory.createBundleReport("ch.jester.reportengine.jasper.impl", "pairinglist", "Pairing List", "reports", "reports/PairingList.jrxml");
+    	IBundleReport report = factory.createBundleReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports", "reports/PlayerList.jrxml");
+    	report.setInputBeanClass(Player.class);
+    	report = factory.createBundleReport("ch.jester.reportengine.jasper.impl", "pairinglist", "Pairing List", "reports", "reports/PairingList.jrxml");
+    	report.setInputBeanClass(Tournament.class);
     	IBundleReport src = factory.createBundleReport("ch.jester.reportengine.jasper.impl", null, null, "reports", "reports/Category_RoundSubReport.jrxml");
     	cache.addCachedReport(src, null, null);
     	src = factory.createBundleReport("ch.jester.reportengine.jasper.impl", null, null, "reports", "reports/Category_sub.jrxml");
@@ -125,10 +128,25 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     	compilingLock.unlock();
     }
     
+    private void checkInput(IReport pReport, Collection<?> pBean){
+    	if(pBean.isEmpty()){
+    		throw new ProcessingException("Input size 0");
+    	}
+    	if(pReport.getInputBeanClass()==null){
+    		throw new ProcessingException("No Input Class for "+pReport.getVisibleName()+" definied!");
+    	}
+    	Class<?> inputClass = pBean.iterator().next().getClass();
+    	if(!pReport.getInputBeanClass().isAssignableFrom(inputClass)){
+    		throw new ProcessingException("Class can not be handled!");
+    	}
+    	
+    }
+    
 	@Override
 	public IReportResult generate(IReport pReport, Collection<?> pBean) throws ProcessingException{
 		try {
 			compilingLock.lock();
+			checkInput(pReport, pBean);
 			mLogger.info("Generating Report. Inputsize: "+pBean.size()+" Objects ...");
 			StopWatch watch = new StopWatch();
 			watch.start();

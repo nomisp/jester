@@ -58,5 +58,17 @@ public interface IReport {
 	 * @throws IOException
 	 */
 	public abstract InputStream getInstalledFileAsStream() throws IOException;
+	
+	/**
+	 * Setzt die Klasse, welcher der Report als Input erwartet
+	 * @param pClass
+	 */
+	public void setInputBeanClass(Class<?> pClass);
+
+	
+	/**
+	 * @return Die erwartete Input Klasse
+	 */
+	public Class<?> getInputBeanClass();
 
 }

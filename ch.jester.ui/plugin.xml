@@ -439,10 +439,10 @@
             type="java.lang.Object">
       </propertyTester>
       <propertyTester
-            class="ch.jester.common.ui.handlers.UndoPropertyTester"
+            class="ch.jester.common.ui.handlers.ReportEnginePropertyTester"
             id="ch.jester.ui.undopropertytester"
             namespace="ch.jester.properties"
-            properties="canundo"
+            properties="reportInput"
             type="java.lang.Object">
       </propertyTester>
    </extension>

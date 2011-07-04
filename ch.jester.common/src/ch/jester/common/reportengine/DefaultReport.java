@@ -12,7 +12,7 @@ public class DefaultReport implements IReport{
 	protected String mAlias;
 	protected String mVisibleName;
 	protected File mInstalledFile;
-
+	protected Class<?> mInputBeanClass;
 	public DefaultReport() {
 		super();
 	}
@@ -53,6 +53,16 @@ public class DefaultReport implements IReport{
 	@Override
 	public File getInstalledFile() {
 		return mInstalledFile;
+	}
+
+	@Override
+	public void setInputBeanClass(Class<?> pClass) {
+		mInputBeanClass = pClass;
+	}
+	
+	@Override
+	public Class<?> getInputBeanClass() {
+		return mInputBeanClass;
 	}
 
 }
