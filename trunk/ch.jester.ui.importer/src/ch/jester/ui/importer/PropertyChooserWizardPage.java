@@ -37,6 +37,8 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.ui.importer.internal.Controller;
 import ch.jester.ui.importer.internal.ImportData;
 import ch.jester.ui.importer.internal.ParseController;
+import ch.jester.ui.importer.nl1.Messages;
+
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
@@ -56,9 +58,9 @@ public class PropertyChooserWizardPage extends WizardPage{
 	private ParseController mParseController = ParseController.getController();
 	
 	protected PropertyChooserWizardPage() {
-		super("Property Page");
-		setTitle("Property Matching"); //NON-NLS-1
-		setDescription("Match Columns to player attributes"); //NON-NLS-1
+		super(Messages.PropertyChooserWizardPage_lbl_pp);
+		setTitle(Messages.PropertyChooserWizardPage_lbl_pm); //NON-NLS-1
+		setDescription(Messages.PropertyChooserWizardPage_lbl_matching); //NON-NLS-1
 	}
 
 	@Override
@@ -68,7 +70,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 		container.setLayout(new GridLayout(1, false));
 		
 		Label lblInput = new Label(container, SWT.NONE);
-		lblInput.setText("Input Preview");
+		lblInput.setText(Messages.PropertyChooserWizardPage_lbl_preview);
 		
 		mInputTableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
 		
@@ -81,7 +83,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 		table_2.setHeaderVisible(true);
 		
 		btnAddCol = new Button(container, SWT.NONE);
-		btnAddCol.setText("Modify Columns");
+		btnAddCol.setText(Messages.PropertyChooserWizardPage_lbl_modify);
 		btnAddCol.setEnabled(false);
 		
 	this.btnAddCol.addMouseListener(new MouseListener() {
@@ -127,7 +129,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 		
 		mMatchingTableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
 		table_3 = mMatchingTableViewer.getTable();
-		GridData gd_table_3 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_table_3 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_table_3.heightHint = 156;
 		table_3.setLayoutData(gd_table_3);
 		table_3.setLinesVisible(true);
@@ -136,12 +138,12 @@ public class PropertyChooserWizardPage extends WizardPage{
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(mMatchingTableViewer, SWT.NONE);
 		TableColumn tblClInputAttribute = tableViewerColumn_1.getColumn();
 		tblClInputAttribute.setWidth(100);
-		tblClInputAttribute.setText("Player Attribute");
+		tblClInputAttribute.setText(Messages.PropertyChooserWizardPage_lbl_player_attribute);
 		
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(mMatchingTableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn_2 = tableViewerColumn_2.getColumn();
 		tblclmnNewColumn_2.setWidth(100);
-		tblclmnNewColumn_2.setText("Input Columns");
+		tblclmnNewColumn_2.setText(Messages.PropertyChooserWizardPage_lbl_input_col);
 		
 	
 		
@@ -173,7 +175,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 				values =mParseController.getInputAttributes();
 				String[] val = new String[values.length+1];
 				System.arraycopy(values, 0, val, 1, values.length);
-				val[0]="";
+				val[0]=""; //$NON-NLS-1$
 				values = val;
 				return new ComboBoxCellEditor(mMatchingTableViewer.getTable(), values);
 			}
@@ -283,7 +285,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 				return element.toString();
 			}
 			Object o =  mLinking.get(element);
-			if(o==null){return "";};
+			if(o==null){return "";}; //$NON-NLS-1$
 			return o.toString();
 		}
 		
