@@ -5,6 +5,7 @@
          point="ch.jester.system.api.RankingSystem">
       <RankingSystem
             class="ch.jester.rankingsystem.buchholz.BuchholzRankingSystem"
+            pluginId="ch.jester.rankingsystem.buchholz"
             shortType="Buchholz"
             typeDescription="Buchholz Ranking-System">
       </RankingSystem>

@@ -3,7 +3,6 @@ package ch.jester.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,6 +39,9 @@ public class Round extends AbstractModelBean<Round> {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
+	@OneToOne(mappedBy="round", optional=true)
+	private IntermediateRanking ranking;
+	
 	public Integer getNumber() {
 		return number;
 	}
@@ -80,6 +83,14 @@ public class Round extends AbstractModelBean<Round> {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public IntermediateRanking getRanking() {
+		return ranking;
+	}
+
+	public void setRanking(IntermediateRanking ranking) {
+		this.ranking = ranking;
 	}
 
 	@Override

@@ -22,7 +22,6 @@ import ch.jester.model.PlayerCard;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.cnf.PlayerFolder;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
-import ch.jester.ui.tournament.internal.Activator;
 
 /**
  * Handler um Spieler zu einer Kategorie zuzuordnen
@@ -37,23 +36,6 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 	public Object executeInternal(ExecutionEvent event) {
 		//alternative(event);
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
-//		IWorkbenchPage page = window.getActivePage();
-//		ISelection selection = getSelection();
-//		if (!selection.isEmpty()) {
-//			IStructuredSelection sSelection = (IStructuredSelection)selection;
-//			if (sSelection.size() == 1 && sSelection.getFirstElement() instanceof Category) {
-//				MessageDialog.openInformation(
-//						HandlerUtil.getActiveWorkbenchWindow(event).getShell(), 
-//						"AddPlayer", "Adding Player to " + ((Category)sSelection.getFirstElement()).getDescription());
-//				Category cat = (Category)sSelection.getFirstElement();
-//				CategoryEditorInput input = new CategoryEditorInput(cat.getId());
-//				try {
-//					page.openEditor(input, WirePlayerEditor.ID);
-//				} catch (PartInitException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
 		Category cat = getFirstSelectedAs(Category.class);
 		if(cat==null){
 			PlayerFolder folder = getFirstSelectedAs(PlayerFolder.class);
@@ -98,7 +80,8 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 	private void wirePlayers(Object[] selection) {
 		for (Object object : selection) {
 			Player p = (Player)object;
-			PlayerCard pc = ModelFactory.getInstance().createPlayerCard(selectedCategory, p);
+			PlayerCard pc = ModelFactory.getInstance().createPlayerCard(selectedCategory, p, 
+										selectedCategory.getTournament().getPrimaryRankingSystem().getShortType());
 			selectedCategory.addPlayerCard(pc);
 		}
 		IDaoService<Category> catDao= getServiceUtil().getDaoServiceByServiceInterface(ICategoryDao.class);

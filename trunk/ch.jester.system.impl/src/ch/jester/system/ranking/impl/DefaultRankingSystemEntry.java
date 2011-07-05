@@ -30,4 +30,9 @@ public class DefaultRankingSystemEntry extends EPEntry<IRankingSystem> implement
 		return !getDescription().isEmpty() ? getDescription() : getShortType();
 	}
 
+	@Override
+	public String getPluginId() {
+		return getProperty(IRankingSystemEntry.PLUGINID);
+	}
+
 }

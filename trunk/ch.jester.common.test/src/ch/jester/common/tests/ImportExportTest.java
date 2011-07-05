@@ -22,19 +22,27 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
+import ch.jester.model.RankingSystem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
+import ch.jester.system.ranking.test.BuchholzTest;
 
 public class ImportExportTest {
 	ModelFactory factory = ModelFactory.getInstance();
 	ServiceUtility su = new ServiceUtility();
 	ZipSerializationReader reader;
 	public Tournament createAndSaveTournament(){
+		RankingSystem rankingSystem = new RankingSystem();
+		rankingSystem.setPluginId(BuchholzTest.PLUGIN_ID);
+		rankingSystem.setImplementationClass(BuchholzTest.RANKINGSYSTEM_CLASS);
+		rankingSystem.setShortType(BuchholzTest.RANKINGSYSTEM_TYPE);
+		rankingSystem.setRankingSystemNumber(1);
+		
 		Tournament tournament = factory.createTournament("TestTournament");
 		tournament.setDateFrom(new Date());
 		tournament.setDateTo(new Date());
 		tournament.setPairingSystem("a");
-		tournament.setRankingSystem("b");
+		tournament.addRankingSystem(rankingSystem);
 		tournament.setEloCalculator("d");
 		
 		

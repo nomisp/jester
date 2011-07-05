@@ -9,6 +9,7 @@ import ch.jester.system.calculator.test.CalculatorTest;
 import ch.jester.system.calculator.test.FideCalculatorTest;
 import ch.jester.system.pairing.test.PairingSystemTest;
 import ch.jester.system.pairing.test.RoundRobinTest;
+import ch.jester.system.ranking.test.BuchholzTest;
 import ch.jester.system.ranking.test.RankingSystemTest;
 
 
@@ -16,7 +17,7 @@ import ch.jester.system.ranking.test.RankingSystemTest;
 @RunWith(Suite.class)
 @SuiteClasses( { ImportExportTest.class, DaoEqualityTest.class,ImporterTest.class, ActivatorTest.class, CallerUtilityTest.class,  ServiceUtilityTest.class, LoggerTest.class,
 	CalculatorTest.class, FideCalculatorTest.class, PairingSystemTest.class, RoundRobinTest.class, RankingSystemTest.class, 
-	SettingsTest.class})
+	BuchholzTest.class, SettingsTest.class})
 public class AllTests {
 
 }

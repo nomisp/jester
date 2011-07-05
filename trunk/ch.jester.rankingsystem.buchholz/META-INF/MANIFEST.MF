@@ -11,8 +11,10 @@ Require-Bundle: org.eclipse.ui,
  ch.jester.system.impl;bundle-version="1.0.0",
  ch.jester.common;bundle-version="1.0.0",
  ch.jester.commonservices.api;bundle-version="1.0.0",
- ch.jester.model;bundle-version="1.0.0"
+ ch.jester.model;bundle-version="1.0.0",
+ ch.jester.orm;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: ch.jester.rankingsystem.buchholz,
  ch.jester.rankingsystem.buchholz.internal
+Import-Package: javax.persistence

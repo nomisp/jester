@@ -62,13 +62,12 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	@Column(name="SettingsPage", nullable=true)
 	private String settingsPage; // FormPage-Klasse für die Benutzereinstellungen
 	
-	@Column(name="RankingSystem", nullable=false)
-	private String rankingSystem; // Feinwertung (als deklarativer Service implementiert) entspricht dem EP-Attribut: class
+	@OneToMany(mappedBy="tournament", cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<RankingSystem> rankingSystems = new ArrayList<RankingSystem>();
 	
 	@Column(name="EloCalculator", nullable=false)
 	private String eloCalculator; // EloCalculator (als deklarativer Service implementiert) entspricht dem EP-Attribut: class
 	
-
 	@OneToMany(mappedBy="tournament", cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Category> categories = new ArrayList<Category>();
 
@@ -145,14 +144,6 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		this.settingsPage = settingsPage;
 	}
 
-	public String getRankingSystem() {
-		return rankingSystem;
-	}
-
-	public void setRankingSystem(String rankingSystem) {
-		this.rankingSystem = rankingSystem;
-	}
-
 	public String getEloCalculator() {
 		return eloCalculator;
 	}
@@ -219,6 +210,34 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		if (settingItem.getTournament() != this) settingItem.setTournament(this);
 	}
 
+	public List<RankingSystem> getRankingSystems() {
+		return rankingSystems;
+	}
+
+	public void setRankingSystems(List<RankingSystem> rankingSystems) {
+		this.rankingSystems = rankingSystems;
+	}
+	
+	public void addRankingSystem(RankingSystem rankingSystem) {
+		if (rankingSystem == null) throw new IllegalArgumentException("rankingSystem can not be null");
+		if (!rankingSystems.contains(rankingSystem)) rankingSystems.add(rankingSystem);
+		if (rankingSystem.getTournament() != this) rankingSystem.setTournament(this); // Bidirektion
+	}
+	
+	/**
+	 * Liefert die primäre Feinwertung (kleinste Nummer)
+	 * @return
+	 */
+	public RankingSystem getPrimaryRankingSystem() {
+		RankingSystem primaryRankingSystem = rankingSystems.get(0);
+		for (RankingSystem rs : rankingSystems) {
+			if (primaryRankingSystem.getRankingSystemNumber() > rs.getRankingSystemNumber()) {
+				primaryRankingSystem = rs;
+			}
+		}
+		return primaryRankingSystem;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -235,8 +254,6 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result
 				+ ((pairingSystem == null) ? 0 : pairingSystem.hashCode());
-		result = prime * result
-				+ ((rankingSystem == null) ? 0 : rankingSystem.hashCode());
 		result = prime * result + year;
 		return result;
 	}
@@ -307,7 +324,6 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		clone.dateFrom = this.dateFrom;
 		clone.dateTo = this.dateTo;
 		clone.pairingSystem = this.pairingSystem;
-		clone.rankingSystem = this.rankingSystem;
 		clone.eloCalculator = this.eloCalculator;
 		
 		return clone;

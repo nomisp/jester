@@ -17,6 +17,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
+import ch.jester.model.RankingSystem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.internal.Activator;
@@ -79,10 +80,17 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					tournament.setPairingSystemPlugin(systemPage.getPairingAlgorithmEntry().getPluginId());
 					tournament.setPairingSystem(systemPage.getPairingAlgorithmEntry().getImplementationClass());
 					tournament.setSettingsPage(systemPage.getPairingAlgorithmEntry().getSettingsPage());
-					tournament.setRankingSystem(systemPage.getRankingSystemEntry().getImplementationClass());
+//					tournament.setRankingSystem(systemPage.getRankingSystemEntry().getImplementationClass());
+//					tournament.setRankingSystemType(systemPage.getRankingSystemEntry().getShortType());
 					tournament.setEloCalculator(systemPage.getEloCalculatorEntry().getImplementationClass());
 					tournament.setCategories(categories);	// Aufgrund des Cascadings werden die hinzugefügten Kategorien gleich mit persistiert
 					tournament.setActive(true);
+					tournament.setStarted(false);
+					RankingSystem rs = mf.createRankingSystem(tournament, 
+							systemPage.getRankingSystemEntry().getPluginId(), 
+							systemPage.getRankingSystemEntry().getImplementationClass(), 
+							systemPage.getRankingSystemEntry().getShortType());
+					tournament.addRankingSystem(rs);
 					IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);//su.getExclusiveService(ITournamentDao.class);
 					tournamentPersister.save(tournament);
 //					categoryPersister.save(categories);

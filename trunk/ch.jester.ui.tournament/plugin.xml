@@ -44,6 +44,13 @@
                style="push"
                tooltip="%TTrunPairing">
          </command>
+         <command
+               commandId="ch.jester.ui.tournament.ranking"
+               icon="icons/ranking.png"
+               label="%CreateRanking"
+               style="push"
+               tooltip="%TTCreateRanking">
+         </command>
          <separator
                name="ch.jester.ui.tournament.separator5"
                visible="true">
@@ -108,6 +115,11 @@
             description="%RunPairingDescr"
             id="ch.jester.ui.tournament.pairing"
             name="%RunPairing">
+      </command>
+      <command
+            description="%TTCreateRanking"
+            id="ch.jester.ui.tournament.ranking"
+            name="%CreateRanking">
       </command>
       <command
             description="%EditTournamentDescr"
@@ -258,6 +270,20 @@
       <handler
             class="ch.jester.ui.tournament.handler.PairingHandler"
             commandId="ch.jester.ui.tournament.pairing">
+         <activeWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.tournamentOrCategorySelected">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.tournamentOrCategorySelected">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="ch.jester.ui.tournament.handler.RankingHandler"
+            commandId="ch.jester.ui.tournament.ranking">
          <activeWhen>
             <reference
                   definitionId="ch.jester.ui.tournament.tournamentOrCategorySelected">

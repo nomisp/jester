@@ -6,7 +6,6 @@ import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.ui.navigator.CommonDropAdapter;
@@ -121,7 +120,7 @@ public class CommonDropPlayerAdapter extends CommonDropAdapterAssistant {
 			Object[] objs = su.getAsStructuredSelection().toArray();
 			for(Object o:objs){
 					Player p = (Player)o;
-					PlayerCard pc = ModelFactory.getInstance().createPlayerCard(cat, p);
+					PlayerCard pc = ModelFactory.getInstance().createPlayerCard(cat, p, cat.getTournament().getPrimaryRankingSystem().getShortType());
 					cat.addPlayerCard(pc);
 			}	
 				ServiceUtility util = new ServiceUtility();
