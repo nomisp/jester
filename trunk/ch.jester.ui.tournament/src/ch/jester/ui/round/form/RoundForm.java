@@ -23,7 +23,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
@@ -149,7 +148,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 	}
 
 	private CaluculatedCompositeSettings getSizeSettings(){
-		//zur Zeit wird nur dieses Verwendet... für andere Layouts Settings entsprechend aufbereiten
+		//zur Zeit wird nur dieses verwendet... für andere Layouts Settings entsprechend aufbereiten
 		if(mUsedLayout instanceof HorizontalTreeLayoutAlgorithm){
 			return calculateCompositeSizeForHorizontalTreeLayout();
 		}
@@ -160,9 +159,6 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 		GridData data = new GridData();
 		mViewer.getGraphControl().setLocation(0, 0);
 		mViewer.getGraphControl().setPreferredSize((int) (settings.width), settings.height);
-	//	Point p =mViewer.getGraphControl().computeSize((int)(settings.width*settings.editorScale)+200, settings.height);
-		//mViewer.getGraphControl().setSize(p);
-		
 		data.grabExcessHorizontalSpace=true;
 		data.grabExcessVerticalSpace=true;
 		data.verticalAlignment=SWT.FILL;
@@ -174,11 +170,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 		mViewer.getGraphControl().getParent().getParent().redraw();
 		
 		mManagedForm.reflow(true);
-		
 		mManagedForm.refresh();
-		//100% zoom
-		//getZoomableViewer().zoomTo(-1, -1, -1, -1);
-		//mViewer.refresh();
 	}
 	
 	private CaluculatedCompositeSettings initViewer(Composite parent){
@@ -220,16 +212,14 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 
 			@Override
 			public void paintControl(PaintEvent e) {
-				mManagedForm.getForm().setBusy(true);
+
 				System.out.println(e);
 				
 				CaluculatedCompositeSettings settings = getSizeSettings();
 				doViewerSizing(settings);
-				//getEditorSite().getShell().redraw();
 				mViewer.applyLayout();
-				
 				mViewer.refresh();
-				mManagedForm.getForm().setBusy(false);
+
 
 				
 			}
@@ -240,10 +230,6 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 			@Override
 			public void handleEvent(Event event) {
 				System.out.println("refresh...");
-				//CaluculatedCompositeSettings settings = getSizeSettings();
-				//doViewerSizing(settings);
-				//getEditorSite().getShell().redraw();
-				//mViewer.applyLayout();
 				mViewer.refresh();
 				System.out.println("refresh done");
 			}
@@ -268,6 +254,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 				mLogger.debug("MenuDetectEvent: "+e.widget);
 				if(e.widget instanceof Graph){
 					Graph graph = (Graph) e.widget;
+					@SuppressWarnings("unchecked")
 					List<GraphNode> glist = graph.getSelection();
 					if(glist.isEmpty()||glist.size()>1){return;}
 					GraphNode selected = glist.get(0);

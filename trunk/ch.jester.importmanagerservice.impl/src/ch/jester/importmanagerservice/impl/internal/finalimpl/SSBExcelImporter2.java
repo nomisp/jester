@@ -29,7 +29,7 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		mInputLinking.put("firstName", "Vorname");
 		mInputLinking.put("fideCode", "CodeFIDE");
 		mInputLinking.put("nationalCode", "Code");
-		mInputLinking.put("elo", "Elo neu");
+		mInputLinking.put("nationalElo", "Elo neu");
 	}
 	
 	@Override

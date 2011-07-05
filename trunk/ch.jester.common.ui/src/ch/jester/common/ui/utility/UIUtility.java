@@ -293,6 +293,8 @@ public class UIUtility {
 					}
 					
 				};
+				job.setUser(false);
+				job.setSystem(true);
 				job.schedule();
 				 while (!done.get() && !shell.isDisposed()) {
 		              if (!display.readAndDispatch())

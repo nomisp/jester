@@ -5,6 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -23,12 +24,15 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Pairing;
 import ch.jester.model.Result;
 import ch.jester.model.Round;
 import ch.jester.ui.round.editors.ResultController;
+import ch.jester.ui.tournament.internal.Activator;
 
 public class ResultForm extends FormPage implements IDirtyManagerProvider{
+	private List<Section> mSectionList = new ArrayList<Section>();
 	class SelectionSetter implements PropertyChangeListener{
 		ComboViewer mViewer;
 		Pairing mPairing;
@@ -46,20 +50,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 			
 		}
 		public void setSelection(){
-		/*	String resultString = null;
-			Result result = null;
-			Result changedResult = mController.getChangedResults().get(mPairing);
-			if(changedResult!=null){
-				resultString = changedResult.getShortResult();
-			}else{
-				resultString = mPairing.getResult();
-			}
-			
-			if(resultString!=null){	
-				result = Result.findByShortResult(resultString);
-			}*/
 			Result result = mController.getLastPairingResult(mPairing);
-			//System.out.println(rr);
 			if(result!=null){
 				Result selected = (Result) ((IStructuredSelection)mViewer.getSelection()).getFirstElement();
 				if(selected!=result){
@@ -87,8 +78,71 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		buildSections(managedForm);
 		managedForm.reflow(true);
 		mController.getDirtyManager().reset();
+		createToolBarActions(managedForm);
+		
+	}
+	
+	private final void expandSections(final ScrolledForm form, final boolean b){
+		UIUtility.busyIndicatorJob("", new UIUtility.IBusyRunnable() {
+			
+			@Override
+			public void stepOne_InUIThread() {
+				form.redraw();
+				form.setRedraw(false);
+				
+			}
+			
+			@Override
+			public void stepTwo_InJob() {
+				UIUtility.syncExecInUIThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						for(Section s:mSectionList){
+							s.setExpanded(b);
+						}
+					}
+				});
+
+			}
+			
+
+			
+			@Override
+			public void finalStep_inUIThread() {
+				form.setRedraw(true);
+				form.redraw();
+				
+			}
+		});
 	}
 
+	protected void createToolBarActions(IManagedForm managedForm) {
+		final ScrolledForm form = managedForm.getForm();
+		Action expand = new Action("CollapseSections", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
+			public void run() {
+				expandSections(form, true);
+			}
+		};
+		expand.setText("Expand All");
+		Action collapse = new Action("ExpandSections", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
+			public void run() {
+				expandSections(form, false);
+			}
+		};
+		collapse.setText("Collapse All");
+		//haction.setChecked(true);
+		
+		//haction.setToolTipText(Messages.CategoryMasterDetail_tt_horizontal);
+	//	haction.setImageDescriptor(UIUtility.getImageDescriptor(Activator.getDefault().getActivationContext().getPluginId(),
+	//				"icons/application_tile_horizontal.png")); //$NON-NLS-1$
+		managedForm.getForm().getToolBarManager().add(collapse);
+		managedForm.getForm().getToolBarManager().add(expand);
+		
+		
+		managedForm.getForm().getToolBarManager().update(true);
+
+	}
 	private void buildSections(IManagedForm managedForm) {
 		List<Round> rounds = mController.getRounds();
 		
@@ -105,10 +159,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		String black = p.getBlack().getLastName()+", "+p.getBlack().getFirstName();
 		String white = p.getWhite().getLastName()+", "+p.getWhite().getFirstName();
 		Result result = null;
-		/*if(p.getResult()!=null){	
-			result = Result.findByShortResult(p.getResult());
-		}*/
-		String text = "White: "+white+" vs Black: "+black;
+		String text = white+" vs "+black;
 		
 		managedForm.getToolkit().createLabel(c, text, SWT.NONE);
 		ComboViewer viewer = new ComboViewer(c, SWT.READ_ONLY);
@@ -122,14 +173,12 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		mSelectionSetters.add(setter);
 		mController.addPropertyChangeListener("changedResults",setter);
 		
-		/*if(result!=null){
-			viewer.setSelection(new StructuredSelection(result));
-		}*/
 		mController.getSWTDirtyManager().add(viewer.getControl());
 		
 	}
 	public void dispose(){
 		super.dispose();
+		mSectionList.clear();
 		for(SelectionSetter setter:mSelectionSetters){
 			mController.removePropertyChangeListener("changedResults",setter);
 		}
@@ -151,6 +200,8 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		managedForm.getToolkit().paintBordersFor(composite_2);
 		sctnPersonal.setClient(composite_2);
 		composite_2.setLayout(new GridLayout(2, false));
+		
+		mSectionList.add(sctnPersonal);
 		return composite_2;
 	}
 	
@@ -158,6 +209,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 	public DirtyManager getDirtyManager() {
 		return mController.getDirtyManager();
 	}
+
 	
 	class PairingResultChanged implements ISelectionChangedListener{
 

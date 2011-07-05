@@ -11,12 +11,10 @@ import ch.jester.common.utility.SubListIterator;
 import ch.jester.commonservices.api.importer.IDuplicateChecker;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
-import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
 
 /**
- * @author  t117221
  */
 public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T, Player> implements IDuplicateChecker<Player> {
 	/**
@@ -34,7 +32,7 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 	
 	@Override
 	public String[] getDomainObjectAttributes() {
-		return new String[]{"lastName","firstName","fideCode","nationalCode","elo","age","city","nation"};
+		return new String[]{"lastName","firstName","fideCode","nationalCode","elo","nationalElo","age","city","nation"};
 	}
 
 	@Override
