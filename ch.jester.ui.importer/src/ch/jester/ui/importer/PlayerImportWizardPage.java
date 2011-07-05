@@ -1,6 +1,10 @@
 package ch.jester.ui.importer;
 
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -22,6 +26,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import ch.jester.common.ui.utility.SelectionUtility;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IWebImportHandlerEntry;
 import ch.jester.commonservices.api.web.IPingService;
@@ -206,9 +211,11 @@ public class PlayerImportWizardPage extends WizardPage {
 		mFileTableViewer.setContentProvider(new ZipEntryContentProvider());
 
 		setPageComplete(false);
-		
 		enableWebOptions = mService.getService(IPingService.class).isConnected();
 		rdWeb.setEnabled(enableWebOptions);
+		if(!enableWebOptions){
+			startConnectionChecker();
+		}
 		
 		rdZip.setSelection(true);
 	    mZipRadioListener.enable(true);
@@ -224,6 +231,31 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 }
 	
+	private void startConnectionChecker(){
+		//connection poller
+		//unschön... aber wir wollend dafür keinen listener implementieren.
+		Job checker = new Job("concheck"){
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				boolean connected = mService.getService(IPingService.class).isConnected();
+				if(!connected){
+					schedule(500);
+					return Status.OK_STATUS;
+				}
+				UIUtility.syncExecInUIThread(new Runnable() {
+					@Override
+					public void run() {
+						rdWeb.setEnabled(true);
+						
+					}
+				});
+				return Status.OK_STATUS;
+			}
+		};
+		checker.setUser(false);
+		checker.setSystem(true);
+		checker.schedule();
+	}
 	
 	public ImportData getData(){
 		return Controller.getController().getImportData();
