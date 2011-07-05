@@ -38,19 +38,9 @@ public class CloneCopyHandler extends AbstractCommandHandler {
 		//Die Klone ins Clipboard schmeissen
 		Object[] copiedObjects = transferableSelection.getCopiedObjects().toArray();
 		cb.setContents(copiedObjects, transferableSelection.getCopiedTransferObjects());
-		//ISourceProviderService s = (ISourceProviderService)HandlerUtil.getActiveWorkbenchWindow(mEvent).getService(ISourceProviderService.class);
-		
-		//CopiedSelectionClassProvider ps = (CopiedSelectionClassProvider)s.getSourceProvider(CopiedSelectionClassProvider.ID);
-	//	ps.copiedClassChanged(copiedObjects[0].getClass());
-		//Property neu evaluieren; so dass der paste button aktiv wird; passiert sonst erst beim Fokuwechsel
-		//try {
-			UIUtility.reevaluateProperty("ch.jester.properties.clipboardFilled");
-			/*IEvaluationService evalservice = (IEvaluationService) HandlerUtil.getActiveWorkbenchWindowChecked(mEvent).getService(IEvaluationService.class);
-			evalservice.requestEvaluation("ch.jester.properties.clipboardFilled");*/
-	/*	} catch (ExecutionException e) {
-			e.printStackTrace();
-		}
-		*/
+
+		UIUtility.reevaluateProperty("ch.jester.properties.clipboardFilled");
+
 		//Info an die Statuszeile
 		getServiceUtil().getService(IExtendedStatusLineManager.class).setMessage("Copied "+getSelectionCount()+" Item(s)",750);
 	}

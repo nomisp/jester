@@ -75,15 +75,25 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		}
 		//check();
 		EntityTransaction trx = mManager.getTransaction();
+		try{
 		trx.begin();
 		for(T p:pTCollection){
-			//if(p.getId()!=0){
+			if(p.isUnsafed()){
+				mManager.persist(p);
+			}else{
 				mManager.merge(p);
+			}
+			//if(p.getId()!=0){
+			//	mManager.merge(p);
 			//}else{
 			//	mManager.persist(p);
 			//}
 		}
 		trx.commit();
+		}catch(Exception e){
+			e.printStackTrace();
+			trx.rollback();
+		}
 		if(!mManualNotify){
 			fireSaveEvent(pTCollection);
 		}else{
@@ -100,6 +110,8 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	public void save(T pT) {
 	//	check();
 		EntityTransaction trx = mManager.getTransaction();
+		try{
+	    
 		trx.begin();
 		if(pT.getId()!=null){
 			mManager.merge(pT);
@@ -107,6 +119,10 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 			mManager.persist(pT);
 		}
 		trx.commit();
+		}catch(Exception e){
+			e.printStackTrace();
+			trx.rollback();
+		}
 		if(!mManualNotify){
 			fireSaveEvent(pT);
 		}else{

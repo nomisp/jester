@@ -9,17 +9,28 @@ import org.eclipse.draw2d.SWTEventDispatcher;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuDetectEvent;
 import org.eclipse.swt.events.MenuDetectListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.internal.EditorStack;
+import org.eclipse.ui.internal.PartPane;
+import org.eclipse.ui.internal.PartSite;
 import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
@@ -54,14 +65,18 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 	private ResultController mController;
 	private PropertyChangeListener mUpdater;
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	private LayoutAlgorithm mUsedLayout;
+	private IManagedForm mManagedForm;
+	private Listener mResizeListener;
+	private PaintListener mPaintListener;
 	public RoundForm(FormEditor editor, String id, String title) {
 		super(editor, id, title);
 	}
 	
 	private void createZoomControl(IManagedForm managedForm){
-		ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
+		/*ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
 		managedForm.getForm().getToolBarManager().add(toolbarZoomContributionViewItem);
-		managedForm.getForm().getToolBarManager().update(true);
+		managedForm.getForm().getToolBarManager().update(true);*/
 		
 	}
 	public void setResultController(ResultController pController){
@@ -99,11 +114,16 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 		 * 				Pairing
 		 * 							Player D
 		 * 
-		 * 
-		 * 
-		 * 
 		 */
-	//	int roundCnt = mController.getRounds().size();
+		Rectangle clientArea = getEditorSite().getShell().getClientArea();
+
+		IEditorSite site = getEditorSite();
+		PartSite psite = (PartSite) site.getPart().getSite();
+		PartPane ppane = psite.getPane();
+		EditorStack estack = (EditorStack) ppane.getContainer();
+		clientArea = estack.getEditorArea().getBounds();
+	
+		//clientArea = mManagedForm.getForm().getShell().getClientArea();
 		int pairingCnt = 0;
 		for(Round r:mController.getRounds()){
 			pairingCnt+=r.getPairings().size();
@@ -118,17 +138,53 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 		if(settings.height<displayMode.getHeight()){
 			settings.height=displayMode.getHeight();
 		}
+		int mod = (int) ((1.02f)*pairingCnt);
+		settings.height = settings.height + mod;
 		//EditorScale (ungefähr)
-		settings.width = (int) (displayMode.getWidth());
-		settings.editorScale=0.7f;
+		settings.editorScale=1.0f;
+		settings.width=clientArea.width-clientArea.x;
+		System.out.println(clientArea);
 		return settings;
 		
 	}
-	
 
+	private CaluculatedCompositeSettings getSizeSettings(){
+		//zur Zeit wird nur dieses Verwendet... für andere Layouts Settings entsprechend aufbereiten
+		if(mUsedLayout instanceof HorizontalTreeLayoutAlgorithm){
+			return calculateCompositeSizeForHorizontalTreeLayout();
+		}
+		return new CaluculatedCompositeSettings();
+	}
+
+	private void doViewerSizing(CaluculatedCompositeSettings settings){		
+		GridData data = new GridData();
+		mViewer.getGraphControl().setLocation(0, 0);
+		mViewer.getGraphControl().setPreferredSize((int) (settings.width), settings.height);
+	//	Point p =mViewer.getGraphControl().computeSize((int)(settings.width*settings.editorScale)+200, settings.height);
+		//mViewer.getGraphControl().setSize(p);
+		
+		data.grabExcessHorizontalSpace=true;
+		data.grabExcessVerticalSpace=true;
+		data.verticalAlignment=SWT.FILL;
+		data.horizontalAlignment=SWT.FILL;
+		data.minimumWidth=mViewer.getGraphControl().getSize().x;
+		data.minimumHeight=mViewer.getGraphControl().getSize().y;
+		mViewer.getGraphControl().setLayoutData(data);
+		mViewer.getGraphControl().redraw();
+		mViewer.getGraphControl().getParent().getParent().redraw();
+		
+		mManagedForm.reflow(true);
+		
+		mManagedForm.refresh();
+		//100% zoom
+		//getZoomableViewer().zoomTo(-1, -1, -1, -1);
+		//mViewer.refresh();
+	}
 	
 	private CaluculatedCompositeSettings initViewer(Composite parent){
 		mViewer = new GraphViewer(parent, ZestStyles.NONE|SWT.NONE);
+		mViewer.getGraphControl().setLayout(new GridLayout(1, true));
+
 		
 		mViewer.setContentProvider(new ZestNodeContentProvider());
 		mViewer.setLabelProvider(new ZestLabelProvider());
@@ -136,31 +192,73 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 		mViewer.setInput(mModelContentProvider.getAllNodes());
 		LayoutAlgorithm layout = setLayout();
 		mViewer.setLayoutAlgorithm(layout, true);
+		mUsedLayout = layout;
+		return getSizeSettings();
 		
-		//zur Zeit wird nur dieses Verwendet... für andere Layouts Settings entsprechend aufbereiten
-		if(layout instanceof HorizontalTreeLayoutAlgorithm){
-			return calculateCompositeSizeForHorizontalTreeLayout();
-		}
-		return new CaluculatedCompositeSettings();
+		
 	}
+
 	
 	protected void createFormContent(IManagedForm managedForm) {
+
+		mManagedForm = managedForm;
+		mManagedForm.getForm().setBusy(true);
 		setDecoratedTitle(managedForm);
 
 		ScrolledForm form = managedForm.getForm();
 		
+		
 		Composite body = form.getBody();
-
+		GridLayout layout;
+		body.setLayout(layout = new GridLayout(1, true));
+		//srollers direkt neben form, ohne gap
+		layout.marginHeight=0;
+		layout.marginWidth=0;
 		CaluculatedCompositeSettings settings = initViewer(body);
+		doViewerSizing(settings);
+		super.getEditorSite().getShell().addPaintListener(mPaintListener = new PaintListener(){
+
+			@Override
+			public void paintControl(PaintEvent e) {
+				mManagedForm.getForm().setBusy(true);
+				System.out.println(e);
+				
+				CaluculatedCompositeSettings settings = getSizeSettings();
+				doViewerSizing(settings);
+				//getEditorSite().getShell().redraw();
+				mViewer.applyLayout();
+				
+				mViewer.refresh();
+				mManagedForm.getForm().setBusy(false);
+
+				
+			}
+			
+		});
+		super.getEditorSite().getShell().addListener(SWT.Resize|SWT.Move, mResizeListener = new Listener(){
+
+			@Override
+			public void handleEvent(Event event) {
+				System.out.println("refresh...");
+				//CaluculatedCompositeSettings settings = getSizeSettings();
+				//doViewerSizing(settings);
+				//getEditorSite().getShell().redraw();
+				//mViewer.applyLayout();
+				mViewer.refresh();
+				System.out.println("refresh done");
+			}
+			
+		});
+
+		//mViewer.getGraphControl().setSize(p);
+	
+		//data.minimumHeight=settings.height;
+		//data.heightHint=settings.height;
+		//data.grabExcessHorizontalSpace=true;
+		//data.grabExcessVerticalSpace=true;
+		//mViewer.getControl().setLayoutData(data);
 		
-		mViewer.getGraphControl().setLocation(0, 0);
-		mViewer.getGraphControl().setPreferredSize((int) (settings.width*settings.editorScale), settings.height);
-		Point p =mViewer.getGraphControl().computeSize((int)(settings.width*settings.editorScale)+200, settings.height);
-		mViewer.getGraphControl().setSize(p);
-		
-		body.pack(true);
-		
-		managedForm.reflow(true);	
+
 		
 		mViewer.applyLayout();
 		mViewer.getGraphControl().addMenuDetectListener(new MenuDetectListener() {
@@ -213,7 +311,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 					}
 				});
 		mController.getDirtyManager().reset();
-
+		mManagedForm.getForm().setBusy(false);
 	}
 	
 	private void setDecoratedTitle(IManagedForm managedForm) {
@@ -297,6 +395,8 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 	@Override
 	public void dispose() {
 		mController.removePropertyChangeListener(mUpdater);
+		getEditorSite().getShell().removeListener(SWT.Resize|SWT.Move, mResizeListener);
+		getEditorSite().getShell().removePaintListener(mPaintListener);
 		super.dispose();
 	}
 
