@@ -1,5 +1,6 @@
 package ch.jester.ui.tournament.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
@@ -19,55 +20,55 @@ import ch.jester.common.ui.handlers.AbstractCommandHandler;
 import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
+import ch.jester.model.RankingSystem;
 import ch.jester.model.Tournament;
-import ch.jester.system.api.pairing.IPairingAlgorithm;
-import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
-import ch.jester.system.api.pairing.IPairingManager;
+import ch.jester.system.api.ranking.IRankingSystem;
+import ch.jester.system.api.ranking.IRankingSystemEntry;
+import ch.jester.system.api.ranking.IRankingSystemManager;
 import ch.jester.system.exceptions.NotAllResultsException;
-import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
 
-public class PairingHandler extends AbstractCommandHandler implements IHandler {
-	
-	private IPairingAlgorithm pairingAlgorithm;
+public class RankingHandler extends AbstractCommandHandler implements IHandler {
 
+	private List<IRankingSystem> rankingSystems = new ArrayList<IRankingSystem>();
+	
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
-		//MessageDialog.openInformation(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), "ExecutePairing", "Execute pairings");
 		final Category cat = getFirstSelectedAs(Category.class);
-		Tournament tournament = null;
+		final Tournament tournament;
 		if (cat == null) {
 			tournament = getFirstSelectedAs(Tournament.class);
 		} else {
 			tournament = cat.getTournament();
 		}
-		String pairingSystemClass = tournament.getPairingSystem();
+		List<RankingSystem> rankingSystemClasses = tournament.getRankingSystems();
 		ServiceUtility su = new ServiceUtility();
-		IPairingManager pairingManager = su.getService(IPairingManager.class);
-		List<IPairingAlgorithmEntry> registredEntries = pairingManager.getRegistredEntries();
-		for (IPairingAlgorithmEntry pairingEntry : registredEntries) {
-			if (pairingEntry.getImplementationClass().equals(pairingSystemClass)) {
-				pairingAlgorithm = pairingEntry.getService();
-				break;
+		IRankingSystemManager rankingSystemManager = su.getService(IRankingSystemManager.class);
+		List<IRankingSystemEntry> registredEntries = rankingSystemManager.getRegistredEntries();
+		for (IRankingSystemEntry rankingSystemEntry : registredEntries) {
+			for (RankingSystem rankingSystemClass : rankingSystemClasses) {
+				if (rankingSystemEntry.getImplementationClass().equals(rankingSystemClass)) {
+					rankingSystems.add(rankingSystemEntry.getService());
+				}
 			}
 		}
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		final Shell shell = window.getShell();
-		Job job = new Job("Pairing") {
+		Job job = new Job("Ranking") {
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
-					pairingAlgorithm.executePairings(cat, monitor);
+					if (cat == null) {
+						rankingSystems.get(0).calculateRanking(tournament, monitor);	// TODO Peter: Evtl. für kommende Version mehrere Feinwertungen
+					} else {
+						rankingSystems.get(0).calculateRanking(cat, monitor);	// TODO Peter: Evtl. für kommende Version mehrere Feinwertungen
+					}
+					
 				} catch (Exception e) {
 					Throwable exception = ExceptionUtility.getRealException(e);
 					if (exception != e) {
-						// TODO Peter: Fehlermeldung übersetzen!
-						if (exception instanceof PairingNotPossibleException) {
-							final String messageTitel = "Pairing not possible";
-							final String errorMessage = "Pairing is not possible!\nCheck the number of players and rounds of the category.";
-							showErrorDialog(shell, messageTitel, errorMessage);
-						} else if (exception instanceof NotAllResultsException) {
+						if (exception instanceof NotAllResultsException) {
 							final String messageTitel = "Not all Results";
 							final String errorMessage = "There are not all results available from the last round!";
 							showErrorDialog(shell, messageTitel, errorMessage);
@@ -78,7 +79,7 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 				}
 				return Status.OK_STATUS;
 			}
-
+			
 			private void showErrorDialog(final Shell shell,
 					final String messageTitel, final String errorMessage) {
 				UIJob uiJob = new UIJob("Error-Message") {
@@ -98,4 +99,5 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 		cn.getCommonViewer().refresh();
 		return null;
 	}
+
 }

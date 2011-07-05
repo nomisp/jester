@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
@@ -76,6 +77,8 @@ public class Category extends AbstractModelBean<Category> {
 	@ManyToOne
 	private Tournament tournament;
 
+	@OneToOne(mappedBy="category", optional=true)
+	private FinalRanking ranking;
 
 	public String getDescription() {
 		return description;
@@ -202,6 +205,14 @@ public class Category extends AbstractModelBean<Category> {
 
 	public void setTournament(Tournament tournament) {
 		this.tournament = tournament;
+	}
+
+	public FinalRanking getRanking() {
+		return ranking;
+	}
+
+	public void setRanking(FinalRanking ranking) {
+		this.ranking = ranking;
 	}
 
 	@Override

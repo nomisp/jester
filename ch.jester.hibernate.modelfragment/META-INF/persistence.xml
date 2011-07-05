@@ -14,6 +14,12 @@
         <class>ch.jester.model.PlayerCard</class>
         <class>ch.jester.model.SettingItem</class>
         <class>ch.jester.model.SettingItemValue</class>
+        <class>ch.jester.model.Ranking</class>
+        <class>ch.jester.model.FinalRanking</class>
+        <class>ch.jester.model.IntermediateRanking</class>
+        <class>ch.jester.model.RankingEntry</class>
+        <class>ch.jester.model.RankingSystem</class>
+        <class>ch.jester.model.RankingSystemPoint</class>
         <!-- >properties>
          <property name="hibernate.hbm2ddl.auto" value="update" />
          <property name="hibernate.show_sql" value="true" />

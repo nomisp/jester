@@ -4,11 +4,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="Pairing")
+@NamedQueries({
+	@NamedQuery(name="AllPairings", query="select p from Pairing p"),
+	@NamedQuery(name="PairingsByPlayer", query="select p from Pairing p where :player = p.white or :player = p.black")
+})
 public class Pairing extends AbstractModelBean<Pairing> {
 	private static final long serialVersionUID = -5183089936204591328L;
 	

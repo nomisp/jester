@@ -1,11 +1,17 @@
 package ch.jester.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -20,6 +26,9 @@ import javax.xml.bind.annotation.XmlIDREF;
  */
 @Entity
 @Table(name="PlayerCard")
+@NamedQueries({
+	@NamedQuery(name="PlayerCardsByCategoryOrderByPoints", query="select pc from PlayerCard pc where :category = pc.category order by pc.points")
+})
 public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	private static final long serialVersionUID = -2710264494286525315L;
 	
@@ -37,6 +46,12 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	
 	@Column(nullable=true)
 	private Double points;
+	
+	@OneToMany(mappedBy="playerCard", cascade={CascadeType.ALL}, orphanRemoval=true)
+	private List<RankingSystemPoint> rankingSystemPoints = new ArrayList<RankingSystemPoint>();
+	
+	@OneToOne(mappedBy="playerCard", optional=true)
+	private RankingEntry rankingEntry;
 	
 	public Player getPlayer() {
 		return player;
@@ -80,6 +95,28 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		if (result != null) {
 			this.points += result;
 		}
+	}
+
+	public List<RankingSystemPoint> getRankingSystemPoints() {
+		return rankingSystemPoints;
+	}
+
+	public void setRankingSystemPoints(List<RankingSystemPoint> rankingSystemPoints) {
+		this.rankingSystemPoints = rankingSystemPoints;
+	}
+	
+	public void addRankingSystemPoint(RankingSystemPoint rankingSystemPoint) {
+		if (rankingSystemPoint == null) throw new IllegalArgumentException("rankingSystemPoint may not be null");
+		if (!this.rankingSystemPoints.contains(rankingSystemPoint)) this.rankingSystemPoints.add(rankingSystemPoint);
+		if (rankingSystemPoint.getPlayerCard() != this) rankingSystemPoint.setPlayerCard(this); // Bidirektion
+	}
+
+	public RankingEntry getRankingEntry() {
+		return rankingEntry;
+	}
+
+	public void setRankingEntry(RankingEntry rankingEntry) {
+		this.rankingEntry = rankingEntry;
 	}
 
 	@Override

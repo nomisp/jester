@@ -14,10 +14,12 @@ import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.model.RankingSystem;
 import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.orm.ORMPlugin;
+import ch.jester.system.ranking.test.BuchholzTest;
 
 public class SettingsTest extends ActivatorProviderForTestCase {
 
@@ -25,9 +27,16 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 	private IDaoService<SettingItem> settingItemPersister;
 	private ModelFactory modelFactory;
 	private Tournament tournament;
+	private EntityManager entityManager;
 	
 //	@BeforeClass
 	public void setUp() {
+		RankingSystem rankingSystem = new RankingSystem();
+		rankingSystem.setPluginId(BuchholzTest.PLUGIN_ID);
+		rankingSystem.setImplementationClass(BuchholzTest.RANKINGSYSTEM_CLASS);
+		rankingSystem.setShortType(BuchholzTest.RANKINGSYSTEM_TYPE);
+		rankingSystem.setRankingSystemNumber(1);
+		
 		settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
 		modelFactory = ModelFactory.getInstance();
 		tournament = modelFactory.createTournament("SettingsTestTournament");
@@ -35,8 +44,13 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		tournament.setYear(2011);
 		tournament.setPairingSystem("ch.jester.system.vollrundig.VollrundigPairingAlgorithm");
 		tournament.setEloCalculator("ch.jester.system.fidecalculator.FideCalculator");
-		tournament.setRankingSystem("ch.jester.rankingsystem.buchholz.BuchholzRankingSystem");
+		tournament.addRankingSystem(rankingSystem);
 		mServiceUtil.getDaoServiceByEntity(Tournament.class).save(tournament);
+		
+//		entityManager = ORMPlugin.getJPAEntityManager();
+//		entityManager.joinTransaction();
+//		entityManager.clear();
+//		entityManager.persist(tournament);
 	}
 	
 	@Test

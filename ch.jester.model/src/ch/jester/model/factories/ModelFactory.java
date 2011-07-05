@@ -1,13 +1,14 @@
 package ch.jester.model.factories;
 
 import java.util.List;
-import java.util.Set;
 
 import ch.jester.model.Category;
 import ch.jester.model.Club;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
+import ch.jester.model.RankingSystem;
+import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.SettingItem;
 import ch.jester.model.SettingItemValue;
@@ -135,6 +136,23 @@ public class ModelFactory {
 	}
 	
 	/**
+	 * Erzeugen einer Spielerkarte anhand der Kategorie und des Spielers 
+	 * @param cat
+	 * @param player
+	 * @param rankingSystemShortType
+	 * @return Spielerkarte mit den Beziehungen auf die Kategorie und den Spieler
+	 */
+	public PlayerCard createPlayerCard(Category cat, Player player, String rankingSystemShortType) {
+		if (rankingSystemShortType == null) return createPlayerCard(cat, player);
+		RankingSystemPoint rankingSystemPoint = createRankingSystemPoint(rankingSystemShortType);
+		PlayerCard pc = new PlayerCard();
+		pc.setCategory(cat);
+		pc.setPlayer(player);
+		pc.addRankingSystemPoint(rankingSystemPoint);
+		return pc;
+	}
+	
+	/**
 	 * Erzeugt eine Paarung anhand der beiden Spieler
 	 * @param white Spieler weiss
 	 * @param black Spieler schwarz
@@ -209,6 +227,46 @@ public class ModelFactory {
 		SettingItemValue settingItemValue = new SettingItemValue();
 		return settingItemValue;
 	}
+	
+	/**
+	 * Erzeugt ein RankingSystem
+	 * @return
+	 */
+	public RankingSystem createRankingSystem() {
+		return new RankingSystem();
+	}
+	
+	/**
+	 * Erzeugt einRankingSystem mit allen Mussfeldern
+	 * Als Nummer wird Standardmässig 1 gesetzt, muss ggf. nachträglich noch gesetzt werden.
+	 * @param tournament	Turnier
+	 * @param pluginId		Plugin-Id des Implementierenden Feinwertungs-Plugins
+	 * @param implClass		Implementations-Klasse der Feinwertung
+	 * @param shortType		Kurzbezeichnung des Feinwertungssystemes (für die Internationalisierung ggf. als Property-Key verwenden) 
+	 * @return
+	 */
+	public RankingSystem createRankingSystem(Tournament tournament, String pluginId, String implClass, String shortType) {
+		RankingSystem rankingSystem = createRankingSystem();
+		rankingSystem.setTournament(tournament);
+		rankingSystem.setPluginId(pluginId);
+		rankingSystem.setImplementationClass(implClass);
+		rankingSystem.setShortType(shortType);
+		rankingSystem.setRankingSystemNumber(1);
+		return rankingSystem;
+	}
+	
+	/**
+	 * Erzeugt einen RankingSystemPoint
+	 * @param rankingSystem
+	 * @return
+	 */
+	public RankingSystemPoint createRankingSystemPoint(String rankingSystem) {
+		return new RankingSystemPoint(rankingSystem);
+	}
+	
+//	public FinalRanking createFinalRanking() {
+//		
+//	}
 	
 	
 	public Class<?>[] getAllExportableClasses(){

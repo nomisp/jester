@@ -21,6 +21,7 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
+import ch.jester.model.RankingSystem;
 import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
@@ -29,11 +30,13 @@ import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
+import ch.jester.system.ranking.test.BuchholzTest;
 import ch.jester.system.vollrundig.RoundRobinSettings;
 
 public class RoundRobinTest extends ActivatorProviderForTestCase {
 
-	private static final String ALGORITHM_CLASS = "ch.jester.system.vollrundig.VollrundigPairingAlgorithm";
+	public static final String ALGORITHM_CLASS = "ch.jester.system.vollrundig.VollrundigPairingAlgorithm";
+	public static final String PAIRING_PLUGIN = "ch.jester.system.vollrundig";
 	private ServiceUtility mServiceUtil = new ServiceUtility();
 	private IPairingAlgorithm pairingAlgorithm;
 	private Tournament tournament;
@@ -61,12 +64,18 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 //	}
 	
 	private void createData() {
+		RankingSystem rankingSystem = new RankingSystem();
+		rankingSystem.setPluginId(BuchholzTest.PLUGIN_ID);
+		rankingSystem.setImplementationClass(BuchholzTest.RANKINGSYSTEM_CLASS);
+		rankingSystem.setShortType(BuchholzTest.RANKINGSYSTEM_TYPE);
+		rankingSystem.setRankingSystemNumber(1);
+		
 		ModelFactory modelFactory = ModelFactory.getInstance();
 		tournament = modelFactory.createTournament("TestTournament");
 		tournament.setYear(2011);
 		tournament.setPairingSystem(ALGORITHM_CLASS);
 		tournament.setEloCalculator("ch.jester.system.fidecalculator.FideCalculator");
-		tournament.setRankingSystem("ch.jester.rankingsystem.buchholz.BuchholzRankingSystem");
+		tournament.addRankingSystem(rankingSystem);
 		cat1 = modelFactory.createCategory("Cat1");
 		cat2 = modelFactory.createCategory("Cat2");
 		cat3 = modelFactory.createCategory("Cat3");
