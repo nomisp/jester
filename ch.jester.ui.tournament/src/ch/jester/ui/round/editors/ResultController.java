@@ -191,6 +191,8 @@ public class ResultController implements IDirtyManagerProvider{
 		while(it.hasNext()){
 			Pairing p = it.next();
 			p.setResult(map.get(p).getShortResult());
+			p.getWhite().addResult(map.get(p).getPointsWhite());
+			p.getBlack().addResult(map.get(p).getPointsBlack());
 			mPairingDao.save(p);
 		}
 		mSync.changesSaved(this, getChangedResults());

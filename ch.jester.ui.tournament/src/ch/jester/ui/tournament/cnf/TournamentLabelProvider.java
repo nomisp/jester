@@ -40,13 +40,13 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 		} else if (element instanceof Pairing) {
 			Pairing pairing = ((Pairing)element);
 			StringBuffer sb = new StringBuffer();
-			sb.append(pairing.getWhite().getFirstName());
+			sb.append(pairing.getWhite().getPlayer().getFirstName());
 			sb.append(" ");
-			sb.append(pairing.getWhite().getLastName());
+			sb.append(pairing.getWhite().getPlayer().getLastName());
 			sb.append("-");
-			sb.append(pairing.getBlack().getFirstName());
+			sb.append(pairing.getBlack().getPlayer().getFirstName());
 			sb.append(" ");
-			sb.append(pairing.getBlack().getLastName());
+			sb.append(pairing.getBlack().getPlayer().getLastName());
 			if (pairing.getResult() != null) {
 				sb.append(": ");
 				sb.append(pairing.getResult());
@@ -79,17 +79,17 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 		} else if (element instanceof Pairing) {
 			Pairing pairing = ((Pairing)element);
 			StringBuffer sb = new StringBuffer();
-			sb.append(pairing.getWhite().getNationalCode());
+			sb.append(pairing.getWhite().getPlayer().getNationalCode());
 			sb.append(" ");
-			sb.append(pairing.getWhite().getFirstName());
+			sb.append(pairing.getWhite().getPlayer().getFirstName());
 			sb.append(" ");
-			sb.append(pairing.getWhite().getLastName());
+			sb.append(pairing.getWhite().getPlayer().getLastName());
 			sb.append("-");
-			sb.append(pairing.getBlack().getNationalCode());
+			sb.append(pairing.getBlack().getPlayer().getNationalCode());
 			sb.append(" ");
-			sb.append(pairing.getBlack().getFirstName());
+			sb.append(pairing.getBlack().getPlayer().getFirstName());
 			sb.append(" ");
-			sb.append(pairing.getBlack().getLastName());
+			sb.append(pairing.getBlack().getPlayer().getLastName());
 			if (pairing.getResult() != null) {
 				sb.append(": ");
 				sb.append(pairing.getResult());

@@ -95,9 +95,9 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		IDaoService<Category> categoryPersister = mServiceUtil.getDaoServiceByEntity(Category.class);
 		categoryPersister.save(category);
 		
-		for (Pairing pairing : pairings) {
-			System.out.println(pairing.getWhite() + " - " + pairing.getBlack()); //$NON-NLS-1$
-		}
+//		for (Pairing pairing : pairings) {
+//			System.out.println(pairing.getWhite().getPlayer() + " - " + pairing.getBlack().getPoints()); //$NON-NLS-1$
+//		}
 		return pairings;
 	}
 	
@@ -235,9 +235,8 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	 */
 	private Pairing createPairing(List<Round> rounds, PlayerCard[] playerCards, int roundIndex, int whiteIndex, int blackIndex) {
 		ModelFactory modelFactory = ModelFactory.getInstance();
-		Player white = playerCards[whiteIndex].getPlayer();
-		Player black = playerCards[blackIndex].getPlayer();
-//		Pairing p = modelFactory.createPairing(white, black, rounds.get(roundIndex));
+		PlayerCard white = playerCards[whiteIndex];
+		PlayerCard black = playerCards[blackIndex];
 		return white != null && black != null ? modelFactory.createPairing(white, black, rounds.get(roundIndex)) : null;
 	}
 

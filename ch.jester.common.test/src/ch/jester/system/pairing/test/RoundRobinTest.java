@@ -73,6 +73,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		ModelFactory modelFactory = ModelFactory.getInstance();
 		tournament = modelFactory.createTournament("TestTournament");
 		tournament.setYear(2011);
+		tournament.setPairingSystemPlugin(PAIRING_PLUGIN);
 		tournament.setPairingSystem(ALGORITHM_CLASS);
 		tournament.setEloCalculator("ch.jester.system.fidecalculator.FideCalculator");
 		tournament.addRankingSystem(rankingSystem);

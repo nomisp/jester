@@ -1,5 +1,6 @@
 package ch.jester.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -18,13 +19,13 @@ import javax.persistence.Table;
 public class Pairing extends AbstractModelBean<Pairing> {
 	private static final long serialVersionUID = -5183089936204591328L;
 	
-	@OneToOne
+	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "WhiteId", referencedColumnName = "Id")
-	private Player white;
+	private PlayerCard white;
 	
-	@OneToOne
+	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "BlackId", referencedColumnName = "Id")
-	private Player black;
+	private PlayerCard black;
 	
 	@Column(name="Result")
 	private String result;
@@ -33,19 +34,19 @@ public class Pairing extends AbstractModelBean<Pairing> {
 	private Round round;
 
 
-	public Player getWhite() {
+	public PlayerCard getWhite() {
 		return white;
 	}
 
-	public void setWhite(Player white) {
+	public void setWhite(PlayerCard white) {
 		this.white = white;
 	}
 
-	public Player getBlack() {
+	public PlayerCard getBlack() {
 		return black;
 	}
 
-	public void setBlack(Player black) {
+	public void setBlack(PlayerCard black) {
 		this.black = black;
 	}
 

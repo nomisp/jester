@@ -25,6 +25,7 @@ import ch.jester.model.PlayerCard;
 import ch.jester.model.RankingSystem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
+import ch.jester.system.pairing.test.RoundRobinTest;
 import ch.jester.system.ranking.test.BuchholzTest;
 
 public class ImportExportTest {
@@ -41,6 +42,7 @@ public class ImportExportTest {
 		Tournament tournament = factory.createTournament("TestTournament");
 		tournament.setDateFrom(new Date());
 		tournament.setDateTo(new Date());
+		tournament.setPairingSystemPlugin(RoundRobinTest.PAIRING_PLUGIN);
 		tournament.setPairingSystem("a");
 		tournament.addRankingSystem(rankingSystem);
 		tournament.setEloCalculator("d");

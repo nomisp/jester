@@ -77,7 +77,7 @@ public class Category extends AbstractModelBean<Category> {
 	@ManyToOne
 	private Tournament tournament;
 
-	@OneToOne(mappedBy="category", optional=true)
+	@OneToOne
 	private FinalRanking ranking;
 
 	public String getDescription() {

@@ -1,5 +1,6 @@
 package ch.jester.system.ranking.test;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -13,9 +14,12 @@ import org.junit.Test;
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
+import ch.jester.model.FinalRanking;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
+import ch.jester.model.Ranking;
+import ch.jester.model.RankingEntry;
 import ch.jester.model.RankingSystem;
 import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
@@ -90,9 +94,11 @@ public class BuchholzTest extends ActivatorProviderForTestCase {
 		entityManager.persist(t);
 		entityManager.flush();
 		try {
-			List<PlayerCard> ranking = buchholzSystem.calculateRanking(cat, null);
-			for (int i = 0; i < ranking.size(); i++) {
-				assertEquals(ranking.get(i), cat.getPlayers().get(i));
+			Ranking ranking = buchholzSystem.calculateRanking(cat, null);
+			assertTrue(ranking instanceof FinalRanking);
+			List<RankingEntry> rankingEntries = ranking.getRankingEntries();
+			for (int i = 0; i < rankingEntries.size(); i++) {
+				assertEquals(rankingEntries.get(i).getPlayerCard(), cat.getPlayerCards().get(i));
 			}
 			
 		} catch (NotAllResultsException e) {
@@ -130,10 +136,10 @@ public class BuchholzTest extends ActivatorProviderForTestCase {
 	
 	private void initPairings(Category cat) {
 		List<PlayerCard> playerCards = cat.getPlayerCards();
-		Player p1 = playerCards.get(0).getPlayer();
-		Player p2 = playerCards.get(1).getPlayer();
-		Player p3 = playerCards.get(2).getPlayer();
-		Player p4 = playerCards.get(3).getPlayer();
+		PlayerCard p1 = playerCards.get(0);
+		PlayerCard p2 = playerCards.get(1);
+		PlayerCard p3 = playerCards.get(2);
+		PlayerCard p4 = playerCards.get(3);
 		
 		Round r1 = new Round();
 		r1.setNumber(1);

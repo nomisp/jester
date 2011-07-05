@@ -75,8 +75,8 @@ public class RoundNodeModelContentProvider {
 		for(Pairing p:pairings){
 			ZestDataNode pairingNode = new ZestDataNode(p.getId()+"", "Pairing ", p);
 			parentNodes.add(pairingNode);
-			Player p1 = p.getBlack();
-			Player p2 = p.getWhite();
+			Player p1 = p.getBlack().getPlayer();
+			Player p2 = p.getWhite().getPlayer();
 			
 			ZestDataNode pnode1 = new PlayerDataNode(p1.getId()+"", p1.getLastName()+", "+p1.getFirstName(),p, p1, PlayerColor.B, mController);
 			ZestDataNode pnode2 = new PlayerDataNode(p2.getId()+"", p2.getLastName()+", "+p2.getFirstName(),p, p2, PlayerColor.W, mController);

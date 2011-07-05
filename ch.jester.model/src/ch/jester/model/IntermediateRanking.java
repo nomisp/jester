@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 public class IntermediateRanking extends Ranking {
 	private static final long serialVersionUID = -7098601224169960670L;
 
-	@OneToOne
+	@OneToOne(mappedBy="ranking")
 	private Round round;
 	
 	public Round getRound() {
