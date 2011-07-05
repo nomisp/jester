@@ -18,20 +18,14 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.equinox.http.jetty.JettyConfigurator;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.StatusLineManager;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Link;
-import org.eclipse.swt.widgets.Listener;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 
 import ch.jester.common.activator.AbstractActivator;
-import ch.jester.common.ui.labelprovider.ImageStatusLineContributionItem;
-import ch.jester.common.ui.labelprovider.LinkStatusLineContributionItem;
-import ch.jester.common.ui.services.IExtendedStatusLineManager;
+import ch.jester.common.ui.contributions.LinkStatusLineContributionItem;
 import ch.jester.common.ui.utility.UIUtility;
 
 /**
