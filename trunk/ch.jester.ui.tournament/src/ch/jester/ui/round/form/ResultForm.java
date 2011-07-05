@@ -156,8 +156,8 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		
 	}
 	private void createFileds(IManagedForm managedForm, Composite c, Round r, Pairing p) {
-		String black = p.getBlack().getLastName()+", "+p.getBlack().getFirstName();
-		String white = p.getWhite().getLastName()+", "+p.getWhite().getFirstName();
+		String black = p.getBlack().getPlayer().getLastName()+", "+p.getBlack().getPlayer().getFirstName();
+		String white = p.getWhite().getPlayer().getLastName()+", "+p.getWhite().getPlayer().getFirstName();
 		Result result = null;
 		String text = white+" vs "+black;
 		

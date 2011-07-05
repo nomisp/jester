@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 public class FinalRanking extends Ranking {
 	private static final long serialVersionUID = -3871911017932874564L;
 
-	@OneToOne
+	@OneToOne(mappedBy="ranking")
 	private Category category;
 	
 	public Category getCategory() {

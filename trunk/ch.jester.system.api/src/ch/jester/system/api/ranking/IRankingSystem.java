@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.model.Category;
 import ch.jester.model.PlayerCard;
+import ch.jester.model.Ranking;
 import ch.jester.model.Tournament;
 import ch.jester.system.exceptions.NotAllResultsException;
 
@@ -23,18 +24,18 @@ public interface IRankingSystem {
 	 * Berechnen der Rangliste
 	 * @param tournament Turnier zu dem die Rangliste erstellt werden soll.
 	 * @param pMonitor ProgrssMonitor
-	 * @return Map mit den Ranglisten. Key ist die Category value die Liste mit den Spielern Index 0 = Rang 1
+	 * @return Map mit den Ranglisten. Key ist die Category value Ranking (entweder instanz von FinalRanking oder IntermediateRanking)
 	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 */
-	public Map<Category, List<PlayerCard>> calculateRanking(Tournament tournament, IProgressMonitor pMonitor) throws NotAllResultsException;
+	public Map<Category, Ranking> calculateRanking(Tournament tournament, IProgressMonitor pMonitor) throws NotAllResultsException;
 	
 	/**
 	 * Berechnen der Rangliste in einer Kategorie
 	 * @param category Kategorie zu der die Rangliste erstellt werden soll.
 	 * @param pMonitor ProgrssMonitor
-	 * @return Liste mit den Spielern Index 0 = Rang 1
+	 * @return Ranking (entweder instanz von FinalRanking oder IntermediateRanking)
 	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 */
-	public List<PlayerCard> calculateRanking(Category category, IProgressMonitor pMonitor) throws NotAllResultsException;
+	public Ranking calculateRanking(Category category, IProgressMonitor pMonitor) throws NotAllResultsException;
 
 }

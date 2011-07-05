@@ -20,12 +20,14 @@ import javax.persistence.TemporalType;
 @Table(name="Round")
 @NamedQueries({
 	@NamedQuery(name="AllRounds", query="select r from Round r order by r.number"),
-	@NamedQuery(name="RoundByNumber", query="select r from Round r where r.number = :number")
+	@NamedQuery(name="RoundByNumber", query="select r from Round r where r.number = :number"),
+	@NamedQuery(name="OpenRoundsByCategory", query="select distinct r from Round r join fetch r.pairings p where r.category = :category and p.result is null order by r.number"),
+	@NamedQuery(name="FinishedRoundsByCategory", query="select distinct r from Round r join fetch r.pairings p where r.category = :category and p.result is not null order by r.number"),
+	@NamedQuery(name="FinishedRoundsWithoutRankingByCategory", query="select distinct r from Round r join fetch r.pairings p where r.category = :category and p.result is not null and r.ranking is null order by r.number")
 })
 public class Round extends AbstractModelBean<Round> {
 	private static final long serialVersionUID = 6672346214824111918L;
 
-	
 	@Column(name="RoundNumber", nullable=false)
 	private Integer number;
 	
@@ -39,7 +41,7 @@ public class Round extends AbstractModelBean<Round> {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
-	@OneToOne(mappedBy="round", optional=true)
+	@OneToOne
 	private IntermediateRanking ranking;
 	
 	public Integer getNumber() {

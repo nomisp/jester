@@ -30,25 +30,30 @@ import ch.jester.ui.tournament.cnf.TournamentNavigator;
 
 public class RankingHandler extends AbstractCommandHandler implements IHandler {
 
-	private List<IRankingSystem> rankingSystems = new ArrayList<IRankingSystem>();
+	private List<IRankingSystem> rankingSystems = new ArrayList<IRankingSystem>(); // Alle Feinwertungssysteme in diesem Turnier
+	private Category cat;
+	private Tournament tournament;
+	private IRankingSystem primaryRankingSystem;
 	
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
-		final Category cat = getFirstSelectedAs(Category.class);
-		final Tournament tournament;
+		cat = getFirstSelectedAs(Category.class);
 		if (cat == null) {
 			tournament = getFirstSelectedAs(Tournament.class);
 		} else {
 			tournament = cat.getTournament();
 		}
-		List<RankingSystem> rankingSystemClasses = tournament.getRankingSystems();
+		List<RankingSystem> tournamentRankingSystems = tournament.getRankingSystems();
 		ServiceUtility su = new ServiceUtility();
 		IRankingSystemManager rankingSystemManager = su.getService(IRankingSystemManager.class);
 		List<IRankingSystemEntry> registredEntries = rankingSystemManager.getRegistredEntries();
 		for (IRankingSystemEntry rankingSystemEntry : registredEntries) {
-			for (RankingSystem rankingSystemClass : rankingSystemClasses) {
-				if (rankingSystemEntry.getImplementationClass().equals(rankingSystemClass)) {
+			for (RankingSystem rankingSystem : tournamentRankingSystems) {
+				if (rankingSystemEntry.getImplementationClass().equals(rankingSystem.getImplementationClass())) {
 					rankingSystems.add(rankingSystemEntry.getService());
+					if (rankingSystemEntry.getImplementationClass().equals(tournament.getPrimaryRankingSystem().getImplementationClass())) {
+						primaryRankingSystem = rankingSystemEntry.getService();
+					}
 				}
 			}
 		}
@@ -60,9 +65,9 @@ public class RankingHandler extends AbstractCommandHandler implements IHandler {
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
 					if (cat == null) {
-						rankingSystems.get(0).calculateRanking(tournament, monitor);	// TODO Peter: Evtl. für kommende Version mehrere Feinwertungen
+						primaryRankingSystem.calculateRanking(tournament, monitor);	// TODO Peter: Evtl. für kommende Version mehrere Feinwertungen
 					} else {
-						rankingSystems.get(0).calculateRanking(cat, monitor);	// TODO Peter: Evtl. für kommende Version mehrere Feinwertungen
+						primaryRankingSystem.calculateRanking(cat, monitor);	// TODO Peter: Evtl. für kommende Version mehrere Feinwertungen
 					}
 					
 				} catch (Exception e) {

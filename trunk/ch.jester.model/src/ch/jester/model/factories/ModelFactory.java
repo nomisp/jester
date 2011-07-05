@@ -4,9 +4,12 @@ import java.util.List;
 
 import ch.jester.model.Category;
 import ch.jester.model.Club;
+import ch.jester.model.FinalRanking;
+import ch.jester.model.IntermediateRanking;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
+import ch.jester.model.RankingEntry;
 import ch.jester.model.RankingSystem;
 import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
@@ -158,7 +161,7 @@ public class ModelFactory {
 	 * @param black Spieler schwarz
 	 * @return Paarung
 	 */
-	public Pairing createPairing(Player white, Player black) {
+	public Pairing createPairing(PlayerCard white, PlayerCard black) {
 		Pairing pairing = new Pairing();
 		pairing.setWhite(white);
 		pairing.setBlack(black);
@@ -172,7 +175,7 @@ public class ModelFactory {
 	 * @param round Runde
 	 * @return Paarung
 	 */
-	public Pairing createPairing(Player white, Player black, Round round) {
+	public Pairing createPairing(PlayerCard white, PlayerCard black, Round round) {
 		Pairing pairing = createPairing(white, black);
 		pairing.setRound(round);
 		return pairing;
@@ -195,6 +198,15 @@ public class ModelFactory {
 		Round round = new Round();
 		round.setNumber(number);
 		return round;
+	}
+	
+	/**
+	 * Erzeugt eine Runde anhand der Kategorie
+	 * @param category
+	 * @return neue Runde mit der höchsten Nummer der Runden in der gegebenen Kategorie
+	 */
+	public Round createRound(Category category) {
+		return createRound(category.getRounds().size()+1);
 	}
 	
 	/**
@@ -264,10 +276,38 @@ public class ModelFactory {
 		return new RankingSystemPoint(rankingSystem);
 	}
 	
-//	public FinalRanking createFinalRanking() {
-//		
-//	}
+	/**
+	 * Erzeugt ein Finales Ranking für eine Kategorie
+	 * @param category
+	 * @return Schlussrangliste
+	 */
+	public FinalRanking createFinalRanking(Category category) {
+		FinalRanking ranking = new FinalRanking();
+		ranking.setCategory(category);
+		return ranking;
+	}
 	
+	/**
+	 * Erzeugt eine Zwischenrangliste für eine Runde
+	 * @param round
+	 * @return Zwischenrangliste
+	 */
+	public IntermediateRanking createIntermediateRanking(Round round) {
+		IntermediateRanking ranking = new IntermediateRanking();
+		ranking.setRound(round);
+		return ranking;
+	}
+	
+	/**
+	 * Erzeugt einen Ranglisteneintrag für einen bestimmten Spieler
+	 * @param playerCard
+	 * @return Ranglisteneintrag
+	 */
+	public RankingEntry createRankingEntry(PlayerCard playerCard) {
+		RankingEntry rankingEntry = new RankingEntry();
+		rankingEntry.setPlayerCard(playerCard);
+		return rankingEntry;
+	}	
 	
 	public Class<?>[] getAllExportableClasses(){
 		return new Class[]{Category.class, Club.class, Pairing.class, Player.class, Round.class, Tournament.class};

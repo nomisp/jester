@@ -45,7 +45,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	private Integer number;
 	
 	@Column(nullable=true)
-	private Double points;
+	private Double points = 0.0;
 	
 	@OneToMany(mappedBy="playerCard", cascade={CascadeType.ALL}, orphanRemoval=true)
 	private List<RankingSystemPoint> rankingSystemPoints = new ArrayList<RankingSystemPoint>();
