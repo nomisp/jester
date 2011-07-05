@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.eclipse.core.runtime.Assert;
+
 import ch.jester.commonservices.api.persistency.IEntityObject;
 
 @MappedSuperclass
@@ -41,11 +43,14 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 	}
 
 	public void setId(Integer id) {
+		if(id!=null){
+			Assert.isLegal(id!=0);
+		}
 		this.id = id;
 	}
 	
 	public boolean isUnsafed(){
-		return id == null;
+		return id==null||id==0;
 	}
 	
 	/**
@@ -59,7 +64,7 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 		if (!(this.getClass().isInstance(o))) return false;
 		AbstractModelBean other = (AbstractModelBean) o;
 		//beide unsafed
-		if(this.id==null&&other.id==null){
+		if(this.isUnsafed()&&other.isUnsafed()){
 			return this==other;
 		}
 		//nur einer unsafed
@@ -99,7 +104,7 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 		Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		try {
 			T t = ((Class<T>) actualTypeArgument).newInstance();
-			t.setId(0);
+			t.setId(null);
 			return t;
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
@@ -119,7 +124,7 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 	protected T createCompleteClone(){
 		T o =  createCloneId0();
 		cloneFields((T) this, o);
-		o.setId(0);
+		o.setId(null);
 		return o;
 	}
 	

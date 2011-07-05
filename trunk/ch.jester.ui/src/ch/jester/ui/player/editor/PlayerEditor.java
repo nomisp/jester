@@ -4,7 +4,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.operations.UndoActionHandler;
 
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;

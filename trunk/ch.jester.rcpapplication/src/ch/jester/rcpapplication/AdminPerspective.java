@@ -8,7 +8,6 @@ public class AdminPerspective implements IPerspectiveFactory {
 	public void createInitialLayout(IPageLayout layout) {
 		layout.setEditorAreaVisible(true);
 		layout.setFixed(true);
-		
 	}
 
 }

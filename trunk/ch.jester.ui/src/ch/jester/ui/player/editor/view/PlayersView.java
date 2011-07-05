@@ -1,6 +1,8 @@
 package ch.jester.ui.player.editor.view;
 
 
+import java.util.List;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -33,6 +35,7 @@ import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.view.AbstractView;
 import ch.jester.common.utility.AdapterBinding;
 import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
@@ -140,17 +143,26 @@ public class PlayersView extends AbstractView{
 	}
 
 	class DNDListener implements DragSourceListener{
-
+		SelectionUtility su = new SelectionUtility(null);
 		@Override
 		public void dragStart(DragSourceEvent event) {
-			
-			//System.out.println(event);
+			//drag only saved entities
+			su.setSelection(tableViewer.getSelection());
+			List<IEntityObject> entities = su.getAsStructuredSelection().toList();
+			for(IEntityObject e:entities){
+				if(e.isUnsafed()){
+					event.doit=false;
+					return;
+				}
+			}
 			
 		}
 
 		@Override
 		public void dragSetData(DragSourceEvent event) {
 			// Here you do the convertion to the type which is expected.
+	
+			
 			IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
 			LocalSelectionTransfer.getTransfer().setSelection(selection);
 

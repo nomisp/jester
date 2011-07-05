@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import ch.jester.common.ui.handlers.api.IHandlerAdd;
 import ch.jester.common.ui.handlers.api.IHandlerEditor;
 import ch.jester.common.utility.AdapterUtility;
+import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 
 /**
@@ -39,6 +40,11 @@ public class DaoPasteHandler extends ClonePasteHandler<IEntityObject> {
 				// 	öffne Editor
 				editorCtrl.handleOpenEditor(pPasted.get(0));
 			}
+		}else{
+			//sonst einfach speichern
+			IDaoService<IEntityObject> saveService = (IDaoService<IEntityObject>) super.getServiceUtil().getDaoServiceByEntity(pPasted.get(0).getClass());
+			saveService.save(pPasted);
+			
 		}
 		return null;
 	}
