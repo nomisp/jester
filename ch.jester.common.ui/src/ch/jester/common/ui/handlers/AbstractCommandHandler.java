@@ -12,9 +12,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.osgi.framework.FrameworkUtil;
 
+import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.util.ServiceUtility;
 
 /**
@@ -25,6 +27,7 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 	protected ExecutionEvent mEvent;
 	protected SelectionUtility mSelUtility;
 	protected ServiceUtility mServiceUtility;
+	protected ILogger mLogger;
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -32,6 +35,7 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 		mSelUtility = new SelectionUtility(getSelection());
 		mServiceUtility = new ServiceUtility(FrameworkUtil.getBundle(
 				AbstractCommandHandler.this.getClass()).getBundleContext());
+		mLogger = Activator.getDefault().getActivationContext().getLogger();
 		return executeInternal(event);
 	}
 

@@ -41,7 +41,7 @@ public class Round extends AbstractModelBean<Round> {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL, orphanRemoval=true)
 	private IntermediateRanking ranking;
 	
 	public Integer getNumber() {

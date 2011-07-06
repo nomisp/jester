@@ -26,7 +26,13 @@ import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
+import ch.jester.ui.tournament.nl1.Messages;
 
+/**
+ * Handler zum Erzeugen von Paarungen
+ * @author Peter
+ *
+ */
 public class PairingHandler extends AbstractCommandHandler implements IHandler {
 	
 	private IPairingAlgorithm pairingAlgorithm;
@@ -53,7 +59,7 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 		}
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		final Shell shell = window.getShell();
-		Job job = new Job("Pairing") {
+		Job job = new Job("Pairing") { //$NON-NLS-1$
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
@@ -64,13 +70,19 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 					if (exception != e) {
 						// TODO Peter: Fehlermeldung übersetzen!
 						if (exception instanceof PairingNotPossibleException) {
-							final String messageTitel = "Pairing not possible";
-							final String errorMessage = "Pairing is not possible!\nCheck the number of players and rounds of the category.";
+							final String messageTitel = Messages.PairingHandler_msg_PairingNotPossible_title;
+							final String errorMessage = Messages.PairingHandler_msg_PairingNotPossible_text;
 							showErrorDialog(shell, messageTitel, errorMessage);
+							return Status.CANCEL_STATUS;
 						} else if (exception instanceof NotAllResultsException) {
-							final String messageTitel = "Not all Results";
-							final String errorMessage = "There are not all results available from the last round!";
+							final String messageTitel = Messages.PairingHandler_msg_NotAllResults_title;
+							final String errorMessage = Messages.PairingHandler_msg_NotAllResults_text;
 							showErrorDialog(shell, messageTitel, errorMessage);
+							return Status.CANCEL_STATUS;
+						} else {
+							showErrorDialog(shell, Messages.PairingHandler_msg_UnknownError_title, Messages.PairingHandler_msg_UnknownError_text);
+							mLogger.error(e);
+							return Status.CANCEL_STATUS;
 						}
 					} else {
 						return Status.CANCEL_STATUS;
@@ -81,7 +93,7 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 
 			private void showErrorDialog(final Shell shell,
 					final String messageTitel, final String errorMessage) {
-				UIJob uiJob = new UIJob("Error-Message") {
+				UIJob uiJob = new UIJob("Error-Message") { //$NON-NLS-1$
 					
 					@Override
 					public IStatus runInUIThread(IProgressMonitor monitor) {
