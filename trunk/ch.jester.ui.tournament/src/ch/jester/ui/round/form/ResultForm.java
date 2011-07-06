@@ -26,6 +26,7 @@ import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Pairing;
+import ch.jester.model.Player;
 import ch.jester.model.Result;
 import ch.jester.model.Round;
 import ch.jester.ui.round.editors.ResultController;
@@ -33,6 +34,7 @@ import ch.jester.ui.tournament.internal.Activator;
 
 public class ResultForm extends FormPage implements IDirtyManagerProvider{
 	private List<Section> mSectionList = new ArrayList<Section>();
+	private StringBuilder mLabelBuilder = new StringBuilder();
 	class SelectionSetter implements PropertyChangeListener{
 		ComboViewer mViewer;
 		Pairing mPairing;
@@ -155,13 +157,23 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		}
 		
 	}
-	private void createFileds(IManagedForm managedForm, Composite c, Round r, Pairing p) {
-		String black = p.getBlack().getPlayer().getLastName()+", "+p.getBlack().getPlayer().getFirstName();
-		String white = p.getWhite().getPlayer().getLastName()+", "+p.getWhite().getPlayer().getFirstName();
-		Result result = null;
-		String text = white+" vs "+black;
-		
-		managedForm.getToolkit().createLabel(c, text, SWT.NONE);
+	private void createFileds(IManagedForm managedForm, Composite c, Round r, Pairing p) 
+	{
+		mLabelBuilder.delete(0, mLabelBuilder.length());
+		Player player = p.getBlack().getPlayer();
+		if(player!=null){
+			mLabelBuilder.append(player.getLastName());
+			mLabelBuilder.append(", ");
+			mLabelBuilder.append(player.getFirstName());
+			mLabelBuilder.append(" vs ");
+		}
+		player = p.getWhite().getPlayer();
+		if(player!=null){
+			mLabelBuilder.append(player.getLastName());
+			mLabelBuilder.append(", ");
+			mLabelBuilder.append(player.getFirstName());
+		}
+		managedForm.getToolkit().createLabel(c, mLabelBuilder.toString(), SWT.NONE);
 		ComboViewer viewer = new ComboViewer(c, SWT.READ_ONLY);
 
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
