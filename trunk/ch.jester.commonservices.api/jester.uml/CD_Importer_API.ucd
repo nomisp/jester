@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="CD_Importer_API" size="1863,1000" id="" metadata="uml2-1.0" initialized="true" scrolledY="-20" tag="1000" key="32303037303533312D313030302063682E6A65737465722E636F6D6D6F6E73657276696365732E6170692F6D61747468696173">
+  <children xsi:type="editmodel:InterfaceEditModel" name="IDuplicateChecker" location="1200,690" size="505,167" id="ch.jester.commonservices.api.importer/IDuplicateChecker" runTimeClassModel="checkDuplicates(Lch.jester.commonservices.api.persistency.IDaoService;),createDuplicationCheckingQuery(Lch.jester.commonservices.api.persistency.IDaoService;),getDuplicationKeys(Ljava.util.List;),handleDuplicates(Lch.jester.commonservices.api.persistency.IDaoService;Ljava.util.List;),getParameter()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="482,90">
+      <children xsi:type="editmodel:MethodEditModel" name="checkDuplicates" id="ch.jester.commonservices.api.importer/IDuplicateChecker#checkDuplicates(Lch.jester.commonservices.api.persistency.IDaoService;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createDuplicationCheckingQuery" id="ch.jester.commonservices.api.importer/IDuplicateChecker#createDuplicationCheckingQuery(Lch.jester.commonservices.api.persistency.IDaoService;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDuplicationKeys" id="ch.jester.commonservices.api.importer/IDuplicateChecker#getDuplicationKeys(Ljava.util.List;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getParameter" id="ch.jester.commonservices.api.importer/IDuplicateChecker#getParameter()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="handleDuplicates" id="ch.jester.commonservices.api.importer/IDuplicateChecker#handleDuplicates(Lch.jester.commonservices.api.persistency.IDaoService;Ljava.util.List;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="IImportAttributeMatcher" location="870,690" size="283,185" id="ch.jester.commonservices.api.importer/IImportAttributeMatcher" runTimeClassModel="setInputLinking(Ljava.util.HashMap;),inputLinking,getInputLinking(),getInputAttributes(),getDomainObjectAttributes(),resetInputLinking()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="197,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="inputLinking" id="ch.jester.commonservices.api.importer/IImportAttributeMatcher#inputLinking"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="260,90">
+      <children xsi:type="editmodel:MethodEditModel" name="getDomainObjectAttributes" id="ch.jester.commonservices.api.importer/IImportAttributeMatcher#getDomainObjectAttributes()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getInputAttributes" id="ch.jester.commonservices.api.importer/IImportAttributeMatcher#getInputAttributes()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getInputLinking" id="ch.jester.commonservices.api.importer/IImportAttributeMatcher#getInputLinking()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="resetInputLinking" id="ch.jester.commonservices.api.importer/IImportAttributeMatcher#resetInputLinking()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setInputLinking" id="ch.jester.commonservices.api.importer/IImportAttributeMatcher#setInputLinking(Ljava.util.HashMap;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.8/@sourceConnections.0" name="IImportHandler" location="48,180" size="433,95" id="ch.jester.commonservices.api.importer/IImportHandler" runTimeClassModel="handleImport(Ljava.io.InputStream;Lorg.eclipse.core.runtime.IProgressMonitor;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="410,18">
+      <children xsi:type="editmodel:MethodEditModel" name="handleImport" id="ch.jester.commonservices.api.importer/IImportHandler#handleImport(Ljava.io.InputStream;Lorg.eclipse.core.runtime.IProgressMonitor;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="org.eclipse.core.runtime/IAdaptable&lt;-ch.jester.commonservices.api.importer/IImportHandler" source="//@children.2" target="//@children.11" targetEnd="//@children.2/@sourceConnections.0/@children.1" sourceEnd="//@children.2/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="134,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="122,95"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.9/@sourceConnections.0 //@children.4/@sourceConnections.0" name="IImportHandlerEntry" location="960,-15" size="208,149" id="ch.jester.commonservices.api.importer/IImportHandlerEntry" runTimeClassModel="getDescription(),getShortType(),sHORTTYPE,tYPEDESCRIPTION">
+    <children xsi:type="editmodel:CompartmentEditModel" size="144,36">
+      <children xsi:type="editmodel:AttributeEditModel" name="sHORTTYPE" location="18,60" id="ch.jester.commonservices.api.importer/IImportHandlerEntry#sHORTTYPE"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="tYPEDESCRIPTION" id="ch.jester.commonservices.api.importer/IImportHandlerEntry#tYPEDESCRIPTION"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="133,36">
+      <children xsi:type="editmodel:MethodEditModel" name="getDescription" id="ch.jester.commonservices.api.importer/IImportHandlerEntry#getDescription()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getShortType" id="ch.jester.commonservices.api.importer/IImportHandlerEntry#getShortType()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="IImportManager" location="495,180" size="573,224" id="ch.jester.commonservices.api.importer/IImportManager" runTimeClassModel="ch.jester.commonservices.api.importer.IImportManager.IImportFilter,doImport(Lch.jester.commonservices.api.importer.IImportHandlerEntry;Ljava.io.InputStream;Lorg.eclipse.core.runtime.IProgressMonitor;),createMatchingExtension(Ljava.lang.String;),filter(Lch.jester.commonservices.api.importer.IImportManager.IImportFilter;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="550,54">
+      <children xsi:type="editmodel:MethodEditModel" name="createMatchingExtension" id="ch.jester.commonservices.api.importer/IImportManager#createMatchingExtension(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="doImport" id="ch.jester.commonservices.api.importer/IImportManager#doImport(Lch.jester.commonservices.api.importer.IImportHandlerEntry;Ljava.io.InputStream;Lorg.eclipse.core.runtime.IProgressMonitor;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="filter" id="ch.jester.commonservices.api.importer/IImportManager#filter(Lch.jester.commonservices.api.importer.IImportManager.IImportFilter;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="177,83">
+      <children xsi:type="editmodel:InterfaceEditModel" name="IImportFilter" size="177,81" id="ch.jester.commonservices.api.importer/IImportManager$IImportFilter" runTimeClassModel="match(Ljava.lang.String;)">
+        <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+        <children xsi:type="editmodel:CompartmentEditModel" size="154,18">
+          <children xsi:type="editmodel:MethodEditModel" name="match" id="ch.jester.commonservices.api.importer/IImportManager$IImportFilter#match(Ljava.lang.String;)"/>
+        </children>
+        <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+        <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+      </children>
+    </children>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="ch.jester.commonservices.api.importer/IImportManager-Soyatec::Import->ch.jester.commonservices.api.importer/IImportHandlerEntry" source="//@children.4" target="//@children.3" targetEnd="//@children.4/@sourceConnections.0/@children.2" label="//@children.4/@sourceConnections.0/@children.0" sourceEnd="//@children.4/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="41,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="518,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="53,149"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="ch.jester.commonservices.api.components/IEPEntryComponentService&lt;-ch.jester.commonservices.api.importer/IImportManager" source="//@children.4" target="//@children.10" targetEnd="//@children.4/@sourceConnections.1/@children.1" sourceEnd="//@children.4/@sourceConnections.1/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="105,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="150,95"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="ILink" location="75,585" size="208,149" id="ch.jester.commonservices.api.importer/ILink" runTimeClassModel="setRoot(Ljava.lang.String;),download(Ljava.lang.String;),getURL(),getText()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="175,72">
+      <children xsi:type="editmodel:MethodEditModel" name="download" id="ch.jester.commonservices.api.importer/ILink#download(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getText" id="ch.jester.commonservices.api.importer/ILink#getText()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getURL" id="ch.jester.commonservices.api.importer/ILink#getURL()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setRoot" id="ch.jester.commonservices.api.importer/ILink#setRoot(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="ITestableImportHandler" location="360,690" size="484,95" id="ch.jester.commonservices.api.importer/ITestableImportHandler" runTimeClassModel="handleImport(LT;ILorg.eclipse.core.runtime.IProgressMonitor;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="461,18">
+      <children xsi:type="editmodel:MethodEditModel" name="handleImport" id="ch.jester.commonservices.api.importer/ITestableImportHandler#handleImport(LT;ILorg.eclipse.core.runtime.IProgressMonitor;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="IVirtualTable" location="1348,60" size="357,602" id="ch.jester.commonservices.api.importer/IVirtualTable" runTimeClassModel="getHeaderEntries(),processRow(LT;I),getCells(),getDynamicInput(I),getRow(I),clearCells(),addCell(Lch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;),getTotalRows(),canAddCells(),ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="257,162">
+      <children xsi:type="editmodel:MethodEditModel" name="addCell" id="ch.jester.commonservices.api.importer/IVirtualTable#addCell(Lch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="canAddCells" id="ch.jester.commonservices.api.importer/IVirtualTable#canAddCells()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="clearCells" id="ch.jester.commonservices.api.importer/IVirtualTable#clearCells()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getCells" id="ch.jester.commonservices.api.importer/IVirtualTable#getCells()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDynamicInput" id="ch.jester.commonservices.api.importer/IVirtualTable#getDynamicInput(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getHeaderEntries" id="ch.jester.commonservices.api.importer/IVirtualTable#getHeaderEntries()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getRow" id="ch.jester.commonservices.api.importer/IVirtualTable#getRow(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTotalRows" id="ch.jester.commonservices.api.importer/IVirtualTable#getTotalRows()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="processRow" id="ch.jester.commonservices.api.importer/IVirtualTable#processRow(LT;I)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="334,353">
+      <children xsi:type="editmodel:InterfaceEditModel" name="IVirtualCell" size="334,351" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell" runTimeClassModel="stop,setStop(I),setName(Ljava.lang.String;),setStart(I),delimiter,getName(),getStop(),delimiterSequence,setDelimiterSequence(I),setDelimiter(Ljava.lang.String;),start,createCellContent(Ljava.util.List;Ljava.lang.String;),name,getStart(),getDelimiter(),getDelimiterSequence()">
+        <children xsi:type="editmodel:CompartmentEditModel" size="124,90">
+          <children xsi:type="editmodel:AttributeEditModel" name="delimiter" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#delimiter"/>
+          <children xsi:type="editmodel:AttributeEditModel" name="delimiterSequence" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#delimiterSequence"/>
+          <children xsi:type="editmodel:AttributeEditModel" name="name" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#name"/>
+          <children xsi:type="editmodel:AttributeEditModel" name="start" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#start"/>
+          <children xsi:type="editmodel:AttributeEditModel" name="stop" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#stop"/>
+        </children>
+        <children xsi:type="editmodel:CompartmentEditModel" size="311,198">
+          <children xsi:type="editmodel:MethodEditModel" name="createCellContent" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#createCellContent(Ljava.util.List;Ljava.lang.String;)"/>
+          <children xsi:type="editmodel:MethodEditModel" name="getDelimiter" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#getDelimiter()"/>
+          <children xsi:type="editmodel:MethodEditModel" name="getDelimiterSequence" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#getDelimiterSequence()"/>
+          <children xsi:type="editmodel:MethodEditModel" name="getName" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#getName()"/>
+          <children xsi:type="editmodel:MethodEditModel" name="getStart" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#getStart()"/>
+          <children xsi:type="editmodel:MethodEditModel" name="getStop" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#getStop()"/>
+          <children xsi:type="editmodel:MethodEditModel" name="setDelimiter" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#setDelimiter(Ljava.lang.String;)"/>
+          <children xsi:type="editmodel:MethodEditModel" name="setDelimiterSequence" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#setDelimiterSequence(I)"/>
+          <children xsi:type="editmodel:MethodEditModel" name="setName" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#setName(Ljava.lang.String;)"/>
+          <children xsi:type="editmodel:MethodEditModel" name="setStart" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#setStart(I)"/>
+          <children xsi:type="editmodel:MethodEditModel" name="setStop" id="ch.jester.commonservices.api.importer/IVirtualTable$IVirtualCell#setStop(I)"/>
+        </children>
+        <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+        <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+      </children>
+    </children>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="IWebImportAdapter" location="60,435" size="326,131" id="ch.jester.commonservices.api.importer/IWebImportAdapter" runTimeClassModel="setIImportHandler(Lch.jester.commonservices.api.importer.IImportHandler;),getLinks(),setDownloadAddress(Ljava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="303,54">
+      <children xsi:type="editmodel:MethodEditModel" name="getLinks" id="ch.jester.commonservices.api.importer/IWebImportAdapter#getLinks()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setDownloadAddress" id="ch.jester.commonservices.api.importer/IWebImportAdapter#setDownloadAddress(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setIImportHandler" id="ch.jester.commonservices.api.importer/IWebImportAdapter#setIImportHandler(Lch.jester.commonservices.api.importer.IImportHandler;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="ch.jester.commonservices.api.importer/IImportHandler&lt;-ch.jester.commonservices.api.importer/IWebImportAdapter" source="//@children.8" target="//@children.2" targetEnd="//@children.8/@sourceConnections.0/@children.1" sourceEnd="//@children.8/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="162,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="174,95"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" name="IWebImportHandlerEntry" location="1005,420" size="208,113" id="ch.jester.commonservices.api.importer/IWebImportHandlerEntry" runTimeClassModel="getProviderName(),getImportHandlerId()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="153,36">
+      <children xsi:type="editmodel:MethodEditModel" name="getImportHandlerId" id="ch.jester.commonservices.api.importer/IWebImportHandlerEntry#getImportHandlerId()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getProviderName" id="ch.jester.commonservices.api.importer/IWebImportHandlerEntry#getProviderName()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="ch.jester.commonservices.api.importer/IImportHandlerEntry&lt;-ch.jester.commonservices.api.importer/IWebImportHandlerEntry" source="//@children.9" target="//@children.3" targetEnd="//@children.9/@sourceConnections.0/@children.1" sourceEnd="//@children.9/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="81,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="126,149"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.4/@sourceConnections.1" name="IEPEntryComponentService" location="450,-15" size="256,95" id="ch.jester.commonservices.api.components/IEPEntryComponentService">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="165,18">
+      <children xsi:type="editmodel:MethodEditModel" name="getRegistredEntries" id="ch.jester.commonservices.api.components/IEPEntryComponentService#getRegistredEntries()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.2/@sourceConnections.0" name="IAdaptable" location="60,-15" size="246,95" id="org.eclipse.core.runtime/IAdaptable">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="223,18">
+      <children xsi:type="editmodel:MethodEditModel" name="getAdapter" id="org.eclipse.core.runtime/IAdaptable#getAdapter(Ljava.lang.Class;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+</editmodel:ClassDiagramEditModel>
