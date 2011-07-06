@@ -78,16 +78,29 @@ public class RoundNodeModelContentProvider {
 			Player p1 = p.getBlack().getPlayer();
 			Player p2 = p.getWhite().getPlayer();
 			
-			ZestDataNode pnode1 = new PlayerDataNode(p1.getId()+"", p1.getLastName()+", "+p1.getFirstName(),p, p1, PlayerColor.B, mController);
-			ZestDataNode pnode2 = new PlayerDataNode(p2.getId()+"", p2.getLastName()+", "+p2.getFirstName(),p, p2, PlayerColor.W, mController);
+			PlayerDataNode blackNode = createPlayerNode(p, p1, PlayerColor.B);
+			PlayerDataNode whiteNode = createPlayerNode(p, p2, PlayerColor.W);
 			allnodes.add(pairingNode);
-			util.connect(pairingNode, pnode2);
-			util.connect(pairingNode, pnode1);
-			allnodes.add(pnode1);
-			allnodes.add(pnode2);
+			if(!whiteNode.isNullPlayer()){
+				util.connect(pairingNode, whiteNode);
+				allnodes.add(whiteNode);
+			}
+			if(!blackNode.isNullPlayer()){
+				util.connect(pairingNode, blackNode);
+				allnodes.add(blackNode);
+			}
+			//allnodes.add(blackNode);
+			//allnodes.add(whiteNode);
 			//util.connect(pnode1, pnode2);
 		}
 		util.establishConnections();
+	}
+	private PlayerDataNode createPlayerNode(Pairing p, Player p1, PlayerColor c){
+		if(p1!=null){
+			return new PlayerDataNode(p1.getId()+"", p1.getLastName()+", "+p1.getFirstName(),p, p1, c, mController);
+		}else{
+			return PlayerDataNode.createNULLPlayerDataNode(p, c, mController);
+		}
 	}
 
 	public Object getInput() {

@@ -9,6 +9,7 @@ public class PlayerDataNode extends ZestDataNode {
 	public enum PlayerColor{
 		B, W;
 	}
+	private static String NULL_ID = "playernode_null";
 	private Pairing pairing;
 	private PlayerColor color;
 	private ResultController mController;
@@ -18,7 +19,17 @@ public class PlayerDataNode extends ZestDataNode {
 		this.pairing = pairing;
 		mController = pController;
 	}
+	public static PlayerDataNode createNULLPlayerDataNode(Pairing p, PlayerColor c, ResultController ctrl){
+		return new PlayerDataNode("playernode_null","",p, null, c, ctrl);
+	}
 	
+	public boolean isNullPlayer(){
+		return this.getId().equals(getNULLDataNodeID());
+	}
+	
+	public static String getNULLDataNodeID(){
+		return NULL_ID;
+	}
 	public boolean isBlack(){
 		return color ==PlayerColor.B;
 	}
