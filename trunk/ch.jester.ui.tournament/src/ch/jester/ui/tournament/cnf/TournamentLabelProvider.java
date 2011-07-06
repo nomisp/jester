@@ -11,6 +11,7 @@ import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
+import ch.jester.model.factories.PlayerNamingUtility;
 
 import ch.jester.ui.tournament.internal.Activator;
 
@@ -28,9 +29,8 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 			return ((Category)element).getDescription();
 		} else if (element instanceof Player) {
 			Player player = (Player)element;
-			StringBuffer sb = new StringBuffer(player.getFirstName());
-			sb.append(" ");
-			sb.append(player.getLastName());
+			StringBuffer sb = new StringBuffer();
+			sb.append(PlayerNamingUtility.createName(player));
 			return  sb.toString();
 		} else if (element instanceof Round) {
 			Round round = (Round)element;
@@ -40,13 +40,7 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 		} else if (element instanceof Pairing) {
 			Pairing pairing = ((Pairing)element);
 			StringBuffer sb = new StringBuffer();
-			sb.append(pairing.getWhite().getPlayer().getFirstName());
-			sb.append(" ");
-			sb.append(pairing.getWhite().getPlayer().getLastName());
-			sb.append("-");
-			sb.append(pairing.getBlack().getPlayer().getFirstName());
-			sb.append(" ");
-			sb.append(pairing.getBlack().getPlayer().getLastName());
+			sb.append(PlayerNamingUtility.createPairingName(pairing, " - "));
 			if (pairing.getResult() != null) {
 				sb.append(": ");
 				sb.append(pairing.getResult());
@@ -79,17 +73,7 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 		} else if (element instanceof Pairing) {
 			Pairing pairing = ((Pairing)element);
 			StringBuffer sb = new StringBuffer();
-			sb.append(pairing.getWhite().getPlayer().getNationalCode());
-			sb.append(" ");
-			sb.append(pairing.getWhite().getPlayer().getFirstName());
-			sb.append(" ");
-			sb.append(pairing.getWhite().getPlayer().getLastName());
-			sb.append("-");
-			sb.append(pairing.getBlack().getPlayer().getNationalCode());
-			sb.append(" ");
-			sb.append(pairing.getBlack().getPlayer().getFirstName());
-			sb.append(" ");
-			sb.append(pairing.getBlack().getPlayer().getLastName());
+			sb.append(PlayerNamingUtility.createPairingName(pairing, " - "));
 			if (pairing.getResult() != null) {
 				sb.append(": ");
 				sb.append(pairing.getResult());
