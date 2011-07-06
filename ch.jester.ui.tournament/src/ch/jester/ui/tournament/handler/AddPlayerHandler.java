@@ -20,6 +20,7 @@ import ch.jester.model.Category;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.factories.ModelFactory;
+import ch.jester.model.factories.PlayerNamingUtility;
 import ch.jester.ui.tournament.cnf.PlayerFolder;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
 
@@ -180,9 +181,7 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 		public String getText(Object element) {
 			Player p = (Player)element;
 			StringBuffer sb = new StringBuffer();
-			sb.append(p.getFirstName());
-			sb.append(" ");
-			sb.append(p.getLastName());
+			sb.append(PlayerNamingUtility.createName(p));
 			sb.append(" ");
 			sb.append(p.getCity());
 			return  sb.toString();
