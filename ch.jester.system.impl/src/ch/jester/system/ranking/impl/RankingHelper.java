@@ -1,19 +1,29 @@
 package ch.jester.system.ranking.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
+import ch.jester.model.Pairing;
 import ch.jester.model.PlayerCard;
+import ch.jester.model.Ranking;
+import ch.jester.model.RankingEntry;
+import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
+import ch.jester.model.factories.ModelFactory;
 import ch.jester.orm.ORMPlugin;
 import ch.jester.system.exceptions.NotAllResultsException;
 
+/**
+ * Hilfsklasse für das Erstellen von Ranglisten
+ * @author Peter
+ *
+ */
 public class RankingHelper {
 	
-	private static ServiceUtility mServiceUtil = new ServiceUtility();
 	private static EntityManager em = ORMPlugin.getJPAEntityManager();
 
 	/**
@@ -22,7 +32,6 @@ public class RankingHelper {
 	 * @return
 	 */
 	public static Round getLastFinishedRound(Category category) {
-//		EntityManager em = ORMPlugin.getJPAEntityManager();
 		em.joinTransaction();
 		@SuppressWarnings("unchecked")
 		List<Round> finishedRounds = em.createNamedQuery("FinishedRoundsByCategory")
@@ -46,7 +55,6 @@ public class RankingHelper {
 	 * @return
 	 */
 	public static List<Round> getFinishedRounds(Category category) {
-//		EntityManager em = ORMPlugin.getJPAEntityManager();
 		em.joinTransaction();
 		@SuppressWarnings("unchecked")
 		List<Round> finishedRounds = em.createNamedQuery("FinishedRoundsByCategory")
@@ -62,9 +70,10 @@ public class RankingHelper {
 	 * @return true wenn alle Runden beendet (alle Resultate erfasst) sind.
 	 */
 	public static boolean allResultsAvailable(Category category) {
-//		em = ORMPlugin.getJPAEntityManager();
 		@SuppressWarnings("unchecked")
-		List<Round> openRounds = em.createNamedQuery("OpenRounds").getResultList();
+		List<Round> openRounds = em.createNamedQuery("OpenRoundsByCategory")
+									.setParameter("category", category)
+									.getResultList();
 		return openRounds.size() == 0;
 	}
 	
@@ -86,9 +95,9 @@ public class RankingHelper {
 											.setParameter("category", category)
 											.setParameter("finishedRounds", finishedRounds)
 											.getResultList();
-		for (PlayerCard playerCard : ranking) {
-			System.out.println(playerCard.getPlayer() + " : " + playerCard.getPoints());
-		}
+//		for (PlayerCard playerCard : ranking) {
+//			System.out.println(playerCard.getPlayer() + " : " + playerCard.getPoints());
+//		}
 		return ranking;
 	}
 
@@ -108,5 +117,76 @@ public class RankingHelper {
 //			System.out.println(playerCard.getPlayer() + " : " + playerCard.getPoints());
 //		}
 		return ranking;
+	}
+	
+	/**
+	 * Liefert eine Liste mit allen Paarungen eines Spielers innerhalb einer Kategorie
+	 * @param player
+	 * @param category
+	 * @return
+	 */
+	public static List<Pairing> getPlayerPairings(PlayerCard player, Category category) {
+		em.joinTransaction();
+		@SuppressWarnings("unchecked")
+		List<Pairing> pairings = em.createNamedQuery("PairingsByPlayerCardAndCategory")
+											.setParameter("player", player)
+											.setParameter("category", category)
+											.getResultList();
+		return pairings;
+	}
+	
+	/**
+	 * Liefert eine Liste mit den Gegnern eines Spielers
+	 * innerhalb der gegebenen Runden.
+	 * @param player
+	 * @param rounds Runden, welche für die Rangliste berücksichtigt werden
+	 * @return
+	 */
+	public static List<PlayerCard> getOpponents(PlayerCard player, List<Round> rounds) {
+		List<PlayerCard> opponents = new ArrayList<PlayerCard>();
+		for (Round round : rounds) {
+			for (Pairing pairing : round.getPairings()) {
+				if (pairing.getWhite().equals(player)) {
+					opponents.add(pairing.getBlack());
+				} else if (pairing.getBlack().equals(player)) {
+					opponents.add(pairing.getWhite());
+				}
+			}
+		}
+		return opponents;
+	}
+
+	/**
+	 * Erzeugen des Rankings anhand der Liste mit den PlayerCards
+	 * @param ranking Entweder ein FinalRanking oder ein IntermediateRanking
+	 * @param players	Liste mit den PlayerCards welche bereits alle einen entsprechenden RankingSystemPoint haben.<br/>
+	 * 					<b>Die Liste muss nach Punkten vorsortiert sein!</b><br/>
+	 * 					<code>RankingHelper.getInitialFinalRanking()</code> oder 
+	 * 					<code>RankingHelper.getInitialIntermediateRanking()</code>
+	 * @param rankingSystem RankingSystem-shortType des gewünschten RankingSystems (wie er im RankingSystemPoint definiert ist)
+	 */
+	public static void createRanking(Ranking ranking, List<PlayerCard> players, String rankingSystem) {
+		List<RankingSystemPoint> rankingSystemPoints = new ArrayList<RankingSystemPoint>(players.size());
+		ModelFactory modelFactory = ModelFactory.getInstance();
+		for (PlayerCard playerCard : players) {
+			rankingSystemPoints.add(playerCard.getRankingSystemPoint(rankingSystem)); // TODO Peter: evtl. null check und Exception schmeissen
+		}
+		Collections.sort(rankingSystemPoints);
+		for (int i = 0; i < rankingSystemPoints.size(); i++) {
+			RankingSystemPoint rankingSystemPoint = rankingSystemPoints.get(i);
+			RankingEntry rankingEntry = modelFactory.createRankingEntry(rankingSystemPoint.getPlayerCard());
+			rankingEntry.setPosition(i+1);
+			ranking.addRankingEntry(rankingEntry);
+		}
+	}
+	
+	/**
+	 * Zu debugzwecken:
+	 * 
+	 */
+	public static void printRanking(Ranking ranking) {
+		for (RankingEntry pos : ranking.getRankingEntries()) {
+			System.out.println(pos);
+		}
 	}
 }

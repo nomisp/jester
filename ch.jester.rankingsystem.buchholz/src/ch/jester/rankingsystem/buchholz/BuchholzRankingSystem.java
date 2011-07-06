@@ -1,12 +1,10 @@
 package ch.jester.rankingsystem.buchholz;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -15,16 +13,16 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.FinalRanking;
 import ch.jester.model.IntermediateRanking;
-import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Ranking;
+import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.orm.ORMPlugin;
+import ch.jester.rankingsystem.buchholz.internal.BuchholzActivator;
 import ch.jester.system.api.ranking.IRankingSystem;
 import ch.jester.system.exceptions.NotAllResultsException;
-import ch.jester.system.pairing.impl.PairingHelper;
 import ch.jester.system.ranking.impl.RankingHelper;
 
 /**
@@ -68,6 +66,18 @@ public class BuchholzRankingSystem implements IRankingSystem {
 		if (!RankingHelper.allResultsAvailable(category)) throw new NotAllResultsException("NotAllResultsForRanking");
 		FinalRanking ranking = ModelFactory.getInstance().createFinalRanking(category);
 		
+		List<PlayerCard> initialFinalRanking = RankingHelper.getInitialFinalRanking(category);
+		
+		for (PlayerCard playerCard : initialFinalRanking) {
+			List<PlayerCard> opponents = RankingHelper.getOpponents(playerCard, category.getRounds());
+			initRankingSystemPoint(playerCard);
+			double opponentPoints = calculateBuchholzPoints(opponents);
+			RankingSystemPoint rankingSystemPoint = playerCard.getRankingSystemPoint(BuchholzActivator.RANKINGSYSTEM);
+			rankingSystemPoint.setPoints(opponentPoints);
+		}
+		
+		RankingHelper.createRanking(ranking, initialFinalRanking, BuchholzActivator.RANKINGSYSTEM);
+		
 		saveFinalRanking(category, ranking);
 		return ranking;
 	}
@@ -82,11 +92,54 @@ public class BuchholzRankingSystem implements IRankingSystem {
 		Round lastFinishedRound = RankingHelper.getLastFinishedRound(category); 
 		if (lastFinishedRound == null) throw new NotAllResultsException("NotAllResultsForRanking");
 		IntermediateRanking ranking = ModelFactory.getInstance().createIntermediateRanking(lastFinishedRound);
+		
 		List<Round> finishedRounds = RankingHelper.getFinishedRounds(category);
 		List<PlayerCard> initialIntermediateRanking = RankingHelper.getInitialIntermediateRanking(category);
 		
+		for (PlayerCard playerCard : initialIntermediateRanking) {
+			List<PlayerCard> opponents = RankingHelper.getOpponents(playerCard, finishedRounds);
+			initRankingSystemPoint(playerCard);
+			double opponentPoints = calculateBuchholzPoints(opponents);
+			RankingSystemPoint rankingSystemPoint = playerCard.getRankingSystemPoint(BuchholzActivator.RANKINGSYSTEM);
+			rankingSystemPoint.setPoints(opponentPoints);
+		}
+		
+		RankingHelper.createRanking(ranking, initialIntermediateRanking, BuchholzActivator.RANKINGSYSTEM);
+		
+		RankingHelper.printRanking(ranking); // TODO Peter: Bei Task complete rauslöschen!
+		
 		saveIntermediateRanking(lastFinishedRound, ranking);
 		return ranking;
+	}
+
+	/**
+	 * Berechnen der Summe der erzielten Punkte aller Gegner
+	 * -> Eigentlicher Buchholz Algorithmus
+	 * @param opponents
+	 * @return Summe der Punkte der Gegner
+	 */
+	private double calculateBuchholzPoints(List<PlayerCard> opponents) {
+		double opponentPoints = 0.0;
+		for (PlayerCard opponent : opponents) {
+			opponentPoints += opponent.getPoints();
+		}
+		return opponentPoints;
+	}
+
+	/**
+	 * Prüfen ob die PlayerCard bereits einen Buchholz-RankingSystemPoint hat.
+	 * Falls nicht wird ein neuer erzeugt.
+	 * Falls es schon einen gibt, werden die Punkte auf 0.0 zurückgesetzt.
+	 * @param playerCard
+	 */
+	private void initRankingSystemPoint(PlayerCard playerCard) {
+		RankingSystemPoint rankingSystemPoint = playerCard.getRankingSystemPoint(BuchholzActivator.RANKINGSYSTEM);
+		if (rankingSystemPoint == null ) {
+			rankingSystemPoint = ModelFactory.getInstance().createRankingSystemPoint(BuchholzActivator.RANKINGSYSTEM);
+			playerCard.addRankingSystemPoint(rankingSystemPoint);
+		} else {
+			rankingSystemPoint.setPoints(0.0);
+		}
 	}
 
 	/**

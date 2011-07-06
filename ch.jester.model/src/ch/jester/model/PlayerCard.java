@@ -101,6 +101,18 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	public List<RankingSystemPoint> getRankingSystemPoints() {
 		return rankingSystemPoints;
 	}
+	
+	/**
+	 * Liefert den RankingSystemPoint zu einem bestimmten Rankingsystem
+	 * @param rankingSystem
+	 * @return RankingSystemPoint oder null falls es keines zu diesem Ranking-System gibt
+	 */
+	public RankingSystemPoint getRankingSystemPoint(String rankingSystem) {
+		for (RankingSystemPoint rankingSystemPoint : rankingSystemPoints) {
+			if (rankingSystemPoint.getRankingSystem().equals(rankingSystem)) return rankingSystemPoint;
+		}
+		return null;
+	}
 
 	public void setRankingSystemPoints(List<RankingSystemPoint> rankingSystemPoints) {
 		this.rankingSystemPoints = rankingSystemPoints;

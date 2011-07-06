@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="RankingEntry")
-public class RankingEntry extends AbstractModelBean<RankingEntry> {
+public class RankingEntry extends AbstractModelBean<RankingEntry> implements Comparable<RankingEntry> {
 	private static final long serialVersionUID = 1233271455914836718L;
 
 	@ManyToOne
@@ -54,4 +54,23 @@ public class RankingEntry extends AbstractModelBean<RankingEntry> {
 		return createCompleteClone();
 	}
 
+	@Override
+	public int compareTo(RankingEntry rankingEntry) {
+		return position.compareTo(rankingEntry.getPosition());
+	}
+
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(position);
+		sb.append("\tPlayer: ");
+		sb.append(playerCard.getPlayer().toString());
+		sb.append("\tPoints: ");
+		sb.append(playerCard.getPoints());
+		sb.append("\tRankingsystem points: ");
+		for (RankingSystemPoint point : playerCard.getRankingSystemPoints()) {
+			sb.append(point.getPoints());
+			sb.append("\t");
+		}
+		return sb.toString();
+	}
 }

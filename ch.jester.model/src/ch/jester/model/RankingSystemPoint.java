@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 //@DiscriminatorColumn(name = "RankingSystem", discriminatorType = DiscriminatorType.STRING, length = 50)
 //@Table(name = "RankingSystemPoint", uniqueConstraints = {@UniqueConstraint(columnNames = {"RankingSystem"})})
-public class RankingSystemPoint extends AbstractModelBean<RankingSystemPoint> {
+public class RankingSystemPoint extends AbstractModelBean<RankingSystemPoint> implements Comparable<RankingSystemPoint> {
 	private static final long serialVersionUID = -3533894872834400L;
    
     @Column(name = "RankingSystem", nullable = false, length = 50)
@@ -69,5 +69,10 @@ public class RankingSystemPoint extends AbstractModelBean<RankingSystemPoint> {
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return createCompleteClone();
+	}
+
+	@Override
+	public int compareTo(RankingSystemPoint rankingSystemPoint) {
+		return this.points.compareTo(rankingSystemPoint.getPoints());
 	}
 }
