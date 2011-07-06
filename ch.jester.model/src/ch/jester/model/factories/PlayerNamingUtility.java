@@ -26,7 +26,7 @@ public class PlayerNamingUtility {
 		return createPairingName(p1.getPlayer(), p2.getPlayer(), mDefault_Delim, pAddinLabel);
 	}
 	public static String createPairingName(Pairing pairing,  String pAddinLabel){
-		return createPairingName(pairing.getWhite(), pairing.getWhite(),  pAddinLabel);
+		return createPairingName(pairing.getWhite(), pairing.getBlack(),  pAddinLabel);
 	}
 	
 	public static String createPairingName(Player p1, Player p2, String pDelim, String pAddinLabel){
