@@ -366,12 +366,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 	}
 	public void setContentProvider(RoundNodeModelContentProvider contentProvider) {
 		mModelContentProvider = contentProvider;
-		Object input = mModelContentProvider.getInput();
-		if(input instanceof Category){
-			mTitle = ((Category)input).getDescription();
-		}else if(input instanceof Round){
-			mTitle = "Round "+((Round)input).getNumber()+"";
-		}
+		mTitle = mController.getTitlePath();
 		
 	}
 	@Override

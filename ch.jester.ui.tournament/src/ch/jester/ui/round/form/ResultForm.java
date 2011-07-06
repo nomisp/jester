@@ -71,10 +71,11 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 	public void setResultController(ResultController pController){
 		mController=pController;
 	}
+
 	
 	protected void createFormContent(IManagedForm managedForm) {
 		ScrolledForm form = managedForm.getForm();
-		form.setText("Pairing Results");
+		form.setText("Pairing Results: "+mController.getTitlePath());
 		managedForm.getForm().getBody().setLayout(new GridLayout(1, false));
 		managedForm.getToolkit().decorateFormHeading(form.getForm());
 		buildSections(managedForm);
