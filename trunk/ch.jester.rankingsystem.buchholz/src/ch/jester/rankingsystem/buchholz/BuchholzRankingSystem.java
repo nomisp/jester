@@ -82,6 +82,8 @@ public class BuchholzRankingSystem implements IRankingSystem {
 		Round lastFinishedRound = RankingHelper.getLastFinishedRound(category); 
 		if (lastFinishedRound == null) throw new NotAllResultsException("NotAllResultsForRanking");
 		IntermediateRanking ranking = ModelFactory.getInstance().createIntermediateRanking(lastFinishedRound);
+		List<Round> finishedRounds = RankingHelper.getFinishedRounds(category);
+		List<PlayerCard> initialIntermediateRanking = RankingHelper.getInitialIntermediateRanking(category);
 		
 		saveIntermediateRanking(lastFinishedRound, ranking);
 		return ranking;
@@ -94,8 +96,8 @@ public class BuchholzRankingSystem implements IRankingSystem {
 	 */
 	private void saveFinalRanking(Category category, FinalRanking ranking) {
 		category.setRanking(ranking);
-		IDaoService<Category> roundDaoService = mServiceUtil.getDaoServiceByEntity(Category.class);
-		roundDaoService.save(category);
+		IDaoService<Category> categoryDaoService = mServiceUtil.getDaoServiceByEntity(Category.class);
+		categoryDaoService.save(category);
 	}
 
 	/**
@@ -117,20 +119,8 @@ public class BuchholzRankingSystem implements IRankingSystem {
 	 */
 	private boolean checkCategoryFinished(Category category) {
 		entityManager.joinTransaction();
-		List<Round> finishedRounds = entityManager.createNamedQuery("FinishedRounds").getResultList();
+		@SuppressWarnings("unchecked")
+		List<Round> finishedRounds = RankingHelper.getFinishedRounds(category);
 		return finishedRounds.size() == category.getRounds().size();
 	}
-
-	private List<PlayerCard> initialRanking(Category category) {
-//		IDaoService<Category> categoryDao = mServiceUtil.getDaoServiceByEntity(Category.class);
-		entityManager.joinTransaction();
-		List<PlayerCard> ranking = entityManager.createNamedQuery("PlayerCardsByCategoryOrderByPoints")
-											.setParameter("category", category)
-											.getResultList();
-		for (PlayerCard playerCard : ranking) {
-			System.out.println(playerCard.getPlayer() + " : " + playerCard.getPoints());
-		}
-		return ranking;
-	}
-
 }

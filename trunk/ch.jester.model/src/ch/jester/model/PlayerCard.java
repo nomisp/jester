@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlIDREF;
 @Entity
 @Table(name="PlayerCard")
 @NamedQueries({
-	@NamedQuery(name="PlayerCardsByCategoryOrderByPoints", query="select pc from PlayerCard pc where :category = pc.category order by pc.points")
+	@NamedQuery(name="PlayerCardsByCategoryOrderByPoints", query="select pc from PlayerCard pc where :category = pc.category order by pc.points desc"),
+	@NamedQuery(name="PlayerCardsByCategoryAndFinishedRoundsOrderByPoints", query="select pc from PlayerCard pc where :category = pc.category and exists (select r from Round r where r member of pc.category.rounds and r in (:finishedRounds)) order by pc.points desc")
 })
 public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	private static final long serialVersionUID = -2710264494286525315L;

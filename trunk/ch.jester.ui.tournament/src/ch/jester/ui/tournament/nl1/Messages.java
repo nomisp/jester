@@ -18,6 +18,14 @@ public class Messages extends NLS {
 	public static String CategoryMasterDetail_s_name;
 	public static String CategoryMasterDetail_tt_horizontal;
 	public static String CategoryMasterDetail_tt_vertical;
+	public static String PairingHandler_msg_NotAllResults_text;
+	public static String PairingHandler_msg_NotAllResults_title;
+	public static String PairingHandler_msg_PairingNotPossible_text;
+	public static String PairingHandler_msg_PairingNotPossible_title;
+	public static String PairingHandler_msg_UnknownError_text;
+	public static String PairingHandler_msg_UnknownError_title;
+	public static String RankingHandler_msg_UnknownError_text;
+	public static String RankingHandler_msg_UnknownError_title;
 	public static String RoundEditor_Graph;
 	public static String RoundEditor_Saving;
 	public static String RoundEditor_Table;

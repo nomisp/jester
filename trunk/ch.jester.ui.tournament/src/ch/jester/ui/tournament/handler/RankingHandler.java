@@ -27,7 +27,13 @@ import ch.jester.system.api.ranking.IRankingSystemEntry;
 import ch.jester.system.api.ranking.IRankingSystemManager;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
+import ch.jester.ui.tournament.nl1.Messages;
 
+/**
+ * Handler zum Erzeugen von Ranglisten
+ * @author Peter
+ *
+ */
 public class RankingHandler extends AbstractCommandHandler implements IHandler {
 
 	private List<IRankingSystem> rankingSystems = new ArrayList<IRankingSystem>(); // Alle Feinwertungssysteme in diesem Turnier
@@ -59,7 +65,7 @@ public class RankingHandler extends AbstractCommandHandler implements IHandler {
 		}
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		final Shell shell = window.getShell();
-		Job job = new Job("Ranking") {
+		Job job = new Job("Ranking") { //$NON-NLS-1$
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
@@ -74,9 +80,14 @@ public class RankingHandler extends AbstractCommandHandler implements IHandler {
 					Throwable exception = ExceptionUtility.getRealException(e);
 					if (exception != e) {
 						if (exception instanceof NotAllResultsException) {
-							final String messageTitel = "Not all Results";
-							final String errorMessage = "There are not all results available from the last round!";
+							final String messageTitel = Messages.PairingHandler_msg_NotAllResults_title;
+							final String errorMessage = Messages.PairingHandler_msg_NotAllResults_text;
 							showErrorDialog(shell, messageTitel, errorMessage);
+							return Status.CANCEL_STATUS;
+						} else {
+							showErrorDialog(shell, Messages.RankingHandler_msg_UnknownError_title, Messages.RankingHandler_msg_UnknownError_text);
+							mLogger.error(e);
+							return Status.CANCEL_STATUS;
 						}
 					} else {
 						return Status.CANCEL_STATUS;
@@ -85,9 +96,8 @@ public class RankingHandler extends AbstractCommandHandler implements IHandler {
 				return Status.OK_STATUS;
 			}
 			
-			private void showErrorDialog(final Shell shell,
-					final String messageTitel, final String errorMessage) {
-				UIJob uiJob = new UIJob("Error-Message") {
+			private void showErrorDialog(final Shell shell, final String messageTitel, final String errorMessage) {
+				UIJob uiJob = new UIJob("Error-Message") { //$NON-NLS-1$
 					
 					@Override
 					public IStatus runInUIThread(IProgressMonitor monitor) {

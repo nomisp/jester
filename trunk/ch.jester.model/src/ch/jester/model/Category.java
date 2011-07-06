@@ -54,9 +54,6 @@ public class Category extends AbstractModelBean<Category> {
 	
 
 	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
-//	@JoinTable(name = "CategoryRoundAss",
-//	        joinColumns = {@JoinColumn(name = "CategoryId")},
-//	        inverseJoinColumns = {@JoinColumn(name = "RoundId")})
 	private List<Round> rounds = new ArrayList<Round>();
 	
 	@OneToMany
@@ -77,7 +74,7 @@ public class Category extends AbstractModelBean<Category> {
 	@ManyToOne
 	private Tournament tournament;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL, orphanRemoval=true)
 	private FinalRanking ranking;
 
 	public String getDescription() {
