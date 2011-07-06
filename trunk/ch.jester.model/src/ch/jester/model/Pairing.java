@@ -14,7 +14,9 @@ import javax.persistence.Table;
 @Table(name="Pairing")
 @NamedQueries({
 	@NamedQuery(name="AllPairings", query="select p from Pairing p"),
-	@NamedQuery(name="PairingsByPlayer", query="select p from Pairing p where :player = p.white or :player = p.black")
+	@NamedQuery(name="PairingsByPlayerCard", query="select p from Pairing p where :player = p.white or :player = p.black"),
+	@NamedQuery(name="PairingsByPlayerCardAndCategory", query="select p from Pairing p where :player = p.white or :player = p.black and p.round.category = :category"),
+	@NamedQuery(name="PairingsByPlayerCardAndTournament", query="select p from Pairing p where :player = p.white or :player = p.black and p.round.category.tournament = :tournament")
 })
 public class Pairing extends AbstractModelBean<Pairing> {
 	private static final long serialVersionUID = -5183089936204591328L;

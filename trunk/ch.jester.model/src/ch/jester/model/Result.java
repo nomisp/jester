@@ -1,14 +1,14 @@
 package ch.jester.model;
 
 public enum Result {
-	BLACK_WINS("0",0.0f,1.0f), 
-	BLACK_WINS_F("0F",0.0f,1.0f), 
-	REMIS("X",0.5f,0.5f),
-	WHITE_WINS("1",1.0f,0.0f), 
-	WHITE_WINS_F("1F",1.0f,0.0f);
+	BLACK_WINS("0",0.0,1.0), 
+	BLACK_WINS_F("0F",0.0,1.0), 
+	REMIS("X",0.5,0.5),
+	WHITE_WINS("1",1.0,0.0), 
+	WHITE_WINS_F("1F",1.0,0.0);
 	
 	
-	Result(String pShortResult, float pPointsWhite, float pPointsBlack){
+	Result(String pShortResult, double pPointsWhite, double pPointsBlack){
 		mShortResult=pShortResult;
 		mPointsForWhite=pPointsWhite;
 		mPointsForBlack=pPointsBlack;
@@ -18,10 +18,10 @@ public enum Result {
 		return mShortResult;
 	}
 	public Double getPointsBlack(){
-		return new Double(mPointsForBlack);
+		return mPointsForBlack;
 	}
 	public Double getPointsWhite(){
-		return new Double(mPointsForWhite);
+		return mPointsForWhite;
 	}
 	public String toString(){
 		return getShortResult();
@@ -38,7 +38,7 @@ public enum Result {
 	
 	String mShortResult;
 	String mDescription;
-	float mPointsForBlack;
-	float mPointsForWhite;
+	double mPointsForBlack;
+	double mPointsForWhite;
 	
 }

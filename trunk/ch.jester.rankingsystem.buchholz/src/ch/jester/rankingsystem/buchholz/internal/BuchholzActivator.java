@@ -11,6 +11,7 @@ public class BuchholzActivator extends AbstractActivator {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "ch.jester.rankingsystem.buchholz"; //$NON-NLS-1$
+	public static final String RANKINGSYSTEM = "Buchholz";
 
 	// The shared instance
 	private static BuchholzActivator plugin;
