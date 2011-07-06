@@ -19,6 +19,7 @@ import ch.jester.model.Category;
 import ch.jester.model.Pairing;
 import ch.jester.model.Result;
 import ch.jester.model.Round;
+import ch.jester.model.Tournament;
 import ch.jester.ui.tournament.internal.Activator;
 
 public class ResultController implements IDirtyManagerProvider{
@@ -112,6 +113,46 @@ public class ResultController implements IDirtyManagerProvider{
 			return list;
 		}
 		return null;
+	}
+	
+	public Tournament getTournamentInput(){
+		if(mInput instanceof Tournament ){
+			return (Tournament)mInput;
+		}
+		if(mInput instanceof Category){
+			return ((Category)mInput).getTournament();
+		}
+		if(mInput instanceof Round){
+			return ((Round)mInput).getCategory().getTournament();
+		}
+		return null;
+	}
+	public Category getCategoryInput(){
+		if(mInput instanceof Category ){
+			return (Category)mInput;
+		}
+		if(mInput instanceof Round){
+			return ((Round)mInput).getCategory();
+		}
+		return null;
+	}
+	public Round getRoundInput(){
+		if(mInput instanceof Round ){
+			return (Round)mInput;
+		}
+
+		return null;
+	}
+	public String getTitlePath(){
+		StringBuilder builder = new StringBuilder();
+		builder.append(getTournamentInput().getName());
+		builder.append(" > ");
+		builder.append(getCategoryInput().getDescription());
+		if(getRoundInput()!=null){
+			builder.append(" > Round: ");
+			builder.append(getRoundInput().getId());
+		}
+		return builder.toString();
 	}
 	
 	public Result getLastPairingResult(Pairing p){
