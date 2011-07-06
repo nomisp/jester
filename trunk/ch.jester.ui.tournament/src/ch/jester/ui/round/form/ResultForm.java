@@ -174,7 +174,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 			mLabelBuilder.append(player.getFirstName());
 		}
 		managedForm.getToolkit().createLabel(c, mLabelBuilder.toString(), SWT.NONE);
-		ComboViewer viewer = new ComboViewer(c, SWT.READ_ONLY);
+		ComboViewer viewer = new ComboViewer(c, SWT.READ_ONLY|SWT.DOUBLE_BUFFERED);
 
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
 		viewer.addSelectionChangedListener(new PairingResultChanged(p));
