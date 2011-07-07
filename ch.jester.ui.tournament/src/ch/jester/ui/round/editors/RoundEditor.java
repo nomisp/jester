@@ -8,6 +8,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.model.Category;
 import ch.jester.model.Round;
+import ch.jester.ui.round.form.BrowserForm;
 import ch.jester.ui.round.form.ResultForm;
 import ch.jester.ui.round.form.RoundForm;
 import ch.jester.ui.round.form.contentprovider.CategoryNodeModelContentProvider;
@@ -23,6 +24,7 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 	public static final String ID = "ch.jester.ui.tournament.roundeditor"; //$NON-NLS-1$
 	private ResultForm tableResultFormPage;
 	private RoundForm graphResultFormPage;
+
 	private ResultController mController = new ResultController();
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	public RoundEditor() {
@@ -51,6 +53,7 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 		try {
 			addPage(graphResultFormPage);
 			addPage(tableResultFormPage);
+			addPage(new BrowserForm(this, "", "Browser"));
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
