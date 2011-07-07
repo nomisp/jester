@@ -45,20 +45,16 @@
                tooltip="%TTrunPairing">
          </command>
          <command
+               commandId="ch.jester.ui.tournament.editresult"
+               label="%Result"
+               style="push">
+         </command>
+         <command
                commandId="ch.jester.ui.tournament.ranking"
                icon="icons/ranking.png"
                label="%CreateRanking"
                style="push"
                tooltip="%TTCreateRanking">
-         </command>
-         <separator
-               name="ch.jester.ui.tournament.separator5"
-               visible="true">
-         </separator>
-         <command
-               commandId="ch.jester.ui.tournament.editresult"
-               label="%Result"
-               style="push">
          </command>
          <separator
                name="ch.jester.ui.tournament.separator1"
