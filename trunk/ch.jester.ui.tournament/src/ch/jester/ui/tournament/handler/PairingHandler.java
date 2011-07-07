@@ -17,6 +17,7 @@ import org.eclipse.ui.progress.UIJob;
 
 import ch.jester.common.ui.handlers.AbstractCommandHandler;
 import ch.jester.common.utility.ExceptionUtility;
+import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Tournament;
@@ -36,6 +37,7 @@ import ch.jester.ui.tournament.nl1.Messages;
 public class PairingHandler extends AbstractCommandHandler implements IHandler {
 	
 	private IPairingAlgorithm pairingAlgorithm;
+	private ServiceUtility mServiceUtil = new ServiceUtility();
 
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
@@ -44,9 +46,22 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 		Tournament tournament = null;
 		if (cat == null) {
 			tournament = getFirstSelectedAs(Tournament.class);
+			for (Category category : tournament.getCategories()) {
+				createPairings(event, category, tournament);
+			}
 		} else {
 			tournament = cat.getTournament();
+			createPairings(event, cat, tournament);
 		}
+		IDaoService<Tournament> categoryPersister = mServiceUtil.getDaoServiceByEntity(Tournament.class);
+		categoryPersister.save(tournament);
+		// Aktualisieren des CommonNavigators
+		CommonNavigator cn = (CommonNavigator)getView(TournamentNavigator.ID);
+		cn.getCommonViewer().refresh();
+		return null;
+	}
+
+	private void createPairings(ExecutionEvent event, final Category cat, Tournament tournament) {
 		String pairingSystemClass = tournament.getPairingSystem();
 		ServiceUtility su = new ServiceUtility();
 		IPairingManager pairingManager = su.getService(IPairingManager.class);
@@ -105,9 +120,5 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 			}
 		};
 		job.schedule();
-		// Aktualisieren des CommonNavigators
-		CommonNavigator cn = (CommonNavigator)getView(TournamentNavigator.ID);
-		cn.getCommonViewer().refresh();
-		return null;
 	}
 }

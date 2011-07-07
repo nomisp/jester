@@ -63,7 +63,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	@Override
 	public List<Pairing> executePairings(Category category, IProgressMonitor pMonitor) throws PairingNotPossibleException, NotAllResultsException {
 		this.category = category;
-		loadSettings(category.getTournament());
+		if (settings == null) loadSettings(category.getTournament()); // Falls das Paaren auf einem Turnier passiert
 		playedRounds = category.getPlayedRounds();
 		List<Pairing> pairings = null;
 		if (playedRounds.size() == 0) { // Neues Turnier bei einem Round-Robin Turnier können direkt alle Paarunugen ausgelost werden. 
@@ -92,8 +92,8 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 //			checkResults();
 			
 		}
-		IDaoService<Category> categoryPersister = mServiceUtil.getDaoServiceByEntity(Category.class);
-		categoryPersister.save(category);
+//		IDaoService<Category> categoryPersister = mServiceUtil.getDaoServiceByEntity(Category.class);
+//		categoryPersister.save(category);
 		
 //		for (Pairing pairing : pairings) {
 //			System.out.println(pairing.getWhite().getPlayer() + " - " + pairing.getBlack().getPoints()); //$NON-NLS-1$
