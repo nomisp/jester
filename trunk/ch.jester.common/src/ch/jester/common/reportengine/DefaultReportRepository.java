@@ -12,6 +12,8 @@ import java.util.List;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
+import ch.jester.common.utility.BundleResourceExporter;
+import ch.jester.common.utility.JesterModelExporter;
 import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IBundleReport;
@@ -25,6 +27,8 @@ import ch.jester.commonservices.util.ServiceUtility;
  */
 public class DefaultReportRepository implements IReportRepository {
 	private HashMap<String, IReport> mReportMap = new HashMap<String, IReport>();
+	private BundleResourceExporter exporter = new BundleResourceExporter();
+	private boolean modelExported = false;
 	/**
 	 * @uml.property  name="mFileManager"
 	 * @uml.associationEnd  
@@ -95,22 +99,20 @@ public class DefaultReportRepository implements IReportRepository {
 	}
 
 	private void installReport(IBundleReport pReport) {
+		JesterModelExporter ex = new JesterModelExporter();
+		ex.exportModelAsZip(null);
 		File engineFolder = mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY);
 		String fullReportPath = pReport.getBundleReportFile();
 		//install sourcefolder
 		String path = pReport.getBundleSourceRoot();
 		
 		List<String> fileEntries = new ArrayList<String>();
-		getBundleFileEntries(fileEntries, pReport.getBundle().getEntryPaths(path), pReport.getBundle());
+		exporter.getBundleFileEntries(fileEntries, pReport.getBundle().getEntryPaths(path), pReport.getBundle());
 		
 		List<String> pathEntries = new ArrayList<String>();
-		getBundlePathEntries(pathEntries, pReport.getBundle().getEntryPaths(path), pReport.getBundle());
-	
-		//System.out.println(fileEntries);
-		
-		for(String dir:pathEntries){
-			mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY+"/"+dir);
-		}
+		exporter.getBundlePathEntries(pathEntries, pReport.getBundle().getEntryPaths(path), pReport.getBundle());
+
+		exporter.createDirStructure(pathEntries, IReportEngine.TEMPLATE_DIRECTROY);
 		
 		
 		for(String entry:fileEntries){
@@ -119,48 +121,16 @@ public class DefaultReportRepository implements IReportRepository {
 			if(entry.equals(fullReportPath)){
 				pReport.setInstalledFile(dst);
 			}
-			if(dst.exists()){continue;}
 			try {
-				//mFileManager.getFolderInWorkingDirectory(destFile.getAbsolutePath());
-				mFileManager.toFile(src.openStream(), dst);
+				exporter.export(src, dst, false);
 			} catch (ProcessingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 		}
 		
-	}
-
-	private boolean getBundleFileEntries(List<String> entries, Enumeration<String> en, Bundle bundle) {
-		if(en==null){return false;}
-		while(en.hasMoreElements()){
-			String entry = en.nextElement();
-			if(entry.indexOf("/.")==-1){
-				boolean added = getBundleFileEntries(entries, bundle.getEntryPaths(entry), bundle);
-				if(!added){
-					entries.add(entry);
-				}
-			}
-		}
-		return true;
-	}
-
-	private boolean getBundlePathEntries(List<String> entries, Enumeration<String> en, Bundle bundle) {
-		if(en==null){return true;}
-		while(en.hasMoreElements()){
-			String entry = en.nextElement();
-			if(entry.indexOf("/.")==-1){
-				boolean added = getBundlePathEntries(entries, bundle.getEntryPaths(entry), bundle);
-				if(!added){
-					entries.add(entry);
-				}
-			}
-		}
-		return false;
 	}
 	
 	@Override
