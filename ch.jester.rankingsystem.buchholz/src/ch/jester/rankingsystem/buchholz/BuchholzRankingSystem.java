@@ -1,5 +1,6 @@
 package ch.jester.rankingsystem.buchholz;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import ch.jester.model.FinalRanking;
 import ch.jester.model.IntermediateRanking;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Ranking;
+import ch.jester.model.RankingEntry;
 import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
@@ -64,7 +66,12 @@ public class BuchholzRankingSystem implements IRankingSystem {
 	 */
 	private FinalRanking createFinalRanking(Category category) throws NotAllResultsException {
 		if (!RankingHelper.allResultsAvailable(category)) throw new NotAllResultsException("NotAllResultsForRanking");
-		FinalRanking ranking = ModelFactory.getInstance().createFinalRanking(category);
+		FinalRanking ranking = category.getRanking();
+		if (ranking != null) {
+			ranking.setRankingEntries(new ArrayList<RankingEntry>());
+		} else {
+			ranking = ModelFactory.getInstance().createFinalRanking(category);
+		}
 		
 		List<PlayerCard> initialFinalRanking = RankingHelper.getInitialFinalRanking(category);
 		
@@ -91,7 +98,12 @@ public class BuchholzRankingSystem implements IRankingSystem {
 	private IntermediateRanking createIntermediateRanking(Category category) throws NotAllResultsException {
 		Round lastFinishedRound = RankingHelper.getLastFinishedRound(category); 
 		if (lastFinishedRound == null) throw new NotAllResultsException("NotAllResultsForRanking");
-		IntermediateRanking ranking = ModelFactory.getInstance().createIntermediateRanking(lastFinishedRound);
+		IntermediateRanking ranking = lastFinishedRound.getRanking();
+		if (ranking != null) {
+			ranking.setRankingEntries(new ArrayList<RankingEntry>());
+		} else {
+			ranking = ModelFactory.getInstance().createIntermediateRanking(lastFinishedRound);
+		}
 		
 		List<Round> finishedRounds = RankingHelper.getFinishedRounds(category);
 		List<PlayerCard> initialIntermediateRanking = RankingHelper.getInitialIntermediateRanking(category);
@@ -171,8 +183,6 @@ public class BuchholzRankingSystem implements IRankingSystem {
 	 * @return true wenn alle Resultate zu allen Runden erfasst wurden.
 	 */
 	private boolean checkCategoryFinished(Category category) {
-		entityManager.joinTransaction();
-		@SuppressWarnings("unchecked")
 		List<Round> finishedRounds = RankingHelper.getFinishedRounds(category);
 		return finishedRounds.size() == category.getRounds().size();
 	}
