@@ -13,6 +13,7 @@ import org.osgi.service.component.ComponentContext;
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.components.IEPEntry;
 import ch.jester.commonservices.api.components.IEPEntryComponentService;
+import ch.jester.commonservices.api.components.IEPEntryConfig;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.ep.ExtensionPointChangeNotifier;
 
@@ -93,7 +94,9 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements I
 		}
 		classes.add(IEPEntry.class);
 		//classes.add(mClassType);
-		return (T) Proxy.newProxyInstance(this.getClass().getClassLoader(), classes.toArray(new Class[classes.size()]), new EPServiceProxy<T>(pConfigurationElement, mClassType, getClassAttribute()));
+		Object proxy =  Proxy.newProxyInstance(this.getClass().getClassLoader(), classes.toArray(new Class[classes.size()]), new EPServiceProxy<T>(pConfigurationElement, mClassType, getClassAttribute()));
+		
+		return (T)proxy;
 	}
 	
 
@@ -160,7 +163,9 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements I
 
 	private void addToList(T o) {
 		V entry = createEntry(o);
-		
+		if(o instanceof IEPEntryConfig){
+			((IEPEntryConfig)o).setEPEntry(entry);
+		}
 		mImportHandlers.put(entry,o);
 	}
 
