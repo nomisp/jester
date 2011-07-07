@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import ch.jester.commonservices.api.components.IEPEntry;
+import ch.jester.commonservices.api.components.IEPEntryConfig;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
@@ -32,7 +34,7 @@ import ch.jester.system.ranking.impl.RankingHelper;
  * @author Peter
  *
  */
-public class BuchholzRankingSystem implements IRankingSystem {
+public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 	private ServiceUtility mServiceUtil = new ServiceUtility();
 	private EntityManager entityManager = ORMPlugin.getJPAEntityManager();
 
@@ -185,5 +187,12 @@ public class BuchholzRankingSystem implements IRankingSystem {
 	private boolean checkCategoryFinished(Category category) {
 		List<Round> finishedRounds = RankingHelper.getFinishedRounds(category);
 		return finishedRounds.size() == category.getRounds().size();
+	}
+
+	@Override
+	public void setEPEntry(IEPEntry<?> e) {
+		System.out.println(e);
+		Object o = e.getProperty("shortType");
+		
 	}
 }
