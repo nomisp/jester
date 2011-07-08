@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="ch.jester.socialmedia.twitter.open"
+            name="%Twitter">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="ch.jester.socialmedia.twitter.toolbar">
+            <command
+                  commandId="ch.jester.socialmedia.twitter.open"
+                  icon="icon/twitter.png"
+                  label="%Twitter"
+                  style="push">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="ch.jester.socialmedia.twitter.OpenTwitterUI"
+            commandId="ch.jester.socialmedia.twitter.open">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.socialmedia"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.socialmedia.twitter.pref"
+            name="Twitter">
+      </page>
+      <page
+            class="ch.jester.common.ui.pref.EmptyPreferencePage"
+            id="ch.jester.socialmedia"
+            name="Social Media">
+      </page>
+   </extension>
+
+</plugin>
