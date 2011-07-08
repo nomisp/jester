@@ -2,6 +2,7 @@ package ch.jester.common.utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
@@ -9,7 +10,6 @@ import java.util.List;
 import org.osgi.framework.Bundle;
 
 import ch.jester.commonservices.api.io.IFileManager;
-import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 
@@ -17,14 +17,17 @@ public class BundleResourceExporter {
 	ServiceUtility mService = new ServiceUtility();
 	IFileManager mFileManager = mService.getService(IFileManager.class);
 
-	public void createDirStructure(List<String> entries, String templateDirectroy){
+	public void createDirStructure(List<String> entries, String pRootDirectory){
 		for(String dir:entries){
-			mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY+"/"+dir);
+			mFileManager.getFolderInWorkingDirectory(pRootDirectory+"/"+dir);
 		}
 	}
 	public void export(URL src, File dest, boolean replace) throws ProcessingException, IOException{
 		if(!replace&&dest.exists()){return;}
-		mFileManager.toFile(src.openStream(), dest);
+		InputStream ins;
+		mFileManager.toFile(ins = src.openStream(), dest);
+		ins.close();
+		
 	}
 	public boolean getBundleFileEntries(List<String> entries, Enumeration<String> en, Bundle bundle) {
 		if(en==null){return false;}

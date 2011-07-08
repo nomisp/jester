@@ -47,7 +47,7 @@
 		<queryString>
 			<![CDATA[]]>
 		</queryString>
-		<field name="black" class="ch.jester.model.Player">
+		<field name="black" class="ch.jester.model.PlayerCard">
 			<fieldDescription><![CDATA[black]]></fieldDescription>
 		</field>
 		<field name="class" class="java.lang.Class">
@@ -68,7 +68,7 @@
 		<field name="unsafed" class="java.lang.Boolean">
 			<fieldDescription><![CDATA[unsafed]]></fieldDescription>
 		</field>
-		<field name="white" class="ch.jester.model.Player">
+		<field name="white" class="ch.jester.model.PlayerCard">
 			<fieldDescription><![CDATA[white]]></fieldDescription>
 		</field>
 	</subDataset>
@@ -135,7 +135,8 @@
 								<textElement>
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{white}.getLastName().trim()+" "+$F{white}.getFirstName().trim()]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{white}.getPlayer()!=null?$F{white}.getPlayer().getLastName().trim()+" "+
+$F{white}.getPlayer().getFirstName().trim():""]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -155,7 +156,8 @@
 								<textElement>
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{black}.getLastName().trim()+" "+$F{black}.getFirstName().trim()]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{black}.getPlayer()!=null?$F{black}.getPlayer().getLastName().trim()+" "+
+$F{black}.getPlayer().getFirstName().trim():""]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

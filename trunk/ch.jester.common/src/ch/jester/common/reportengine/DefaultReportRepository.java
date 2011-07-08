@@ -99,8 +99,11 @@ public class DefaultReportRepository implements IReportRepository {
 	}
 
 	private void installReport(IBundleReport pReport) {
-		JesterModelExporter ex = new JesterModelExporter();
-		ex.exportModelAsZip(null);
+		if(!modelExported){
+			JesterModelExporter ex = new JesterModelExporter();
+			ex.exportModelAsZip(IReportEngine.TEMPLATE_DIRECTROY+"/model");
+			modelExported = true;
+		}
 		File engineFolder = mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY);
 		String fullReportPath = pReport.getBundleReportFile();
 		//install sourcefolder

@@ -18,6 +18,7 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.osgi.service.component.ComponentContext;
 
 import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
+import ch.jester.common.utility.FileLocker;
 import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
@@ -136,15 +137,18 @@ public class DefaultFileManager extends InjectedLogFactoryComponentAdapter<Void>
 		  InputStream in;
 			try {
 				  in = new BufferedInputStream(inStream);
-				  OutputStream out = new BufferedOutputStream(new FileOutputStream(dest));
+				  FileOutputStream fos;
+				  OutputStream out = new BufferedOutputStream(fos=new FileOutputStream(dest));
 
 				  byte[] buf = new byte[1024*1024*8];
 				  int len;
 				  while ((len = in.read(buf)) > 0){
-				  out.write(buf, 0, len);
+					  out.write(buf, 0, len);
 				  }
 				  in.close();
+				  out.flush();
 				  out.close();
+				  fos.close();
 			} catch (Exception e) {
 				throw new ProcessingException(e);
 			}
@@ -157,11 +161,15 @@ public class DefaultFileManager extends InjectedLogFactoryComponentAdapter<Void>
 		String dir =  workingDir.getURL().getFile();
 		return new File(dir);
 	}
-
-
 	@Override
 	public File getFolderInWorkingDirectory(String dirName) {
-		File newFolder = new File(getWorkingDirectory()+"/"+dirName);
+		return getFolderInDir(getWorkingDirectory(), dirName);
+	}
+	
+
+
+	public File getFolderInDir(File root, String dirName) {
+		File newFolder = new File(root+"/"+dirName);
 		if(!newFolder.exists()){
 			boolean success = newFolder.mkdir();
 			if(!success){
@@ -181,6 +189,35 @@ public class DefaultFileManager extends InjectedLogFactoryComponentAdapter<Void>
 		}
 		return newFolder;
 	}
+
+	@Override
+	public File createTempFolder() {
+		String id = UUID.randomUUID().toString();
+		File f = new File(tmpRoot+"/"+id);
+		f.mkdir();
+		if(true){
+			mFileMap.put(id, f);
+		}
+		return f;
+	}
+
+	@Override
+	public void deleteDirectory(File dir) {
+	    if (dir.isDirectory()) {
+	        String[] children = dir.list();
+	        for (int i=0; i<children.length; i++) {
+	           deleteDirectory(new File(dir, children[i]));
+	           /* if (!success) {
+	                return false;
+	            }*/
+	        }
+	    }
+
+	    // The directory is now empty so delete it
+	    boolean b = dir.delete();
+	    getLogger().debug("deleted = "+b+"; "+dir);
+	}
+
 
 	}
 
