@@ -456,7 +456,7 @@
             name="%ResultEditor">
       </editor>
       <editor
-            class="ch.jester.ui.round.editors.ResultViewEditor"
+            class="ch.jester.ui.round.editors.RankingViewEditor"
             default="false"
             id="ch.jester.ui.tournament.resulteditor"
             name="Ranking">
