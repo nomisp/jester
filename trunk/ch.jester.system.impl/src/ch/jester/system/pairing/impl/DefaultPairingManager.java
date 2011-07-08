@@ -27,14 +27,14 @@ public class DefaultPairingManager extends AbstractEPComponent<IPairingAlgorithm
 	@Override
 	public List<Pairing> doPairings(Tournament tournament, IPairingAlgorithmEntry pairingAlgorithm,
 			IProgressMonitor progressMonitor) throws NotAllResultsException, PairingNotPossibleException {
-		return pairingAlgorithm.getService().executePairings(tournament, progressMonitor);
+		return pairingAlgorithm.getService().executePairings(tournament);
 	}
 
 	@Override
 	public List<Pairing> doPairings(Category category,
 			IPairingAlgorithmEntry pairingAlgorithm,
 			IProgressMonitor progressMonitor) throws PairingNotPossibleException, NotAllResultsException {
-		return pairingAlgorithm.getService().executePairings(category, progressMonitor);
+		return pairingAlgorithm.getService().executePairings(category);
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.forms.editor.FormEditor;
 
 import ch.jester.common.settings.SettingHelper;
@@ -16,7 +15,6 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
-import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Round;
 import ch.jester.model.SettingItem;
@@ -28,6 +26,7 @@ import ch.jester.system.exceptions.NoStartingNumbersException;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.pairing.impl.PairingHelper;
+import ch.jester.system.ranking.impl.RankingHelper;
 import ch.jester.system.vollrundig.internal.VollrundigSystemActivator;
 import ch.jester.system.vollrundig.ui.RoundRobinSettingsPage;
 import ch.jester.system.vollrundig.ui.nl1.Messages;
@@ -51,26 +50,25 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	}
 	
 	@Override
-	public List<Pairing> executePairings(Tournament tournament, IProgressMonitor pMonitor) throws NotAllResultsException, PairingNotPossibleException {
+	public List<Pairing> executePairings(Tournament tournament) throws NotAllResultsException, PairingNotPossibleException {
 		loadSettings(tournament);
 		List<Pairing> allPairings = new ArrayList<Pairing>();
 		for (Category category : tournament.getCategories()) {
-			allPairings.addAll(executePairings(category, pMonitor));
+			allPairings.addAll(executePairings(category));
 		}
 		return allPairings;
 	}
 
 	@Override
-	public List<Pairing> executePairings(Category category, IProgressMonitor pMonitor) throws PairingNotPossibleException, NotAllResultsException {
+	public List<Pairing> executePairings(Category category) throws PairingNotPossibleException, NotAllResultsException {
 		this.category = category;
 		if (settings == null) loadSettings(category.getTournament()); // Falls das Paaren auf einem Turnier passiert
-		playedRounds = category.getPlayedRounds();
+		playedRounds = RankingHelper.getFinishedRounds(category);
 		List<Pairing> pairings = null;
 		if (playedRounds.size() == 0) { // Neues Turnier bei einem Round-Robin Turnier können direkt alle Paarunugen ausgelost werden. 
 			if (isPairingPossible()) {
 				initPlayerNumbers();
 				if (!isNumberOfPlayersEven()) { // Bei einer ungeraden Anzahl Spieler braucht es einen Dummy-Spieler für Freilose!
-//					Player dummy = PairingHelper.getDummyPlayer();
 					PlayerCard dummyPlayer = ModelFactory.getInstance().createPlayerCard(category, null);
 					dummyPlayer.setNumber(category.getPlayers().size()+1); // Die letzte Startnummer erhält der Dummy
 					category.addPlayerCard(dummyPlayer);

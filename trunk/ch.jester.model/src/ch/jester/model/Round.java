@@ -70,13 +70,18 @@ public class Round extends AbstractModelBean<Round> {
 	
 	public void addPairing(Pairing pairing) {
 		if (pairing == null) throw new IllegalArgumentException("pairing may not be null");
-		this.pairings.add(pairing);
+		if (!this.pairings.contains(pairing)) this.pairings.add(pairing);
 		if (pairing.getRound() != this) pairing.setRound(this);
 	}
 
 	public void removePairing(Pairing pairing) {
 		if (pairing == null) throw new IllegalArgumentException("pairing may not be null");
 		this.pairings.remove(pairing);
+	}
+
+	public void removeAllPairings(List<Pairing> pairings) {
+		if (pairings == null) throw new IllegalArgumentException("pairing may not be null");
+		this.pairings.removeAll(pairings);
 	}
 
 	public Date getDate() {

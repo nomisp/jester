@@ -24,7 +24,6 @@ import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.orm.ORMPlugin;
-import ch.jester.rankingsystem.buchholz.internal.BuchholzActivator;
 import ch.jester.system.api.ranking.IRankingSystem;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.ranking.impl.RankingHelper;
@@ -37,6 +36,7 @@ import ch.jester.system.ranking.impl.RankingHelper;
 public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 	private ServiceUtility mServiceUtil = new ServiceUtility();
 	private EntityManager entityManager = ORMPlugin.getJPAEntityManager();
+	private IEPEntry<?> rankingSystemEntry;
 
 	@Override
 	public Map<Category, Ranking> calculateRanking(Tournament tournament, IProgressMonitor pMonitor) throws NotAllResultsException {
@@ -81,11 +81,11 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 			List<PlayerCard> opponents = RankingHelper.getOpponents(playerCard, category.getRounds());
 			initRankingSystemPoint(playerCard);
 			double opponentPoints = calculateBuchholzPoints(opponents);
-			RankingSystemPoint rankingSystemPoint = playerCard.getRankingSystemPoint(BuchholzActivator.RANKINGSYSTEM);
+			RankingSystemPoint rankingSystemPoint = playerCard.getRankingSystemPoint(rankingSystemEntry.getProperty("shortType"));
 			rankingSystemPoint.setPoints(opponentPoints);
 		}
 		
-		RankingHelper.createRanking(ranking, initialFinalRanking, BuchholzActivator.RANKINGSYSTEM);
+		RankingHelper.createRanking(ranking, initialFinalRanking, rankingSystemEntry.getProperty("shortType"));
 		
 		saveFinalRanking(category, ranking);
 		return ranking;
@@ -114,11 +114,11 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 			List<PlayerCard> opponents = RankingHelper.getOpponents(playerCard, finishedRounds);
 			initRankingSystemPoint(playerCard);
 			double opponentPoints = calculateBuchholzPoints(opponents);
-			RankingSystemPoint rankingSystemPoint = playerCard.getRankingSystemPoint(BuchholzActivator.RANKINGSYSTEM);
+			RankingSystemPoint rankingSystemPoint = playerCard.getRankingSystemPoint(rankingSystemEntry.getProperty("shortType"));
 			rankingSystemPoint.setPoints(opponentPoints);
 		}
 		
-		RankingHelper.createRanking(ranking, initialIntermediateRanking, BuchholzActivator.RANKINGSYSTEM);
+		RankingHelper.createRanking(ranking, initialIntermediateRanking, rankingSystemEntry.getProperty("shortType"));
 		
 		RankingHelper.printRanking(ranking); // TODO Peter: Bei Task complete rauslöschen!
 		
@@ -147,9 +147,9 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 	 * @param playerCard
 	 */
 	private void initRankingSystemPoint(PlayerCard playerCard) {
-		RankingSystemPoint rankingSystemPoint = playerCard.getRankingSystemPoint(BuchholzActivator.RANKINGSYSTEM);
+		RankingSystemPoint rankingSystemPoint = playerCard.getRankingSystemPoint(rankingSystemEntry.getProperty("shortType"));
 		if (rankingSystemPoint == null ) {
-			rankingSystemPoint = ModelFactory.getInstance().createRankingSystemPoint(BuchholzActivator.RANKINGSYSTEM);
+			rankingSystemPoint = ModelFactory.getInstance().createRankingSystemPoint(rankingSystemEntry.getProperty("shortType"));
 			playerCard.addRankingSystemPoint(rankingSystemPoint);
 		} else {
 			rankingSystemPoint.setPoints(0.0);
@@ -191,8 +191,6 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 
 	@Override
 	public void setEPEntry(IEPEntry<?> e) {
-		System.out.println(e);
-		Object o = e.getProperty("shortType");
-		
+		rankingSystemEntry = e;
 	}
 }

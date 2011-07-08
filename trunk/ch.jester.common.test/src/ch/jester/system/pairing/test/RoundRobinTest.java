@@ -97,7 +97,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 	@Test(expected=PairingNotPossibleException.class)
 	public void testPairingNotPossibleException() throws PairingNotPossibleException {
 		try {
-			pairingAlgorithm.executePairings(tournament, null);
+			pairingAlgorithm.executePairings(tournament);
 		} catch (Exception e) {
 			Throwable realException = ExceptionUtility.getRealException(e);
 			if (realException instanceof PairingNotPossibleException) {
@@ -118,7 +118,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 			protected IStatus run(IProgressMonitor monitor) {
 	
 				try {
-					List<Pairing> pairings = pairingAlgorithm.executePairings(cat1, monitor);
+					List<Pairing> pairings = pairingAlgorithm.executePairings(cat1);
 					assertEquals(6, pairings.size());
 				} catch (NotAllResultsException e) {
 //					fail();
@@ -163,7 +163,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 			protected IStatus run(IProgressMonitor monitor) {
 	
 				try {
-					List<Pairing> pairings = pairingAlgorithm.executePairings(cat2, null);
+					List<Pairing> pairings = pairingAlgorithm.executePairings(cat2);
 					assertEquals(12, pairings.size());
 				} catch (NotAllResultsException e) {
 //					fail();
@@ -202,7 +202,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 			protected IStatus run(IProgressMonitor monitor) {
 	
 				try {
-					List<Pairing> pairings = pairingAlgorithm.executePairings(cat3, null);
+					List<Pairing> pairings = pairingAlgorithm.executePairings(cat3);
 					assertEquals(15, pairings.size());
 				} catch (NotAllResultsException e) {
 //					fail();
