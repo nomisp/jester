@@ -78,7 +78,12 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		//check();
 		EntityTransaction trx = mManager.getTransaction();
 		try{
-		trx.begin();
+			if (!trx.isActive()) {
+				trx.begin();
+			} else {
+				mManager.joinTransaction();
+			}
+		
 		for(T p:pTCollection){
 			if(p.isUnsafed()){
 				mManager.persist(p);
@@ -115,8 +120,11 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	//	check();
 		EntityTransaction trx = mManager.getTransaction();
 		try{
-	    
-		trx.begin();
+			if (!trx.isActive()) {
+				trx.begin();
+			} else {
+				mManager.joinTransaction();
+			}
 		if(pT.getId()!=null){
 			mManager.merge(pT);
 		}else{

@@ -1,7 +1,7 @@
 package ch.jester.system.ranking.test;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +71,18 @@ public class BuchholzTest extends ActivatorProviderForTestCase {
 		initPairings(cat);
 		t.addCategory(cat);
 		entityManager = ORMPlugin.getJPAEntityManager();
-		entityManager.joinTransaction();
+		if (entityManager.getTransaction().isActive()) {
+			entityManager.joinTransaction();
+		} else {
+			entityManager.getTransaction().begin();
+		}
 		entityManager.clear();
 		entityManager.persist(t);
+		entityManager.flush();
 	}
 	
 	@Test
-	public void testExecuteRankingDifferentNoPoints() {
+	public void testExecuteRankingDifferentNrOfPoints() {
 		List<Round> rounds = cat.getRounds();
 		Round round = rounds.get(0);
 		List<Pairing> pairings = round.getPairings();
@@ -91,6 +96,7 @@ public class BuchholzTest extends ActivatorProviderForTestCase {
 		pairings = round.getPairings();
 		pairings.get(0).setResult("1");
 		pairings.get(1).setResult("0");
+		entityManager.joinTransaction();
 		entityManager.persist(t);
 		entityManager.flush();
 		try {
