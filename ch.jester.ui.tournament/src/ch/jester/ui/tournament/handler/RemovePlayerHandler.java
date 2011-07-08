@@ -1,11 +1,13 @@
 package ch.jester.ui.tournament.handler;
 
 import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 
 import ch.jester.common.ui.handlers.AbstractCommandHandler;
+import ch.jester.common.ui.utility.SafeMessageBoxRunner;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.model.Category;
 import ch.jester.model.Player;
@@ -28,17 +30,28 @@ public class RemovePlayerHandler extends AbstractCommandHandler{
 					}
 				}
 				if(cat!=null){
-					PlayerCard playerCard = null;
+					 PlayerCard playerCard = null;
 					for(PlayerCard card:cat.getPlayerCards()){
 						if(card.getPlayer()==mSelUtility.getFirstSelectedAs(Player.class)){
 							playerCard = card;
 							break;
 						}
 					}
-					cat.removePlayerCard(playerCard);
-					IDaoService<Category> catDao = getServiceUtil().getDaoServiceByEntity(Category.class);
-					catDao.save(cat);
-					catDao.close();
+					
+					final Category runCat = cat;
+					final PlayerCard runCard = playerCard;
+					SafeRunner.run(new SafeMessageBoxRunner() {
+						
+						@Override
+						public void run() throws Exception {
+							runCat.removePlayerCard(runCard);
+							IDaoService<Category> catDao = getServiceUtil().getDaoServiceByEntity(Category.class);
+							catDao.save(runCat);
+							catDao.close();
+							
+						}
+					});
+	
 					
 				}
 			}
