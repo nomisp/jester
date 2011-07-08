@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -55,18 +53,6 @@ public class Category extends AbstractModelBean<Category> {
 
 	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
 	private List<Round> rounds = new ArrayList<Round>();
-	
-	@OneToMany
-	@JoinTable(name = "CategoryPlayedRoundsAss",
-			joinColumns={@JoinColumn(name = "CategoryId")},
-			inverseJoinColumns = {@JoinColumn(name = "RoundId")})
-	private List<Round> playedRounds = new ArrayList<Round>();	// Liste mit Runden welche bereits abgeschlossen sind.
-	
-//	@OneToMany
-//	@JoinTable(name = "CategoryPlayerAss", 
-//			joinColumns = {@JoinColumn(name = "CategoryId")},
-//	        inverseJoinColumns = {@JoinColumn(name = "PlayerId")})
-//	private Set<Player> players = new HashSet<Player>();
 	
 	@OneToMany(mappedBy="category", cascade={CascadeType.ALL}, orphanRemoval=true)
 	private List<PlayerCard> playerCards = new ArrayList<PlayerCard>();
@@ -142,25 +128,6 @@ public class Category extends AbstractModelBean<Category> {
 	public void removeRound(Round round) {
 		if (round == null) throw new IllegalArgumentException("round may not be null");
 		this.rounds.remove(round);
-	}
-
-	public List<Round> getPlayedRounds() {
-		return playedRounds;
-	}
-
-	public void setPlayedRounds(List<Round> playedRounds) {
-		this.playedRounds = playedRounds;
-	}
-	
-	public void addPlayedRound(Round round) {
-		if (round == null) throw new IllegalArgumentException("round may not be null");
-		if (!this.playedRounds.contains(round)) this.playedRounds.add(round);
-		if (round.getCategory() != this) round.setCategory(this);
-	}
-	
-	public void removePlayedRound(Round round) {
-		if (round == null) throw new IllegalArgumentException("round may not be null");
-		this.playedRounds.remove(round);
 	}
 
 	public List<PlayerCard> getPlayerCards() {

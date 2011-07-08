@@ -28,7 +28,7 @@ public interface IPairingAlgorithm {
 	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 * @throws PairingNotPossibleException Paarungsauslosung kann nicht durchgeführt werden z.B. sind weder Runden noch Spieler zugewiesen
 	 */
-	public List<Pairing> executePairings(Tournament tournament, IProgressMonitor pMonitor) throws NotAllResultsException, PairingNotPossibleException;
+	public List<Pairing> executePairings(Tournament tournament) throws NotAllResultsException, PairingNotPossibleException;
 	
 	/**
 	 * Ausführen der Paarungen einer einzelnen Kategorie
@@ -37,7 +37,7 @@ public interface IPairingAlgorithm {
 	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 * @throws PairingNotPossibleException Paarungsauslosung kann nicht durchgeführt werden z.B. sind weder Runden noch Spieler zugewiesen
 	 */
-	public List<Pairing> executePairings(Category category, IProgressMonitor pMonitor) throws NotAllResultsException, PairingNotPossibleException;
+	public List<Pairing> executePairings(Category category) throws NotAllResultsException, PairingNotPossibleException;
 	
 	/**
 	 * Liefert die Settings-Form-Page für das entsprechende Paarungssystem 

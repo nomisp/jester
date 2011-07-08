@@ -25,7 +25,6 @@ import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.handlers.IHandlerService;
 
 import ch.jester.common.ui.editor.IEditorDaoInputAccess;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
@@ -47,7 +46,6 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	private FormPage page;
 	private Button btAdd, btRemove;
 	private CategoryDetailsPage categoryDetailsPage = new CategoryDetailsPage(this);
-//	private TableViewer viewer;
 	private TreeViewer treeViewer;
 	private Tournament tournament;
 	private CategoryMasterDetail categoryMDBlock = this;
@@ -75,7 +73,6 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		layout.marginWidth = 2;
 		layout.marginHeight = 2;
 		client.setLayout(layout);
-//		Table t = toolkit.createTable(client, SWT.NULL);
 		Tree tree = toolkit.createTree(client, SWT.NULL);
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.verticalSpan = 2;
@@ -183,7 +180,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	 */
 	protected void registerPages(DetailsPart detailsPart) {
 		detailsPart.registerPage(Category.class, categoryDetailsPage);
-//		detailsPart.registerPage(TypeTwo.class, new TypeTwoDetailsPage());
+//		detailsPart.registerPage(Round.class, new RoundDetailsPage());
 	}
 	
 	public void setEditorDirty() {
@@ -196,7 +193,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	
 	public void save() {
 		categoryDetailsPage.commit(true);
-		treeViewer.refresh();
+		if (treeViewer != null) treeViewer.refresh();
 	}
 	
 	public void refresh() {
