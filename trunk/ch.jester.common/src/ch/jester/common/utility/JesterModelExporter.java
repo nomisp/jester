@@ -1,21 +1,15 @@
 package ch.jester.common.utility;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 import ch.jester.commonservices.api.io.IFileManager;
-import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 
@@ -25,9 +19,9 @@ public class JesterModelExporter {
 
 	
 	
-	public  void exportModelAsZip(String pDest){
+	public  void exportModelToFolder(String pDest){
 		List<Bundle> bundles = getModelBundles();
-		String target = IReportEngine.TEMPLATE_DIRECTROY+"/model";
+		String target = pDest;
 		//String target = mServices.getService(IFileManager.class).createTempFolder();
 		File absoluteTarget = mServices.getService(IFileManager.class).getFolderInWorkingDirectory(target);
 		for(Bundle b:bundles){
