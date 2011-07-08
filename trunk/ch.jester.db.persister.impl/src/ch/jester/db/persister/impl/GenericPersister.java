@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.persistence.RollbackException;
 
 import org.eclipse.core.runtime.Assert;
 
@@ -21,6 +22,7 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
+import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.orm.ORMPlugin;
 
 public class GenericPersister<T extends IEntityObject> implements IDaoService<T> {
@@ -91,8 +93,10 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		}
 		trx.commit();
 		}catch(Exception e){
-			e.printStackTrace();
-			trx.rollback();
+			if(e instanceof RollbackException){
+				throw new ProcessingException(e.getCause());
+			}
+			throw new ProcessingException(e);
 		}
 		if(!mManualNotify){
 			fireSaveEvent(pTCollection);
@@ -120,8 +124,14 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		}
 		trx.commit();
 		}catch(Exception e){
-			e.printStackTrace();
-			trx.rollback();
+			if(trx.isActive()){
+				trx.rollback();
+			}
+			if(e instanceof RollbackException){
+				throw new ProcessingException(e.getCause());
+			}
+			throw new ProcessingException(e);
+			
 		}
 		if(!mManualNotify){
 			fireSaveEvent(pT);

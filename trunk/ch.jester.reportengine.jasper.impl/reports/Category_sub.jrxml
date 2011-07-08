@@ -54,9 +54,6 @@
 		<field name="minElo" class="java.lang.Integer">
 			<fieldDescription><![CDATA[minElo]]></fieldDescription>
 		</field>
-		<field name="playedRounds" class="java.util.List">
-			<fieldDescription><![CDATA[playedRounds]]></fieldDescription>
-		</field>
 		<field name="playerCards" class="java.util.List">
 			<fieldDescription><![CDATA[playerCards]]></fieldDescription>
 		</field>
@@ -108,9 +105,6 @@
 	</field>
 	<field name="minElo" class="java.lang.Integer">
 		<fieldDescription><![CDATA[minElo]]></fieldDescription>
-	</field>
-	<field name="playedRounds" class="java.util.List">
-		<fieldDescription><![CDATA[playedRounds]]></fieldDescription>
 	</field>
 	<field name="playerCards" class="java.util.List">
 		<fieldDescription><![CDATA[playerCards]]></fieldDescription>
