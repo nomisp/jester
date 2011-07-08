@@ -1,61 +1,76 @@
 package ch.jester.model.settings.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Date;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
-import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.model.Category;
 import ch.jester.model.RankingSystem;
 import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.orm.ORMPlugin;
+import ch.jester.system.pairing.test.RoundRobinTest;
 import ch.jester.system.ranking.test.BuchholzTest;
 
 public class SettingsTest extends ActivatorProviderForTestCase {
 
 	private ServiceUtility mServiceUtil = new ServiceUtility();
-	private IDaoService<SettingItem> settingItemPersister;
 	private ModelFactory modelFactory;
 	private Tournament tournament;
+	private Category cat;
 	private EntityManager entityManager;
 	
-//	@BeforeClass
+	@Before
 	public void setUp() {
+		entityManager = ORMPlugin.getJPAEntityManager();
+		if (entityManager.getTransaction().isActive()) {
+			entityManager.joinTransaction();
+		} else {
+			entityManager.getTransaction().begin();
+		}
+		entityManager.clear();
+		
 		RankingSystem rankingSystem = new RankingSystem();
 		rankingSystem.setPluginId(BuchholzTest.PLUGIN_ID);
 		rankingSystem.setImplementationClass(BuchholzTest.RANKINGSYSTEM_CLASS);
 		rankingSystem.setShortType(BuchholzTest.RANKINGSYSTEM_TYPE);
 		rankingSystem.setRankingSystemNumber(1);
 		
-		settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
 		modelFactory = ModelFactory.getInstance();
 		tournament = modelFactory.createTournament("SettingsTestTournament");
 		tournament.setDescription("Testturnier für SettingsTest");
 		tournament.setYear(2011);
-		tournament.setPairingSystem("ch.jester.system.vollrundig.VollrundigPairingAlgorithm");
+		tournament.setPairingSystemPlugin(RoundRobinTest.PAIRING_PLUGIN);
+		tournament.setPairingSystem(RoundRobinTest.ALGORITHM_CLASS);
 		tournament.setEloCalculator("ch.jester.system.fidecalculator.FideCalculator");
 		tournament.addRankingSystem(rankingSystem);
-		mServiceUtil.getDaoServiceByEntity(Tournament.class).save(tournament);
+		cat = modelFactory.createCategory("HT1");
+		tournament.addCategory(cat);
 		
-//		entityManager = ORMPlugin.getJPAEntityManager();
-//		entityManager.joinTransaction();
-//		entityManager.clear();
-//		entityManager.persist(tournament);
+		entityManager.persist(tournament);
+		entityManager.flush();
 	}
+	
+//	@After
+//	public void tearDown() {
+//		entityManager.joinTransaction();
+//		entityManager.remove(tournament);
+//		entityManager.flush();
+//	}
 	
 	@Test
 	public void testPersistDummySettingObject() {
-		setUp();
 		DummySettingObject settings = new DummySettingObject();
 		settings.setDoubleRounded(Boolean.FALSE);
 		settings.setNow(new Date());
@@ -70,10 +85,15 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		SettingHelper<DummySettingObject> settingHelper = new SettingHelper<DummySettingObject>();
 		SettingItem settingItem = modelFactory.createSettingItem(tournament);
 		settingItem = settingHelper.analyzeSettingObjectToStore(settings, settingItem);
-		settingItemPersister.save(settingItem);
-		
-//		Query query = settingItemPersister.createQuery("select s from SettingItem s");
-//		SettingItem retrievedSettingItem = (SettingItem)query.getSingleResult();
+		entityManager.joinTransaction();
+		entityManager.persist(settingItem);
+		entityManager.flush();
+
+		Query query = entityManager.createQuery("select s from SettingItem s where s.rootClassName ='ch.jester.model.settings.tests.DummySettingObject'");
+		SettingItem retrievedSettingItem = (SettingItem)query.getSingleResult();
+		assertNotNull(retrievedSettingItem);
+//		List<SettingItem> resultList = query.getResultList();
+//		assertNotNull(resultList.get(0));
 	}
 	
 	@Test
@@ -81,7 +101,6 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		SettingItem retrievedSettingItem = retrieveSettingItem();
 		
 		assertEquals("ch.jester.model.settings.tests.DummySettingObject", retrievedSettingItem.getRootClassName());
-		assertEquals(tournament, retrievedSettingItem.getTournament());
 	}
 	
 	@Test
@@ -94,10 +113,6 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		assertEquals("ch.jester.system.TestPairingAlgorithm", settingObject.getPairingAlgorithm());
 		assertEquals(new Integer(7), settingObject.getNumberOfRounds());
 		assertEquals(new Double(3.5), settingObject.getResult());
-//		List<String> strings = settingObject.getMyStringList();
-//		assertEquals("String 1", strings.get(0));
-//		assertEquals("String 2", strings.get(1));
-//		assertEquals("String 3", strings.get(2));
 	}
 
 	/**
@@ -105,14 +120,12 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 	 * @return
 	 */
 	private SettingItem retrieveSettingItem() {
-		settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
-		EntityManagerFactory emf = ORMPlugin.getJPAEntityManagerFactory();
-		EntityManager entityManager = emf.createEntityManager();
-		tournament = (Tournament)entityManager.createQuery("select t from Tournament t where t.name = :tName")
-								.setParameter("tName", "SettingsTestTournament").getSingleResult();
-		Query namedQuery = settingItemPersister.createNamedQuery("SettingItemByTournament");
-		namedQuery.setParameter("tournament", tournament);
-		SettingItem retrievedSettingItem = (SettingItem)namedQuery.getSingleResult();
+		entityManager.clear();
+		entityManager.joinTransaction();
+
+		Query query = entityManager.createQuery("select s from SettingItem s where s.rootClassName ='ch.jester.model.settings.tests.DummySettingObject'");
+		SettingItem retrievedSettingItem = (SettingItem)query.getSingleResult();
+		
 		return retrievedSettingItem;
 	}
 }
