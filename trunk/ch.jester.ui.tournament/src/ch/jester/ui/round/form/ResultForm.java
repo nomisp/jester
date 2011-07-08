@@ -163,18 +163,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 	{
 		mLabelBuilder.delete(0, mLabelBuilder.length());
 		mLabelBuilder.append(PlayerNamingUtility.createPairingName(p, " vs "));
-		/*if(player!=null){
-			mLabelBuilder.append(player.getLastName());
-			mLabelBuilder.append(", ");
-			mLabelBuilder.append(player.getFirstName());
-			mLabelBuilder.append(" vs ");
-		}
-		player = p.getWhite().getPlayer();
-		if(player!=null){
-			mLabelBuilder.append(player.getLastName());
-			mLabelBuilder.append(", ");
-			mLabelBuilder.append(player.getFirstName());
-		}*/
+		boolean disableResultCombo = p.getBlack().getPlayer()==null||p.getWhite().getPlayer()==null;
 		managedForm.getToolkit().createLabel(c, mLabelBuilder.toString(), SWT.NONE);
 		ComboViewer viewer = new ComboViewer(c, SWT.READ_ONLY|SWT.DOUBLE_BUFFERED);
 
@@ -182,6 +171,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		viewer.addSelectionChangedListener(new PairingResultChanged(p));
 		viewer.setInput(Result.values());
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		viewer.getControl().setEnabled(!disableResultCombo);
 		SelectionSetter setter = new SelectionSetter(viewer, p);
 		setter.setSelection();
 		mSelectionSetters.add(setter);

@@ -53,7 +53,6 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 		try {
 			addPage(graphResultFormPage);
 			addPage(tableResultFormPage);
-			addPage(new BrowserForm(this, "", "Browser"));
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
