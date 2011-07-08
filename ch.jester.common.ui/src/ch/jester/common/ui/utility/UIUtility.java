@@ -274,7 +274,9 @@ public class UIUtility {
 				Job job = new Job(mName){
 					@Override
 					protected IStatus run(IProgressMonitor monitor) {
+						try{
 						UIUtility.syncExecInUIThread(new Runnable(){
+						
 							@Override
 							public void run() {
 								mRunnable.stepOne_InUIThread();	
@@ -287,8 +289,15 @@ public class UIUtility {
 								mRunnable.finalStep_inUIThread();
 							}
 						});
+						
 						done.set(true);
 						display.wake();
+						}catch(RuntimeException ex){
+							
+							done.set(true);
+							display.wake();
+							throw ex;
+						}
 						return Status.OK_STATUS;
 					}
 					
