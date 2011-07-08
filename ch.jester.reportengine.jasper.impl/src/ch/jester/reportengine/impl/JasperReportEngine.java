@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 
+import org.apache.xmlbeans.impl.jam.mutable.MField;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -258,12 +259,14 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 					exporter.setParameter(JRHtmlExporterParameter.OUTPUT_STREAM, output);
 					exporter.setParameter(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 					exporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-					exporter.setParameter(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR, Boolean.FALSE);
+					exporter.setParameter(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR, Boolean.TRUE);
+					exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,new File(mTempFileManager.getRootTempDirectory()+"/image"));
 					exporter.setParameter(JRHtmlExporterParameter.IGNORE_PAGE_MARGINS, Boolean.TRUE);
 					exporter.setParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, Boolean.TRUE);
 					exporter.setParameter(JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES, Boolean.TRUE);
-					exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"image?image=");
-					exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,su.getService(IFileManager.class).getRootTempDirectory());
+					//exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"image?image=");
+					exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"./image/");
+					//exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,su.getService(IFileManager.class).getRootTempDirectory());
 					break;
 				case PDF:
 					exporter = new JRPdfExporter();
