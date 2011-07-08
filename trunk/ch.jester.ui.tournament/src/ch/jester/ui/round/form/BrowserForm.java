@@ -14,15 +14,15 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
 import ch.jester.commonservices.api.persistency.IEntityObject;
-import ch.jester.ui.round.editors.ResultViewEditor;
+import ch.jester.ui.round.editors.RankingViewEditor;
 
 public class BrowserForm extends FormPage{
 	//public static final String ID = "ch.jester.ui.tournament.browse"; //$NON-NLS-1$
 	Browser browser;
-	ResultViewEditor edit;
+	RankingViewEditor edit;
 	public BrowserForm(FormEditor editor, String id, String title) {
 		super(editor, id, title);
-		edit = (ResultViewEditor) editor;
+		edit = (RankingViewEditor) editor;
 	}
 
 @Override

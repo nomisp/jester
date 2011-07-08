@@ -1,5 +1,6 @@
 package ch.jester.ui.tournament.internal;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,10 @@ public class RankingEntityHelp extends AbstractModelBean<IEntityObject>{
 	}
 	public RankingEntityHelp(Map<Category, Ranking> map){
 		mMap = map;
+	}
+	public RankingEntityHelp(Category pCategory, Ranking pRanking){
+		mMap = new HashMap<Category, Ranking>();
+		mMap.put(pCategory, pRanking);
 	}
 	public Map<Category, Ranking> getRankingInputMap(){
 		return mMap;

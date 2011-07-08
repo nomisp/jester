@@ -10,7 +10,7 @@ import ch.jester.common.ui.services.IEditorService;
 import ch.jester.model.Category;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
-import ch.jester.ui.round.editors.ResultViewEditor;
+import ch.jester.ui.round.editors.RankingViewEditor;
 import ch.jester.ui.round.editors.RoundEditor;
 import ch.jester.ui.round.form.BrowserForm;
 import ch.jester.ui.tournament.editors.TournamentEditor;
@@ -43,7 +43,7 @@ public class Activator extends AbstractUIActivator {
 		openService.register(Tournament.class, GenericDaoInputAccess.class, TournamentEditor.ID);
 		openService.register(Round.class, GenericDaoInputAccess.class, RoundEditor.ID);
 		openService.register(Category.class, GenericDaoInputAccess.class, RoundEditor.ID);
-		openService.register(RankingEntityHelp.class, GenericDaoInputAccess.class, ResultViewEditor.ID);
+		openService.register(RankingEntityHelp.class, GenericDaoInputAccess.class, RankingViewEditor.ID);
 	}
 
 	public void stopDelegate(BundleContext context) {
