@@ -16,7 +16,6 @@ import org.eclipse.jface.wizard.WizardPage;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.common.utility.ExceptionWrapper;
-import ch.jester.common.web.Link;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
 import ch.jester.commonservices.api.importer.ILink;
@@ -146,7 +145,7 @@ public class Controller {
 			
 			@Override
 			public void stepTwo_InJob() {
-				ParseController.getController().testRun();
+				//ParseController.getController().testRun();
 				SafeRunner.run(new ISafeRunnable() {
 					
 					@Override
@@ -155,15 +154,24 @@ public class Controller {
 					}
 					
 					@Override
-					public void handleException(Throwable exception) {
-						Controller.getController().setImportPossible(false);
-						mPage.setPageComplete(false);
-						if(mCurrentPage==1){
-							mPage.setPageComplete(true);
-						}
-						mPage.getWizard().getContainer().updateButtons();
-						ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
-						mPage.setErrorMessage(ew.getThrowableMessage());
+					public void handleException(final Throwable exception) {
+						UIUtility.syncExecInUIThread(new Runnable(){
+
+							@Override
+							public void run() {
+								Controller.getController().setImportPossible(false);
+								mPage.setPageComplete(false);
+								if(mCurrentPage==1){
+									mPage.setPageComplete(true);
+								}
+								mPage.getWizard().getContainer().updateButtons();
+								ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);
+								mPage.setErrorMessage(ew.getThrowableMessage());
+							}
+							
+							
+						});
+		
 					}
 				});
 				

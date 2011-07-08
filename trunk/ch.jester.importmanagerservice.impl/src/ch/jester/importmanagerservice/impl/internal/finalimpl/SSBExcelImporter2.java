@@ -20,6 +20,7 @@ import ch.jester.model.Player;
 
 public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 	public SSBExcelImporter2(){
+		System.out.println("-----------------ssbimporter2");
 		init_linking();
 	}
 	
