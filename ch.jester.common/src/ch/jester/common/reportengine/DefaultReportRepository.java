@@ -9,7 +9,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.osgi.framework.Bundle;
 
 import ch.jester.common.utility.BundleResourceExporter;
@@ -100,9 +104,23 @@ public class DefaultReportRepository implements IReportRepository {
 
 	private void installReport(IBundleReport pReport) {
 		if(!modelExported){
-			JesterModelExporter ex = new JesterModelExporter();
-			ex.exportModelAsZip(IReportEngine.TEMPLATE_DIRECTROY+"/model");
 			modelExported = true;
+			Job job = new Job("Exporting jester model"){
+
+				@Override
+				protected IStatus run(IProgressMonitor monitor) {
+					monitor.beginTask("exporting model", IProgressMonitor.UNKNOWN);
+					JesterModelExporter ex = new JesterModelExporter();
+					ex.exportModelToFolder(IReportEngine.TEMPLATE_DIRECTROY+"/model");
+					monitor.done();
+					return Status.OK_STATUS;
+				}
+				
+				
+			};
+			job.schedule();
+			
+
 		}
 		File engineFolder = mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY);
 		String fullReportPath = pReport.getBundleReportFile();
