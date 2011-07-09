@@ -20,5 +20,23 @@
             commandId="ch.jester.socialmedia.updatestatus">
       </handler>
    </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="ch.jester.socialmedia.toolbar">
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="ch.jester.common.ui.pref.EmptyPreferencePage"
+            id="ch.jester.socialmedia"
+            name="Social Media">
+      </page>
+   </extension>
 
 </plugin>

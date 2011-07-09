@@ -5,19 +5,16 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:org.eclipse.ui.main.toolbar">
-         <toolbar
-               id="ch.jester.socialmedia.facebook.toolbar2">
-            <command
-                  commandId="ch.jester.socialmedia.updatestatus"
-                  icon="icons/FaceBook-icon.png"
-                  style="push">
-               <parameter
-                     name="ch.jester.socialmedia.statusupdater.serviceid"
-                     value="ch.jester.socialmedia.facebook.FacebookService">
-               </parameter>
-            </command>
-         </toolbar>
+            locationURI="toolbar:ch.jester.socialmedia.toolbar">
+         <command
+               commandId="ch.jester.socialmedia.updatestatus"
+               icon="icons/FaceBook-icon.png"
+               style="push">
+            <parameter
+                  name="ch.jester.socialmedia.statusupdater.serviceid"
+                  value="ch.jester.socialmedia.facebook.FacebookService">
+            </parameter>
+         </command>
       </menuContribution>
    </extension>
    <extension
