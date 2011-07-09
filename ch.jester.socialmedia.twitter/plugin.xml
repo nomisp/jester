@@ -5,20 +5,17 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:org.eclipse.ui.main.toolbar">
-         <toolbar
-               id="ch.jester.socialmedia.twitter.toolbar">
-            <command
-                  commandId="ch.jester.socialmedia.updatestatus"
-                  icon="icon/twitter.png"
-                  label="%Twitter"
-                  style="push">
-               <parameter
-                     name="ch.jester.socialmedia.statusupdater.serviceid"
-                     value="ch.jester.socialmedia.twitter.TwitterService">
-               </parameter>
-            </command>
-         </toolbar>
+            locationURI="toolbar:ch.jester.socialmedia.toolbar">
+         <command
+               commandId="ch.jester.socialmedia.updatestatus"
+               icon="icon/twitter.png"
+               label="%Twitter"
+               style="push">
+            <parameter
+                  name="ch.jester.socialmedia.statusupdater.serviceid"
+                  value="ch.jester.socialmedia.twitter.TwitterService">
+            </parameter>
+         </command>
       </menuContribution>
    </extension>
    <extension
@@ -28,11 +25,6 @@
             class="ch.jester.common.ui.pref.IDPreferencePage"
             id="ch.jester.socialmedia.twitter.pref"
             name="Twitter">
-      </page>
-      <page
-            class="ch.jester.common.ui.pref.EmptyPreferencePage"
-            id="ch.jester.socialmedia"
-            name="Social Media">
       </page>
    </extension>
 
