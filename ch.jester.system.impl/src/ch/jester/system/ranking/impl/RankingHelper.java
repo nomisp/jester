@@ -155,6 +155,66 @@ public class RankingHelper {
 		}
 		return opponents;
 	}
+	
+	/**
+	 * Liefert eine Liste mit den Gegnern, gegen die gewonnen wurde
+	 * @param player
+	 * @param rounds Runden, welche für die Rangliste berücksichtigt werden
+	 * @return
+	 */
+	public static List<PlayerCard> getWins(PlayerCard player, List<Round> rounds) {
+		List<PlayerCard> opponents = new ArrayList<PlayerCard>();
+		for (Round round : rounds) {
+			for (Pairing pairing : round.getPairings()) {
+				if (pairing.getWhite().equals(player) && pairing.getResult().startsWith("1")) {
+					opponents.add(pairing.getBlack());
+				} else if (pairing.getBlack().equals(player) && pairing.getResult().startsWith("0")) {
+					opponents.add(pairing.getWhite());
+				}
+			}
+		}
+		return opponents;
+	}
+	
+	/**
+	 * Liefert eine Liste mit den Gegnern, gegen die verloren wurde
+	 * @param player
+	 * @param rounds Runden, welche für die Rangliste berücksichtigt werden
+	 * @return
+	 */
+	public static List<PlayerCard> getLosts(PlayerCard player, List<Round> rounds) {
+		List<PlayerCard> opponents = new ArrayList<PlayerCard>();
+		for (Round round : rounds) {
+			for (Pairing pairing : round.getPairings()) {
+				if (pairing.getWhite().equals(player) && pairing.getResult().startsWith("0")) {
+					opponents.add(pairing.getBlack());
+				} else if (pairing.getBlack().equals(player) && pairing.getResult().startsWith("1")) {
+					opponents.add(pairing.getWhite());
+				}
+			}
+		}
+		return opponents;
+	}
+	
+	/**
+	 * Liefert eine Liste mit den Gegnern, gegen die remisiert wurde
+	 * @param player
+	 * @param rounds Runden, welche für die Rangliste berücksichtigt werden
+	 * @return
+	 */
+	public static List<PlayerCard> getRemis(PlayerCard player, List<Round> rounds) {
+		List<PlayerCard> opponents = new ArrayList<PlayerCard>();
+		for (Round round : rounds) {
+			for (Pairing pairing : round.getPairings()) {
+				if (pairing.getWhite().equals(player) && pairing.getResult().equalsIgnoreCase("x")) {
+					opponents.add(pairing.getBlack());
+				} else if (pairing.getBlack().equals(player) && pairing.getResult().equalsIgnoreCase("x")) {
+					opponents.add(pairing.getWhite());
+				}
+			}
+		}
+		return opponents;
+	}
 
 	/**
 	 * Erzeugen des Rankings anhand der Liste mit den PlayerCards

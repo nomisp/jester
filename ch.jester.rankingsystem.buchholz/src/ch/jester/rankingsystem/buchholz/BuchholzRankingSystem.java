@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.commonservices.api.components.IEPEntry;
@@ -23,7 +21,6 @@ import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
-import ch.jester.orm.ORMPlugin;
 import ch.jester.system.api.ranking.IRankingSystem;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.ranking.impl.RankingHelper;
@@ -35,7 +32,6 @@ import ch.jester.system.ranking.impl.RankingHelper;
  */
 public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 	private ServiceUtility mServiceUtil = new ServiceUtility();
-	private EntityManager entityManager = ORMPlugin.getJPAEntityManager();
 	private IEPEntry<?> rankingSystemEntry;
 
 	@Override
@@ -119,8 +115,6 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		}
 		
 		RankingHelper.createRanking(ranking, initialIntermediateRanking, rankingSystemEntry.getProperty("shortType"));
-		
-		RankingHelper.printRanking(ranking); // TODO Peter: Bei Task complete rauslöschen!
 		
 		saveIntermediateRanking(lastFinishedRound, ranking);
 		return ranking;
