@@ -27,6 +27,7 @@ public class ServiceUtility {
 	private static Object GLOBAL_LOCK = new Object();
 	private BundleContext mContext;
 	private HashMap<Class<?>, ServiceTracker> mTrackerMap = new HashMap<Class<?>, ServiceTracker>();
+	private HashMap<String, ServiceTracker> mStringTrackerMap = new HashMap<String, ServiceTracker>();
 
 	/**
 	 *
@@ -63,6 +64,12 @@ public class ServiceUtility {
 		ServiceTracker tracker = getServiceTracker(pServiceInterface, true);
 		Object service = tracker.getService();
 		return (T) service;
+	}
+	
+	public Object getService(String pServiceId){
+		ServiceTracker tracker = getServiceTracker(pServiceId, true);
+		Object service = tracker.getService();
+		return service;
 	}
 
 	/**
@@ -106,12 +113,27 @@ public class ServiceUtility {
 		return tracker;
 	}
 	
+	private ServiceTracker getServiceTracker(String pServiceInterface,
+			boolean pCreate) {
+		ServiceTracker tracker = mStringTrackerMap.get(pServiceInterface);
+		if (tracker == null && pCreate) {
+			tracker = createTracker(pServiceInterface);
+			tracker.open();
+			mStringTrackerMap.put(pServiceInterface, tracker);
+		}
+		return tracker;
+	}
 	/**Erstellt einen neuen Tracker
 	 * @param pServiceInterface
 	 * @return
 	 */
 	private ServiceTracker createTracker(Class<?> pServiceInterface){
 		return new ServiceTracker(mContext, pServiceInterface.getName(),
+				null);
+	}
+	
+	private ServiceTracker createTracker(String pServiceId){
+		return new ServiceTracker(mContext, pServiceId,
 				null);
 	}
 
@@ -122,6 +144,10 @@ public class ServiceUtility {
 		Iterator<Class<?>> mapIterator = mTrackerMap.keySet().iterator();
 		while (mapIterator.hasNext()) {
 			mTrackerMap.get(mapIterator.next()).close();
+		}
+		Iterator<String> smapIterator = mStringTrackerMap.keySet().iterator();
+		while (mapIterator.hasNext()) {
+			mTrackerMap.get(smapIterator.next()).close();
 		}
 	}
 
@@ -222,5 +248,6 @@ public class ServiceUtility {
 		if(factory==null){return null;}
 		return factory.getDaoServiceByServiceInterface(pClass);
 	}
+
 
 }

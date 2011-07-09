@@ -53,7 +53,12 @@ public class PreferenceProperty implements IPreferenceProperty {
 						value="0";
 					}
 					mValue = Integer.parseInt(value.toString());
-			}else{
+			}else if(mType == Long.class){
+				if(value.toString().length()==0){
+					value="0";
+				}
+				mValue = Long.parseLong(value.toString());
+			}	else{
 				mValue = value.toString();
 			}
 			return mValue;
