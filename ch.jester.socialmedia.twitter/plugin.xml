@@ -2,13 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.ui.commands">
-      <command
-            id="ch.jester.socialmedia.twitter.open"
-            name="%Twitter">
-      </command>
-   </extension>
-   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
@@ -16,20 +9,17 @@
          <toolbar
                id="ch.jester.socialmedia.twitter.toolbar">
             <command
-                  commandId="ch.jester.socialmedia.twitter.open"
+                  commandId="ch.jester.socialmedia.updatestatus"
                   icon="icon/twitter.png"
                   label="%Twitter"
                   style="push">
+               <parameter
+                     name="ch.jester.socialmedia.statusupdater.serviceid"
+                     value="ch.jester.socialmedia.twitter.TwitterService">
+               </parameter>
             </command>
          </toolbar>
       </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.handlers">
-      <handler
-            class="ch.jester.socialmedia.twitter.OpenTwitterUI"
-            commandId="ch.jester.socialmedia.twitter.open">
-      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">

@@ -1,54 +1,31 @@
 package ch.jester.socialmedia.twitter;
 
+import twitter4j.TwitterException;
 import twitter4j.conf.ConfigurationBuilder;
-import ch.jester.common.components.ComponentAdapter;
-
-import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
-import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
+import ch.jester.socialmedia.api.ISocialStatusUpdater;
+import ch.jester.socialmedia.auth.OAuthServiceComponent;
 
-public class TwitterService extends ComponentAdapter<IPreferenceRegistration> implements IPreferenceManagerProvider{
+public class TwitterService extends OAuthServiceComponent implements IPreferenceManagerProvider, ISocialStatusUpdater{
 
-	private IPreferenceManager mPreferenceManager;
 	private Twitter4JWrapper mWrapper;
-
 	@Override
-	public IPreferenceManager getPreferenceManager(String pKey) {
-		return mPreferenceManager;
-	}
-	
-	@Override
-	public void bind(IPreferenceRegistration pT) {
-		super.bind(pT);
-		initPreferences(pT.createManager());
+	protected String getPreferenceKey() {
+		return "ch.jester.socialmedia.twitter";
 	}
 
-	private void initPreferences(IPreferenceManager createManager) {
-		mPreferenceManager = createManager;
-		mPreferenceManager.setId("ch.jester.socialmedia.twitter");
-		mPreferenceManager.create("OAuthConsumerKey", "OAuthConsumerKey", "2RTYpIOiwuTbeVaVT2iyA");
-		mPreferenceManager.create("OAuthConsumerSecret", "OAuthConsumerSecret", "xAA0zYiFkE1ne2NMvgbmfJlBAD9vFo0tBBiK28Z1rBc");
-		mPreferenceManager.create("OAuthRequestTokenURL","OAuthRequestTokenURL","https://api.twitter.com/oauth/request_token");
-		mPreferenceManager.create("OAuthAccessTokenURL","OAuthAccessTokenURL","https://api.twitter.com/oauth/access_token");
-		mPreferenceManager.create("OAuthAuthorizationURL","OAuthAuthorizationURL","https://api.twitter.com/oauth/authorize");
-		mPreferenceManager.create("OAuthAccessToken","OAuthAccessToken","331121808-jTq6sKVIPY07qAhxHGcg6cU5C5z2oNhtsmSBwAG6");
-		mPreferenceManager.create("OAuthAccessTokenSecret","OAuthAccessTokenSecret","3jLEoaXegJFERubkVpfR93zdabDwsfw3k24lLBY7Gg");
-		mPreferenceManager.registerProviderAtRegistrationService(this);
+	@Override
+	public void initializeService() {
+		mAuthConsumerKey.setValue("2RTYpIOiwuTbeVaVT2iyA");
+		mAuthConsumerSecret.setValue("xAA0zYiFkE1ne2NMvgbmfJlBAD9vFo0tBBiK28Z1rBc");
+		mAuthRequestTokenURL.setValue("https://api.twitter.com/oauth/request_token");
+		mAuthAccessTokenURL.setValue("https://api.twitter.com/oauth/access_token");
+		mAuthAuthoriziationURL.setValue("https://api.twitter.com/oauth/authorize");
+		mAuthAccessToken.setValue("331121808-jTq6sKVIPY07qAhxHGcg6cU5C5z2oNhtsmSBwAG6");
+		mAuthAccessTokenSecret.setValue("3jLEoaXegJFERubkVpfR93zdabDwsfw3k24lLBY7Gg");
+		getTwitter();
 		
 	}
-	
-	/*private  Twitter createTwitter(){
-	ConfigurationBuilder builder= new ConfigurationBuilder();
-	builder.setOAuthConsumerKey("2RTYpIOiwuTbeVaVT2iyA");
-	builder.setOAuthConsumerSecret("xAA0zYiFkE1ne2NMvgbmfJlBAD9vFo0tBBiK28Z1rBc");
-	builder.setOAuthRequestTokenURL("https://api.twitter.com/oauth/request_token");
-	builder.setOAuthAccessToken("https://api.twitter.com/oauth/access_token");
-	builder.setOAuthAuthorizationURL("https://api.twitter.com/oauth/authorize");
-	builder.setOAuthAccessToken("331121808-jTq6sKVIPY07qAhxHGcg6cU5C5z2oNhtsmSBwAG6");
-	builder.setOAuthAccessTokenSecret("3jLEoaXegJFERubkVpfR93zdabDwsfw3k24lLBY7Gg");
-	
-	return twitter;
-}*/
 
 	public ConfigurationBuilder getConfigurationBuilder(){
 		ConfigurationBuilder builder= new ConfigurationBuilder();
@@ -68,5 +45,25 @@ public class TwitterService extends ComponentAdapter<IPreferenceRegistration> im
 		}
 		return mWrapper;
 	}
+
+	@Override
+	public void updateStatus(String pStatus) {
+		try {
+			mWrapper.postStatus(pStatus);
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public int getMaxCharacterForStatus() {
+		return 140;
+	}
+
+
+
+
 
 }
