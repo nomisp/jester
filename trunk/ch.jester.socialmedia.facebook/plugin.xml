@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="ch.jester.socialmedia.facebook.toolbar2">
+            <command
+                  commandId="ch.jester.socialmedia.updatestatus"
+                  icon="icons/FaceBook-icon.png"
+                  style="push">
+               <parameter
+                     name="ch.jester.socialmedia.statusupdater.serviceid"
+                     value="ch.jester.socialmedia.facebook.FacebookService">
+               </parameter>
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.socialmedia"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.socialmedia.facebook.pref"
+            name="Facebook">
+      </page>
+   </extension>
+
+</plugin>
