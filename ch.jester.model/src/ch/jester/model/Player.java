@@ -1,11 +1,14 @@
 package ch.jester.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -62,7 +65,7 @@ public class Player extends AbstractModelBean<Player> {
 
 	@Column(name = "Category", nullable = true)
 	private String category; // Kategorie eines Spielers z.B. Senior, Junior,
-								// Sch�ler etc.
+								// Schüler etc.
 
 	@Column(name = "NationalCoefficient", nullable = true)
 	private Integer nationalCoefficient; // Koeffizient zur Berechnung der
@@ -74,16 +77,8 @@ public class Player extends AbstractModelBean<Player> {
 	@Column(name = "Title", nullable = true)
 	private String title; // Titel eines Spielers (GM, IM, FM)
 
-	@Transient
-	private Club club;
-	
-	public Club getClub() {
-		return club;
-	}
-
-	public void setClub(Club club) {
-		changeProperty("club", club);
-	}
+	@ManyToMany(mappedBy="players")
+	private List<Club> clubs = new ArrayList<Club>();
 	
 	public String getFirstName() {
 		return firstName;
@@ -187,6 +182,26 @@ public class Player extends AbstractModelBean<Player> {
 
 	public void setTitle(String title) {
 		changeProperty("title", title);
+	}
+	
+	public List<Club> getClubs() {
+		return clubs;
+	}
+
+	public void setClubs(List<Club> clubs) {
+		changeProperty("clubs", clubs);
+	}
+	
+	public void addClub(Club club) {
+		if (club == null) throw new IllegalArgumentException("club cannot be null");
+		if (!clubs.contains(club)) clubs.add(club);
+		club.addPlayer(this); // Bidirektion
+	}
+	
+	public void removeClub(Club club) {
+		if (club == null) throw new IllegalArgumentException("club cannot be null");
+		clubs.remove(club);
+		club.removePlayer(this); // Bidirektion
 	}
 
 	public String toString() {

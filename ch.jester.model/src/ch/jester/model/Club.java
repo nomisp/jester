@@ -1,7 +1,11 @@
 package ch.jester.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -17,6 +21,9 @@ public class Club extends AbstractModelBean<Club> {
 	
 	@Column(name="Code", nullable=true)
 	private Integer code;
+	
+	@ManyToMany
+	private List<Player> players = new ArrayList<Player>();
 
 	public String getName() {
 		return name;
@@ -32,6 +39,26 @@ public class Club extends AbstractModelBean<Club> {
 
 	public void setCode(Integer code) {
 		this.code = code;
+	}
+
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
+	}
+	
+	public void addPlayer(Player player) {
+		if (player == null) throw new IllegalArgumentException("player cannot be null");
+		if (!players.contains(player)) players.add(player);
+		player.addClub(this); // Bidirektion
+	}
+	
+	public void removePlayer(Player player) {
+		if (player == null) throw new IllegalArgumentException("player cannot be null");
+		players.remove(player);
+		player.removeClub(this); // Bidirektion
 	}
 
 	@Override
