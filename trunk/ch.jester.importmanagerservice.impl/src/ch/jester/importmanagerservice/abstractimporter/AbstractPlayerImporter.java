@@ -1,4 +1,4 @@
-package ch.jester.importmanagerservice.impl.internal.finalimpl;
+package ch.jester.importmanagerservice.abstractimporter;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 		init_linking();
 		
 	}
-	abstract void init_linking();
+	public abstract void init_linking();
 	
 	@Override
 	public String[] getDomainObjectAttributes() {
