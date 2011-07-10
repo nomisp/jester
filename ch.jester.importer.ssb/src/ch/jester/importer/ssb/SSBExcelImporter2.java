@@ -115,7 +115,7 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		String clubName = domainProperties.getProperty(clubInputId).trim();
 		if(clubName == null || clubName.isEmpty()){return;}
 		Club club = ModelFactory.getInstance().createClub(clubName);
-		vnew.setClub(club);
+		vnew.addClub(club);
 		if(domainProperties.get("Sektion")!=null){
 			try{
 				int sektId = Integer.parseInt(domainProperties.getProperty("Sektion"));
