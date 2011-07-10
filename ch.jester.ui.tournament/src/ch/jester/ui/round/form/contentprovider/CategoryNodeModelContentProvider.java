@@ -6,7 +6,6 @@ import java.util.List;
 import ch.jester.model.Category;
 import ch.jester.model.Round;
 import ch.jester.ui.round.editors.ResultController;
-import ch.jester.ui.round.form.ZestConnection;
 import ch.jester.ui.round.form.ZestDataNode;
 
 public class CategoryNodeModelContentProvider extends RoundNodeModelContentProvider{
@@ -24,8 +23,6 @@ public class CategoryNodeModelContentProvider extends RoundNodeModelContentProvi
 
 	private void buildCategory(Category input) {
 		nodes = new ArrayList<ZestDataNode>();
-
-		List<Round> rounds = input.getRounds();
 		for(Round r:input.getRounds()){
 			ZestDataNode parentRound = new ZestDataNode(r.getId()+"", "Round "+r.getNumber(), r);
 			nodes.add(parentRound);

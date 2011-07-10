@@ -1,19 +1,16 @@
 package ch.jester.ui.round.form;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.net.URL;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.GridData;
 
-import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.ui.round.editors.RankingViewEditor;
 
 public class BrowserForm extends FormPage{

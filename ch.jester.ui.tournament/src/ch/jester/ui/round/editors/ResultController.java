@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import ch.jester.common.persistency.EventLoadMatchingFilter;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
@@ -17,7 +16,6 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
-import ch.jester.model.Player;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.model.util.PlayerColor;
@@ -67,7 +65,7 @@ public class ResultController implements IDirtyManagerProvider{
 	public ResultController() {
 		mSync.addController(this);
 		mPcs = new PropertyChangeSupport(this);
-		EventLoadMatchingFilter filter = new EventLoadMatchingFilter(Pairing.class);
+		//EventLoadMatchingFilter filter = new EventLoadMatchingFilter(Pairing.class);
 		/*mServices.getService(IPersistencyEventQueue.class).addListener(mQueueListener = new PersistencyListener(filter) {
 			@Override
 			public void persistencyEvent(final IPersistencyEvent pEvent) {

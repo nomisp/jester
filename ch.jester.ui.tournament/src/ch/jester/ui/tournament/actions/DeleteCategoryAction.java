@@ -3,9 +3,6 @@ package ch.jester.ui.tournament.actions;
 import org.eclipse.jface.action.Action;
 
 import ch.jester.model.Category;
-import ch.jester.model.Round;
-import ch.jester.model.Tournament;
-import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.forms.CategoryMasterDetail;
 import ch.jester.ui.tournament.nl1.Messages;
 
