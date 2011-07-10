@@ -1,4 +1,4 @@
-package ch.jester.importmanagerservice.impl.internal;
+package ch.jester.importmanagerservice.manager;
 
 import org.osgi.framework.BundleContext;
 

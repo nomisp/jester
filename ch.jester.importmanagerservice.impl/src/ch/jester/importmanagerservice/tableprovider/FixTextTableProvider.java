@@ -1,4 +1,4 @@
-package ch.jester.importmanagerservice.impl.abstracts;
+package ch.jester.importmanagerservice.tableprovider;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
