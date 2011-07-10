@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="ch.jester.system.api.RankingSystem">
+      <RankingSystem
+            class="ch.jester.rankingsystem.sonnebornberger.SonnebornBergerRankingSystem"
+            pluginId="ch.jester.rankingsystem.sonnebornberger"
+            shortType="Sonneborn-Berger"
+            typeDescription="Sonneborn-Berger Ranking System">
+      </RankingSystem>
+   </extension>
+
+</plugin>
