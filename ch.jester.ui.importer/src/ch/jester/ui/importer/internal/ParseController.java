@@ -36,7 +36,7 @@ public class ParseController {
 	}
 	
 	public void testRun() throws ProcessingException{
-	
+			if(!canTest()){return;}
 			try{
 			
 			String[] headers = getInputAttributes();
@@ -79,7 +79,11 @@ public class ParseController {
 		IVirtualTable<?> virtual = AdapterUtility.getAdaptedObject(handler, IVirtualTable.class);
 		return virtual;
 	}
-	
+	private boolean canTest(){
+		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
+		ITestableImportHandler<Object> testableHandler = AdapterUtility.getAdaptedObject(handler, ITestableImportHandler.class);
+		return testableHandler!=null;
+	}
 
 	public String[] getInputAttributes(){
 		if(hasException()){

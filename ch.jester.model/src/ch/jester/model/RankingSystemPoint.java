@@ -3,6 +3,8 @@ package ch.jester.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Wrapper-Klasse für die Punkte der verschiedenen Feinwertungen.
@@ -57,6 +59,7 @@ public class RankingSystemPoint extends AbstractModelBean<RankingSystemPoint> im
 		this.points += points;
 	}
 
+	@XmlTransient
 	public PlayerCard getPlayerCard() {
 		return playerCard;
 	}
@@ -75,4 +78,7 @@ public class RankingSystemPoint extends AbstractModelBean<RankingSystemPoint> im
 	public int compareTo(RankingSystemPoint rankingSystemPoint) {
 		return this.points.compareTo(rankingSystemPoint.getPoints());
 	}
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+	    this.playerCard = (PlayerCard)parent;
+}
 }

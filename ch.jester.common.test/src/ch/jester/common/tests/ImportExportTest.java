@@ -1,5 +1,6 @@
 package ch.jester.common.tests;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
@@ -23,6 +24,7 @@ import ch.jester.model.Category;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.RankingSystem;
+import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.system.pairing.test.RoundRobinTest;
@@ -66,12 +68,19 @@ public class ImportExportTest {
 		cat1.addPlayerCard(pc1);
 		cat1.addPlayerCard(pc2);
 		
+		RankingSystemPoint sp1 = new RankingSystemPoint("p1");
+		RankingSystemPoint sp2 = new RankingSystemPoint("p2");
+		
+		pc1.addRankingSystemPoint(sp1);
+		pc2.addRankingSystemPoint(sp2);
+		
 		su.getDaoServiceByEntity(Tournament.class).save(tournament);
 		
 		return tournament;
 	}
 	@After
 	public void cleanup() throws IOException{
+		new File("test.zip").delete();
 		if(reader!=null){
 			reader.close();
 		}
@@ -102,10 +111,15 @@ public class ImportExportTest {
 		serializer.prepareContext(factory.getAllExportableClasses());
 		 reader = serializer.createReader("test.zip");
 		List<IEntityObject> list = reader.read("jester-export.xml");
+		
 		Assert.assertEquals(1, list.size());
+		Tournament loadedTournament =  (Tournament) list.get(0);
 		Assert.assertEquals(Tournament.class, list.get(0).getClass());
 		Tournament tournament = (Tournament) list.get(0);
 		Assert.assertEquals(2, tournament.getCategories().size());
+		
+		Assert.assertEquals(1, tournament.getRankingSystems().size());
+		Assert.assertEquals(loadedTournament, loadedTournament.getRankingSystems().get(0).getTournament());
 		
 		Category cat = null;
 		Iterator<Category> catit = tournament.getCategories().iterator();
