@@ -149,6 +149,7 @@ public class PlayersView extends AbstractView{
 		public void dragStart(DragSourceEvent event) {
 			//drag only saved entities
 			su.setSelection(tableViewer.getSelection());
+			@SuppressWarnings("unchecked")
 			List<IEntityObject> entities = su.getAsStructuredSelection().toList();
 			for(IEntityObject e:entities){
 				if(e.isUnsafed()){
