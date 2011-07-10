@@ -59,6 +59,7 @@ import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.api.web.IHTTPSessionAware;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.model.Category;
 import ch.jester.model.Player;
 import ch.jester.model.Tournament;
 import ch.jester.reportengine.impl.internal.Initializer;
@@ -94,13 +95,17 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     public JasperReportEngine(){
     	IBundleReport report = factory.createBundleReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports", "reports/PlayerList.jrxml");
     	report.setInputBeanClass(Player.class);
-    	report = factory.createBundleReport("ch.jester.reportengine.jasper.impl", "pairinglist", "Pairing List", "reports", "reports/PairingList.jrxml");
+    	report = factory.createBundleReport("ch.jester.reportengine.jasper.impl", "pairinglist_tournament", "Tournament Pairing", "reports", "reports/PairingList.jrxml");
     	report.setInputBeanClass(Tournament.class);
+    	report = factory.createBundleReport("ch.jester.reportengine.jasper.impl", "pairinglist_category", "Category Pairing", "reports", "reports/PairingListCat.jrxml");
+    	report.setInputBeanClass(Category.class);
     	IBundleReport src = factory.createBundleReport("ch.jester.reportengine.jasper.impl", null, null, "reports", "reports/Category_RoundSubReport.jrxml");
     	cache.addCachedReport(src, null, null);
     	src = factory.createBundleReport("ch.jester.reportengine.jasper.impl", null, null, "reports", "reports/Category_sub.jrxml");
     	cache.addCachedReport(src, null, null);
     	new Initializer().load(factory);
+    	
+    	
     }
     
 
