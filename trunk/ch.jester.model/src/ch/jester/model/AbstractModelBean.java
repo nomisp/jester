@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.UUID;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,7 +36,7 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 	@XmlAttribute(name="id")
 	@XmlID
 	public String getSerialId(){
-		return id.toString();
+		return UUID.randomUUID().toString();
 	}
 	@XmlTransient
 	public Integer getId() {

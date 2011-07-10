@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entität für die Feinwertungssysteme.
@@ -39,6 +41,7 @@ public class RankingSystem extends AbstractModelBean<RankingSystem> {
 	private Integer rankingSystemNumber;
 	
 	@ManyToOne
+
 	private Tournament tournament;
 	
 	public RankingSystem() {
@@ -84,7 +87,7 @@ public class RankingSystem extends AbstractModelBean<RankingSystem> {
 	public void setRankingSystemNumber(Integer rankingSystemNumber) {
 		this.rankingSystemNumber = rankingSystemNumber;
 	}
-
+	@XmlTransient
 	public Tournament getTournament() {
 		return tournament;
 	}
@@ -101,5 +104,7 @@ public class RankingSystem extends AbstractModelBean<RankingSystem> {
 	public Object clone() throws CloneNotSupportedException {
 		return createCompleteClone();
 	}
-
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+	    this.tournament = (Tournament)parent;
+}
 }

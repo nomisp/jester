@@ -122,7 +122,7 @@ public class ModelFactory {
 	 * @return den erzeugten Player
 	 */
 	public Player createPlayer(){
-		return createPlayer("FirstName","LastName","City",0,0,0,"Nation",0);
+		return createPlayer("FirstName","LastName","",0,0,0,"",0);
 	}
 	
 	/**
@@ -310,7 +310,7 @@ public class ModelFactory {
 	}	
 	
 	public Class<?>[] getAllExportableClasses(){
-		return new Class[]{Category.class, Club.class, Pairing.class, Player.class, Round.class, Tournament.class};
+		return new Class[]{Category.class, Club.class, RankingSystemPoint.class, RankingSystem.class, Pairing.class, Player.class, Round.class, Tournament.class};
 	}
 	
 	

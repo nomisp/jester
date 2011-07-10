@@ -40,7 +40,7 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 		
 		List<IImportHandlerEntry> list = importManager.getRegistredEntries();
 		IImportHandlerEntry entry = null;
-		for(IImportHandlerEntry e:list){
+	/*	for(IImportHandlerEntry e:list){
 			if(e.getDescription().startsWith("FIDE")){
 				entry=e;
 				break;
@@ -58,7 +58,7 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 		int reps = persister.count();
 		for(int i = 0; i<reps;i=i+50){
 			persister.getFromTo(i, i+50);
-		}
+		}*/
 	}
 
 }

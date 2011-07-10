@@ -107,6 +107,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	 * @param rankingSystem
 	 * @return RankingSystemPoint oder null falls es keines zu diesem Ranking-System gibt
 	 */
+	
 	public RankingSystemPoint getRankingSystemPoint(String rankingSystem) {
 		for (RankingSystemPoint rankingSystemPoint : rankingSystemPoints) {
 			if (rankingSystemPoint.getRankingSystem().equals(rankingSystem)) return rankingSystemPoint;
