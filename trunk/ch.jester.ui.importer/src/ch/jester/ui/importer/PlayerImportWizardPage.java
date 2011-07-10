@@ -245,6 +245,7 @@ public class PlayerImportWizardPage extends WizardPage {
 				UIUtility.syncExecInUIThread(new Runnable() {
 					@Override
 					public void run() {
+					 if(rdWeb.isDisposed()){return;}
 						rdWeb.setEnabled(true);
 						
 					}

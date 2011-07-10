@@ -16,5 +16,14 @@
             dataProviderId="ch.jester.dataprovider.fide">
       </WebImportAdapter>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.ui.importer.pref"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.fide.txt.importer.pref"
+            name="FIDE">
+      </page>
+   </extension>
 
 </plugin>
