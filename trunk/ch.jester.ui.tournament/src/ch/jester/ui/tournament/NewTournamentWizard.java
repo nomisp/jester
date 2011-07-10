@@ -21,6 +21,7 @@ import ch.jester.model.RankingSystem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.internal.Activator;
+import ch.jester.ui.tournament.nl1.Messages;
 
 public class NewTournamentWizard extends Wizard implements INewWizard {
 	
@@ -32,12 +33,12 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 	
 	public NewTournamentWizard() {
 		mLogger = Activator.getDefault().getActivationContext().getLogger();
-		mLogger.info("New tournament wizard started");
+		mLogger.info("New tournament wizard started"); //$NON-NLS-1$
 	}
 	
 	@Override
 	public void addPages() {
-		mLogger.info("New tournament wizard started: adding pages");
+		mLogger.info("New tournament wizard started: adding pages"); //$NON-NLS-1$
 		super.addPages();
 		addPage(newTournament);
 		addPage(systemPage);
@@ -46,7 +47,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		setWindowTitle("New Tournament");
+		setWindowTitle(Messages.NewTournamentWizard_NewTournament);
 		newTournament = new NewTournamentWizPageName();
 		systemPage = new NewTournWizPageSystem();
 		categoriesPage = new NewTournWizPageCategories();
@@ -71,7 +72,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					Date dateTo = newTournament.getDateTo();
 					
 					ModelFactory mf = ModelFactory.getInstance();
-					mLogger.debug("Creating tournament: " + tournamentName);
+					mLogger.debug("Creating tournament: " + tournamentName); //$NON-NLS-1$
 					Tournament tournament = mf.createTournament(tournamentName);
 					tournament.setDescription(description);
 					tournament.setYear(getYear(dateFrom));
@@ -94,7 +95,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);//su.getExclusiveService(ITournamentDao.class);
 					tournamentPersister.save(tournament);
 //					categoryPersister.save(categories);
-					mLogger.debug("Tournament " + tournament.getName() + " with Id " + tournament.getId() + " created");
+					mLogger.debug("Tournament " + tournament.getName() + " with Id " + tournament.getId() + " created"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
 			});
 		} catch (InvocationTargetException e) {

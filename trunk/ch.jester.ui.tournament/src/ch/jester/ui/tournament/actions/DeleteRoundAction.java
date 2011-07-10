@@ -4,6 +4,7 @@ import org.eclipse.jface.action.Action;
 
 import ch.jester.model.Round;
 import ch.jester.ui.tournament.forms.CategoryMasterDetail;
+import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Action zum löschen von Runden
@@ -22,7 +23,7 @@ public class DeleteRoundAction extends Action {
 	
 	@Override
 	public String getText() {
-		return "DeleteRound";
+		return Messages.Action_DeleteRound_text;
 	}
 
 	@Override

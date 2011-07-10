@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.TableColumn;
 
 import ch.jester.model.Category;
 import ch.jester.model.factories.ModelFactory;
+import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Wizard Seite um dem Turnier Kategorien hinzuzufügen
@@ -43,9 +44,9 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 	 * Create the wizard.
 	 */
 	public NewTournWizPageCategories() {
-		super("CategoriesPage");
-		setTitle("Categories");
-		setDescription("Adding categories to the tournament");
+		super("CategoriesPage"); //$NON-NLS-1$
+		setTitle(Messages.NewTournWizPageCategories_title);
+		setDescription(Messages.NewTournWizPageCategories_description);
 		setPageComplete(true);
 		categories = new ArrayList<Category>();
 	}
@@ -74,7 +75,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		TableViewerColumn categoryNameColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn categoryName = categoryNameColumn.getColumn();
 		categoryName.setWidth(100);
-		categoryName.setText("Description");
+		categoryName.setText(Messages.NewTournWizPageCategories_tableCol_description);
 		categoryNameColumn.setLabelProvider(new CellLabelProvider() {
 		    public void update(ViewerCell cell) {
 		        cell.setText(((Category) cell.getElement()).getDescription());
@@ -104,7 +105,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		TableViewerColumn minEloColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn minEloCol = minEloColumn.getColumn();
 		minEloCol.setWidth(80);
-		minEloCol.setText("Min. Elo");
+		minEloCol.setText(Messages.NewTournWizPageCategories_tableCol_minElo);
 		minEloColumn.setLabelProvider(new CellLabelProvider() {
 		    public void update(ViewerCell cell) {
 		    	Integer minElo = ((Category) cell.getElement()).getMinElo() != null ? ((Category) cell.getElement()).getMinElo() : 0;
@@ -135,7 +136,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		TableViewerColumn maxEloColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn maxEloCol = maxEloColumn.getColumn();
 		maxEloCol.setWidth(80);
-		maxEloCol.setText("Max. Elo");
+		maxEloCol.setText(Messages.NewTournWizPageCategories_tableCol_maxElo);
 		maxEloColumn.setLabelProvider(new CellLabelProvider() {
 		    public void update(ViewerCell cell) {
 		    	Integer maxElo = ((Category) cell.getElement()).getMaxElo() != null ? ((Category) cell.getElement()).getMaxElo() : 0;
@@ -166,7 +167,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		TableViewerColumn minAgeColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn minAgeCol = minAgeColumn.getColumn();
 		minAgeCol.setWidth(80);
-		minAgeCol.setText("Min. Age");
+		minAgeCol.setText(Messages.NewTournWizPageCategories_tableCol_minAge);
 		minAgeColumn.setLabelProvider(new CellLabelProvider() {
 		    public void update(ViewerCell cell) {
 		    	Integer minAge = ((Category) cell.getElement()).getMinAge() != null ? ((Category) cell.getElement()).getMinAge() : 0;
@@ -197,7 +198,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		TableViewerColumn maxAgeColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn maxAgeCol = maxAgeColumn.getColumn();
 		maxAgeCol.setWidth(80);
-		maxAgeCol.setText("Max. Age");
+		maxAgeCol.setText(Messages.NewTournWizPageCategories_tableCol_maxAge);
 		maxAgeColumn.setLabelProvider(new CellLabelProvider() {
 		    public void update(ViewerCell cell) {
 		    	Integer maxAge = ((Category) cell.getElement()).getMaxAge() != null ? ((Category) cell.getElement()).getMaxAge() : 0;
@@ -228,7 +229,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		TableViewerColumn roundsColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn roundsCol = roundsColumn.getColumn();
 		roundsCol.setWidth(80);
-		roundsCol.setText("Rounds");
+		roundsCol.setText(Messages.NewTournWizPageCategories_tableCol_rounds);
 		roundsColumn.setLabelProvider(new CellLabelProvider() {
 		    public void update(ViewerCell cell) {
 		    	Integer maxRounds = ((Category) cell.getElement()).getMaxRounds() != null ? ((Category) cell.getElement()).getMaxRounds() : 0;
@@ -260,23 +261,23 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		
 		addBtn = new Button(container, SWT.NONE);
 		GridData gd_addBtn = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_addBtn.widthHint = 54;
+//		gd_addBtn.widthHint = 54;
 		addBtn.setLayoutData(gd_addBtn);
-		addBtn.setText("Add");
+		addBtn.setText(Messages.NewTournWizPageCategories_btn_add);
 		addBtn.addSelectionListener(this);
 		new Label(container, SWT.NONE);
 		
 		removeBtn = new Button(container, SWT.NONE);
 		removeBtn.addSelectionListener(this);
 		removeBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
-		removeBtn.setText("Remove");
+		removeBtn.setText(Messages.NewTournWizPageCategories_btn_remove);
 	}
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
 		Category cat = null;
 		if (e.getSource() == addBtn) {
-			cat = ModelFactory.getInstance().createCategory("Category " + (categories.size()+1));
+			cat = ModelFactory.getInstance().createCategory(Messages.NewTournWizPageCategories_entity_Category_name + (categories.size()+1));
 			categories.add(cat);
 			categoriesTblViewer.add(cat);
 		} else if (e.getSource() == removeBtn) {

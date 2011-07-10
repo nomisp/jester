@@ -7,6 +7,7 @@ import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.forms.CategoryMasterDetail;
+import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Action um Runden zu einem Turnier hinzuzufügen
@@ -24,7 +25,7 @@ public class DeleteCategoryAction extends Action {
 	
 	@Override
 	public String getText() {
-		return "DeleteCategory";
+		return Messages.Action_DeleteCategory_text;
 	}
 
 	@Override

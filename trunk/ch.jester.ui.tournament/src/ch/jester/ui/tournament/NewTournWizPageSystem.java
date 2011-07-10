@@ -25,6 +25,7 @@ import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.api.ranking.IRankingSystemEntry;
 import ch.jester.system.api.ranking.IRankingSystemManager;
+import ch.jester.ui.tournament.nl1.Messages;
 
 public class NewTournWizPageSystem extends WizardPage {
 
@@ -42,10 +43,10 @@ public class NewTournWizPageSystem extends WizardPage {
 	 * Create the wizard.
 	 */
 	public NewTournWizPageSystem() {
-		super("systemDefinition");
-		setTitle("System");
-		setMessage("Defining the tournament system");
-		setDescription("Defining the tournament system");
+		super("systemDefinition"); //$NON-NLS-1$
+		setTitle(Messages.NewTournWizPageSystem_title);
+		setMessage(Messages.NewTournWizPageSystem_message);
+		setDescription(Messages.NewTournWizPageSystem_description);
 	}
 
 	/**
@@ -63,7 +64,7 @@ public class NewTournWizPageSystem extends WizardPage {
 		fd_lblPairingSystem.top = new FormAttachment(0, 28);
 		fd_lblPairingSystem.left = new FormAttachment(0, 20);
 		lblPairingSystem.setLayoutData(fd_lblPairingSystem);
-		lblPairingSystem.setText("Pairing System");
+		lblPairingSystem.setText(Messages.NewTournWizPageSystem_lbl_pairingSystem);
 		
 		comboPairingSystemViewer = new ComboViewer(container, SWT.READ_ONLY);
 		Combo comboPairingSystem = comboPairingSystemViewer.getCombo();
@@ -88,7 +89,7 @@ public class NewTournWizPageSystem extends WizardPage {
 		fd_lblRankingsystem.top = new FormAttachment(0, 113);
 		fd_lblRankingsystem.left = new FormAttachment(lblPairingSystem, 0, SWT.LEFT);
 		lblRankingsystem.setLayoutData(fd_lblRankingsystem);
-		lblRankingsystem.setText("Ranking-System");
+		lblRankingsystem.setText(Messages.NewTournWizPageSystem_lbl_rankingSystem);
 		
 		comboRankingSystemViewer = new ComboViewer(container, SWT.READ_ONLY);
 		Combo comboRankingSystem = comboRankingSystemViewer.getCombo();
@@ -117,7 +118,7 @@ public class NewTournWizPageSystem extends WizardPage {
 		fd_lblEloperformanceCalculator.top = new FormAttachment(0, 198);
 		fd_lblEloperformanceCalculator.left = new FormAttachment(lblPairingSystem, 0, SWT.LEFT);
 		lblEloperformanceCalculator.setLayoutData(fd_lblEloperformanceCalculator);
-		lblEloperformanceCalculator.setText("Elo-/Performance Calculator");
+		lblEloperformanceCalculator.setText(Messages.NewTournWizPageSystem_lbl_calculator);
 		
 		comboEloCalculatorViewer = new ComboViewer(container, SWT.READ_ONLY);
 		Combo comboEloCalculator = comboEloCalculatorViewer.getCombo();
