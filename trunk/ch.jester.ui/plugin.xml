@@ -126,7 +126,7 @@
             locationURI="popup:ch.jester.ui.view.tournamentview">
          <command
                commandId="ch.jester.ui.tournament.newTournament"
-               icon="icons/plus.gif"
+               icon="icons/tournament.png"
                style="push">
          </command>
          <separator
@@ -312,7 +312,7 @@
             defaultHandler="ch.jester.ui.handlers.AddPlayerHandler"
             description="Adds a new Player"
             id="ch.jester.ui.addplayer"
-            name="Player">
+            name="%NewPlayer">
       </command>
       <command
             id="org.eclipse.ui.edit.delete"
