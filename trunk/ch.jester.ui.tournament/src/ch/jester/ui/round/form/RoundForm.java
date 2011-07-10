@@ -44,7 +44,9 @@ import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
-import ch.jester.model.Result;
+import ch.jester.model.util.PlayerColor;
+import ch.jester.model.util.Result;
+import ch.jester.model.util.Result.ResultCombination;
 import ch.jester.model.Round;
 import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
@@ -261,17 +263,20 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 					if(data instanceof ZestDataNode){
 						ZestDataNode node = (ZestDataNode) data;
 						Pairing pairing = null;
+						Object source = null;
 						if(node.getData() instanceof Pairing){
 							pairing = (Pairing) node.getData();
+							source = pairing;
 						}
 						if(node.getData() instanceof Player){
 							pairing = ((PlayerDataNode)node).getPairing();
+							source = node;
 						}
 						if(pairing!=null){
 							if(graph.getMenu()!=null){
 								graph.getMenu().dispose();
 							}
-							graph.setMenu(getMenu(pairing));
+							graph.setMenu(getMenu(pairing, source));
 						}else{
 							graph.setMenu(null);
 						}
@@ -305,8 +310,43 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 		
 	}
 
-	private Menu getMenu(Pairing pairing){
+	private Menu getMenu(Pairing pairing, Object source){
+		PlayerColor playerColor = null;
+		ResultCombination[] combination = null;
+		if(pairing == source){
+			combination = Result.toResultCombinationViewForPairing();
+		}else{
+			if(source instanceof PlayerDataNode){
+				combination = Result.toResultCombinationViewForPlayer();
+				if( ((PlayerDataNode)source).isBlack()){
+					playerColor = PlayerColor.BLACK;
+				}
+				else{
+					playerColor = PlayerColor.WHITE;
+				}
+			}
+			
+		}
 		Menu menu = new Menu(Display.getCurrent().getActiveShell(), SWT.CASCADE);
+		Result currentResult = mController.getLastPairingResult(pairing);
+		for(ResultCombination c:combination){
+			MenuItem item = new MenuItem(menu, SWT.CHECK);
+			installMenuSelectionListener(item);
+			item.setData(new Object[]{pairing, c, playerColor});
+			item.setText(c.toString());
+			if(currentResult!=null){
+				if(playerColor==null || playerColor == PlayerColor.WHITE){
+					if(currentResult.getShortResult().equals(c.getResult().getShortResult())){
+						item.setSelection(true);
+					}
+				}else if(playerColor == PlayerColor.BLACK){
+					if(currentResult.getOpposite().getShortResult().equals(c.getResult().getShortResult())){
+						item.setSelection(true);
+					}
+				}
+			}
+		}
+	/*	Menu menu = new Menu(Display.getCurrent().getActiveShell(), SWT.CASCADE);
 		Result currentResult = mController.getLastPairingResult(pairing);
 		for(Result r:Result.values()){
 			MenuItem item = new MenuItem(menu, SWT.CHECK);
@@ -318,7 +358,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 					item.setSelection(true);
 				}
 			}
-		}
+		}*/
 		return menu;
 	}
 
@@ -330,8 +370,14 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 			public void widgetSelected(SelectionEvent e) {
 				Object[] data = (Object[]) e.widget.getData();
 				Pairing p = (Pairing) data[0];
-				Result r = (Result) data[1];
-				mController.addChangedResults(p, r);
+				ResultCombination comb = (ResultCombination) data[1];
+				Result r = comb.getResult();
+				PlayerColor color = (PlayerColor) data[2];
+				if(color != null){
+					mController.addChangedResults(p, r, color);
+				}else{
+					mController.addChangedResults(p, r, p);
+				}
 			}
 
 			@Override

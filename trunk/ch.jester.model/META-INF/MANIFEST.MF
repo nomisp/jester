@@ -13,7 +13,8 @@ Export-Package: ch.jester.common.settings;uses:="ch.jester.model",
    ch.jester.commonservices.api.persistency,
    ch.jester.common.model,
    javax.xml.bind",
- ch.jester.model.factories;uses:="ch.jester.model"
+ ch.jester.model.factories;uses:="ch.jester.model",
+ ch.jester.model.util
 Import-Package: javax.persistence,
  javax.validation.constraints
 Require-Bundle: ch.jester.common;bundle-version="1.0.0",

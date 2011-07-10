@@ -3,6 +3,7 @@ package ch.jester.importer.fide;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.persistence.Query;
 

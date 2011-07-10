@@ -17,6 +17,8 @@ import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.ui.player.editor.PlayerEditor;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.jface.viewers.ComboViewer;
 
 public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	private Text lastNameText;
@@ -31,6 +33,9 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	private PlayerDetailsController m_controller;
 	private SWTDirtyManager dm = new SWTDirtyManager();
 	private Text nationalEloText;
+	private Label lblClub;
+	private Combo combo;
+	private ComboViewer comboViewer;
 	/**
 	 * Create the form page.
 	 * @param id
@@ -62,7 +67,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 
 		ScrolledForm form = managedForm.getForm();
 		form.setText("Player Details");
-		managedForm.getForm().getBody().setLayout(new GridLayout(1, false));
+		managedForm.getForm().getBody().setLayout(new GridLayout(2, false));
 		managedForm.getToolkit().decorateFormHeading(form.getForm());
 		
 		Composite compPersonal = managedForm.getToolkit().createComposite(managedForm.getForm().getBody(), SWT.NONE);
@@ -180,6 +185,17 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 				eloText,
 				txtTitle, 
 				nationalEloText);
+		
+		lblClub = new Label(composite_3, SWT.NONE);
+		managedForm.getToolkit().adapt(lblClub, true, true);
+		lblClub.setText("Club");
+		
+		comboViewer = new ComboViewer(composite_3, SWT.NONE|SWT.READ_ONLY);
+		
+		combo = comboViewer.getCombo();
+		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		managedForm.getToolkit().paintBordersFor(combo);
+		new Label(managedForm.getForm().getBody(), SWT.NONE);
 		m_controller = new PlayerDetailsController(this);
 		((PlayerEditor)getEditor()).init_0(this);
 		

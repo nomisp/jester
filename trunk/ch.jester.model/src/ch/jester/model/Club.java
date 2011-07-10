@@ -16,7 +16,7 @@ public class Club extends AbstractModelBean<Club> {
 	private String name;
 	
 	@Column(name="Code", nullable=true)
-	private int code;
+	private Integer code;
 
 	public String getName() {
 		return name;
@@ -26,11 +26,11 @@ public class Club extends AbstractModelBean<Club> {
 		this.name = name;
 	}
 
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(Integer code) {
 		this.code = code;
 	}
 
