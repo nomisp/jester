@@ -20,6 +20,8 @@ import ch.jester.ui.player.editor.PlayerEditor;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.swt.widgets.List;
+import org.eclipse.jface.viewers.ListViewer;
 
 public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	private Text lastNameText;
@@ -35,8 +37,8 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	private SWTDirtyManager dm = new SWTDirtyManager();
 	private Text nationalEloText;
 	private Label lblClub;
-	private Combo combo;
-	private ComboViewer comboViewer;
+	private List list;
+	private ListViewer listViewer;
 	/**
 	 * Create the form page.
 	 * @param id
@@ -191,11 +193,11 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		managedForm.getToolkit().adapt(lblClub, true, true);
 		lblClub.setText(Messages.PlayerFormPage_lbl_club);
 		
-		comboViewer = new ComboViewer(composite_3, SWT.NONE|SWT.READ_ONLY);
-		
-		combo = comboViewer.getCombo();
-		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		managedForm.getToolkit().paintBordersFor(combo);
+		listViewer = new ListViewer(composite_3, SWT.BORDER | SWT.V_SCROLL);
+		list = listViewer.getList();
+		GridData gd_list = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_list.minimumHeight = 20;
+		list.setLayoutData(gd_list);
 		new Label(managedForm.getForm().getBody(), SWT.NONE);
 		m_controller = new PlayerDetailsController(this);
 		((PlayerEditor)getEditor()).init_0(this);
@@ -240,5 +242,8 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 
 	public PlayerDetailsController getController() {
 		return m_controller;
+	}
+	public ListViewer getListViewer() {
+		return listViewer;
 	}
 }

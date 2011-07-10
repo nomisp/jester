@@ -43,6 +43,8 @@ import ch.jester.ui.nl1.Messages;
 
 
 public class PlayersView extends AbstractView{
+	public PlayersView() {
+	}
 	private TableViewer getTable(){
 		return tableViewer;
 	}

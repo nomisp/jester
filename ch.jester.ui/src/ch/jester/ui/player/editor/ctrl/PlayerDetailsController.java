@@ -9,6 +9,11 @@ import org.eclipse.swt.SWT;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.model.Player;
 import ch.jester.ui.forms.PlayerFormPage;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import ch.jester.model.Club;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.core.databinding.observable.list.WritableList;
 
 
 
@@ -55,7 +60,6 @@ public class PlayerDetailsController {
 			}
 		}
 	}
-
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
@@ -90,6 +94,15 @@ public class PlayerDetailsController {
 		IObservableValue nationalEloObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationalEloText(), SWT.Modify);
 		IObservableValue nationalEloObserveValue = BeansObservables.observeValue(player, "nationalElo");
 		bindingContext.bindValue(nationalEloObserveWidget, nationalEloObserveValue, null, null);
+		//
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		mPlayerDetail.getListViewer().setContentProvider(listContentProvider);
+		//
+		IObservableMap[] observeMaps = BeansObservables.observeMaps(listContentProvider.getKnownElements(), Club.class, new String[]{"name", "code"});
+		mPlayerDetail.getListViewer().setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		//
+		WritableList writableList = new WritableList(player.getClubs(), Club.class);
+		mPlayerDetail.getListViewer().setInput(writableList);
 		//
 		return bindingContext;
 	}
