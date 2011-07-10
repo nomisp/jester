@@ -1,12 +1,10 @@
 package ch.jester.system.api.ranking;
 
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.model.Category;
-import ch.jester.model.PlayerCard;
 import ch.jester.model.Ranking;
 import ch.jester.model.Tournament;
 import ch.jester.system.exceptions.NotAllResultsException;

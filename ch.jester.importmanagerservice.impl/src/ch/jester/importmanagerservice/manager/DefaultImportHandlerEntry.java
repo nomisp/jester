@@ -8,6 +8,7 @@ import ch.jester.commonservices.api.importer.IImportHandlerEntry;
  * Defaultimplementation
  *
  */
+@SuppressWarnings("rawtypes")
 public class DefaultImportHandlerEntry extends EPEntry<IImportHandler> implements IImportHandlerEntry{
 
 	public DefaultImportHandlerEntry(IImportHandler pService){

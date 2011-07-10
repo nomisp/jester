@@ -2,7 +2,6 @@ package ch.jester.system.api.pairing;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.forms.editor.FormEditor;
 
 import ch.jester.common.settings.ISettingObject;

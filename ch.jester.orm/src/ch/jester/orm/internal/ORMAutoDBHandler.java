@@ -21,7 +21,6 @@ import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
-import ch.jester.commonservices.impl.preferences.PreferenceManager;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.orm.ORMPlugin;
 
@@ -105,7 +104,7 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 	private void addDBPrefs(){
 		List<Bundle> bundles = ORMDBUtil.getDataBasePlugins();
 		for(Bundle b:bundles){
-			BundlePrefProvider prov = new BundlePrefProvider(b);
+			new BundlePrefProvider(b);
 		}
 		
 	}

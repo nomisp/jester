@@ -3,8 +3,6 @@ package ch.jester.commonservices.api.io;
 import java.io.File;
 import java.io.InputStream;
 
-import ch.jester.commonservices.api.components.IComponentService;
-import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
 /**

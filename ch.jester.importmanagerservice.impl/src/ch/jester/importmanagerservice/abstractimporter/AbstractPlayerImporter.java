@@ -35,6 +35,7 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 		return new String[]{"lastName","firstName","fideCode","nationalCode","elo","nationalElo","age","city","nation"};
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void persist(List<Player> pDomainObjects, IProgressMonitor pMonitor) {
 		int chunkSize = 10000;

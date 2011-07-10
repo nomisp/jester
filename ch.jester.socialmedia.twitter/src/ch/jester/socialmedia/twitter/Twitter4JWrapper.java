@@ -1,8 +1,6 @@
 package ch.jester.socialmedia.twitter;
 import java.util.List;
 
-import org.eclipse.swt.internal.win32.CREATESTRUCT;
-
 import twitter4j.IDs;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -34,8 +32,10 @@ public class Twitter4JWrapper {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private  void showFriendsTimeLine() throws TwitterException{
-	    List<Status> statuses = twitter.getFriendsTimeline();
+	    @SuppressWarnings("deprecation")
+		List<Status> statuses = twitter.getFriendsTimeline();
 	    System.out.println("Showing friends timeline.");
 	    for (Status status : statuses) {
 	        System.out.println(status.getUser().getName() + ":" +

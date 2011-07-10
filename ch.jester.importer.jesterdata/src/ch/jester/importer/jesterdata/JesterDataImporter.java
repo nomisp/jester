@@ -1,11 +1,7 @@
 package ch.jester.importer.jesterdata;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
-import javax.xml.bind.JAXBException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -14,26 +10,25 @@ import ch.jester.common.utility.ObjectXMLSerializer.SerializationReader;
 import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
+import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.factories.ModelFactory;
 
+@SuppressWarnings("rawtypes")
 public class JesterDataImporter implements IImportHandler {
 
 	public JesterDataImporter() {
-		// TODO Auto-generated constructor stub
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object handleImport(InputStream pInputStream,
-			IProgressMonitor pMonitor) {
+			IProgressMonitor pMonitor) throws ProcessingException {
 		ObjectXMLSerializer serializer = new ObjectXMLSerializer();
 		ServiceUtility su = new ServiceUtility();
 		try {
@@ -50,15 +45,8 @@ public class JesterDataImporter implements IImportHandler {
 			
 		}
 		
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new ProcessingException(e);
 		}
 		return null;
 	}

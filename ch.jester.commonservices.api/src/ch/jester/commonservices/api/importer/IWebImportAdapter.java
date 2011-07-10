@@ -15,7 +15,7 @@ public interface IWebImportAdapter extends IImportHandler<Object>, IPreferenceMa
 	 * @return
 	 * @throws IOException
 	 */
-	public void setIImportHandler(IImportHandler pAdaptedHandler);
+	public void setIImportHandler(IImportHandler<Object> pAdaptedHandler);
 	
 	public List<ILink> getLinks()  throws IOException ;
 	
