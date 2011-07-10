@@ -2,13 +2,14 @@ package ch.jester.ui.round.form;
 
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
-import ch.jester.model.Result;
+import ch.jester.model.util.PlayerColor;
+import ch.jester.model.util.Result;
 import ch.jester.ui.round.editors.ResultController;
 
 public class PlayerDataNode extends ZestDataNode {
-	public enum PlayerColor{
+	/*public enum PlayerColor{
 		B, W;
-	}
+	}*/
 	private static String NULL_ID = "playernode_null";
 	private Pairing pairing;
 	private PlayerColor color;
@@ -31,7 +32,7 @@ public class PlayerDataNode extends ZestDataNode {
 		return NULL_ID;
 	}
 	public boolean isBlack(){
-		return color ==PlayerColor.B;
+		return color ==PlayerColor.BLACK;
 	}
 	
 	public Player getPlayer(){
@@ -42,31 +43,44 @@ public class PlayerDataNode extends ZestDataNode {
 		return pairing;
 	}
 
-	public boolean hasWon(){
+	public boolean isLoser(){
+		return !isWinner();
+	}
+	
+	public boolean isRemis(){
 		if(pairing==null){return false;};
-		String pairingResult = null;
-		Result changedResult =  mController.getChangedResults().get(pairing);
-		if(changedResult == null){
+		String pairingResult = mController.getLastPairingResultAsString(pairing);
+		if(pairingResult==null){return false;}
+		return pairingResult.equals(Result.REMIS.getShortResult());
+		
+	}
+	
+	public boolean isWinner(){
+		if(pairing==null){return false;};
+		//String pairingResult = null;
+		//Result changedResult =  mController.getChangedResults().get(pairing);
+		String pairingResult = mController.getLastPairingResultAsString(pairing);
+		/*if(changedResult == null){
 			pairingResult = pairing.getResult();
 		}else{
 			pairingResult = changedResult.getShortResult();
-		}
+		}*/
 		if(pairingResult==null){
 			return false;
 		}
-		if(color == PlayerColor.B){
-			if(pairingResult.equals(Result.BLACK_WINS.getShortResult())){
+		if(color == PlayerColor.BLACK){
+			if(pairingResult.equals(Result.WHITE_ZERO.getShortResult())){
 				return true;
 			}
-			if(pairingResult.equals(Result.BLACK_WINS_F.getShortResult())){
+			if(pairingResult.equals(Result.WHITE_ZERO_F.getShortResult())){
 				return true;
 			}
 			return false;
 		}else{
-			if(pairingResult.equals(Result.WHITE_WINS.getShortResult())){
+			if(pairingResult.equals(Result.WHITE_ONE.getShortResult())){
 				return true;
 			}
-			if(pairingResult.equals(Result.WHITE_WINS_F.getShortResult())){
+			if(pairingResult.equals(Result.WHITE_ONE_F.getShortResult())){
 				return true;
 			}
 			return false;

@@ -6,11 +6,11 @@ import java.util.List;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.Round;
+import ch.jester.model.util.PlayerColor;
 import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.round.form.PlayerDataNode;
 import ch.jester.ui.round.form.ZestConnection;
 import ch.jester.ui.round.form.ZestDataNode;
-import ch.jester.ui.round.form.PlayerDataNode.PlayerColor;
 
 public class RoundNodeModelContentProvider {
 	private List<ZestConnection> connections;
@@ -78,8 +78,8 @@ public class RoundNodeModelContentProvider {
 			Player p1 = p.getBlack().getPlayer();
 			Player p2 = p.getWhite().getPlayer();
 			
-			PlayerDataNode blackNode = createPlayerNode(p, p1, PlayerColor.B);
-			PlayerDataNode whiteNode = createPlayerNode(p, p2, PlayerColor.W);
+			PlayerDataNode blackNode = createPlayerNode(p, p1, PlayerColor.BLACK);
+			PlayerDataNode whiteNode = createPlayerNode(p, p2, PlayerColor.WHITE);
 			allnodes.add(pairingNode);
 			if(!whiteNode.isNullPlayer()){
 				util.connect(pairingNode, whiteNode);

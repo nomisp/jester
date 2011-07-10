@@ -26,12 +26,11 @@ import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Pairing;
-import ch.jester.model.Player;
-import ch.jester.model.Result;
 import ch.jester.model.Round;
 import ch.jester.model.factories.PlayerNamingUtility;
+import ch.jester.model.util.Result;
+import ch.jester.model.util.Result.ResultCombination;
 import ch.jester.ui.round.editors.ResultController;
-import ch.jester.ui.tournament.internal.Activator;
 
 public class ResultForm extends FormPage implements IDirtyManagerProvider{
 	private List<Section> mSectionList = new ArrayList<Section>();
@@ -55,9 +54,9 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		public void setSelection(){
 			Result result = mController.getLastPairingResult(mPairing);
 			if(result!=null){
-				Result selected = (Result) ((IStructuredSelection)mViewer.getSelection()).getFirstElement();
-				if(selected!=result){
-					mViewer.setSelection(new StructuredSelection(result));
+				ResultCombination selected = (ResultCombination) ((IStructuredSelection)mViewer.getSelection()).getFirstElement();
+				if(selected==null || selected.getResult()!=result){
+					mViewer.setSelection(new StructuredSelection(result.toResultCombinationForPairing()));
 				}
 			}
 		}
@@ -169,7 +168,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
 		viewer.addSelectionChangedListener(new PairingResultChanged(p));
-		viewer.setInput(Result.values());
+		viewer.setInput(Result.toResultCombinationViewForPairing());
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		viewer.getControl().setEnabled(!disableResultCombo);
 		SelectionSetter setter = new SelectionSetter(viewer, p);
@@ -224,8 +223,8 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			IStructuredSelection sts = (IStructuredSelection) event.getSelection();
-			Result res = (Result)sts.getFirstElement();
-			mController.addChangedResults(pairing, res);
+			ResultCombination res = (ResultCombination)sts.getFirstElement();
+			mController.addChangedResults(pairing, res.getResult(), pairing);
 		}
 	}
 }

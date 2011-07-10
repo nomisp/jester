@@ -17,9 +17,11 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
-import ch.jester.model.Result;
+import ch.jester.model.Player;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
+import ch.jester.model.util.PlayerColor;
+import ch.jester.model.util.Result;
 import ch.jester.ui.tournament.internal.Activator;
 
 public class ResultController implements IDirtyManagerProvider{
@@ -170,7 +172,8 @@ public class ResultController implements IDirtyManagerProvider{
 		return r==null?null:r.getShortResult();
 	}
 
-	public void addChangedResults(Pairing pairing, Result result) {
+	//internal call with result changed to pairingperspective!
+	private void addChangedResults(Pairing pairing, Result result) {
 		String lastStringResult = getLastPairingResultAsString(pairing);
 		mResultMap.put(pairing, result);
 		PropertyChangeEvent pe = new PropertyChangeEvent(pairing, "changedResults", lastStringResult, result.getShortResult());
@@ -178,6 +181,20 @@ public class ResultController implements IDirtyManagerProvider{
 		mLogger.debug("fire PropertyChangeEvent: "+pe+" -- "+pairing.getResult()+" -- "+result.getShortResult());
 		mPcs.firePropertyChange(pe);
 		mSync.changed(this, pairing, result);
+
+	}
+	
+	public void addChangedResults(Pairing pairing, Result result, Pairing source) {
+		addChangedResults(pairing, result);
+
+	}
+	public void addChangedResults(Pairing pairing, Result result, PlayerColor source) {
+		//wechseln zum result aus paarungssicht.
+		if(source==PlayerColor.BLACK){
+			result = result.getOpposite();
+		}
+		addChangedResults(pairing, result);
+
 
 	}
 	public HashMap<Pairing, Result> getChangedResults(){

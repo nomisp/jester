@@ -192,6 +192,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 				//V v = createDomainObject(domainProperties);
 				if(addToCollection(vnew)){
 					domainObjects.add(vnew);
+					doModifications(vnew, domainProperties);
 				}
 				if(persistencyEveryEntry()!=-1 && i%persistencyEveryEntry()==0){
 					List<V> copy= new ArrayList<V>(domainObjects);
@@ -220,14 +221,25 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 		return null;
 	}
 	
-	private void _createDomainObject(Object domainObject, Properties properties) {
+	protected void doModifications(V vnew, Properties domainProperties) {
+		
+	}
+
+	protected boolean doAutoMatching(V pDomainObject, String pDomainProperty, String pInputProperty, Properties p) {
+		return true;
+	}
+
+	private void _createDomainObject(V domainObject, Properties properties) {
 		Iterator<String> matchings = this.mInputLinking.keySet().iterator();
 		while(matchings.hasNext()){
 			String domain_property = matchings.next();
 			String input_property = this.mInputLinking.get(domain_property);
 			Object input = properties.get(input_property);
 			if(input==null){continue;}
-			writeValue(domainObject, domain_property, input);
+			boolean result = doAutoMatching(domainObject, domain_property, input_property, properties);
+			if(result){
+				writeValue(domainObject, domain_property, input);
+			}
 			
 		}
 	}

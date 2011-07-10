@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.persistence.Query;
 
@@ -17,14 +18,23 @@ import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.importmanagerservice.abstractimporter.AbstractPlayerImporter;
 import ch.jester.importmanagerservice.tableprovider.ExcelSheetTableProvider;
+import ch.jester.model.Club;
 import ch.jester.model.Player;
+import ch.jester.model.factories.ModelFactory;
 
 public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
+	private String CODED_NATIONALITY = "Schweiz";
 	public SSBExcelImporter2(){
-		System.out.println("-----------------ssbimporter2");
 		init_linking();
 	}
-	
+	public String[] getDomainObjectAttributes() {
+		String[] origAtts = super.getDomainObjectAttributes();
+		String[] newAtts = new String[origAtts.length+1];
+		System.arraycopy(origAtts, 0, newAtts, 0, origAtts.length);
+		newAtts[newAtts.length-1] = "club";
+		return newAtts;
+		//return new String[]{"lastName","firstName","fideCode","nationalCode","elo","nationalElo","age","city","nation"};
+	}
 	
 	public void init_linking(){
 		mInputLinking.put("lastName", "Name");
@@ -32,6 +42,7 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		mInputLinking.put("fideCode", "CodeFIDE");
 		mInputLinking.put("nationalCode", "Code");
 		mInputLinking.put("nationalElo", "Elo neu");
+		mInputLinking.put("club", "Klub");
 	}
 	
 	@Override
@@ -84,9 +95,49 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 	@Override
 	public void handleDuplicates(
 			IDaoService<? extends IEntityObject> pDaoService, List<Player> pList) {
-		// TODO Auto-generated method stub
+
 		
 	}
+	@Override
+	protected boolean doAutoMatching(Player pDomainObject, String pDomainProperty, String pInputProperty, Properties p) {
+		if(pDomainProperty.equals("club")){
+			return false;
+		}
+		return true;
+	}
+	@Override
+	protected void doModifications(Player vnew, Properties domainProperties) {
+		//SSB = Schweiz
+		vnew.setNation(CODED_NATIONALITY);
+		
+		//Club
+		String clubInputId = super.mInputLinking.get("club");
+		String clubName = domainProperties.getProperty(clubInputId).trim();
+		if(clubName == null || clubName.isEmpty()){return;}
+		Club club = ModelFactory.getInstance().createClub(clubName);
+		vnew.setClub(club);
+		if(domainProperties.get("Sektion")!=null){
+			try{
+				int sektId = Integer.parseInt(domainProperties.getProperty("Sektion"));
+				
+				club.setCode(sektId);
+			}catch(Exception e){
+				club.setCode(0);
+				e.printStackTrace();
+				
+			}
+		}
+		
+	}
+	
+/*	@Override
+	public void enrichDomainObject(Properties pProperties, Player pObject) {
+		System.out.println(pObject);
+		pObject.setNation(CODED_NATIONALITY);
+		//pProperties.get("Klub")
+		
+		
+	}*/
 
 
 }
