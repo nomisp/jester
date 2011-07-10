@@ -4,7 +4,7 @@
    <extension
          point="ch.jester.commonservices.api.ImportHandler">
       <ImportHandler
-            class="ch.jester.importer.jesterdata.JesterDataImporter"
+            class="ch.jester.importer.jesterdata.JesterTournamentImporter"
             id="ch.jester.importer.jesterdata"
             shortType="*.xml"
             typeDescription="Jester Data Importer">
