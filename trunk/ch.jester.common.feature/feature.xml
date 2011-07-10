@@ -21,6 +21,7 @@
       <import plugin="org.eclipse.osgi"/>
       <import plugin="org.eclipse.core.runtime" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.osgi.services" version="3.2.100" match="greaterOrEqual"/>
+      <import plugin="javax.servlet" version="2.5.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.persistence"/>
       <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.apache.log4j" version="1.0.0" match="greaterOrEqual"/>
@@ -32,6 +33,7 @@
       <import plugin="org.eclipse.core.databinding.beans" version="1.2.100" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.databinding.property" version="1.3.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.forms" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.commons" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.apache.log4j" version="1.0.0.0" match="greaterOrEqual"/>
       <import plugin="org.apache.poi" version="1.0.0" match="greaterOrEqual"/>
@@ -44,12 +46,11 @@
       <import plugin="ch.jester.commonservices.impl" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="com.ibm.icu"/>
       <import plugin="org.eclipse.osgi" version="3.6.2" match="greaterOrEqual"/>
-      <import plugin="javax.servlet" version="2.5.0" match="greaterOrEqual"/>
-      <import plugin="org.apache.commons" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.equinox.http.registry" version="1.1.1" match="greaterOrEqual"/>
       <import plugin="ch.jester.ui" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.apache.commons.logging" version="1.0.4" match="greaterOrEqual"/>
       <import plugin="ch.jester.importmanagerservice.impl" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.ui.importer" version="1.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -161,6 +162,14 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.ui.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
 </feature>

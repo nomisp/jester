@@ -15,6 +15,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
+import ch.jester.ui.nl1.Messages;
 import ch.jester.ui.player.editor.PlayerEditor;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
 import org.eclipse.swt.widgets.Combo;
@@ -66,7 +67,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	protected void createFormContent(IManagedForm managedForm) {
 
 		ScrolledForm form = managedForm.getForm();
-		form.setText("Player Details");
+		form.setText(Messages.PlayerFormPage_lbl_player_det);
 		managedForm.getForm().getBody().setLayout(new GridLayout(2, false));
 		managedForm.getToolkit().decorateFormHeading(form.getForm());
 		
@@ -80,46 +81,46 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		gd_sctnPersonal.widthHint = 561;
 		sctnPersonal.setLayoutData(gd_sctnPersonal);
 		managedForm.getToolkit().paintBordersFor(sctnPersonal);
-		sctnPersonal.setText("Personal data");
+		sctnPersonal.setText(Messages.PlayerFormPage_lbl_personal_data);
 		
 		Composite composite_2 = managedForm.getToolkit().createComposite(sctnPersonal, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(composite_2);
 		sctnPersonal.setClient(composite_2);
 		composite_2.setLayout(new GridLayout(2, false));
 		
-		Label lblNewLabel = managedForm.getToolkit().createLabel(composite_2, "Lastname", SWT.NONE);
+		Label lblNewLabel = managedForm.getToolkit().createLabel(composite_2, Messages.PlayerFormPage_lbl_lastname, SWT.NONE);
 		GridData gd_lblNewLabel = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_lblNewLabel.widthHint = 100;
 		lblNewLabel.setLayoutData(gd_lblNewLabel);
 		
-		lastNameText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE);
-		lastNameText.setText("");
+		lastNameText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE); //$NON-NLS-1$
+		lastNameText.setText(""); //$NON-NLS-1$
 		GridData gd_txtLastname = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
 		gd_txtLastname.widthHint = 315;
 		lastNameText.setLayoutData(gd_txtLastname);
 		
-		managedForm.getToolkit().createLabel(composite_2, "Firstname", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_2, Messages.PlayerFormPage_lbl_firstname, SWT.NONE);
 		
-		firstNameText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE);
-		firstNameText.setText("");
+		firstNameText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE); //$NON-NLS-1$
+		firstNameText.setText(""); //$NON-NLS-1$
 		firstNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		managedForm.getToolkit().createLabel(composite_2, "Age", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_2, Messages.PlayerFormPage_lbl_age, SWT.NONE);
 		
-		txtAge = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE);
-		txtAge.setText("");
+		txtAge = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE); //$NON-NLS-1$
+		txtAge.setText(""); //$NON-NLS-1$
 		txtAge.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		managedForm.getToolkit().createLabel(composite_2, "City", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_2, Messages.PlayerFormPage_lbl_city, SWT.NONE);
 		
-		cityText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE);
-		cityText.setText("");
+		cityText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE); //$NON-NLS-1$
+		cityText.setText(""); //$NON-NLS-1$
 		cityText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		managedForm.getToolkit().createLabel(composite_2, "Nation", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_2, Messages.PlayerFormPage_lbl_nation, SWT.NONE);
 		
-		nationText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE);
-		nationText.setText("");
+		nationText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE); //$NON-NLS-1$
+		nationText.setText(""); //$NON-NLS-1$
 		nationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		
@@ -132,7 +133,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		Section sctnChess = managedForm.getToolkit().createSection(compChess, Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
 		sctnChess.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		managedForm.getToolkit().paintBordersFor(sctnChess);
-		sctnChess.setText("Chess data");
+		sctnChess.setText(Messages.PlayerFormPage_lbl_chess_data);
 		sctnChess.setExpanded(true);
 		
 		Composite composite_3 = managedForm.getToolkit().createComposite(sctnChess, SWT.NONE);
@@ -140,37 +141,37 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		sctnChess.setClient(composite_3);
 		composite_3.setLayout(new GridLayout(2, false));
 		
-		Label lblNewLabel_7 = managedForm.getToolkit().createLabel(composite_3, "Title", SWT.NONE);
+		Label lblNewLabel_7 = managedForm.getToolkit().createLabel(composite_3, Messages.PlayerFormPage_lbl_title, SWT.NONE);
 		GridData gd_lblNewLabel_7 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_lblNewLabel_7.widthHint = 100;
 		lblNewLabel_7.setLayoutData(gd_lblNewLabel_7);
 		
-		txtTitle = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE);
-		txtTitle.setText("");
+		txtTitle = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE); //$NON-NLS-1$
+		txtTitle.setText(""); //$NON-NLS-1$
 		txtTitle.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		managedForm.getToolkit().createLabel(composite_3, "Fide code", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_3, Messages.PlayerFormPage_lbl_fidecode, SWT.NONE);
 		
-		fideCodeText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE);
-		fideCodeText.setText("");
+		fideCodeText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE); //$NON-NLS-1$
+		fideCodeText.setText(""); //$NON-NLS-1$
 		fideCodeText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		
-		managedForm.getToolkit().createLabel(composite_3, "Naional code", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_3, Messages.PlayerFormPage_lbl_nationalcode, SWT.NONE);
 		
-		nationalCodeText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE);
-		nationalCodeText.setText("");
+		nationalCodeText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE); //$NON-NLS-1$
+		nationalCodeText.setText(""); //$NON-NLS-1$
 		nationalCodeText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		managedForm.getToolkit().createLabel(composite_3, "Elo", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_3, Messages.PlayerFormPage_lbl_elo, SWT.NONE);
 		
-		eloText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE);
-		eloText.setText("");
+		eloText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE); //$NON-NLS-1$
+		eloText.setText(""); //$NON-NLS-1$
 		eloText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		managedForm.getToolkit().createLabel(composite_3, "National Elo", SWT.NONE);
+		managedForm.getToolkit().createLabel(composite_3, Messages.PlayerFormPage_lbl_nationalelo, SWT.NONE);
 		
-		nationalEloText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE);
-		nationalEloText.setText("");
+		nationalEloText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE); //$NON-NLS-1$
+		nationalEloText.setText(""); //$NON-NLS-1$
 		nationalEloText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 	
 		
@@ -188,7 +189,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		
 		lblClub = new Label(composite_3, SWT.NONE);
 		managedForm.getToolkit().adapt(lblClub, true, true);
-		lblClub.setText("Club");
+		lblClub.setText(Messages.PlayerFormPage_lbl_club);
 		
 		comboViewer = new ComboViewer(composite_3, SWT.NONE|SWT.READ_ONLY);
 		
