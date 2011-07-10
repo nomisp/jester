@@ -6,6 +6,9 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -25,6 +28,7 @@ import ch.jester.model.RankingSystem;
 import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
+import ch.jester.orm.ORMPlugin;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
@@ -43,8 +47,11 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 	private Category cat1, cat2, cat3;
 	private List<Player> players = new ArrayList<Player>();
 	
+	private EntityManager entityManager;
+	
 	@Before
 	public void setUp() {
+		// PairingAlgorithm besorgen
 		IPairingManager pairingManager = mServiceUtil.getService(IPairingManager.class);
 		List<IPairingAlgorithmEntry> registredEntries = pairingManager.getRegistredEntries();
 		for (IPairingAlgorithmEntry pairingEntry : registredEntries) {
@@ -53,9 +60,59 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 				break;
 			}
 		}
-		createData();
-		IDaoService<Tournament> tournamentPersister = mServiceUtil.getDaoServiceByEntity(Tournament.class);
-		tournamentPersister.save(tournament);
+		
+		entityManager = ORMPlugin.getJPAEntityManager();
+		if (entityManager.getTransaction().isActive()) {
+			entityManager.joinTransaction();
+		} else {
+			entityManager.getTransaction().begin();
+		}
+		entityManager.clear();
+
+		RankingSystem rankingSystem = new RankingSystem();
+		rankingSystem.setPluginId(BuchholzTest.PLUGIN_ID);
+		rankingSystem.setImplementationClass(BuchholzTest.RANKINGSYSTEM_CLASS);
+		rankingSystem.setShortType(BuchholzTest.RANKINGSYSTEM_TYPE);
+		rankingSystem.setRankingSystemNumber(1);
+		
+		ModelFactory modelFactory = ModelFactory.getInstance();
+		tournament = modelFactory.createTournament("RoundRobinTestTournament");
+		tournament.setYear(2011);
+		tournament.setPairingSystemPlugin(PAIRING_PLUGIN);
+		tournament.setPairingSystem(ALGORITHM_CLASS);
+		tournament.setEloCalculator("ch.jester.system.fidecalculator.FideCalculator");
+		tournament.addRankingSystem(rankingSystem);
+		cat1 = modelFactory.createCategory("Cat1");
+		cat2 = modelFactory.createCategory("Cat2");
+		cat3 = modelFactory.createCategory("Cat3");
+		tournament.addCategory(cat1);
+		tournament.addCategory(cat2);
+		tournament.addCategory(cat3);
+				
+		players.add(modelFactory.createPlayer("Peter", "Simon"));
+		players.add(modelFactory.createPlayer("Matthias", "Liechti"));
+		players.add(modelFactory.createPlayer("Thomas", "Letsch"));
+		players.add(modelFactory.createPlayer("Fredi", "Dönni"));
+		
+		entityManager.persist(tournament);
+		entityManager.flush();
+		
+//		try {
+//			Query query = entityManager.createQuery("select t from Tournament t where t.name = 'TestTournament'");
+//			tournament = (Tournament)query.getSingleResult();
+//		} catch (Exception e) {
+//			createData();
+//			entityManager.persist(tournament);
+//			entityManager.flush();
+//		}
+//		if (tournament == null) {
+//			createData();
+//		} else {
+//			entityManager.createQuery("select t from Tournament t where t.name = 'TestTournament'");
+//		}
+//		IDaoService<Tournament> tournamentPersister = mServiceUtil.getDaoServiceByEntity(Tournament.class);
+//		tournamentPersister.save(tournament);
+		
 	}
 	
 //	@AfterClass
@@ -71,7 +128,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		rankingSystem.setRankingSystemNumber(1);
 		
 		ModelFactory modelFactory = ModelFactory.getInstance();
-		tournament = modelFactory.createTournament("TestTournament");
+		tournament = modelFactory.createTournament("RoundRobinTestTournament");
 		tournament.setYear(2011);
 		tournament.setPairingSystemPlugin(PAIRING_PLUGIN);
 		tournament.setPairingSystem(ALGORITHM_CLASS);
@@ -146,13 +203,16 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 	@Test
 	public void testExecutePairingCategory2DoubleRounded() {
 		ModelFactory modelFactory = ModelFactory.getInstance();
-		IDaoService<SettingItem> settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
+//		IDaoService<SettingItem> settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
 		RoundRobinSettings settings = new RoundRobinSettings();
 		settings.setDoubleRounded(Boolean.TRUE);
 		SettingHelper<RoundRobinSettings> settingHelper = new SettingHelper<RoundRobinSettings>();
 		SettingItem settingItem = modelFactory.createSettingItem(tournament);
 		settingItem = settingHelper.analyzeSettingObjectToStore(settings, settingItem);
-		settingItemPersister.save(settingItem);
+//		settingItemPersister.save(settingItem);
+		entityManager.joinTransaction();
+		entityManager.persist(settingItem);
+		entityManager.flush();
 		
 		for (Player player : players) {
 			cat2.addPlayerCard(modelFactory.createPlayerCard(cat2, player));

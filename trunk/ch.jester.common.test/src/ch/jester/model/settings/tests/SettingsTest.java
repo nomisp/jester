@@ -77,11 +77,6 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		settings.setPairingAlgorithm("ch.jester.system.TestPairingAlgorithm");
 		settings.setNumberOfRounds(7);
 		settings.setResult(3.5);
-//		ArrayList<String> strings = new ArrayList<String>();
-//		strings.add("String 1");
-//		strings.add("String 2");
-//		strings.add("String 3");
-//		settings.setMyStringList(strings);
 		SettingHelper<DummySettingObject> settingHelper = new SettingHelper<DummySettingObject>();
 		SettingItem settingItem = modelFactory.createSettingItem(tournament);
 		settingItem = settingHelper.analyzeSettingObjectToStore(settings, settingItem);
