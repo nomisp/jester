@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="ch.jester.commonservices.api.ImportHandler">
+      <ImportHandler
+            class="ch.jester.importer.jesterdata.JesterDataImporter"
+            id="ch.jester.importer.jesterdata"
+            shortType="*.xml"
+            typeDescription="Jester Data Importer">
+      </ImportHandler>
+   </extension>
+
+</plugin>

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Jester Data Importer
+Bundle-SymbolicName: ch.jester.importer.jesterdata;singleton:=true
+Bundle-Version: 1.0.0.0
+Bundle-Activator: ch.jester.importer.jesterdata.internal.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ ch.jester.commonservices.impl;bundle-version="1.0.0",
+ ch.jester.commonservices.api;bundle-version="1.0.0",
+ ch.jester.common;bundle-version="1.0.0",
+ ch.jester.model;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
