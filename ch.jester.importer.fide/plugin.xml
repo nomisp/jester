@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="ch.jester.commonservices.api.ImportHandler">
+      <ImportHandler
+            class="ch.jester.importer.fide.FIDETextImporter"
+            id="ch.jester.fide.txt.importer"
+            shortType="*.txt"
+            typeDescription="FIDE Text Importer">
+      </ImportHandler>
+      <WebImportAdapter
+            ImportHandlerId="ch.jester.fide.txt.importer"
+            class="ch.jester.importer.fide.FIDEWebAdapter"
+            dataProviderDescription="FIDE Webpage"
+            dataProviderId="ch.jester.dataprovider.fide">
+      </WebImportAdapter>
+   </extension>
+
+</plugin>
