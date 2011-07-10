@@ -39,6 +39,7 @@ import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
+import ch.jester.ui.nl1.Messages;
 
 
 public class PlayersView extends AbstractView{
@@ -73,7 +74,7 @@ public class PlayersView extends AbstractView{
 					tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 					TableColumn tblclmnPlayers = tableViewerColumn.getColumn();
 					tcl_tableViewComposite.setColumnData(tblclmnPlayers, new ColumnWeightData(1, ColumnWeightData.MINIMUM_WIDTH, true));
-					tblclmnPlayers.setText("Players");
+					tblclmnPlayers.setText(Messages.PlayersView_lbl_players_titel);
 				}
 				tableViewer.setContentProvider(ArrayContentProvider.getInstance());
 			}
@@ -121,12 +122,12 @@ public class PlayersView extends AbstractView{
 
 			@Override
 			public String[] observableProperties() {
-				return new String[]{"lastName","firstName"};
+				return new String[]{"lastName","firstName"}; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 
 			@Override
 			public String callBackLabels(Player pDao) {
-				return pDao.getLastName()+", "+pDao.getFirstName();
+				return pDao.getLastName()+", "+pDao.getFirstName(); //$NON-NLS-1$
 			}
 			
 		};

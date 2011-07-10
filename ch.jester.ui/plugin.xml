@@ -8,14 +8,14 @@
             class="ch.jester.ui.player.editor.view.PlayersView"
             icon="icons/player.png"
             id="ch.jester.ui.view.players"
-            name="Players">
+            name="%PlayerView">
       </view>
       <view
             allowMultiple="false"
             class="ch.jester.ui.tournament.editor.view.TournamentView"
             icon="icons/tournament.png"
             id="ch.jester.ui.view.tournamentview"
-            name="Tournaments"
+            name="%TournamentView"
             restorable="true">
       </view>
    </extension>
@@ -349,7 +349,7 @@
             default="false"
             icon="icons/player_edit.png"
             id="ch.jester.ui.player.editor.PlayerEditor"
-            name="PlayerEditor">
+            name="%PlayerEditor">
       </editor>
    </extension>
    <extension
