@@ -14,7 +14,6 @@ import org.eclipse.zest.core.widgets.GraphConnection;
 import org.eclipse.zest.core.widgets.GraphNode;
 
 import ch.jester.model.Pairing;
-import ch.jester.model.Player;
 import ch.jester.model.Round;
 import ch.jester.ui.tournament.internal.Activator;
 
@@ -35,7 +34,6 @@ public class ZestLabelProvider extends LabelProvider implements IEntityStyleProv
 		}
 
 		if (element instanceof EntityConnectionData) {
-			EntityConnectionData test = (EntityConnectionData) element;
 			return "";
 		}
 		throw new RuntimeException("Wrong type: "
@@ -118,7 +116,6 @@ public class ZestLabelProvider extends LabelProvider implements IEntityStyleProv
 	}
 	@Override
 	public int getBorderWidth(Object entity) {
-		PlayerDataNode player = toPlayerNode(entity);
 		if(getBorderColor(entity)!=null){
 			return 1;
 		}
@@ -126,7 +123,6 @@ public class ZestLabelProvider extends LabelProvider implements IEntityStyleProv
 	}
 	@Override
 	public Color getBackgroundColour(Object entity) {
-		Player player;
 		if(toPlayerNode(entity)!=null){
 			PlayerDataNode p = toPlayerNode(entity);
 			if(p.isBlack()){
@@ -171,12 +167,6 @@ public class ZestLabelProvider extends LabelProvider implements IEntityStyleProv
 	@Override
 	public void selfStyleNode(Object element, GraphNode node) {
 		node.setLocation(0, -100);
-	/*	if(toRound(element)!=null){
-			node.setLocation(1, 1);
-		}
-		if(toPairing(element)!=null){
-			
-		}*/
 	}
 
 

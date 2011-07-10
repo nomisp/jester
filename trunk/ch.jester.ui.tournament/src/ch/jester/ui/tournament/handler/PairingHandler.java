@@ -20,7 +20,6 @@ import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
-import ch.jester.model.Pairing;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
@@ -151,7 +150,7 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 			 * @return
 			 */
 			private boolean showWarningAlreadyPaired(final Shell shell) {
-				final boolean retVal;
+				//final boolean retVal;
 				UIJob uiJob = new UIJob("Question-Message") { //$NON-NLS-1$
 
 					@Override

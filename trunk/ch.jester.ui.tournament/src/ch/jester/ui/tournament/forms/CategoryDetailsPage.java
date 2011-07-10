@@ -1,6 +1,7 @@
 package ch.jester.ui.tournament.forms;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -12,7 +13,6 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IDetailsPage;
@@ -26,8 +26,6 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.model.Category;
 import ch.jester.ui.tournament.nl1.Messages;
-
-import org.eclipse.core.databinding.UpdateValueStrategy;
 
 /**
  * Category Details

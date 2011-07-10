@@ -29,7 +29,6 @@ import ch.jester.system.api.ranking.IRankingSystem;
 import ch.jester.system.api.ranking.IRankingSystemEntry;
 import ch.jester.system.api.ranking.IRankingSystemManager;
 import ch.jester.system.exceptions.NotAllResultsException;
-import ch.jester.ui.round.editors.RankingViewEditor;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
 import ch.jester.ui.tournament.internal.RankingEntityHelp;
 import ch.jester.ui.tournament.nl1.Messages;

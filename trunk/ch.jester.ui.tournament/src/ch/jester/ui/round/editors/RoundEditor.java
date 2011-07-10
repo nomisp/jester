@@ -8,7 +8,6 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.model.Category;
 import ch.jester.model.Round;
-import ch.jester.ui.round.form.BrowserForm;
 import ch.jester.ui.round.form.ResultForm;
 import ch.jester.ui.round.form.RoundForm;
 import ch.jester.ui.round.form.contentprovider.CategoryNodeModelContentProvider;
