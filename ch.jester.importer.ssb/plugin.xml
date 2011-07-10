@@ -16,5 +16,14 @@
             typeDescription="SSB Excel Importer">
       </ImportHandler>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.ui.importer.pref"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.ssb.xls.importer.pref"
+            name="SSB">
+      </page>
+   </extension>
 
 </plugin>

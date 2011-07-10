@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.ui,
  ch.jester.commonservices.api;bundle-version="1.0.0",
  ch.jester.commonservices.impl;bundle-version="1.0.0",
  ch.jester.persistence;bundle-version="1.0.0",
- ch.jester.model;bundle-version="1.0.0"
+ ch.jester.model;bundle-version="1.0.0",
+ ch.jester.common.ui;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: M. Liechti & P. Simon
