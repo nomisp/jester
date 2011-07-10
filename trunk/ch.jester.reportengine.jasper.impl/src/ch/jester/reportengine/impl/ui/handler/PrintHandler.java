@@ -2,7 +2,6 @@ package ch.jester.reportengine.impl.ui.handler;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;

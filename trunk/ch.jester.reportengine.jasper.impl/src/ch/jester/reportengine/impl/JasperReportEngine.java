@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 
-import org.apache.xmlbeans.impl.jam.mutable.MField;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -367,6 +366,10 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	}
 	
 	class CompileCache extends HashMap<IReport, CompileCacheEntry>{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private boolean mEnabled;
 		public void setEnabled(boolean pEnabled){
 			mEnabled = pEnabled;
