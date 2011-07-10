@@ -22,6 +22,7 @@ import ch.jester.commonservices.util.ServiceUtility;
  * Dieser Manager horcht auf Einträge/Änderungen am ExtensionPoint ch.jester.commonservices.api.ImportHandler
  *
  */
+@SuppressWarnings("rawtypes")
 public class DefaultImportManager extends AbstractEPComponent<IImportHandlerEntry, IImportHandler> implements IImportManager, IPreferenceManagerProvider{
 	ServiceUtility mServices = new ServiceUtility();
 	public DefaultImportManager(){

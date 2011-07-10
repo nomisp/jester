@@ -45,22 +45,13 @@ public class FacebookService extends OAuthServiceComponent implements ISocialSta
 		expIn.setValue(accessFlow.getExpiresIn());
 		expInTimeStamp.setValue(accessFlow.getExpiresInTimeStamp());
 		facebookClient = new DefaultFacebookClient(mAuthAccessToken.getStringValue());
-		/*if(getAuthAccessToken()==null || getAuthAccessToken().isEmpty()){
-			accessFlow = new FacebookAuthorisationFlow();
-			String token = FacebookAuthorisationFlow.accessToken;
-			int expires = FacebookAuthorisationFlow.expires;
-			setAuthAccessToken(token);
-			mPreferenceManager.getPropertyByInternalKey("expires").setValue(expires);
-		}
-		String token = getAuthAccessToken();
-		String u = token;
-		facebookClient = new DefaultFacebookClient(u);*/
 	}
 	@Override
 	public void updateStatus(String pStatus){
 		checkCredentials();
 
 		if(!sendRequest){return;}
+		@SuppressWarnings("unused")
 		FacebookType publishMessageResponse =
 			  facebookClient.publish("me/feed", FacebookType.class,
 			    Parameter.with("message", pStatus));

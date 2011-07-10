@@ -9,7 +9,6 @@ import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
-import org.eclipselabs.p2.rcpupdate.utils.P2Util;
 
 import ch.jester.commonservices.api.logging.ILogger;
 
