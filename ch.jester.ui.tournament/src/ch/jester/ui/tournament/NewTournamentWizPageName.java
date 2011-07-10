@@ -17,6 +17,8 @@ import org.eclipse.swt.widgets.DateTime;
 //import org.eclipse.nebula.widgets.formattedtext.NumberFormatter;
 //import java.util.Locale;
 
+import ch.jester.ui.tournament.nl1.Messages;
+
 public class NewTournamentWizPageName extends WizardPage implements ModifyListener {
 	private Text tournamentName;
 	private Text description;
@@ -24,10 +26,10 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 	private DateTime dateTo;
 	
 	protected NewTournamentWizPageName() {
-		super("Tournament name");
-		setTitle("Tournament");
-		setMessage("Creating a new tournament");
-		setDescription("Creating a new tournament");
+		super("Tournament name"); //$NON-NLS-1$
+		setTitle(Messages.NewTournamentWizPageName_title);
+		setMessage(Messages.NewTournamentWizPageName_message);
+		setDescription(Messages.NewTournamentWizPageName_description);
 		setPageComplete(false);
 	}
 
@@ -43,7 +45,7 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 		new Label(container, SWT.NONE);
 		
 		Label lblName = new Label(container, SWT.NONE);
-		lblName.setText("Name");
+		lblName.setText(Messages.NewTournamentWizPageName_lbl_name);
 		new Label(container, SWT.NONE);
 		
 		tournamentName = new Text(container, SWT.BORDER);
@@ -54,7 +56,7 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 		
 		Label lblDescription = new Label(container, SWT.NONE);
 		lblDescription.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
-		lblDescription.setText("Description");
+		lblDescription.setText(Messages.NewTournamentWizPageName_lbl_description);
 		new Label(container, SWT.NONE);
 		
 		description = new Text(container, SWT.BORDER | SWT.WRAP);
@@ -64,14 +66,14 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 		new Label(container, SWT.NONE);
 		
 		Label lblDateFrom = new Label(container, SWT.NONE);
-		lblDateFrom.setText("Date From");
+		lblDateFrom.setText(Messages.NewTournamentWizPageName_lbl_dateFrom);
 		new Label(container, SWT.NONE);
 		
 		dateFrom = new DateTime(container, SWT.BORDER);
 		new Label(container, SWT.NONE);
 		
 		Label lblDateTo = new Label(container, SWT.NONE);
-		lblDateTo.setText("Date To");
+		lblDateTo.setText(Messages.NewTournamentWizPageName_lbl_dateTo);
 		new Label(container, SWT.NONE);
 		
 		dateTo = new DateTime(container, SWT.BORDER);

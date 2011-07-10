@@ -18,7 +18,7 @@
             name="%CreateNewTournament"
             preferredPerspectives="ch.jester.ui.tournament.tournamentPerspective">
          <description>
-            Creating a new tournament
+            %wizard.description
          </description>
       </wizard>
    </extension>

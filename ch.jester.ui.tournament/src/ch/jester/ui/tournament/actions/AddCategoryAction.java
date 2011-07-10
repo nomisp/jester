@@ -7,6 +7,7 @@ import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.forms.CategoryMasterDetail;
+import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Action um Runden zu einem Turnier hinzuzufügen
@@ -24,12 +25,12 @@ public class AddCategoryAction extends Action {
 	
 	@Override
 	public String getText() {
-		return "AddCategory";
+		return Messages.Action_AddCategory_text;
 	}
 
 	@Override
 	public void run() {
-		Category cat = ModelFactory.getInstance().createCategory("Category " + (tournament.getCategories().size()+1));
+		Category cat = ModelFactory.getInstance().createCategory(Messages.Action_entityCategory_name + (tournament.getCategories().size()+1));
 		tournament.addCategory(cat);
 		categoryMasterDetail.refresh();
 		categoryMasterDetail.setEditorDirty();
