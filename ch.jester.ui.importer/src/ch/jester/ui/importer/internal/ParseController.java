@@ -69,6 +69,7 @@ public class ParseController {
 
 	@SuppressWarnings("rawtypes")
 	public IImportAttributeMatcher getImportAttributeMatcher(){
+		if(mSelection.getSelectedHandlerEntry()==null){return null;}
 		IImportHandler handler = mSelection.getSelectedHandlerEntry().getService();
 		IImportAttributeMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportAttributeMatcher.class);
 		return attributehandler;
@@ -85,6 +86,10 @@ public class ParseController {
 		return testableHandler!=null;
 	}
 
+	public boolean canDoMatching(){
+		return getImportAttributeMatcher()!=null;
+	}
+	
 	public String[] getInputAttributes(){
 		if(hasException()){
 			getImportAttributeMatcher().resetInputLinking();
