@@ -34,6 +34,7 @@ import ch.jester.common.ui.adapters.TableLabelProviderAdapter;
 import ch.jester.common.ui.utility.SafeMessageBoxRunner;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IBundleReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
@@ -173,11 +174,12 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ReportImportDialog dialog = new ReportImportDialog(Display.getDefault().getActiveShell());
+				dialog.setInputPath(su.getService(IFileManager.class).getWorkingDirectory()+"/"+IReportEngine.TEMPLATE_DIRECTROY);
 				dialog.create();
 				dialog.setBlockOnOpen(true);
 				int i = dialog.open();
 				if(i==Dialog.OK){
-					List<IReport> allReports = importReport(dialog.getReportName(), dialog.getSelectedFile());
+					List<IReport> allReports = importReport(dialog.getReportName(), dialog.getSelectedFile(), dialog.getInputBeanClass());
 					tableViewer.setInput(allReports);
 				}
 		
@@ -223,9 +225,10 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 		return container;
 	}
 
-	private List<IReport> importReport(String reportName, String selectedFile) {
+	private List<IReport> importReport(String reportName, String selectedFile, Class<?> beanClass) {
 		IReportEngine engine = su.getService(IReportEngine.class);
 		IReport report = engine.getRepository().createFSReport(UUID.randomUUID().toString(), reportName, selectedFile);
+		report.setInputBeanClass(beanClass);
 		new Initializer().storeReport(report);
 		return engine.getRepository().getReports();
 	}

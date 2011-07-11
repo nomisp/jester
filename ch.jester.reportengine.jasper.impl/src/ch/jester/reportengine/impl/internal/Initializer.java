@@ -13,6 +13,7 @@ public class Initializer extends AbstractPreferenceInitializer {
 	public static String STORED_REPORT = "storedReports";
 	public static String STORED_REPORT_NAME = "report.name.";
 	public static String STORED_REPORT_FILE = "report.file.";
+	public static String STORED_REPORT_CLASS = "report.class.";
 	IPreferenceStore store;
 	public Initializer() {
 		store = Activator.getDefault().getPreferenceStore();
@@ -30,6 +31,7 @@ public class Initializer extends AbstractPreferenceInitializer {
 		store.setValue(STORED_REPORT, storedExternalReports);
 		store.setValue(STORED_REPORT_NAME+storedExternalReports, report.getVisibleName());
 		store.setValue(STORED_REPORT_FILE+storedExternalReports, report.getInstalledFile().toString());	
+		store.setValue(STORED_REPORT_CLASS+storedExternalReports, report.getInputBeanClass().getCanonicalName());
 	}
 	
 	public void load(IReportRepository factory) {
@@ -38,9 +40,25 @@ public class Initializer extends AbstractPreferenceInitializer {
 		for(int i=0;i<=reps;i++){
 			String rName = store.getString(STORED_REPORT_NAME+i);
 			String rPath = store.getString(STORED_REPORT_FILE+i);
-			factory.createFSReport(UUID.randomUUID().toString(), rName,  rPath);
+			String rClass = store.getString(STORED_REPORT_CLASS+i);
+			Class<?> clz = getClass(rClass);
+			IReport report = factory.createFSReport(UUID.randomUUID().toString(), rName,  rPath);
+			if(clz!=null){
+				report.setInputBeanClass(clz);
+			}
 		}
 		
+	}
+
+	private Class<?> getClass(String rClass) {
+		try {
+			Class<?> clz = Class.forName(rClass);
+			return clz;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 
