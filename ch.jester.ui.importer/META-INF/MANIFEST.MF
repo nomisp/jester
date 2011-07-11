@@ -16,6 +16,6 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.6.2",
  org.eclipse.jface.databinding,
  com.ibm.icu
 Bundle-ActivationPolicy: lazy
-Bundle-Localization: plugin
+Bundle-Localization: nl1/messages
 Bundle-Activator: ch.jester.ui.importer.internal.Activator
 Export-Package: ch.jester.ui.importer
