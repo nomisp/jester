@@ -6,7 +6,7 @@
       <page
             class="ch.jester.reportengine.impl.JasperReportsPreferencePage"
             id="ch.jester.reportengine.jasper.preferences"
-            name="Print Templates ">
+            name="Report Templates">
       </page>
    </extension>
    <extension

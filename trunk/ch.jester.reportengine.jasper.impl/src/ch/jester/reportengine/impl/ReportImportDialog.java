@@ -2,27 +2,39 @@ package ch.jester.reportengine.impl;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.layout.GridLayout;
+
+import ch.jester.model.factories.ModelFactory;
 
 public class ReportImportDialog extends Dialog {
 	private Text txtFileName;
 	private Text txtReportName;
 	private String fName;
 	private String rName;
+	private ComboViewer comboViewer;
+	private Class<?> selectedClass;
+	private String mPath;
 	/**
 	 * Create the dialog.
 	 * @param parentShell
@@ -66,7 +78,11 @@ public class ReportImportDialog extends Dialog {
 				FileDialog fd = new FileDialog(getShell(), SWT.OPEN);
 				
 		        fd.setText("Open");
-		        fd.setFilterPath(".");
+		        if(mPath!=null){
+		        	fd.setFilterPath(mPath);
+		        }else{
+		        	fd.setFilterPath(".");
+		        }
 		        String[] filterExt = { "*.jrxml", "*.*" };
 		        fd.setFilterExtensions(filterExt);
 		        String mFile = fd.open();
@@ -101,6 +117,32 @@ public class ReportImportDialog extends Dialog {
 			}
 		});
 		new Label(container, SWT.NONE);
+		
+		Label lblInputBean = new Label(container, SWT.NONE);
+		lblInputBean.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblInputBean.setText("Input Bean");
+		
+		comboViewer = new ComboViewer(container, SWT.NONE | SWT.READ_ONLY);
+		comboViewer.setLabelProvider(new LabelProvider(){
+			@Override
+			public String getText(Object element) {
+				Class<?> c = (Class<?>) element;
+				return c.getCanonicalName();
+			}
+		});
+		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
+		comboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				selectedClass = (Class<?>) ((IStructuredSelection)comboViewer.getSelection()).getFirstElement();
+				
+			}
+		});
+		Combo combo = comboViewer.getCombo();
+		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
 
 		txtFileName.addModifyListener(new ModifyListener() {
 			
@@ -112,7 +154,7 @@ public class ReportImportDialog extends Dialog {
 			}
 		});
 		
-		
+		comboViewer.setInput(ModelFactory.getInstance().getAllExportableClasses());
 		return container;
 	}
 	private void checkOk(){
@@ -130,6 +172,10 @@ public class ReportImportDialog extends Dialog {
 		return rName;
 		
 	}
+	public Class<?> getInputBeanClass(){
+		return selectedClass;
+	}
+	
 	/**
 	 * Create contents of the button bar.
 	 * @param parent
@@ -149,6 +195,11 @@ public class ReportImportDialog extends Dialog {
 	@Override
 	protected Point getInitialSize() {
 		return new Point(450, 300);
+	}
+
+	public void setInputPath(String string) {
+		mPath = string;
+		
 	}
 
 }

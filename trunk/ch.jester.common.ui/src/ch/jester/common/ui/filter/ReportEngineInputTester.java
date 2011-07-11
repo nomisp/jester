@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.IAdaptable;
 public class ReportEngineInputTester {
 
 	public static Collection<?> getInputCollectionForReport(Class<?> reportBeanClass, List<?> selectedBeans){
-		if(selectedBeans.isEmpty()){return selectedBeans;}
+		if(selectedBeans==null || selectedBeans.isEmpty()){return selectedBeans;}
 		if(selectedBeans.size()==1){
 			return testSingleEntry(reportBeanClass, selectedBeans.get(0));
 		}
@@ -28,6 +28,9 @@ public class ReportEngineInputTester {
 
 	private static Collection<?> testSingleEntry(Class<?> reportBeanClass,
 			Object object) {
+		if(reportBeanClass==null||object==null){
+			return new ArrayList();
+		}
 		if(reportBeanClass.isAssignableFrom(object.getClass())){
 			return returnAsList(object);
 		}
