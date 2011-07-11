@@ -70,11 +70,16 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 
 						viewer.refresh();
 						viewer.setExpandedTreePaths(paths);
-						
+						viewer.getControl().setRedraw(false);
 						for(TreePath path:paths){
-							Object lastLeaf = path.getLastSegment();
-							viewer.expandToLevel(lastLeaf, path.getSegmentCount());
+							TreePath parentPath = path.getParentPath();
+							Object leaf = parentPath.getLastSegment();
+							viewer.expandToLevel(leaf, parentPath.getSegmentCount());
+							
+							//Object lastLeaf = path.getLastSegment();
+							//viewer.expandToLevel(lastLeaf, path.getSegmentCount());
 						}
+						viewer.getControl().setRedraw(true);
 					}
 				});	
 			}
