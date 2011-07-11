@@ -20,6 +20,7 @@ public class FaceBookAuthorisationFlowDialog extends Dialog {
 	Browser browser;
 	private String url;
 	protected String code;
+	private boolean mClearSession;
 
 	/**
 	 * Create the dialog.
@@ -63,8 +64,10 @@ public class FaceBookAuthorisationFlowDialog extends Dialog {
 		shlFacebookAuthFlow.setLayout(new GridLayout(1, false));
 		browser = new Browser(shlFacebookAuthFlow, SWT.NONE);
 		browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		if(mClearSession){
+			Browser.clearSessions();
+		}
 		browser.setUrl(url);
-
 		browser.addStatusTextListener(listener = new StatusTextListener() {
 			
 			@Override
@@ -84,5 +87,10 @@ public class FaceBookAuthorisationFlowDialog extends Dialog {
 
 	public String getToken(){
 		return code;
+	}
+
+	public void clearSession(boolean pClearSession) {
+		mClearSession = pClearSession;
+		
 	}
 }

@@ -15,7 +15,7 @@ import com.restfb.types.FacebookType;
 public class FacebookService extends OAuthServiceComponent implements ISocialStatusUpdater{
 	private FacebookClient facebookClient;
 	private FacebookAuthorisationFlow accessFlow;
-	private boolean sendRequest = true;
+	private boolean sendRequest = false;
 	private IPreferenceProperty expIn, expInTimeStamp;
 	@Override
 	public void initializeService() {
@@ -34,10 +34,11 @@ public class FacebookService extends OAuthServiceComponent implements ISocialSta
 		expInTimeStamp.setType(Long.class);
 	}
 	private void initializeAuthorisationFlow() {
-		accessFlow = new FacebookAuthorisationFlow(mAuthAccessToken.getStringValue(), expIn.getIntegerValue(), (Long)expInTimeStamp.getValue());
+		accessFlow = new FacebookAuthorisationFlow(mAuthAccessToken.getStringValue(), expIn.getIntegerValue(), (Long)expInTimeStamp.getValue(),true);
 		
 	}
 
+	
 	private void checkCredentials() {
 		if(accessFlow.established()){return;}
 		accessFlow.authorizeUser();
@@ -49,7 +50,7 @@ public class FacebookService extends OAuthServiceComponent implements ISocialSta
 	@Override
 	public void updateStatus(String pStatus){
 		checkCredentials();
-
+		getLogger().debug("Sending Message to Facebook: "+pStatus);
 		if(!sendRequest){return;}
 		@SuppressWarnings("unused")
 		FacebookType publishMessageResponse =
