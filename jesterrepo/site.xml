@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="JesterP2Site" url="http://code.google.com/p/jester/source/browse/p2repo">
+      Alles für jester
+   </description>
+   <feature url="features/ch.jester.socialmedia.feature_1.0.0.0.jar" id="ch.jester.socialmedia.feature" version="1.0.0.0">
+      <category name="SocialMedia"/>
+   </feature>
+   <category-def name="SocialMedia" label="Social Media">
+      <description>
+         enables Jester to post staus update to twitter &amp; facebook
+      </description>
+   </category-def>
+</site>
