@@ -5,29 +5,32 @@ import org.eclipse.swt.widgets.Display;
 
 public class FacebookAuthorisationFlow {
 	public static String APP_ID = "161639000575963";
-	public static String userAuthURL ="https://www.facebook.com/dialog/oauth?client_id=YOUR_APP_ID&scope=publish_stream&redirect_uri=https://www.facebook.com/connect/login_success.html&response_type=token";
+	public static String userAuthURL ="https://www.facebook.com/dialog/oauth?client_id=YOUR_APP_ID&auth_type=reauthenticate&scope=publish_stream&redirect_uri=https://www.facebook.com/connect/login_success.html&response_type=token&force_login=true";
 	public static String APP_ID_Param = "YOUR_APP_ID";
 	public static String expiresIn_Param ="&expires_in=";
 //	public static int expires;
 	private String accessToken;
 	private TokenExpiryManager expiryManager = new TokenExpiryManager();
+	private boolean mClearSession;
 	public FacebookAuthorisationFlow(){
-		this(null, 0, 0);
+		this(null, 0, 0, true);
 	}
 	
-	public FacebookAuthorisationFlow(String token, int expires_in, long expiryTimeStamp) {
+	public FacebookAuthorisationFlow(String token, int expires_in, long expiryTimeStamp, boolean clearSession) {
 		accessToken=token;
 		expiryManager.setExpires_in(expires_in, expiryTimeStamp);
+		mClearSession=clearSession;
 	}
 
 	public void authorizeUser() {
 		String url = prepareUrl();
 		//System.out.println(url);
 		FaceBookAuthorisationFlowDialog dialog = new FaceBookAuthorisationFlowDialog(Display.getDefault().getActiveShell(), SWT.BORDER);
+		dialog.clearSession(mClearSession);
 		dialog.setURL(url);
 		dialog.open();
 		String result = dialog.getToken();
-		
+		if(result == null){return;}
 		if(result.contains(expiresIn_Param)){
 			accessToken = result.substring(0, result.indexOf(expiresIn_Param));
 			String exp = result.substring(result.indexOf(expiresIn_Param)+expiresIn_Param.length());
