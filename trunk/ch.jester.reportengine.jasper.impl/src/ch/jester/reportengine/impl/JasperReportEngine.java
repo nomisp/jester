@@ -72,6 +72,8 @@ import ch.jester.reportengine.impl.internal.Initializer;
  */
 public class JasperReportEngine implements IReportEngine, IComponentService<Object>{
 
+	private static String COMPILE_JOB_TITLE ="Compiling Reports";
+	
 	private ReentrantLock compilingLock = new ReentrantLock();
 	
 	private CompileCache cache = new CompileCache();
@@ -147,9 +149,32 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     	
     }
     
+    public void startUserNotifcationJob(){
+    	Job job = new Job("Waiting for '"+COMPILE_JOB_TITLE+"'"){
+			
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				monitor.beginTask("Waiting", IProgressMonitor.UNKNOWN);
+				compilingLock.lock();
+				compilingLock.unlock();
+				monitor.done();
+				return Status.OK_STATUS;
+			}
+			
+		};
+		job.setUser(true);
+		job.schedule();
+    }
+    
 	@Override
 	public IReportResult generate(IReport pReport, Collection<?> pBean) throws ProcessingException{
 		try {
+			boolean gotLock = compilingLock.tryLock();
+			if(!gotLock){
+				startUserNotifcationJob();
+			}
+			
+			
 			compilingLock.lock();
 			checkInput(pReport, pBean);
 			mLogger.info("Generating Report. Inputsize: "+pBean.size()+" Objects ...");
@@ -358,7 +383,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	}
 	class CompileJob extends Job{
 		public CompileJob(){
-			super("Compiling Reports");
+			super(COMPILE_JOB_TITLE);
 		}
 
 		@Override
