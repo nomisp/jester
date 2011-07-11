@@ -4,11 +4,11 @@
     <extension
          point="org.eclipse.ui.commands">
       <command
-            name="Check for Updates"
+            name="%Update"
             id="org.eclipselabs.p2.rcpupdate.update">
       </command>
       <command
-            name="Install New Software..."
+            name="%Install"
             id="org.eclipselabs.p2.rcpupdate.install">
       </command>
    </extension>
