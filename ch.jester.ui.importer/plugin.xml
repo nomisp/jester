@@ -12,7 +12,7 @@
             class="ch.jester.ui.importer.ImportPlayerWizard"
             icon="icons/player.png"
             id="ch.jester.ui.importer"
-            name="Player">
+            name="%Player">
       </wizard>
    </extension>
    <extension
