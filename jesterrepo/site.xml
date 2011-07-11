@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description name="JesterP2Site" url="http://code.google.com/p/jester/source/browse/p2repo">
+   <description name="JesterP2Site" url="http://jester.googlecode.com/svn/jesterrepo">
       Alles für jester
    </description>
    <feature url="features/ch.jester.socialmedia.feature_1.0.0.0.jar" id="ch.jester.socialmedia.feature" version="1.0.0.0">
