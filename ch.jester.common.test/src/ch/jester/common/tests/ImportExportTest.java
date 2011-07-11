@@ -34,6 +34,7 @@ public class ImportExportTest {
 	ModelFactory factory = ModelFactory.getInstance();
 	ServiceUtility su = new ServiceUtility();
 	ZipSerializationReader reader;
+	SerializationWriter writer ;
 	public Tournament createAndSaveTournament(){
 		RankingSystem rankingSystem = new RankingSystem();
 		rankingSystem.setPluginId(BuchholzTest.PLUGIN_ID);
@@ -80,7 +81,10 @@ public class ImportExportTest {
 	}
 	@After
 	public void cleanup() throws IOException{
-		new File("test.zip").delete();
+		if(writer!=null){
+			writer.close();
+		}
+		new File("test1.zip").delete();
 		if(reader!=null){
 			reader.close();
 		}
@@ -99,17 +103,20 @@ public class ImportExportTest {
 		
 		ObjectXMLSerializer serializer = new ObjectXMLSerializer();
 		serializer.prepareContext(factory.getAllExportableClasses());
-		SerializationWriter writer =  serializer.createWriter("test.zip");
+		
+		writer =  serializer.createWriter("test1.zip");
 		writer.newEntry("jester-export.xml");
 		writer.write(tlist);
 		writer.close();
+		writer=null;
 
 	}
 	
 	public void doImport() throws JAXBException, FileNotFoundException, IOException{
 		ObjectXMLSerializer serializer = new ObjectXMLSerializer();
 		serializer.prepareContext(factory.getAllExportableClasses());
-		 reader = serializer.createReader("test.zip");
+		
+		 reader = serializer.createReader("test1.zip");
 		List<IEntityObject> list = reader.read("jester-export.xml");
 		
 		Assert.assertEquals(1, list.size());
@@ -139,5 +146,6 @@ public class ImportExportTest {
 	public void testExportImport() throws JAXBException, IOException{
 		testExport();
 		doImport();
+		//cleanup();
 	}
 }
