@@ -49,6 +49,8 @@ public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageCh
 		mLogger = Activator.getInstance().getActivationContext().getLogger();
 		
 	}
+	
+
 
 	@Override
 	public boolean canFinish() {
@@ -116,6 +118,8 @@ public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageCh
 		secondPage.setInput(firstPage.getData());
 		
 	}
+	
+	
 	
 
 @Override

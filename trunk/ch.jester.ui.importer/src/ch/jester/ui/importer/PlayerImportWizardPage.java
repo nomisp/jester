@@ -36,6 +36,7 @@ import ch.jester.ui.importer.internal.DownloadListener;
 import ch.jester.ui.importer.internal.HandlerSelectionListener;
 import ch.jester.ui.importer.internal.ImportData;
 import ch.jester.ui.importer.internal.ImportHandlerContentProvider;
+import ch.jester.ui.importer.internal.ParseController;
 import ch.jester.ui.importer.internal.WebImportAdapterContentProvider;
 import ch.jester.ui.importer.internal.ZipEntryContentProvider;
 import ch.jester.ui.importer.nl1.Messages;
@@ -295,6 +296,11 @@ public class PlayerImportWizardPage extends WizardPage {
 			}
 			
 		}
+	}
+	
+	@Override
+	public boolean canFlipToNextPage() {
+		return ParseController.getController().canDoMatching();
 	}
 	
 	//Radio Listener
