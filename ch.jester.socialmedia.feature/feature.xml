@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="ch.jester.socialmedia.feature"
+      label="Social Media Feature"
+      version="1.0.0.0"
+      provider-name="M. Liechti &amp; P. Simon">
+
+   <description url="http://www.example.com/description">
+      Enables jester to post status updates to facebook and twitter
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="ch.jester.common.ui" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.osgi.services" version="3.2.100" match="greaterOrEqual"/>
+      <import plugin="ch.jester.socialmedia" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.log4j"/>
+      <import plugin="ch.jester.commonservices.impl" version="1.0.0" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="ch.jester.socialmedia"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.socialmedia.facebook"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.socialmedia.twitter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
