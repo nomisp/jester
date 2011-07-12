@@ -8,7 +8,6 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -24,6 +23,8 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -42,9 +43,6 @@ import ch.jester.common.ui.utility.SafeMessageBoxRunner;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;
 import ch.jester.ui.importer.nl1.Messages;
-
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.GridData;
 
 public class AddColumnDialog extends Dialog implements SelectionListener {
 	private static int colcounter = 1;

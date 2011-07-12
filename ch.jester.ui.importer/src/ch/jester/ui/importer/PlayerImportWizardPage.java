@@ -50,16 +50,11 @@ public class PlayerImportWizardPage extends WizardPage {
 
 	private ServiceUtility mService = new ServiceUtility();
 	
-	private final Object NULL_INPUT = null;
-	
 	//Radio
 	private Button rdZip;
 	private Button rdWeb;
 	private WebRadioSelectionListener mWebRadioListener = new WebRadioSelectionListener();
 	private ZipRadioSelectionListener mZipRadioListener = new ZipRadioSelectionListener();
-	private ZipEntrySelectionListener zes = null;
-
-	
 	private Button mBtnBrowse;
 	private ComboViewer mComboProviderViewer;
 	private Combo mProviderCombo;
@@ -70,7 +65,6 @@ public class PlayerImportWizardPage extends WizardPage {
 	private CheckboxTableViewer mFileTableViewer;
 	private Table mFileTable;
 	
-	private Controller mController;
 	private ComboViewer mHandlerListViewer;
 
 	private boolean enableWebOptions = false;
@@ -81,7 +75,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		super(Messages.PlayerImportWizardPage_lbl_import_player);
 		setTitle(Messages.PlayerImportWizardPage_lbl_import); //NON-NLS-1
 		setDescription(Messages.PlayerImportWizardPage_lbl_import_into_jester); //NON-NLS-1
-		mController = Controller.createController(this);
+		Controller.createController(this);
 	}
 	
 	
@@ -92,7 +86,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		super(Messages.PlayerImportWizardPage_lbl_import_player); 
 		setTitle(Messages.PlayerImportWizardPage_lbl_import); 
 		setDescription(Messages.PlayerImportWizardPage_lbl_import_into_jester);
-		mController = Controller.createController(this);
+		Controller.createController(this);
 	}
 	
 
@@ -135,7 +129,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		mFileTableViewer = CheckboxTableViewer.newCheckList(container, SWT.BORDER | SWT.FULL_SELECTION);
 		mFileTable = mFileTableViewer.getTable();
 		
-		mFileTable.addSelectionListener(zes = new ZipEntrySelectionListener());
+		mFileTable.addSelectionListener(new ZipEntrySelectionListener());
 		
 		mFileTable.setBounds(175, 128, 407, 112);
 		

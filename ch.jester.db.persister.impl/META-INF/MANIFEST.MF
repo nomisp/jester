@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Model Persistency Implementation
 Bundle-SymbolicName: ch.jester.db.persister.impl;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: ch.jester.db.persister.impl.Activator
 Require-Bundle: org.eclipse.core.runtime,
  ch.jester.model;bundle-version="1.0.0",

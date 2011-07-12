@@ -339,7 +339,7 @@ public class Controller {
 		model.handlerEntry = null;
 		setHierarchyChangingInput(mFEV, pZip);
 		
-		Object[] obj = mFEV.getCheckedElements();
+	//	Object[] obj = mFEV.getCheckedElements();
 		/*if(obj.length==1){
 			Object selected = obj[0];
 			mFEV.setSelection(new StructuredSelection(selected),true);

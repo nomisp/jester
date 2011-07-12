@@ -3,7 +3,7 @@ Eclipse-RegisterBuddy: ch.jester.hibernate
 Bundle-ManifestVersion: 2
 Bundle-Name: Mysql
 Bundle-SymbolicName: ch.jester.db.mysql;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: mysql-connector-java-5.1.15-bin.jar
 Export-Package: com.mysql.jdbc,
  com.mysql.jdbc.exceptions,

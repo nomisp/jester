@@ -3,7 +3,7 @@ Eclipse-RegisterBuddy: ch.jester.hibernate
 Bundle-ManifestVersion: 2
 Bundle-Name: H2
 Bundle-SymbolicName: ch.jester.db.h2;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  ch.jester.orm;bundle-version="1.0.0",
