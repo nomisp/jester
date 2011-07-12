@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Nl1 Jasper Reportengine
+Bundle-SymbolicName: ch.jester.reportengine.jasper.impl.nl1
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: M. Liechti & P. Simon
+Fragment-Host: ch.jester.reportengine.jasper.impl;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Localization: OSGI-INF/l10n/bundle
