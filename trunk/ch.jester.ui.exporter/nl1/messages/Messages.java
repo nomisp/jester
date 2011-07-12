@@ -1,9 +1,9 @@
-package ch.jester.ui.exporter.nl1;
+package messages;
 
 import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
-	private static final String BUNDLE_NAME = "ch.jester.ui.exporter.nl1.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "messages.messages"; //$NON-NLS-1$
 	public static String PlayerXMLPage_extension1;
 	public static String PlayerXMLPage_extension2;
 	public static String PlayerXMLPage_filterpath;

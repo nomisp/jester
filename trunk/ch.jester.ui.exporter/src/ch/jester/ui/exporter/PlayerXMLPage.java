@@ -3,6 +3,8 @@ package ch.jester.ui.exporter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import messages.Messages;
+
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -22,7 +24,6 @@ import org.eclipse.swt.widgets.Text;
 
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.model.Tournament;
-import ch.jester.ui.exporter.nl1.Messages;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
