@@ -194,14 +194,19 @@ public class Player extends AbstractModelBean<Player> {
 	
 	public void addClub(Club club) {
 		if (club == null) throw new IllegalArgumentException("club cannot be null");
-		if (!clubs.contains(club)) clubs.add(club);
-		club.addPlayer(this); // Bidirektion
+		if (!clubs.contains(club)) {
+			clubs.add(club);
+			club.addPlayer(this); // Bidirektion
+		}
+
 	}
 	
 	public void removeClub(Club club) {
 		if (club == null) throw new IllegalArgumentException("club cannot be null");
-		clubs.remove(club);
-		club.removePlayer(this); // Bidirektion
+		boolean removed = clubs.remove(club);
+		if(removed){
+			club.removePlayer(this); // Bidirektion
+		}
 	}
 
 	public String toString() {
