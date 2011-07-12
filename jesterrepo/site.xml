@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description name="JesterP2Site" url="http://jester.googlecode.com/svn/jesterrepo">
+   <description name="jester p2 repository" url="http://jester.googlecode.com/svn/jesterrepo">
       Alles für jester
    </description>
    <feature url="features/ch.jester.socialmedia.feature_1.0.0.0.jar" id="ch.jester.socialmedia.feature" version="1.0.0.0">
-      <category name="SocialMedia"/>
+      <category name="jester.socialmedia"/>
    </feature>
-   <category-def name="SocialMedia" label="Social Media">
+   <feature url="features/ch.jester.languagepack.de.fr.feature_1.0.0.201107122259.jar" id="ch.jester.languagepack.de.fr.feature" version="1.0.0.201107122259">
+      <category name="jester.language"/>
+   </feature>
+   <category-def name="jester.socialmedia" label="Social Media">
       <description>
          enables Jester to post staus update to twitter &amp; facebook
+      </description>
+   </category-def>
+   <category-def name="jester.web" label="Web">
+      <description>
+         Plugins for Internet
+      </description>
+   </category-def>
+   <category-def name="jester.language" label="Language Packs">
+      <description>
+         Provides different Languages
       </description>
    </category-def>
 </site>
