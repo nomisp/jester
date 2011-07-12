@@ -51,14 +51,19 @@ public class Club extends AbstractModelBean<Club> {
 	
 	public void addPlayer(Player player) {
 		if (player == null) throw new IllegalArgumentException("player cannot be null");
-		if (!players.contains(player)) players.add(player);
-		player.addClub(this); // Bidirektion
+		if (!players.contains(player)){
+			players.add(player);
+			player.addClub(this); // Bidirektion
+		}
+		
 	}
 	
 	public void removePlayer(Player player) {
 		if (player == null) throw new IllegalArgumentException("player cannot be null");
-		players.remove(player);
-		player.removeClub(this); // Bidirektion
+		boolean removed = players.remove(player);
+		if(removed){
+			player.removeClub(this); // Bidirektion
+		}
 	}
 
 	@Override
