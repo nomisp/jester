@@ -1,9 +1,9 @@
-package ch.jester.ui.nl1;
+package messages;
 
 import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
-	private static final String BUNDLE_NAME = "ch.jester.ui.nl1.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "messages.messages"; //$NON-NLS-1$
 	public static String PlayerFormPage_lbl_age;
 	public static String PlayerFormPage_lbl_chess_data;
 	public static String PlayerFormPage_lbl_city;

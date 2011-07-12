@@ -3,6 +3,8 @@ package ch.jester.ui.player.editor.view;
 
 import java.util.List;
 
+import messages.Messages;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -39,7 +41,6 @@ import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Player;
 import ch.jester.ui.Activator;
-import ch.jester.ui.nl1.Messages;
 
 
 public class PlayersView extends AbstractView{
