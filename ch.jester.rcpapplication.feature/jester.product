@@ -39,6 +39,7 @@ MAS SE HSR 2011
       </win>
    </launcher>
 
+
    <vm>
       <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</windows>
    </vm>
@@ -140,6 +141,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </plugins>
 
    <features>
+      <feature id="org.eclipselabs.p2.rcpupdate" version="1.0.0.qualifier"/>
       <feature id="ch.jester.rcpapplication.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.rcp.nl_de" version="3.5.0"/>
    </features>
@@ -147,7 +149,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
    <configurations>
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
-      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.help" autoStart="true" startLevel="4" />
    </configurations>
 
