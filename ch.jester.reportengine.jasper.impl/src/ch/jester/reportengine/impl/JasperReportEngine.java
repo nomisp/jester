@@ -18,6 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.servlet.http.HttpSession;
 
+import messages.Messages;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -72,11 +73,15 @@ import ch.jester.reportengine.impl.internal.Initializer;
  */
 public class JasperReportEngine implements IReportEngine, IComponentService<Object>{
 
-	private static String COMPILE_JOB_TITLE ="Compiling Reports";
+	private static String COMPILE_JOB_TITLE =Messages.JasperReportEngine_compile_job_title;
 	
 	private ReentrantLock compilingLock = new ReentrantLock();
 	
 	private CompileCache cache = new CompileCache();
+	
+	private static String BUNDLE_REPORT_LOCATION="reports"; //$NON-NLS-1$
+	
+	private static String BUNDLE_ID ="ch.jester.reportengine.jasper.impl";
 	
 	/**
 	 * @uml.property  name="mLogger"
@@ -95,15 +100,15 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     private IReportRepository factory = new DefaultReportRepository();
 
     public JasperReportEngine(){
-    	IBundleReport report = factory.createBundleReport("ch.jester.reportengine.jasper.impl", "playerlist", "Player List", "reports", "reports/PlayerList.jrxml");
+    	IBundleReport report = factory.createBundleReport(BUNDLE_ID, "playerlist", Messages.JasperReportEngine_player_report_name, BUNDLE_REPORT_LOCATION, "reports/PlayerList.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
     	report.setInputBeanClass(Player.class);
-    	report = factory.createBundleReport("ch.jester.reportengine.jasper.impl", "pairinglist_tournament", "Tournament Pairing", "reports", "reports/PairingList.jrxml");
+    	report = factory.createBundleReport(BUNDLE_ID, "pairinglist_tournament", Messages.JasperReportEngine_tournament_report_name, BUNDLE_REPORT_LOCATION, "reports/PairingList.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
     	report.setInputBeanClass(Tournament.class);
-    	report = factory.createBundleReport("ch.jester.reportengine.jasper.impl", "pairinglist_category", "Category Pairing", "reports", "reports/PairingListCat.jrxml");
+    	report = factory.createBundleReport(BUNDLE_ID, "pairinglist_category", Messages.JasperReportEngine_category_pairing_name, BUNDLE_REPORT_LOCATION, "reports/PairingListCat.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
     	report.setInputBeanClass(Category.class);
-    	IBundleReport src = factory.createBundleReport("ch.jester.reportengine.jasper.impl", null, null, "reports", "reports/Category_RoundSubReport.jrxml");
+    	IBundleReport src = factory.createBundleReport(BUNDLE_ID, null, null, BUNDLE_REPORT_LOCATION, "reports/Category_RoundSubReport.jrxml"); //$NON-NLS-1$
     	cache.addCachedReport(src, null, null);
-    	src = factory.createBundleReport("ch.jester.reportengine.jasper.impl", null, null, "reports", "reports/Category_sub.jrxml");
+    	src = factory.createBundleReport(BUNDLE_ID, null, null, BUNDLE_REPORT_LOCATION, "reports/Category_sub.jrxml"); //$NON-NLS-1$
     	cache.addCachedReport(src, null, null);
     	new Initializer().load(factory);
     	
@@ -117,7 +122,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 		int visibleReports = JasperReportEngine.this.getRepository().getReports().size();
 		int sourceReports = cache.keySet().size();
 		int work = visibleReports+sourceReports;
-		monitor.beginTask("Precompiling Reports", work);
+		monitor.beginTask(Messages.JasperReportEngine_precompile_task, work);
 		
 		
     	List<IReport> reports = getRepository().getReports();
@@ -127,7 +132,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     		cache.compileReport(report);
     	}
     	for(IReport report:reports){
-    		monitor.subTask("Compiling "+report.getVisibleName());
+    		monitor.subTask(Messages.JasperReportEngine_compile_task+report.getVisibleName());
     		cache.compileReport(report);
 			monitor.worked(1);
 			
@@ -137,24 +142,24 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     
     private void checkInput(IReport pReport, Collection<?> pBean){
     	if(pBean.isEmpty()){
-    		throw new ProcessingException("Input size 0");
+    		throw new ProcessingException(Messages.JasperReportEngine_ex_no_input);
     	}
     	if(pReport.getInputBeanClass()==null){
-    		throw new ProcessingException("No Input Class for "+pReport.getVisibleName()+" definied!");
+    		throw new ProcessingException(Messages.JasperReportEngine_ex_no_input_class+pReport.getVisibleName()+Messages.JasperReportEngine_ex_definied);
     	}
     	Class<?> inputClass = pBean.iterator().next().getClass();
     	if(!pReport.getInputBeanClass().isAssignableFrom(inputClass)){
-    		throw new ProcessingException("Class can not be handled!");
+    		throw new ProcessingException(Messages.JasperReportEngine_ex_class_not_handle);
     	}
     	
     }
     
     public void startUserNotifcationJob(){
-    	Job job = new Job("Waiting for '"+COMPILE_JOB_TITLE+"'"){
+    	Job job = new Job(Messages.JasperReportEngine_waiting_for+COMPILE_JOB_TITLE+"'"){ //$NON-NLS-2$
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask("Waiting", IProgressMonitor.UNKNOWN);
+				monitor.beginTask(Messages.JasperReportEngine_waiting, IProgressMonitor.UNKNOWN);
 				compilingLock.lock();
 				compilingLock.unlock();
 				monitor.done();
@@ -177,17 +182,17 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			
 			compilingLock.lock();
 			checkInput(pReport, pBean);
-			mLogger.info("Generating Report. Inputsize: "+pBean.size()+" Objects ...");
+			mLogger.info(Messages.JasperReportEngine_gen_input_size+pBean.size()+Messages.JasperReportEngine_objects);
 			StopWatch watch = new StopWatch();
 			watch.start();
 		    HashMap<String, Object> parameter = new HashMap<String, Object>();
-		    File reportDir = mTempFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY+"/reports/");
-		    parameter.put("SUBREPORT_DIR", reportDir.getAbsolutePath()+"/");
+		    File reportDir = mTempFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY+"/reports/"); //$NON-NLS-1$
+		    parameter.put("SUBREPORT_DIR", reportDir.getAbsolutePath()+"/"); //$NON-NLS-1$ //$NON-NLS-2$
 			JRBeanCollectionDataSource beancollection = new JRBeanCollectionDataSource(pBean);
 			JasperReport cachedReport = cache.getCachedReport(pReport);
 			JasperPrint jasperPrint =JasperFillManager.fillReport(cachedReport, parameter, beancollection);
 			watch.stop();
-			mLogger.info("Report created after "+watch.getElapsedTime()+" seconds");
+			mLogger.info(Messages.JasperReportEngine_report_created+watch.getElapsedTime()+Messages.JasperReportEngine_second_unit);
 			return new JasperReportResult(jasperPrint, this);
 		} catch (JRException e) {
 			throw new ProcessingException(e);
@@ -242,7 +247,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			 */
 			@Override
 			public void setSession(HttpSession pSession) {
-				if(pSession==null){throw new IllegalArgumentException("Session can't be null");};
+				if(pSession==null){throw new IllegalArgumentException(Messages.JasperReportEngine_ex_session_not_null);};
 				session = pSession;
 			}
 			
@@ -280,7 +285,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 				if(sessionadapter.getSession()!=null){
 					sessionadapter.getSession().setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, mResult);
 				}
-				mLogger.info("Exporting Report. Type "+ex.getName()+"; Session = "+sessionadapter.getSession());
+				mLogger.info("Exporting Report. Type "+ex.getName()+"; Session = "+sessionadapter.getSession()); //$NON-NLS-1$ //$NON-NLS-2$
 				switch(ex){
 				case HTML:
 					exporter = new JRHtmlExporter();
@@ -289,12 +294,12 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 					exporter.setParameter(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
 					exporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
 					exporter.setParameter(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR, Boolean.TRUE);
-					exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,new File(mTempFileManager.getRootTempDirectory()+"/image"));
+					exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,new File(mTempFileManager.getRootTempDirectory()+"/image")); //$NON-NLS-1$
 					exporter.setParameter(JRHtmlExporterParameter.IGNORE_PAGE_MARGINS, Boolean.TRUE);
 					exporter.setParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, Boolean.TRUE);
 					exporter.setParameter(JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES, Boolean.TRUE);
 					//exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"image?image=");
-					exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"./image/");
+					exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"./image/"); //$NON-NLS-1$
 					//exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,su.getService(IFileManager.class).getRootTempDirectory());
 					break;
 				case PDF:
@@ -364,7 +369,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 		if(pT instanceof ILoggerFactory){
 			ILoggerFactory fac = (ILoggerFactory) pT;
 			mLogger = fac.getLogger(getClass());
-			mLogger.info("ReportEnginge started");
+			mLogger.info("ReportEnginge started"); //$NON-NLS-1$
 		}
 		if(pT instanceof IFileManager){
 			mTempFileManager=(IFileManager) pT;
@@ -390,7 +395,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 		protected IStatus run(IProgressMonitor monitor) {
 	
 			precompileAllReports(monitor);
-			mLogger.info("Precompiling done!");
+			mLogger.info("Precompiling done!"); //$NON-NLS-1$
 			return Status.OK_STATUS;
 		}
 	}
@@ -408,9 +413,9 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	    	try {
 				InputStream stream = pReport.getInstalledFileAsStream();
 				JasperReport jasperReport =JasperCompileManager.compileReport(stream);
-				File reportDir = mTempFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY+"/reports");
-				String fileName = pReport.getInstalledFile().getName().replace("jrxml", "jasper");
-				File compiledFile = new File(reportDir.getAbsoluteFile()+"/"+fileName);
+				File reportDir = mTempFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY+"/reports"); //$NON-NLS-1$
+				String fileName = pReport.getInstalledFile().getName().replace("jrxml", "jasper"); //$NON-NLS-1$ //$NON-NLS-2$
+				File compiledFile = new File(reportDir.getAbsoluteFile()+"/"+fileName); //$NON-NLS-1$
 				ObjectOutput out = new ObjectOutputStream(new FileOutputStream(compiledFile));
 				out.writeObject(jasperReport);
 				out.flush();
