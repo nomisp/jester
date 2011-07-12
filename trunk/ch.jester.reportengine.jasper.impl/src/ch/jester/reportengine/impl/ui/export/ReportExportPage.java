@@ -2,6 +2,8 @@ package ch.jester.reportengine.impl.ui.export;
 
 import java.util.HashMap;
 
+import messages.Messages;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -37,16 +39,16 @@ public class ReportExportPage extends WizardPage {
 	ComboViewer exportTypeComboViewer;
 	ComboViewer tournamentComboViewer;
 	ComboViewer reportComboViewer;
-	String currentFilter = "*.*";
+	String currentFilter = "*.*"; //$NON-NLS-1$
 	/**
 	 * Create the wizard.
 	 */
 	public ReportExportPage() {
-		super("wizardPage");
-		setTitle("Export");
-		setDescription("Export data");
+		super(Messages.ReportExportPage_1);
+		setTitle(Messages.ReportExportPage_title_export);
+		setDescription(Messages.ReportExportPage_export_data);
 		//mMap.put("Players", Player.class);
-		mMap.put("Tournaments", Tournament.class);
+		mMap.put(Messages.ReportExportPage_tournamentsclass, Tournament.class);
 	}
 
 	/**
@@ -63,15 +65,15 @@ public class ReportExportPage extends WizardPage {
 		
 		Button btnNewButton = new Button(container, SWT.NONE);
 		btnNewButton.setBounds(365, 98, 75, 25);
-		btnNewButton.setText("browse");
+		btnNewButton.setText(Messages.ReportExportPage_browse);
 		
 		Label lblNewLabel = new Label(container, SWT.NONE);
 		lblNewLabel.setBounds(24, 10, 55, 15);
-		lblNewLabel.setText("Export as");
+		lblNewLabel.setText(Messages.ReportExportPage_export_as);
 		
 		Label lblExportWhat = new Label(container, SWT.NONE);
 		lblExportWhat.setBounds(23, 62, 75, 13);
-		lblExportWhat.setText("Tournament");
+		lblExportWhat.setText(Messages.ReportExportPage_tournament);
 		
 		exportTypeComboViewer = new ComboViewer(container, SWT.NONE | SWT.READ_ONLY);
 		Combo TypeCombo = exportTypeComboViewer.getCombo();
@@ -85,7 +87,7 @@ public class ReportExportPage extends WizardPage {
 		
 		Label lblReport = new Label(container, SWT.NONE);
 		lblReport.setBounds(23, 37, 49, 13);
-		lblReport.setText("Report");
+		lblReport.setText(Messages.ReportExportPage_resport);
 		
 		reportComboViewer = new ComboViewer(container, SWT.NONE | SWT.READ_ONLY);
 		Combo combo = reportComboViewer.getCombo();
@@ -106,8 +108,8 @@ public class ReportExportPage extends WizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog fd = new FileDialog(getShell(), SWT.SAVE);
-		        fd.setText("Open");
-		        fd.setFilterPath(".");
+		        fd.setText(Messages.ReportExportPage_open);
+		        fd.setFilterPath("."); //$NON-NLS-1$
 		        String[] filterExt = { currentFilter};
 		        fd.setFilterExtensions(filterExt);
 		        String selected = fd.open();
@@ -127,7 +129,7 @@ public class ReportExportPage extends WizardPage {
 				String lastFilter = currentFilter;
 				su.setSelection(event.getSelection());
 				ExportType ex = su.getFirstSelectedAs(IReportResult.ExportType.class);
-				currentFilter = "*."+ex.getExtension();
+				currentFilter = "*."+ex.getExtension(); //$NON-NLS-1$
 				if(text.getText()!=null && text.getText().length()>0){
 					String oldText = text.getText();
 					String sold = oldText.substring(0, oldText.length()-lastFilter.length()+1);

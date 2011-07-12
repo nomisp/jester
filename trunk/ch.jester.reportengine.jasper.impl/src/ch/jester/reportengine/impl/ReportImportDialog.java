@@ -1,5 +1,7 @@
 package ch.jester.reportengine.impl;
 
+import messages.Messages;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -47,7 +49,7 @@ public class ReportImportDialog extends Dialog {
 	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("Report Importer");
+		newShell.setText(Messages.ReportImportDialog_title);
 	}
 
 	/**
@@ -62,7 +64,7 @@ public class ReportImportDialog extends Dialog {
 		
 		Label lblNewLabel_1 = new Label(container, SWT.NONE);
 		lblNewLabel_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblNewLabel_1.setText("Report File");
+		lblNewLabel_1.setText(Messages.ReportImportDialog_report_file);
 		
 		txtFileName = new Text(container, SWT.BORDER);
 		GridData gd_txtFileName = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
@@ -70,20 +72,20 @@ public class ReportImportDialog extends Dialog {
 		txtFileName.setLayoutData(gd_txtFileName);
 		
 		Button btnBrowse = new Button(container, SWT.NONE);
-		btnBrowse.setText("browse");
+		btnBrowse.setText(Messages.ReportImportDialog_browse);
 		btnBrowse.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog fd = new FileDialog(getShell(), SWT.OPEN);
 				
-		        fd.setText("Open");
+		        fd.setText(Messages.ReportImportDialog_open);
 		        if(mPath!=null){
 		        	fd.setFilterPath(mPath);
 		        }else{
-		        	fd.setFilterPath(".");
+		        	fd.setFilterPath("."); //$NON-NLS-1$
 		        }
-		        String[] filterExt = { "*.jrxml", "*.*" };
+		        String[] filterExt = { "*.jrxml", "*.*" }; //$NON-NLS-1$ //$NON-NLS-2$
 		        fd.setFilterExtensions(filterExt);
 		        String mFile = fd.open();
 		        if(mFile!=null){
@@ -103,7 +105,7 @@ public class ReportImportDialog extends Dialog {
 		
 		Label lblNewLabel = new Label(container, SWT.NONE);
 		lblNewLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblNewLabel.setText("Report Name");
+		lblNewLabel.setText(Messages.ReportImportDialog_report_name);
 		
 		txtReportName = new Text(container, SWT.BORDER);
 		txtReportName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
@@ -120,7 +122,7 @@ public class ReportImportDialog extends Dialog {
 		
 		Label lblInputBean = new Label(container, SWT.NONE);
 		lblInputBean.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblInputBean.setText("Input Bean");
+		lblInputBean.setText(Messages.ReportImportDialog_input_bean);
 		
 		comboViewer = new ComboViewer(container, SWT.NONE | SWT.READ_ONLY);
 		comboViewer.setLabelProvider(new LabelProvider(){

@@ -6,7 +6,7 @@
       <page
             class="ch.jester.reportengine.impl.JasperReportsPreferencePage"
             id="ch.jester.reportengine.jasper.preferences"
-            name="Report Templates">
+            name="%page.name">
       </page>
    </extension>
    <extension
@@ -14,11 +14,11 @@
       <command
             defaultHandler="ch.jester.common.ui.handlers.PullDownHandler"
             id="ch.jester.ui.reporting.pulldown"
-            name="ch.jester.ui.reporting.pulldown">
+            name="%lbl_pulldown">
       </command>
       <command
             id="ch.jester.reportengine.generate"
-            name="Generate Report">
+            name="%cmd_generate_report">
          <commandParameter
                id="ch.jester.reportengine.generate.property.reportalias"
                name="ReportAlias"
@@ -42,7 +42,7 @@
          <menu
                icon="icons/report.png"
                id="reporting.templates"
-               label="Reports">
+               label="%lbl_menu_reports">
          </menu>
       </menuContribution>
    </extension>
@@ -72,7 +72,7 @@
             class="ch.jester.reportengine.impl.ui.export.ReportExportWizard"
             icon="icons/report.png"
             id="ch.jester.ui.export.jester.reports"
-            name="Reports">
+            name="%wizard_reports">
       </wizard>
    </extension>
 

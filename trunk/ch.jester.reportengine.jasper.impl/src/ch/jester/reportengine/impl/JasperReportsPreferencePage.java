@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import messages.Messages;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
@@ -45,20 +47,14 @@ import ch.jester.reportengine.impl.internal.Initializer;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
-/**
- * @author  t117221
- */
+
 public class JasperReportsPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	private Table table;
 	/**
-	 * @uml.property  name="mSelected"
-	 * @uml.associationEnd  
 	 */
 	private IReport mSelected;
 	private TableViewer tableViewer;
 	/**
-	 * @uml.property  name="su"
-	 * @uml.associationEnd  
 	 */
 	private final ServiceUtility su = new ServiceUtility();
 	/**
@@ -80,7 +76,7 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 		
 		Label lblTemplates = new Label(container, SWT.NONE);
 		lblTemplates.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 5, 1));
-		lblTemplates.setText("Templates (double click to open in associated app)");
+		lblTemplates.setText(Messages.JasperReportsPreferencePage_desc);
 		
 		tableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.H_SCROLL);
 		table = tableViewer.getTable();
@@ -92,17 +88,17 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
 		tblclmnName.setWidth(100);
-		tblclmnName.setText("Name");
+		tblclmnName.setText(Messages.JasperReportsPreferencePage_name);
 		
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn = tableViewerColumn_2.getColumn();
 		tblclmnNewColumn.setWidth(100);
-		tblclmnNewColumn.setText("Source Name");
+		tblclmnNewColumn.setText(Messages.JasperReportsPreferencePage_source_name);
 		
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnFile = tableViewerColumn_1.getColumn();
 		tblclmnFile.setWidth(200);
-		tblclmnFile.setText("File");
+		tblclmnFile.setText(Messages.JasperReportsPreferencePage_file);
 		
 		
 		tableViewer.setContentProvider(ArrayContentProvider.getInstance());
@@ -145,9 +141,9 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 							Desktop.getDesktop().open(report.getInstalledFile());
 						}
 						catch(Exception e){
-							String message = "Could not open: "+report.getInstalledFile().getName()+
-							"\n\nPlease install IReport: http://sourceforge.net/projects/ireport/";
-							MessageDialog.openInformation(UIUtility.getActiveWorkbenchWindow().getShell(), "Warning", message);
+							String message = Messages.JasperReportsPreferencePage_could_not_open+report.getInstalledFile().getName()+
+							"\n\nPlease install IReport: http://sourceforge.net/projects/ireport/"; //$NON-NLS-1$
+							MessageDialog.openInformation(UIUtility.getActiveWorkbenchWindow().getShell(), Messages.JasperReportsPreferencePage_warning, message);
 							
 						}
 		
@@ -161,20 +157,20 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 
 		
 		Button btnShowInFs = new Button(container, SWT.NONE);
-		btnShowInFs.setText("Show in Filesystem");
+		btnShowInFs.setText(Messages.JasperReportsPreferencePage_show_in_fs);
 		new Label(container, SWT.NONE);
 		new Label(container, SWT.NONE);
 		new Label(container, SWT.NONE);
 		new Label(container, SWT.NONE);
 		
 		Button btnImport = new Button(container, SWT.NONE);
-		btnImport.setText("Import Report");
+		btnImport.setText(Messages.JasperReportsPreferencePage_import_report);
 		btnImport.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ReportImportDialog dialog = new ReportImportDialog(Display.getDefault().getActiveShell());
-				dialog.setInputPath(su.getService(IFileManager.class).getWorkingDirectory()+"/"+IReportEngine.TEMPLATE_DIRECTROY);
+				dialog.setInputPath(su.getService(IFileManager.class).getWorkingDirectory()+"/"+IReportEngine.TEMPLATE_DIRECTROY); //$NON-NLS-1$
 				dialog.create();
 				dialog.setBlockOnOpen(true);
 				int i = dialog.open();
