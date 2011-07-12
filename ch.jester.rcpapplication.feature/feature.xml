@@ -55,7 +55,6 @@
       <import plugin="ch.jester.common.ui" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="ch.jester.model" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipselabs.p2.rcpupdate.utils"/>
       <import plugin="ch.jester.rcpapplication" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.help" version="3.5.0" match="greaterOrEqual"/>
@@ -64,6 +63,7 @@
       <import plugin="org.eclipse.jface" version="3.6.0" match="compatible"/>
       <import plugin="com.ibm.icu"/>
       <import plugin="org.eclipse.osgi"/>
+      <import plugin="ch.jester.model" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.db.persister.impl" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.system.api" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.forms" version="3.5.0" match="greaterOrEqual"/>
@@ -80,6 +80,18 @@
       <import plugin="ch.jester.ui.tournament" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui" version="3.6.0" match="compatible"/>
       <import plugin="org.eclipse.core.expressions" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.core.net" version="1.2.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.eclipse.swt"/>
+      <import plugin="ch.jester.rcpapplication.help" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.equinox.security" version="1.0.0" match="compatible"/>
+      <import plugin="org.eclipse.equinox.common" version="3.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.equinox.preferences" version="3.2.200" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.osgi" version="3.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.equinox.registry" version="3.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui" version="3.3.0" match="compatible"/>
+      <import plugin="org.eclipse.core.runtime" version="3.3.0" match="compatible"/>
+      <import plugin="org.eclipse.core.net" version="1.0.0" match="compatible"/>
    </requires>
 
    <plugin
@@ -152,6 +164,20 @@
          install-size="0"
          version="0.0.0"
          fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.net"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.ui.net"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
