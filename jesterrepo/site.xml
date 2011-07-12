@@ -6,7 +6,7 @@
    <feature url="features/ch.jester.socialmedia.feature_1.0.0.0.jar" id="ch.jester.socialmedia.feature" version="1.0.0.0">
       <category name="jester.socialmedia"/>
    </feature>
-   <feature url="features/ch.jester.languagepack.de.fr.feature_1.0.0.201107122259.jar" id="ch.jester.languagepack.de.fr.feature" version="1.0.0.201107122259">
+   <feature url="features/ch.jester.languagepack.de.fr.feature_1.0.0.201107122318.jar" id="ch.jester.languagepack.de.fr.feature" version="1.0.0.201107122318">
       <category name="jester.language"/>
    </feature>
    <category-def name="jester.socialmedia" label="Social Media">

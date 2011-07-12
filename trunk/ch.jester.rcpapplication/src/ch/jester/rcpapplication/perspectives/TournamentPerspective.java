@@ -1,4 +1,4 @@
-package ch.jester.rcpapplication;
+package ch.jester.rcpapplication.perspectives;
 
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;

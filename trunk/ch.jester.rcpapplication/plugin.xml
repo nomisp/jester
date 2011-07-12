@@ -14,13 +14,13 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="ch.jester.rcpapplication.AdminPerspective"
+            class="ch.jester.rcpapplication.perspectives.AdminPerspective"
             icon="icons/database_table.png"
             id="ch.jester.perspective.admin"
             name="%Administration">
       </perspective>
       <perspective
-            class="ch.jester.rcpapplication.TournamentPerspective"
+            class="ch.jester.rcpapplication.perspectives.TournamentPerspective"
             icon="icons/tournament.png"
             id="ch.jester.rcpapplication.tournamentPerspective"
             name="%TournamentPerspective">
