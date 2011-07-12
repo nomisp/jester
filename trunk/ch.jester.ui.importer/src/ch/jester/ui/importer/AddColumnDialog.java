@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.dialogs.Dialog;
@@ -42,7 +44,6 @@ import ch.jester.common.ui.adapters.TableLabelProviderAdapter;
 import ch.jester.common.ui.utility.SafeMessageBoxRunner;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;
-import ch.jester.ui.importer.nl1.Messages;
 
 public class AddColumnDialog extends Dialog implements SelectionListener {
 	private static int colcounter = 1;

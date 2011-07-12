@@ -1,9 +1,9 @@
-package ch.jester.ui.importer.nl1;
+package messages;
 
 import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
-	private static final String BUNDLE_NAME = "/nl1/messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "messages.messages"; //$NON-NLS-1$
 	public static String AddColumnDialog_exception_linefeed;
 	public static String AddColumnDialog_lbl_attributes;
 	public static String AddColumnDialog_lbl_btn_modify;

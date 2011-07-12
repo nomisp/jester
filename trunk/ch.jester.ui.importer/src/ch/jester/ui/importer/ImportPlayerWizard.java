@@ -3,6 +3,8 @@ package ch.jester.ui.importer;
 
 import java.lang.reflect.InvocationTargetException;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.SafeRunner;
@@ -26,7 +28,6 @@ import ch.jester.ui.importer.internal.Activator;
 import ch.jester.ui.importer.internal.Controller;
 import ch.jester.ui.importer.internal.ImportData;
 import ch.jester.ui.importer.internal.ParseController;
-import ch.jester.ui.importer.nl1.Messages;
 
 
 public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageChangedListener{

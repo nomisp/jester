@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -37,7 +39,6 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.ui.importer.internal.Controller;
 import ch.jester.ui.importer.internal.ImportData;
 import ch.jester.ui.importer.internal.ParseController;
-import ch.jester.ui.importer.nl1.Messages;
 
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
