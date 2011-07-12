@@ -4,7 +4,7 @@ Eclipse-RegisterBuddy: ch.jester.persistence
 Bundle-ManifestVersion: 2
 Bundle-Name: Hibernate
 Bundle-SymbolicName: ch.jester.hibernate;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: antlr-2.7.6.jar,
  c3p0-0.9.1.jar,
  cglib-2.2.jar,

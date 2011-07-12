@@ -1,6 +1,5 @@
 package ch.jester.ui.importer.internal;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,6 +81,7 @@ public class ParseController {
 	}
 	private boolean canTest(){
 		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
+		@SuppressWarnings("unchecked")
 		ITestableImportHandler<Object> testableHandler = AdapterUtility.getAdaptedObject(handler, ITestableImportHandler.class);
 		return testableHandler!=null;
 	}

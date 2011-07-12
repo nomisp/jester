@@ -18,7 +18,6 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.osgi.service.component.ComponentContext;
 
 import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
-import ch.jester.common.utility.FileLocker;
 import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.exceptions.ProcessingException;
 

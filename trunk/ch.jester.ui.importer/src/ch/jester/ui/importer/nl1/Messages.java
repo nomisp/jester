@@ -2,7 +2,6 @@ package ch.jester.ui.importer.nl1;
 
 import org.eclipse.osgi.util.NLS;
 
-@SuppressWarnings("unused")
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "/nl1/messages"; //$NON-NLS-1$
 	public static String AddColumnDialog_exception_linefeed;

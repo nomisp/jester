@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JPA Provider for Hibernate
 Bundle-SymbolicName: ch.jester.hibernate.modelfragment;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Fragment-Host: ch.jester.hibernate;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: ch.jester.model
