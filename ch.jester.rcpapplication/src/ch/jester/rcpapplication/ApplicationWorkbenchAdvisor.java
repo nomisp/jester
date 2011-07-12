@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.preference.IPreferenceNode;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.PlatformUI;
@@ -65,8 +64,8 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
     public void postStartup() {
     	super.postStartup();
 		PreferenceManager pm = PlatformUI.getWorkbench().getPreferenceManager();
-		IPreferenceNode node = pm.remove("org.eclipse.equinox.security.ui.category");
-		node = pm.remove("org.eclipse.equinox.security.ui.storage");
+		pm.remove("org.eclipse.equinox.security.ui.category");
+		pm.remove("org.eclipse.equinox.security.ui.storage");
 		
 
     }
