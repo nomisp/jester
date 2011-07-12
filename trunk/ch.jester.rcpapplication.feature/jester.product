@@ -18,6 +18,7 @@ MAS SE HSR 2011
 
    <launcherArgs>
       <programArgs>-consoleLog -console</programArgs>
+      <vmArgs>-Dosgi.nls.warnings=ignore</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
