@@ -13,13 +13,11 @@ public interface ILoggerFactory {
 	/**
 	 * Debug ein- und ausschalten
 	 * @param debug   ein- oder ausschalten
-	 * @uml.property  name="debug"
 	 */
 	public void setDebug(boolean b);
 	/**
 	 * Ist Debug eingeschaltet?
 	 * @return
-	 * @uml.property  name="debug"
 	 */
 	public boolean isDebug();
 }

@@ -6,5 +6,9 @@ package ch.jester.commonservices.api.persistency;
  *
  */
 public interface IPersistencyFilter {
+	/**Dispatcht den Event
+	 * @param pEvent
+	 * @return
+	 */
 	public boolean dispatch(IPersistencyEvent pEvent);
 }

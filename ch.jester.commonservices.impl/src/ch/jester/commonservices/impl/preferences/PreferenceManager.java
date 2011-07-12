@@ -52,10 +52,10 @@ public class PreferenceManager implements IPreferenceManager {
 		return mSet;
 	}
 	
-	@Override
+	/*@Override
 	public void addProperty(IPreferenceProperty pProperty){
 		mSet.add(pProperty);
-	}
+	}*/
 
 	@Override
 	public IPreferenceProperty getPropertyByInternalKey(String key){

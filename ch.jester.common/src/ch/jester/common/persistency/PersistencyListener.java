@@ -8,10 +8,7 @@ import ch.jester.commonservices.api.persistency.IPersistencyListener;
  * Ein Listener mit der Möglichkeit Filter zu verketten.
  */
 public abstract class PersistencyListener implements IPersistencyListener{
-	/**
-	 * @uml.property  name="mFilter"
-	 * @uml.associationEnd  
-	 */
+
 	private IPersistencyFilter mFilter;
 	
 	public PersistencyListener(){

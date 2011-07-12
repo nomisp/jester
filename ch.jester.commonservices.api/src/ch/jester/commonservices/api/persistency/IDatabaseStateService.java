@@ -4,18 +4,9 @@ package ch.jester.commonservices.api.persistency;
  * Der DatabaseStateService führt ein Runnable aus, wenn der State wechselt.
  */
 public interface IDatabaseStateService {
-	/**
-	 * @author   t117221
-	 */
 	public enum State{
-		/**
-		 * @uml.property  name="iNIT"
-		 * @uml.associationEnd  
-		 */
-		INIT, /**
-		 * @uml.property  name="rUN"
-		 * @uml.associationEnd  
-		 */
+
+		INIT, 
 		RUN;
 	}
 	/**Sofern der interne State bereits im übergebenen State ist, wird das Runnable

@@ -10,14 +10,12 @@ public interface IEntityObject extends Serializable{
 	/**
 	 * Die generierte ID des Objektes
 	 * @return
-	 * @uml.property  name="id"
 	 */
 	public Integer getId();
 
 	/**
 	 * Setzt die Id
 	 * @param  id
-	 * @uml.property  name="id"
 	 */
 	public void setId(Integer id);
 	
