@@ -3,7 +3,6 @@ package ch.jester.importer.fide;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import javax.persistence.Query;
 
@@ -16,6 +15,10 @@ import ch.jester.importmanagerservice.abstractimporter.AbstractPlayerImporter;
 import ch.jester.importmanagerservice.tableprovider.FixTextTableProvider;
 import ch.jester.model.Player;
 
+/**
+ * Importer für FIDE Files
+ *
+ */
 public class FIDETextImporter extends AbstractPlayerImporter<String>{
 
 	public FIDETextImporter(){
@@ -65,7 +68,6 @@ public class FIDETextImporter extends AbstractPlayerImporter<String>{
 	@Override
 	public void handleDuplicates(
 			IDaoService<? extends IEntityObject> pDaoService, List<Player> pList) {
-		// TODO Auto-generated method stub
 		
 	}
 }
