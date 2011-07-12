@@ -4,6 +4,6 @@ Bundle-Name: Nl1
 Bundle-SymbolicName: ch.jester.rcpapplication.help.nl1
 Bundle-Version: 1.0.0.0
 Bundle-Vendor: M. Liechti & P. Simon
-Fragment-Host: ch.jester.rcpapplication.help;bundle-version="1.0.0"
+Fragment-Host: ch.jester.rcpapplication;bundle-version="1.0.0.qualifier"
 Bundle-Localization: OSGI-INF/l10n/bundle
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
