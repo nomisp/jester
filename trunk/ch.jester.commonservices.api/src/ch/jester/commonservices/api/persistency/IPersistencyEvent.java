@@ -13,14 +13,7 @@ public interface IPersistencyEvent {
 	 * Die Operation beschreibt was mit dem Event passiert ist.
 	 */
 	public static enum Operation{
-		/**
-		 * @uml.property  name="sAVED"
-		 * @uml.associationEnd  
-		 */
-		SAVED, /**
-		 * @uml.property  name="dELETED"
-		 * @uml.associationEnd  
-		 */
+		SAVED, 
 		DELETED
 	}
 	/**Ermittelt auf welcher Entität der Event gefeuert wurde

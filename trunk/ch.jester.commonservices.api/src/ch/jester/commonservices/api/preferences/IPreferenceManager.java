@@ -13,7 +13,7 @@ public interface IPreferenceManager {
 
 	public Set<IPreferenceProperty> getProperties();
 
-	public void addProperty(IPreferenceProperty pProperty);
+	//public void addProperty(IPreferenceProperty pProperty);
 
 	/**
 	 * Erzeugt ein neues {@link IPreferenceProperty}
@@ -82,11 +82,28 @@ public interface IPreferenceManager {
 	 */
 	public String getDescription();
 	
+	/**gibt falls die Id matcht, den Manager zurück
+	 * @param pId
+	 * @return
+	 */
 	public IPreferenceManager checkId(String pId);
 	
+	/**Registriert den PreferencemanagerProvider
+	 * @param prov
+	 */
 	public void registerProviderAtRegistrationService(IPreferenceManagerProvider prov);
+	/**Registriert den PreferencemanagerProvider mit der Id
+	 * @param pKey
+	 * @param prov
+	 */
 	public void registerProviderAtRegistrationService(String pKey, IPreferenceManagerProvider prov);
 	
+	/**
+	 * @return
+	 */
 	public HashMap<String, String> getPropertiesAsStringMap();
+	/**
+	 * @return
+	 */
 	public HashMap<String, Object> getPropertiesAsObjectMap();
 }

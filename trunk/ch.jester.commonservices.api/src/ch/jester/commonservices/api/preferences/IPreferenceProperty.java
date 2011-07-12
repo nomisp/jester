@@ -40,10 +40,22 @@ public interface IPreferenceProperty {
 	 */
 	public Object getValue();
 	
+	/**
+	 * Gibt den Value als String zurück
+	 * @return
+	 */
 	public String getStringValue();
 	
+	/**
+	 * Gibt den Value als Boolean zurück
+	 * @return
+	 */
 	public Boolean getBooleanValue();
 	
+	/**
+	 * Gibt den Value als Integer zurück
+	 * @return
+	 */
 	public Integer getIntegerValue();
 
 	/**

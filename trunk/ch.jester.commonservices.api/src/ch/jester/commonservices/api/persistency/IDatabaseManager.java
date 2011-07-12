@@ -24,8 +24,10 @@ public interface IDatabaseManager {
 	 */
 	public void shutdown();
 	
+	/**Injected die Configuration um diese zu editieren/speichern
+	 * @param pConfig
+	 */
 	public void editORMConfiguration(IORMConfiguration pConfig);
 	
-	//public String getIP();
 	
 }

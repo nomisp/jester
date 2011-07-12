@@ -2,6 +2,10 @@ package ch.jester.commonservices.api.logging;
 
 import org.eclipse.core.runtime.ILog;
 
+/**
+ * Ein Logger Interface
+ *
+ */
 public interface ILogger extends ILog {
 public void info(String pMessage, Throwable pThrowable);
 public void info(String pMessage);

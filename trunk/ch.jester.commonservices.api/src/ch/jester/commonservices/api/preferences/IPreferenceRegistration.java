@@ -42,5 +42,9 @@ public interface IPreferenceRegistration {
 	 */
 	public IPreferenceManagerProvider findProvider(String pId);
 	
+	/**
+	 * Erzeugt einen neuen Manager
+	 * @return einen neuen IPreferenceManager
+	 */
 	public IPreferenceManager createManager();
 }
