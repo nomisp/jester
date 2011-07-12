@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -17,7 +19,6 @@ import ch.jester.common.utility.ZipUtility;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.ui.importer.nl1.Messages;
 
 public class DownloadListener implements ISelectionChangedListener{
 	SelectionUtility su = new SelectionUtility(null);

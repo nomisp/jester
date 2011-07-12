@@ -1,6 +1,8 @@
 package ch.jester.ui.importer;
 
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -39,7 +41,6 @@ import ch.jester.ui.importer.internal.ImportHandlerContentProvider;
 import ch.jester.ui.importer.internal.ParseController;
 import ch.jester.ui.importer.internal.WebImportAdapterContentProvider;
 import ch.jester.ui.importer.internal.ZipEntryContentProvider;
-import ch.jester.ui.importer.nl1.Messages;
 
 public class PlayerImportWizardPage extends WizardPage {
 	private Text text;
