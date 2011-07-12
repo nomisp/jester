@@ -19,6 +19,8 @@ import org.eclipselabs.p2.rcpupdate.utils.plugin.Activator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
+import ch.jester.commonservices.exceptions.ProcessingException;
+
 
 /**
  * @see http://wiki.eclipse.org/Equinox/p2/Adding_Self-Update_to_an_RCP_Application
@@ -49,6 +51,10 @@ public class P2Util {
 		AccumulatingProgressMonitor mon;
 		doCheckForUpdates(mon = new AccumulatingProgressMonitor(monitor, Display.getDefault()));
 		mon.done();
+	}
+	
+	public static void addRepository(String pUrl) throws ProcessingException{
+		Activator.getDefault().addRepo(pUrl);
 	}
 	
 	private static void doCheckForUpdates(IProgressMonitor monitor) {

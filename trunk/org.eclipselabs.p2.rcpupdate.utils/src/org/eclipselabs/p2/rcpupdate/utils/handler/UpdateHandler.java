@@ -21,6 +21,7 @@ import org.eclipse.jface.wizard.WizardDialog;
  * 
  * @since 3.4
  */
+@SuppressWarnings("restriction")
 public class UpdateHandler extends PreloadingRepositoryHandler {
 
 	boolean hasNoRepos = false;

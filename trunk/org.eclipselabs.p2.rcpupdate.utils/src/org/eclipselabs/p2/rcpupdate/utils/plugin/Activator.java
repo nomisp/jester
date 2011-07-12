@@ -1,46 +1,72 @@
 package org.eclipselabs.p2.rcpupdate.utils.plugin;
 
-import org.eclipse.core.runtime.ILog;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
-public class Activator extends AbstractUIPlugin {
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.equinox.p2.core.IProvisioningAgent;
+import org.eclipse.equinox.p2.repository.artifact.IArtifactRepositoryManager;
+import org.eclipse.equinox.p2.repository.metadata.IMetadataRepositoryManager;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+
+import ch.jester.common.ui.activator.AbstractUIActivator;
+import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.exceptions.ProcessingException;
+
+public class Activator extends AbstractUIActivator {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipselabs.p2.rcpupdate.utils"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
-	
+
+	private static ILogger mLogger;
 	public static void log(IStatus status) {
-		ILog log = getDefault().getLog();
-		if (log != null) {
-			log.log(status);
-		} else {
-			System.out.println(status.getMessage());
-			if (status.getException() != null)
-				status.getException().printStackTrace();
-		}
+		mLogger.debug(status.getMessage());
 	}
 	
 	public static void log(Exception e) {
-		log(new Status(IStatus.ERROR, PLUGIN_ID, e.getMessage(), e));
+		mLogger.error(e);
 	}
 
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
+
+	public void startDelegate(BundleContext context){
 		plugin = this;
+		mLogger = plugin.getActivationContext().getLogger();
+	
+	}
+	
+	public void addRepo(String p) throws ProcessingException{
+		ServiceReference reference = getActivationContext().getBundleContext().getServiceReference(IProvisioningAgent.SERVICE_NAME);
+		addRepos((IProvisioningAgent)getActivationContext().getBundleContext().getService(reference), p);
 	}
 
-	public void stop(BundleContext context) throws Exception {
+	private void addRepos(IProvisioningAgent agent, String pUrl) throws ProcessingException{
+		IMetadataRepositoryManager repoManager = (IMetadataRepositoryManager) agent.getService(IMetadataRepositoryManager.SERVICE_NAME);
+		IArtifactRepositoryManager arteManager = (IArtifactRepositoryManager) agent.getService(IArtifactRepositoryManager.SERVICE_NAME);
+
+			URL url;
+			try {
+				url = new URL(pUrl);
+				repoManager.addRepository(url.toURI());
+				arteManager.addRepository(url.toURI());
+			} catch (MalformedURLException e) {
+				throw new ProcessingException(e);
+			} catch (URISyntaxException e) {
+				throw new ProcessingException(e);
+			}
+	}
+
+	public void stopDelegate(BundleContext context)  {
 		plugin = null;
-		super.stop(context);
 	}
 
 	public static Activator getDefault() {
 		return plugin;
 	}
+
 
 }
