@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RCPApplication translations
-Bundle-SymbolicName: ch.jester.rcpapplication.nl1
+Bundle-SymbolicName: ch.jester.rcpapplication.nl1;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: M. Liechti & P. Simon
 Fragment-Host: ch.jester.rcpapplication;bundle-version="1.0.0.qualifier"

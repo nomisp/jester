@@ -47,7 +47,7 @@ public class Player extends AbstractModelBean<Player> {
 	@Column(name = "Nation", nullable = true, length = 50)
 	private String nation;
 
-	@org.hibernate.annotations.Index(name = "IDX_FIDEINDEX")
+	//@org.hibernate.annotations.Index(name = "IDX_FIDEINDEX")
 	@Column(name = "FideCode", nullable = true)
 	private Integer fideCode;
 

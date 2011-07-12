@@ -3,5 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Exporter Translations
 Bundle-SymbolicName: ch.jester.ui.exporter.nl1
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: ch.jester.ui.exporter;bundle-version="1.0.0"
+Fragment-Host: ch.jester.ui.exporter
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: M. Liechti & P. Simon

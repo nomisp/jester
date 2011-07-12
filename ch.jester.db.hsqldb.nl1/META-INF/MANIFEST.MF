@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: HSQLDB Translations
-Bundle-SymbolicName: ch.jester.db.hsqldb.nl1
+Bundle-SymbolicName: ch.jester.db.hsqldb.nl1;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: ch.jester.db.hsqldb;bundle-version="1.0.0"
+Fragment-Host: ch.jester.db.hsqldb
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
