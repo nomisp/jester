@@ -4,7 +4,10 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.preference.IPreferenceNode;
+import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
@@ -56,5 +59,15 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
     @Override
     public void preStartup() {
     	 //P2Util.checkForUpdates();
+    }
+    
+    @Override
+    public void postStartup() {
+    	super.postStartup();
+		PreferenceManager pm = PlatformUI.getWorkbench().getPreferenceManager();
+		IPreferenceNode node = pm.remove("org.eclipse.equinox.security.ui.category");
+		node = pm.remove("org.eclipse.equinox.security.ui.storage");
+		
+
     }
 }
