@@ -9,7 +9,8 @@ Require-Bundle: org.eclipse.ui,
  ch.jester.orm;bundle-version="1.0.0",
  ch.jester.common.ui;bundle-version="1.0.0",
  ch.jester.commonservices.api;bundle-version="1.0.0",
- ch.jester.common;bundle-version="1.0.0"
+ ch.jester.common;bundle-version="1.0.0",
+ org.eclipse.equinox.simpleconfigurator;bundle-version="1.0.200"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.eclipselabs.p2.rcpupdate.utils

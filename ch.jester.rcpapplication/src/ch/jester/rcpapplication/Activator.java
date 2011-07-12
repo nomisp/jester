@@ -4,8 +4,6 @@ package ch.jester.rcpapplication;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
-import ch.jester.commonservices.api.components.IComponentService;
-import ch.jester.commonservices.api.importer.IImportManager;
 import ch.jester.commonservices.api.logging.ILogger;
 
 /**
@@ -19,9 +17,8 @@ public class Activator extends AbstractUIActivator{
 	public void startDelegate(BundleContext pContext) {
 		mLogger = getActivationContext().getLogger();
 		mLogger.info("Starting >jester<");
-		IComponentService<?> manager = getActivationContext().getService(IImportManager.class);	
-		mLogger.info("ImportManager is "+manager);
 		plugin = this;
+
 	}
 
 	@Override

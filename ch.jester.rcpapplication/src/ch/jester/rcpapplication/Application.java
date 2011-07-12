@@ -9,6 +9,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+import org.eclipselabs.p2.rcpupdate.utils.P2Util;
 
 /**
  * This class controls all aspects of the application's execution
@@ -28,6 +29,7 @@ public class Application implements IApplication {
 			return IApplication.EXIT_OK;
 		}
 		try {
+			setupJester();
 			int returnCode = PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor());
 			Platform.getInstanceLocation().release();
 			if (returnCode == PlatformUI.RETURN_RESTART) {
@@ -38,7 +40,6 @@ public class Application implements IApplication {
 			display.dispose();
 		}
 	}
-
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.equinox.app.IApplication#stop()
@@ -55,4 +56,11 @@ public class Application implements IApplication {
 			}
 		});
 	}
+
+	private void setupJester() {
+		//adding repos
+		P2Util.addRepository("http://jester.googlecode.com/svn/jesterrepo");
+		
+	}
+
 }
