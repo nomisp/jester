@@ -67,22 +67,23 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 				
 			}
 		});
-		settingsPage = findSettingsPage();
-		settingsPage.getDirtyManager().addDirtyListener(new IDirtyListener() {
-			
-			@Override
-			public void propertyIsDirty() {
-				TournamentEditor.this.getDirtyManager().setDirty(true);
-				
-			}
-		});
-		
+		settingsPage = findSettingsPage();		
 		
 		try {
 			addPage(tournamentPage);
 			addPage(categoryPage);
 			//addPage(new RoundForm(this, "abcd", "xyz"));
-			if (settingsPage != null) addPage(settingsPage);
+			if (settingsPage != null) {
+				settingsPage.getDirtyManager().addDirtyListener(new IDirtyListener() {
+					
+					@Override
+					public void propertyIsDirty() {
+						TournamentEditor.this.getDirtyManager().setDirty(true);
+						
+					}
+				});
+				addPage(settingsPage);
+			}
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
@@ -118,10 +119,12 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 			mTournamentController.updateModel();
 			Tournament tournament = mTournamentController.getTournament();
 			IDaoService<SettingItem> settingItemPersister = mService.getDaoServiceByEntity(SettingItem.class);
-			SettingHelper<ISettingObject> settingHelper = new SettingHelper<ISettingObject>();
-			SettingItem settingItem = ModelFactory.getInstance().createSettingItem(tournament);
-			settingItem = settingHelper.analyzeSettingObjectToStore(settingsPage.getSettingObject(), settingItem);
-			settingItemPersister.save(settingItem);
+			if (settingsPage != null) {
+				SettingHelper<ISettingObject> settingHelper = new SettingHelper<ISettingObject>();
+				SettingItem settingItem = ModelFactory.getInstance().createSettingItem(tournament);
+				settingItem = settingHelper.analyzeSettingObjectToStore(settingsPage.getSettingObject(), settingItem);
+				settingItemPersister.save(settingItem);
+			}
 			
 			mDao.save(tournament);
 			getDirtyManager().reset();
@@ -157,7 +160,8 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 		IPairingAlgorithm pairingAlgorithm = null;
 		List<IPairingAlgorithmEntry> pairingSystems = manager.getRegistredEntries();
 		for (IPairingAlgorithmEntry pairingAlgorithmEntry : pairingSystems) {
-			if (pairingAlgorithmEntry.getSettingsPage().equals(settingsPage)) {
+			if (pairingAlgorithmEntry.getSettingsPage() != null && 
+					pairingAlgorithmEntry.getSettingsPage().equals(settingsPage)) {
 				pairingAlgorithm = pairingAlgorithmEntry.getService();
 				break;
 			}

@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
 @NamedQueries({
 	@NamedQuery(name="AllRounds", query="select r from Round r order by r.number"),
 	@NamedQuery(name="RoundByNumber", query="select r from Round r where r.number = :number"),
-	@NamedQuery(name="OpenRoundsByCategory", query="select distinct r from Round r join fetch r.pairings p where r.category = :category and p.result is null order by r.number"),
+	@NamedQuery(name="OpenRoundsByCategory", query="select distinct r from Round r join fetch r.pairings p where r.category = :category and p.result is null and p.black.player is not null and p.white.player is not null order by r.number"),
 	@NamedQuery(name="FinishedRoundsByCategory", query="select distinct r from Round r join fetch r.pairings p where r.category = :category and p.result is not null order by r.number"),
 	@NamedQuery(name="FinishedRoundsWithoutRankingByCategory", query="select distinct r from Round r join fetch r.pairings p where r.category = :category and p.result is not null and r.ranking is null order by r.number")
 })

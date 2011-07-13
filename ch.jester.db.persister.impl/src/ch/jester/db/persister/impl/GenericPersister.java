@@ -157,7 +157,11 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		if(pT.getId()==null){return;}
 		//check();
 		EntityTransaction trx = mManager.getTransaction();
-		trx.begin();
+		if (!trx.isActive()) {
+			trx.begin();
+		} else {
+			mManager.joinTransaction();
+		}
 		IEntityObject p = mManager.find(pT.getClass(), pT.getId());
 		mManager.remove(p);
 		trx.commit();
@@ -168,7 +172,11 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	public void delete(Collection<T> pTCollection) {
 		//check();
 		EntityTransaction trx = mManager.getTransaction();
-		trx.begin();
+		if (!trx.isActive()) {
+			trx.begin();
+		} else {
+			mManager.joinTransaction();
+		}
 		for(T pT:pTCollection){
 			if(pT.getId()==null){continue;}
 			IEntityObject p = mManager.find(pT.getClass(), pT.getId());
@@ -192,7 +200,11 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	public List<T> getAll() {
 		//check();
 		EntityTransaction trx = mManager.getTransaction();
-		trx.begin();
+		if (!trx.isActive()) {
+			trx.begin();
+		} else {
+			mManager.joinTransaction();
+		}
 		@SuppressWarnings("unchecked")
 		List<T> result = mManager.createNamedQuery(mClz.getSimpleName()+".getAll").getResultList();
 		trx.commit();
@@ -203,7 +215,11 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	public List<T> executeNamedQuery(String namedQuery) {
 		//check();
 		EntityTransaction trx = mManager.getTransaction();
-		trx.begin();
+		if (!trx.isActive()) {
+			trx.begin();
+		} else {
+			mManager.joinTransaction();
+		}
 		@SuppressWarnings("unchecked")
 		List<T> result = mManager.createNamedQuery(namedQuery).getResultList();
 		trx.commit();
@@ -249,7 +265,11 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	public int count() {
 		//check();
 		EntityTransaction trx = mManager.getTransaction();
-		trx.begin();
+		if (!trx.isActive()) {
+			trx.begin();
+		} else {
+			mManager.joinTransaction();
+		}
 		int result = ((Long) mCountQuery.getSingleResult()).intValue();
 		trx.commit();
 		return result;
