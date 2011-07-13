@@ -30,7 +30,7 @@ public class PlayerFilter implements IUIFilter{
 
 		monitor.beginTask("searching for: "+pSearch, IProgressMonitor.UNKNOWN);
 		mLogger.debug("filtering: "+pSearch);
-		List<Player> players = su.getDaoServiceByServiceInterface(IPlayerDao.class).findByName(pSearch);
+		List<Player> players = su.getDaoServiceByServiceInterface(IPlayerDao.class).findByNamesOrCity(pSearch);
 		daoc.setSearched(players);
 		su.getService(IExtendedStatusLineManager.class).setMessage("Found "+players.size()+" Item(s)", 1000);
 		return Status.OK_STATUS;

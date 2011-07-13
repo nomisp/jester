@@ -50,6 +50,12 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 	@Override
 	public Ranking calculateRanking(Category category, IProgressMonitor pMonitor) throws NotAllResultsException {
 		Ranking ranking = null;
+		//TODO: von Matthias: Peter checken!!
+		if(category.getRanking()!=null){
+	            category.setRanking(null);
+	            IDaoService<Category> categoryDaoService = mServiceUtil.getDaoServiceByEntity(Category.class);
+	            categoryDaoService.save(category);
+	    }
 		if (checkCategoryFinished(category)) {
 			return createFinalRanking(category);
 		} else {

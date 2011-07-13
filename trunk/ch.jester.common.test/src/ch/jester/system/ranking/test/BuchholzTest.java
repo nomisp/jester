@@ -24,6 +24,7 @@ import ch.jester.model.RankingSystem;
 import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
+import ch.jester.model.factories.ModelFactory;
 import ch.jester.orm.ORMPlugin;
 import ch.jester.system.api.ranking.IRankingSystem;
 import ch.jester.system.api.ranking.IRankingSystemEntry;
@@ -102,7 +103,9 @@ public class BuchholzTest extends ActivatorProviderForTestCase {
 		try {
 			Ranking ranking = buchholzSystem.calculateRanking(cat, null);
 			assertTrue(ranking instanceof FinalRanking);
+			
 			List<RankingEntry> rankingEntries = ranking.getRankingEntries();
+			assertTrue(rankingEntries.size()>0);
 			for (int i = 0; i < rankingEntries.size(); i++) {
 				assertEquals(rankingEntries.get(i).getPlayerCard(), cat.getPlayerCards().get(i));
 			}
@@ -132,7 +135,8 @@ public class BuchholzTest extends ActivatorProviderForTestCase {
 		players.add(p4);
 		List<PlayerCard> playerCards = new ArrayList<PlayerCard>();
 		for (Player player : players) {
-			PlayerCard playerCard = new PlayerCard();
+			//PlayerCard playerCard = new PlayerCard();
+			PlayerCard playerCard = ModelFactory.getInstance().createPlayerCard(cat, player);
 			playerCard.setPlayer(player);
 			playerCard.addRankingSystemPoint(new RankingSystemPoint(RANKINGSYSTEM_TYPE));
 			playerCards.add(playerCard);

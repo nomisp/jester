@@ -78,6 +78,13 @@ public class PlayersView extends AbstractView{
 					TableColumn tblclmnPlayers = tableViewerColumn.getColumn();
 					tcl_tableViewComposite.setColumnData(tblclmnPlayers, new ColumnWeightData(1, ColumnWeightData.MINIMUM_WIDTH, true));
 					tblclmnPlayers.setText(Messages.PlayersView_lbl_players_titel);
+				
+				/*	tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+					TableColumn city = tableViewerColumn.getColumn();
+					tcl_tableViewComposite.setColumnData(city, new ColumnWeightData(1, ColumnWeightData.MINIMUM_WIDTH, true));
+					city.setText("City");*/
+					
+				
 				}
 				tableViewer.setContentProvider(ArrayContentProvider.getInstance());
 			}
@@ -127,6 +134,15 @@ public class PlayersView extends AbstractView{
 			public String[] observableProperties() {
 				return new String[]{"lastName","firstName"}; //$NON-NLS-1$ //$NON-NLS-2$
 			}
+			public String indexedCallBackLabels(Player pDao, int col) {
+				if(col==0){
+					return pDao.getLastName()+", "+pDao.getFirstName();
+				}
+				if(col==1){
+					return pDao.getCity();
+				}
+				return null;
+			};
 
 			@Override
 			public String callBackLabels(Player pDao) {
