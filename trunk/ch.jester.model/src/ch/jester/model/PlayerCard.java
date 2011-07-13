@@ -54,6 +54,9 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	@OneToOne(mappedBy="playerCard", optional=true)
 	private RankingEntry rankingEntry;
 	
+	@Column
+	private Integer byes = 0;	// Anzahl Freilose
+	
 	public Player getPlayer() {
 		return player;
 	}
@@ -123,6 +126,21 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		if (rankingSystemPoint == null) throw new IllegalArgumentException("rankingSystemPoint may not be null");
 		if (!this.rankingSystemPoints.contains(rankingSystemPoint)) this.rankingSystemPoints.add(rankingSystemPoint);
 		if (rankingSystemPoint.getPlayerCard() != this) rankingSystemPoint.setPlayerCard(this); // Bidirektion
+	}
+
+	public Integer getByes() {
+		return byes;
+	}
+
+	public void setByes(Integer byes) {
+		this.byes = byes;
+	}
+	
+	/**
+	 * Der Spieler hat ein Freilos bekommen. Die Anzahl Freilose wird um 1 erhöht.
+	 */
+	public void addBye() {
+		this.byes++;
 	}
 
 	public RankingEntry getRankingEntry() {

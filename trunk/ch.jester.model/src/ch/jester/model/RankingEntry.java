@@ -61,15 +61,17 @@ public class RankingEntry extends AbstractModelBean<RankingEntry> implements Com
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(position);
-		sb.append("\tPlayer: ");
-		sb.append(playerCard.getPlayer().toString());
-		sb.append("\tPoints: ");
-		sb.append(playerCard.getPoints());
-		sb.append("\tRankingsystem points: ");
-		for (RankingSystemPoint point : playerCard.getRankingSystemPoints()) {
-			sb.append(point.getPoints());
-			sb.append("\t");
+		if (playerCard.getPlayer() != null) {
+			sb.append(position);
+			sb.append("\tPlayer: ");
+			sb.append(playerCard.getPlayer().toString());
+			sb.append("\tPoints: ");
+			sb.append(playerCard.getPoints());
+			sb.append("\tRankingsystem points: ");
+			for (RankingSystemPoint point : playerCard.getRankingSystemPoints()) {
+				sb.append(point.getPoints());
+				sb.append("\t");
+			}
 		}
 		return sb.toString();
 	}
