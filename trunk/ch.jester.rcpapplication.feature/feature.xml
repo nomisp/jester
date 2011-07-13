@@ -55,8 +55,9 @@
       <import plugin="ch.jester.common.ui" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.equinox.simpleconfigurator" version="1.0.200" match="greaterOrEqual"/>
       <import plugin="org.eclipselabs.p2.rcpupdate.utils"/>
-      <import plugin="ch.jester.rcpapplication" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.rcpapplication" version="1.0.0.qualifier" match="greaterOrEqual"/>
       <import plugin="org.eclipse.help" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.help.webapp" version="3.5.3" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime" version="3.6.0" match="compatible"/>
@@ -77,13 +78,10 @@
       <import plugin="org.eclipse.jface.databinding" version="1.4.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.zest.core" version="1.2.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.zest.layouts" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="ch.jester.ui.tournament" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui" version="3.6.0" match="compatible"/>
       <import plugin="org.eclipse.core.expressions" version="3.4.0" match="compatible"/>
       <import plugin="org.eclipse.draw2d"/>
       <import plugin="org.eclipse.swt"/>
-      <import plugin="ch.jester.rcpapplication.help" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.cheatsheets"/>
    </requires>
 
    <plugin
