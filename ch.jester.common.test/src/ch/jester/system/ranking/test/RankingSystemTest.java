@@ -27,3 +27,4 @@ public class RankingSystemTest extends ActivatorProviderForTestCase {
 		}
 	}
 }
+

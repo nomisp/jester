@@ -62,6 +62,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	@Override
 	public List<Pairing> executePairings(Category category) throws PairingNotPossibleException, NotAllResultsException {
 		this.category = category;
+		this.settings = null;   //TODO: von Matthias: Peter bitte checken!!!
 		if (settings == null) loadSettings(category.getTournament()); // Falls das Paaren auf einem Turnier passiert
 		playedRounds = RankingHelper.getFinishedRounds(category);
 		List<Pairing> pairings = null;

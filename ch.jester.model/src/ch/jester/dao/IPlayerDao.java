@@ -6,4 +6,5 @@ import ch.jester.model.Player;
 
 public interface IPlayerDao extends IDaoService<Player>{
 	public List<Player> findByName(String pName);
+	public List<Player> findByNamesOrCity(String pName);
 }

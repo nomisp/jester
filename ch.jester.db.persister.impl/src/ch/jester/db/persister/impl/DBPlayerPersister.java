@@ -26,4 +26,9 @@ public class DBPlayerPersister extends GenericPersister<Player> implements IPlay
 	protected Query getPagingQuery() {
 		return super.mManager.createNamedQuery(Player.QUERY_GETALL);
 	}
+	@Override
+	public List<Player> findByNamesOrCity(String pName) {
+		return super.executeNamedQuery(Player.QUERY_FINDBYNAMESORCITY, "para", prepareLikeSearch(pName.toUpperCase(), MatchMode.ANYWHERE));
+
+	}
 }

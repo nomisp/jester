@@ -2,15 +2,18 @@ package ch.jester.system.ranking.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
+import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Ranking;
 import ch.jester.model.RankingEntry;
+import ch.jester.model.RankingSystem;
 import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.factories.ModelFactory;
@@ -225,19 +228,68 @@ public class RankingHelper {
 	 * 					<code>RankingHelper.getInitialIntermediateRanking()</code>
 	 * @param rankingSystem RankingSystem-shortType des gewünschten RankingSystems (wie er im RankingSystemPoint definiert ist)
 	 */
-	public static void createRanking(Ranking ranking, List<PlayerCard> players, String rankingSystem) {
-		List<RankingSystemPoint> rankingSystemPoints = new ArrayList<RankingSystemPoint>(players.size());
+	public static void createRanking(Ranking ranking, List<PlayerCard> players, final String rankingSystem) {
+		//List<RankingSystemPoint> rankingSystemPoints = new ArrayList<RankingSystemPoint>(players.size());
 		ModelFactory modelFactory = ModelFactory.getInstance();
-		for (PlayerCard playerCard : players) {
+/*		for (PlayerCard playerCard : players) {
 			rankingSystemPoints.add(playerCard.getRankingSystemPoint(rankingSystem)); // TODO Peter: evtl. null check und Exception schmeissen
-		}
-		Collections.sort(rankingSystemPoints);
-		for (int i = 0; i < rankingSystemPoints.size(); i++) {
-			RankingSystemPoint rankingSystemPoint = rankingSystemPoints.get(i);
-			RankingEntry rankingEntry = modelFactory.createRankingEntry(rankingSystemPoint.getPlayerCard());
+		}*/
+		//TODO: Von Matthias: Peter bitte checken
+	/*	Collections.sort(rankingSystemPoints, new Comparator<RankingSystemPoint>() {
+
+			@Override
+			public int compare(RankingSystemPoint o1, RankingSystemPoint o2) {
+				if(o1.getPoints().doubleValue()==o2.getPoints().doubleValue()){
+					return 0;
+				}
+				if(o1.getPoints().doubleValue()>o2.getPoints().doubleValue()){
+					return -1;
+				}
+				return 1;
+			}
+			
+		});*/
+		//TODO: Von Matthias: Peter bitte checken
+		Collections.sort(players, new Comparator<PlayerCard>() {
+
+			public int compare(RankingSystemPoint o1, RankingSystemPoint o2) {
+				if(o1.getPoints().doubleValue()==o2.getPoints().doubleValue()){
+					return 0;
+				}
+				if(o1.getPoints().doubleValue()>o2.getPoints().doubleValue()){
+					return -1;
+				}
+				return 1;
+			}
+			@Override
+			public int compare(PlayerCard o1, PlayerCard o2) {
+				if(o1.getPoints().doubleValue()>o2.getPoints().doubleValue()){
+					return -1;
+				}else if(o1.getPoints().doubleValue()<o2.getPoints().doubleValue()){
+					return 1;
+				}else{
+					RankingSystemPoint rsp1 =o1.getRankingSystemPoint(rankingSystem);
+					RankingSystemPoint rsp2 =o2.getRankingSystemPoint(rankingSystem);
+					return compare(rsp1, rsp2);
+				}
+			}
+		
+		
+		});
+		
+		for(int i=0;i<players.size();i++){
+			RankingEntry rankingEntry = modelFactory.createRankingEntry(players.get(i));
 			rankingEntry.setPosition(i+1);
 			ranking.addRankingEntry(rankingEntry);
+			
 		}
+		/*for (int i = 0; i < rankingSystemPoints.size(); i++) {
+			RankingSystemPoint rankingSystemPoint = rankingSystemPoints.get(i);
+			RankingEntry rankingEntry = modelFactory.createRankingEntry(rankingSystemPoint.getPlayerCard());
+			
+			rankingEntry.setPosition(i+1);
+			ranking.addRankingEntry(rankingEntry);
+		}*/
 	}
 	
 	/**

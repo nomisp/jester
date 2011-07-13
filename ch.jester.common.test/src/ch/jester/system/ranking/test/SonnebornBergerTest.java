@@ -23,6 +23,7 @@ import ch.jester.model.RankingSystem;
 import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
+import ch.jester.model.factories.ModelFactory;
 import ch.jester.orm.ORMPlugin;
 import ch.jester.system.api.ranking.IRankingSystem;
 import ch.jester.system.api.ranking.IRankingSystemEntry;
@@ -41,6 +42,7 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 	private Category cat;
 	private EntityManager entityManager;
 	
+
 	@Before
 	public void setUp() {
 		IRankingSystemManager rankingSystemManager = mServiceUtil.getService(IRankingSystemManager.class);
@@ -90,6 +92,7 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 			Ranking ranking = sonnebornbergerSystem.calculateRanking(cat, null);
 			assertTrue(ranking instanceof FinalRanking);
 			List<RankingEntry> rankingEntries = ranking.getRankingEntries();
+			assertTrue(rankingEntries.size()>0);
 			for (int i = 0; i < rankingEntries.size(); i++) {
 				assertEquals(rankingEntries.get(i).getPlayerCard(), cat.getPlayerCards().get(i));
 			}
@@ -97,9 +100,10 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 		} catch (NotAllResultsException e) {
 			e.printStackTrace();
 		}
+		testSBPoints();
 	}
 	
-	@Test
+
 	public void testSBPoints() {
 		Double sbPunkteC = cat.getPlayerCards().get(2).getRankingSystemPoint(RANKINGSYSTEM_TYPE).getPoints();
 		Double sbPunkteD = cat.getPlayerCards().get(3).getRankingSystemPoint(RANKINGSYSTEM_TYPE).getPoints();
@@ -140,8 +144,9 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 		players.add(p7);
 		List<PlayerCard> playerCards = new ArrayList<PlayerCard>();
 		for (Player player : players) {
-			PlayerCard playerCard = new PlayerCard();
-			playerCard.setPlayer(player);
+			//PlayerCard playerCard = new PlayerCard();
+			//playerCard.setPlayer(player);
+			PlayerCard playerCard = ModelFactory.getInstance().createPlayerCard(cat, player);
 			playerCard.addRankingSystemPoint(new RankingSystemPoint(RANKINGSYSTEM_TYPE));
 			playerCards.add(playerCard);
 		}
@@ -154,9 +159,9 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 		PlayerCard p2 = playerCards.get(1);
 		PlayerCard p3 = playerCards.get(2);
 		PlayerCard p4 = playerCards.get(3);
-		PlayerCard p5 = playerCards.get(1);
-		PlayerCard p6 = playerCards.get(2);
-		PlayerCard p7 = playerCards.get(3);
+		PlayerCard p5 = playerCards.get(4);
+		PlayerCard p6 = playerCards.get(5);
+		PlayerCard p7 = playerCards.get(6);
 		
 		Round r1 = new Round();
 		r1.setNumber(1);
@@ -178,7 +183,7 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 		pair5.setBlack(p6);
 		Pairing pair6 = new Pairing();
 		pair6.setWhite(p1);
-		pair6.setBlack(p6);
+		pair6.setBlack(p7);
 		// Alle restlichen Pairings Spieler B
 		Pairing pair7 = new Pairing();
 		pair7.setWhite(p2);
@@ -315,6 +320,10 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 		// Resultat Spieler F
 		pairings.get(20).setResult("1"); // F:G
 		pairings.get(20).getWhite().addResult(1.0);
+		
+		for(Pairing par:pairings){
+			System.out.println(par + "---"+ par.getWhite().getRankingSystemPoints().get(0).getPoints()+" --- "+par.getBlack().getRankingSystemPoints().get(0).getPoints());
+		}
 		
 	}
 }

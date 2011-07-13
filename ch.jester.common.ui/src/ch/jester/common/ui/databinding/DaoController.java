@@ -75,6 +75,8 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 	public abstract String[] observableProperties();
 	
 	public abstract String callBackLabels(T pDao);
+	
+	public  String indexedCallBackLabels(T pDao, int col){return null;};
 
 	protected IPartService getPartService(){
 		return (IPartService)mPart.getSite().getService(IPartService.class);
@@ -222,7 +224,10 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 		}
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			// TODO Auto-generated method stub
+			String txt = DaoController.this.indexedCallBackLabels((T) element, columnIndex);
+			if(txt!=null){
+				return txt;
+			}
 			return getText(element);
 		}
 		@SuppressWarnings("unchecked")

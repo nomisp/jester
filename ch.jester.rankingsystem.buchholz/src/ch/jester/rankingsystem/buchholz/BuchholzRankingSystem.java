@@ -47,6 +47,12 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 	@Override
 	public Ranking calculateRanking(Category category, IProgressMonitor pMonitor) throws NotAllResultsException {
 		Ranking ranking = null;
+		//TODO: von Matthias: Peter checken!!
+		if(category.getRanking()!=null){
+	            category.setRanking(null);
+	            IDaoService<Category> categoryDaoService = mServiceUtil.getDaoServiceByEntity(Category.class);
+	            categoryDaoService.save(category);
+	    }
 		if (checkCategoryFinished(category)) {
 			return createFinalRanking(category);
 		} else {
@@ -82,6 +88,8 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		}
 		
 		RankingHelper.createRanking(ranking, initialFinalRanking, rankingSystemEntry.getProperty("shortType"));
+		
+		RankingHelper.printRanking(ranking); // TODO Peter: Bei Task complete rauslöschen!
 		
 		saveFinalRanking(category, ranking);
 		return ranking;
