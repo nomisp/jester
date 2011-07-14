@@ -24,4 +24,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.persistence
 Export-Package: ch.jester.system.swiss.dutch,
- ch.jester.system.swiss.dutch.internal
+ ch.jester.system.swiss.dutch.internal,
+ ch.jester.system.swiss.dutch.ui
