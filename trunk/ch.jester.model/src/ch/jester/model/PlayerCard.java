@@ -63,6 +63,9 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	@Enumerated(EnumType.STRING)
 	private Float floating;		// Wenn ein Spieler im Schweizer-System in eine andere Punktegruppe gepaart wurde
 	
+	@Column
+	private Boolean active = Boolean.TRUE;	// Beschreibt ob ein Spieler noch aktiv im Turnier ist
+	
 	public Player getPlayer() {
 		return player;
 	}
@@ -163,6 +166,14 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 
 	public void setFloating(Float floating) {
 		this.floating = floating;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	@Override
