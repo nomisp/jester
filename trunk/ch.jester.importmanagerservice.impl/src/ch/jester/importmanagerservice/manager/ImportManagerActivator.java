@@ -9,10 +9,6 @@ import ch.jester.common.activator.AbstractActivator;
  */
 public class ImportManagerActivator extends AbstractActivator {
 	
-	/**
-	 * @uml.property  name="mActivator"
-	 * @uml.associationEnd  
-	 */
 	private static ImportManagerActivator mActivator;
 
 	@Override

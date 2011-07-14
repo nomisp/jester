@@ -17,11 +17,6 @@ import ch.jester.model.factories.ModelFactory;
 /**
  */
 public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T, Player> implements IDuplicateChecker<Player> {
-	/**
-	 * @uml.property  name="su"
-	 * @uml.associationEnd  
-	 */
-	
 	@Override
 	public void resetInputLinking() {
 		mInputLinking.clear();

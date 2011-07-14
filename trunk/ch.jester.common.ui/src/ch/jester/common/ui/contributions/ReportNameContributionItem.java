@@ -22,10 +22,6 @@ import ch.jester.commonservices.util.ServiceUtility;
 /**
  */
 public class ReportNameContributionItem extends CompoundContributionItem {
-	/**
-	 * @uml.property  name="su"
-	 * @uml.associationEnd  
-	 */
 	private ServiceUtility su = new ServiceUtility();
 	private SelectionUtility selUtil = new SelectionUtility(null);
 	private List<Object> NullList = new ArrayList<Object>(1);

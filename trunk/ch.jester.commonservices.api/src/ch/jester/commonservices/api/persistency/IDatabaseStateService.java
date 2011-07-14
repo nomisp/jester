@@ -20,14 +20,11 @@ public interface IDatabaseStateService {
 	/**
 	 * Gibt den internen State zurück
 	 * @return
-	 * @uml.property  name="state"
-	 * @uml.associationEnd  
 	 */
 	public State getState();
 	/**
 	 * Setzt den State. Die Implementation hat dafür zu sorgen, dass zwischengespeicherte Runnables mit entsprechendem State ausgeführt werden
 	 * @param  pState
-	 * @uml.property  name="state"
 	 */
 	public void setState(State pState);
 }

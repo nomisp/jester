@@ -1,9 +1,6 @@
 package ch.jester.common.web;
 
 import java.io.IOException;
-import java.util.List;
-
-import ch.jester.commonservices.api.importer.ILink;
 
 public class WebTester {
 	static String address_fide = "http://ratings.fide.com/download.phtml";

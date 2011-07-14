@@ -19,10 +19,6 @@ import ch.jester.commonservices.api.logging.ILoggerFactory;
  */
 
 public class DefaultLogger implements ILogger {
-	/**
-	 * @uml.property  name="mFactory"
-	 * @uml.associationEnd  
-	 */
 	private ILoggerFactory mFactory;
 	private Bundle mBundle;
 	private ILog mLog;
