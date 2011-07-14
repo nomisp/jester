@@ -26,6 +26,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporterParameter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
@@ -63,6 +64,7 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Player;
 import ch.jester.model.Tournament;
+import ch.jester.model.util.RankingReportInput;
 import ch.jester.reportengine.impl.internal.Initializer;
 
 
@@ -91,6 +93,10 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     public JasperReportEngine(){
     	IBundleReport report = factory.createBundleReport(BUNDLE_ID, "playerlist", Messages.JasperReportEngine_player_report_name, BUNDLE_REPORT_LOCATION, "reports/PlayerList.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
     	report.setInputBeanClass(Player.class);
+
+    	report = factory.createBundleReport(BUNDLE_ID, "rankinglist", "RankingList", BUNDLE_REPORT_LOCATION, "reports/RankingList.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
+    	report.setInputBeanClass(RankingReportInput.class);
+    	
     	report = factory.createBundleReport(BUNDLE_ID, "pairinglist_tournament", Messages.JasperReportEngine_tournament_report_name, BUNDLE_REPORT_LOCATION, "reports/PairingList.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
     	report.setInputBeanClass(Tournament.class);
     	report = factory.createBundleReport(BUNDLE_ID, "pairinglist_category", Messages.JasperReportEngine_category_pairing_name, BUNDLE_REPORT_LOCATION, "reports/PairingListCat.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
@@ -108,6 +114,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     
     protected void precompileAllReports(IProgressMonitor monitor) throws ProcessingException{
     	compilingLock.lock();
+    	try{
 		int visibleReports = JasperReportEngine.this.getRepository().getReports().size();
 		int sourceReports = cache.keySet().size();
 		int work = visibleReports+sourceReports;
@@ -126,7 +133,13 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			monitor.worked(1);
 			
     	}
-    	compilingLock.unlock();
+    	}catch(ProcessingException e)
+    	{
+    		throw e;
+    	}finally{
+    	
+    		compilingLock.unlock();
+    	}
     }
     
     private void checkInput(IReport pReport, Collection<?> pBean){
@@ -138,7 +151,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     	}
     	Class<?> inputClass = pBean.iterator().next().getClass();
     	if(!pReport.getInputBeanClass().isAssignableFrom(inputClass)){
-    		throw new ProcessingException(Messages.JasperReportEngine_ex_class_not_handle);
+    		throw new ProcessingException(Messages.JasperReportEngine_ex_class_not_handle+": "+inputClass);
     	}
     	
     }

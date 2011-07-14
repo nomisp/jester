@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rankingreport1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="38"/>
+	<style name="table">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Category">
+		<parameter name="pMap" class="java.util.Map"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="description" class="java.lang.String">
+			<fieldDescription><![CDATA[description]]></fieldDescription>
+		</field>
+		<field name="currentCat" class="ch.jester.model.Category">
+			<fieldDescription><![CDATA[_THIS]]></fieldDescription>
+		</field>
+		<variable name="rankings" class="ch.jester.model.Ranking">
+			<variableExpression><![CDATA[$P{pMap}.get($F{currentCat})]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="Ranking">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="class" class="java.lang.Class">
+			<fieldDescription><![CDATA[class]]></fieldDescription>
+		</field>
+		<field name="id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[id]]></fieldDescription>
+		</field>
+		<field name="rankingEntries" class="java.util.List">
+			<fieldDescription><![CDATA[rankingEntries]]></fieldDescription>
+		</field>
+		<field name="serialId" class="java.lang.String">
+			<fieldDescription><![CDATA[serialId]]></fieldDescription>
+		</field>
+		<field name="unsafed" class="java.lang.Boolean">
+			<fieldDescription><![CDATA[unsafed]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="RankingEntry">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="class" class="java.lang.Class">
+			<fieldDescription><![CDATA[class]]></fieldDescription>
+		</field>
+		<field name="id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[id]]></fieldDescription>
+		</field>
+		<field name="playerCard" class="ch.jester.model.PlayerCard">
+			<fieldDescription><![CDATA[playerCard]]></fieldDescription>
+		</field>
+		<field name="position" class="java.lang.Integer">
+			<fieldDescription><![CDATA[position]]></fieldDescription>
+		</field>
+		<field name="ranking" class="ch.jester.model.Ranking">
+			<fieldDescription><![CDATA[ranking]]></fieldDescription>
+		</field>
+		<field name="serialId" class="java.lang.String">
+			<fieldDescription><![CDATA[serialId]]></fieldDescription>
+		</field>
+		<field name="unsafed" class="java.lang.Boolean">
+			<fieldDescription><![CDATA[unsafed]]></fieldDescription>
+		</field>
+	</subDataset>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="map" class="java.util.Map">
+		<fieldDescription><![CDATA[map]]></fieldDescription>
+	</field>
+	<field name="serialId" class="java.lang.String">
+		<fieldDescription><![CDATA[serialId]]></fieldDescription>
+	</field>
+	<field name="tournament" class="ch.jester.model.Tournament">
+		<fieldDescription><![CDATA[tournament]]></fieldDescription>
+	</field>
+	<field name="unsafed" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[unsafed]]></fieldDescription>
+	</field>
+	<field name="currentCat" class="ch.jester.model.Category">
+		<fieldDescription><![CDATA[_THIS]]></fieldDescription>
+	</field>
+	<variable name="varMap" class="java.util.Map">
+		<variableExpression><![CDATA[$F{map}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="288" y="10" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tournament}.getName()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="55" y="10" width="146" height="35"/>
+				<textElement>
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ranking List]]></text>
+			</staticText>
+			<image>
+				<reportElement x="10" y="10" width="45" height="35"/>
+				<imageExpression class="java.lang.String"><![CDATA["/img/icon128x128.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="219" y="10" width="69" height="20"/>
+				<textElement/>
+				<text><![CDATA[Tournament]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="219" y="30" width="69" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{tournament}.getDateFrom()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="288" y="30" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{tournament}.getDateTo()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="165" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="388" height="143"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="Category">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($V{varMap})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="143" width="388">
+						<textField>
+							<reportElement x="10" y="0" width="100" height="20"/>
+							<textElement/>
+							<textFieldExpression class="java.lang.String"><![CDATA[$F{description}]]></textFieldExpression>
+						</textField>
+						<componentElement>
+							<reportElement key="table 2" style="table 2" x="10" y="50" width="360" height="20"/>
+							<jr:table>
+								<datasetRun subDataset="RankingEntry">
+									<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{pMap}.get($F{currentCat}))]]></dataSourceExpression>
+								</datasetRun>
+								<jr:column width="90">
+									<jr:detailCell style="table 2_TD" height="20">
+										<textField>
+											<reportElement x="0" y="0" width="90" height="20"/>
+											<textElement/>
+											<textFieldExpression class="java.lang.String"><![CDATA[""+$F{playerCard}]]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+								<jr:column width="90">
+									<jr:detailCell style="table 2_TD" height="20">
+										<textField>
+											<reportElement x="0" y="0" width="90" height="20"/>
+											<textElement/>
+											<textFieldExpression class="java.lang.Integer"><![CDATA[$F{position}]]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+								<jr:column width="90">
+									<jr:detailCell style="table 2_TD" height="20">
+										<textField>
+											<reportElement x="0" y="0" width="90" height="20"/>
+											<textElement/>
+											<textFieldExpression class="java.lang.String"><![CDATA[""+$F{ranking}]]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+							</jr:table>
+						</componentElement>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="82" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

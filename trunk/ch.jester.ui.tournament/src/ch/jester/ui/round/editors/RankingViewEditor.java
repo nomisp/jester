@@ -3,7 +3,6 @@ package ch.jester.ui.round.editors;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -11,7 +10,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.progress.UIJob;
 
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.commonservices.api.logging.ILogger;
@@ -19,16 +17,17 @@ import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.api.reportengine.IReportResult.ExportType;
+import ch.jester.commonservices.exceptions.ProcessingException;
+import ch.jester.model.util.RankingReportInput;
 import ch.jester.ui.round.form.BrowserForm;
 import ch.jester.ui.tournament.internal.Activator;
-import ch.jester.ui.tournament.internal.RankingEntityHelp;
 import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Turnier-Editor
  *
  */
-public class RankingViewEditor extends AbstractEditor<RankingEntityHelp> {
+public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 	public static final String ID = "ch.jester.ui.tournament.resulteditor"; //$NON-NLS-1$
 	private Semaphore sem = new Semaphore(1);
 	private BrowserForm browserForm;
@@ -68,16 +67,17 @@ public class RankingViewEditor extends AbstractEditor<RankingEntityHelp> {
 			public IStatus run(IProgressMonitor monitor) {
 				try{
 					monitor.beginTask("Generating Rankinglist", IProgressMonitor.UNKNOWN);
-					RankingEntityHelp hlp = mDaoInput.getInput();
+					RankingReportInput hlp = mDaoInput.getInput();
 					IReportEngine engine = getServiceUtil().getService(IReportEngine.class);
-					IReport report = engine.getRepository().getReport("playerlist");
-					List<Map<?,?>> list = new ArrayList<Map<?,?>>();
-					list.add(hlp.getRankingInputMap());
+					IReport report = engine.getRepository().getReport("rankinglist");
+					List<RankingReportInput> list = new ArrayList<RankingReportInput>();
+					list.add(hlp);
 					IReportResult result = engine.generate(report, list);
 					tmpFile = result.export(ExportType.HTML);
+					browserForm.setInput(tmpFile);
 					monitor.done();
-				}catch(Exception e){
-					
+				}catch(ProcessingException e){
+					throw e;
 				}finally{
 					sem.release();
 				}

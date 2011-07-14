@@ -66,6 +66,7 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 						Object o[] = viewer.getExpandedElements();
 						viewer.setExpandedElements(o);
 						TreePath[] paths = viewer.getExpandedTreePaths();
+						if(paths.length==0){return;}
 						paths[0].getLastSegment();
 
 						viewer.refresh();

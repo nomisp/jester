@@ -93,11 +93,6 @@
                style="push"
                tooltip="%TTEditTournament">
          </command>
-         <command
-               commandId="ch.jester.ui.tournament.testbrowse"
-               label="TestPlayerHMTL"
-               style="push">
-         </command>
       </menuContribution>
    </extension>
    <extension
@@ -138,11 +133,6 @@
       <command
             id="ch.jester.ui.tournament.editresult"
             name="%Result">
-      </command>
-      <command
-            defaultHandler="ch.jester.ui.round.editors.TestHandler"
-            id="ch.jester.ui.tournament.testbrowse"
-            name="name">
       </command>
    </extension>
    <extension

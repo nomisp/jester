@@ -11,6 +11,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.ui.round.editors.RankingViewEditor;
 
 public class BrowserForm extends FormPage{
@@ -25,15 +26,30 @@ public class BrowserForm extends FormPage{
 @Override
 	protected void createFormContent(IManagedForm managedForm) {
 		ScrolledForm sform = managedForm.getForm();
-		managedForm.getForm().getBody().setLayout(new GridLayout(1, false));
+		managedForm.getForm().getBody().setLayout(new GridLayout(1, true));
 		browser = new Browser(managedForm.getForm().getBody(), SWT.NONE);
 		managedForm.getToolkit().adapt(browser);
-		browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		browser.setUrl(edit.getInputFile().getAbsolutePath());
-		browser.refresh();
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		gd.widthHint = 94;
+		gd.grabExcessHorizontalSpace=true;
+		gd.grabExcessVerticalSpace=true;
+		browser.setLayoutData(gd);
+		//browser.setUrl(edit.getInputFile().getAbsolutePath());
+		//browser.refresh();
 	}
 
 		public void setInput(File tmpFile) {
+			UIUtility.asyncExecInUIThread(new Runnable(){
+
+				@Override
+				public void run() {
+					browser.setUrl(edit.getInputFile().getAbsolutePath());
+					browser.refresh();
+					
+				}
+				
+				
+			});
 			
 			
 		}
