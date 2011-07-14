@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="ch.jester.languagepack.defr"
+      label="Language Pack DE FR"
+      version="1.0.0.qualifier">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="ch.jester.db.hsqldb"/>
+      <import plugin="ch.jester.rcpapplication"/>
+      <import plugin="ch.jester.rcpapplication" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.ui.importer" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.ui"/>
+      <import plugin="ch.jester.ui.tournament"/>
+      <import plugin="org.eclipse.update.configurator"/>
+      <import plugin="org.eclipse.rcp"/>
+      <import plugin="ch.jester.ui.exporter"/>
+      <import plugin="org.eclipse.help"/>
+      <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.eclipse.osgi.services"/>
+      <import plugin="org.eclipse.ui.workbench"/>
+      <import plugin="org.eclipse.core.jobs"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.equinox.ds"/>
+      <import plugin="org.eclipse.equinox.launcher"/>
+      <import plugin="org.eclipse.equinox.preferences"/>
+      <import plugin="org.eclipse.ui"/>
+   </requires>
+
+   <plugin
+         id="ch.jester.db.hsqldb.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.rcpapplication.help.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.rcpapplication.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.ui.importer.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.ui.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.ui.tournament.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.update.configurator.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.rcp.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="ch.jester.ui.exporter.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.help.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.osgi.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.osgi.services.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.ui.workbench.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.jobs.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.runtime.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.ds.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.launcher.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.preferences.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.ui.nl_de"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+</feature>
