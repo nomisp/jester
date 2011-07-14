@@ -20,11 +20,11 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IViewPart;
 
+import ch.jester.common.job.StackJob;
 import ch.jester.common.ui.internal.Activator;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.job.StackJob;
 
 public class FilterField {
 	private Stack<String> mEventStack = new Stack<String>();

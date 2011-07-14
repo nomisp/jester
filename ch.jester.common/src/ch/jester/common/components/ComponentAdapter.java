@@ -10,10 +10,6 @@ import ch.jester.commonservices.api.logging.ILogger;
  * @param  <T >
  */
 public class ComponentAdapter<T> implements IComponentService<T>{
-	/**
-	 * @uml.property  name="mLogger"
-	 * @uml.associationEnd  
-	 */
 	private ILogger mLogger;
 	private ComponentContext mContext;
 	@Override

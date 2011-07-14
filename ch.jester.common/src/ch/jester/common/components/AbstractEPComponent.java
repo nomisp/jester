@@ -10,43 +10,33 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.osgi.service.component.ComponentContext;
 
+import ch.jester.common.ep.ExtensionPointChangeNotifier;
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.components.IEPEntry;
 import ch.jester.commonservices.api.components.IEPEntryComponentService;
 import ch.jester.commonservices.api.components.IEPEntryConfig;
-import ch.jester.commonservices.api.logging.ILogger;
-import ch.jester.ep.ExtensionPointChangeNotifier;
+import ch.jester.commonservices.api.logging.ILoggerFactory;
+import ch.jester.commonservices.api.preferences.IPreferenceManager;
+import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 
 /**
  * Abstrakte Komponente welche, auf einen ExtensionPoint horcht und die daran registrierten Services als Proxies bei sich registriert
  * @param  < V  >  der EntryTyp
  * @param  < T  >  der Handler
  */
-public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements IEPEntryComponentService<V, T> {
+public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> extends InjectedLogFactoryComponentAdapter<T> implements IEPEntryComponentService<V, T> {
 	private Object mLock=new Object();
 	private ComponentContext mContext;
-	/**
-	 * @uml.property  name="mLogger"
-	 * @uml.associationEnd  
-	 */
-	private ILogger mLogger;
-	/**
-	 * @uml.property  name="mActivationContext"
-	 * @uml.associationEnd  
-	 */
-	private IActivationContext<?> mActivationContext;
-	/**
-	 * @uml.property  name="mEPNotifier"
-	 * @uml.associationEnd  
-	 */
+	//private ILogger mLogger;
+	//private IActivationContext<?> mActivationContext;
 	private ExtensionPointChangeNotifier mEPNotifier;
 	private Class<T> mClassType;
 	private HashMap<V,T> mImportHandlers = new HashMap<V,T>();
+	private IPreferenceRegistration mPreferenceReg;
 	public AbstractEPComponent(Class<T> classType, IActivationContext<?> pActivationContext, String pEPId, String pEPName){
-		mActivationContext=pActivationContext;
+		//mActivationContext=pActivationContext;
 		mClassType=classType;
-		mLogger = mActivationContext.getLogger();
-		mLogger.debug("Starting Component: "+AbstractEPComponent.this);
+		//mLogger = mActivationContext.getLogger();
 		mEPNotifier = new ExtensionPointChangeNotifier(pEPId,pEPName){
 			HashMap<IConfigurationElement, T> mHandlerMap = new HashMap<IConfigurationElement, T>();
 			protected void added(IConfigurationElement iConfigurationElement) {
@@ -61,8 +51,22 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements I
 			};
 			
 		};
-		mEPNotifier.start();
 		
+		
+	}
+	
+	@Override
+	public void bindLoggerFactory(ILoggerFactory pFactory) {
+		super.bindLoggerFactory(pFactory);
+		mEPNotifier.start();
+	}
+	
+	public void bindPreferenceRegistration(IPreferenceRegistration pReg){
+		mPreferenceReg = pReg;
+	}
+	
+	public IPreferenceRegistration getPreferenceManager(){
+		return mPreferenceReg;
 	}
 	
 	/**Definiert das ExecutableElement im IConfigurationElement, welches
@@ -128,18 +132,18 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements I
 	@Override
 	public void start(ComponentContext pComponentContext) {
 		mContext=pComponentContext;
-		mLogger.debug("Start Context: "+mContext);
+		getLogger().debug("Start Context: "+mContext);
 	}
 
 	@Override
 	public void stop(ComponentContext pComponentContext) {
-		mLogger.debug("Stop Context: "+mContext);
+		getLogger().debug("Stop Context: "+mContext);
 		
 	}
 
 	@Override
 	public void bind(T pT) {
-		mLogger.debug("bind Object: "+pT);
+		getLogger().debug("bind Object: "+pT);
 		synchronized(mLock){
 			addToList(pT);
 		}
@@ -148,7 +152,7 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> implements I
 
 	@Override
 	public void unbind(T pT) {
-		mLogger.debug("unbind Object: "+pT);
+		getLogger().debug("unbind Object: "+pT);
 		synchronized(mLock){
 			removeFromList(pT);
 		}

@@ -1,4 +1,4 @@
-package ch.jester.ep;
+package ch.jester.common.ep;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;

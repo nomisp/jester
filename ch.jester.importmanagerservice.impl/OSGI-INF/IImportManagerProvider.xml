@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="start" deactivate="stop" enabled="true" immediate="false" name="ch.jester.commonservices.impl.importmanager">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="start" deactivate="stop" enabled="true" immediate="true" name="ch.jester.commonservices.impl.importmanager">
    <implementation class="ch.jester.importmanagerservice.manager.DefaultImportManager"/>
    <reference bind="bind" cardinality="0..n" interface="ch.jester.commonservices.api.importer.IImportHandler" name="IImportHandler" policy="dynamic" unbind="unbind"/>
    <service>
       <provide interface="ch.jester.commonservices.api.importer.IImportManager"/>
-   </service>
+   </service>
+   <reference bind="bindPreferenceRegistration" cardinality="1..1" interface="ch.jester.commonservices.api.preferences.IPreferenceRegistration" name="IPreferenceRegistration" policy="dynamic"/>
+   <reference bind="bindLoggerFactory" cardinality="1..1" interface="ch.jester.commonservices.api.logging.ILoggerFactory" name="ILoggerFactory" policy="dynamic"/>
 </scr:component>

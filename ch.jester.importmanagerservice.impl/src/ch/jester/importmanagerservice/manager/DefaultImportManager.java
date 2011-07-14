@@ -30,7 +30,12 @@ public class DefaultImportManager extends AbstractEPComponent<IImportHandlerEntr
 				ImportManagerActivator.getInstance().getActivationContext(),
 				"ch.jester.commonservices.api", 
 				"ImportHandler");
-		mServices.getService(IPreferenceRegistration.class).registerPreferenceProvider(this);
+		//mServices.getService(IPreferenceRegistration.class).registerPreferenceProvider(this);
+	}
+	@Override
+	public void bindPreferenceRegistration(IPreferenceRegistration pReg) {
+		super.bindPreferenceRegistration(pReg);
+		pReg.registerPreferenceProvider(this);
 	}
 
 
