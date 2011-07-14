@@ -1,10 +1,17 @@
 package ch.jester.system.vollrundig.ui;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -13,27 +20,14 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 import ch.jester.common.settings.ISettingObject;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
-import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.system.api.pairing.StartingNumberGenerationType;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.system.vollrundig.RoundRobinSettings;
-import ch.jester.system.vollrundig.internal.VollrundigSystemActivator;
 import ch.jester.system.vollrundig.ui.nl1.Messages;
-
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.core.databinding.beans.PojoObservables;
-import org.eclipse.jface.databinding.viewers.ViewersObservables;
 
 /**
  * Form-page für die Einstellungen des Round-Robin Paarungssystemes
@@ -41,7 +35,6 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables;
  *
  */
 public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<RoundRobinSettings> {
-	// TODO Peter: Texte übersetzen!
 
 	private DataBindingContext m_bindingContext;
 

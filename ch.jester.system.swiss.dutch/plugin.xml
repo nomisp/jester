@@ -6,6 +6,7 @@
       <PairingAlgorithm
             class="ch.jester.system.swiss.dutch.SwissDutchPairingAlgorithm"
             pluginId="ch.jester.system.swiss.dutch"
+            settingsPage="ch.jester.system.swiss.dutch.ui.SwissDutchSettingsPage"
             shortType="Swiss-Dutch"
             typeDescription="%PairingAlgorithm.typeDescription">
       </PairingAlgorithm>

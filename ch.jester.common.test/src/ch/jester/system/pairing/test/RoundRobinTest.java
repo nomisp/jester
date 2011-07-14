@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -51,6 +52,14 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 	
 	@Before
 	public void setUp() {
+		entityManager = ORMPlugin.getJPAEntityManager();
+		if (entityManager.getTransaction().isActive()) {
+			entityManager.joinTransaction();
+		} else {
+			entityManager.getTransaction().begin();
+		}
+		entityManager.clear();
+		
 		// PairingAlgorithm besorgen
 		IPairingManager pairingManager = mServiceUtil.getService(IPairingManager.class);
 		List<IPairingAlgorithmEntry> registredEntries = pairingManager.getRegistredEntries();
@@ -60,14 +69,6 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 				break;
 			}
 		}
-		
-		entityManager = ORMPlugin.getJPAEntityManager();
-		if (entityManager.getTransaction().isActive()) {
-			entityManager.joinTransaction();
-		} else {
-			entityManager.getTransaction().begin();
-		}
-		entityManager.clear();
 
 		RankingSystem rankingSystem = new RankingSystem();
 		rankingSystem.setPluginId(BuchholzTest.PLUGIN_ID);
@@ -75,27 +76,36 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		rankingSystem.setShortType(BuchholzTest.RANKINGSYSTEM_TYPE);
 		rankingSystem.setRankingSystemNumber(1);
 		
-		ModelFactory modelFactory = ModelFactory.getInstance();
-		tournament = modelFactory.createTournament("RoundRobinTestTournament");
-		tournament.setYear(2011);
-		tournament.setPairingSystemPlugin(PAIRING_PLUGIN);
-		tournament.setPairingSystem(ALGORITHM_CLASS);
-		tournament.setEloCalculator("ch.jester.system.fidecalculator.FideCalculator");
-		tournament.addRankingSystem(rankingSystem);
-		cat1 = modelFactory.createCategory("Cat1");
-		cat2 = modelFactory.createCategory("Cat2");
-		cat3 = modelFactory.createCategory("Cat3");
-		tournament.addCategory(cat1);
-		tournament.addCategory(cat2);
-		tournament.addCategory(cat3);
-				
-		players.add(modelFactory.createPlayer("Peter", "Simon"));
-		players.add(modelFactory.createPlayer("Matthias", "Liechti"));
-		players.add(modelFactory.createPlayer("Thomas", "Letsch"));
-		players.add(modelFactory.createPlayer("Fredi", "Dönni"));
+		try {
+			tournament = (Tournament)entityManager.createQuery("select t from Tournament t where t.name = 'RoundRobinTestTournament'").getSingleResult();
+		} catch(NoResultException e) {
+			ModelFactory modelFactory = ModelFactory.getInstance();
+			tournament = modelFactory.createTournament("RoundRobinTestTournament");
+			tournament.setYear(2011);
+			tournament.setPairingSystemPlugin(PAIRING_PLUGIN);
+			tournament.setPairingSystem(ALGORITHM_CLASS);
+			tournament.setEloCalculator("ch.jester.system.fidecalculator.FideCalculator");
+			tournament.addRankingSystem(rankingSystem);
+			cat1 = modelFactory.createCategory("Cat1");
+			cat2 = modelFactory.createCategory("Cat2");
+			cat3 = modelFactory.createCategory("Cat3");
+			tournament.addCategory(cat1);
+			tournament.addCategory(cat2);
+			tournament.addCategory(cat3);
+					
+			players.add(modelFactory.createPlayer("Peter", "Simon"));
+			players.add(modelFactory.createPlayer("Matthias", "Liechti"));
+			players.add(modelFactory.createPlayer("Thomas", "Letsch"));
+			players.add(modelFactory.createPlayer("Fredi", "Dönni"));
+			
+			if (tournament.isUnsafed()) {
+				entityManager.persist(tournament);
+			} else {
+				entityManager.merge(tournament);
+			}
+			entityManager.flush();
+		}
 		
-		entityManager.persist(tournament);
-		entityManager.flush();
 		
 //		try {
 //			Query query = entityManager.createQuery("select t from Tournament t where t.name = 'TestTournament'");
@@ -120,32 +130,32 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 //		
 //	}
 	
-	private void createData() {
-		RankingSystem rankingSystem = new RankingSystem();
-		rankingSystem.setPluginId(BuchholzTest.PLUGIN_ID);
-		rankingSystem.setImplementationClass(BuchholzTest.RANKINGSYSTEM_CLASS);
-		rankingSystem.setShortType(BuchholzTest.RANKINGSYSTEM_TYPE);
-		rankingSystem.setRankingSystemNumber(1);
-		
-		ModelFactory modelFactory = ModelFactory.getInstance();
-		tournament = modelFactory.createTournament("RoundRobinTestTournament");
-		tournament.setYear(2011);
-		tournament.setPairingSystemPlugin(PAIRING_PLUGIN);
-		tournament.setPairingSystem(ALGORITHM_CLASS);
-		tournament.setEloCalculator("ch.jester.system.fidecalculator.FideCalculator");
-		tournament.addRankingSystem(rankingSystem);
-		cat1 = modelFactory.createCategory("Cat1");
-		cat2 = modelFactory.createCategory("Cat2");
-		cat3 = modelFactory.createCategory("Cat3");
-		tournament.addCategory(cat1);
-		tournament.addCategory(cat2);
-		tournament.addCategory(cat3);
-				
-		players.add(modelFactory.createPlayer("Peter", "Simon"));
-		players.add(modelFactory.createPlayer("Matthias", "Liechti"));
-		players.add(modelFactory.createPlayer("Thomas", "Letsch"));
-		players.add(modelFactory.createPlayer("Fredi", "Dönni"));
-	}
+//	private void createData() {
+//		RankingSystem rankingSystem = new RankingSystem();
+//		rankingSystem.setPluginId(BuchholzTest.PLUGIN_ID);
+//		rankingSystem.setImplementationClass(BuchholzTest.RANKINGSYSTEM_CLASS);
+//		rankingSystem.setShortType(BuchholzTest.RANKINGSYSTEM_TYPE);
+//		rankingSystem.setRankingSystemNumber(1);
+//		
+//		ModelFactory modelFactory = ModelFactory.getInstance();
+//		tournament = modelFactory.createTournament("RoundRobinTestTournament");
+//		tournament.setYear(2011);
+//		tournament.setPairingSystemPlugin(PAIRING_PLUGIN);
+//		tournament.setPairingSystem(ALGORITHM_CLASS);
+//		tournament.setEloCalculator("ch.jester.system.fidecalculator.FideCalculator");
+//		tournament.addRankingSystem(rankingSystem);
+//		cat1 = modelFactory.createCategory("Cat1");
+//		cat2 = modelFactory.createCategory("Cat2");
+//		cat3 = modelFactory.createCategory("Cat3");
+//		tournament.addCategory(cat1);
+//		tournament.addCategory(cat2);
+//		tournament.addCategory(cat3);
+//				
+//		players.add(modelFactory.createPlayer("Peter", "Simon"));
+//		players.add(modelFactory.createPlayer("Matthias", "Liechti"));
+//		players.add(modelFactory.createPlayer("Thomas", "Letsch"));
+//		players.add(modelFactory.createPlayer("Fredi", "Dönni"));
+//	}
 	
 	/**
 	 * Versuch zu Paaren ohne dass Spieler zur Kategorie zugeteilt wurden
@@ -169,6 +179,9 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		for (Player player : players) {
 			cat1.addPlayerCard(modelFactory.createPlayerCard(cat1, player));
 		}
+		entityManager.joinTransaction();
+		entityManager.merge(tournament);
+		entityManager.flush();
 		Job job = new Job("Pairing") {
 			
 			@Override
@@ -178,10 +191,10 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 					List<Pairing> pairings = pairingAlgorithm.executePairings(cat1);
 					assertEquals(6, pairings.size());
 				} catch (NotAllResultsException e) {
-//					fail();
+					fail();
 					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (PairingNotPossibleException e) {
-//					fail();
+					fail();
 					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (Exception e) {
 					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
@@ -210,13 +223,14 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		SettingItem settingItem = modelFactory.createSettingItem(tournament);
 		settingItem = settingHelper.analyzeSettingObjectToStore(settings, settingItem);
 //		settingItemPersister.save(settingItem);
-		entityManager.joinTransaction();
-		entityManager.persist(settingItem);
-		entityManager.flush();
 		
 		for (Player player : players) {
 			cat2.addPlayerCard(modelFactory.createPlayerCard(cat2, player));
 		}
+		entityManager.joinTransaction();
+		entityManager.merge(tournament);
+		entityManager.flush();
+		
 		Job job = new Job("PairingDoubleRounded") {
 			
 			@Override
@@ -226,13 +240,13 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 					List<Pairing> pairings = pairingAlgorithm.executePairings(cat2);
 					assertEquals(12, pairings.size());
 				} catch (NotAllResultsException e) {
-//					fail();
+					fail();
 					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (PairingNotPossibleException e) {
-//					fail();
+					fail();
 					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (Exception e) {
-//					fail();
+					fail();
 					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				}
 				return Status.OK_STATUS;
@@ -256,6 +270,10 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		for (Player player : players) {
 			cat3.addPlayerCard(modelFactory.createPlayerCard(cat3, player));
 		}
+		entityManager.joinTransaction();
+		entityManager.merge(tournament);
+		entityManager.flush();
+		
 		Job job = new Job("PairingOddNrOfPlayers") {
 			
 			@Override
@@ -265,13 +283,13 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 					List<Pairing> pairings = pairingAlgorithm.executePairings(cat3);
 					assertEquals(15, pairings.size());
 				} catch (NotAllResultsException e) {
-//					fail();
+					fail();
 					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (PairingNotPossibleException e) {
-//					fail();
+					fail();
 					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (Exception e) {
-//					fail();
+					fail();
 					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				}
 				return Status.OK_STATUS;

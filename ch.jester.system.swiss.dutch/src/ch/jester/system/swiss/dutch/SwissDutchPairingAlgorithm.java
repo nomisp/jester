@@ -2,18 +2,26 @@ package ch.jester.system.swiss.dutch;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+
 import org.eclipse.ui.forms.editor.FormEditor;
 
-import ch.jester.common.settings.ISettingObject;
+import ch.jester.common.settings.SettingHelper;
 import ch.jester.commonservices.api.logging.ILogger;
+import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
+import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.swiss.dutch.internal.SwissDutchSystemActivator;
+import ch.jester.system.swiss.dutch.ui.SwissDutchSettingsPage;
+import ch.jester.system.swiss.dutch.ui.nl1.Messages;
 
 /**
  * Paarungsalgorithmus für Paarungen nach Schweizer System
@@ -25,6 +33,8 @@ import ch.jester.system.swiss.dutch.internal.SwissDutchSystemActivator;
 public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 	private ILogger mLogger;
 	private Category category;
+	private SwissDutchSettings settings;
+	private ServiceUtility mServiceUtil = new ServiceUtility();
 	
 	public SwissDutchPairingAlgorithm() {
 		mLogger = SwissDutchSystemActivator.getDefault().getActivationContext().getLogger();
@@ -42,10 +52,28 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 		return null;
 	}
 
-	@Override
-	public AbstractSystemSettingsFormPage<ISettingObject> getSettingsFormPage(FormEditor editor, Tournament tournament) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Laden der Einstellungen aus der Datenbank
+	 * @param tournament
+	 */
+	private void loadSettings(Tournament tournament) {
+		if (settings == null) settings = new SwissDutchSettings();
+		IDaoService<SettingItem> settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
+		Query namedQuery = settingItemPersister.createNamedQuery("SettingItemByTournament"); //$NON-NLS-1$
+		namedQuery.setParameter("tournament", tournament); //$NON-NLS-1$
+		try {
+			SettingItem settingItem = (SettingItem)namedQuery.getSingleResult();
+			SettingHelper<SwissDutchSettings> settingHelper = new SettingHelper<SwissDutchSettings>();
+			if (settingItem != null) settings = settingHelper.restoreSettingObject(settings, settingItem);
+		} catch (NoResultException e) {
+			// Nothing to do
+			mLogger.info("SettingItem not found in Database"); //$NON-NLS-1$
+		}
 	}
 
+	@Override
+	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor, Tournament tournament) {
+		if (settings == null) loadSettings(tournament);
+		return new SwissDutchSettingsPage(settings, editor, "SwissDutchSettingsPage", Messages.SwissDutchPairingAlgorithm_settingsPage_title); //$NON-NLS-1$
+	}
 }

@@ -228,7 +228,7 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 
 		TableViewerColumn roundsColumn = new TableViewerColumn(categoriesTblViewer, SWT.NONE);
 		TableColumn roundsCol = roundsColumn.getColumn();
-		roundsCol.setWidth(80);
+		roundsCol.setWidth(118);
 		roundsCol.setText(Messages.NewTournWizPageCategories_tableCol_rounds);
 		roundsColumn.setLabelProvider(new CellLabelProvider() {
 		    public void update(ViewerCell cell) {
@@ -260,9 +260,6 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		categoriesTblViewer.setInput(categories);
 		
 		addBtn = new Button(container, SWT.NONE);
-		GridData gd_addBtn = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-//		gd_addBtn.widthHint = 54;
-		addBtn.setLayoutData(gd_addBtn);
 		addBtn.setText(Messages.NewTournWizPageCategories_btn_add);
 		addBtn.addSelectionListener(this);
 		new Label(container, SWT.NONE);
