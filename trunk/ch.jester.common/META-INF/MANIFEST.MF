@@ -10,14 +10,14 @@ Require-Bundle: ch.jester.commonservices.api;bundle-version="1.0.0",
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: ch.jester.common.activator;uses:="ch.jester.commonservices.api.logging,ch.jester.common.utility,org.osgi.framework",
  ch.jester.common.components;uses:="ch.jester.commonservices.api.logging,ch.jester.commonservices.api.importer",
+ ch.jester.common.ep;uses:="org.eclipse.core.runtime.dynamichelpers,org.eclipse.core.runtime",
  ch.jester.common.importer,
+ ch.jester.common.job,
  ch.jester.common.logging;uses:="ch.jester.commonservices.api.logging,org.eclipse.core.runtime,org.osgi.framework",
  ch.jester.common.persistency,
  ch.jester.common.reportengine,
  ch.jester.common.utility;uses:="org.eclipse.core.runtime,org.osgi.framework",
- ch.jester.common.web,
- ch.jester.ep;uses:="org.eclipse.core.runtime.dynamichelpers,org.eclipse.core.runtime",
- ch.jester.job
+ ch.jester.common.web
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ch.jester.common.activator.internal.CommonActivator
 Bundle-Vendor: M. Liechti & P. Simon

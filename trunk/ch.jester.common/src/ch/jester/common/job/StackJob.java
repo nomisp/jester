@@ -1,4 +1,4 @@
-package ch.jester.job;
+package ch.jester.common.job;
 
 import java.util.Stack;
 

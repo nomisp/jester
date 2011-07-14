@@ -3,7 +3,7 @@ package ch.jester.common.activator.internal;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.activator.AbstractActivator;
-import ch.jester.ep.ExtensionPointChangeNotifier;
+import ch.jester.common.ep.ExtensionPointChangeNotifier;
 
 /**
  * @author  t117221
