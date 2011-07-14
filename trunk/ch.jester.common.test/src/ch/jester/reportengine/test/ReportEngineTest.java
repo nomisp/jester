@@ -1,6 +1,5 @@
 package ch.jester.reportengine.test;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +9,11 @@ import org.junit.Test;
 
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
-import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
-import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
@@ -67,7 +64,7 @@ public class ReportEngineTest {
 			Assert.assertTrue(exception==null);
 		}
 	}
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private List getDummyInput(Class<?> clz) {
 		Tournament t = new Tournament();
 		t.setName("SonnebornBergerTestTournament");
