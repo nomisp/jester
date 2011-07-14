@@ -26,7 +26,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.zest.layouts;bundle-version="1.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Bundle-Localization: plugin
 Export-Package: ch.jester.ui.round.form,
  ch.jester.ui.tournament,
  ch.jester.ui.tournament.cnf,
