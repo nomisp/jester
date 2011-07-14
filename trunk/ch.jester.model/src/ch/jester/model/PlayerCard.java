@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -54,8 +56,12 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	@OneToOne(mappedBy="playerCard", optional=true)
 	private RankingEntry rankingEntry;
 	
-	@Column
+	@Column(nullable=true)
 	private Integer byes = 0;	// Anzahl Freilose
+	
+	@Column(nullable=true)
+	@Enumerated(EnumType.STRING)
+	private Float floating;		// Wenn ein Spieler im Schweizer-System in eine andere Punktegruppe gepaart wurde
 	
 	public Player getPlayer() {
 		return player;
@@ -128,6 +134,14 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		if (rankingSystemPoint.getPlayerCard() != this) rankingSystemPoint.setPlayerCard(this); // Bidirektion
 	}
 
+	public RankingEntry getRankingEntry() {
+		return rankingEntry;
+	}
+
+	public void setRankingEntry(RankingEntry rankingEntry) {
+		this.rankingEntry = rankingEntry;
+	}
+
 	public Integer getByes() {
 		return byes;
 	}
@@ -143,12 +157,12 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		this.byes++;
 	}
 
-	public RankingEntry getRankingEntry() {
-		return rankingEntry;
+	public Float getFloating() {
+		return floating;
 	}
 
-	public void setRankingEntry(RankingEntry rankingEntry) {
-		this.rankingEntry = rankingEntry;
+	public void setFloating(Float floating) {
+		this.floating = floating;
 	}
 
 	@Override

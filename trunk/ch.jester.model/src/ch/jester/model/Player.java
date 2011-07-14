@@ -62,6 +62,9 @@ public class Player extends AbstractModelBean<Player> {
 	@Column(name = "NationalElo", nullable = true)
 	private Integer nationalElo;
 
+	@Column(name = "EstimatedElo", nullable = true)
+	private Integer estimatedElo;
+
 	@Column(name = "Age", nullable = true)
 	private Integer age;
 
@@ -144,6 +147,14 @@ public class Player extends AbstractModelBean<Player> {
 
 	public void setNationalElo(Integer nationalElo) {
 		changeProperty("nationalElo", nationalElo);
+	}
+
+	public Integer getEstimatedElo() {
+		return estimatedElo;
+	}
+
+	public void setEstimatedElo(Integer estimatedElo) {
+		this.estimatedElo = estimatedElo;
 	}
 
 	public Integer getAge() {
