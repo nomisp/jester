@@ -149,7 +149,7 @@
          </property>
          <property
                name="aboutText"
-               value="jester - Chess Tournament Manager&#x0A;&#x0A;Developed by Matthias Liechti and Peter Simon&#x0A;MAS SE HSR 2011">
+               value="jester - Chess Tournament Manager&#x0A;Code:        http://code.google.com/p/jester/&#x0A;P2Repo:    http://jester.googlecode.com/jesterrepo &#x0A;&#x0A;Developed by Matthias Liechti and Peter Simon&#x0A;MAS SE HSR 2011">
          </property>
       </product>
    </extension>

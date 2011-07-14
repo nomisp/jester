@@ -7,6 +7,8 @@
       <image path="/ch.jester.rcpapplication/icons/icon128x128.png"/>
       <text>
          jester - Chess Tournament Manager
+Code:        http://code.google.com/p/jester/
+P2Repo:    http://jester.googlecode.com/jesterrepo 
 
 Developed by Matthias Liechti and Peter Simon
 MAS SE HSR 2011
@@ -142,12 +144,12 @@ This Agreement is governed by the laws of the State of New York and the intellec
    <features>
       <feature id="org.eclipselabs.p2.rcpupdate" version="1.0.0.qualifier"/>
       <feature id="ch.jester.rcpapplication.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.rcp.nl_de" version="3.5.0"/>
+      <feature id="ch.jester.languagepack.defr" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
-      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.help" autoStart="true" startLevel="4" />

@@ -49,20 +49,14 @@
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="ch.jester.orm" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="ch.jester.common.ui" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.equinox.simpleconfigurator" version="1.0.200" match="greaterOrEqual"/>
-      <import plugin="org.eclipselabs.p2.rcpupdate.utils"/>
-      <import plugin="org.eclipse.help" version="3.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.help.webapp" version="3.5.3" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime" version="3.6.0" match="compatible"/>
       <import plugin="org.eclipse.jface" version="3.6.0" match="compatible"/>
       <import plugin="com.ibm.icu"/>
       <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="ch.jester.common" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.common.ui" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="ch.jester.commonservices.api" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.model" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.db.persister.impl" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="ch.jester.system.api" version="1.0.0" match="greaterOrEqual"/>
@@ -81,6 +75,11 @@
       <import plugin="org.eclipse.core.expressions" version="3.4.0" match="compatible"/>
       <import plugin="org.eclipse.draw2d"/>
       <import plugin="org.eclipse.swt"/>
+      <import plugin="ch.jester.orm" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.equinox.simpleconfigurator" version="1.0.200" match="greaterOrEqual"/>
+      <import plugin="org.eclipselabs.p2.rcpupdate.utils"/>
+      <import plugin="org.eclipse.help" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.help.webapp" version="3.5.3" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -95,14 +94,6 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ch.jester.ui.tournament.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -130,29 +121,14 @@
          id="ch.jester.rcpapplication"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="ch.jester.rcpapplication.help"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ch.jester.rcpapplication.help.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="ch.jester.rcpapplication.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
          unpack="false"/>
 
 </feature>
