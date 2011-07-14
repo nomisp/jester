@@ -2,15 +2,7 @@ package ch.jester.common.components;
 
 import ch.jester.commonservices.api.components.IEPEntry;
 
-
-/**
- * @author  t117221
- */
 public class EPEntry<T> implements IEPEntry<T> {
-	/**
-	 * @uml.property  name="mService"
-	 * @uml.associationEnd  
-	 */
 	private IEPEntry<T> mService;
 	@SuppressWarnings("unchecked")
 	public EPEntry(T pService){

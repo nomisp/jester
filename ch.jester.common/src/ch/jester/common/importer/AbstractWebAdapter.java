@@ -18,41 +18,14 @@ import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
-/**
- * @author  t117221
- */
 public abstract class AbstractWebAdapter implements IWebImportAdapter, IPreferencePropertyChanged{
 	private String mDownloadAddress;
 	protected List<ILink> mLinkList;
-	/**
-	 * @uml.property  name="linkfilter"
-	 * @uml.associationEnd  
-	 */
 	protected LinkFilter linkfilter;
-	/**
-	 * @uml.property  name="reader"
-	 * @uml.associationEnd  
-	 */
 	protected PageReader reader = new PageReader();
-	/**
-	 * @uml.property  name="mPrefManager"
-	 * @uml.associationEnd  
-	 */
 	protected IPreferenceManager mPrefManager;
-	/**
-	 * @uml.property  name="mLogger"
-	 * @uml.associationEnd  
-	 */
 	protected ILogger mLogger;
-	/**
-	 * @uml.property  name="mService"
-	 * @uml.associationEnd  
-	 */
 	protected ServiceUtility mService = new ServiceUtility();
-	/**
-	 * @uml.property  name="mAdaptedHandler"
-	 * @uml.associationEnd  
-	 */
 	@SuppressWarnings("rawtypes")
 	private IImportHandler mAdaptedHandler;
 

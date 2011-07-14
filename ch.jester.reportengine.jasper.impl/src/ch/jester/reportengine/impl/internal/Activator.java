@@ -4,15 +4,8 @@ import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
 
-/**
- * @author  t117221
- */
 public class Activator extends AbstractUIActivator {
 
-	/**
-	 * @uml.property  name="instance"
-	 * @uml.associationEnd  
-	 */
 	private static Activator instance;
 	
 	public static Activator getDefault(){

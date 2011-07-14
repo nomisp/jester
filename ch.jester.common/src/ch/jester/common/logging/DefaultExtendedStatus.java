@@ -8,10 +8,6 @@ import org.eclipse.core.runtime.Status;
  * @see  org.eclipse.core.runtime.Status
  */
 public class DefaultExtendedStatus extends Status implements IExtendedStatus {
-
-	/**
-	 * @uml.property  name="severity"
-	 */
 	private int severity;
 
 	public DefaultExtendedStatus(int severity, String pluginId, String message,
@@ -28,10 +24,6 @@ public class DefaultExtendedStatus extends Status implements IExtendedStatus {
 		super(severity, pluginId, code, message, exception);
 	}
 
-	/**
-	 * @param severity
-	 * @uml.property  name="severity"
-	 */
 	@Override
 	protected void setSeverity(int severity) {
 		Assert.isLegal(severity == DEBUG || severity == OK || severity == ERROR
@@ -43,10 +35,6 @@ public class DefaultExtendedStatus extends Status implements IExtendedStatus {
 		this.severity = severity;
 	}
 
-	/**
-	 * @return
-	 * @uml.property  name="severity"
-	 */
 	@Override
 	public int getSeverity() {
 		return this.severity;

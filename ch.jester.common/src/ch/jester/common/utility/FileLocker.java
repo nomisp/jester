@@ -9,9 +9,6 @@ import java.nio.channels.FileLock;
  * Utility Klasse um einen exklusiven FileLock zu erhalten.
  */
 public class FileLocker {
-	/**
-	 * @uml.property  name="lock"
-	 */
 	FileLock lock;
 	File file;
 	public FileLocker(File f){
@@ -19,7 +16,6 @@ public class FileLocker {
 	}
 	/**
 	 * @return  den Lock oder null, wenn kein Lock gemacht werden konnte
-	 * @uml.property  name="lock"
 	 */
 	public FileLock getLock(){
 		return lock;

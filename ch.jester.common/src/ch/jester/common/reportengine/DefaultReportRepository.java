@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,34 +13,22 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.osgi.framework.Bundle;
 
 import ch.jester.common.utility.BundleResourceExporter;
 import ch.jester.common.utility.JesterModelExporter;
 import ch.jester.commonservices.api.io.IFileManager;
-import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IBundleReport;
+import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportRepository;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 
-/**
- * @author  t117221
- */
 public class DefaultReportRepository implements IReportRepository {
 	private HashMap<String, IReport> mReportMap = new HashMap<String, IReport>();
 	private BundleResourceExporter exporter = new BundleResourceExporter();
 	private boolean modelExported = false;
-	/**
-	 * @uml.property  name="mFileManager"
-	 * @uml.associationEnd  
-	 */
 	private IFileManager mFileManager;
-	/**
-	 * @uml.property  name="mServices"
-	 * @uml.associationEnd  
-	 */
 	private ServiceUtility mServices = new ServiceUtility();
 	public DefaultReportRepository(){
 		mFileManager = mServices.getService(IFileManager.class);

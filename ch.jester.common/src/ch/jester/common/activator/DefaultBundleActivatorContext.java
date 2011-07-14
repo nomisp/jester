@@ -14,10 +14,6 @@ import ch.jester.commonservices.util.ServiceUtility;
  */
 public class DefaultBundleActivatorContext<V> implements IActivationContext<V> {
 	protected BundleContext mContext;
-	/**
-	 * @uml.property  name="mServiceUtility"
-	 * @uml.associationEnd  
-	 */
 	private ServiceUtility mServiceUtility;
 	private String mPluginId;
 	private V mActivator;

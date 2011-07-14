@@ -7,10 +7,6 @@ import ch.jester.commonservices.api.persistency.IPersistencyFilter;
  * Chain of Resp. Basisklasse für LoadFiltering
  */
 public abstract class ChainedPersistencyFilter implements IPersistencyFilter{
-	/**
-	 * @uml.property  name="mNext"
-	 * @uml.associationEnd  
-	 */
 	protected IPersistencyFilter mNext;
 	public ChainedPersistencyFilter(IPersistencyFilter pFilter){
 		mNext = pFilter;

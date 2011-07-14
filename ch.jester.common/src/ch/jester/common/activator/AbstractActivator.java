@@ -8,14 +8,7 @@ import ch.jester.common.utility.CallerUtility.Caller;
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.bundle.IDelegationActivator;
 
-/**
- * @author  t117221
- */
 public abstract class AbstractActivator implements IDelegationActivator<BundleActivator>{
-	/**
-	 * @uml.property  name="mContext"
-	 * @uml.associationEnd  
-	 */
 	private IActivationContext<BundleActivator> mContext;
 	@Override
 	public IActivationContext<BundleActivator> getActivationContext() {

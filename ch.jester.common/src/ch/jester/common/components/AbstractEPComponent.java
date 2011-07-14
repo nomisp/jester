@@ -16,7 +16,6 @@ import ch.jester.commonservices.api.components.IEPEntry;
 import ch.jester.commonservices.api.components.IEPEntryComponentService;
 import ch.jester.commonservices.api.components.IEPEntryConfig;
 import ch.jester.commonservices.api.logging.ILoggerFactory;
-import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 
 /**
@@ -27,16 +26,12 @@ import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> extends InjectedLogFactoryComponentAdapter<T> implements IEPEntryComponentService<V, T> {
 	private Object mLock=new Object();
 	private ComponentContext mContext;
-	//private ILogger mLogger;
-	//private IActivationContext<?> mActivationContext;
 	private ExtensionPointChangeNotifier mEPNotifier;
 	private Class<T> mClassType;
 	private HashMap<V,T> mImportHandlers = new HashMap<V,T>();
 	private IPreferenceRegistration mPreferenceReg;
 	public AbstractEPComponent(Class<T> classType, IActivationContext<?> pActivationContext, String pEPId, String pEPName){
-		//mActivationContext=pActivationContext;
 		mClassType=classType;
-		//mLogger = mActivationContext.getLogger();
 		mEPNotifier = new ExtensionPointChangeNotifier(pEPId,pEPName){
 			HashMap<IConfigurationElement, T> mHandlerMap = new HashMap<IConfigurationElement, T>();
 			protected void added(IConfigurationElement iConfigurationElement) {
