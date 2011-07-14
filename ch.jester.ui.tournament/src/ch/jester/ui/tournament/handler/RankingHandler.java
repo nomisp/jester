@@ -25,12 +25,14 @@ import ch.jester.model.Category;
 import ch.jester.model.Ranking;
 import ch.jester.model.RankingSystem;
 import ch.jester.model.Tournament;
+import ch.jester.model.util.RankingReportInput;
 import ch.jester.system.api.ranking.IRankingSystem;
 import ch.jester.system.api.ranking.IRankingSystemEntry;
 import ch.jester.system.api.ranking.IRankingSystemManager;
 import ch.jester.system.exceptions.NotAllResultsException;
+import ch.jester.ui.round.editors.RankingViewEditor;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
-import ch.jester.ui.tournament.internal.RankingEntityHelp;
+
 import ch.jester.ui.tournament.nl1.Messages;
 
 /**
@@ -74,20 +76,20 @@ public class RankingHandler extends AbstractCommandHandler implements IHandler {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
-					final RankingEntityHelp helpentity;
+					final RankingReportInput helpentity;
 					if (cat == null) {
 						Map<Category, Ranking> rankingMap = primaryRankingSystem.calculateRanking(tournament, monitor);	// TODO Peter: Evtl. für kommende Version mehrere Feinwertungen
-						helpentity=new RankingEntityHelp(rankingMap);
+						helpentity=new RankingReportInput(rankingMap);
 					} else {
 						Ranking ranking = primaryRankingSystem.calculateRanking(cat, monitor);	// TODO Peter: Evtl. für kommende Version mehrere Feinwertungen
-						helpentity=new RankingEntityHelp(cat, ranking);
+						helpentity=new RankingReportInput(cat, ranking);
 					
 					}
 					UIUtility.syncExecInUIThread(new Runnable(){
 
 						@Override
 						public void run() {
-							//openEditor(helpentity, RankingViewEditor.ID);
+							openEditor(helpentity, RankingViewEditor.ID);
 						}
 						
 						
