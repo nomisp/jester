@@ -163,8 +163,9 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 				UIUtility.syncExecInUIThread(new Runnable(){
 					@Override
 					public void run() {
-						//viewer.isBusy()
-						viewer.refresh();
+						if(!viewer.isBusy()){
+							viewer.refresh();
+						}
 					}
 					
 				});

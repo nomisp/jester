@@ -164,20 +164,4 @@
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="ch.jester.ui.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="ch.jester.ui.importer.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
 </feature>
