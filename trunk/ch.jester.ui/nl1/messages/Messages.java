@@ -19,6 +19,8 @@ public class Messages extends NLS {
 	public static String PlayerFormPage_lbl_player_det;
 	public static String PlayerFormPage_lbl_title;
 	public static String PlayersView_lbl_players_titel;
+	public static String PlayerFormPage_estimated_elo;
+	public static String PlayerFormPage_text_text;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

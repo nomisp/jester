@@ -29,9 +29,10 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 	}
 	public String[] getDomainObjectAttributes() {
 		String[] origAtts = super.getDomainObjectAttributes();
-		String[] newAtts = new String[origAtts.length+1];
+		String[] newAtts = new String[origAtts.length+2];
 		System.arraycopy(origAtts, 0, newAtts, 0, origAtts.length);
-		newAtts[newAtts.length-1] = "club";
+		newAtts[newAtts.length-2] = "club";
+		newAtts[newAtts.length-1] = "estimatedElo";
 		return newAtts;
 		//return new String[]{"lastName","firstName","fideCode","nationalCode","elo","nationalElo","age","city","nation"};
 	}
@@ -43,6 +44,7 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		mInputLinking.put("nationalCode", "Code");
 		mInputLinking.put("nationalElo", "Elo neu");
 		mInputLinking.put("club", "Klub");
+		mInputLinking.put("estimatedElo","ELO provisorisch");
 	}
 	
 	@Override

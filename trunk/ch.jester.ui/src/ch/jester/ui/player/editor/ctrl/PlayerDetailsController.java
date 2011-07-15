@@ -71,6 +71,10 @@ public class PlayerDetailsController {
 		IObservableValue firstNameObserveValue = BeansObservables.observeValue(player, "firstName");
 		bindingContext.bindValue(firstNameObserveWidget, firstNameObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
 		//
+		IObservableValue mPlayerDetailgetTxtAgeObserveTextObserveWidget = SWTObservables.observeText(mPlayerDetail.getTxtAge(), SWT.Modify);
+		IObservableValue playerAgeObserveValue = BeansObservables.observeValue(player, "age");
+		bindingContext.bindValue(mPlayerDetailgetTxtAgeObserveTextObserveWidget, playerAgeObserveValue, null, null);
+		//
 		IObservableValue cityObserveWidget = SWTObservables.observeText(mPlayerDetail.getCityText(), SWT.Modify);
 		IObservableValue cityObserveValue = BeansObservables.observeValue(player, "city");
 		bindingContext.bindValue(cityObserveWidget, cityObserveValue, null, null);
@@ -79,30 +83,25 @@ public class PlayerDetailsController {
 		IObservableValue nationObserveValue = BeansObservables.observeValue(player, "nation");
 		bindingContext.bindValue(nationObserveWidget, nationObserveValue, null, null);
 		//
-		IObservableValue fideCodeObserveWidget = SWTObservables.observeText(mPlayerDetail.getFideCodeText(), SWT.Modify);
-		IObservableValue fideCodeObserveValue = BeansObservables.observeValue(player, "fideCode");
-		bindingContext.bindValue(fideCodeObserveWidget, fideCodeObserveValue, null, null);
+		IObservableValue mPlayerDetailgetFideCodeTextObserveTextObserveWidget = SWTObservables.observeText(mPlayerDetail.getFideCodeText(), SWT.Modify);
+		IObservableValue playerFideCodeObserveValue = BeansObservables.observeValue(player, "fideCode");
+		bindingContext.bindValue(mPlayerDetailgetFideCodeTextObserveTextObserveWidget, playerFideCodeObserveValue, null, null);
 		//
-		IObservableValue nationalCodeObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationalCodeText(), SWT.Modify);
-		IObservableValue nationalCodeObserveValue = BeansObservables.observeValue(player, "nationalCode");
-		bindingContext.bindValue(nationalCodeObserveWidget, nationalCodeObserveValue, null, null);
+		IObservableValue mPlayerDetailgetNationalCodeTextObserveTextObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationalCodeText(), SWT.Modify);
+		IObservableValue playerNationalCodeObserveValue = BeansObservables.observeValue(player, "nationalCode");
+		bindingContext.bindValue(mPlayerDetailgetNationalCodeTextObserveTextObserveWidget, playerNationalCodeObserveValue, null, null);
 		//
-		IObservableValue eloObserveWidget = SWTObservables.observeText(mPlayerDetail.getEloText(), SWT.Modify);
-		IObservableValue eloObserveValue = BeansObservables.observeValue(player, "elo");
-		bindingContext.bindValue(eloObserveWidget, eloObserveValue, null, null);
+		IObservableValue mPlayerDetailgetEloTextObserveTextObserveWidget = SWTObservables.observeText(mPlayerDetail.getEloText(), SWT.Modify);
+		IObservableValue playerEloObserveValue = BeansObservables.observeValue(player, "elo");
+		bindingContext.bindValue(mPlayerDetailgetEloTextObserveTextObserveWidget, playerEloObserveValue, null, null);
 		//
-		IObservableValue nationalEloObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationalEloText(), SWT.Modify);
-		IObservableValue nationalEloObserveValue = BeansObservables.observeValue(player, "nationalElo");
-		bindingContext.bindValue(nationalEloObserveWidget, nationalEloObserveValue, null, null);
+		IObservableValue mPlayerDetailgetNationalEloTextObserveTextObserveWidget = SWTObservables.observeText(mPlayerDetail.getNationalEloText(), SWT.Modify);
+		IObservableValue playerNationalEloObserveValue = BeansObservables.observeValue(player, "nationalElo");
+		bindingContext.bindValue(mPlayerDetailgetNationalEloTextObserveTextObserveWidget, playerNationalEloObserveValue, null, null);
 		//
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		mPlayerDetail.getListViewer().setContentProvider(listContentProvider);
-		//
-		IObservableMap[] observeMaps = BeansObservables.observeMaps(listContentProvider.getKnownElements(), Club.class, new String[]{"name", "code"});
-		mPlayerDetail.getListViewer().setLabelProvider(new ObservableMapLabelProvider(observeMaps));
-		//
-		WritableList writableList = new WritableList(player.getClubs(), Club.class);
-		mPlayerDetail.getListViewer().setInput(writableList);
+		IObservableValue mPlayerDetailgetTextObserveTextObserveWidget = SWTObservables.observeText(mPlayerDetail.getText(), SWT.Modify);
+		IObservableValue playerEstimatedEloObserveValue = BeansObservables.observeValue(player, "estimatedElo");
+		bindingContext.bindValue(mPlayerDetailgetTextObserveTextObserveWidget, playerEstimatedEloObserveValue, null, null);
 		//
 		return bindingContext;
 	}

@@ -38,6 +38,8 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	private Label lblClub;
 	private List list;
 	private ListViewer listViewer;
+	private Label lblEstEl;
+	private Text estimatedEloText;
 	/**
 	 * Create the form page.
 	 * @param id
@@ -175,18 +177,16 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		nationalEloText.setText(""); //$NON-NLS-1$
 		nationalEloText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 	
+
 		
+		lblEstEl = new Label(composite_3, SWT.NONE);
+		managedForm.getToolkit().adapt(lblEstEl, true, true);
+		lblEstEl.setText(Messages.PlayerFormPage_estimated_elo);
 		
-		dm.add(lastNameText,
-				fideCodeText,
-				firstNameText,
-				txtAge,
-				cityText,
-				nationText,
-				nationalCodeText,
-				eloText,
-				txtTitle, 
-				nationalEloText);
+		estimatedEloText = new Text(composite_3, SWT.BORDER);
+		estimatedEloText.setText("");
+		estimatedEloText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		managedForm.getToolkit().adapt(estimatedEloText, true, true);
 		
 		lblClub = new Label(composite_3, SWT.NONE);
 		managedForm.getToolkit().adapt(lblClub, true, true);
@@ -198,6 +198,24 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		gd_list.minimumHeight = 20;
 		list.setLayoutData(gd_list);
 		new Label(managedForm.getForm().getBody(), SWT.NONE);
+		
+		
+		
+		dm.add(
+				lastNameText,
+				firstNameText,
+				txtAge,
+				fideCodeText,
+				cityText,
+				nationText,
+				fideCodeText,
+				nationalCodeText,
+				eloText,
+				nationalEloText,
+				estimatedEloText,
+				txtTitle);
+		
+		
 		m_controller = new PlayerDetailsController(this);
 		((PlayerEditor)getEditor()).init_0(this);
 		
@@ -244,5 +262,11 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	}
 	public ListViewer getListViewer() {
 		return listViewer;
+	}
+	public Text getTxtAge() {
+		return txtAge;
+	}
+	public Text getText() {
+		return estimatedEloText;
 	}
 }
