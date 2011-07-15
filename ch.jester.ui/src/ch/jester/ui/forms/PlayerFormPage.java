@@ -1,7 +1,11 @@
 package ch.jester.ui.forms;
 
+import java.util.ArrayList;
+
 import messages.Messages;
 
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -19,8 +23,10 @@ import org.eclipse.ui.forms.widgets.Section;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
+import ch.jester.model.util.Title;
 import ch.jester.ui.player.editor.PlayerEditor;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
+import org.eclipse.swt.widgets.Combo;
 
 public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	private Text lastNameText;
@@ -31,7 +37,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	private Text nationText;
 	private Text nationalCodeText;
 	private Text eloText;
-	private Text txtTitle;
+	private ComboViewer txtTitle;
 	private PlayerDetailsController m_controller;
 	private SWTDirtyManager dm = new SWTDirtyManager();
 	private Text nationalEloText;
@@ -40,6 +46,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	private ListViewer listViewer;
 	private Label lblEstEl;
 	private Text estimatedEloText;
+ 
 	/**
 	 * Create the form page.
 	 * @param id
@@ -149,9 +156,17 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		gd_lblNewLabel_7.widthHint = 100;
 		lblNewLabel_7.setLayoutData(gd_lblNewLabel_7);
 		
-		txtTitle = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE); //$NON-NLS-1$
-		txtTitle.setText(""); //$NON-NLS-1$
-		txtTitle.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		txtTitle = new ComboViewer(composite_3, SWT.NONE|SWT.READ_ONLY); //$NON-NLS-1$
+		//txtTitle.setText(""); //$NON-NLS-1$
+		txtTitle.getControl().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		txtTitle.setContentProvider(ArrayContentProvider.getInstance());
+		java.util.List<String> listt = new ArrayList<String>();
+		for(Title t:Title.values()){
+			listt.add(t.toString());
+		}
+		txtTitle.setInput(listt);
+		managedForm.getToolkit().adapt(txtTitle.getControl(),false,false);
+		
 		
 		managedForm.getToolkit().createLabel(composite_3, Messages.PlayerFormPage_lbl_fidecode, SWT.NONE);
 		
@@ -213,7 +228,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 				eloText,
 				nationalEloText,
 				estimatedEloText,
-				txtTitle);
+				txtTitle.getControl());
 		
 		
 		m_controller = new PlayerDetailsController(this);
@@ -268,5 +283,11 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	}
 	public Text getText() {
 		return estimatedEloText;
+	}
+	public ComboViewer getTxtTitle() {
+		return txtTitle;
+	}
+	public List getList() {
+		return list;
 	}
 }
