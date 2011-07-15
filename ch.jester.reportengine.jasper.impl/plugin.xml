@@ -56,7 +56,7 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="ch.jester.reportengine.impl.internal.Initializer">
+            class="ch.jester.reportengine.impl.Initializer">
       </initializer>
    </extension>
    <extension

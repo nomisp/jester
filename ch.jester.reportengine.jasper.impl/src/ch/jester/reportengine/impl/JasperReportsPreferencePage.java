@@ -41,8 +41,6 @@ import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IBundleReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.reportengine.impl.internal.Activator;
-import ch.jester.reportengine.impl.internal.Initializer;
 
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;

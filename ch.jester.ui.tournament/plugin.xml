@@ -448,6 +448,7 @@
       <editor
             class="ch.jester.ui.round.editors.RankingViewEditor"
             default="false"
+            icon="icons/ranking.png"
             id="ch.jester.ui.tournament.resulteditor"
             name="Ranking">
       </editor>

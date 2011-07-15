@@ -51,7 +51,7 @@ public class ReportExportWizard extends Wizard implements IExportWizard {
 			getContainer().run(false, false, new IRunnableWithProgress() {
 				
 				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException,
+				public void run(final IProgressMonitor monitor) throws InvocationTargetException,
 						InterruptedException {
 					SafeRunner.run(new SafeMessageBoxRunner() {
 						
@@ -62,7 +62,7 @@ public class ReportExportWizard extends Wizard implements IExportWizard {
 							IReportEngine engine = su.getService(IReportEngine.class);
 							List<Tournament> input = new ArrayList<Tournament>();
 							input.add(firstPage.getSelectedTournament());
-							IReportResult result = engine.generate(firstPage.getSelectedReport(), input);
+							IReportResult result = engine.generate(firstPage.getSelectedReport(), input, monitor);
 							FileOutputStream fos;
 							result.export(firstPage.getSelectedExportType(), fos = new FileOutputStream(outputFile));
 							fos.close();

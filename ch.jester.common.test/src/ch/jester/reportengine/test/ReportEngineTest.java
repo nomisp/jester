@@ -3,6 +3,7 @@ package ch.jester.reportengine.test;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +55,7 @@ public class ReportEngineTest {
 				List inputObject =  getDummyInput(report.getInputBeanClass());
 				Assert.assertTrue(inputObject!=null);
 				System.out.println("Created: "+inputObject.getClass());
-				reportEngine.generate(report, inputObject);
+				reportEngine.generate(report, inputObject, new NullProgressMonitor());
 
 			}
 		}catch(Exception e){

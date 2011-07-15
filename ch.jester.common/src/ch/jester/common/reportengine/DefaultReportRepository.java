@@ -8,14 +8,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 
 import ch.jester.common.utility.BundleResourceExporter;
-import ch.jester.common.utility.JesterModelExporter;
 import ch.jester.commonservices.api.io.IFileManager;
 import ch.jester.commonservices.api.reportengine.IBundleReport;
 import ch.jester.commonservices.api.reportengine.IReport;
@@ -27,7 +22,6 @@ import ch.jester.commonservices.util.ServiceUtility;
 public class DefaultReportRepository implements IReportRepository {
 	private HashMap<String, IReport> mReportMap = new HashMap<String, IReport>();
 	private BundleResourceExporter exporter = new BundleResourceExporter();
-	private boolean modelExported = false;
 	private IFileManager mFileManager;
 	private ServiceUtility mServices = new ServiceUtility();
 	public DefaultReportRepository(){
@@ -90,25 +84,7 @@ public class DefaultReportRepository implements IReportRepository {
 	}
 
 	private void installReport(IBundleReport pReport) {
-		if(!modelExported){
-			modelExported = true;
-			Job job = new Job("Exporting jester model"){
 
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					monitor.beginTask("exporting model", IProgressMonitor.UNKNOWN);
-					JesterModelExporter ex = new JesterModelExporter();
-					ex.exportModelToFolder(IReportEngine.TEMPLATE_DIRECTROY+"/model");
-					monitor.done();
-					return Status.OK_STATUS;
-				}
-				
-				
-			};
-			job.schedule();
-			
-
-		}
 		File engineFolder = mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY);
 		String fullReportPath = pReport.getBundleReportFile();
 		//install sourcefolder

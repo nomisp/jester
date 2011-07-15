@@ -27,7 +27,7 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 	private ResultController mController = new ResultController();
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	public RoundEditor() {
-		super(true);
+		super(false);
 		mLogger.debug("new "+this); //$NON-NLS-1$
 	}
 
