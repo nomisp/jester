@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PlayerList" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PlayerList" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="nl1/i18n">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -60,17 +60,17 @@
 	</background>
 	<title>
 		<band height="35" splitType="Stretch">
-			<staticText>
-				<reportElement x="47" y="0" width="146" height="35"/>
+			<image>
+				<reportElement x="1" y="0" width="45" height="35"/>
+				<imageExpression class="java.lang.String"><![CDATA["/img/icon128x128.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="46" y="0" width="195" height="35"/>
 				<textElement>
 					<font size="24" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Player List]]></text>
-			</staticText>
-			<image>
-				<reportElement x="2" y="0" width="45" height="35"/>
-				<imageExpression class="java.lang.String"><![CDATA["/img/icon128x128.jpg"]]></imageExpression>
-			</image>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{title_player_list}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -78,32 +78,32 @@
 	</pageHeader>
 	<columnHeader>
 		<band height="27" splitType="Stretch">
-			<staticText>
-				<reportElement x="2" y="2" width="100" height="20"/>
+			<textField>
+				<reportElement x="0" y="6" width="100" height="20"/>
 				<textElement/>
-				<text><![CDATA[Lastname]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="141" y="2" width="100" height="20"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{lastname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="141" y="6" width="100" height="20"/>
 				<textElement/>
-				<text><![CDATA[Firstname]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="284" y="2" width="100" height="20"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{firstname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="284" y="6" width="100" height="20"/>
 				<textElement/>
-				<text><![CDATA[National code]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="398" y="2" width="100" height="20"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{nationalcode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="398" y="6" width="100" height="20"/>
 				<textElement/>
-				<text><![CDATA[Fide code]]></text>
-			</staticText>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{fidecode}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="22" splitType="Stretch">
 			<textField>
-				<reportElement x="2" y="1" width="126" height="20"/>
+				<reportElement x="0" y="1" width="126" height="20"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>

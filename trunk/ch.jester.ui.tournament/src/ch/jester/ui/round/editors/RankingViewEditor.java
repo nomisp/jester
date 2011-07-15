@@ -73,7 +73,7 @@ public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 					monitor.beginTask("Generating Rankinglist", IProgressMonitor.UNKNOWN);
 					RankingReportInput hlp = mDaoInput.getInput();
 					IReportEngine engine = getServiceUtil().getService(IReportEngine.class);
-					IReport report = engine.getRepository().getReport("rankinglist");
+					IReport report = engine.getRepository().getReport("rankinglist_internal");
 					List<RankingReportInput> list = new ArrayList<RankingReportInput>();
 					list.add(hlp);
 					result = engine.generate(report, list, monitor);

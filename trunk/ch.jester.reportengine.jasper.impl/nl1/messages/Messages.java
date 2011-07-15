@@ -4,6 +4,7 @@ import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "messages.messages"; //$NON-NLS-1$
+	public static String JasperReportEngine_ranking_report_name;
 	public static String JasperReportEngine_2;
 	public static String JasperReportEngine_category_pairing_name;
 	public static String JasperReportEngine_compile_job_title;
