@@ -58,6 +58,7 @@ public class Activator extends AbstractUIActivator {
 	private void setExportableBundles(JesterModelExporter exporter) {
 		exporter.addExportableBundle("ch.jester.model");
 		exporter.addExportableBundle("ch.jester.commonservices.api");
+		exporter.addExportableBundle("ch.jester.reportengine.jasper.impl");
 		
 	}
 
@@ -67,7 +68,14 @@ public class Activator extends AbstractUIActivator {
 		reportlist.add(new JasperReportDef("pairinglist_tournament", Messages.JasperReportEngine_tournament_report_name, "reports/PairingList.jrxml",Tournament.class));
 		reportlist.add(new JasperReportDef("pairinglist_category", Messages.JasperReportEngine_category_pairing_name, "reports/PairingListCat.jrxml",Category.class));
 		
-		reportlist.add(new JasperReportDef("rankinglist", "RankingList", "reports/RankingList.jrxml", RankingReportInput.class));
+		reportlist.add(new JasperReportDef("rankinglist", Messages.JasperReportEngine_ranking_report_name, "reports/RankingList.jrxml", RankingReportInput.class));
+		
+		reportlist.add(new JasperReportDef("rankinglist_internal", null, "reports/RankingListInternal.jrxml", RankingReportInput.class){
+			@Override
+			public boolean isSubReport() {
+				return true;
+			}
+		});
 		reportlist.add(new JasperReportDef("reports/RankingListCat.jrxml"));
 	
 		
