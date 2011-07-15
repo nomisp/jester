@@ -225,7 +225,8 @@
             <command
                   commandId="ch.jester.ui.add.pulldown"
                   icon="icons/plus.gif"
-                  style="pulldown">
+                  style="pulldown"
+                  tooltip="%TT_add_pulldown">
             </command>
             <command
                   commandId="org.eclipse.ui.edit.delete"
