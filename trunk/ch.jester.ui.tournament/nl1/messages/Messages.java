@@ -9,6 +9,9 @@ public class Messages extends NLS {
 	public static String Action_DeleteCategory_text;
 	public static String Action_DeleteRound_text;
 	public static String Action_entityCategory_name;
+	public static String BrowserForm_btn_pdf;
+	public static String BrowserForm_btn_print;
+	public static String BrowserForm_editor_title;
 	public static String CategoryDetailsPage_description;
 	public static String CategoryDetailsPage_maxAge;
 	public static String CategoryDetailsPage_maxElo;

@@ -46,6 +46,7 @@
          </command>
          <command
                commandId="ch.jester.ui.tournament.editresult"
+               icon="icons/result.png"
                label="%Result"
                style="push">
          </command>
@@ -442,6 +443,7 @@
       <editor
             class="ch.jester.ui.round.editors.RoundEditor"
             default="false"
+            icon="icons/result.png"
             id="ch.jester.ui.tournament.roundeditor"
             name="%ResultEditor">
       </editor>
@@ -450,7 +452,7 @@
             default="false"
             icon="icons/ranking.png"
             id="ch.jester.ui.tournament.resulteditor"
-            name="Ranking">
+            name="%RankingEditor">
       </editor>
    </extension>
 

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import messages.Messages;
+
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
@@ -149,7 +151,9 @@ public class ResultController implements IDirtyManagerProvider{
 		builder.append(" > ");
 		builder.append(getCategoryInput().getDescription());
 		if(getRoundInput()!=null){
-			builder.append(" > Round: ");
+			builder.append(" > ");
+			builder.append(Messages.TournamentLabelProvider_lbl_round);
+			builder.append(": ");
 			builder.append(getRoundInput().getId());
 		}
 		return builder.toString();

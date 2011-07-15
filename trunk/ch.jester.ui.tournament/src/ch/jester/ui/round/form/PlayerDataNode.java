@@ -57,14 +57,7 @@ public class PlayerDataNode extends ZestDataNode {
 	
 	public boolean isWinner(){
 		if(pairing==null){return false;};
-		//String pairingResult = null;
-		//Result changedResult =  mController.getChangedResults().get(pairing);
 		String pairingResult = mController.getLastPairingResultAsString(pairing);
-		/*if(changedResult == null){
-			pairingResult = pairing.getResult();
-		}else{
-			pairingResult = changedResult.getShortResult();
-		}*/
 		if(pairingResult==null){
 			return false;
 		}
