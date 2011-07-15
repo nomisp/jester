@@ -1,5 +1,7 @@
 package ch.jester.common.ui.listeners;
 
+import messages.Messages;
+
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -24,9 +26,9 @@ public class DefaultSelectionCountListener implements ISelectionChangedListener{
 			IStatusLineManager lm = mServices.getService(IStatusLineManager.class);
 			mSelectionUtil.setSelection(event.getSelection());
 			if(lm!=null){
-				if(mSelectionUtil.isEmpty()){lm.setMessage(""); return;}
+				if(mSelectionUtil.isEmpty()){lm.setMessage(""); return;} //$NON-NLS-1$
 				int i = mSelectionUtil.getSelectionCount();
-				lm.setMessage(i+" Item(s) selected");
+				lm.setMessage(i+Messages.DefaultSelectionCountListener_items_selected);
 			}
 		}
 	}
