@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -23,7 +25,6 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.model.util.RankingReportInput;
 import ch.jester.ui.round.form.BrowserForm;
 import ch.jester.ui.tournament.internal.Activator;
-import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Turnier-Editor

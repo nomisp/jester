@@ -1,9 +1,9 @@
-package ch.jester.ui.tournament.nl1;
+package messages;
 
 import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
-	private static final String BUNDLE_NAME = "ch.jester.ui.tournament.nl1.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "messages.messages"; //$NON-NLS-1$
 	public static String Action_AddCategory_text;
 	public static String Action_AddRound_text;
 	public static String Action_DeleteCategory_text;
@@ -67,6 +67,8 @@ public class Messages extends NLS {
 	public static String TournamentFormPage_lbl_name;
 	public static String TournamentFormPage_s_name;
 	public static String TournamentFormPage_title;
+	public static String TournamentLabelProvider_lbl_player;
+	public static String TournamentLabelProvider_lbl_round;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

@@ -3,6 +3,8 @@ package ch.jester.ui.tournament;
 import java.util.Calendar;
 import java.util.Date;
 
+import messages.Messages;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -17,7 +19,6 @@ import org.eclipse.swt.widgets.DateTime;
 //import org.eclipse.nebula.widgets.formattedtext.NumberFormatter;
 //import java.util.Locale;
 
-import ch.jester.ui.tournament.nl1.Messages;
 
 public class NewTournamentWizPageName extends WizardPage implements ModifyListener {
 	private Text tournamentName;

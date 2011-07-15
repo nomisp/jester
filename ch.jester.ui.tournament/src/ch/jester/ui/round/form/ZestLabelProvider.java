@@ -13,8 +13,6 @@ import org.eclipse.zest.core.viewers.ISelfStyleProvider;
 import org.eclipse.zest.core.widgets.GraphConnection;
 import org.eclipse.zest.core.widgets.GraphNode;
 
-import ch.jester.model.Pairing;
-import ch.jester.model.Round;
 import ch.jester.ui.tournament.internal.Activator;
 
 public class ZestLabelProvider extends LabelProvider implements IEntityStyleProvider, ISelfStyleProvider{
@@ -68,7 +66,7 @@ public class ZestLabelProvider extends LabelProvider implements IEntityStyleProv
 		}
 		return null;
 	}
-	private Pairing toPairing(Object element){
+	/*private Pairing toPairing(Object element){
 		if(element instanceof ZestDataNode){
 			ZestDataNode node = (ZestDataNode) element;
 			if(node.getData() instanceof Pairing){
@@ -85,7 +83,7 @@ public class ZestLabelProvider extends LabelProvider implements IEntityStyleProv
 			}
 		}
 		return null;
-	}
+	}*/
 	
 	@Override
 	public Color getNodeHighlightColor(Object entity) {

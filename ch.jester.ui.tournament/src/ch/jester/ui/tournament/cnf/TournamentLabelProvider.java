@@ -1,5 +1,7 @@
 package ch.jester.ui.tournament.cnf;
 
+import messages.Messages;
+
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -21,7 +23,8 @@ import ch.jester.ui.tournament.internal.Activator;
  *
  */
 public class TournamentLabelProvider extends LabelProvider implements ILabelProvider, IDescriptionProvider {
-	
+	String Label_Players = Messages.TournamentLabelProvider_lbl_player;
+	String Label_Round = Messages.TournamentLabelProvider_lbl_round;
 	public String getText(Object element) {
 		if (element instanceof Tournament) {
 			return ((Tournament)element).getName();
@@ -34,20 +37,20 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 			return  sb.toString();
 		} else if (element instanceof Round) {
 			Round round = (Round)element;
-			StringBuffer sb = new StringBuffer("Round ");
+			StringBuffer sb = new StringBuffer(Label_Round);
 			sb.append(round.getNumber());
 			return  sb.toString();
 		} else if (element instanceof Pairing) {
 			Pairing pairing = ((Pairing)element);
 			StringBuffer sb = new StringBuffer();
-			sb.append(PlayerNamingUtility.createPairingName(pairing, " - "));
+			sb.append(PlayerNamingUtility.createPairingName(pairing, " - ")); //$NON-NLS-1$
 			if (pairing.getResult() != null) {
-				sb.append(": ");
+				sb.append(": "); //$NON-NLS-1$
 				sb.append(pairing.getResult());
 			}
 			return  sb.toString();
 		} else if (element instanceof PlayerFolder) {
-			return "Players";
+			return Label_Players;
 		}
 		return null;
 	}
@@ -62,25 +65,25 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 		} else if (element instanceof Player) {
 			Player p = ((Player)element);
 			StringBuffer sb = new StringBuffer(p.getFirstName());
-			sb.append(" ");
+			sb.append(" "); //$NON-NLS-1$
 			sb.append(p.getLastName());
 			return  sb.toString();
 		} else if (element instanceof Round) {
 			Round round = ((Round)element);
-			StringBuffer sb = new StringBuffer("Round ");
+			StringBuffer sb = new StringBuffer(Label_Round);
 			sb.append(round.getNumber());
 			return  sb.toString();
 		} else if (element instanceof Pairing) {
 			Pairing pairing = ((Pairing)element);
 			StringBuffer sb = new StringBuffer();
-			sb.append(PlayerNamingUtility.createPairingName(pairing, " - "));
+			sb.append(PlayerNamingUtility.createPairingName(pairing, " - ")); //$NON-NLS-1$
 			if (pairing.getResult() != null) {
-				sb.append(": ");
+				sb.append(": "); //$NON-NLS-1$
 				sb.append(pairing.getResult());
 			}
 			return  sb.toString();
 		} else if (element instanceof PlayerFolder) {
-			return "Players";
+			return Label_Players;
 		}
 		return text;
 	}
@@ -89,27 +92,27 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 		if (element instanceof Tournament) {
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
-						"icons/tournament.png").createImage();
+						"icons/tournament.png").createImage(); //$NON-NLS-1$
 		} else if (element instanceof Category) {
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
-						"icons/category_16x16.gif").createImage();
+						"icons/category_16x16.gif").createImage(); //$NON-NLS-1$
 		} else if (element instanceof PlayerFolder) {
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
-						"icons/folder_player.png").createImage();
+						"icons/folder_player.png").createImage(); //$NON-NLS-1$
 		} else if (element instanceof Player) {
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
-						"icons/player.png").createImage();
+						"icons/player.png").createImage(); //$NON-NLS-1$
 		} else if (element instanceof Round) {
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
-						"icons/round_16x16.gif").createImage();
+						"icons/round_16x16.gif").createImage(); //$NON-NLS-1$
 		} else if (element instanceof Pairing) {
 			return UIUtility.getImageDescriptor(
 					Activator.getDefault().getActivationContext().getPluginId(),
-						"icons/pairing.png").createImage();
+						"icons/pairing.png").createImage(); //$NON-NLS-1$
 		}
 		return null;
 	}

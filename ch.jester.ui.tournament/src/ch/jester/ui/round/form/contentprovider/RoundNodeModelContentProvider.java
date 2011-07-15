@@ -9,11 +9,10 @@ import ch.jester.model.Round;
 import ch.jester.model.util.PlayerColor;
 import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.round.form.PlayerDataNode;
-import ch.jester.ui.round.form.ZestConnection;
 import ch.jester.ui.round.form.ZestDataNode;
 
 public class RoundNodeModelContentProvider {
-	private List<ZestConnection> connections;
+	//private List<ZestConnection> connections;
 	private List<ZestDataNode> allnodes;
 	private List<ZestDataNode> parentNodes;
 	protected Object mInput;
@@ -36,7 +35,7 @@ public class RoundNodeModelContentProvider {
 	protected void buildRound(Round pRound){
 		allnodes = new ArrayList<ZestDataNode>();
 		parentNodes = new ArrayList<ZestDataNode>();
-		connections = new ArrayList<ZestConnection>();
+		//connections = new ArrayList<ZestConnection>();
 		List<Pairing> pairings = pRound.getPairings();
 		for(Pairing p:pairings){
 			ZestDataNode pairingNode = new ZestDataNode(p.getId()+"", "Pairing ", p);

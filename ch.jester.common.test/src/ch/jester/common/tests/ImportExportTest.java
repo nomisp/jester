@@ -10,10 +10,8 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.experimental.theories.suppliers.TestedOn;
 
 import ch.jester.common.utility.ObjectXMLSerializer;
 import ch.jester.common.utility.ObjectXMLSerializer.SerializationWriter;
@@ -112,6 +110,7 @@ public class ImportExportTest {
 
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void doImport() throws JAXBException, FileNotFoundException, IOException{
 		ObjectXMLSerializer serializer = new ObjectXMLSerializer();
 		serializer.prepareContext(factory.getAllExportableClasses());

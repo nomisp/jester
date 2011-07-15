@@ -3,6 +3,8 @@ package ch.jester.ui.tournament;
 import java.util.ArrayList;
 import java.util.List;
 
+import messages.Messages;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
@@ -25,7 +27,6 @@ import org.eclipse.swt.widgets.TableColumn;
 
 import ch.jester.model.Category;
 import ch.jester.model.factories.ModelFactory;
-import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Wizard Seite um dem Turnier Kategorien hinzuzufügen
@@ -266,8 +267,10 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 		
 		removeBtn = new Button(container, SWT.NONE);
 		removeBtn.addSelectionListener(this);
-		removeBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
+		removeBtn.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
 		removeBtn.setText(Messages.NewTournWizPageCategories_btn_remove);
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
 	}
 
 	@Override

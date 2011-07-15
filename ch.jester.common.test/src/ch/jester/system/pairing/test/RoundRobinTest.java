@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -20,7 +19,6 @@ import org.junit.Test;
 import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
 import ch.jester.common.utility.ExceptionUtility;
-import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;

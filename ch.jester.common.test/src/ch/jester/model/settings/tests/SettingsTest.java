@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
-import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.RankingSystem;
 import ch.jester.model.SettingItem;
@@ -25,7 +24,6 @@ import ch.jester.system.ranking.test.BuchholzTest;
 
 public class SettingsTest extends ActivatorProviderForTestCase {
 
-	private ServiceUtility mServiceUtil = new ServiceUtility();
 	private ModelFactory modelFactory;
 	private Tournament tournament;
 	private Category cat;

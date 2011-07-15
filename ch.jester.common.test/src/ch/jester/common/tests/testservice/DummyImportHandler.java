@@ -11,6 +11,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 
 
 
+@SuppressWarnings("rawtypes")
 public class DummyImportHandler implements IImportHandler{
 	ILogger mLogger = TestActivator.getActivator().getActivationContext().getLogger();
 	public DummyImportHandler(){

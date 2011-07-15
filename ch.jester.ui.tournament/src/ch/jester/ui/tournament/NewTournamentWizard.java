@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -21,7 +23,6 @@ import ch.jester.model.RankingSystem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.internal.Activator;
-import ch.jester.ui.tournament.nl1.Messages;
 
 public class NewTournamentWizard extends Wizard implements INewWizard {
 	
