@@ -2,6 +2,8 @@ package ch.jester.ui.tournament.handler;
 
 import java.util.List;
 
+import messages.Messages;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -28,7 +30,6 @@ import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
-import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Handler zum Erzeugen von Paarungen

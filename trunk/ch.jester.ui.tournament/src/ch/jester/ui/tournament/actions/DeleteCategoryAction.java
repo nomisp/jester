@@ -1,10 +1,11 @@
 package ch.jester.ui.tournament.actions;
 
+import messages.Messages;
+
 import org.eclipse.jface.action.Action;
 
 import ch.jester.model.Category;
 import ch.jester.ui.tournament.forms.CategoryMasterDetail;
-import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Action um Runden zu einem Turnier hinzuzufügen

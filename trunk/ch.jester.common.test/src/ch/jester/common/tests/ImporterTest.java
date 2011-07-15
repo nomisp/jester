@@ -1,20 +1,15 @@
 package ch.jester.common.tests;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.List;
 
 import junit.framework.Assert;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.junit.Test;
-
 
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
-import ch.jester.dao.IPlayerDao;
 
 public class ImporterTest extends ActivatorProviderForTestCase {
 

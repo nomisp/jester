@@ -1,5 +1,7 @@
 package ch.jester.ui.tournament.forms;
 
+import messages.Messages;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeansObservables;
@@ -25,7 +27,6 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.model.Category;
-import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Category Details

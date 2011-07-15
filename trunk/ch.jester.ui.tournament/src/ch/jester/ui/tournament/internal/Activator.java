@@ -13,7 +13,6 @@ import ch.jester.model.Tournament;
 import ch.jester.model.util.RankingReportInput;
 import ch.jester.ui.round.editors.RankingViewEditor;
 import ch.jester.ui.round.editors.RoundEditor;
-import ch.jester.ui.round.form.BrowserForm;
 import ch.jester.ui.tournament.editors.TournamentEditor;
 import ch.jester.ui.tournament.editors.WirePlayerEditor;
 

@@ -1,5 +1,7 @@
 package ch.jester.ui.tournament.forms;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IManagedForm;
@@ -9,7 +11,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
-import ch.jester.ui.tournament.nl1.Messages;
 
 public class CategoryFormPage extends FormPage {
 

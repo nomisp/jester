@@ -5,18 +5,12 @@ import java.io.File;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.internal.mozilla.nsIDocShell;
-import org.eclipse.swt.internal.mozilla.nsIInterfaceRequestor;
-import org.eclipse.swt.internal.mozilla.nsIWebBrowser;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
-import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
-import org.eclipse.zest.core.viewers.ZoomContributionViewItem;
 
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.ui.round.editors.RankingViewEditor;

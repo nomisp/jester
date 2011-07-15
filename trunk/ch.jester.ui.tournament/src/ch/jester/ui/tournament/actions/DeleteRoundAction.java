@@ -1,10 +1,11 @@
 package ch.jester.ui.tournament.actions;
 
+import messages.Messages;
+
 import org.eclipse.jface.action.Action;
 
 import ch.jester.model.Round;
 import ch.jester.ui.tournament.forms.CategoryMasterDetail;
-import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Action zum löschen von Runden

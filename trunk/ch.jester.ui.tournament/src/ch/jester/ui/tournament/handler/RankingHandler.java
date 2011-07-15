@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import messages.Messages;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -33,7 +35,6 @@ import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.ui.round.editors.RankingViewEditor;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
 
-import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Handler zum Erzeugen von Ranglisten

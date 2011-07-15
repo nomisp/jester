@@ -1,5 +1,7 @@
 package ch.jester.ui.round.editors;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.PartInitException;
 
@@ -13,7 +15,6 @@ import ch.jester.ui.round.form.RoundForm;
 import ch.jester.ui.round.form.contentprovider.CategoryNodeModelContentProvider;
 import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
 import ch.jester.ui.tournament.internal.Activator;
-import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Turnier-Editor

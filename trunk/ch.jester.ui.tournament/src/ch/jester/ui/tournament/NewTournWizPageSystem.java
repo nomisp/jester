@@ -2,6 +2,8 @@ package ch.jester.ui.tournament;
 
 import java.util.List;
 
+import messages.Messages;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -25,7 +27,7 @@ import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.api.ranking.IRankingSystemEntry;
 import ch.jester.system.api.ranking.IRankingSystemManager;
-import ch.jester.ui.tournament.nl1.Messages;
+
 
 public class NewTournWizPageSystem extends WizardPage {
 
@@ -73,8 +75,9 @@ public class NewTournWizPageSystem extends WizardPage {
 		comboPairingSystemViewer.setInput(1);
 		comboPairingSystemViewer.setSelection(new StructuredSelection(comboPairingSystemViewer.getElementAt(0)),true);
 		FormData fd_comboPairingSystem = new FormData();
-		fd_comboPairingSystem.top = new FormAttachment(lblPairingSystem, -3, SWT.TOP);
 		fd_comboPairingSystem.left = new FormAttachment(lblPairingSystem, 139);
+		fd_comboPairingSystem.right = new FormAttachment(100, -108);
+		fd_comboPairingSystem.top = new FormAttachment(lblPairingSystem, -3, SWT.TOP);
 		comboPairingSystem.setLayoutData(fd_comboPairingSystem);
 				
 		Label sepPairingRanking = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -93,27 +96,25 @@ public class NewTournWizPageSystem extends WizardPage {
 		
 		comboRankingSystemViewer = new ComboViewer(container, SWT.READ_ONLY);
 		Combo comboRankingSystem = comboRankingSystemViewer.getCombo();
+		fd_sepPairingRanking.bottom = new FormAttachment(comboRankingSystem, -3);
 		comboRankingSystemViewer.setContentProvider(new RankingSystemProvider());
 		comboRankingSystemViewer.addSelectionChangedListener(new RankingSystemSelectionListener());
 		comboRankingSystemViewer.setInput(1);
 		comboRankingSystemViewer.setSelection(new StructuredSelection(comboRankingSystemViewer.getElementAt(0)),true);
-		fd_sepPairingRanking.bottom = new FormAttachment(100, -174);
-		fd_comboPairingSystem.right = new FormAttachment(comboRankingSystem, 0, SWT.RIGHT);
 		FormData fd_comboRankingSystem = new FormData();
-		fd_comboRankingSystem.left = new FormAttachment(lblRankingsystem, 129);
-		fd_comboRankingSystem.right = new FormAttachment(100, -108);
+		fd_comboRankingSystem.left = new FormAttachment(comboPairingSystem, 0, SWT.LEFT);
+		fd_comboRankingSystem.right = new FormAttachment(100, -105);
 		fd_comboRankingSystem.top = new FormAttachment(0, 110);
 		comboRankingSystem.setLayoutData(fd_comboRankingSystem);
 		
 		Label sepRankingCalculator = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
 		FormData fd_sepRankingCalculator = new FormData();
-		fd_sepRankingCalculator.top = new FormAttachment(comboRankingSystem, 20);
 		fd_sepRankingCalculator.right = new FormAttachment(sepPairingRanking, 0, SWT.RIGHT);
+		fd_sepRankingCalculator.top = new FormAttachment(comboRankingSystem, 6);
 		fd_sepRankingCalculator.left = new FormAttachment(0, 10);
 		sepRankingCalculator.setLayoutData(fd_sepRankingCalculator);
 		
 		Label lblEloperformanceCalculator = new Label(container, SWT.NONE);
-		fd_sepRankingCalculator.bottom = new FormAttachment(lblEloperformanceCalculator, -10);
 		FormData fd_lblEloperformanceCalculator = new FormData();
 		fd_lblEloperformanceCalculator.top = new FormAttachment(0, 198);
 		fd_lblEloperformanceCalculator.left = new FormAttachment(lblPairingSystem, 0, SWT.LEFT);
@@ -122,14 +123,15 @@ public class NewTournWizPageSystem extends WizardPage {
 		
 		comboEloCalculatorViewer = new ComboViewer(container, SWT.READ_ONLY);
 		Combo comboEloCalculator = comboEloCalculatorViewer.getCombo();
+		fd_sepRankingCalculator.bottom = new FormAttachment(comboEloCalculator, -6);
 		comboEloCalculatorViewer.setContentProvider(new EloCalculatorProvider());
 		comboEloCalculatorViewer.addSelectionChangedListener(new EloCalculatorSelectionListener());
 		comboEloCalculatorViewer.setInput(1);
 		comboEloCalculatorViewer.setSelection(new StructuredSelection(comboEloCalculatorViewer.getElementAt(0)),true);
 		FormData fd_comboEloCalculator = new FormData();
 		fd_comboEloCalculator.right = new FormAttachment(comboPairingSystem, 0, SWT.RIGHT);
-		fd_comboEloCalculator.top = new FormAttachment(sepRankingCalculator, 6);
 		fd_comboEloCalculator.left = new FormAttachment(comboPairingSystem, 0, SWT.LEFT);
+		fd_comboEloCalculator.top = new FormAttachment(0, 194);
 		comboEloCalculator.setLayoutData(fd_comboEloCalculator);
 	}
 	

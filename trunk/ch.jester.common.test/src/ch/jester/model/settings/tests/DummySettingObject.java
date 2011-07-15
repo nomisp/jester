@@ -1,8 +1,6 @@
 package ch.jester.model.settings.tests;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import ch.jester.common.settings.ISettingObject;
 

@@ -1,5 +1,7 @@
 package ch.jester.ui.tournament.forms;
 
+import messages.Messages;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -18,7 +20,6 @@ import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.ui.tournament.ctrl.TournamentDetailsController;
 import ch.jester.ui.tournament.editors.TournamentEditor;
-import ch.jester.ui.tournament.nl1.Messages;
 
 import org.eclipse.swt.widgets.DateTime;
 

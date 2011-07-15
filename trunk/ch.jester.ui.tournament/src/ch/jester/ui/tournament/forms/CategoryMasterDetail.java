@@ -1,5 +1,7 @@
 package ch.jester.ui.tournament.forms;
 
+import messages.Messages;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -39,7 +41,6 @@ import ch.jester.ui.tournament.actions.DeleteRoundAction;
 import ch.jester.ui.tournament.cnf.TournamentLabelProvider;
 import ch.jester.ui.tournament.editors.TournamentEditor;
 import ch.jester.ui.tournament.internal.Activator;
-import ch.jester.ui.tournament.nl1.Messages;
 
 public class CategoryMasterDetail extends MasterDetailsBlock {
 

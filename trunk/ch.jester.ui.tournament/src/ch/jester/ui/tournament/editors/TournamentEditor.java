@@ -2,6 +2,8 @@ package ch.jester.ui.tournament.editors;
 
 import java.util.List;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -23,7 +25,6 @@ import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.ui.tournament.ctrl.TournamentDetailsController;
 import ch.jester.ui.tournament.forms.CategoryFormPage;
 import ch.jester.ui.tournament.forms.TournamentFormPage;
-import ch.jester.ui.tournament.nl1.Messages;
 
 /**
  * Turnier-Editor
