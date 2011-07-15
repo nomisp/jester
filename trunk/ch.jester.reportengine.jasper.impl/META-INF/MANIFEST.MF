@@ -67,4 +67,4 @@ Bundle-ActivationPolicy: lazy
 Import-Package: javax.servlet;version="2.5.0",
  javax.servlet.http;version="2.5.0",
  org.apache.log4j
-Bundle-Activator: ch.jester.reportengine.impl.internal.Activator
+Bundle-Activator: ch.jester.reportengine.impl.Activator

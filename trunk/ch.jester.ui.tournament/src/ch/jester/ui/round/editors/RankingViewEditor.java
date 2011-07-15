@@ -1,6 +1,8 @@
 package ch.jester.ui.round.editors;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -32,9 +34,10 @@ public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 	private Semaphore sem = new Semaphore(1);
 	private BrowserForm browserForm;
 	private File tmpFile;
+	private IReportResult result;
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	public RankingViewEditor() {
-		super(true);
+		super(false);
 		mLogger.debug("new "+this); //$NON-NLS-1$
 	}
 
@@ -72,7 +75,7 @@ public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 					IReport report = engine.getRepository().getReport("rankinglist");
 					List<RankingReportInput> list = new ArrayList<RankingReportInput>();
 					list.add(hlp);
-					IReportResult result = engine.generate(report, list);
+					result = engine.generate(report, list, monitor);
 					tmpFile = result.export(ExportType.HTML);
 					browserForm.setInput(tmpFile);
 					monitor.done();
@@ -115,6 +118,30 @@ public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 		} finally {
 			monitor.done();
 		}
+	}
+
+
+	public void convert2PDF() {
+		File pdf = result.export(ExportType.PDF);
+		try {
+			Desktop.getDesktop().open(pdf);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+
+	public void toPrinter() {
+		File pdf = result.export(ExportType.PDF);
+		try {
+			Desktop.getDesktop().print(pdf);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

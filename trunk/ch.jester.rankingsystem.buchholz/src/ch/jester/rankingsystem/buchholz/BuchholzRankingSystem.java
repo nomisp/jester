@@ -1,7 +1,7 @@
 package ch.jester.rankingsystem.buchholz;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +36,7 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 
 	@Override
 	public Map<Category, Ranking> calculateRanking(Tournament tournament, IProgressMonitor pMonitor) throws NotAllResultsException {
-		Map<Category, Ranking> rankingMap = new HashMap<Category, Ranking>();
+		Map<Category, Ranking> rankingMap = new LinkedHashMap<Category, Ranking>();
 		List<Category> categories = tournament.getCategories();
 		for (Category category : categories) {
 			rankingMap.put(category, calculateRanking(category, pMonitor));

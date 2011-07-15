@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.Semaphore;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,7 +26,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporterParameter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
@@ -42,6 +41,7 @@ import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.osgi.service.component.ComponentContext;
 
@@ -61,11 +61,6 @@ import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.api.web.IHTTPSessionAware;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
-import ch.jester.model.Category;
-import ch.jester.model.Player;
-import ch.jester.model.Tournament;
-import ch.jester.model.util.RankingReportInput;
-import ch.jester.reportengine.impl.internal.Initializer;
 
 
 
@@ -77,21 +72,30 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 
 	private static String COMPILE_JOB_TITLE =Messages.JasperReportEngine_compile_job_title;
 	
-	private ReentrantLock compilingLock = new ReentrantLock();
+	private Semaphore sem = new Semaphore(1);
+	
 	
 	private CompileCache cache = new CompileCache();
-	
-	private static String BUNDLE_REPORT_LOCATION="reports"; //$NON-NLS-1$
-	
-	private static String BUNDLE_ID ="ch.jester.reportengine.jasper.impl";
-	
+
 	private ILogger mLogger;
 	private IFileManager mTempFileManager;
-
+	
     private IReportRepository factory = new DefaultReportRepository();
 
+	private IProgressMonitor mProgressGroup;
+
     public JasperReportEngine(){
-    	IBundleReport report = factory.createBundleReport(BUNDLE_ID, "playerlist", Messages.JasperReportEngine_player_report_name, BUNDLE_REPORT_LOCATION, "reports/PlayerList.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
+    	List<JasperReportDef> defs = Activator.getDefault().getReportDefinitions();
+    	for(JasperReportDef def:defs){
+    		IBundleReport report = factory.createBundleReport(def.mBundleId, def.mAlias, def.mVisibleName, def.mBundleLocation,	def.mReportPath); //$NON-NLS-1$ //$NON-NLS-3$
+        	report.setInputBeanClass(def.mInputBeanClass);
+        	if(def.isSubReport()){
+        		cache.addCachedReport(report, null, null);
+        	}
+    	}
+    	
+    	
+    	/*IBundleReport report = factory.createBundleReport(BUNDLE_ID, "playerlist", Messages.JasperReportEngine_player_report_name, BUNDLE_REPORT_LOCATION, "reports/PlayerList.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
     	report.setInputBeanClass(Player.class);
 
     	report = factory.createBundleReport(BUNDLE_ID, "rankinglist", "RankingList", BUNDLE_REPORT_LOCATION, "reports/RankingList.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
@@ -104,7 +108,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     	IBundleReport src = factory.createBundleReport(BUNDLE_ID, null, null, BUNDLE_REPORT_LOCATION, "reports/Category_RoundSubReport.jrxml"); //$NON-NLS-1$
     	cache.addCachedReport(src, null, null);
     	src = factory.createBundleReport(BUNDLE_ID, null, null, BUNDLE_REPORT_LOCATION, "reports/Category_sub.jrxml"); //$NON-NLS-1$
-    	cache.addCachedReport(src, null, null);
+    	cache.addCachedReport(src, null, null);*/
     	new Initializer().load(factory);
     	
     	
@@ -113,7 +117,10 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 
     
     protected void precompileAllReports(IProgressMonitor monitor) throws ProcessingException{
-    	compilingLock.lock();
+    	mLogger.debug("CompilingLock: locking: "+Thread.currentThread().getName());
+    	//compilingLock.lock();
+    	
+    	mLogger.debug("CompilingLock: locked: "+Thread.currentThread().getName());
     	try{
 		int visibleReports = JasperReportEngine.this.getRepository().getReports().size();
 		int sourceReports = cache.keySet().size();
@@ -137,8 +144,9 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     	{
     		throw e;
     	}finally{
-    	
-    		compilingLock.unlock();
+    		monitor.done();
+    		mLogger.debug("CompilingLock: unlocking: "+Thread.currentThread().getName());
+    		sem.release();
     	}
     }
     
@@ -156,33 +164,50 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     	
     }
     
-    public void startUserNotifcationJob(){
+    public void startUserNotifcationJob(final IProgressMonitor pMonitor){
     	Job job = new Job(Messages.JasperReportEngine_waiting_for+COMPILE_JOB_TITLE+"'"){ //$NON-NLS-2$
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask(Messages.JasperReportEngine_waiting, IProgressMonitor.UNKNOWN);
-				compilingLock.lock();
-				compilingLock.unlock();
-				monitor.done();
+				pMonitor.beginTask(Messages.JasperReportEngine_waiting, IProgressMonitor.UNKNOWN);
+				try {
+					sem.acquire();
+					sem.release();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				pMonitor.done();
+				//monitor.done();
 				return Status.OK_STATUS;
 			}
 			
 		};
+		
+		job.setProgressGroup(mProgressGroup, IProgressMonitor.UNKNOWN);
 		job.setUser(true);
+		
 		job.schedule();
+		try {
+			job.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
 	@Override
-	public IReportResult generate(IReport pReport, Collection<?> pBean) throws ProcessingException{
+	public IReportResult generate(IReport pReport, Collection<?> pBean, IProgressMonitor pMonitor) throws ProcessingException{
 		try {
-			boolean gotLock = compilingLock.tryLock();
+			boolean gotLock = false;
+			gotLock = sem.tryAcquire();
 			if(!gotLock){
-				startUserNotifcationJob();
+				startUserNotifcationJob(SubMonitor.convert(pMonitor).newChild(IProgressMonitor.UNKNOWN));
+				try {
+					sem.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-			
-			
-			compilingLock.lock();
 			checkInput(pReport, pBean);
 			mLogger.info(Messages.JasperReportEngine_gen_input_size+pBean.size()+Messages.JasperReportEngine_objects);
 			StopWatch watch = new StopWatch();
@@ -199,7 +224,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 		} catch (JRException e) {
 			throw new ProcessingException(e);
 		}finally{
-			compilingLock.unlock();
+			sem.release();
 		}
 	}
 
@@ -274,6 +299,8 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 					exporter.setParameter(JRHtmlExporterParameter.IGNORE_PAGE_MARGINS, Boolean.TRUE);
 					exporter.setParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, Boolean.TRUE);
 					exporter.setParameter(JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES, Boolean.TRUE);
+					exporter.setParameter(JRHtmlExporterParameter.ZOOM_RATIO, 1.3f);
+					
 					//exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"image?image=");
 					exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"./image/"); //$NON-NLS-1$
 					//exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,su.getService(IFileManager.class).getRootTempDirectory());
@@ -330,14 +357,10 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	
 	@Override
 	public void start(ComponentContext pComponentContext) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void stop(ComponentContext pComponentContext) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -352,7 +375,15 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 		}
 
 		if(mTempFileManager!=null&&mLogger!=null){
+			try {
+				sem.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			mProgressGroup = Job.getJobManager().createProgressGroup();
 			CompileJob cj = new CompileJob();
+			cj.setProgressGroup(mProgressGroup, IProgressMonitor.UNKNOWN);
 			cj.schedule();
 		}
 	}
@@ -372,6 +403,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	
 			precompileAllReports(monitor);
 			mLogger.info("Precompiling done!"); //$NON-NLS-1$
+			sem.release();
 			return Status.OK_STATUS;
 		}
 	}
@@ -405,7 +437,19 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 		
 		JasperReport getCachedReport(IReport pReport){
 			if(get(pReport)==null || !mEnabled){
-				compileReport(pReport);
+				try{
+					try {
+						sem.acquire();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					compileReport(pReport);
+				}catch(ProcessingException e){
+					throw e;
+				}finally{
+					sem.release();
+				}
 			}
 			return get(pReport).getJReport();
 		}
@@ -440,13 +484,10 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 				mCompiledReport = (JasperReport) ois.readObject();
 				ois.close();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

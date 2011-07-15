@@ -39,7 +39,7 @@ public class PrintHandler extends AbstractCommandHandler {
 						monitor.beginTask("Preparing...", IProgressMonitor.UNKNOWN);
 						
 						monitor.worked(1);
-						IReportResult result = engine.generate(report, selectedBeans);
+						IReportResult result = engine.generate(report, selectedBeans, monitor);
 						
 						monitor.setTaskName("Exporting...");
 						monitor.worked(1);

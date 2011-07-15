@@ -1,4 +1,4 @@
-package ch.jester.reportengine.impl.internal;
+package ch.jester.reportengine.impl;
 
 import java.util.UUID;
 

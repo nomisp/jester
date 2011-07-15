@@ -2,6 +2,8 @@ package ch.jester.commonservices.api.reportengine;
 
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import ch.jester.commonservices.exceptions.ProcessingException;
 
 /**
@@ -25,5 +27,5 @@ public interface IReportEngine {
 	 * @return das Resultat
 	 * @throws ProcessingException
 	 */
-	public IReportResult generate(IReport pReport, Collection<?> pBeans) throws ProcessingException;
+	public IReportResult generate(IReport pReport, Collection<?> pBeans, IProgressMonitor pMonitor) throws ProcessingException;
 }

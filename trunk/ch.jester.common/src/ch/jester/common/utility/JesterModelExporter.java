@@ -16,11 +16,17 @@ import ch.jester.commonservices.util.ServiceUtility;
 public class JesterModelExporter {
 	private static BundleResourceExporter exporter = new BundleResourceExporter();
 	private ServiceUtility mServices = new ServiceUtility();
-
+	private List<Bundle> bundlesToExport = new ArrayList<Bundle>();
 	
+	public void addExportableBundle(String pBundleId){
+		Bundle b = Platform.getBundle(pBundleId);
+		if(!bundlesToExport.contains(b)){
+			bundlesToExport.add(b);
+		}
+	}
 	
 	public  void exportModelToFolder(String pDest){
-		List<Bundle> bundles = getModelBundles();
+		List<Bundle> bundles = bundlesToExport;
 		String target = pDest;
 		//String target = mServices.getService(IFileManager.class).createTempFolder();
 		File absoluteTarget = mServices.getService(IFileManager.class).getFolderInWorkingDirectory(target);
@@ -42,12 +48,6 @@ public class JesterModelExporter {
 				
 			}
 		}
-		//File temp = mServices.getService(IFileManager.class).createTempFileWithExtension("zip");
-		//File binDir;
-		//ZipUtility.zipFolder(binDir = new File(absoluteTarget.getAbsoluteFile()+"/bin"), temp);
-		//mServices.getService(IFileManager.class).deleteDirectory(binDir);
-		//mServices.getService(IFileManager.class).copyFile(temp, new File(absoluteTarget.getAbsoluteFile()+"/model.zip"));
-	
 	}
 	
 
@@ -63,10 +63,5 @@ public class JesterModelExporter {
 		System.out.println(fileEntries);
 		return fileEntries;
 	}
-	private List<Bundle> getModelBundles(){
-		List bundles = new ArrayList<Bundle>();
-		bundles.add(Platform.getBundle("ch.jester.model"));
-		bundles.add(Platform.getBundle("ch.jester.commonservices.api"));
-		return bundles;
-	}
+
 }

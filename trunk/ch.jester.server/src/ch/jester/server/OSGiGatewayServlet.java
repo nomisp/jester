@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
+
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
@@ -38,7 +40,7 @@ public class OSGiGatewayServlet extends HttpServlet {
 		//einfach mal zum zeigen, dass es geht
 		IReport report = engine.getRepository().getReport("playerlist");
 		HttpSession session = req.getSession(true);
-		IReportResult result = engine.generate(report, su.getDaoServiceByEntity(Player.class).getAll());
+		IReportResult result = engine.generate(report, su.getDaoServiceByEntity(Player.class).getAll(), new NullProgressMonitor());
 		IHTTPSessionAware sessionadapter = AdapterUtility.getAdaptedObject(result, IHTTPSessionAware.class);
 		if(sessionadapter!=null){
 			sessionadapter.setSession(session);
