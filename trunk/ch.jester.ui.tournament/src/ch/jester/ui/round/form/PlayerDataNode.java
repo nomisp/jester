@@ -7,9 +7,6 @@ import ch.jester.model.util.Result;
 import ch.jester.ui.round.editors.ResultController;
 
 public class PlayerDataNode extends ZestDataNode {
-	/*public enum PlayerColor{
-		B, W;
-	}*/
 	private static String NULL_ID = "playernode_null";
 	private Pairing pairing;
 	private PlayerColor color;
@@ -46,6 +43,13 @@ public class PlayerDataNode extends ZestDataNode {
 	public boolean isLoser(){
 		return !isWinner();
 	}
+	
+	public boolean isResultSet(){
+		if(pairing==null){return false;}
+		String pairingResult = mController.getLastPairingResultAsString(pairing);
+		return pairingResult==null||pairingResult.isEmpty()?false:true;
+	}
+	
 	
 	public boolean isRemis(){
 		if(pairing==null){return false;};

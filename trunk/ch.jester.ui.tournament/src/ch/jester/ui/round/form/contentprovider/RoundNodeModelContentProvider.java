@@ -3,6 +3,8 @@ package ch.jester.ui.round.form.contentprovider;
 import java.util.ArrayList;
 import java.util.List;
 
+import messages.Messages;
+
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.Round;
@@ -38,7 +40,7 @@ public class RoundNodeModelContentProvider {
 		//connections = new ArrayList<ZestConnection>();
 		List<Pairing> pairings = pRound.getPairings();
 		for(Pairing p:pairings){
-			ZestDataNode pairingNode = new ZestDataNode(p.getId()+"", "Pairing ", p);
+			ZestDataNode pairingNode = new ZestDataNode(p.getId()+"", Messages.TournamentLabelProvider_lbl_pairing, p);
 			parentNodes.add(pairingNode);
 			Player p1 = p.getBlack().getPlayer();
 			Player p2 = p.getWhite().getPlayer();

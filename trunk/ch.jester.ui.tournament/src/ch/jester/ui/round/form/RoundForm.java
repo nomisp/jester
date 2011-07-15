@@ -313,6 +313,9 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 	private Menu getMenu(Pairing pairing, Object source){
 		PlayerColor playerColor = null;
 		ResultCombination[] combination = null;
+		boolean isBlackNullPLayer = pairing.getBlack().getPlayer()==null;
+		boolean isWhiteNullPLayer = pairing.getWhite().getPlayer()==null;
+		boolean isOpponentNullPlayer = isBlackNullPLayer|| isWhiteNullPLayer;
 		if(pairing == source){
 			combination = Result.toResultCombinationViewForPairing();
 		}else{
@@ -327,6 +330,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 			}
 			
 		}
+	
 		Menu menu = new Menu(Display.getCurrent().getActiveShell(), SWT.CASCADE);
 		Result currentResult = mController.getLastPairingResult(pairing);
 		for(ResultCombination c:combination){
@@ -334,15 +338,38 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 			installMenuSelectionListener(item);
 			item.setData(new Object[]{pairing, c, playerColor});
 			item.setText(c.toString());
+			if(source instanceof PlayerDataNode){
+				if(isOpponentNullPlayer){
+					if(c.getResult().getShortResult().startsWith("0")||c.getResult().getShortResult().equalsIgnoreCase("x")){
+						item.setEnabled(false);
+					}
+				}
+			}else{
+				if(isOpponentNullPlayer){
+					
+					if(isBlackNullPLayer){
+						if(c.toString().startsWith("0")||c.toString().equalsIgnoreCase("x")){
+							item.setEnabled(false);
+						}
+					}else{
+						if(c.toString().startsWith("1")||c.toString().equalsIgnoreCase("x")){
+							item.setEnabled(false);
+						}
+					}
+				}
+			}
+			
 			if(currentResult!=null){
 				if(playerColor==null || playerColor == PlayerColor.WHITE){
 					if(currentResult.getShortResult().equals(c.getResult().getShortResult())){
 						item.setSelection(true);
 					}
+				
 				}else if(playerColor == PlayerColor.BLACK){
 					if(currentResult.getOpposite().getShortResult().equals(c.getResult().getShortResult())){
 						item.setSelection(true);
 					}
+				
 				}
 			}
 		}

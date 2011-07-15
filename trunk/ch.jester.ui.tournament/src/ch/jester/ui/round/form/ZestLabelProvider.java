@@ -92,13 +92,18 @@ public class ZestLabelProvider extends LabelProvider implements IEntityStyleProv
 	@Override
 	public Color getBorderColor(Object entity) {
 		PlayerDataNode player = toPlayerNode(entity);
-		if(player!=null && player.isRemis()){			
+		if(player==null){return null;}
+	//	if(!player.isResultSet()){return null;}
+		if(player.isRemis()){			
 			return ORANGE;
 		}
-		if(player!=null && player.isWinner()){
+		if(!player.isResultSet()){
+			return null;
+		}
+		if(player.isWinner()){
 			return Display.getDefault().getSystemColor (SWT.COLOR_GREEN);
 		}
-		if(player!=null && player.isLoser()){
+		if(player.isLoser()){
 			return Display.getDefault().getSystemColor (SWT.COLOR_RED);
 		}
 

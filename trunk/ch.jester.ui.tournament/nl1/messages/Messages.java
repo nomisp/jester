@@ -72,6 +72,7 @@ public class Messages extends NLS {
 	public static String TournamentFormPage_title;
 	public static String TournamentLabelProvider_lbl_player;
 	public static String TournamentLabelProvider_lbl_round;
+	public static String TournamentLabelProvider_lbl_pairing;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
