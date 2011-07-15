@@ -32,11 +32,13 @@ import ch.jester.ui.tournament.internal.Activator;
  */
 public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 	public static final String ID = "ch.jester.ui.tournament.resulteditor"; //$NON-NLS-1$
-	private Semaphore sem = new Semaphore(1);
+	private Semaphore browserFileSem = new Semaphore(1);
+	private Semaphore backgroundFileSem = new Semaphore(1);
 	private BrowserForm browserForm;
 	private File tmpFile;
 	private IReportResult result;
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	private File pdf;
 	public RankingViewEditor() {
 		super(false);
 		mLogger.debug("new "+this); //$NON-NLS-1$
@@ -45,8 +47,8 @@ public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 	
 	public File getInputFile(){
 		try {
-			sem.acquire();
-			sem.release();
+			browserFileSem.acquire();
+			browserFileSem.release();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,13 +60,16 @@ public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 
 	@Override
 	protected void addPages() {
-		browserForm = new BrowserForm(this, "asdf", "ResultView");
 		try {
-			sem.acquire();
+			browserFileSem.acquire();
+			backgroundFileSem.acquire();
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		browserForm = new BrowserForm(this, "rview", "ResultView");
+
 		Job uijob = new Job("Generating RankingList") {
 			
 			@Override
@@ -80,12 +85,32 @@ public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 					tmpFile = result.export(ExportType.HTML);
 					browserForm.setInput(tmpFile);
 					monitor.done();
+					preparePDFOut(list);
 				}catch(ProcessingException e){
 					throw e;
 				}finally{
-					sem.release();
+					browserFileSem.release();
 				}
 				return Status.OK_STATUS;
+			}
+
+			private void preparePDFOut(final List<RankingReportInput> list) {
+				Job job = new Job("background pdf creator"){
+
+					@Override
+					protected IStatus run(IProgressMonitor monitor) {
+						IReportEngine engine = getServiceUtil().getService(IReportEngine.class);
+						IReport report = engine.getRepository().getReport("rankinglist");
+						IReportResult pdfresult = engine.generate(report, list, monitor);
+						pdf = pdfresult.export(ExportType.PDF);
+						backgroundFileSem.release();
+						return Status.OK_STATUS;
+					}
+					
+					
+				};
+				job.schedule();
+				
 			}
 		};
 		uijob.setUser(true);
@@ -123,24 +148,37 @@ public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 
 
 	public void convert2PDF() {
-		File pdf = result.export(ExportType.PDF);
+	;
+	//	File pdf = result.export(ExportType.PDF);
 		try {
+			backgroundFileSem.acquire();
 			Desktop.getDesktop().open(pdf);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			backgroundFileSem.release();
 		}
 		
 	}
 
 
 	public void toPrinter() {
-		File pdf = result.export(ExportType.PDF);
+	//	File pdf = result.export(ExportType.PDF);
 		try {
+			backgroundFileSem.acquire();
 			Desktop.getDesktop().print(pdf);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			backgroundFileSem.release();
 		}
 		
 	}

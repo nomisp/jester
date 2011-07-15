@@ -2,6 +2,8 @@ package ch.jester.ui.round.form;
 
 import java.io.File;
 
+import messages.Messages;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -29,7 +31,8 @@ public class BrowserForm extends FormPage {
 				edit.convert2PDF();
 			}
 		};
-		pdf.setText("2PDF");
+	//	pdf.setEnabled(false);
+		pdf.setText(Messages.BrowserForm_btn_pdf);
 		managedForm.getForm().getToolBarManager().add(pdf);
 		
 		Action print = new Action("print", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
@@ -37,7 +40,8 @@ public class BrowserForm extends FormPage {
 				edit.toPrinter();
 			}
 		};
-		print.setText("2print");
+		//print.setEnabled(false);
+		print.setText(Messages.BrowserForm_btn_print);
 		managedForm.getForm().getToolBarManager().add(print);
 		
 		managedForm.getForm().getToolBarManager().update(true);
@@ -47,7 +51,7 @@ public class BrowserForm extends FormPage {
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
 		ScrolledForm sform = managedForm.getForm();
-		sform.setText("Ranking Results");
+		sform.setText(Messages.BrowserForm_editor_title);
 		managedForm.getToolkit().decorateFormHeading(sform.getForm());
 		GridLayout gl = new GridLayout(1, true);
 		gl.marginBottom=0;

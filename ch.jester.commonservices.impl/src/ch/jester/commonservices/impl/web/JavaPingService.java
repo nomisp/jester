@@ -34,9 +34,9 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 	private static String PM_ID = "ch.jester.pingservice";
 	
 	//Icon Paths
-	private static final String ICONS_CONNECTION_NOK_16PX_PNG = "icons/connection_nok_16px.png";
-	private static final String ICONS_CONNECTION_OK_16PX_PNG = "icons/connection_ok_16px.png";
-	private static final String ICONS_CONNECTION_UNK_16PX_PNG = "icons/connection_unk_16px.png";
+	private static final String ICONS_CONNECTION_NOK_16PX_PNG = "icons/connection_nok.png";
+	private static final String ICONS_CONNECTION_OK_16PX_PNG = "icons/connection_ok.png";
+	private static final String ICONS_CONNECTION_UNK_16PX_PNG = "icons/connection_unknown.png";
 	
 	//Tooltip Text
 	private static final String INTERNET_CONNECTION_OK = "Internet Connection: ok";
