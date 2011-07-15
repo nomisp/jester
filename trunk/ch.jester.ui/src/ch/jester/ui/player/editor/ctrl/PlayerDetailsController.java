@@ -8,12 +8,10 @@ import org.eclipse.swt.SWT;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.model.Player;
+import ch.jester.model.util.Title;
 import ch.jester.ui.forms.PlayerFormPage;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.core.databinding.observable.map.IObservableMap;
-import ch.jester.model.Club;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import ch.jester.ui.forms.Title2StringConverter;
 
 
 
@@ -22,6 +20,7 @@ public class PlayerDetailsController {
 	private DataBindingContext mBindingContext;
 	private Player player = new Player();
 	private DirtyManager mDm;
+	private Title[] titles =Title.values();
 	public PlayerDetailsController(PlayerFormPage playerDetails) {
 		mPlayerDetail = playerDetails;
 		mDm = playerDetails.getDirtyManager();
@@ -46,6 +45,10 @@ public class PlayerDetailsController {
 	}
 	public void updateUI(){
 		mBindingContext.updateTargets();
+	}
+	
+	public Title[] getTitles(){
+		return Title.values();
 	}
 	
 	public void setPlayer(Player newPlayer, boolean update) {
@@ -102,6 +105,10 @@ public class PlayerDetailsController {
 		IObservableValue mPlayerDetailgetTextObserveTextObserveWidget = SWTObservables.observeText(mPlayerDetail.getText(), SWT.Modify);
 		IObservableValue playerEstimatedEloObserveValue = BeansObservables.observeValue(player, "estimatedElo");
 		bindingContext.bindValue(mPlayerDetailgetTextObserveTextObserveWidget, playerEstimatedEloObserveValue, null, null);
+		//
+		IObservableValue mPlayerDetailgetTxtTitleObserveSingleSelection = ViewersObservables.observeSingleSelection(mPlayerDetail.getTxtTitle());
+		IObservableValue playerTitleObserveValue = BeansObservables.observeValue(player, "title");
+		bindingContext.bindValue(mPlayerDetailgetTxtTitleObserveSingleSelection, playerTitleObserveValue, null, null);
 		//
 		return bindingContext;
 	}
