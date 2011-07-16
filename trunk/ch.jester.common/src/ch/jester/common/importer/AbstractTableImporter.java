@@ -296,10 +296,10 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 	 * @param details
 	 * @return
 	 */
-	protected Properties createProperties(String[] header, String[] details) {
+	protected Properties createProperties(String[] header, String[] details) throws ProcessingException {
 		Properties p = new Properties();
 		if(header.length!=details.length){
-			System.out.println("autsch");
+			throw new ProcessingException("Header length and Details length don't match");
 		}
 		for(int i=0;i<header.length;i++){
 			p.put(header[i], details[i]);

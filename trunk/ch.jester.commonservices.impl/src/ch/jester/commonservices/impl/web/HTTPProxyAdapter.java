@@ -41,7 +41,6 @@ public class HTTPProxyAdapter extends ServiceConsumer implements IHTTPProxy, IPr
 			@Override
 			public void propertyValueChanged(String internalKey, Object mValue,
 					IPreferenceProperty preferenceProperty) {
-				//System.out.println(internalKey);
 				if(internalKey==PP_ID_ADDRESS){
 					address = mValue.toString();
 					created[0] = true;
