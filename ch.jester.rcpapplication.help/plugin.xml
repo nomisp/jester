@@ -5,23 +5,16 @@
    <extension
          point="org.eclipse.help.toc">
       <toc
-            file="toc.xml"
+            file="$nl$/resources/help/toc.xml"
             primary="true">
       </toc>
       <toc
-            file="tocconcepts.xml">
+            file="$nl$/resources/help/tocgettingstarted.xml"
+            primary="false">
       </toc>
       <toc
-            file="tocgettingstarted.xml">
-      </toc>
-      <toc
-            file="tocreference.xml">
-      </toc>
-      <toc
-            file="tocsamples.xml">
-      </toc>
-      <toc
-            file="toctasks.xml">
+            file="$nl$/resources/help/tocfaq.xml"
+            primary="false">
       </toc>
    </extension>
    <extension
