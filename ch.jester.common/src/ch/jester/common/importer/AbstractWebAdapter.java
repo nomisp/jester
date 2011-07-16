@@ -74,7 +74,6 @@ public abstract class AbstractWebAdapter implements IWebImportAdapter, IPreferen
 		linkfilter = f;
 		ExtensionFilter ef = new ExtensionFilter(exFilter, f);
 		reader.setFilter(ef);
-		//System.out.println("New Filter created: "+pattern+" "+exFilter+" "+grpName+" "+grpURL);
 		return ef;
 	}
 }

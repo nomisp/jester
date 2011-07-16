@@ -32,7 +32,6 @@ public class PageReader {
 		BufferedReader in = new BufferedReader(new InputStreamReader(
 				uc.getInputStream()));
 		while ((line = in.readLine()) != null) {
-			//System.out.println(line);
 			mFilter.filter(line, this);
 		}
 		in.close();

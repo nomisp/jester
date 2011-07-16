@@ -9,7 +9,9 @@ import java.util.List;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
+import ch.jester.common.activator.internal.CommonActivator;
 import ch.jester.commonservices.api.io.IFileManager;
+import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 
@@ -17,7 +19,7 @@ public class JesterModelExporter {
 	private static BundleResourceExporter exporter = new BundleResourceExporter();
 	private ServiceUtility mServices = new ServiceUtility();
 	private List<Bundle> bundlesToExport = new ArrayList<Bundle>();
-	
+	private ILogger mLogger = CommonActivator.getInstance().getActivationContext().getLogger();
 	public void addExportableBundle(String pBundleId){
 		Bundle b = Platform.getBundle(pBundleId);
 		if(!bundlesToExport.contains(b)){
@@ -54,13 +56,13 @@ public class JesterModelExporter {
 	private List<String> getPaths(Bundle b){
 		List<String> fileEntries = new ArrayList<String>();
 		exporter.getBundlePathEntries(fileEntries, b.getEntryPaths("/bin"), b);
-		System.out.println(fileEntries);
+		mLogger.debug(fileEntries.toString());
 		return fileEntries;
 	}
 	private List<String> getClassFiles(Bundle b){
 		List<String> fileEntries = new ArrayList<String>();
 		exporter.getBundleFileEntries(fileEntries, b.getEntryPaths("/bin"), b);
-		System.out.println(fileEntries);
+		mLogger.debug(fileEntries.toString());
 		return fileEntries;
 	}
 
