@@ -6,6 +6,9 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.draw2d.SWTEventDispatcher;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuDetectEvent;
 import org.eclipse.swt.events.MenuDetectListener;
@@ -52,7 +55,7 @@ import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
 import ch.jester.ui.tournament.internal.Activator;
 
-public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
+public class RoundForm extends FormPage implements IZoomableWorkbenchPart, ISelectionProvider{
 	class CaluculatedCompositeSettings{
 		int height;
 		int width;
@@ -451,6 +454,30 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart{
 		getEditorSite().getShell().removeListener(SWT.Resize|SWT.Move, mResizeListener);
 		getEditorSite().getShell().removePaintListener(mPaintListener);
 		super.dispose();
+	}
+
+	@Override
+	public void addSelectionChangedListener(ISelectionChangedListener listener) {
+		mViewer.addSelectionChangedListener(listener);
+		
+	}
+
+	@Override
+	public ISelection getSelection() {
+		return mViewer.getSelection();
+	}
+
+	@Override
+	public void removeSelectionChangedListener(
+			ISelectionChangedListener listener) {
+		mViewer.removeSelectionChangedListener(listener);
+		
+	}
+
+	@Override
+	public void setSelection(ISelection selection) {
+		mViewer.setSelection(selection);
+		
 	}
 
 }

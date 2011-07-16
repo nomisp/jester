@@ -42,6 +42,7 @@ public class DaoPasteHandler extends ClonePasteHandler<IEntityObject> {
 			}
 		}else{
 			//sonst einfach speichern
+			@SuppressWarnings("unchecked")
 			IDaoService<IEntityObject> saveService = (IDaoService<IEntityObject>) super.getServiceUtil().getDaoServiceByEntity(pPasted.get(0).getClass());
 			saveService.save(pPasted);
 			
