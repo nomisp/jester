@@ -21,7 +21,7 @@ public class WebAdapterHandlerEntry extends DefaultImportHandlerEntry implements
 		
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public IImportHandler getService() {
 		if(!mInstalled){
