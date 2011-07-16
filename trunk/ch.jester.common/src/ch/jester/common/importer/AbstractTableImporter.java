@@ -140,6 +140,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 	@Override
 	public Object handleImport(InputStream pInputStream,int pContentLines,
 			IProgressMonitor pMonitor) {
+		initialize();
 		isTestRun = testLines!=pContentLines;
 		//mProvider = null;
 		try{
@@ -150,14 +151,6 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 			mProvider = null;
 			throw e;
 		}
-		/*if(mProvider==null){
-			try{
-				mProvider = initialize(pInputStream);
-			}catch(ProcessingException e){
-				mProvider = null;
-				throw e;
-			}
-		}*/
 		int rowsToRead = mProvider.getTotalRows();
 		if(isTestRun){
 			rowsToRead = pContentLines;
@@ -207,12 +200,15 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 			throw e;
 		}
 		catch (Exception e){
-			e.printStackTrace();
+			throw new ProcessingException(e);
 		}finally{
-
+			finished();
 		}
 		return null;
 	}
+	
+	protected void finished(){};
+	protected void initialize(){};
 	
 	protected void doModifications(V vnew, Properties domainProperties) {
 		

@@ -17,7 +17,6 @@ import org.eclipse.ui.operations.UndoActionHandler;
 import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.ui.utility.MenuManagerUtility;
-import ch.jester.common.utility.AdapterBinding;
 
 public class AbstractView extends ViewPart{
 	protected MenuManager mPopupManager;
@@ -55,7 +54,7 @@ public class AbstractView extends ViewPart{
 		
 	}
 	protected void activateView() {
-		   getSite().getPage().activate(this);
+		   getSite().getPage().activate(AbstractView.this);
 		   
 	}
 	 

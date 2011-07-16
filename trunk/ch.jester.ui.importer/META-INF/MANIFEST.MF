@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.6.2",
  org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
- com.ibm.icu
+ com.ibm.icu,
+ org.eclipse.help
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ch.jester.ui.importer.internal.Activator
 Export-Package: ch.jester.ui.importer

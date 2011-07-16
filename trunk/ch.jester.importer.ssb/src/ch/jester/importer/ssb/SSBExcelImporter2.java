@@ -41,6 +41,12 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		//return new String[]{"lastName","firstName","fideCode","nationalCode","elo","nationalElo","age","city","nation"};
 	}
 	
+	@Override
+	protected void finished() {
+		super.finished();
+		mClubDao.clearEventQueueCache();
+	}
+	
 	public void init_linking(){
 		mInputLinking.put("lastName", "Name");
 		mInputLinking.put("firstName", "Vorname");

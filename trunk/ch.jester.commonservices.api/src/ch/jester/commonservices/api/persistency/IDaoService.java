@@ -84,4 +84,9 @@ public interface IDaoService<T extends IEntityObject> {
 	 * manualEventQueueNotification(false) gesetzt wurde.
 	 */
 	public void notifyEventQueue();
+	
+	/**
+	 * Löscht den Event Queue Cache
+	 */
+	public void clearEventQueueCache();
 }
