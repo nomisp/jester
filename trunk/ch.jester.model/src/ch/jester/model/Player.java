@@ -3,6 +3,7 @@ package ch.jester.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -82,7 +83,7 @@ public class Player extends AbstractModelBean<Player> {
 	@Column(name = "Title", nullable = true)
 	private String title; // Titel eines Spielers (GM, IM, FM)
 
-	@ManyToMany(mappedBy="players")
+	@ManyToMany(mappedBy="players",cascade=CascadeType.PERSIST)
 	private List<Club> clubs = new ArrayList<Club>();
 	
 	public String getFirstName() {
