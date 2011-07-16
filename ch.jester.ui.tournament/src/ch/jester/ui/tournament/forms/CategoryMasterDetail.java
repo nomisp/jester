@@ -47,6 +47,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	private FormPage page;
 	private Button btAdd, btRemove;
 	private CategoryDetailsPage categoryDetailsPage = new CategoryDetailsPage(this);
+	private RoundDetailsPage roundDetailsPage = new RoundDetailsPage(this);
 	private TreeViewer treeViewer;
 	private Tournament tournament;
 	private CategoryMasterDetail categoryMDBlock = this;
@@ -181,7 +182,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	 */
 	protected void registerPages(DetailsPart detailsPart) {
 		detailsPart.registerPage(Category.class, categoryDetailsPage);
-//		detailsPart.registerPage(Round.class, new RoundDetailsPage());
+		detailsPart.registerPage(Round.class, roundDetailsPage);
 	}
 	
 	public void setEditorDirty() {
@@ -192,8 +193,13 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		return categoryDetailsPage;
 	}
 	
+	public RoundDetailsPage getRoundDetailsPage() {
+		return roundDetailsPage;
+	}
+	
 	public void save() {
 		categoryDetailsPage.commit(true);
+		roundDetailsPage.commit(true);
 		if (treeViewer != null) treeViewer.refresh();
 	}
 	
