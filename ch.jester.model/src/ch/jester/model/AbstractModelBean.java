@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlTransient;
@@ -27,7 +28,8 @@ import ch.jester.commonservices.api.persistency.IEntityObject;
 @MappedSuperclass
 public abstract class AbstractModelBean<T extends IEntityObject> extends AbstractPropertyChangeModel implements Cloneable, Serializable , IEntityObject{
 	private static final long serialVersionUID = 1L;
-
+	@Transient
+	private String pXmlSerialId;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -36,7 +38,10 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 	@XmlAttribute(name="id")
 	@XmlID
 	public String getSerialId(){
-		return UUID.randomUUID().toString();
+		if(pXmlSerialId==null){
+			pXmlSerialId = UUID.randomUUID().toString();
+		}
+		return pXmlSerialId;
 	}
 	@XmlTransient
 	public Integer getId() {

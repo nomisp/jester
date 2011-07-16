@@ -24,8 +24,12 @@ import ch.jester.model.factories.ModelFactory;
 
 public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 	private String CODED_NATIONALITY = "Schweiz";
+	private IDaoService<Club> mClubDao;
+	private Query clubQuery;
 	public SSBExcelImporter2(){
 		init_linking();
+		mClubDao = getServiceUtility().getDaoServiceByEntity(Club.class);
+		mClubDao.manualEventQueueNotification(true);
 	}
 	public String[] getDomainObjectAttributes() {
 		String[] origAtts = super.getDomainObjectAttributes();
@@ -109,6 +113,9 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 	}
 	@Override
 	protected void doModifications(Player vnew, Properties domainProperties) {
+		if(isTestRun()){return;}
+		
+		
 		//SSB = Schweiz
 		vnew.setNation(CODED_NATIONALITY);
 		
@@ -116,30 +123,34 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		String clubInputId = super.mInputLinking.get("club");
 		String clubName = domainProperties.getProperty(clubInputId).trim();
 		if(clubName == null || clubName.isEmpty()){return;}
-		Club club = ModelFactory.getInstance().createClub(clubName);
-		vnew.addClub(club);
+
+		Integer sektion = null;
 		if(domainProperties.get("Sektion")!=null){
 			try{
-				int sektId = Integer.parseInt(domainProperties.getProperty("Sektion"));
-				
-				club.setCode(sektId);
-			}catch(Exception e){
-				club.setCode(0);
-				e.printStackTrace();
-				
+			sektion = Integer.parseInt(domainProperties.getProperty("Sektion"));
+			}catch(Exception e){							
 			}
 		}
+		Club club = getClub(clubName, sektion);
+		vnew.addClub(club);
 		
 	}
-	
-/*	@Override
-	public void enrichDomainObject(Properties pProperties, Player pObject) {
-		System.out.println(pObject);
-		pObject.setNation(CODED_NATIONALITY);
-		//pProperties.get("Klub")
-		
-		
-	}*/
+	private Club getClub(String clubName, Integer sekId) {
+		if(clubQuery==null){
+			clubQuery = mClubDao.createNamedQuery(Club.QUERY_GETCLUBBYNAME);
+		}
+		@SuppressWarnings("unchecked")
+		List<Club> clubList = clubQuery.setParameter("name", clubName).getResultList();
+		if(clubList.isEmpty()){
+			Club newClub =  ModelFactory.getInstance().createClub(clubName);
+			if(sekId!=null){
+				newClub.setCode(sekId);
+			}
+			mClubDao.save(newClub);
+			return newClub;
+		}
+		return clubList.get(0);
+	}
 
 
 }

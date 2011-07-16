@@ -31,6 +31,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 	int testLines = -1;
 	private IVirtualTable<T> mProvider;
 	protected HashMap<String, String> mInputLinking = new HashMap<String, String>();
+	private boolean isTestRun;
 //	private IVirtualTable<T> mProvider;
 	
 	public AbstractTableImporter(){
@@ -131,10 +132,15 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 			IProgressMonitor pMonitor) throws ProcessingException{
 		return handleImport(pInputStream, testLines, pMonitor);
 	}
+	
+	protected boolean isTestRun(){
+		return isTestRun;
+	}
+	
 	@Override
 	public Object handleImport(InputStream pInputStream,int pContentLines,
 			IProgressMonitor pMonitor) {
-		boolean test = testLines!=pContentLines;
+		isTestRun = testLines!=pContentLines;
 		//mProvider = null;
 		try{
 			if(mProvider==null){
@@ -153,7 +159,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 			}
 		}*/
 		int rowsToRead = mProvider.getTotalRows();
-		if(test){
+		if(isTestRun){
 			rowsToRead = pContentLines;
 		}
 		
@@ -189,7 +195,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 				
 				pMonitor.worked(getSingleUnitOfWork());
 			}
-			if(!test){
+			if(!isTestRun){
 				pMonitor.subTask("Save to DB");
 				persist(domainObjects, pMonitor);
 				pMonitor.done();

@@ -3,26 +3,37 @@ package ch.jester.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="Club")
+@NamedQueries({
+	@NamedQuery(name=Club.QUERY_GETCLUBBYNAME, query="select c from Club c where c.name = :name order by c.name")
+})
 public class Club extends AbstractModelBean<Club> {
 	private static final long serialVersionUID = 3749001233544554089L;
-	
+	public final static String QUERY_GETCLUBBYNAME = "Club.getclubbyname";
 	@Column(name="Name", nullable=false, unique=true, length=50)
-	//@org.hibernate.validator.constraints.Length(min=2, max=50)
 	@NotNull
 	private String name;
 	
 	@Column(name="Code", nullable=true)
 	private Integer code;
 	
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.PERSIST)
+	@JoinTable(
+	      name="ClubPlayerAss",
+	      joinColumns={@JoinColumn(name="ClubId",referencedColumnName="Id")},
+	      inverseJoinColumns={@JoinColumn(name="PlayerId",referencedColumnName="Id")})
 	private List<Player> players = new ArrayList<Player>();
 
 	public String getName() {

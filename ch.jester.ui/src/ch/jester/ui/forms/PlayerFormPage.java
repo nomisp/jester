@@ -157,6 +157,8 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		lblNewLabel_7.setLayoutData(gd_lblNewLabel_7);
 		
 		txtTitle = new ComboViewer(composite_3, SWT.NONE|SWT.READ_ONLY); //$NON-NLS-1$
+		Combo combo = txtTitle.getCombo();
+		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		//txtTitle.setText(""); //$NON-NLS-1$
 		txtTitle.getControl().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtTitle.setContentProvider(ArrayContentProvider.getInstance());
@@ -212,6 +214,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		GridData gd_list = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_list.minimumHeight = 20;
 		list.setLayoutData(gd_list);
+		managedForm.getToolkit().adapt(listViewer.getControl(), false, false);
 		new Label(managedForm.getForm().getBody(), SWT.NONE);
 		
 		

@@ -164,7 +164,7 @@ public class SettingHelper<T extends ISettingObject> {
         	mLogger.error(e);
         }
         for (SettingItemValue settingItemValue : settingItemValues) {
-			Object entityObject = null;
+		//	Object entityObject = null;
 			if (classDescription.containsKey(settingItemValue.getFieldNameInRootClass())) {
                 try {
                     if (PropertyUtils.getProperty(settingObject, settingItemValue.getFieldNameInRootClass()) instanceof Collection) {
