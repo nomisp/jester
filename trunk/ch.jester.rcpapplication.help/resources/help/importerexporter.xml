@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Importer and Exporter" link_to="$nl$/resources/help/toc.xml#importersexporters">
+   <topic href="$nl$/resources/help/html/impexp/tournament_impexp.html" label="Tournament Importer/Exporter">
+   </topic>
+   <topic href="$nl$/resources/help/html/faq/chess_faq.html" label="SSB Importer">
+   </topic>
+   <topic href="$nl$/resources/help/html/faq/chess_faq.html" label="FIDE Importer">
+   </topic>
+</toc>
