@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+   <context id="tournamentexplorer">
+      <description>This provides the following Actions to perform a Tournament:
+adding players, do the pairing, edit results, create rankings. This actions are available with right click on either Tournament, Category, Pairing or Round.</description>
+   </context>
+</contexts>

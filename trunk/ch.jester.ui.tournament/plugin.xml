@@ -197,7 +197,8 @@
    <extension
          point="org.eclipse.ui.navigator.viewer">
          <viewer
-		       viewerId="ch.jester.ui.tournament.cnf.view">
+               helpContext="ch.jester.ui.tournament.tournamentexplorer"
+               viewerId="ch.jester.ui.tournament.cnf.view">
             <popupMenu
                   allowsPlatformContributions="true"
                   id="ch.jester.ui.tournament.cnf.popup">
@@ -222,6 +223,10 @@
 		             isRoot="false"
 		             pattern="ch.jester.ui.tournament.cnf.TournamentContent">
 		       </contentExtension>
+         <contentExtension
+               isRoot="false"
+               pattern="ch.jester.ui.tournament.linkHelper3">
+         </contentExtension>
 		    </includes>
 		 </viewerContentBinding>
    </extension>
@@ -454,6 +459,21 @@
             id="ch.jester.ui.tournament.resulteditor"
             name="%RankingEditor">
       </editor>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="$nl$/resources/help/context.xml"
+            plugin="ch.jester.ui.tournament">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.linkHelper">
+      <linkHelper
+            class="ch.jester.ui.tournament.LinkHelper3"
+            id="ch.jester.ui.tournament.linkHelper3">
+         <editorInputEnablement></editorInputEnablement>
+      </linkHelper>
    </extension>
 
 </plugin>

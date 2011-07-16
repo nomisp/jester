@@ -1,5 +1,7 @@
 package ch.jester.common.ui.activator;
 
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -24,6 +26,10 @@ public abstract class AbstractUIActivator extends AbstractUIPlugin implements ID
 		stopDelegate(pContext);
 		mContext.getServiceUtil().closeAllTrackers();
 		super.stop(pContext);
+	}
+	
+	public void setHelp(Control control, String pPartContextId){
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(control, mContext.getPluginId()+"."+pPartContextId);
 	}
 	
 }
