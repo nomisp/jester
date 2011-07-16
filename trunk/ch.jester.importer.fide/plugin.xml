@@ -13,7 +13,7 @@
             ImportHandlerId="ch.jester.fide.txt.importer"
             class="ch.jester.importer.fide.FIDEWebAdapter"
             dataProviderDescription="FIDE Webpage"
-            dataProviderId="ch.jester.dataprovider.fide">
+            >
       </WebImportAdapter>
    </extension>
    <extension
