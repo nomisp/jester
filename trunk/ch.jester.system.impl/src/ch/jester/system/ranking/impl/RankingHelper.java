@@ -9,11 +9,9 @@ import javax.persistence.EntityManager;
 
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
-import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Ranking;
 import ch.jester.model.RankingEntry;
-import ch.jester.model.RankingSystem;
 import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.factories.ModelFactory;
