@@ -279,6 +279,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		//check();
 		watch.start();
 		mManager.getTransaction().begin();
+		@SuppressWarnings("unchecked")
 		List<T> result =  mPagingQuery.setMaxResults(to-from).setFirstResult(from).getResultList();
 		mManager.getTransaction().commit();
 		watch.stop();

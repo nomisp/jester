@@ -9,17 +9,12 @@ import org.osgi.framework.ServiceFactory;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
 
-
-import ch.jester.common.components.ComponentAdapter;
 import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
 import ch.jester.commonservices.api.bundle.IActivationContext;
-import ch.jester.commonservices.api.components.IComponentService;
-import ch.jester.commonservices.api.logging.ILoggerFactory;
-import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
-
 import ch.jester.dao.ICategoryDao;
 import ch.jester.dao.IPlayerDao;
 import ch.jester.dao.IRoundDao;
@@ -59,6 +54,7 @@ public class PersisterFactory extends InjectedLogFactoryComponentAdapter<Object>
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends IDaoService<?>> T getDaoServiceByServiceInterface(
 			Class<T> objectClass) {
@@ -77,6 +73,7 @@ public class PersisterFactory extends InjectedLogFactoryComponentAdapter<Object>
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends IEntityObject> IDaoService<T> getDaoServiceByEntity(Class<T> objectClass){
 		//wurde ev. ein ServiceInterface als Suchparameter übergen?
