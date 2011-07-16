@@ -4,7 +4,6 @@ import ch.jester.common.settings.ISettingObject;
 
 /**
  * Einstellungen für Paarungen nach Schweizersystem basierend auf Rating (Dutch)
- * @author Peter
  *
  */
 public class SwissDutchSettings implements ISettingObject {

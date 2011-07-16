@@ -9,7 +9,6 @@ import ch.jester.model.Root;
  * Damit beim Aufstarten ein Dummy-Root-Objekt für den CommonNavigator als initialInput
  * zur Verfügung gestellt werden kann wird diese abgeleitete Klasse benötigt.
  * 
- * @author Peter
  *
  */
 public class TournamentNavigator extends CommonNavigator {

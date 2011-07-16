@@ -15,8 +15,6 @@ import ch.jester.system.api.calculator.IEloCalculator;
  * 
  * @see http://www.fide.com/fide/handbook.html?id=73&view=article
  * 
- * @author Peter
- *
  */
 public class FideCalculator implements IEloCalculator {
 	

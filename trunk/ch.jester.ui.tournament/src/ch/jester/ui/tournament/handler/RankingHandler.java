@@ -38,7 +38,6 @@ import ch.jester.ui.tournament.cnf.TournamentNavigator;
 
 /**
  * Handler zum Erzeugen von Ranglisten
- * @author Peter
  *
  */
 public class RankingHandler extends AbstractCommandHandler implements IHandler {

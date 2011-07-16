@@ -3,7 +3,6 @@ package ch.jester.system.exceptions;
 /**
  * Exception welche geworfen werden kann, wenn die Paarungsauslosung nicht durchgeführt werden kann.
  * Die ist z.B. der Fall wenn weder Runden noch Spieler einer Kategorie zugewisen wurden.
- * @author Peter
  *
  */
 public class PairingNotPossibleException extends Exception {

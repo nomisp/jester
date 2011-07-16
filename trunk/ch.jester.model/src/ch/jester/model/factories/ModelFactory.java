@@ -20,7 +20,6 @@ import ch.jester.model.Tournament;
 /**
  * ModelFactory zum erzeugen von Model-Objekten,
  * welche später persistiert werden können.
- * @author Peter
  *
  */
 public class ModelFactory {

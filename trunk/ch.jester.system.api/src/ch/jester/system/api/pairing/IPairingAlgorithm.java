@@ -15,7 +15,6 @@ import ch.jester.system.exceptions.PairingNotPossibleException;
 /**
  * Interface welches von konkreten Paarungsalgorithmen
  * implementiert werden muss.
- * @author Peter
  *
  */
 public interface IPairingAlgorithm {

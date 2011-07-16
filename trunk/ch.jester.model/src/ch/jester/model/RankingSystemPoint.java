@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Wrapper-Klasse für die Punkte der verschiedenen Feinwertungen.
- * @author Peter
  *
  */
 @Entity

@@ -3,7 +3,6 @@ package ch.jester.system.exceptions;
 /**
  * Exception welcher geworfen werden kann, wenn auf die
  * Startnummern der PlayerCard zugegriffen wird, diese aber noch nicht gesetzt wurde.
- * @author Peter
  *
  */
 public class NoStartingNumbersException extends Exception {

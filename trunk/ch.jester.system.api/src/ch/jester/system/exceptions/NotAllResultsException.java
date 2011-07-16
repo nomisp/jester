@@ -3,7 +3,6 @@ package ch.jester.system.exceptions;
 /**
  * Exception, welche geworfen werden kann,
  * wenn noch nicht alle Resultate einer Runde erfasst wurden.
- * @author Peter
  *
  */
 public class NotAllResultsException extends Exception {

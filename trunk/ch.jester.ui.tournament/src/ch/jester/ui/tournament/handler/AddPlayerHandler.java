@@ -26,7 +26,6 @@ import ch.jester.ui.tournament.cnf.TournamentNavigator;
 
 /**
  * Handler um Spieler zu einer Kategorie zuzuordnen
- * @author Peter
  *
  */
 public class AddPlayerHandler extends AbstractCommandHandler implements IHandler {
@@ -173,7 +172,6 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 	
 	/**
 	 * Label Provider für die Spieler
-	 * @author Peter
 	 *
 	 */
 	public class PlayerLabelProvider extends LabelProvider {

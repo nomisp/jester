@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * Entität für die Feinwertungssysteme.
  * Eigentlich nir einWrapper, damit ein Turnier mehrere Feinwertungssysteme haben kann.
- * @author Peter
  *
  */
 @Entity

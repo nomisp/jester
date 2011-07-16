@@ -6,7 +6,6 @@ package ch.jester.db.persister.impl;
  * Start:	Suchparameter --> %Suchparameter
  * End:		Suchparameter --> Suchparameter%
  * Anywhere:Suchparameter --> %Suchparameter%
- * @author Peter
  *
  */
 public enum MatchMode {

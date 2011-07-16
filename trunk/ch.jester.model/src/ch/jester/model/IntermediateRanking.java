@@ -9,7 +9,6 @@ import javax.persistence.OneToOne;
 
 /**
  * Zwischenrangliste
- * @author Peter
  *
  */
 @Entity

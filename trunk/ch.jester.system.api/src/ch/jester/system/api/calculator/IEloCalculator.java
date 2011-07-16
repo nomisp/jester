@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * Wertungszahl Rechner
- * @author Peter
  *
  */
 public interface IEloCalculator {

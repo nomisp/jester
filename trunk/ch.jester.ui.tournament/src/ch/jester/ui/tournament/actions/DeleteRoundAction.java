@@ -9,7 +9,6 @@ import ch.jester.ui.tournament.forms.CategoryMasterDetail;
 
 /**
  * Action zum löschen von Runden
- * @author Peter
  *
  */
 public class DeleteRoundAction extends Action {

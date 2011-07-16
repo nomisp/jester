@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.XmlIDREF;
  * Spielerkarte um einem Spieler für das Turnier relevante Daten
  * wie zum Beispiel seine Startnummer anzuhängen.
  * 
- * @author Peter
  *
  */
 @Entity
