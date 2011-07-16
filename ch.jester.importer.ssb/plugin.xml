@@ -7,13 +7,13 @@
             ImportHandlerId="ch.jester.ssb.xls.importer"
             class="ch.jester.importer.ssb.SSBWebAdapter"
             dataProviderDescription="SSB Webpage"
-            dataProviderId="ch.jester.dataprovider.ssb">
+            >
       </WebImportAdapter>
       <ImportHandler
             class="ch.jester.importer.ssb.SSBExcelImporter2"
             id="ch.jester.ssb.xls.importer"
             shortType="*.xls"
-            typeDescription="SSB Excel Importer">
+            >
       </ImportHandler>
    </extension>
    <extension
