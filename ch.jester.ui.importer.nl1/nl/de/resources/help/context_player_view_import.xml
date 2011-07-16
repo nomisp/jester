@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+   <context id="playerview">
+      <command label="Spieler importieren" serialization="ch.jester.ui.importer"/>
+   </context>
+</contexts>

@@ -312,6 +312,12 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		fireManualNotification();
 	}
 	
+	public void clearEventQueueCache(){
+		if(mNotificationCache!=null){
+			mNotificationCache.clear();
+		}
+	}
+	
 	@Override
 	public void notifyEventQueue() {
 		fireManualNotification();

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+   <context id="playerview">
+      <description>Listet alle Spieler im System auf</description>
+      <command label="neuen Spieler erfassen" serialization="ch.jester.ui.addplayer"/>
+      <topic href="test.html" label="Help_Topic"/>
+   </context>
+</contexts>

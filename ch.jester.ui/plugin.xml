@@ -554,4 +554,11 @@
             name="Proxy">
       </page>
    </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="$nl$/resources/help/context.xml"
+            plugin="ch.jester.ui">
+      </contexts>
+   </extension>
 </plugin>

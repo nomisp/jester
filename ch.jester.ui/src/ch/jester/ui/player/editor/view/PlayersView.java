@@ -26,6 +26,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.PlatformUI;
 
 import ch.jester.common.ui.databinding.DaoController;
 import ch.jester.common.ui.databinding.PageController;
@@ -45,6 +46,7 @@ import ch.jester.ui.Activator;
 
 public class PlayersView extends AbstractView{
 	public PlayersView() {
+		
 	}
 	private TableViewer getTable(){
 		return tableViewer;
@@ -89,18 +91,21 @@ public class PlayersView extends AbstractView{
 				tableViewer.setContentProvider(ArrayContentProvider.getInstance());
 			}
 		}
-		
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(table , "ch.jester.ui.playerview");
 		postCreatePartControl();
 	
 	}
 
 	protected void install(){
 		getSite().setSelectionProvider(tableViewer);
-		
 		installPopupManager(tableViewer);
 		createActions();
 	}
-	
+	@Override
+	public void setFocus() {
+		super.setFocus();
+		table.setFocus();
+	}
 	
 	protected void createActions() {
 		//wie viele Items sind selektiert

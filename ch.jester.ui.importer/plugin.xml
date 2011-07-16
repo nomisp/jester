@@ -23,5 +23,20 @@
             name="Importer">
       </page>
    </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="$nl$/resources/help/context_player_view_import.xml"
+            plugin="ch.jester.ui">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="ch.jester.common.ui.handlers.WizardCallingHandler"
+            id="ch.jester.ui.importer"
+            name="name">
+      </command>
+   </extension>
 
 </plugin>

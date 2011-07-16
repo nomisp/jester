@@ -21,6 +21,7 @@ public class PlayerEditor extends AbstractEditor<Player>{
 		super(false);
 		mLogger.debug("New player editor "+this);
 		
+		
 	}
 
 

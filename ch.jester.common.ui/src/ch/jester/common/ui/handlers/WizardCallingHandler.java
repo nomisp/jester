@@ -15,11 +15,18 @@ public class WizardCallingHandler extends AbstractCommandHandler{
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
 		String wizardId = event.getCommand().getId();
-		 IWizardDescriptor wizardDescriptor = PlatformUI.getWorkbench()
-		   .getNewWizardRegistry().findWizard(wizardId);
-	      /*  IDialogSettings workbenchSettings = WorkbenchPlugin.getDefault()
-            .getDialogSettings();*/
-	
+		//1. new Wizards 
+		IWizardDescriptor wizardDescriptor = PlatformUI.getWorkbench().getNewWizardRegistry().findWizard(wizardId);
+		
+		//2. Import Wizards
+		if(wizardDescriptor==null){
+			 wizardDescriptor = PlatformUI.getWorkbench().getImportWizardRegistry().findWizard(wizardId);
+		}
+		
+		//3. Export Wizard
+		if(wizardDescriptor==null){
+			 wizardDescriptor = PlatformUI.getWorkbench().getExportWizardRegistry().findWizard(wizardId);
+		}
 	
 			IWorkbenchWizard wizard = null;;
 			try {
