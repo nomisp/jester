@@ -8,7 +8,6 @@ import javax.persistence.Table;
 
 /**
  * Position in der Rangliste
- * @author Peter
  *
  */
 @Entity

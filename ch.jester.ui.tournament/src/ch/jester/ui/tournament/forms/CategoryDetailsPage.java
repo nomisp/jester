@@ -30,7 +30,6 @@ import ch.jester.model.Category;
 
 /**
  * Category Details
- * @author Peter
  *
  */
 public class CategoryDetailsPage implements IDetailsPage {

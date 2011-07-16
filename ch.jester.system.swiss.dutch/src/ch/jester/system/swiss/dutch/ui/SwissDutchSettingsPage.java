@@ -30,7 +30,6 @@ import ch.jester.system.swiss.dutch.ui.nl1.Messages;
 
 /**
  * Form-page für die Einstellungen des Schweizer (Dutch) Systems Paarungssystemes
- * @author Peter
  *
  */
 public class SwissDutchSettingsPage extends AbstractSystemSettingsFormPage<SwissDutchSettings> {

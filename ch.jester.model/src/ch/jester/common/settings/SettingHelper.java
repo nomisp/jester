@@ -28,8 +28,6 @@ import ch.jester.model.internal.Activator;
 
 /**
  * HelperKlasse für das Persistieren und zurückholen von SettingObjekten
- * @author Peter
- *
  * @param <T>
  */
 @SuppressWarnings({"rawtypes","unchecked"})
@@ -302,8 +300,8 @@ public class SettingHelper<T extends ISettingObject> {
 			for (int i = 0; i < props.length; i++) {
 				String prop = props[i];
 				String[] instruction = prop.split(" ");
-				String propertyName = "";
-				String direction = "";
+				//String propertyName = "";
+				//String direction = "";
 				if (instruction.length == 1) {
 					chain.addComparator(new BeanComparator(instruction[0]
 							.trim(), new NullComparator()));

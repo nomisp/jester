@@ -15,7 +15,6 @@ import javax.persistence.Table;
 
 /**
  * Superklasse für die verschiedenen Ranglisten (Finale -oder ZwischenRangliste)
- * @author Peter
  *
  */
 @Entity

@@ -11,7 +11,6 @@ import ch.jester.ui.tournament.forms.CategoryMasterDetail;
 
 /**
  * Action um Runden zu einem Turnier hinzuzufügen
- * @author Peter
  *
  */
 public class AddRoundAction extends Action {

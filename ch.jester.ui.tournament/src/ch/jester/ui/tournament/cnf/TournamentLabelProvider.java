@@ -19,7 +19,6 @@ import ch.jester.ui.tournament.internal.Activator;
 
 /**
  * LabelProvider für die Turnier-Navigation
- * @author Peter
  *
  */
 public class TournamentLabelProvider extends LabelProvider implements ILabelProvider, IDescriptionProvider {

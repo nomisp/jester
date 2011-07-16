@@ -34,7 +34,6 @@ import ch.jester.ui.tournament.cnf.TournamentNavigator;
 /**
  * Handler zum Erzeugen von Paarungen
  * 
- * @author Peter
  * 
  */
 public class PairingHandler extends AbstractCommandHandler implements IHandler {

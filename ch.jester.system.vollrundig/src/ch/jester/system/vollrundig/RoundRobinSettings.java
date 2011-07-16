@@ -5,7 +5,6 @@ import ch.jester.system.api.pairing.StartingNumberGenerationType;
 
 /**
  * Settings zu einem Turnier mit dem Round-Robin Algorithmus
- * @author Peter
  *
  */
 public class RoundRobinSettings implements ISettingObject {

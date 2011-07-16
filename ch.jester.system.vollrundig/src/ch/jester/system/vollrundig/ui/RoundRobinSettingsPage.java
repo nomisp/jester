@@ -31,7 +31,6 @@ import ch.jester.system.vollrundig.ui.nl1.Messages;
 
 /**
  * Form-page für die Einstellungen des Round-Robin Paarungssystemes
- * @author Peter
  *
  */
 public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<RoundRobinSettings> {

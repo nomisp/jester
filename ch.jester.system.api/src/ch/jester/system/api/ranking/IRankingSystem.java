@@ -13,7 +13,6 @@ import ch.jester.system.exceptions.NotAllResultsException;
  * Interface für die Feinwertungen zur Berechnung
  * der Rangliste. Die verschiedenen Feinwertungen 
  * müssen dieses Interface implementieren.
- * @author Peter
  *
  */
 public interface IRankingSystem {

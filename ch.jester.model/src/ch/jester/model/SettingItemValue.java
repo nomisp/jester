@@ -8,7 +8,6 @@ import javax.persistence.Table;
 
 /**
  * Beschreibt ein Property eines SettingItems
- * @author Peter
  *
  */
 @Entity

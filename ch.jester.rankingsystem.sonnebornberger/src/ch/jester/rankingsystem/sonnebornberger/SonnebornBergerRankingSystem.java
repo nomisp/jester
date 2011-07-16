@@ -27,7 +27,6 @@ import ch.jester.system.ranking.impl.RankingHelper;
 
 /**
  * Feinwertungssystem nach Sonneborn-Berger
- * @author Peter
  *
  */
 public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryConfig {

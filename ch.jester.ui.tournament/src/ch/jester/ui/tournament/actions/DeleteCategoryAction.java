@@ -9,8 +9,6 @@ import ch.jester.ui.tournament.forms.CategoryMasterDetail;
 
 /**
  * Action um Runden zu einem Turnier hinzuzufügen
- * @author Peter
- *
  */
 public class DeleteCategoryAction extends Action {
 	private Category cat;

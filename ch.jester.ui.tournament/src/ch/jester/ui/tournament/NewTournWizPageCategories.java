@@ -30,7 +30,6 @@ import ch.jester.model.factories.ModelFactory;
 
 /**
  * Wizard Seite um dem Turnier Kategorien hinzuzufügen
- * @author Peter
  *
  */
 public class NewTournWizPageCategories extends WizardPage implements SelectionListener {

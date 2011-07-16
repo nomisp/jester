@@ -34,7 +34,6 @@ import ch.jester.system.vollrundig.ui.nl1.Messages;
 /**
  * Implementierung des Round-Robin Paarungsalgorithmuses
  * Erklärung zum Algorithmus: <link>http://www-i1.informatik.rwth-aachen.de/~algorithmus/algo36.php</link>
- * @author Peter
  *
  */
 public class VollrundigPairingAlgorithm implements IPairingAlgorithm {

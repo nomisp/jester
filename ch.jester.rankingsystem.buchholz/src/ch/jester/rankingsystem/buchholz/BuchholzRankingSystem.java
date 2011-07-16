@@ -27,7 +27,6 @@ import ch.jester.system.ranking.impl.RankingHelper;
 
 /**
  * Feinwertung nach Buchholz
- * @author Peter
  *
  */
 public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {

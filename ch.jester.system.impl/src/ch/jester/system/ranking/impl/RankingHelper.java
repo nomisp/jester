@@ -22,7 +22,6 @@ import ch.jester.system.exceptions.NotAllResultsException;
 
 /**
  * Hilfsklasse für das Erstellen von Ranglisten
- * @author Peter
  *
  */
 public class RankingHelper {

@@ -27,8 +27,6 @@ import ch.jester.system.swiss.dutch.ui.nl1.Messages;
  * Paarungsalgorithmus für Paarungen nach Schweizer System
  * basierend auf dem Rating (Wertungszahl) (The Dutch System)
  * Beschreibung der FIDE: <link>http://www.fide.com/fide/handbook.html?id=83&view=article</link>
- * @author Peter
- *
  */
 public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 	private ILogger mLogger;

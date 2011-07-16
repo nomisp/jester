@@ -12,8 +12,6 @@ import ch.jester.system.exceptions.NoStartingNumbersException;
 
 /**
  * Hilfsklasse für spezielle Funktionen welche beim Auslosen der Paarungen gebraucht werden können.
- * @author Peter
- *
  */
 public class PairingHelper {
 
