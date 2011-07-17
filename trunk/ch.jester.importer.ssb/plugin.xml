@@ -13,7 +13,7 @@
             class="ch.jester.importer.ssb.SSBExcelImporter2"
             id="ch.jester.ssb.xls.importer"
             shortType="*.xls"
-            >
+            typeDescription="SSB Importer">
       </ImportHandler>
    </extension>
    <extension
