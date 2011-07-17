@@ -7,7 +7,7 @@
             class="ch.jester.importer.fide.FIDETextImporter"
             id="ch.jester.fide.txt.importer"
             shortType="*.txt"
-            typeDescription="FIDE Text Importer">
+            typeDescription="FIDE txt Fileimporter">
       </ImportHandler>
       <WebImportAdapter
             ImportHandlerId="ch.jester.fide.txt.importer"
