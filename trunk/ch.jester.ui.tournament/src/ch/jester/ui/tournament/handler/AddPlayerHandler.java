@@ -1,5 +1,7 @@
 package ch.jester.ui.tournament.handler;
 
+import java.util.List;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -17,6 +19,7 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.dao.ICategoryDao;
 import ch.jester.dao.IPlayerDao;
 import ch.jester.model.Category;
+import ch.jester.model.Club;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.factories.ModelFactory;
@@ -182,6 +185,11 @@ public class AddPlayerHandler extends AbstractCommandHandler implements IHandler
 			sb.append(PlayerNamingUtility.createName(p));
 			sb.append(" ");
 			sb.append(p.getCity());
+			List<Club> clubs = p.getClubs();
+			if (clubs != null && clubs.size() > 0) {
+				sb.append(" ");
+				sb.append(p.getClubs().get(0).getName());
+			}
 			return  sb.toString();
 		}
 	}
