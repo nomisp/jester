@@ -16,6 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import ch.jester.model.factories.ModelFactory;
+
 /**
  * Entität für die Tabelle Tournament 
  *
@@ -257,75 +259,23 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		result = prime * result + year;
 		return result;
 	}
-
-	/*@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Tournament other = (Tournament) obj;
-		if (categories == null) {
-			if (other.categories != null)
-				return false;
-		} else if (!categories.equals(other.categories))
-			return false;
-		if (dateFrom == null) {
-			if (other.dateFrom != null)
-				return false;
-		} else if (!dateFrom.equals(other.dateFrom))
-			return false;
-		if (dateTo == null) {
-			if (other.dateTo != null)
-				return false;
-		} else if (!dateTo.equals(other.dateTo))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (eloCalculator == null) {
-			if (other.eloCalculator != null)
-				return false;
-		} else if (!eloCalculator.equals(other.eloCalculator))
-			return false;
-		if (id != other.id)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (pairingSystem == null) {
-			if (other.pairingSystem != null)
-				return false;
-		} else if (!pairingSystem.equals(other.pairingSystem))
-			return false;
-		if (rankingSystem == null) {
-			if (other.rankingSystem != null)
-				return false;
-		} else if (!rankingSystem.equals(other.rankingSystem))
-			return false;
-		if (year != other.year)
-			return false;
-		return true;
-	}*/
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		Tournament clone = new Tournament();
-		clone.id = 0;
-		clone.name = this.name;
-		clone.description = this.description;
-		clone.year = this.year;
-		clone.dateFrom = this.dateFrom;
-		clone.dateTo = this.dateTo;
-		clone.pairingSystem = this.pairingSystem;
-		clone.eloCalculator = this.eloCalculator;
+		Tournament clone = super.cloneWithSimpleProperties(String.class, Integer.class, Boolean.class);
+		List<Category> clist= new ArrayList<Category>();
+		for(Category cat:this.getCategories()){
+			Category catClone = (Category) cat.clone();
+			clist.add(catClone);
+		}
+		clone.setCategories(clist);
 		
+		List<RankingSystem> rlist= new ArrayList<RankingSystem>();
+		for(RankingSystem r:this.getRankingSystems()){
+			RankingSystem rclone = (RankingSystem) r.clone();
+			clone.addRankingSystem(rclone);
+		}
+		clone.setRankingSystems(rlist);
 		return clone;
 	}
 }

@@ -244,7 +244,11 @@ public class Player extends AbstractModelBean<Player> {
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		return createCompleteClone();
+		Player clone = cloneWithSimpleProperties();
+		for(Club c:this.getClubs()){
+			clone.addClub(c);
+		}
+		return clone;
 	}
 
 

@@ -27,10 +27,19 @@ public class EditorAccessor {
 				continue;
 			}
 			IEditorInputAccess<?> pInput = (IEditorInputAccess<?>) input;
-			if(pInput.getInput().equals(pEditorInputObject)){
+			if(pInput.getInput().equals(pEditorInputObject) && !(pEditorInputObject instanceof IEditorDaoInputAccess)){
 				pref = ref;
 				editorInput = pInput;
 				return new EditorAccess(pref, pEditorInputObject, editorInput);
+			}else if(pEditorInputObject instanceof IEditorDaoInputAccess){
+				IEditorDaoInputAccess<?> dao = (IEditorDaoInputAccess<?>) pEditorInputObject;
+				if(dao.isAlreadyDirty()){
+					return new EditorAccess(null, pEditorInputObject, null);
+				}else{
+					pref = ref;
+					editorInput = pInput;
+					return new EditorAccess(pref, pEditorInputObject, editorInput);
+				}
 			}
 		}
 		return new EditorAccess(null, pEditorInputObject, null);
