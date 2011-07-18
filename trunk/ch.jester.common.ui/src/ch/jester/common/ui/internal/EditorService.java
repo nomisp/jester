@@ -35,12 +35,13 @@ public class EditorService implements IEditorService{
 	@Override
 	public EditorAccessor.EditorAccess  openEditor(Object pInputObject, String pEditorId) {
 		check();
+		
 		try {
-			EditorAccess access = accessor.lookup(pInputObject);
+			EditorAccess access = accessor.new EditorAccess(null, pInputObject, null);
 			Assert.isNotNull(access, "Access was null!!!");
-			if(access.isAlreadyOpen()){
+			/*if(access.isAlreadyOpen()){
 				access.activate();
-			}else{
+			}else{*/
 				Class<?> editorInputClass = mMap.get(pInputObject.getClass()).mEditorInputClass;
 				@SuppressWarnings("unchecked")
 				IEditorInputAccess<Object> editorInput = (IEditorInputAccess<Object>) editorInputClass.newInstance();
@@ -48,7 +49,7 @@ public class EditorService implements IEditorService{
 				
 				access.openEditor(editorInput, pEditorId);
 				
-			}
+			//}
 			return access;
 		} catch (PartInitException e1) {
 
