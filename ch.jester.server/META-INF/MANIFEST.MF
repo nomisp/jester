@@ -2,15 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Server
 Bundle-SymbolicName: ch.jester.server;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: ch.jester.server.OSGiGatewayActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.equinox.http.jetty;bundle-version="2.0.0",
  org.eclipse.equinox.http.registry;bundle-version="1.1.1",
  org.eclipse.equinox.http.servlet;bundle-version="1.1.0",
- javax.servlet;bundle-version="2.5.0",
- javax.servlet.jsp;bundle-version="2.0.0",
  org.mortbay.jetty.server;bundle-version="6.1.23",
  org.mortbay.jetty.util;bundle-version="6.1.23",
  ch.jester.common;bundle-version="1.0.0",
@@ -18,7 +16,51 @@ Require-Bundle: org.eclipse.ui,
  ch.jester.model;bundle-version="1.0.0",
  org.eclipse.equinox.jsp.jasper;bundle-version="1.0.201",
  org.eclipse.equinox.jsp.jasper.registry;bundle-version="1.0.200",
- ch.jester.common.ui;bundle-version="1.0.0"
+ ch.jester.common.ui;bundle-version="1.0.0",
+ ch.jester.persistence;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: M.Liechti & P. Simon
+Bundle-ClassPath: .,
+ WEB-INF/lib/jstl-api-1.2.jar,
+ WEB-INF/lib/jstl-impl-1.2.jar
+Import-Package: javax.servlet;version="2.5.0",
+ javax.servlet.http;version="2.5.0",
+ javax.servlet.jsp;version="2.0.0",
+ javax.servlet.jsp.el;version="2.0.0",
+ javax.servlet.jsp.jstl.core,
+ javax.servlet.jsp.jstl.fmt,
+ javax.servlet.jsp.jstl.sql,
+ javax.servlet.jsp.jstl.tlv,
+ javax.servlet.jsp.resources;version="2.0.0",
+ javax.servlet.jsp.tagext;version="2.0.0",
+ javax.servlet.resources;version="2.5.0"
+Export-Package: ch.jester.server,
+ ch.jester.server.jspmodel,
+ javax.servlet.jsp.jstl.core,
+ javax.servlet.jsp.jstl.fmt,
+ javax.servlet.jsp.jstl.sql,
+ javax.servlet.jsp.jstl.tlv,
+ org.apache.taglibs.standard,
+ org.apache.taglibs.standard.extra.spath,
+ org.apache.taglibs.standard.functions,
+ org.apache.taglibs.standard.lang.jstl,
+ org.apache.taglibs.standard.lang.jstl.parser,
+ org.apache.taglibs.standard.lang.jstl.test,
+ org.apache.taglibs.standard.lang.jstl.test.beans,
+ org.apache.taglibs.standard.lang.support,
+ org.apache.taglibs.standard.resources,
+ org.apache.taglibs.standard.tag.common.core,
+ org.apache.taglibs.standard.tag.common.fmt,
+ org.apache.taglibs.standard.tag.common.sql,
+ org.apache.taglibs.standard.tag.common.xml,
+ org.apache.taglibs.standard.tag.el.core,
+ org.apache.taglibs.standard.tag.el.fmt,
+ org.apache.taglibs.standard.tag.el.sql,
+ org.apache.taglibs.standard.tag.el.xml,
+ org.apache.taglibs.standard.tag.rt.core,
+ org.apache.taglibs.standard.tag.rt.fmt,
+ org.apache.taglibs.standard.tag.rt.sql,
+ org.apache.taglibs.standard.tag.rt.xml,
+ org.apache.taglibs.standard.tei,
+ org.apache.taglibs.standard.tlv

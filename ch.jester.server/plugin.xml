@@ -4,10 +4,39 @@
    <extension
          point="org.eclipse.equinox.http.registry.servlets">
       <servlet
-            alias="/jester"
+            alias="/reports"
             class="ch.jester.server.OSGiGatewayServlet"
+            httpcontextId="jester"
             load-on-startup="true">
       </servlet>
+      <servlet
+            alias="/*.jsp"
+            class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory"
+            httpcontextId="jester"
+            load-on-startup="true">
+      </servlet>
+   </extension>
+   <extension
+         point="org.eclipse.equinox.http.registry.resources">
+      <resource
+            alias="/jester"
+            base-name="/jester/index.jsp"
+            httpcontextId="jester">
+      </resource>
+      <resource
+            alias="/"
+            base-name="/"
+            httpcontextId="jester">
+      </resource>
+   </extension>
+   <extension
+         point="org.eclipse.equinox.http.registry.httpcontexts">
+      <httpcontext
+            id="jester">
+         <resource-mapping
+               path="/">
+         </resource-mapping>
+      </httpcontext>
    </extension>
 
 </plugin>
