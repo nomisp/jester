@@ -147,8 +147,10 @@ public class ServiceUtility {
 		}
 		Iterator<String> smapIterator = mStringTrackerMap.keySet().iterator();
 		while (mapIterator.hasNext()) {
-			mTrackerMap.get(smapIterator.next()).close();
+			mStringTrackerMap.get(smapIterator.next()).close();
 		}
+		mTrackerMap.clear();
+		mStringTrackerMap.clear();
 	}
 
 	/**

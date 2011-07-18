@@ -72,10 +72,17 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	
 	@Override
 	public void save(Collection<T> pTCollection) {
+		save(pTCollection,false);
+	}
+	@Override
+	public void saveBatch(Collection<T> pTCollection) {
+		save(pTCollection, true);
+	}
+	
+	protected void save(Collection<T> pTCollection, boolean batch) {
 		if(pTCollection.isEmpty()){
 			return;
 		}
-		//check();
 		EntityTransaction trx = mManager.getTransaction();
 		try{
 			if (!trx.isActive()) {
@@ -90,14 +97,11 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 			}else{
 				mManager.merge(p);
 			}
-			//if(p.getId()!=0){
-			//	mManager.merge(p);
-			//}else{
-			//	mManager.persist(p);
-			//}
 		}
-		mManager.flush();
-		mManager.clear();
+	    if(batch){
+			mManager.flush();
+		    mManager.clear();
+	    }
 		trx.commit();
 		}catch(Exception e){
 			if(e instanceof RollbackException){
@@ -132,8 +136,6 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		}else{
 			mManager.persist(pT);
 		}
-		mManager.flush();
-		mManager.clear();
 		trx.commit();
 		}catch(Exception e){
 			if(trx.isActive()){
@@ -335,4 +337,5 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 			mNotificationCache = null;
 		}
 	}
+
 }

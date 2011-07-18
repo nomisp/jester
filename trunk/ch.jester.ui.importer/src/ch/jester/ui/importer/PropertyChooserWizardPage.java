@@ -56,12 +56,14 @@ public class PropertyChooserWizardPage extends WizardPage{
 	List<TableColumn> inputCols = new ArrayList<TableColumn>();
 	//List<String[]> inputContent = new ArrayList<String[]>();
 	HashMap<String, String> mLinking;
-	private ParseController mParseController = ParseController.getController();
-	
-	protected PropertyChooserWizardPage() {
+	private ParseController mParseController;
+	private Controller mController;
+	protected PropertyChooserWizardPage(Controller pCtrl, ParseController parseController) {
 		super(Messages.PropertyChooserWizardPage_lbl_pp);
 		setTitle(Messages.PropertyChooserWizardPage_lbl_pm); //NON-NLS-1
 		setDescription(Messages.PropertyChooserWizardPage_lbl_matching); //NON-NLS-1
+		mParseController=parseController;
+		mController=pCtrl;
 	}
 
 	@Override
@@ -340,20 +342,20 @@ public class PropertyChooserWizardPage extends WizardPage{
 			
 			@Override
 			public void run() throws Exception {
-				Controller.getController().setImportPossible(false);
+				mController.setImportPossible(false);
 				setPageComplete(false);
 				PropertyChooserWizardPage.this.getContainer().updateButtons();
 				setErrorMessage(null);
 				reset();
 				parse();
-				Controller.getController().setImportPossible(true);
+				mController.setImportPossible(true);
 				setPageComplete(true);
 				PropertyChooserWizardPage.this.getContainer().updateButtons();
 			}
 			
 			@Override
 			public void handleException(Throwable exception) {
-				Controller.getController().setImportPossible(false);
+				mController.setImportPossible(false);
 				setPageComplete(false);
 				PropertyChooserWizardPage.this.getContainer().updateButtons();
 				ExceptionWrapper ew = ExceptionUtility.wrap(exception, ProcessingException.class);

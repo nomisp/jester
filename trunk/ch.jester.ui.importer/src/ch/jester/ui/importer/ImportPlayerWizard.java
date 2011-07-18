@@ -34,6 +34,7 @@ public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageCh
 	private ILogger mLogger;
 	private PlayerImportWizardPage firstPage;
 	private PropertyChooserWizardPage secondPage;
+	private Controller controller;
 	@Override
 	public void setContainer(IWizardContainer wizardContainer) {
 		super.setContainer(wizardContainer);
@@ -57,7 +58,7 @@ public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageCh
 	public boolean canFinish() {
 		boolean superfininsh = super.canFinish();
 		if(superfininsh){
-			superfininsh = Controller.getController().canFinish();
+			superfininsh = controller.canFinish();
 		}
 		
 		return superfininsh;
@@ -81,7 +82,7 @@ public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageCh
 						@Override
 						public void run() throws Exception {
 							secondPage.applyChanges();
-							ParseController.getController().importRun(monitor);
+							controller.getParseController().importRun(monitor);
 						}
 						
 						@Override
@@ -93,7 +94,8 @@ public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageCh
 							
 						}
 					});
-						
+					controller.clear();	
+					controller=null;
 					
 					
 					
@@ -114,8 +116,10 @@ public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageCh
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle(Messages.ImportPlayerWizard_lbl_titel);
 		setNeedsProgressMonitor(true);
-		firstPage = new PlayerImportWizardPage();
-		secondPage = new PropertyChooserWizardPage();
+		controller = new Controller();
+		firstPage = new PlayerImportWizardPage(		controller);
+		controller.setPage(firstPage);
+		secondPage = new PropertyChooserWizardPage(		controller, 		controller.getParseController());
 		secondPage.setInput(firstPage.getData());
 		
 	}
@@ -127,9 +131,9 @@ public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageCh
 public void pageChanged(PageChangedEvent event) {
 	if(event.getSelectedPage() == secondPage){
 		secondPage.setInput(firstPage.getData());
-		Controller.getController().setCurrentPageIndex(2);
+		controller.setCurrentPageIndex(2);
 	}else{
-		Controller.getController().setCurrentPageIndex(1);
+		controller.setCurrentPageIndex(1);
 	}
 	
 }

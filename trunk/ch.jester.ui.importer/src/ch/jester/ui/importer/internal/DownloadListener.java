@@ -24,14 +24,16 @@ public class DownloadListener implements ISelectionChangedListener{
 	SelectionUtility su = new SelectionUtility(null);
 	ServiceUtility mService = new ServiceUtility();
 	IWizardContainer mContainer;
-	public DownloadListener(IWizardContainer pContainer){
+	Controller mController;
+	public DownloadListener(Controller mController, IWizardContainer pContainer){
 		mContainer=pContainer;
+		this.mController=mController;
 	}
 	
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		//final StructuredViewer mFileTableViewer = (StructuredViewer) event.getSource();
-		Controller.getController().setZipFile(null);
+		mController.setZipFile(null);
 		download(event);
 		
 	}
@@ -40,8 +42,9 @@ public class DownloadListener implements ISelectionChangedListener{
 		
 		su.setSelection(event.getSelection());
 		IFileManager fileManager = mService.getService(IFileManager.class);
-		
+		mService.closeAllTrackers();
 		final ILink link = su.getFirstSelectedAs(ILink.class);
+		if(link==null){return;}
 		String newFile = link.getText().replace("/", "_")+".zip"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		final File file = fileManager.createTempFile(newFile);
 		try {
@@ -66,7 +69,7 @@ public class DownloadListener implements ISelectionChangedListener{
 						public void run(){
 					     List<String> list = ZipUtility.getZipEntries(file.getAbsolutePath(), false);
 					        if(list!=null){
-					        	Controller.getController().setZipFile(file.getAbsolutePath());
+					        	mController.setZipFile(file.getAbsolutePath());
 					        }
 						}
 							

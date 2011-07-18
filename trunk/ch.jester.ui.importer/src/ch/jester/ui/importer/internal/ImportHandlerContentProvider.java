@@ -9,7 +9,9 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 public class ImportHandlerContentProvider extends StructuredContentProviderAdapter {
 	private ServiceUtility mService = new ServiceUtility();
-	public ImportHandlerContentProvider(){
+	private Controller mController;
+	public ImportHandlerContentProvider(Controller pController){
+		mController=  pController;
 	}
 	@Override
 	public Object[] getElements(Object inputElement) {
@@ -17,7 +19,7 @@ public class ImportHandlerContentProvider extends StructuredContentProviderAdapt
 		if(manager==null||inputElement==null){
 			return new Object[]{};
 		}
-		List<? extends IImportHandlerEntry> handlers = Controller.getController().getHandlersForCurrentMode();
+		List<? extends IImportHandlerEntry> handlers = mController.getHandlersForCurrentMode();
 		if(inputElement instanceof String){
 			String input = (String) inputElement;
 			if(input.lastIndexOf(".")==-1){

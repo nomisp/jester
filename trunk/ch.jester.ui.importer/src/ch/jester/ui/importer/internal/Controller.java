@@ -11,6 +11,7 @@ import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 
 import ch.jester.common.ui.utility.UIUtility;
@@ -28,7 +29,7 @@ public class Controller {
 	private StructuredViewer mProvV, mDLV;
 	private CheckboxTableViewer mFEV; 
 	private ComboViewer mHV;
-	private static Controller instance;
+	//private static Controller instance;
 	private StructuredViewer[] mViewerHierarchy = new StructuredViewer[4];
 	private WizardPage mPage;
 	private ServiceUtility mService = new ServiceUtility();
@@ -39,9 +40,11 @@ public class Controller {
 	private boolean oldIsPageFinished;
 	private boolean importPossible = true;
 	private int mCurrentPage = 1;
-	private Controller(WizardPage pPage){
-		mPage = pPage;
+	private ParseController parseController = new ParseController();
+	public Controller(){
+		//mPage = pPage;
 		IImportManager manager = mService.getService(IImportManager.class);
+		mService.closeAllTrackers();
 		List<IImportHandlerEntry> handlers = manager.getRegistredEntries();
 		webentries = new ArrayList<IWebImportHandlerEntry>();
 		entries = new ArrayList<IImportHandlerEntry>();
@@ -53,8 +56,13 @@ public class Controller {
 			}
 		}
 	}
+	public void setPage(WizardPage pPage){
+		mPage=pPage;
+	}
 	
-
+	public ParseController getParseController(){
+		return parseController;
+	}
 	
 	
 	public void setWebMode(){
@@ -150,7 +158,7 @@ public class Controller {
 					
 					@Override
 					public void run() throws Exception {
-						ParseController.getController().testRun();
+						getParseController().testRun();
 					}
 					
 					@Override
@@ -159,7 +167,7 @@ public class Controller {
 
 							@Override
 							public void run() {
-								Controller.getController().setImportPossible(false);
+								setImportPossible(false);
 								mPage.setPageComplete(false);
 								if(mCurrentPage==1){
 									mPage.setPageComplete(true);
@@ -242,13 +250,10 @@ public class Controller {
 		}
 		return tmp.toArray();
 	}
-	public static Controller createController(WizardPage pPage){
+	/*public static Controller createController(WizardPage pPage){
 		instance =  new Controller(pPage);
 		return instance;
-	}
-	public static Controller getController(){
-		return instance;
-	}
+	}*/
 
 	
 	public void setProviderView(StructuredViewer viewer){
@@ -395,6 +400,10 @@ public class Controller {
 
 	public void setCurrentPageIndex(int i) {
 		mCurrentPage = i;
+		
+	}
+	public void clear() {
+		mService.closeAllTrackers();
 		
 	}
 }
