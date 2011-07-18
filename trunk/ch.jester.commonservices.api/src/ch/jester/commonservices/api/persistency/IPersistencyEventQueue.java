@@ -28,4 +28,5 @@ public interface IPersistencyEventQueue {
 	
 	public void removeListener(IPersistencyListener queueListener);
 
+	public int size();
 }

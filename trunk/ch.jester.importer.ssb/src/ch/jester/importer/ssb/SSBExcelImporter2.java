@@ -25,7 +25,7 @@ import ch.jester.model.factories.ModelFactory;
 public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 	private String CODED_NATIONALITY = "Schweiz";
 	private IDaoService<Club> mClubDao;
-	private Query clubQuery;
+	private List<Club> clubs;
 	public SSBExcelImporter2(){
 		init_linking();
 		mClubDao = getServiceUtility().getDaoServiceByEntity(Club.class);
@@ -40,13 +40,18 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		return newAtts;
 		//return new String[]{"lastName","firstName","fideCode","nationalCode","elo","nationalElo","age","city","nation"};
 	}
-	
+	@Override
+	protected void initialize() {
+		 clubs = new ArrayList<Club>();
+		 clubs.addAll(mClubDao.getAll());
+	}
 	@Override
 	protected void finished() {
 		super.finished();
 		mClubDao.clearEventQueueCache();
+		clubs = null;
 	}
-	
+
 	public void init_linking(){
 		mInputLinking.put("lastName", "Name");
 		mInputLinking.put("firstName", "Vorname");
@@ -141,21 +146,26 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		vnew.addClub(club);
 		
 	}
+	
+
+	
 	private Club getClub(String clubName, Integer sekId) {
-		if(clubQuery==null){
-			clubQuery = mClubDao.createNamedQuery(Club.QUERY_GETCLUBBYNAME);
+		Club foundClub = null;
+		for(Club c:clubs){
+			if(c.getName().equals(clubName)){
+				foundClub = c;
+				break;
+			}
 		}
-		@SuppressWarnings("unchecked")
-		List<Club> clubList = clubQuery.setParameter("name", clubName).getResultList();
-		if(clubList.isEmpty()){
+		if(foundClub==null){
 			Club newClub =  ModelFactory.getInstance().createClub(clubName);
 			if(sekId!=null){
 				newClub.setCode(sekId);
 			}
-			mClubDao.save(newClub);
-			return newClub;
+			foundClub =  newClub;
+			clubs.add(foundClub);
 		}
-		return clubList.get(0);
+		return foundClub;
 	}
 
 

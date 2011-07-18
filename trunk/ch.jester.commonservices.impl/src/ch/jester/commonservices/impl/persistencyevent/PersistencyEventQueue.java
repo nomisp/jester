@@ -72,4 +72,8 @@ public class PersistencyEventQueue extends InjectedLogFactoryComponentAdapter<Vo
 		mSenderJob.removeListener(queueListener);
 		
 	}
+	@Override
+	public int size() {
+		return mQueue.size();
+	}
 }
