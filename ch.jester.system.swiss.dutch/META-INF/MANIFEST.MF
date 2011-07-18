@@ -25,4 +25,6 @@ Bundle-ActivationPolicy: lazy
 Import-Package: javax.persistence
 Export-Package: ch.jester.system.swiss.dutch,
  ch.jester.system.swiss.dutch.internal,
- ch.jester.system.swiss.dutch.ui
+ ch.jester.system.swiss.dutch.ui,
+ ch.jester.system.swiss.dutch.ui.nl1,
+ ch.jester.system.swiss.dutch.util

@@ -2,12 +2,17 @@ package ch.jester.system.pairing.impl;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import ch.jester.common.utility.RandomUtility;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
+import ch.jester.model.Category;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
+import ch.jester.model.Round;
 import ch.jester.model.factories.ModelFactory;
+import ch.jester.orm.ORMPlugin;
 import ch.jester.system.exceptions.NoStartingNumbersException;
 
 /**
@@ -16,6 +21,7 @@ import ch.jester.system.exceptions.NoStartingNumbersException;
 public class PairingHelper {
 
 	private static ServiceUtility mServiceUtil = new ServiceUtility();
+	private static EntityManager em = ORMPlugin.getJPAEntityManager();
 	
 	/**
 	 * Sortiert die Liste mit den PlayerCards anhand der Startnummer
@@ -56,5 +62,33 @@ public class PairingHelper {
 			playerPersister.save(dummy);
 		}
 		return dummy;
+	}
+
+	/**
+	 * Liefert eine Liste mit allen noch offenen Runden in einer Kategorie
+	 * @param category
+	 * @return
+	 */
+	public static List<Round> getOpenRounds(Category category) {
+		em.joinTransaction();
+		@SuppressWarnings("unchecked")
+		List<Round> openRounds = em.createNamedQuery("OpenRoundsByCategory")
+										.setParameter("category", category)
+										.getResultList();
+		return openRounds;
+	}
+
+	/**
+	 * Liefert eine Liste mit allen beendeten Runden in einer Kategorie
+	 * @param category
+	 * @return
+	 */
+	public static List<Round> getFinishedRounds(Category category) {
+		em.joinTransaction();
+		@SuppressWarnings("unchecked")
+		List<Round> finishedRounds = em.createNamedQuery("FinishedRoundsByCategory")
+										.setParameter("category", category)
+										.getResultList();
+		return finishedRounds;
 	}
 }

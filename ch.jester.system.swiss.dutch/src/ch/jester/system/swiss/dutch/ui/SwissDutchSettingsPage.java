@@ -24,9 +24,9 @@ import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.system.swiss.dutch.SwissDutchSettings;
-import ch.jester.system.swiss.dutch.SwissDutchSettings.ByePoint;
-import ch.jester.system.swiss.dutch.SwissDutchSettings.RatingType;
 import ch.jester.system.swiss.dutch.ui.nl1.Messages;
+import ch.jester.system.swiss.dutch.util.ByePoint;
+import ch.jester.system.swiss.dutch.util.RatingType;
 
 /**
  * Form-page für die Einstellungen des Schweizer (Dutch) Systems Paarungssystemes

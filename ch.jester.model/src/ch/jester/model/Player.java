@@ -6,11 +6,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "Player")
@@ -81,7 +84,8 @@ public class Player extends AbstractModelBean<Player> {
 	private Integer fideCoefficient; // Koeffizient zur Berechnung der FIDE-Elo
 
 	@Column(name = "Title", nullable = true)
-	private String title; // Titel eines Spielers (GM, IM, FM)
+	@Enumerated(EnumType.STRING)
+	private Title title; // Titel eines Spielers (GM, IM, FM)
 
 	@ManyToMany(mappedBy="players",cascade=CascadeType.PERSIST)
 	private List<Club> clubs = new ArrayList<Club>();
@@ -190,11 +194,11 @@ public class Player extends AbstractModelBean<Player> {
 		changeProperty("fideCoefficient", fideCoefficient);
 	}
 
-	public String getTitle() {
+	public Title getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(Title title) {
 		changeProperty("title", title);
 	}
 	

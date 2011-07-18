@@ -11,6 +11,7 @@ import ch.jester.model.Tournament;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
+import ch.jester.system.exceptions.TournamentFinishedException;
 
 /**
  * Interface welches von konkreten Paarungsalgorithmen
@@ -25,8 +26,9 @@ public interface IPairingAlgorithm {
 	 * @return Liste mit den Paarungen Index 0 = Brett 1
 	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 * @throws PairingNotPossibleException Paarungsauslosung kann nicht durchgeführt werden z.B. sind weder Runden noch Spieler zugewiesen
+	 * @throws TournamentFinishedException 
 	 */
-	public List<Pairing> executePairings(Tournament tournament) throws NotAllResultsException, PairingNotPossibleException;
+	public List<Pairing> executePairings(Tournament tournament) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException;
 	
 	/**
 	 * Ausführen der Paarungen einer einzelnen Kategorie
@@ -34,8 +36,9 @@ public interface IPairingAlgorithm {
 	 * @return Liste mit den Paarungen Index 0 = Brett 1
 	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 * @throws PairingNotPossibleException Paarungsauslosung kann nicht durchgeführt werden z.B. sind weder Runden noch Spieler zugewiesen
+	 * @throws TournamentFinishedException 
 	 */
-	public List<Pairing> executePairings(Category category) throws NotAllResultsException, PairingNotPossibleException;
+	public List<Pairing> executePairings(Category category) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException;
 	
 	/**
 	 * Liefert die Settings-Form-Page für das entsprechende Paarungssystem 

@@ -9,7 +9,7 @@ import org.eclipse.swt.SWT;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.model.Player;
-import ch.jester.model.util.Title;
+import ch.jester.model.Title;
 import ch.jester.ui.forms.PlayerFormPage;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.core.databinding.observable.map.IObservableMap;

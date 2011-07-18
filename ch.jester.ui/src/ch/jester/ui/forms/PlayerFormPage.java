@@ -23,7 +23,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
-import ch.jester.model.util.Title;
+import ch.jester.model.Title;
 import ch.jester.ui.player.editor.PlayerEditor;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
 import org.eclipse.swt.widgets.Combo;

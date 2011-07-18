@@ -1,6 +1,8 @@
 package ch.jester.system.swiss.dutch;
 
 import ch.jester.common.settings.ISettingObject;
+import ch.jester.system.swiss.dutch.util.ByePoint;
+import ch.jester.system.swiss.dutch.util.RatingType;
 
 /**
  * Einstellungen für Paarungen nach Schweizersystem basierend auf Rating (Dutch)
@@ -29,37 +31,5 @@ public class SwissDutchSettings implements ISettingObject {
 
 	public void setByePoints(ByePoint byePoints) {
 		this.byePoints = byePoints;
-	}
-
-	/**
-	 * Rating welches für die Paarungen verwendet wird
-	 * @author Peter
-	 *
-	 */
-	public enum RatingType {
-		ELO("Elo"), NWZ("NationalElo");
-		
-		RatingType(String ratingType) {
-			
-		}
-	}
-	
-	/**
-	 * Punkte welche ein Spieler bei einem Freilos erhält.
-	 * @author Peter
-	 *
-	 */
-	public enum ByePoint {
-		ZERO(0.0), HALF(0.5), ONE(1.0);
-		
-		private final Double points;
-		
-		ByePoint(Double points) {
-			this.points = points;
-		}
-		
-		public Double getPoints() {
-			return points;
-		}
 	}
 }

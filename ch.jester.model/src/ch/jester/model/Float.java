@@ -1,4 +1,4 @@
-package ch.jester.model.util;
+package ch.jester.model;
 
 public enum Float {
 	UPFLOAT, DOWNFLOAT
