@@ -10,6 +10,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.GeneratedValue;
@@ -134,13 +136,28 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 		return o;
 	}
 	
+	protected T cloneWithSimpleProperties(Class<?>... clzs){
+		T o = createCloneId0();
+		cloneFields((T)this, o, clzs);
+		o.setId(null);
+		return o;
+	}
+	protected T cloneWithSimpleProperties(){
+		T o = cloneWithSimpleProperties(String.class, Integer.class, Boolean.class, Double.class, Float.class);
+		o.setId(null);
+		return o;
+	}
+	protected void cloneFields(T original, T clone) {
+		cloneFields(original, clone, new Class[]{});
+	}
 	/**
 	 * Kopiert Properties vom Original in den Klon, wenn <br>
 	 * - eine getter und setter Methode vorhanden ist
 	 * @param original
 	 * @param clone
 	 */
-	protected void cloneFields(T original, T clone) {
+	protected void cloneFields(T original, T clone, Class<?>... clzs) {
+		List<Class<?>> classList = Arrays.asList(clzs);
 		BeanInfo originalInfo = null;
 		try {
 			originalInfo = Introspector.getBeanInfo(this.getClass());
@@ -157,6 +174,11 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 			if(writemethod==null){continue;}
 			Method readMethod = d.getReadMethod();
 			if(readMethod==null){continue;}
+			if(!classList.isEmpty()){
+				if(!classList.contains(readMethod.getReturnType())){
+					continue;
+				}
+			}
 			try {
 				Object origValue = readMethod.invoke(original, new Object[]{});
 				writemethod.invoke(clone, origValue);

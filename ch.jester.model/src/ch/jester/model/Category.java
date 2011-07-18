@@ -181,7 +181,8 @@ public class Category extends AbstractModelBean<Category> {
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		return createCompleteClone();
+		Category cat = cloneWithSimpleProperties();
+		return cat;
 	}
 	
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
