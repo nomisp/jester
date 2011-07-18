@@ -443,6 +443,7 @@
             default="false"
             icon="icons/settings.png"
             id="ch.jester.ui.tournament.tournamentEditor"
+            matchingStrategy="ch.jester.common.ui.editor.EntityObjectInputMatcher"
             name="%EditTournament">
       </editor>
       <editor
@@ -450,6 +451,7 @@
             default="false"
             icon="icons/result.png"
             id="ch.jester.ui.tournament.roundeditor"
+            matchingStrategy="ch.jester.common.ui.editor.EntityObjectInputMatcher"
             name="%ResultEditor">
       </editor>
       <editor
@@ -457,6 +459,7 @@
             default="false"
             icon="icons/ranking.png"
             id="ch.jester.ui.tournament.resulteditor"
+            matchingStrategy="ch.jester.common.ui.editor.EntityObjectInputMatcher"
             name="%RankingEditor">
       </editor>
    </extension>

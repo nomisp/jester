@@ -275,6 +275,8 @@ public class Tournament extends AbstractModelBean<Tournament> {
 			RankingSystem rclone = (RankingSystem) r.clone();
 			clone.addRankingSystem(rclone);
 		}
+		clone.setDateFrom((Date) this.dateFrom.clone());
+		clone.setDateTo((Date) this.dateTo.clone());
 		clone.setRankingSystems(rlist);
 		return clone;
 	}
