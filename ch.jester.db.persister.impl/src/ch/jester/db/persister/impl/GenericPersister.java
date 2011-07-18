@@ -96,6 +96,8 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 			//	mManager.persist(p);
 			//}
 		}
+		mManager.flush();
+		mManager.clear();
 		trx.commit();
 		}catch(Exception e){
 			if(e instanceof RollbackException){
@@ -130,6 +132,8 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		}else{
 			mManager.persist(pT);
 		}
+		mManager.flush();
+		mManager.clear();
 		trx.commit();
 		}catch(Exception e){
 			if(trx.isActive()){
@@ -286,6 +290,8 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		mLogger.debug("Query Time - getFromTo: "+watch.getElapsedTime());
 		return (List<T>) result;
 	}
+
+	
 	protected  Query getPagingQuery(){
 		return null;
 	}

@@ -17,11 +17,13 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="Club")
 @NamedQueries({
-	@NamedQuery(name=Club.QUERY_GETCLUBBYNAME, query="select c from Club c where c.name = :name order by c.name")
+	@NamedQuery(name=Club.QUERY_GETCLUBBYNAME, query="select c from Club c where c.name = :name order by c.name"),
+	@NamedQuery(name=Club.QUERY_GETALLCLUBS, query="select c from Club c")
 })
 public class Club extends AbstractModelBean<Club> {
 	private static final long serialVersionUID = 3749001233544554089L;
 	public final static String QUERY_GETCLUBBYNAME = "Club.getclubbyname";
+	public final static String QUERY_GETALLCLUBS = "Club.getAll";
 	@Column(name="Name", nullable=false, unique=true, length=50)
 	@NotNull
 	private String name;

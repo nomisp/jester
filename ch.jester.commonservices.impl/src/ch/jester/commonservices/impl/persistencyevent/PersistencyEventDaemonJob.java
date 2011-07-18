@@ -56,6 +56,7 @@ public class PersistencyEventDaemonJob extends Job{
 			try {
 				event = mQueue.getEvent();
 				fireEvent(event);
+				mLogger.debug("Persistency Event Queue Size: "+mQueue.size());
 			} catch (InterruptedException e) {
 				if(run==false){
 					mLogger.debug("Stopped due to correct interrupt request");
