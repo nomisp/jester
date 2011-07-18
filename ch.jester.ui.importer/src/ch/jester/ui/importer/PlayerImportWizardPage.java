@@ -69,25 +69,27 @@ public class PlayerImportWizardPage extends WizardPage {
 	private ComboViewer mHandlerListViewer;
 
 	private boolean enableWebOptions = false;
+	
+	private Controller mController;
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public PlayerImportWizardPage(ISelection s) {
+	public PlayerImportWizardPage(ISelection s, Controller controller) {
 		super(Messages.PlayerImportWizardPage_lbl_import_player);
 		setTitle(Messages.PlayerImportWizardPage_lbl_import); //NON-NLS-1
 		setDescription(Messages.PlayerImportWizardPage_lbl_import_into_jester); //NON-NLS-1
-		Controller.createController(this);
+		mController=controller;
 	}
 	
 	
 	/**
 	 * Create the wizard.
 	 */
-	public PlayerImportWizardPage() {
+	public PlayerImportWizardPage(Controller controller) {
 		super(Messages.PlayerImportWizardPage_lbl_import_player); 
 		setTitle(Messages.PlayerImportWizardPage_lbl_import); 
 		setDescription(Messages.PlayerImportWizardPage_lbl_import_into_jester);
-		Controller.createController(this);
+		mController=controller;
 	}
 	
 
@@ -111,7 +113,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		        String selected = fd.open();
 		        if(selected==null){return;}
 		        text.setText(selected);
-		        Controller.getController().setZipFile(text.getText());
+		        mController.setZipFile(text.getText());
 		        if(text.getText()!=null){
 		        	mFileTableViewer.setInput(text.getText());
 		        }
@@ -142,7 +144,7 @@ public class PlayerImportWizardPage extends WizardPage {
 	    mComboProviderViewer = new ComboViewer(container, SWT.READ_ONLY);
 		mProviderCombo = mComboProviderViewer.getCombo();
 		mProviderCombo.setBounds(252, 53, 330, 29);
-		mComboProviderViewer.setContentProvider(new WebImportAdapterContentProvider());
+		mComboProviderViewer.setContentProvider(new WebImportAdapterContentProvider(mController));
 		mComboProviderViewer.addSelectionChangedListener(new WebProviderSelectionListener());
 		mComboProviderViewer.setInput(null);
 		
@@ -155,7 +157,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		mDownloadCombo = mComboDownloadViewer.getCombo();
 		mDownloadCombo.setBounds(252, 82, 330, 29);
 		mComboDownloadViewer.setContentProvider(ArrayContentProvider.getInstance());
-		mComboDownloadViewer.addSelectionChangedListener(new DownloadListener( getContainer()));
+		mComboDownloadViewer.addSelectionChangedListener(new DownloadListener(mController, getContainer()));
 		
 		Label lblSource = new Label(container, SWT.NONE);
 		lblSource.setBounds(10, 14, 65, 29);
@@ -187,11 +189,11 @@ public class PlayerImportWizardPage extends WizardPage {
 		lblHandler.setText(Messages.PlayerImportWizardPage_lbl_handler);
 		lblHandler.setBounds(10, 268, 154, 21);
 		
-		mHandlerListViewer.addSelectionChangedListener(new HandlerSelectionListener());
+		mHandlerListViewer.addSelectionChangedListener(new HandlerSelectionListener(mController));
 		
 		
 		
-		mHandlerListViewer.setContentProvider(new ImportHandlerContentProvider());
+		mHandlerListViewer.setContentProvider(new ImportHandlerContentProvider(mController));
 		mHandlerListViewer.setLabelProvider(new LabelProvider(){
 			
 			@Override
@@ -204,7 +206,7 @@ public class PlayerImportWizardPage extends WizardPage {
 			}
 		});
 
-		mFileTableViewer.setContentProvider(new ZipEntryContentProvider());
+		mFileTableViewer.setContentProvider(new ZipEntryContentProvider(mController));
 
 		setPageComplete(false);
 		enableWebOptions = mService.getService(IPingService.class).isConnected();
@@ -218,12 +220,12 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 		//mHandlerListViewer.getControl().setEnabled(false);
 	
-		Controller.getController().setFileEntryView(mFileTableViewer);
-		Controller.getController().setDownloadView(mComboDownloadViewer);
-		Controller.getController().setHandlerView(mHandlerListViewer);
-		Controller.getController().setProviderView(mComboProviderViewer);
+	    mController.setFileEntryView(mFileTableViewer);
+		mController.setDownloadView(mComboDownloadViewer);
+		mController.setHandlerView(mHandlerListViewer);
+		mController.setProviderView(mComboProviderViewer);
 		
-		Controller.getController().setZipMode();
+		mController.setZipMode();
 		
 }
 	
@@ -255,7 +257,7 @@ public class PlayerImportWizardPage extends WizardPage {
 	}
 	
 	public ImportData getData(){
-		return Controller.getController().getImportData();
+		return mController.getImportData();
 	}
 	
 	
@@ -265,7 +267,7 @@ public class PlayerImportWizardPage extends WizardPage {
 		public void selectionChanged(SelectionChangedEvent event) {
 			su.setSelection(event.getSelection());
 			IImportHandlerEntry entry = su.getFirstSelectedAs(IImportHandlerEntry.class);
-			Controller.getController().setSelectedWebHandlerEntry(entry);
+			mController.setSelectedWebHandlerEntry(entry);
 		}
 		
 	}
@@ -283,7 +285,7 @@ public class PlayerImportWizardPage extends WizardPage {
 			//System.out.println(btn);
 			boolean selected = btn.getSelection();
 			if(btn == rdZip&&selected){
-				Controller.getController().setZipMode();
+				mController.setZipMode();
 				enable(true);
 			}else{
 				text.setText(""); //$NON-NLS-1$
@@ -295,7 +297,7 @@ public class PlayerImportWizardPage extends WizardPage {
 	
 	@Override
 	public boolean canFlipToNextPage() {
-		return ParseController.getController().canDoMatching();
+		return mController.getParseController().canDoMatching();
 	}
 	
 	//Radio Listener
@@ -304,7 +306,7 @@ public class PlayerImportWizardPage extends WizardPage {
 			Button btn = (Button) e.getSource();
 			boolean selected = btn.getSelection();
 			if(btn == rdWeb && selected){
-				Controller.getController().setWebMode();
+				mController.setWebMode();
 			}
 		}
 
@@ -326,9 +328,9 @@ public class PlayerImportWizardPage extends WizardPage {
 						lastChecked.setChecked(false);
 					}
 					lastChecked=titem;
-					Controller.getController().setSelectedZipEntry(titem.getText());
+					mController.setSelectedZipEntry(titem.getText());
 				}else{
-					Controller.getController().setSelectedZipEntry(null);
+					mController.setSelectedZipEntry(null);
 				}
 			}
 

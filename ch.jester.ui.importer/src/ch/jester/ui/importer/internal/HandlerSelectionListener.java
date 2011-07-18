@@ -8,12 +8,13 @@ import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 
 public class HandlerSelectionListener implements ISelectionChangedListener {
 	SelectionUtility su = new SelectionUtility(null);
-	public HandlerSelectionListener() {
-
+	private Controller mContoller;
+	public HandlerSelectionListener(Controller pController) {
+		mContoller=pController;
 	}
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		su.setSelection(event.getSelection());
-		Controller.getController().setSelectedHandlerEntry(su.getFirstSelectedAs(IImportHandlerEntry.class));
+		mContoller.setSelectedHandlerEntry(su.getFirstSelectedAs(IImportHandlerEntry.class));
 	}
 }

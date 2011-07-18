@@ -18,6 +18,13 @@ public interface IDaoService<T extends IEntityObject> {
 	 */
 	public Class<T> getDaoClass();
 	
+	/**
+	 * Speichert eine Collection in einer Transaktion.
+	 * Sämtliche Objekte werden detached;
+	 * @param pTCollection
+	 */
+	public void saveBatch(Collection<T> pTCollection);
+	
 	/**Speicher eine Collection in einer Transaktion
 	 * @param pTCollection
 	 */
@@ -89,4 +96,6 @@ public interface IDaoService<T extends IEntityObject> {
 	 * Löscht den Event Queue Cache
 	 */
 	public void clearEventQueueCache();
+	
+	
 }

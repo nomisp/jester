@@ -7,7 +7,9 @@ import ch.jester.common.utility.ZipUtility;
 
 public class ZipEntryContentProvider implements IStructuredContentProvider{
 	String pFileInput;
-	public ZipEntryContentProvider(){
+	private Controller mController;
+	public ZipEntryContentProvider(Controller pController){
+		mController = pController;
 	}
 	
 	@Override
@@ -23,6 +25,6 @@ public class ZipEntryContentProvider implements IStructuredContentProvider{
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		return Controller.getController().filterZipEntries(ZipUtility.getZipEntries(pFileInput, false).toArray());
+		return mController.filterZipEntries(ZipUtility.getZipEntries(pFileInput, false).toArray());
 	}
 }

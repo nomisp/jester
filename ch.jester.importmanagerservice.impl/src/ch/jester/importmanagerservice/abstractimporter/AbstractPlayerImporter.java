@@ -59,7 +59,7 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 			}
 			
 			if(!origList.isEmpty()){
-				checker.save(origList);
+				checker.saveBatch(origList);
 			}
 			if(checkDoubleEntries){
 				handleDuplicates(checker, duplicates);

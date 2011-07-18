@@ -18,7 +18,6 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 
 public class ParseController {
 	private ImportData mSelection;
-	private static ParseController mInstance = new ParseController();
 	private Exception lastException;
 	ParseController(){
 		
@@ -30,9 +29,6 @@ public class ParseController {
 		mSelection = mSeData;
 	}
 	
-	public static ParseController getController(){
-		return mInstance;
-	}
 	
 	public void testRun() throws ProcessingException{
 			if(!canTest()){return;}
@@ -49,6 +45,7 @@ public class ParseController {
 		try {
 			final InputStream instream = ZipUtility.getZipEntry(mSelection.getSelectedZipFile(), mSelection.getSelectedZipEntry());
 			mSelection.getSelectedHandlerEntry().getService().handleImport(instream, mMonitor);
+			//mSelection.getSelectedHandlerEntry().releaseService();
 			instream.close();
 		} catch (Exception e) {
 			lastException = e;

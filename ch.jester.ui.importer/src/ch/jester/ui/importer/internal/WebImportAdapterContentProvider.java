@@ -6,8 +6,9 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 public class WebImportAdapterContentProvider extends StructuredContentProviderAdapter{
 	ServiceUtility mService = new ServiceUtility();
-	public WebImportAdapterContentProvider(){
-
+	private Controller mController;
+	public WebImportAdapterContentProvider(Controller pController){
+		mController = pController;
 	}
 	@Override
 	public Object[] getElements(Object inputElement) {
@@ -15,7 +16,7 @@ public class WebImportAdapterContentProvider extends StructuredContentProviderAd
 		if(manager==null){
 			return new Object[]{};
 		}
-		return Controller.getController().getHandlersForCurrentMode().toArray();
+		return mController.getHandlersForCurrentMode().toArray();
 	}
 	@Override
 	public void dispose() {
