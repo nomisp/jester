@@ -280,8 +280,8 @@ public class NewTournWizPageCategories extends WizardPage implements SelectionLi
 			categories.add(cat);
 			categoriesTblViewer.add(cat);
 		} else if (e.getSource() == removeBtn) {
-			// TODO peter: Sicherheitsabfrage
 			int selection = categoriesTbl.getSelectionIndex();
+			if(selection<0){return;}
 			categoriesTblViewer.remove(categories.get(selection));
 			categories.remove(selection);
 		}
