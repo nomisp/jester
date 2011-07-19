@@ -38,7 +38,6 @@ import ch.jester.ui.importer.internal.DownloadListener;
 import ch.jester.ui.importer.internal.HandlerSelectionListener;
 import ch.jester.ui.importer.internal.ImportData;
 import ch.jester.ui.importer.internal.ImportHandlerContentProvider;
-import ch.jester.ui.importer.internal.ParseController;
 import ch.jester.ui.importer.internal.WebImportAdapterContentProvider;
 import ch.jester.ui.importer.internal.ZipEntryContentProvider;
 

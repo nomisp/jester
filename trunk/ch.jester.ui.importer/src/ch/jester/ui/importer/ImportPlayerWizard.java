@@ -27,7 +27,6 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.ui.importer.internal.Activator;
 import ch.jester.ui.importer.internal.Controller;
 import ch.jester.ui.importer.internal.ImportData;
-import ch.jester.ui.importer.internal.ParseController;
 
 
 public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageChangedListener{
