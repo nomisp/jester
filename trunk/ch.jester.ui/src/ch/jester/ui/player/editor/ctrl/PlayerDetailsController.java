@@ -2,21 +2,22 @@ package ch.jester.ui.player.editor.ctrl;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeansObservables;
+import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Text;
 
 import ch.jester.common.ui.editorutilities.DirtyManager;
+import ch.jester.common.ui.utility.UIFieldConstraints;
+import ch.jester.model.Club;
 import ch.jester.model.Player;
 import ch.jester.model.Title;
 import ch.jester.ui.forms.PlayerFormPage;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.core.databinding.observable.map.IObservableMap;
-import ch.jester.model.Club;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.core.databinding.observable.list.WritableList;
-import ch.jester.ui.forms.TestValidator;
 
 
 
@@ -25,6 +26,7 @@ public class PlayerDetailsController {
 	private DataBindingContext mBindingContext;
 	private Player player = new Player();
 	private DirtyManager mDm;
+	private UIFieldConstraints fc = new UIFieldConstraints(Player.class);
 	public PlayerDetailsController(PlayerFormPage playerDetails) {
 		mPlayerDetail = playerDetails;
 		mDm = playerDetails.getDirtyManager();
@@ -126,5 +128,13 @@ public class PlayerDetailsController {
 		mPlayerDetail.getListViewer().setInput(writableList);
 		//
 		return bindingContext;
+	}
+
+	public void addConstraint(Text pText, String pProperty) {
+		fc.addConstraint(pText, pProperty);
+	}
+	
+	public boolean isValid(){
+		return !fc.hasErrors();
 	}
 }

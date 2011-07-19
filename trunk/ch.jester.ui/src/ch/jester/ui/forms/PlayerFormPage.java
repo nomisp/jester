@@ -22,8 +22,6 @@ import org.eclipse.ui.forms.widgets.Section;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
-import ch.jester.common.ui.utility.UIFieldConstraints;
-import ch.jester.model.Player;
 import ch.jester.model.Title;
 import ch.jester.ui.player.editor.PlayerEditor;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
@@ -47,6 +45,8 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	private ListViewer listViewer;
 	private Label lblEstEl;
 	private Text estimatedEloText;
+
+
  
 	/**
 	 * Create the form page.
@@ -236,26 +236,28 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 				estimatedEloText,
 				txtTitle.getControl());
 		
-		addConstraints();
+		
 		
 		m_controller = new PlayerDetailsController(this);
 		((PlayerEditor)getEditor()).init_0(this);
 		
+		addConstraints();
+		
 	}
 	
 	void addConstraints(){
-		UIFieldConstraints fc = new UIFieldConstraints(Player.class);
-		fc.addConstraint(lastNameText, "lastName");
-		fc.addConstraint(firstNameText, "firstName");
-		fc.addConstraint(txtAge, "age");
-		fc.addConstraint(cityText, "city");
-		fc.addConstraint(nationText, "nation");
+		//UIFieldConstraints fc = new UIFieldConstraints(Player.class);
+		m_controller.addConstraint(lastNameText, "lastName");
+		m_controller.addConstraint(firstNameText, "firstName");
+		m_controller.addConstraint(txtAge, "age");
+		m_controller.addConstraint(cityText, "city");
+		m_controller.addConstraint(nationText, "nation");
 		
-		fc.addConstraint(fideCodeText, "fideCode");
-		fc.addConstraint(nationalCodeText, "nationalCode");
-		fc.addConstraint(eloText, "elo");
-		fc.addConstraint(nationalEloText, "nationalElo");
-		fc.addConstraint(estimatedEloText, "estimatedElo");
+		m_controller.addConstraint(fideCodeText, "fideCode");
+		m_controller.addConstraint(nationalCodeText, "nationalCode");
+		m_controller.addConstraint(eloText, "elo");
+		m_controller.addConstraint(nationalEloText, "nationalElo");
+		m_controller.addConstraint(estimatedEloText, "estimatedElo");
 		
 		
 	}

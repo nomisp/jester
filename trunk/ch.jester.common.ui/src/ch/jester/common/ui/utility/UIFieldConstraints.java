@@ -17,17 +17,13 @@ public class UIFieldConstraints {
 	Class<?> mClass;
 	private PropertyAttributesAnalyser paa; 
 	private List<ControlDecoration> errorContstraints = new ArrayList<ControlDecoration>();
+	private int errorCount;
 	public UIFieldConstraints(Class<?> pClass) {
 		mClass = pClass;
 		paa= new PropertyAttributesAnalyser(pClass);
 	}
 	public boolean hasErrors(){
-		for(ControlDecoration cd:errorContstraints){
-			if(cd.isVisible()){
-				return true;
-			}
-		}
-		return false;
+		return errorCount>0;
 	}
 	public void addConstraint(final Text pText, final String pProperty){
 		pText.setTextLimit(paa.getLength(pProperty));
@@ -49,39 +45,51 @@ public class UIFieldConstraints {
 				check();
 				
 			}
+			private void hide(){
+				if(!cd.isVisible()){return;}
+				cd.hide();
+				if(errorCount>0){
+					errorCount--;
+				}
+			}
+			private void show(){
+				if(cd.isVisible()){return;}
+				cd.show();
+				errorCount++;
+			}
 			private void check(){
 				Class<?> cls = paa.getType(pProperty);
 				if(cls==String.class){return;}
 				
 				if(pText.getText().isEmpty()){
-					cd.hide();
+					hide();
 					return;
 				}
 				
 				if(cls==Integer.class){
 					try{
 						Integer.parseInt(pText.getText());
-						cd.hide();
+						hide();
 					}catch(Exception ex){
-						cd.show();
+						show();
 					}
 					return;
 				}
 				if(cls==Float.class){
 					try{
 						Float.parseFloat(pText.getText());
-						cd.hide();
+						hide();
 					}catch(Exception ex){
-						cd.show();
+						show();
 					}
 					return;
 				}
 				if(cls==Double.class){
 					try{
 						Double.parseDouble(pText.getText());
-						cd.hide();
+						hide();
 					}catch(Exception ex){
-						cd.show();
+						show();
 					}
 					return;
 				};
