@@ -4,6 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<subDataset name="New Dataset 1">
+		<parameter name="rankingsys" class="java.lang.String"/>
 		<queryString>
 			<![CDATA[]]>
 		</queryString>
@@ -19,7 +20,7 @@
 		<field name="pc" class="ch.jester.model.PlayerCard">
 			<fieldDescription><![CDATA[_THIS]]></fieldDescription>
 		</field>
-		<variable name="variable1" class="java.util.List"/>
+		<variable name="variable1" class="java.lang.String"/>
 	</subDataset>
 	<subDataset name="sys"/>
 	<subDataset name="dataset1"/>
@@ -38,18 +39,30 @@
 	<field name="rankingEntries" class="java.util.List">
 		<fieldDescription><![CDATA[rankingEntries]]></fieldDescription>
 	</field>
+	<variable name="rankingsys" class="java.lang.String">
+		<variableExpression><![CDATA[$F{category}.getTournament().getRankingSystems().get(0).getDescription()]]></variableExpression>
+	</variable>
 	<detail>
 		<band height="39" splitType="Prevent">
 			<componentElement>
 				<reportElement mode="Opaque" x="0" y="20" width="555" height="17"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="New Dataset 1">
+						<datasetParameter name="rankingsys">
+							<datasetParameterExpression><![CDATA[$V{rankingsys}]]></datasetParameterExpression>
+						</datasetParameter>
 						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{rankingEntries})]]></dataSourceExpression>
 					</datasetRun>
 					<jr:column width="90">
 						<jr:tableHeader height="0" rowSpan="1"/>
 						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="0" rowSpan="1"/>
+						<jr:columnHeader height="22" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="16"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$R{ranking}]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
 						<jr:columnFooter height="0" rowSpan="1"/>
 						<jr:detailCell height="20" rowSpan="1">
 							<textField>
@@ -59,14 +72,20 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="201">
 						<jr:tableHeader height="0" rowSpan="1"/>
 						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="0" rowSpan="1"/>
+						<jr:columnHeader height="22" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="201" height="16"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$R{lastname}+" "+$R{firstname}]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
 						<jr:columnFooter height="0" rowSpan="1"/>
 						<jr:detailCell height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
+								<reportElement x="0" y="0" width="201" height="20"/>
 								<textElement/>
 								<textFieldExpression class="java.lang.String"><![CDATA[$F{playerCard}.getPlayer().getLastName()+" "+$F{playerCard}.getPlayer().getFirstName()]]></textFieldExpression>
 							</textField>
@@ -75,7 +94,13 @@
 					<jr:column width="90">
 						<jr:tableHeader height="0" rowSpan="1"/>
 						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="0" rowSpan="1"/>
+						<jr:columnHeader height="22" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="16"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$R{points}]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
 						<jr:columnFooter height="0" rowSpan="1"/>
 						<jr:detailCell height="20" rowSpan="1">
 							<textField>
@@ -85,14 +110,20 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="173">
 						<jr:tableHeader height="0" rowSpan="1"/>
 						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="0" rowSpan="1"/>
+						<jr:columnHeader height="22" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="173" height="16"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$R{fineranking}+" ("+$P{rankingsys}+")"]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
 						<jr:columnFooter height="0" rowSpan="1"/>
 						<jr:detailCell height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
+								<reportElement x="0" y="0" width="149" height="20"/>
 								<textElement/>
 								<textFieldExpression class="java.lang.String"><![CDATA[$F{playerCard}.getRankingSystemPoints().get(0).getPoints()]]></textFieldExpression>
 							</textField>
@@ -102,7 +133,9 @@
 			</componentElement>
 			<textField>
 				<reportElement x="0" y="6" width="100" height="14"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{category}.getDescription()]]></textFieldExpression>
 			</textField>
 		</band>

@@ -258,6 +258,7 @@ public class ModelFactory {
 	 */
 	public RankingSystem createRankingSystem(Tournament tournament, String pluginId, String implClass, String shortType) {
 		RankingSystem rankingSystem = createRankingSystem();
+		rankingSystem.setDescription(shortType);
 		rankingSystem.setTournament(tournament);
 		rankingSystem.setPluginId(pluginId);
 		rankingSystem.setImplementationClass(implClass);
