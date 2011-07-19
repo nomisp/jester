@@ -15,6 +15,9 @@ public class EntityObjectInputMatcher implements IEditorMatchingStrategy {
 			IEntityObject newInputEntity = tryGetEntityObject(input);
 			IEntityObject existingEntityObject = tryGetEntityObject(editorRef.getEditorInput());
 			if(newInputEntity.equals(existingEntityObject)){
+				if(newInputEntity.isUnsafed()&&existingEntityObject.isUnsafed()){
+					return true;
+				}
 				if(newInputEntity.isUnsafed()){
 					return false;
 				}
