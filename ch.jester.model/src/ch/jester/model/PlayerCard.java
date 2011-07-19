@@ -28,8 +28,8 @@ import javax.xml.bind.annotation.XmlIDREF;
 @Entity
 @Table(name="PlayerCard")
 @NamedQueries({
-	@NamedQuery(name="PlayerCardsByCategoryOrderByPoints", query="select pc from PlayerCard pc where pc.category = :category order by pc.points desc"),
-	@NamedQuery(name="PlayerCardsByCategoryAndFinishedRoundsOrderByPoints", query="select pc from PlayerCard pc where :category = pc.category and exists (select r from Round r where r member of pc.category.rounds and r in (:finishedRounds)) order by pc.points desc")
+	@NamedQuery(name="PlayerCardsByCategoryOrderByPoints", query="select pc from PlayerCard pc where pc.category = :category and pc.player is not null order by pc.points desc"),
+	@NamedQuery(name="PlayerCardsByCategoryAndFinishedRoundsOrderByPoints", query="select pc from PlayerCard pc where :category = pc.category and exists (select r from Round r where r member of pc.category.rounds and r in (:finishedRounds)) and pc.player is not null order by pc.points desc")
 })
 public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	private static final long serialVersionUID = -2710264494286525315L;
@@ -64,6 +64,9 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	
 	@Column
 	private Boolean active = Boolean.TRUE;	// Beschreibt ob ein Spieler noch aktiv im Turnier ist
+	
+	@Column(nullable=true)
+	private String colors;
 	
 	public Player getPlayer() {
 		return player;
@@ -173,6 +176,46 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	/**
+	 * Gibt die gespielten Farben als String
+	 * @return Farben als zusammengehängter String z.B. "wbwbwwb"
+	 */
+	public String getColors() {
+		return colors;
+	}
+
+	/**
+	 * Setzten eines Farbstrings, welcher die gespielten Farben repräsentiert.<br/>
+	 * Sollte in der Regel über<br/>
+	 * <code>addWhite()</code> oder <code>addBlack()</code> gemacht werden.
+	 * @param colors Farbstring mit w für Weiss und b für Schwarz (black) z.B. "wbwbwwb"
+	 */
+	public void setColors(String colors) {
+		this.colors = colors;
+	}
+	
+	/**
+	 * Hinzufügen der Weissen-Farbe, wenn ein Spieler mit weiss gespielt hat
+	 */
+	public void addWhite() {
+		if (colors == null) {
+			colors = "w";
+		} else {
+			colors += "w";
+		}
+	}
+	
+	/**
+	 * Hinzufügen der Schwarzen-Farbe, wenn ein Spieler mit schwarz gespielt hat
+	 */
+	public void addBlack() {
+		if (colors == null) {
+			colors = "b";
+		} else {
+			colors += "b";
+		}
 	}
 
 	@Override

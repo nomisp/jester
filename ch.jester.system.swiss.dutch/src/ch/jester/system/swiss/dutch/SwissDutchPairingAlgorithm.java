@@ -1,6 +1,8 @@
 package ch.jester.system.swiss.dutch;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -39,6 +41,8 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 	private Category category;
 	private SwissDutchSettings settings;
 	private ServiceUtility mServiceUtil = new ServiceUtility();
+	private LinkedList<PlayerCard> unpairedPlayers = new LinkedList<PlayerCard>();
+	private List<Pairing> pairings = new ArrayList<Pairing>();
 	
 	public SwissDutchPairingAlgorithm() {
 		mLogger = SwissDutchSystemActivator.getDefault().getActivationContext().getLogger();
