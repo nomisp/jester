@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="ehcache-core-2.4.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="hibernate-search-3.4.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="hibernate-search-infinispan-3.4.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lucene-core-3.1.0.jar"/>
@@ -13,16 +14,12 @@
 	<classpathentry exported="true" kind="lib" path="cglib-2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="commons-collections-3.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="dom4j-1.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="ehcache-1.5.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="hibernate-testing.jar"/>
 	<classpathentry exported="true" kind="lib" path="hibernate-validator-4.1.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="hibernate3.jar"/>
 	<classpathentry exported="true" kind="lib" path="infinispan-core-4.2.1.CR1.jar"/>
 	<classpathentry exported="true" kind="lib" path="javassist-3.12.0.GA.jar"/>
-	<classpathentry exported="true" kind="lib" path="jbosscache-core-3.2.1.GA.jar"/>
 	<classpathentry exported="true" kind="lib" path="jta-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="oscache-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="proxool-0.8.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="swarmcache-1.0RC2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

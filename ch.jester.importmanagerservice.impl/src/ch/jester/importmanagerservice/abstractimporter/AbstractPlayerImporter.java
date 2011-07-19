@@ -40,7 +40,7 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 		checker.manualEventQueueNotification(true);
 		boolean checkDoubleEntries = checkDuplicates(checker);
 		Query duplQuery = createDuplicationCheckingQuery(checker);
-		
+		duplQuery.setHint("org.hibernate.cacheable", true);
 		int chunkCount = 0;
 		while(iterator.hasNext()){
 			List<Player> origList = iterator.next();

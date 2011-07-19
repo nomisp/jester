@@ -1,9 +1,11 @@
 package ch.jester.ui.player.editor;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
@@ -71,7 +73,10 @@ public class PlayerEditor extends AbstractEditor<Player>{
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		
+		if(!mPlayerDetailsController.isValid()){
+			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Input not valid", "Input contains errors");
+			return;
+		}
 		mLogger.debug("Saving "+this);
 		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
 		try{
