@@ -1,7 +1,5 @@
 package ch.jester.ui.forms;
 
-import java.util.ArrayList;
-
 import messages.Messages;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -10,6 +8,7 @@ import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
@@ -26,7 +25,6 @@ import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.model.Title;
 import ch.jester.ui.player.editor.PlayerEditor;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
-import org.eclipse.swt.widgets.Combo;
 
 public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 	private Text lastNameText;
@@ -200,7 +198,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		managedForm.getToolkit().adapt(lblEstEl, true, true);
 		lblEstEl.setText(Messages.PlayerFormPage_estimated_elo);
 		
-		estimatedEloText = new Text(composite_3, SWT.BORDER);
+		estimatedEloText = new Text(composite_3, SWT.NONE);
 		estimatedEloText.setText("");
 		estimatedEloText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		managedForm.getToolkit().adapt(estimatedEloText, true, true);
