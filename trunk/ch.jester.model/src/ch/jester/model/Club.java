@@ -6,12 +6,10 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -31,11 +29,8 @@ public class Club extends AbstractModelBean<Club> {
 	@Column(name="Code", nullable=true)
 	private Integer code;
 	
-	@ManyToMany(cascade={CascadeType.PERSIST})
-	@JoinTable(
-	      name="ClubPlayerAss",
-	      joinColumns={@JoinColumn(name="ClubId",referencedColumnName="Id")},
-	      inverseJoinColumns={@JoinColumn(name="PlayerId",referencedColumnName="Id")})
+	@ManyToMany(mappedBy="clubs", cascade={CascadeType.PERSIST})
+	
 	private List<Player> players = new ArrayList<Player>();
 
 	public String getName() {
