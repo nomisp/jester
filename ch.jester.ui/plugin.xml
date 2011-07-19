@@ -350,6 +350,7 @@
             default="false"
             icon="icons/player_edit.png"
             id="ch.jester.ui.player.editor.PlayerEditor"
+            matchingStrategy="ch.jester.common.ui.editor.EntityObjectInputMatcher"
             name="%PlayerEditor">
       </editor>
    </extension>
