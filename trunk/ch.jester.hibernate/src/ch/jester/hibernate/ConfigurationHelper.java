@@ -72,6 +72,10 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 		mPrefManager.create("hibernate.connection.driver_class","Driver",getConnectiondriverclass());		
 		mPrefManager.create("hibernate.connection.pool_size","PoolSize", "1");
 		mPrefManager.create("hibernate.connection.autocommit", "Autocommit", false).setEnabled(false);
+
+		//<property name="hibernate.cache.use_second_level_cache">false</property>
+        //<property name="hibernate.cache.use_query_cache">false</property>
+        
 		mPrefManager.create("hibernate.show_sql",	"Show SQL",false);
 		mPrefManager.create("hibernate.format_sql","Format SQL",false);
 		mConnectionURLProp = mPrefManager.create("hibernate.connection.url","Connection URL","").setEnabled(false);
@@ -80,6 +84,10 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 		mPrefManager.create("hibernate.c3p0.timeout","Cache.TimeOut" ,"300"  );
 		mPrefManager.create("hibernate.c3p0.max_statements","Cache.MaxStatements" ,"50" );
 		mPrefManager.create("hibernate.c3p0.idle_test_period","Cache.IdleTestPeriod","300"  );
+		
+		mPrefManager.create("hibernate.cache.provider_class","CacheProvider", "org.hibernate.cache.OSCacheProvider");
+		mPrefManager.create("hibernate.cache.use_second_level_cache","SndLvlCache", true);
+		mPrefManager.create("hibernate.cache.use_query_cache","QueryCache", true);
 		
 		//mPrefManager.create("javax.persistence.query.timeout","javax.persistence.query.timeout","0"  );
 		//mPrefManager.create("javax.persistence.lock.timeout","javax.persistence.lock.timeout","0"  );
