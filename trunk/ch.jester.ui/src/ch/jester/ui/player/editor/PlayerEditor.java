@@ -25,6 +25,7 @@ public class PlayerEditor extends AbstractEditor<Player>{
 	}
 
 
+
 	public void init_0(Object parent) {
 		//Composite container = new Composite(parent, SWT.NONE);
 		
@@ -70,6 +71,7 @@ public class PlayerEditor extends AbstractEditor<Player>{
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
+		
 		mLogger.debug("Saving "+this);
 		monitor.beginTask("Saving", IProgressMonitor.UNKNOWN);
 		try{

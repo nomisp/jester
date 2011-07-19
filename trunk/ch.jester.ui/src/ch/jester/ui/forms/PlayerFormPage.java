@@ -22,11 +22,14 @@ import org.eclipse.ui.forms.widgets.Section;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
+import ch.jester.common.ui.utility.UIFieldConstraints;
+import ch.jester.model.Player;
 import ch.jester.model.Title;
 import ch.jester.ui.player.editor.PlayerEditor;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
 
 public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
+
 	private Text lastNameText;
 	private Text fideCodeText;
 	private Text firstNameText;
@@ -103,6 +106,7 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		
 		lastNameText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE); //$NON-NLS-1$
 		lastNameText.setText(""); //$NON-NLS-1$
+	
 		GridData gd_txtLastname = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
 		gd_txtLastname.widthHint = 315;
 		lastNameText.setLayoutData(gd_txtLastname);
@@ -112,12 +116,14 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		firstNameText = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE); //$NON-NLS-1$
 		firstNameText.setText(""); //$NON-NLS-1$
 		firstNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
 		
 		managedForm.getToolkit().createLabel(composite_2, Messages.PlayerFormPage_lbl_age, SWT.NONE);
 		
 		txtAge = managedForm.getToolkit().createText(composite_2, "New Text", SWT.NONE); //$NON-NLS-1$
 		txtAge.setText(""); //$NON-NLS-1$
 		txtAge.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
 		
 		managedForm.getToolkit().createLabel(composite_2, Messages.PlayerFormPage_lbl_city, SWT.NONE);
 		
@@ -221,7 +227,6 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 				lastNameText,
 				firstNameText,
 				txtAge,
-				fideCodeText,
 				cityText,
 				nationText,
 				fideCodeText,
@@ -231,11 +236,30 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 				estimatedEloText,
 				txtTitle.getControl());
 		
+		addConstraints();
 		
 		m_controller = new PlayerDetailsController(this);
 		((PlayerEditor)getEditor()).init_0(this);
 		
 	}
+	
+	void addConstraints(){
+		UIFieldConstraints fc = new UIFieldConstraints(Player.class);
+		fc.addConstraint(lastNameText, "lastName");
+		fc.addConstraint(firstNameText, "firstName");
+		fc.addConstraint(txtAge, "age");
+		fc.addConstraint(cityText, "city");
+		fc.addConstraint(nationText, "nation");
+		
+		fc.addConstraint(fideCodeText, "fideCode");
+		fc.addConstraint(nationalCodeText, "nationalCode");
+		fc.addConstraint(eloText, "elo");
+		fc.addConstraint(nationalEloText, "nationalElo");
+		fc.addConstraint(estimatedEloText, "estimatedElo");
+		
+		
+	}
+	
 	public Text getLastNameText() {
 		return lastNameText;
 	}
