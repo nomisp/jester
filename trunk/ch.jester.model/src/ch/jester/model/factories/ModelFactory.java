@@ -99,7 +99,7 @@ public class ModelFactory {
 	 * @return
 	 */
 	public Player createPlayer(String pFirstName, String pLastName, String pCity, 
-			int pElo, int pNatElo, int pFideCode, String pNation, int pNationalCode){
+			Integer pElo, Integer pNatElo, Integer pFideCode, String pNation, Integer pNationalCode){
 		Player player = new Player();
 		player.setFirstName(pFirstName);
 		player.setLastName(pLastName);
@@ -121,7 +121,7 @@ public class ModelFactory {
 	 * @return den erzeugten Player
 	 */
 	public Player createPlayer(){
-		return createPlayer("FirstName","LastName","",0,0,0,"",0);
+		return createPlayer("FirstName","LastName","",null,null,null,"",null);
 	}
 	
 	/**
@@ -256,9 +256,9 @@ public class ModelFactory {
 	 * @param shortType		Kurzbezeichnung des Feinwertungssystemes (für die Internationalisierung ggf. als Property-Key verwenden) 
 	 * @return
 	 */
-	public RankingSystem createRankingSystem(Tournament tournament, String pluginId, String implClass, String shortType) {
+	public RankingSystem createRankingSystem(Tournament tournament, String pluginId, String implClass, String shortType, String description) {
 		RankingSystem rankingSystem = createRankingSystem();
-		rankingSystem.setDescription(shortType);
+		rankingSystem.setDescription(description);
 		rankingSystem.setTournament(tournament);
 		rankingSystem.setPluginId(pluginId);
 		rankingSystem.setImplementationClass(implClass);
@@ -313,18 +313,4 @@ public class ModelFactory {
 		return new Class[]{Category.class, Club.class, RankingSystemPoint.class, RankingSystem.class, Pairing.class, Player.class, Round.class, Tournament.class};
 	}
 	
-	
-//	private void generateIdentifier(Object entity) {
-//        AbstractEntityPersister entityPersister;	// org.hibernate.persister.entity.AbstractEntityPersister
-// 
-//        if (!getSession().isOpen() || !getSession().isConnected()) {
-//            if (sessionFactory != null && !sessionFactory.isClosed()) {
-//                setSession((SessionImpl) sessionFactory.openSession());
-//            }
-//        }
-//        entityPersister = ((AbstractEntityPersister) sessionFactory.getClassMetadata(entity.getClass()));
-//        Serializable key = entityPersister.getIdentifierGenerator().generate((session), null);
-//        entityPersister.setIdentifier(entity, key, session.getEntityMode());
-//        //session.clear();
-//    }
 }

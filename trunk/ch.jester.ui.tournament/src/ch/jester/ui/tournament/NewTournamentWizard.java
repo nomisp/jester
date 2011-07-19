@@ -91,7 +91,8 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					RankingSystem rs = mf.createRankingSystem(tournament, 
 							systemPage.getRankingSystemEntry().getPluginId(), 
 							systemPage.getRankingSystemEntry().getImplementationClass(), 
-							systemPage.getRankingSystemEntry().getShortType());
+							systemPage.getRankingSystemEntry().getShortType(),
+							systemPage.getRankingSystemEntry().getDescription());
 					tournament.addRankingSystem(rs);
 					IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);//su.getExclusiveService(ITournamentDao.class);
 					tournamentPersister.save(tournament);

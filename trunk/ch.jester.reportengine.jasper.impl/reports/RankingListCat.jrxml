@@ -56,7 +56,7 @@
 					<jr:column width="90">
 						<jr:tableHeader height="0" rowSpan="1"/>
 						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="22" rowSpan="1">
+						<jr:columnHeader height="32" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="16"/>
 								<textElement/>
@@ -75,7 +75,7 @@
 					<jr:column width="201">
 						<jr:tableHeader height="0" rowSpan="1"/>
 						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="22" rowSpan="1">
+						<jr:columnHeader height="32" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="201" height="16"/>
 								<textElement/>
@@ -94,7 +94,7 @@
 					<jr:column width="90">
 						<jr:tableHeader height="0" rowSpan="1"/>
 						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="22" rowSpan="1">
+						<jr:columnHeader height="32" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="16"/>
 								<textElement/>
@@ -113,11 +113,16 @@
 					<jr:column width="173">
 						<jr:tableHeader height="0" rowSpan="1"/>
 						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="22" rowSpan="1">
+						<jr:columnHeader height="32" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="173" height="16"/>
 								<textElement/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$R{fineranking}+" ("+$P{rankingsys}+")"]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$R{fineranking}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="0" y="16" width="173" height="16"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA["("+$P{rankingsys}+")"]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:columnFooter height="0" rowSpan="1"/>
