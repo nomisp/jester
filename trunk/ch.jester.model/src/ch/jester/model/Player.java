@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
@@ -87,7 +89,12 @@ public class Player extends AbstractModelBean<Player> {
 	@Enumerated(EnumType.STRING)
 	private Title title; // Titel eines Spielers (GM, IM, FM)
 
-	@ManyToMany(mappedBy="players",cascade=CascadeType.PERSIST)
+
+	@ManyToMany(cascade={CascadeType.PERSIST})
+	@JoinTable(
+	      name="ClubPlayerAss",
+	      joinColumns={@JoinColumn(name="PlayerId",referencedColumnName="Id")},
+	      inverseJoinColumns={@JoinColumn(name="ClubId",referencedColumnName="Id")})
 	private List<Club> clubs = new ArrayList<Club>();
 	
 	public String getFirstName() {

@@ -31,7 +31,7 @@ public class Club extends AbstractModelBean<Club> {
 	@Column(name="Code", nullable=true)
 	private Integer code;
 	
-	@ManyToMany(cascade=CascadeType.PERSIST)
+	@ManyToMany(cascade={CascadeType.PERSIST})
 	@JoinTable(
 	      name="ClubPlayerAss",
 	      joinColumns={@JoinColumn(name="ClubId",referencedColumnName="Id")},
@@ -69,6 +69,10 @@ public class Club extends AbstractModelBean<Club> {
 			player.addClub(this); // Bidirektion
 		}
 		
+	}
+	@Override
+	public boolean equalProperties(Club pOther) {
+		return name.equals(pOther.name);
 	}
 	
 	public void removePlayer(Player player) {

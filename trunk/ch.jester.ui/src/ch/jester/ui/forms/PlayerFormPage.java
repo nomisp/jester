@@ -162,11 +162,11 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		//txtTitle.setText(""); //$NON-NLS-1$
 		txtTitle.getControl().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtTitle.setContentProvider(ArrayContentProvider.getInstance());
-		java.util.List<String> listt = new ArrayList<String>();
+	/*	java.util.List<String> listt = new ArrayList<String>();
 		for(Title t:Title.values()){
 			listt.add(t.toString());
-		}
-		txtTitle.setInput(listt);
+		}*/
+		txtTitle.setInput(Title.values());
 		managedForm.getToolkit().adapt(txtTitle.getControl(),false,false);
 		
 		
