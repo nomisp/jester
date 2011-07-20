@@ -20,6 +20,7 @@ import ch.jester.common.utility.ObjectXMLSerializer.ZipSerializationReader;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
+import ch.jester.model.Club;
 import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
@@ -50,29 +51,36 @@ public class ImportExportTest {
 	private RankingSystem rankingSystem;
 	private Tournament t;
 	private Category cat;
+	private String filename = "tt1.zip";
 
 	@After
 	public void cleanup() throws IOException{
 		if(writer!=null){
 			writer.close();
 		}
-		new File("test1.zip").delete();
+		new File(filename).delete();
 		if(reader!=null){
 			reader.close();
 		}
 	}
 	
 	public void testExport() throws JAXBException, IOException{
+		try{
 		setupComplexTournament();
 		ObjectXMLSerializer serializer = new ObjectXMLSerializer();
 		serializer.prepareContext(ModelFactory.getInstance().getAllExportableClasses());
-		writer =  serializer.createWriter("test1.zip");
+		writer =  serializer.createWriter(filename);
 		writer.newEntry("jester-export.xml");
 		List<Tournament> list = new ArrayList<Tournament>();
 		list.add(t);
 		writer.write(list);
 		writer.close();
 		writer=null;
+		}finally{
+			if(writer!=null){
+				writer.close();
+			}
+		}
 
 	}
 	
@@ -81,14 +89,14 @@ public class ImportExportTest {
 		ObjectXMLSerializer serializer = new ObjectXMLSerializer();
 		serializer.prepareContext(factory.getAllExportableClasses());
 		
-		 reader = serializer.createReader("test1.zip");
+		 reader = serializer.createReader(filename);
 		List<IEntityObject> list = reader.read("jester-export.xml");
 		
 		Assert.assertEquals(1, list.size());
 		Tournament loadedTournament =  (Tournament) list.get(0);
 		Assert.assertEquals(Tournament.class, list.get(0).getClass());
 		Tournament tournament = (Tournament) list.get(0);
-		Assert.assertEquals(1, tournament.getCategories().size());
+		Assert.assertEquals(2, tournament.getCategories().size());
 		
 		Assert.assertEquals(1, tournament.getRankingSystems().size());
 		Assert.assertEquals(loadedTournament, loadedTournament.getRankingSystems().get(0).getTournament());
@@ -103,7 +111,7 @@ public class ImportExportTest {
 			}
 		}
 		Assert.assertNotNull(cat);
-		Assert.assertEquals(2, cat.getPlayerCards().size());
+		Assert.assertEquals(7, cat.getPlayerCards().size());
 		su.getDaoServiceByEntity(Tournament.class).save(tournament);
 	}
 	
@@ -139,17 +147,23 @@ public class ImportExportTest {
 		t.setPairingSystem(RoundRobinTest.ALGORITHM_CLASS);
 		t.setEloCalculator("ch.jester.system.fidecalculator.FideCalculator");
 		cat = new Category();
-		cat.setDescription("HT1");
+		cat.setDescription("Cat1");
 		cat.setPlayerCards(initPlayerCards());
 		initPairings(cat);
 		initResults();
 		t.addCategory(cat);
+		Category cat2 = new Category();
+		cat2.setDescription("Cat2");
+		t.addCategory(cat2);
 		//mServiceUtil.getDaoServiceByEntity(Tournament.class).save(t);
 		return t;
 	}
 	private List<PlayerCard> initPlayerCards() {
 		List<Player> players = new ArrayList<Player>();
 		Player p1 = new Player();
+		Club c = new Club();
+		c.setName("club1");
+		p1.addClub(c);
 		p1.setFirstName("a");
 		p1.setLastName("A");
 		Player p2 = new Player();
@@ -293,7 +307,7 @@ public class ImportExportTest {
 		r1.addPairing(pair21);
 		
 		cat.addRound(r1);
-//		cat.addRound(r2);
+
 //		cat.addRound(r3);
 	}
 	
