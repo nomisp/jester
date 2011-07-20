@@ -47,18 +47,18 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 	public Ranking calculateRanking(Category category, IProgressMonitor pMonitor) throws NotAllResultsException {
 		Ranking ranking = null;
 		//TODO: von Matthias: Peter checken!!
-		if(category.getRanking()!=null){
+		/*if(category.getRanking()!=null){
 	            category.setRanking(null);
 	            IDaoService<Category> categoryDaoService = mServiceUtil.getDaoServiceByEntity(Category.class);
 	            categoryDaoService.save(category);
-	    }
+	    }*/
 		if (checkCategoryFinished(category)) {
 			return createFinalRanking(category);
 		} else {
-			createIntermediateRanking(category);
+			return createIntermediateRanking(category);
 		}
 		
-		return ranking;
+		//return ranking;
 	}
 	
 	/**
@@ -71,7 +71,8 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		if (!RankingHelper.allResultsAvailable(category)) throw new NotAllResultsException("NotAllResultsForRanking");
 		FinalRanking ranking = category.getRanking();
 		if (ranking != null) {
-			ranking.setRankingEntries(new ArrayList<RankingEntry>());
+			ranking.getRankingEntries().clear();
+			//ranking.setRankingEntries(new ArrayList<RankingEntry>());
 		} else {
 			ranking = ModelFactory.getInstance().createFinalRanking(category);
 		}
@@ -105,7 +106,8 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		if (lastFinishedRound == null) throw new NotAllResultsException("NotAllResultsForRanking");
 		IntermediateRanking ranking = lastFinishedRound.getRanking();
 		if (ranking != null) {
-			ranking.setRankingEntries(new ArrayList<RankingEntry>());
+			ranking.getRankingEntries().clear();
+			//ranking.setRankingEntries(new ArrayList<RankingEntry>());
 		} else {
 			ranking = ModelFactory.getInstance().createIntermediateRanking(lastFinishedRound);
 		}

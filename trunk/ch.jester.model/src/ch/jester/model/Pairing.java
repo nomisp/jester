@@ -10,6 +10,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import ch.jester.model.util.Result;
+
 @Entity
 @Table(name="Pairing")
 @NamedQueries({
@@ -57,6 +59,20 @@ public class Pairing extends AbstractModelBean<Pairing> {
 	}
 
 	public void setResult(String result) {
+		if(this.result!=null){
+			//remove
+			Result r = Result.findByShortResult(this.result);
+			Double blackpoints = r.getPointsBlack();
+			Double whitepoints = r.getPointsWhite();
+			this.getBlack().addResult(blackpoints*(-1));
+			this.getWhite().addResult(whitepoints*(-1));
+		}
+		Result r = Result.findByShortResult(result);
+		Double blackpoints = r.getPointsBlack();
+		Double whitepoints = r.getPointsWhite();
+		this.getBlack().addResult(blackpoints);
+		this.getWhite().addResult(whitepoints);
+		
 		this.result = result;
 	}
 
