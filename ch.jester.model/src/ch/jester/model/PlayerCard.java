@@ -106,7 +106,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	 * Hinzuaddieren der erzielten Punkte
 	 * @param result Sieg: 1; Niederlage: 0; Remis: 0.5
 	 */
-	public void addResult(Double result) {
+	void addResult(Double result) {
 		if (result != null) {
 			this.points += result;
 		}

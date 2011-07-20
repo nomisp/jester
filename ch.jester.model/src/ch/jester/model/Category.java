@@ -144,6 +144,7 @@ public class Category extends AbstractModelBean<Category> {
 	}
 	
 	public void removePlayerCard(PlayerCard player) {
+		//TODO: CHECK. NOTWENDIG --> Szenario: Spieler entfernen wenn noch nicht ausgelost
 		if (player == null) throw new IllegalArgumentException("player may not be null");
 		this.playerCards.remove(player);
 	}
