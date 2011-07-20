@@ -68,6 +68,9 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	@Column(nullable=true)
 	private String colors;
 	
+	@Column(nullable=true)
+	private String roundPoints;
+	
 	public Player getPlayer() {
 		return player;
 	}
@@ -109,6 +112,32 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	void addResult(Double result) {
 		if (result != null) {
 			this.points += result;
+			if (result == 0.5) {
+				addRoundPoint("x");
+			} else {
+				addRoundPoint(String.valueOf(result));
+			}
+		}
+	}
+	
+	/**
+	 * Ändern eines Resultates
+	 * @param oldResult	altes Resultat
+	 * @param newResult	neues Resultat
+	 * @param roundNr	Nummer der Runde der Resultatänderung
+	 */
+	public void modifyResult(Double oldResult, Double newResult, int roundNr) {
+		if (oldResult != null && newResult != null && roundNr > 0 && roundNr < roundPoints.length()) {
+			this.points -= oldResult;
+			this.points += newResult;
+			
+			char[] charArray = roundPoints.toCharArray();
+			if (newResult == 0.5) {
+				charArray[roundNr-1] = 'x';
+			} else {
+				charArray[roundNr-1] = (char) newResult.intValue();
+			}
+			roundPoints = charArray.toString();
 		}
 	}
 
@@ -215,6 +244,30 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 			colors = "b";
 		} else {
 			colors += "b";
+		}
+	}
+
+	public String getRoundPoints() {
+		return roundPoints;
+	}
+
+	public void setRoundPoints(String roundPoints) {
+		this.roundPoints = roundPoints;
+	}
+	
+	/**
+	 * Hinzufügen von Punkten einer Runde
+	 * @param points 1=Sieg, x=Remis, 0=Verloren 
+	 */
+	private void addRoundPoint(String points) {
+		if (points.length() != 1 
+				|| !points.equals("1") 
+				|| !points.equals("0") 
+				|| !points.equalsIgnoreCase("x")) throw new IllegalArgumentException("points must be 1, 0 or x");
+		if (roundPoints == null) {
+			roundPoints = points;
+		} else {
+			roundPoints += points;
 		}
 	}
 

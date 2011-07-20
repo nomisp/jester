@@ -60,19 +60,19 @@ public class Pairing extends AbstractModelBean<Pairing> {
 
 	public void setResult(String result) {
 		if(this.result!=null){
-			//remove
-			Result r = Result.findByShortResult(this.result);
+			//modify result
+			Result oldResult = Result.findByShortResult(this.result);
+			Result newResult = Result.findByShortResult(result);
+			this.getBlack().modifyResult(oldResult.getPointsBlack(), newResult.getPointsBlack(), round.getNumber());
+			this.getWhite().modifyResult(oldResult.getPointsWhite(), newResult.getPointsWhite(), round.getNumber());
+			
+		} else {
+			Result r = Result.findByShortResult(result);
 			Double blackpoints = r.getPointsBlack();
 			Double whitepoints = r.getPointsWhite();
-			this.getBlack().addResult(blackpoints*(-1));
-			this.getWhite().addResult(whitepoints*(-1));
+			this.getBlack().addResult(blackpoints);
+			this.getWhite().addResult(whitepoints);
 		}
-		Result r = Result.findByShortResult(result);
-		Double blackpoints = r.getPointsBlack();
-		Double whitepoints = r.getPointsWhite();
-		this.getBlack().addResult(blackpoints);
-		this.getWhite().addResult(whitepoints);
-		
 		this.result = result;
 	}
 
