@@ -9,6 +9,10 @@ import ch.jester.common.activator.DefaultBundleActivatorContext;
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.bundle.IDelegationActivator;
 
+/**
+ * Abstrakter Aktivator für UI Plugins
+ *
+ */
 public abstract class AbstractUIActivator extends AbstractUIPlugin implements IDelegationActivator<AbstractUIPlugin>{
 	private IActivationContext<AbstractUIPlugin> mContext;
 	@Override
@@ -28,6 +32,11 @@ public abstract class AbstractUIActivator extends AbstractUIPlugin implements ID
 		super.stop(pContext);
 	}
 	
+	/**
+	 * Anmeldung des Controls am Hilfesystem
+	 * @param control
+	 * @param pPartContextId
+	 */
 	public void setHelp(Control control, String pPartContextId){
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(control, mContext.getPluginId()+"."+pPartContextId);
 	}

@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 import ch.jester.common.ui.handlers.api.IHandlerDelete;
-import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.internal.CommonUIActivator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.common.utility.ExceptionUtility;
@@ -25,7 +25,7 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 public class DaoDeleteHandler extends AbstractCommandHandler {
 	ILogger logger;
 	public DaoDeleteHandler(){
-	 	logger = Activator.getDefault().getActivationContext().getLogger();
+	 	logger = CommonUIActivator.getDefault().getActivationContext().getLogger();
 	}
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
@@ -37,7 +37,7 @@ public class DaoDeleteHandler extends AbstractCommandHandler {
 					delete(monitor);
 				}catch(ProcessingException e){
 					ExceptionWrapper wrapper = ExceptionUtility.wrap(e);
-					return new Status(IStatus.ERROR, Activator.getDefault().getActivationContext().getPluginId(), wrapper.getThrowableMessage(), e);
+					return new Status(IStatus.ERROR, CommonUIActivator.getDefault().getActivationContext().getPluginId(), wrapper.getThrowableMessage(), e);
 				}
 				return Status.OK_STATUS;
 			}

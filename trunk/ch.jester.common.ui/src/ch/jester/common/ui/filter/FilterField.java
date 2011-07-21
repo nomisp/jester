@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IViewPart;
 
 import ch.jester.common.job.StackJob;
-import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.internal.CommonUIActivator;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.commonservices.api.logging.ILogger;
@@ -92,7 +92,7 @@ public class FilterField {
 	}
 	
 	class FilterJob extends StackJob<String> {
-	ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	ILogger mLogger = CommonUIActivator.getDefault().getActivationContext().getLogger();
 	
 		IUIFilter NULL_FILTER = new ErrorFilter();
 		IUIFilter mFilter;

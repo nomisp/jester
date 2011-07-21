@@ -23,7 +23,7 @@ import ch.jester.common.ui.editor.IEditorInputAccess;
 import ch.jester.common.ui.handlers.api.IHandlerAdd;
 import ch.jester.common.ui.handlers.api.IHandlerDelete;
 import ch.jester.common.ui.handlers.api.IHandlerEditor;
-import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.internal.CommonUIActivator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.PartListener2Adapter;
 import ch.jester.common.ui.utility.UIUtility;
@@ -39,8 +39,8 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 public abstract class DaoController<T extends IEntityObject> implements IHandlerDelete<T>, IHandlerAdd<T>, IHandlerEditor<T> {
 	private TableViewer mViewer;
-	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
-	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	private ServiceUtility mServices = CommonUIActivator.getDefault().getActivationContext().getServiceUtil();
+	private ILogger mLogger = CommonUIActivator.getDefault().getActivationContext().getLogger();
 	private IDaoService<T> persister;
 	private ViewPart mPart;
 	private PageController<T> pageController;

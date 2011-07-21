@@ -30,7 +30,7 @@ Export-Package: ch.jester.common.ui.activator,
  ch.jester.common.ui.utility,
  ch.jester.common.ui.view
 Bundle-ActivationPolicy: lazy
-Bundle-Activator: ch.jester.common.ui.internal.Activator
+Bundle-Activator: ch.jester.common.ui.internal.CommonUIActivator
 Import-Package: javax.persistence,
  org.eclipse.core.expressions
 Bundle-Vendor: M. Liechti & P. Simon
