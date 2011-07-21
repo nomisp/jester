@@ -39,18 +39,17 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		mInputLinking.put("nationalElo", "Elo neu");
 		mInputLinking.put("club", "Klub");
 		mInputLinking.put("estimatedElo","ELO provisorisch");
-		mPropertyTranslator.create("club", "Club");
-		mPropertyTranslator.create("estimatedElo", "Estimated Elo");
+
 	}
-	public String[] getDomainObjectAttributes() {
+	/*public String[] getDomainObjectAttributes() {
 		String[] origAtts = super.getDomainObjectAttributes();
-		String[] newAtts = new String[origAtts.length+2];
-		System.arraycopy(origAtts, 0, newAtts, 0, origAtts.length);
-		newAtts[newAtts.length-2] = "club";
-		newAtts[newAtts.length-1] = "estimatedElo";
+		//String[] newAtts = new String[origAtts.length+2];
+		//System.arraycopy(origAtts, 0, newAtts, 0, origAtts.length);
+		//newAtts[newAtts.length-2] = "club";
+		//newAtts[newAtts.length-1] = "estimatedElo";
 		return newAtts;
 		//return new String[]{"lastName","firstName","fideCode","nationalCode","elo","nationalElo","age","city","nation"};
-	}
+	}*/
 	@Override
 	protected void initialize() {
 		 clubs = new ArrayList<Club>();
