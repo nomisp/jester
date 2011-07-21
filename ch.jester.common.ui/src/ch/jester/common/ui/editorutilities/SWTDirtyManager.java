@@ -13,13 +13,13 @@ import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.internal.CommonUIActivator;
 import ch.jester.commonservices.api.logging.ILogger;
 
 public class SWTDirtyManager extends DirtyManager implements DisposeListener{
 	private List<Control> mControls = new ArrayList<Control>();
 	private HashMap<Control, Listener> mListeners = new HashMap<Control, Listener>();
-	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	private ILogger mLogger = CommonUIActivator.getDefault().getActivationContext().getLogger();
 	public void add(Control pControl){
 		if(!mControls.contains(pControl)){
 			mControls.add(pControl);

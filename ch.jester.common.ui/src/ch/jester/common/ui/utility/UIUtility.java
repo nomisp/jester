@@ -18,7 +18,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IEvaluationService;
 
-import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.internal.CommonUIActivator;
 
 
 /**
@@ -138,7 +138,7 @@ public class UIUtility {
 	}
 	
 	public static ImageDescriptor getImageDescriptor(String pluginId, String imageFilePath){
-		return Activator.imageDescriptorFromPlugin(pluginId, imageFilePath);
+		return CommonUIActivator.imageDescriptorFromPlugin(pluginId, imageFilePath);
 	}
 	public static boolean isUIReady() {
 		try{

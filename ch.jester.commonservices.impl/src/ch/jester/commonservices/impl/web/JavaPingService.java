@@ -23,7 +23,7 @@ import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.api.web.IPingService;
-import ch.jester.commonservices.impl.internal.Activator;
+import ch.jester.commonservices.impl.internal.CommonServicesActivator;
 
 public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPreferenceRegistration>implements IPingService, IPreferenceManagerProvider{
 	//Preference Stuff
@@ -109,7 +109,7 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 
 	private Image getImage(String pPath){
 		return UIUtility.getImageDescriptor(
-				Activator.getDefault().getActivationContext().getPluginId(),
+				CommonServicesActivator.getDefault().getActivationContext().getPluginId(),
 				pPath).createImage();
 	}
 
@@ -179,7 +179,7 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 					sl.setImage(mOk);
 					sl.setText("");
 					sl.setToolTipText(INTERNET_CONNECTION_OK);
-					IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
+					IExtendedStatusLineManager ex = CommonServicesActivator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
 
 					//ex.setMessage(img, "internet ok");
 					ex.update(true);
@@ -191,7 +191,7 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 						sl.setImage(mNok);
 						sl.setText("");
 						sl.setToolTipText(INTERNET_CONNECTION_FAILED);
-						IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
+						IExtendedStatusLineManager ex = CommonServicesActivator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
 
 						//ex.setMessage(img, "internet ok");
 						ex.update(true);
@@ -208,7 +208,7 @@ public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPrefere
 
 			@Override
 			public void run() {
-				IExtendedStatusLineManager ex = Activator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
+				IExtendedStatusLineManager ex = CommonServicesActivator.getDefault().getActivationContext().getService(IExtendedStatusLineManager.class);
 				ex.appendToGroup(StatusLineManager.END_GROUP, sl);
 				sl.setParent(ex);
 				sl.setText("");

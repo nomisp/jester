@@ -6,9 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import org.eclipse.core.runtime.Assert;
 import org.osgi.service.component.ComponentContext;
 
-import ch.jester.common.components.ComponentAdapter;
 import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
-import ch.jester.commonservices.api.logging.ILoggerFactory;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.api.persistency.IPersistencyListener;

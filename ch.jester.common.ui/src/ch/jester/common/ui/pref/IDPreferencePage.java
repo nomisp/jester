@@ -17,7 +17,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.internal.CommonUIActivator;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
@@ -48,7 +48,7 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 	private boolean hasChanges;
 	public IDPreferencePage() {
 		super(FieldEditorPreferencePage.GRID);
-		logger = Activator.getDefault().getActivationContext().getLogger();
+		logger = CommonUIActivator.getDefault().getActivationContext().getLogger();
 	}
 	@Override
 	public void setInitializationData(IConfigurationElement config,
@@ -72,7 +72,7 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 	
 	@Override
 	public void init(IWorkbench workbench) {
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+		setPreferenceStore(CommonUIActivator.getDefault().getPreferenceStore());
 		if(getPreferenceManager()!=null&&getPreferenceManager().getDescription()!=null){
 			setDescription(getPreferenceManager().getDescription());
 		}

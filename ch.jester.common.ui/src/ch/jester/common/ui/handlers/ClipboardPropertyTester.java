@@ -10,7 +10,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import ch.jester.common.ui.databinding.DaoController;
-import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.internal.CommonUIActivator;
 import ch.jester.common.ui.utility.GlobalClipBoard;
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.api.logging.ILogger;
@@ -18,7 +18,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 public class ClipboardPropertyTester extends PropertyTester {
 	private ILogger mLogger;
 	public ClipboardPropertyTester() {
-		mLogger = Activator.getDefault().getActivationContext().getLogger();
+		mLogger = CommonUIActivator.getDefault().getActivationContext().getLogger();
 	}
 
 	private boolean isAssignable(Object arg, Class<?>[] classes){

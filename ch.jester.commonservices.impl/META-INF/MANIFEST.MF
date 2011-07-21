@@ -18,5 +18,5 @@ Service-Component: OSGI-INF/ILoggingFactoryProvider.xml, OSGI-INF/IPingProvider.
 Bundle-ActivationPolicy: lazy
 Export-Package: ch.jester.commonservices.impl.persistencyevent,
  ch.jester.commonservices.impl.preferences
-Bundle-Activator: ch.jester.commonservices.impl.internal.Activator
+Bundle-Activator: ch.jester.commonservices.impl.internal.CommonServicesActivator
 Bundle-Vendor: M. Liechti & P. Simon

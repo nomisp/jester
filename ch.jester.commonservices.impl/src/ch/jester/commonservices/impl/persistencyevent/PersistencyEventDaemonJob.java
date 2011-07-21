@@ -13,7 +13,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.api.persistency.IPersistencyListener;
-import ch.jester.commonservices.impl.internal.Activator;
+import ch.jester.commonservices.impl.internal.CommonServicesActivator;
 
 
 /**
@@ -24,7 +24,7 @@ import ch.jester.commonservices.impl.internal.Activator;
 public class PersistencyEventDaemonJob extends Job{
 	private Vector<IPersistencyListener> mListeners = new Vector<IPersistencyListener>();
 	private boolean run = true;
-	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	private ILogger mLogger = CommonServicesActivator.getDefault().getActivationContext().getLogger();
 	private IPersistencyEventQueue mQueue;
 	protected PersistencyEventDaemonJob(IPersistencyEventQueue pQueue){
 		super("PersistencyEventDaemonJob");

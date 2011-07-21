@@ -14,7 +14,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.common.ui.editorutilities.IDirtyManagerProvider;
-import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.internal.CommonUIActivator;
 import ch.jester.common.ui.utility.PartListener2Adapter;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoService;
@@ -24,12 +24,12 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 
 public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor implements IDirtyListener, IDirtyManagerProvider{
-	private ServiceUtility mServices = Activator.getDefault().getActivationContext().getServiceUtil();
+	private ServiceUtility mServices = CommonUIActivator.getDefault().getActivationContext().getServiceUtil();
 	protected IEditorDaoInputAccess<T> mDaoInput;
 	private DirtyManager mDirtyManager;
 	private boolean mSaveIndicatorFlag;
 	private IPartListener2 mPart2Listener = new NestedPart2Listener();
-	protected ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	protected ILogger mLogger = CommonUIActivator.getDefault().getActivationContext().getLogger();
 	protected IDaoService<T> mDao;
 	private boolean isMultiPage;
 	/**Falls false, werden keine Tabs angezeigt

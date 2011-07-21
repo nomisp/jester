@@ -12,7 +12,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.osgi.framework.FrameworkUtil;
 
-import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.internal.CommonUIActivator;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.utility.UIUtility;
@@ -35,7 +35,7 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 		mSelUtility = new SelectionUtility(getSelection());
 		mServiceUtility = new ServiceUtility(FrameworkUtil.getBundle(
 				AbstractCommandHandler.this.getClass()).getBundleContext());
-		mLogger = Activator.getDefault().getActivationContext().getLogger();
+		mLogger = CommonUIActivator.getDefault().getActivationContext().getLogger();
 		return executeInternal(event);
 	}
 

@@ -2,13 +2,13 @@ package ch.jester.common.ui.databinding;
 
 import org.eclipse.core.expressions.PropertyTester;
 
-import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.internal.CommonUIActivator;
 import ch.jester.commonservices.api.logging.ILogger;
 
 public class PageControllerPropertyTester extends PropertyTester {
 	private ILogger mLogger;
 	public PageControllerPropertyTester() {
-		mLogger = Activator.getDefault().getActivationContext().getLogger();
+		mLogger = CommonUIActivator.getDefault().getActivationContext().getLogger();
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import ch.jester.common.persistency.DaoMatchFilter;
 import ch.jester.common.persistency.EventLoadMatchingFilter;
 import ch.jester.common.persistency.PersistencyListener;
 import ch.jester.common.persistency.ScrollableResultListJPA;
-import ch.jester.common.ui.internal.Activator;
+import ch.jester.common.ui.internal.CommonUIActivator;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.ui.utility.UIUtility.IBusyRunnable;
 import ch.jester.common.utility.StopWatch;
@@ -27,8 +27,8 @@ public class PageController<T extends IEntityObject> /*implements IDBStartupList
 	}
 	
 	
-	private ServiceUtility su = Activator.getDefault().getActivationContext().getServiceUtil();
-	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
+	private ServiceUtility su = CommonUIActivator.getDefault().getActivationContext().getServiceUtil();
+	private ILogger mLogger = CommonUIActivator.getDefault().getActivationContext().getLogger();
 	private ScrollableResultListJPA<T> jpaDBList;
 	private IPageControllerUIAccess mViewer;
 	private int currentInternalPage = 0, mPageSize, mTotalEntries, mTotalPages;
