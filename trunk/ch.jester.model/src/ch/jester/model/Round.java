@@ -15,6 +15,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name="Round")
@@ -52,6 +55,7 @@ public class Round extends AbstractModelBean<Round> {
 		this.number = number;
 	}
 
+	@XmlIDREF
 	public Category getCategory() {
 		return category;
 	}
@@ -99,6 +103,8 @@ public class Round extends AbstractModelBean<Round> {
 	public void setRanking(IntermediateRanking ranking) {
 		this.ranking = ranking;
 	}
+	
+
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {

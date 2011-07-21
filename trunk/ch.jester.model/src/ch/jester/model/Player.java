@@ -15,6 +15,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlList;
 
 
 @Entity
@@ -208,7 +212,9 @@ public class Player extends AbstractModelBean<Player> {
 	public void setTitle(Title title) {
 		changeProperty("title", title);
 	}
-	
+	@XmlList
+	@XmlElement(name="ClubRef")
+	@XmlIDREF
 	public List<Club> getClubs() {
 		return clubs;
 	}

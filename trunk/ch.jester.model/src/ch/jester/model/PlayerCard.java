@@ -71,6 +71,8 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	@Column(nullable=true)
 	private String roundPoints;
 	
+	@XmlAttribute(name="playerId")
+	@XmlIDREF
 	public Player getPlayer() {
 		return player;
 	}
@@ -112,11 +114,12 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	void addResult(Double result) {
 		if (result != null) {
 			this.points += result;
-			if (result == 0.5) {
+			addRoundPoint(result);
+			/*if (result == 0.5) {
 				addRoundPoint("x");
 			} else {
 				addRoundPoint(String.valueOf(result));
-			}
+			}*/
 		}
 	}
 	
@@ -255,15 +258,29 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		this.roundPoints = roundPoints;
 	}
 	
+	private void addRoundPoint(Double d){
+		String result;
+		if(d==0.5d){
+			result = "x";
+		}else if(d==0.0d){
+			result = "0";
+		}else if(d==1.0d){
+			result = "1";
+		}else{
+			throw new IllegalArgumentException("points must be 1.0, 0.0 or 0.5");
+		}
+		addRoundPoint(result);
+	}
+	
 	/**
 	 * Hinzufügen von Punkten einer Runde
 	 * @param points 1=Sieg, x=Remis, 0=Verloren 
 	 */
 	private void addRoundPoint(String points) {
-		if (points.length() != 1 
-				|| !points.equals("1") 
-				|| !points.equals("0") 
-				|| !points.equalsIgnoreCase("x")) throw new IllegalArgumentException("points must be 1, 0 or x");
+		if (!(points.length() == 1 &&(
+				 points.equals("1") 
+				|| points.equals("0") 
+				|| points.equalsIgnoreCase("x")))) throw new IllegalArgumentException("points must be 1, 0 or x");
 		if (roundPoints == null) {
 			roundPoints = points;
 		} else {
