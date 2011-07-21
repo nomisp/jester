@@ -240,7 +240,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 		mInputTableViewer.setInput(null);
 		mInputTableViewer.setLabelProvider(new InputTableViewerLabelProvider());
 		mInputTableViewer.setInput(mParseController.getContent(headers.length));
-		mMatchingTableViewer.setInput(mParseController.getDomainAttributes());
+		mMatchingTableViewer.setInput(mParseController.getAttributeMatcher().getDomainObjectAttributes());
 		btnAddCol.setEnabled(mParseController.canAddColumns());
 
 	}
@@ -285,7 +285,8 @@ public class PropertyChooserWizardPage extends WizardPage{
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if(columnIndex==0){
-				return element.toString();
+				return mParseController.getAttributeMatcher().getPropertyTranslator().getTranslation(element.toString());
+				//return element.toString();
 			}
 			Object o =  mLinking.get(element);
 			if(o==null){return "";}; //$NON-NLS-1$

@@ -8,4 +8,5 @@ public interface IImportAttributeMatcher {
 	public void setInputLinking(HashMap<String, String> pMap);
 	public HashMap<String, String> getInputLinking();
 	public void resetInputLinking();
+	public IPropertyTranslator getPropertyTranslator();
 }

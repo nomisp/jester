@@ -12,7 +12,6 @@ public class LinkFilter implements IPageReaderFilter{
 	private Pattern mLinkPattern;
 	private int mURLGroup;
 	private int mNameGroup;
-	//public static String FIDE_PATTERN = "(<a href=)(.*[^\\S>])(.*>)(.*)(</a>)";
 	List<ILink> mLinks = new ArrayList<ILink>();
 	private String mStringPattern;
 	@Override
@@ -51,23 +50,8 @@ public class LinkFilter implements IPageReaderFilter{
 		return mNameGroup;
 	}
 	
-	/*public static LinkFilter createFIDEFilter(){
-		LinkFilter f = new LinkFilter();
-		f.setPattern(FIDE_PATTERN, 4, 2);
-		return f;
-		
-	}*/
-	
 	public List<ILink> getLinks(){
 		return mLinks;
 	}
-	/*public static LinkFilter createSSBFilter() {
-		String pattern ="(a href=\")([a-zA-Z0-9/\\.]*)";
-		LinkFilter f = new LinkFilter();
-		f.setPattern(pattern, 2, 2);
-		return f;
-	}*/
-	
-
 	
 }

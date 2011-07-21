@@ -83,6 +83,7 @@ public class DefaultReportRepository implements IReportRepository {
 		return rList;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void installReport(IBundleReport pReport) {
 
 		File engineFolder = mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY);

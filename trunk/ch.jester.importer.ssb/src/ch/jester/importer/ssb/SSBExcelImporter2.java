@@ -31,6 +31,17 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		mClubDao = getServiceUtility().getDaoServiceByEntity(Club.class);
 		mClubDao.manualEventQueueNotification(true);
 	}
+	public void init_linking(){
+		mInputLinking.put("lastName", "Name");
+		mInputLinking.put("firstName", "Vorname");
+		mInputLinking.put("fideCode", "CodeFIDE");
+		mInputLinking.put("nationalCode", "Code");
+		mInputLinking.put("nationalElo", "Elo neu");
+		mInputLinking.put("club", "Klub");
+		mInputLinking.put("estimatedElo","ELO provisorisch");
+		mPropertyTranslator.create("club", "Club");
+		mPropertyTranslator.create("estimatedElo", "Estimated Elo");
+	}
 	public String[] getDomainObjectAttributes() {
 		String[] origAtts = super.getDomainObjectAttributes();
 		String[] newAtts = new String[origAtts.length+2];
@@ -52,15 +63,7 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		clubs = null;
 	}
 
-	public void init_linking(){
-		mInputLinking.put("lastName", "Name");
-		mInputLinking.put("firstName", "Vorname");
-		mInputLinking.put("fideCode", "CodeFIDE");
-		mInputLinking.put("nationalCode", "Code");
-		mInputLinking.put("nationalElo", "Elo neu");
-		mInputLinking.put("club", "Klub");
-		mInputLinking.put("estimatedElo","ELO provisorisch");
-	}
+
 	
 	@Override
 	protected boolean addToCollection(Player v) {

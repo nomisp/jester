@@ -17,6 +17,15 @@ import ch.jester.model.factories.ModelFactory;
 /**
  */
 public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T, Player> implements IDuplicateChecker<Player> {
+	String[] exposedProperties = new String[]{"lastName","firstName","fideCode","nationalCode","elo","nationalElo","age","city","nation"};
+	String[] exposedLabels = new String[]{"Lastname","Firstname","Fide code","National code","Elo","National Elo","Age","City","Nation"};
+	public AbstractPlayerImporter(){
+		for(int i=0;i<exposedLabels.length;i++){
+			mPropertyTranslator.create(exposedProperties[i], exposedLabels[i]);
+		}
+		
+	}
+	
 	@Override
 	public void resetInputLinking() {
 		mInputLinking.clear();
@@ -27,7 +36,7 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 	
 	@Override
 	public String[] getDomainObjectAttributes() {
-		return new String[]{"lastName","firstName","fideCode","nationalCode","elo","nationalElo","age","city","nation"};
+		return exposedProperties;
 	}
 
 	@SuppressWarnings("unchecked")

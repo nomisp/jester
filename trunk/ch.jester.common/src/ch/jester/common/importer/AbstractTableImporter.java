@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
@@ -20,6 +22,7 @@ import ch.jester.common.utility.AdapterBinding;
 import ch.jester.common.utility.ServiceConsumer;
 import ch.jester.commonservices.api.importer.IImportAttributeMatcher;
 import ch.jester.commonservices.api.importer.IImportHandler;
+import ch.jester.commonservices.api.importer.IPropertyTranslator;
 import ch.jester.commonservices.api.importer.ITestableImportHandler;
 import ch.jester.commonservices.api.importer.IVirtualTable;
 import ch.jester.commonservices.exceptions.ProcessingException;
@@ -32,7 +35,12 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 	private IVirtualTable<T> mProvider;
 	protected HashMap<String, String> mInputLinking = new HashMap<String, String>();
 	private boolean isTestRun;
+	protected PropertyTranslator mPropertyTranslator = new PropertyTranslator();
 //	private IVirtualTable<T> mProvider;
+	
+	public IPropertyTranslator getPropertyTranslator(){
+		return mPropertyTranslator;
+	}
 	
 	public AbstractTableImporter(){
 		AdapterBinding binding = new AdapterBinding(this);
@@ -114,7 +122,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 	protected void console(String[] string) {
 		for(String s:string){
 			System.out.print(s);
-			System.out.print("  -  ");
+			System.out.print(Messages.AbstractTableImporter_0);
 		}
 		System.out.println();
 	}
@@ -157,7 +165,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 		}
 		
 		try {
-			pMonitor.beginTask("Processing Input", getTotalUnitsOfWork());
+			pMonitor.beginTask(Messages.AbstractTableImporter_processing_input, getTotalUnitsOfWork());
 			String[] header = mProvider.getHeaderEntries();
 			//console(header);
 			pMonitor.worked(getSingleUnitOfWork());
@@ -166,7 +174,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 			for(int i=1;i<rowsToRead;i++){
 				T row = mProvider.getRow(i);
 				if(i%1000==0){
-					pMonitor.subTask("Reading Row "+i);
+					pMonitor.subTask(Messages.AbstractTableImporter_reading_row+i);
 				}
 				if(row==null){continue;}
 				String[] details;
@@ -189,7 +197,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 				pMonitor.worked(getSingleUnitOfWork());
 			}
 			if(!isTestRun){
-				pMonitor.subTask("Save to DB");
+				pMonitor.subTask(Messages.AbstractTableImporter_save_db);
 				persist(domainObjects, pMonitor);
 				pMonitor.done();
 				done();
@@ -258,7 +266,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 			Object result = convertInput(param, object);
 			writeMethod.invoke(domainObject, result);
 		} catch(NumberFormatException e){
-			throw new ProcessingException("Can't set value '"+object+"' to property '"+domain_property+"'!\n\nPlease check your settings.", e);
+			throw new ProcessingException(Messages.AbstractTableImporter_cant_set_value1+object+Messages.AbstractTableImporter_cant_set_value2+domain_property+Messages.AbstractTableImporter_pls_check_settings, e);
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -278,7 +286,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 				return object.toString().trim();
 			}
 			if(param == java.lang.Integer.class){
-				if(object.toString().trim().equals("")){
+				if(object.toString().trim().equals("")){ //$NON-NLS-1$
 					object = 0;
 				}
 				return Integer.parseInt(object.toString().trim());
@@ -301,7 +309,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 	protected Properties createProperties(String[] header, String[] details) throws ProcessingException {
 		Properties p = new Properties();
 		if(header.length!=details.length){
-			throw new ProcessingException("Header length and Details length don't match");
+			throw new ProcessingException(Messages.AbstractTableImporter_headerlength_detaillength_dontmatch);
 		}
 		for(int i=0;i<header.length;i++){
 			p.put(header[i], details[i]);
