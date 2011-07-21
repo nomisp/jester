@@ -112,10 +112,16 @@ public class ParseController {
 		return access.getHeaderEntries();
 	}
 
-	public String[] getDomainAttributes(){
+	/*public String[] getDomainAttributes(){
 		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
 		IImportAttributeMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportAttributeMatcher.class);
 		return attributehandler.getDomainObjectAttributes();
+	}*/
+	
+	public IImportAttributeMatcher getAttributeMatcher(){
+		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
+		IImportAttributeMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportAttributeMatcher.class);
+		return attributehandler;
 	}
 
 	public HashMap<String, String> getPredefiniedLinking(){
