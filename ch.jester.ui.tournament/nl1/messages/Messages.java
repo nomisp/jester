@@ -59,6 +59,11 @@ public class Messages extends NLS {
 	public static String PairingHandler_msg_UnknownError_title;
 	public static String RankingHandler_msg_UnknownError_text;
 	public static String RankingHandler_msg_UnknownError_title;
+	public static String ResultForm_1;
+	public static String ResultForm_3;
+	public static String ResultForm_5;
+	public static String ResultForm_6;
+	public static String ResultForm_7;
 	public static String RoundDetailsPage_s1_toolTipText;
 	public static String RoundDetailsPage_s_name;
 	public static String RoundDetailsPage_s_descr;

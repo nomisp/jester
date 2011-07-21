@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import ch.jester.model.Category;
 import ch.jester.model.Ranking;
+import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.system.exceptions.NotAllResultsException;
 
@@ -34,5 +35,14 @@ public interface IRankingSystem {
 	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 */
 	public Ranking calculateRanking(Category category, IProgressMonitor pMonitor) throws NotAllResultsException;
+	
+	/**
+	 * Berechnen der Rangliste in einer Kategorie auf einer Runde
+	 * @param category Kategorie zu der die Rangliste erstellt werden soll.
+	 * @param pMonitor ProgrssMonitor
+	 * @return Ranking (entweder instanz von FinalRanking oder IntermediateRanking)
+	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
+	 */
+	public Ranking calculateRanking(Category category, Round round, IProgressMonitor pMonitor) throws NotAllResultsException;
 
 }

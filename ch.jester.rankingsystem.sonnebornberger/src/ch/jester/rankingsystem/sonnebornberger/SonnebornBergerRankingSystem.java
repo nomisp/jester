@@ -49,12 +49,6 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 	@Override
 	public Ranking calculateRanking(Category category, IProgressMonitor pMonitor) throws NotAllResultsException {
 		Ranking ranking = null;
-		//TODO: von Matthias: Peter checken!!
-		/*if(category.getRanking()!=null){
-	            category.setRanking(null);
-	            IDaoService<Category> categoryDaoService = mServiceUtil.getDaoServiceByEntity(Category.class);
-	            categoryDaoService.save(category);
-	    }*/
 		if (checkCategoryFinished(category)) {
 			return createFinalRanking(category);
 		} else {
@@ -98,7 +92,11 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 		saveFinalRanking(category, ranking);
 		return ranking;
 	}
-	
+	@Override
+	public Ranking calculateRanking(Category category, Round round,
+			IProgressMonitor pMonitor) throws NotAllResultsException {
+		return createIntermediateRanking(category, round, RankingHelper.getLastFinishedRound(category));
+	}
 	/**
 	 * Erzeugt eine Zwischenrangliste zur letzten fertig gespielten Runde
 	 * @param category
@@ -107,7 +105,19 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 	 */
 	private IntermediateRanking createIntermediateRanking(Category category) throws NotAllResultsException {
 		Round lastFinishedRound = RankingHelper.getLastFinishedRound(category); 
+		return createIntermediateRanking(category, lastFinishedRound, lastFinishedRound);
+	}
+	
+	
+	/**
+	 * Erzeugt eine Zwischenrangliste zur letzten fertig gespielten Runde
+	 * @param category
+	 * @return Zwischenrangliste
+	 * @throws NotAllResultsException 
+	 */
+	private IntermediateRanking createIntermediateRanking(Category category, Round injectedRound, Round lastFinishedRound) throws NotAllResultsException {
 		if (lastFinishedRound == null) throw new NotAllResultsException("NotAllResultsForRanking");
+		if(lastFinishedRound.getNumber()<injectedRound.getNumber()) throw new NotAllResultsException("NotAllResultsForRanking");
 		IntermediateRanking ranking = lastFinishedRound.getRanking();
 		if (ranking != null) {
 		//	ranking.setRankingEntries(new ArrayList<RankingEntry>());
@@ -208,5 +218,7 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 	public void setEPEntry(IEPEntry<?> e) {
 		rankingSystemEntry = e;
 	}
+
+
 
 }

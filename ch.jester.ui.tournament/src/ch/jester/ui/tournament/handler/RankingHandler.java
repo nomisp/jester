@@ -26,6 +26,7 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Ranking;
 import ch.jester.model.RankingSystem;
+import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.model.util.RankingReportInput;
 import ch.jester.system.api.ranking.IRankingSystem;
@@ -46,13 +47,23 @@ public class RankingHandler extends AbstractCommandHandler implements IHandler {
 	private Category cat;
 	private Tournament tournament;
 	private IRankingSystem primaryRankingSystem;
+	private Round round;
 	
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
-		cat = getFirstSelectedAs(Category.class);
-		if (cat == null) {
-			tournament = getFirstSelectedAs(Tournament.class);
-		} else {
+		
+		Object selection = mSelUtility.getAsStructuredSelection().getFirstElement();
+		if(selection instanceof Tournament){
+			tournament = (Tournament) selection;
+			cat = null;
+			round = null;
+		}else if(selection instanceof Category){
+			cat = (Category) selection;
+			tournament = cat.getTournament();
+			round = null;
+		}else if(selection instanceof Round){
+			round = (Round) selection;
+			cat = round.getCategory();
 			tournament = cat.getTournament();
 		}
 		List<RankingSystem> tournamentRankingSystems = tournament.getRankingSystems();
@@ -77,13 +88,15 @@ public class RankingHandler extends AbstractCommandHandler implements IHandler {
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
 					final RankingReportInput helpentity;
-					if (cat == null) {
+					if (cat == null && round == null) {
 						Map<Category, Ranking> rankingMap = primaryRankingSystem.calculateRanking(tournament, monitor);	// TODO Peter: Evtl. für kommende Version mehrere Feinwertungen
 						helpentity=new RankingReportInput(rankingMap);
-					} else {
+					} else if(cat!=null && round==null) {
 						Ranking ranking = primaryRankingSystem.calculateRanking(cat, monitor);	// TODO Peter: Evtl. für kommende Version mehrere Feinwertungen
 						helpentity=new RankingReportInput(cat, ranking);
-					
+					}else{
+						Ranking ranking = primaryRankingSystem.calculateRanking(cat, round, monitor);	// TODO Peter: Evtl. für kommende Version mehrere Feinwertungen
+						helpentity=new RankingReportInput(cat, round, ranking);
 					}
 					UIUtility.syncExecInUIThread(new Runnable(){
 

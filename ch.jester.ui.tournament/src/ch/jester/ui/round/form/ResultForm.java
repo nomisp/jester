@@ -5,6 +5,8 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import messages.Messages;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -16,6 +18,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
@@ -31,6 +35,7 @@ import ch.jester.model.factories.PlayerNamingUtility;
 import ch.jester.model.util.Result;
 import ch.jester.model.util.Result.ResultCombination;
 import ch.jester.ui.round.editors.ResultController;
+import ch.jester.ui.tournament.internal.Activator;
 
 public class ResultForm extends FormPage implements IDirtyManagerProvider{
 	private List<Section> mSectionList = new ArrayList<Section>();
@@ -45,7 +50,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		@Override
 		public void propertyChange(PropertyChangeEvent arg0) {
 			if(arg0.getSource()==mPairing){
-				System.out.println(mViewer+" updating");
+				System.out.println(mViewer+" updating"); //$NON-NLS-1$
 				setSelection();
 				mViewer.refresh();
 			}
@@ -75,7 +80,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 	
 	protected void createFormContent(IManagedForm managedForm) {
 		ScrolledForm form = managedForm.getForm();
-		form.setText("Pairing Results: "+mController.getTitlePath());
+		form.setText(Messages.ResultForm_1+mController.getTitlePath());
 		managedForm.getForm().getBody().setLayout(new GridLayout(1, false));
 		managedForm.getToolkit().decorateFormHeading(form.getForm());
 		buildSections(managedForm);
@@ -86,7 +91,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 	}
 	
 	private final void expandSections(final ScrolledForm form, final boolean b){
-		UIUtility.busyIndicatorJob("", new UIUtility.IBusyRunnable() {
+		UIUtility.busyIndicatorJob("", new UIUtility.IBusyRunnable() { //$NON-NLS-1$
 			
 			@Override
 			public void stepOne_InUIThread() {
@@ -127,13 +132,15 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 				expandSections(form, true);
 			}
 		};
-		expand.setText("Expand All");
+		expand.setText(Messages.ResultForm_3);
+		expand.setImageDescriptor(Activator.imageDescriptor("/icons/expand_all.gif")); //$NON-NLS-1$
 		Action collapse = new Action("ExpandSections", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 			public void run() {
 				expandSections(form, false);
 			}
 		};
-		collapse.setText("Collapse All");
+		collapse.setText(Messages.ResultForm_5);
+		collapse.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_ELCL_COLLAPSEALL));
 		//haction.setChecked(true);
 		
 		//haction.setToolTipText(Messages.CategoryMasterDetail_tt_horizontal);
@@ -150,7 +157,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		List<Round> rounds = mController.getRounds();
 		
 		for(Round r:rounds){
-			Composite c = createSection(managedForm, "Round: "+r.getNumber());
+			Composite c = createSection(managedForm, Messages.ResultForm_6+r.getNumber());
 			for(Pairing p:r.getPairings()){
 				createFileds(managedForm, c, r, p);
 			}
@@ -161,7 +168,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 	private void createFileds(IManagedForm managedForm, Composite c, Round r, Pairing p) 
 	{
 		mLabelBuilder.delete(0, mLabelBuilder.length());
-		mLabelBuilder.append(PlayerNamingUtility.createPairingName(p, " vs "));
+		mLabelBuilder.append(PlayerNamingUtility.createPairingName(p, Messages.ResultForm_7));
 		boolean disableResultCombo = p.getBlack().getPlayer()==null||p.getWhite().getPlayer()==null;
 		managedForm.getToolkit().createLabel(c, mLabelBuilder.toString(), SWT.NONE);
 		ComboViewer viewer = new ComboViewer(c, SWT.READ_ONLY|SWT.DOUBLE_BUFFERED);
@@ -174,7 +181,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		SelectionSetter setter = new SelectionSetter(viewer, p);
 		setter.setSelection();
 		mSelectionSetters.add(setter);
-		mController.addPropertyChangeListener("changedResults",setter);
+		mController.addPropertyChangeListener("changedResults",setter); //$NON-NLS-1$
 		
 		mController.getSWTDirtyManager().add(viewer.getControl());
 		
@@ -183,7 +190,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		super.dispose();
 		mSectionList.clear();
 		for(SelectionSetter setter:mSelectionSetters){
-			mController.removePropertyChangeListener("changedResults",setter);
+			mController.removePropertyChangeListener("changedResults",setter); //$NON-NLS-1$
 		}
 	}
 	private Composite createSection(IManagedForm managedForm, String title){

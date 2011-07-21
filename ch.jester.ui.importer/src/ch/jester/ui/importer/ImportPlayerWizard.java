@@ -16,6 +16,8 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
@@ -34,8 +36,17 @@ public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageCh
 	private PlayerImportWizardPage firstPage;
 	private PropertyChooserWizardPage secondPage;
 	private Controller controller;
+	
+	
+	@Override
+	public void createPageControls(Composite pageContainer) {
+		super.setHelpAvailable(true);
+		super.createPageControls(pageContainer);
+	}
+	
 	@Override
 	public void setContainer(IWizardContainer wizardContainer) {
+
 		super.setContainer(wizardContainer);
 		if(wizardContainer instanceof IPageChangeProvider){
 			((IPageChangeProvider)wizardContainer).addPageChangedListener(this);
@@ -113,6 +124,7 @@ public class ImportPlayerWizard extends Wizard implements IImportWizard, IPageCh
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		
 		setWindowTitle(Messages.ImportPlayerWizard_lbl_titel);
 		setNeedsProgressMonitor(true);
 		controller = new Controller();
