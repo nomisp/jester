@@ -15,8 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
-import ch.jester.model.factories.ModelFactory;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 /**
  * Entität für die Tabelle Tournament 
@@ -280,4 +280,32 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		clone.setRankingSystems(rlist);
 		return clone;
 	}
+	@XmlElementWrapper(name = "PlayerList")
+	@XmlElement(name = "Player")
+	public List<Player> getPlayers(){
+		List<Player> playerlist = new ArrayList<Player>();
+		for(Category cat:getCategories()){
+			playerlist.addAll(cat.getPlayers());
+		}
+		return playerlist;
+	}
+	@XmlElementWrapper(name = "ClubList")
+	@XmlElement(name = "Club")
+	public List<Club> getClubs(){
+		List<Club> clublist = new ArrayList<Club>();
+		List<Player> plist = getPlayers();
+		for(Player p:plist){
+			if(p==null){continue;}
+			List<Club> playerclubs = p.getClubs();
+			for(Club c:playerclubs){
+				if(!clublist.contains(c)){
+					clublist.add(c);
+				}
+			}
+		}
+		
+		return clublist;
+		
+	}
+	
 }

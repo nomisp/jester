@@ -11,6 +11,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name="Club")
@@ -33,6 +36,7 @@ public class Club extends AbstractModelBean<Club> {
 	
 	private List<Player> players = new ArrayList<Player>();
 
+	@XmlAttribute
 	public String getName() {
 		return name;
 	}
@@ -40,7 +44,7 @@ public class Club extends AbstractModelBean<Club> {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	@XmlAttribute
 	public Integer getCode() {
 		return code;
 	}
@@ -49,6 +53,7 @@ public class Club extends AbstractModelBean<Club> {
 		this.code = code;
 	}
 
+	@XmlTransient
 	public List<Player> getPlayers() {
 		return players;
 	}
@@ -83,4 +88,8 @@ public class Club extends AbstractModelBean<Club> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+		if(parent instanceof Tournament){return;}
+	    addPlayer((Player) parent);
+}
 }

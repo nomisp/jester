@@ -112,6 +112,19 @@ public class ImportExportTest {
 		}
 		Assert.assertNotNull(cat);
 		Assert.assertEquals(7, cat.getPlayerCards().size());
+		Player p1 = cat.getPlayers().get(0);
+		Assert.assertNotNull(p1);
+		Club p1Club = p1.getClubs().get(0);
+		Assert.assertNotNull(p1Club);
+		
+		Club p2Club = p1.getClubs().get(1);
+		Assert.assertNotNull(p2Club);
+		Assert.assertEquals("club2", p2Club.getName());
+		
+		Player p2 = cat.getPlayers().get(1);
+		Club p2Club1 = p2.getClubs().get(0);
+		Assert.assertEquals(p2Club1, p2Club);
+		
 		su.getDaoServiceByEntity(Tournament.class).save(tournament);
 	}
 	
@@ -164,9 +177,14 @@ public class ImportExportTest {
 		Club c = new Club();
 		c.setName("club1");
 		p1.addClub(c);
+		Club c2 = new Club();
+		c2.setName("club2");
+		p1.addClub(c2);
+		
 		p1.setFirstName("a");
 		p1.setLastName("A");
 		Player p2 = new Player();
+		p2.addClub(c2);
 		p2.setFirstName("b");
 		p2.setLastName("B");
 		Player p3 = new Player();

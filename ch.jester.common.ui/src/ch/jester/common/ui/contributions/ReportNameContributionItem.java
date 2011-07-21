@@ -44,20 +44,21 @@ public class ReportNameContributionItem extends CompoundContributionItem {
 		}
 		IReportEngine engine = su.getService(IReportEngine.class);
 		List<IReport> reports = engine.getRepository().getReports();
-		EnableStateCommandContributionItem[] list = new EnableStateCommandContributionItem[reports.size()];
+		List<EnableStateCommandContributionItem> stateCmdContr = new ArrayList<EnableStateCommandContributionItem>();
 		int i=0;
 		
 		for(IReport report:reports){
-			list[i] = new EnableStateCommandContributionItem(getParameter(report));
+			if(report.getVisibleName()==null){continue;}
+			stateCmdContr.add(new EnableStateCommandContributionItem(getParameter(report)));
 			Collection<?> col = ReportEngineInputTester.getInputCollectionForReport(report.getInputBeanClass(), beanlist);
 			if(col==null||col.isEmpty()){
-				list[i].setEnabled(false);
+				stateCmdContr.get(i).setEnabled(false);
 			}else{
-				list[i].setEnabled(true);
+				stateCmdContr.get(i).setEnabled(true);
 			}
 			i++;
 		}
-	    return list;
+	    return stateCmdContr.toArray(new EnableStateCommandContributionItem[stateCmdContr.size()]);
 
 	}
 

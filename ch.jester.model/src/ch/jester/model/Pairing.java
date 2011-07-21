@@ -9,6 +9,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlIDREF;
 
 import ch.jester.model.util.Result;
 
@@ -76,6 +77,7 @@ public class Pairing extends AbstractModelBean<Pairing> {
 		this.result = result;
 	}
 
+	@XmlIDREF
 	public Round getRound() {
 		return round;
 	}
