@@ -4,6 +4,10 @@ import org.osgi.framework.BundleContext;
 
 import ch.jester.common.activator.AbstractActivator;
 
+/**
+ * Aktivator des Common Packages
+ *
+ */
 public class CommonActivator extends AbstractActivator{
 	private static CommonActivator mInstance;
 	public CommonActivator() {

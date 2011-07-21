@@ -20,7 +20,7 @@ import org.eclipse.core.runtime.Platform;
 
 import ch.jester.common.utility.AdapterBinding;
 import ch.jester.common.utility.ServiceConsumer;
-import ch.jester.commonservices.api.importer.IImportAttributeMatcher;
+import ch.jester.commonservices.api.importer.IImportPropertyMatcher;
 import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.IPropertyTranslator;
 import ch.jester.commonservices.api.importer.ITestableImportHandler;
@@ -28,16 +28,15 @@ import ch.jester.commonservices.api.importer.IVirtualTable;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
 
-public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implements IImportHandler<InputStream>, ITestableImportHandler<InputStream>, IImportAttributeMatcher{
-	int workUnits = 10000000;
-	int singleUnitOfWork = -1;
-	int testLines = -1;
+public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implements IImportHandler<InputStream>, ITestableImportHandler<InputStream>, IImportPropertyMatcher{
+	int mWorkUnits = 10000000;
+	int mSingleUnitOfWork = -1;
+	int mTestLines = -1;
+	private boolean mIsTestRun;
 	private IVirtualTable<T> mProvider;
 	protected HashMap<String, String> mInputLinking = new HashMap<String, String>();
-	private boolean isTestRun;
 	protected PropertyTranslator mPropertyTranslator = new PropertyTranslator();
-//	private IVirtualTable<T> mProvider;
-	
+
 	public IPropertyTranslator getPropertyTranslator(){
 		return mPropertyTranslator;
 	}
@@ -72,8 +71,8 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 			}
 
 			@Override
-			public String[] getDynamicInput(int pCount) {
-				return mProvider.getDynamicInput(pCount);
+			public String[] getRowInput(int pCount) {
+				return mProvider.getRowInput(pCount);
 			}
 
 			@Override
@@ -97,23 +96,23 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 		}
 		,IVirtualTable.class);
 		binding.add(this, ITestableImportHandler.class);
-		binding.add(this, IImportAttributeMatcher.class);
+		binding.add(this, IImportPropertyMatcher.class);
 		binding.bind();
 		
 	}
 	
 	protected int getSingleUnitOfWork(){
-		if(singleUnitOfWork==-1){
-			singleUnitOfWork = getTotalUnitsOfWork() / mProvider.getTotalRows();
+		if(mSingleUnitOfWork==-1){
+			mSingleUnitOfWork = getTotalUnitsOfWork() / mProvider.getTotalRows();
 		}
-		return singleUnitOfWork;
+		return mSingleUnitOfWork;
 	}
 
 	/**Eine Default Einstellung von 10000000
 	 * @return
 	 */
 	protected int getTotalUnitsOfWork() {
-		return workUnits;
+		return mWorkUnits;
 	}
 	/**
 	 * Print auf Console
@@ -138,18 +137,18 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 	@Override
 	public Object handleImport(InputStream pInputStream,
 			IProgressMonitor pMonitor) throws ProcessingException{
-		return handleImport(pInputStream, testLines, pMonitor);
+		return handleImport(pInputStream, mTestLines, pMonitor);
 	}
 	
 	protected boolean isTestRun(){
-		return isTestRun;
+		return mIsTestRun;
 	}
 	
 	@Override
 	public Object handleImport(InputStream pInputStream,int pContentLines,
 			IProgressMonitor pMonitor) {
 		initialize();
-		isTestRun = testLines!=pContentLines;
+		mIsTestRun = mTestLines!=pContentLines;
 		//mProvider = null;
 		try{
 			if(mProvider==null){
@@ -160,7 +159,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 			throw e;
 		}
 		int rowsToRead = mProvider.getTotalRows();
-		if(isTestRun){
+		if(mIsTestRun){
 			rowsToRead = pContentLines;
 		}
 		
@@ -196,7 +195,7 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 				
 				pMonitor.worked(getSingleUnitOfWork());
 			}
-			if(!isTestRun){
+			if(!mIsTestRun){
 				pMonitor.subTask(Messages.AbstractTableImporter_save_db);
 				persist(domainObjects, pMonitor);
 				pMonitor.done();
@@ -318,14 +317,14 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 	}
 	
 	@Override
-	public void setInputLinking(HashMap<String, String> pMap) {
+	public void setInputMatching(HashMap<String, String> pMap) {
 		mInputLinking.clear();
 		mInputLinking.putAll(pMap);
 		
 	}
 
 	@Override
-	public HashMap<String, String> getInputLinking() {
+	public HashMap<String, String> getInputMatching() {
 		return mInputLinking;
 	}
 	

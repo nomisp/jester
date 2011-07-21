@@ -101,7 +101,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 				AddColumnDialog dialog = new AddColumnDialog(Display.getDefault().getActiveShell());
 				dialog.create();
 				dialog.setBlockOnOpen(true);
-				dialog.setInputText(mParseController.getVirtualTableProvider().getDynamicInput(20));
+				dialog.setInputText(mParseController.getVirtualTableProvider().getRowInput(20));
 				dialog.setCell(mParseController.getVirtualTableProvider().getCells());
 				int ret = dialog.open();
 				if(IDialogConstants.OK_ID!=ret){return;}
@@ -240,7 +240,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 		mInputTableViewer.setInput(null);
 		mInputTableViewer.setLabelProvider(new InputTableViewerLabelProvider());
 		mInputTableViewer.setInput(mParseController.getContent(headers.length));
-		mMatchingTableViewer.setInput(mParseController.getAttributeMatcher().getDomainObjectAttributes());
+		mMatchingTableViewer.setInput(mParseController.getAttributeMatcher().getDomainObjectProperties());
 		btnAddCol.setEnabled(mParseController.canAddColumns());
 
 	}
@@ -327,7 +327,7 @@ public class PropertyChooserWizardPage extends WizardPage{
 
 	public void applyChanges() {
 		if(mLinking==null){return;}
-		mParseController.getImportAttributeMatcher().setInputLinking(mLinking);
+		mParseController.getImportAttributeMatcher().setInputMatching(mLinking);
 	}
 	@Override
 	public void setVisible(boolean visible) {

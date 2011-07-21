@@ -1,4 +1,4 @@
-package ch.jester.common.ep;
+package ch.jester.common.components;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -16,6 +16,10 @@ import org.eclipse.core.runtime.dynamichelpers.IFilter;
 import ch.jester.common.activator.internal.CommonActivator;
 import ch.jester.commonservices.api.logging.ILogger;
 
+/**
+ * Ein Notifier für Changes an ExtensionPoints
+ *
+ */
 public class ExtensionPointChangeNotifier implements IExtensionChangeHandler,
 		IRegistryChangeListener {
 	ExtensionTracker tracker;
@@ -28,6 +32,9 @@ public class ExtensionPointChangeNotifier implements IExtensionChangeHandler,
 		mName = name;
 	}
 
+	/**
+	 * Starte die Notifikation
+	 */
 	public void start() {
 		if (open) {
 			return;
@@ -47,6 +54,7 @@ public class ExtensionPointChangeNotifier implements IExtensionChangeHandler,
 
 	}
 
+	@Override
 	public void addExtension(IExtensionTracker tracker, IExtension extension) {
 		IConfigurationElement[] configs = extension.getConfigurationElements();
 		for (int i = 0; i < configs.length; ++i) {
@@ -57,10 +65,17 @@ public class ExtensionPointChangeNotifier implements IExtensionChangeHandler,
 		}
 	}
 
+	
+	/**
+	 * Defaultimplementation/Template. Macht nichts.
+	 * Wird aufgerufen wenn {@link #addExtension(IExtensionTracker, IExtension)} aufgerufen wurde
+	 * @param iConfigurationElement
+	 */
 	protected void added(IConfigurationElement iConfigurationElement) {
 
 	}
 
+	@Override
 	public void removeExtension(IExtension extension, Object[] objects) {
 		// stop using objects associated with
 		// the removed extension
@@ -70,6 +85,11 @@ public class ExtensionPointChangeNotifier implements IExtensionChangeHandler,
 		}
 	}
 
+	/**
+	 * Defaultimplementation/Template. Macht nichts.
+	 * Wird aufgerufen wenn {@link #removeExtension(IExtension, Object[])} aufgerufen wurde
+	 * @param iConfigurationElement
+	 */
 	protected void removed(Object object) {
 
 	}

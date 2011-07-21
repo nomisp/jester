@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
 /**
- * Importiert eine Source
+ * Importieren einer Source
  *
  */
 public interface IImportHandler<T> extends IAdaptable{

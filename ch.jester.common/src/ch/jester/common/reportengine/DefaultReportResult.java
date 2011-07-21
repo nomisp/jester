@@ -17,7 +17,6 @@ public abstract class DefaultReportResult<T> implements IReportResult{
 	
 	@Override
 	public boolean canExport(ExportType ex) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	

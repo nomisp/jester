@@ -2,6 +2,11 @@ package ch.jester.common.components;
 
 import ch.jester.commonservices.api.components.IEPEntry;
 
+/**
+ * Eine Default Implementation von {@link IEPEntry}
+ *
+ * @param <T>
+ */
 public class EPEntry<T> implements IEPEntry<T> {
 	private IEPEntry<T> mService;
 	@SuppressWarnings("unchecked")

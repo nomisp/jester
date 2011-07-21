@@ -10,7 +10,6 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.osgi.service.component.ComponentContext;
 
-import ch.jester.common.ep.ExtensionPointChangeNotifier;
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.components.IEPEntry;
 import ch.jester.commonservices.api.components.IEPEntryComponentService;
@@ -56,10 +55,15 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> extends Inje
 		mEPNotifier.start();
 	}
 	
+	/**
+	 * Binding von IPreferenceRegistration
+	 * @param pReg ein PreferenceRegistration Service
+	 */
 	public void bindPreferenceRegistration(IPreferenceRegistration pReg){
 		mPreferenceReg = pReg;
 	}
 	
+
 	public IPreferenceRegistration getPreferenceManager(){
 		return mPreferenceReg;
 	}
@@ -68,7 +72,7 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> extends Inje
 	 * benutzt werden soll, um im Proxy eine Instanz zu erzeugen.
 	 * Default: class 
 	 *
-	 * @return
+	 * @return Attribut im ExtensionPoint
 	 */
 	protected String getClassAttribute(){
 		return "class";
@@ -99,6 +103,11 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> extends Inje
 	}
 	
 
+	/**
+	 * Holen der Proxy Interfaces
+	 * @param clz
+	 * @return
+	 */
 	private List<Class<?>> getProxyInterfaces(Class<?> clz) {
 		List<Class<?>> allClz = new ArrayList<Class<?>>();
 		if(clz == java.lang.Object.class){

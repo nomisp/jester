@@ -26,6 +26,10 @@ public class InjectedLogFactoryComponentAdapter<T> extends ComponentAdapter<T> {
 
 	}
 
+	/**
+	 * Eine vordefinierte Start Message
+	 * @return
+	 */
 	public String getStartMessage(){
 		return "*** Component "+InjectedLogFactoryComponentAdapter.this.getClass().getSimpleName()+" started";
 	}

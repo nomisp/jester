@@ -31,7 +31,8 @@ public interface IActivationContext<V> {
 	public BundleContext getBundleContext();
 
 	/**
-	 * @return ServiceUtility
+	 * Zugriff auf ein ServiceUtility
+	 * @return aServiceUtility
 	 */
 	public ServiceUtility getServiceUtil();
 
@@ -50,7 +51,8 @@ public interface IActivationContext<V> {
 	public ILogger getLogger();
 
 	/**
-	 * 
+	 * Konventional Methode <br>
+	 * identisch zu {@link IActivationContext#getServiceUtil()#getService(Class)}
 	 * @param <T>
 	 * @param pClass
 	 * @return

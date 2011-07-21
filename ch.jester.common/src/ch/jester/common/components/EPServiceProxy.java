@@ -30,6 +30,9 @@ class EPServiceProxy<T> implements InvocationHandler{
 		return mElement.getAttribute(pPropertyKey);
 	}
 	
+	/** Zusammen-Stringen der Attribute
+	 * @return
+	 */
 	private String getAttributes(){
 		StringBuilder sbuilder = new StringBuilder();
 		String[] names = mElement.getAttributeNames();
