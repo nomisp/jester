@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
 
+import ch.jester.model.util.ColorPreference;
+
 /**
  * Spielerkarte um einem Spieler für das Turnier relevante Daten
  * wie zum Beispiel seine Startnummer anzuhängen.
@@ -70,6 +72,8 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	
 	@Column(nullable=true)
 	private String roundPoints;
+	
+	private transient ColorPreference colorPref;
 	
 	@XmlAttribute(name="playerId")
 	@XmlIDREF
@@ -286,6 +290,33 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		} else {
 			roundPoints += points;
 		}
+	}
+	
+	/**
+	 * Liefert die Summe der Punkte des Spielers bis zu einer bestimmten Runde 
+	 * @param roundNumber	Runde bis zu welcher die Punkte gebraucht werden
+	 * @return
+	 */
+	public Double getPointsTillRound(int roundNumber) {
+		double points = 0.0;
+		char[] pointsArray = roundPoints.toCharArray();
+		for (int i = 0; i < roundNumber; i++) {
+			char point = pointsArray[i];
+			if (point == 'x' || point == 'X') {
+				point += 0.5;
+			} else if (point == '1') {
+				point += 1.0;
+			}
+		}
+		return points;
+	}
+
+	public ColorPreference getColorPref() {
+		return colorPref;
+	}
+
+	public void setColorPref(ColorPreference colorPref) {
+		this.colorPref = colorPref;
 	}
 
 	@Override
