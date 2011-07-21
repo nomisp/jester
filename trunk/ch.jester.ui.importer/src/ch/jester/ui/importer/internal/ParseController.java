@@ -10,7 +10,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.common.utility.ZipUtility;
-import ch.jester.commonservices.api.importer.IImportAttributeMatcher;
+import ch.jester.commonservices.api.importer.IImportPropertyMatcher;
 import ch.jester.commonservices.api.importer.IImportHandler;
 import ch.jester.commonservices.api.importer.ITestableImportHandler;
 import ch.jester.commonservices.api.importer.IVirtualTable;
@@ -64,10 +64,10 @@ public class ParseController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public IImportAttributeMatcher getImportAttributeMatcher(){
+	public IImportPropertyMatcher getImportAttributeMatcher(){
 		if(mSelection.getSelectedHandlerEntry()==null){return null;}
 		IImportHandler handler = mSelection.getSelectedHandlerEntry().getService();
-		IImportAttributeMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportAttributeMatcher.class);
+		IImportPropertyMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportPropertyMatcher.class);
 		return attributehandler;
 	}
 	
@@ -89,7 +89,7 @@ public class ParseController {
 	
 	public String[] getInputAttributes(){
 		if(hasException()){
-			getImportAttributeMatcher().resetInputLinking();
+			getImportAttributeMatcher().resetInputMatching();
 			lastException = null;
 		}
 		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
@@ -118,16 +118,16 @@ public class ParseController {
 		return attributehandler.getDomainObjectAttributes();
 	}*/
 	
-	public IImportAttributeMatcher getAttributeMatcher(){
+	public IImportPropertyMatcher getAttributeMatcher(){
 		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
-		IImportAttributeMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportAttributeMatcher.class);
+		IImportPropertyMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportPropertyMatcher.class);
 		return attributehandler;
 	}
 
 	public HashMap<String, String> getPredefiniedLinking(){
 		IImportHandler<?> handler = mSelection.getSelectedHandlerEntry().getService();
-		IImportAttributeMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportAttributeMatcher.class);
-		return attributehandler.getInputLinking();
+		IImportPropertyMatcher attributehandler = AdapterUtility.getAdaptedObject(handler, IImportPropertyMatcher.class);
+		return attributehandler.getInputMatching();
 		
 	}
 	@SuppressWarnings("unchecked")

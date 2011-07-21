@@ -1,7 +1,7 @@
 package ch.jester.commonservices.api.components;
 
 /**
- * Hilfsklasse die einen Service kapselt.
+ * Hilfsklasse die einen Service kapselt bzw dessen Extension Point Definition
  *
  * @param <T> der SerivceTyp
  */

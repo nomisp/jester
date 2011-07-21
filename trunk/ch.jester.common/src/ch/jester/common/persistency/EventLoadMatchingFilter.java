@@ -11,7 +11,7 @@ import ch.jester.commonservices.api.persistency.IPersistencyFilter;
 public class EventLoadMatchingFilter extends ChainedPersistencyFilter{
 	private Class<?> mClass;
 	/**
-	 Matcht den Load vom PersistencyEvent auf die übergebene Klasse.
+	 Matcht den Load des PersistencyEvent auf die übergebene Klasse.
 	 * Nur dann wird der Event weitergereicht.
 	 * @param pClz
 	 */

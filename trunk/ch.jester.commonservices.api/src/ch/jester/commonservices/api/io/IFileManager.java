@@ -94,6 +94,14 @@ public interface IFileManager{
 	 * @return den Subfolder im WorkingDirectory
 	 */
 	public File getFolderInWorkingDirectory(String folderName);
+	/**
+	 * Erzeugung eines Temp Folders
+	 * @return
+	 */
 	public File createTempFolder();
+	/**
+	 * Delete Directory.
+	 * @param binDir
+	 */
 	public void deleteDirectory(File binDir);
 }

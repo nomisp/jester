@@ -11,14 +11,24 @@ import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
  * 
  */
 public interface IWebImportAdapter extends IImportHandler<Object>, IPreferenceManagerProvider {
+
 	/**
-	 * @return
-	 * @throws IOException
+	 * Der zu adaptierende Handler
+	 * @param pAdaptedHandler
 	 */
 	public void setIImportHandler(IImportHandler<Object> pAdaptedHandler);
 	
+	/**
+	 * Gibt die Links zurück, welche verfügbar sind
+	 * @return
+	 * @throws IOException
+	 */
 	public List<ILink> getLinks()  throws IOException ;
 	
+	/**
+	 * Setzt eine Downloadadresse (Root Adresse)
+	 * @param pAddress
+	 */
 	public void setDownloadAddress(String pAddress);
 	
 } 

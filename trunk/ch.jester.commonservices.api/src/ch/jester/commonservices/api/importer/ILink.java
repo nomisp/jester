@@ -12,22 +12,22 @@ public interface ILink {
 	/**den Text auf den sich <a href>
 	 * @return
 	 */
-	public abstract String getText();
+	public String getText();
 
 	/**Die <a href>
 	 * @return
 	 */
-	public abstract String getURL();
+	public String getURL();
 
 	/**Falls <a href> relativ ist, kann die Root Addresse gesetzt werden.
 	 * @param pAddress
 	 */
-	public abstract void setRoot(String pAddress);
+	public void setRoot(String pAddress);
 
 	/**Versucht den Link in das angegebene Verzeichnis herunterzuladen
 	 * @param pTargetFile
 	 * @throws IOException
 	 */
-	public abstract void download(String pTargetFile) throws IOException;
+	public void download(String pTargetFile) throws IOException;
 
 }

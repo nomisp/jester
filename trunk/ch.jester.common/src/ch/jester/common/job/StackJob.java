@@ -78,6 +78,12 @@ public abstract class StackJob<T> extends Job{
 	
 	protected abstract IStatus runInternal(IProgressMonitor monitor, T event);
 	
+	/**
+	 * Eine Exklusive Scheduling Rule
+	 * <br>
+	 * Jobs mit dieser Rule laufen nicht parallel
+	 *
+	 */
 	class MutexSchedulingRule implements ISchedulingRule {
 		
 		@Override

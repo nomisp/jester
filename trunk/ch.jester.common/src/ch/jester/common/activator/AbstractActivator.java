@@ -8,6 +8,10 @@ import ch.jester.common.utility.CallerUtility.Caller;
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.bundle.IDelegationActivator;
 
+/**
+ * Abstrakter Aktivator der {@link IDelegationActivator} implementiert.
+ *
+ */
 public abstract class AbstractActivator implements IDelegationActivator<BundleActivator>{
 	private IActivationContext<BundleActivator> mContext;
 	@Override
@@ -17,7 +21,6 @@ public abstract class AbstractActivator implements IDelegationActivator<BundleAc
 		String method = caller.getCallerMethod();
 		String callingClass = caller.getCallerClass();
 		String selfClass =  this.getClass().getName();
-		//using StringPooling here
 		if(callingClass==selfClass && method.equals("<init>")){
 			throw new IllegalAccessError("getActivationContext can't be called during Initialization");
 		}

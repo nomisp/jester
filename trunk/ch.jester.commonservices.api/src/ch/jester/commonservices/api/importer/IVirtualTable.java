@@ -3,18 +3,28 @@ package ch.jester.commonservices.api.importer;
 import java.util.List;
 
 
+/**
+ * Definiert eine Tabelle
+ *
+ * @param <T>
+ */
 public interface IVirtualTable<T> {
+	/**
+	 * Definiert eine Zelle
+	 *
+	 */
 	public interface IVirtualCell{
 		/**
-		 * @return
+		 * @return den Name der Zelle
 		 */
 		public String getName();
 		/**
+		 * Setzen eine Delimiters, für überlappende -nicht eindeutig identifizierbare Zellen.
 		 * @param  pDelim
 		 */
 		public void setDelimiter(String pDelim);
 		/**
-		 * @return
+		 * @return den Delimiter oder null
 		 */
 		public String getDelimiter();
 		/**
@@ -22,9 +32,15 @@ public interface IVirtualTable<T> {
 		 */
 		public int getDelimiterSequence();
 		/**
+		 * Die Sequenz
 		 * @param  i
 		 */
 		public void setDelimiterSequence(int i);
+		/**
+		 * Erstellen des Contents der Zelle
+		 * @param detailList
+		 * @param pInput
+		 */
 		public void createCellContent(List<String> detailList, String pInput);
 		/**
 		 * @param  text
@@ -71,13 +87,32 @@ public interface IVirtualTable<T> {
 	 */
 	public String[] processRow(T pRow, int pLenght);
 	
+	/**Können Zellen hinzugefügt werden?
+	 * @return
+	 */
 	public boolean canAddCells();
 	
+	/**
+	 * Zellen löschen
+	 */
 	public void clearCells();
 	
+	/**
+	 * Zelle hinzufügen
+	 * @param cell
+	 */
 	public void addCell(IVirtualCell cell);
 
+	/**
+	 * Alle Zellen zurückgeben
+	 * @return
+	 */
 	public List<IVirtualCell> getCells();
 	
-	public String[] getDynamicInput(int pCount);
+	/**
+	 * Gibt die übergebene Anzahl Reihen zurück
+	 * @param pCount
+	 * @return
+	 */
+	public String[] getRowInput(int pCount);
 }

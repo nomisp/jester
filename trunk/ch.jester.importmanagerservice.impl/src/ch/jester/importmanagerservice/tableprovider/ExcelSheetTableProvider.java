@@ -95,7 +95,7 @@ public class ExcelSheetTableProvider implements IVirtualTable<Row>{
 		return false;
 	}
 	@Override
-	public String[] getDynamicInput(int pCount) {
+	public String[] getRowInput(int pCount) {
 		return null;
 	}
 	@Override

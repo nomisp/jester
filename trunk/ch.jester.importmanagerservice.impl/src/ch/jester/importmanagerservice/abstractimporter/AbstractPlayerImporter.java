@@ -46,7 +46,7 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 	}
 	
 	@Override
-	public void resetInputLinking() {
+	public void resetInputMatching() {
 		mInputLinking.clear();
 		init_linking();
 		
@@ -54,7 +54,7 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 	public abstract void init_linking();
 	
 	@Override
-	public String[] getDomainObjectAttributes() {
+	public String[] getDomainObjectProperties() {
 		return exposedProperties;
 	}
 

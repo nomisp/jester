@@ -62,7 +62,7 @@ public class FixTextTableProvider implements IVirtualTable<String>{
 	}
 
 	@Override
-	public String[] getDynamicInput(int pCount) {
+	public String[] getRowInput(int pCount) {
 		String[] s = new String[pCount];
 		for(int i=0;i<pCount;i++){
 			s[i] = mContent.get(i);

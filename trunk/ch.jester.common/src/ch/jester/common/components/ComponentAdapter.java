@@ -22,6 +22,10 @@ public class ComponentAdapter<T> implements IComponentService<T>{
 		
 	}
 	
+	/**
+	 * Gibt den Component Context zurück
+	 * @return aComponentContext
+	 */
 	public ComponentContext getContext(){
 		return mContext;
 	}
@@ -36,10 +40,17 @@ public class ComponentAdapter<T> implements IComponentService<T>{
 
 	}
 
+	/** Logger getter
+	 * @return
+	 */
 	protected ILogger getLogger(){
 		return mLogger;
 	}
 	
+	/**
+	 * Logger setter
+	 * @param pLogger
+	 */
 	protected void setLogger(ILogger pLogger){
 		mLogger = pLogger;
 	}

@@ -4,7 +4,7 @@ import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyFilter;
 
 /**
- * Der Event wird nur weitergeleitet wenn die Persister Referenzen nicht übereinstimmen
+ * Der Event wird nur weitergeleitet wenn die Dao Referenzen nicht übereinstimmen
  *
  */
 public class DaoMatchFilter  extends ChainedPersistencyFilter{
