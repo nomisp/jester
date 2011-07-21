@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Nl1
+Bundle-SymbolicName: ch.jester.common.nl1
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: ch.jester.common
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
