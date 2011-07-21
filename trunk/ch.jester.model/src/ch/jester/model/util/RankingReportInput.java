@@ -10,6 +10,7 @@ import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.model.AbstractModelBean;
 import ch.jester.model.Category;
 import ch.jester.model.Ranking;
+import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 
 public class RankingReportInput extends AbstractModelBean<IEntityObject>{
@@ -20,6 +21,7 @@ public class RankingReportInput extends AbstractModelBean<IEntityObject>{
 	Map<Category, Ranking>  mMap;
 	private Tournament mTournament;
 	private List<RankingReportInputEntry> mReportStructure = new ArrayList<RankingReportInputEntry>();
+	private Round mRound;
 	public RankingReportInput(Map<Category, Ranking> map){
 		mTournament = map.keySet().iterator().next().getTournament();
 		mMap = map;
@@ -37,6 +39,13 @@ public class RankingReportInput extends AbstractModelBean<IEntityObject>{
 	}
 	public RankingReportInput(Category pCategory, Ranking pRanking){
 		mTournament = pCategory.getTournament();
+		mMap = new HashMap<Category, Ranking>();
+		mMap.put(pCategory, pRanking);
+		createReportInput();
+	}
+	public RankingReportInput(Category pCategory, Round round, Ranking pRanking){
+		mTournament = pCategory.getTournament();
+		mRound = round;
 		mMap = new HashMap<Category, Ranking>();
 		mMap.put(pCategory, pRanking);
 		createReportInput();
@@ -60,7 +69,9 @@ public class RankingReportInput extends AbstractModelBean<IEntityObject>{
 		return mTournament;
 	}
 
-	
+	public Round getRound(){
+		return mRound;
+	}
 
 
 	

@@ -287,14 +287,24 @@
             class="ch.jester.ui.tournament.handler.RankingHandler"
             commandId="ch.jester.ui.tournament.ranking">
          <activeWhen>
-            <reference
-                  definitionId="ch.jester.ui.tournament.tournamentOrCategorySelected">
-            </reference>
+            <or>
+               <reference
+                     definitionId="ch.jester.ui.tournament.tournamentOrCategorySelected">
+               </reference>
+               <reference
+                     definitionId="ch.jester.ui.tournament.roundSelected">
+               </reference>
+            </or>
          </activeWhen>
          <enabledWhen>
-            <reference
-                  definitionId="ch.jester.ui.tournament.tournamentOrCategorySelected">
-            </reference>
+            <or>
+               <reference
+                     definitionId="ch.jester.ui.tournament.tournamentOrCategorySelected">
+               </reference>
+               <reference
+                     definitionId="ch.jester.ui.tournament.roundSelected">
+               </reference>
+            </or>
          </enabledWhen>
       </handler>
       <handler
@@ -426,6 +436,17 @@
                   </instanceof>
                </iterate>
             </or>
+         </with>
+      </definition>
+      <definition
+            id="ch.jester.ui.tournament.roundSelected">
+         <with
+               variable="selection">
+            <iterate>
+               <instanceof
+                     value="ch.jester.model.Round">
+               </instanceof>
+            </iterate>
          </with>
       </definition>
    </extension>

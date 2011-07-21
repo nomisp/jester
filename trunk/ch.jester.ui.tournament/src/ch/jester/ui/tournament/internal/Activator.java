@@ -1,5 +1,6 @@
 package ch.jester.ui.tournament.internal;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.FormColors;
 import org.osgi.framework.BundleContext;
@@ -69,5 +70,9 @@ public class Activator extends AbstractUIActivator {
 			formColors.markShared();
 		}
 		return formColors;
+	}
+	
+	public static ImageDescriptor imageDescriptor(String imgpath){
+		return imageDescriptorFromPlugin(plugin.getActivationContext().getPluginId(), imgpath);
 	}
 }

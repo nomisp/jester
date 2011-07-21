@@ -46,19 +46,17 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 	@Override
 	public Ranking calculateRanking(Category category, IProgressMonitor pMonitor) throws NotAllResultsException {
 		Ranking ranking = null;
-		//TODO: von Matthias: Peter checken!!
-		/*if(category.getRanking()!=null){
-	            category.setRanking(null);
-	            IDaoService<Category> categoryDaoService = mServiceUtil.getDaoServiceByEntity(Category.class);
-	            categoryDaoService.save(category);
-	    }*/
 		if (checkCategoryFinished(category)) {
 			return createFinalRanking(category);
 		} else {
 			return createIntermediateRanking(category);
 		}
-		
-		//return ranking;
+	}
+	
+	@Override
+	public Ranking calculateRanking(Category category, Round round,
+			IProgressMonitor pMonitor) throws NotAllResultsException {
+		return createIntermediateRanking(category, round, RankingHelper.getLastFinishedRound(category));
 	}
 	
 	/**
@@ -95,19 +93,12 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		return ranking;
 	}
 	
-	/**
-	 * Erzeugt eine Zwischenrangliste zur letzten fertig gespielten Runde
-	 * @param category
-	 * @return Zwischenrangliste
-	 * @throws NotAllResultsException 
-	 */
-	private IntermediateRanking createIntermediateRanking(Category category) throws NotAllResultsException {
-		Round lastFinishedRound = RankingHelper.getLastFinishedRound(category); 
+	private IntermediateRanking createIntermediateRanking(Category category,Round injectedRound, Round lastFinishedRound) throws NotAllResultsException {
 		if (lastFinishedRound == null) throw new NotAllResultsException("NotAllResultsForRanking");
+		if(lastFinishedRound.getNumber()<injectedRound.getNumber()) throw new NotAllResultsException("NotAllResultsForRanking");
 		IntermediateRanking ranking = lastFinishedRound.getRanking();
 		if (ranking != null) {
 			ranking.getRankingEntries().clear();
-			//ranking.setRankingEntries(new ArrayList<RankingEntry>());
 		} else {
 			ranking = ModelFactory.getInstance().createIntermediateRanking(lastFinishedRound);
 		}
@@ -127,6 +118,18 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		
 		saveIntermediateRanking(lastFinishedRound, ranking);
 		return ranking;
+	}
+	
+	/**
+	 * Erzeugt eine Zwischenrangliste zur letzten fertig gespielten Runde
+	 * @param category
+	 * @return Zwischenrangliste
+	 * @throws NotAllResultsException 
+	 */
+	private IntermediateRanking createIntermediateRanking(Category category) throws NotAllResultsException {
+		Round lastFinishedRound = RankingHelper.getLastFinishedRound(category); 
+		return createIntermediateRanking(category,lastFinishedRound, lastFinishedRound);
+		
 	}
 
 	/**
@@ -196,4 +199,6 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 	public void setEPEntry(IEPEntry<?> e) {
 		rankingSystemEntry = e;
 	}
+
+
 }

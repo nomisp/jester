@@ -203,8 +203,11 @@
 	<field name="tournament" class="ch.jester.model.Tournament">
 		<fieldDescription><![CDATA[tournament]]></fieldDescription>
 	</field>
+	<field name="round" class="ch.jester.model.Round">
+		<fieldDescription><![CDATA[round]]></fieldDescription>
+	</field>
 	<title>
-		<band height="47" splitType="Stretch">
+		<band height="57" splitType="Stretch">
 			<textField>
 				<reportElement x="300" y="0" width="145" height="20"/>
 				<textElement/>
@@ -236,12 +239,17 @@
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{title_ranking_list}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="44" y="37" width="154" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{round}!=null?$R{round}+" "+$F{round}.getNumber():""]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>
 		<band height="165" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="0" width="554" height="165"/>
+				<reportElement x="1" y="0" width="554" height="165"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{inputEntries})]]></dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "RankingListCat.jasper"]]></subreportExpression>
 			</subreport>
