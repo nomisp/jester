@@ -53,39 +53,44 @@ public class PlayerComparator implements Comparator<PlayerCard> {
 	private int compareElo(PlayerCard p1, PlayerCard p2) {
 		Player player1 = p1.getPlayer();
 		Player player2 = p2.getPlayer();
-
-		if (player2.getElo().compareTo(player1.getElo()) == 0) {
+		Integer player1Elo = player1.getElo() != null ? player1.getElo() : 0;
+		Integer player2Elo = player2.getElo() != null ? player2.getElo() : 0;
+		if (player2Elo.compareTo(player1Elo) == 0) {
 			return compareTitle(player1, player2);
 		} else {
-			return player2.getElo().compareTo(player1.getElo());
+			return player2Elo.compareTo(player1Elo);
 		}
 	}
 
 	private int compareNWZ(PlayerCard p1, PlayerCard p2) {
 		Player player1 = p1.getPlayer();
 		Player player2 = p2.getPlayer();
+		Integer player1Nwz = player1.getNationalElo() != null ? player1.getNationalElo() : 0;
+		Integer player2Nwz = player2.getNationalElo() != null ? player2.getNationalElo() : 0;
 
-		if (player2.getNationalElo().compareTo(player1.getNationalElo()) == 0) {
+		if (player2Nwz.compareTo(player1Nwz) == 0) {
 			return compareTitle(player1, player2);
 		} else {
-			return player2.getNationalElo().compareTo(player1.getNationalElo());
+			return player2Nwz.compareTo(player1Nwz);
 		}
 	}
 
 	private int compareEstimatedElo(PlayerCard p1, PlayerCard p2) {
 		Player player1 = p1.getPlayer();
 		Player player2 = p2.getPlayer();
+		Integer player1EstimatedElo = player1.getEstimatedElo() != null ? player1.getEstimatedElo() : 0;
+		Integer player2EstimatedElo = player2.getEstimatedElo() != null ? player2.getEstimatedElo() : 0;
 
-		if (player2.getEstimatedElo().compareTo(player1.getEstimatedElo()) == 0) {
+		if (player2EstimatedElo.compareTo(player1EstimatedElo) == 0) {
 			return compareTitle(player1, player2);
 		} else {
-			return player2.getEstimatedElo().compareTo(player1.getEstimatedElo());
+			return player2EstimatedElo.compareTo(player1EstimatedElo);
 		}
 	}
 	
 	private int compareTitle(Player player1, Player player2) {
-		Title titlePlayer1 = player1.getTitle();
-		Title titlePlayer2 = player2.getTitle();
+		Title titlePlayer1 = player1.getTitle() != null ? player1.getTitle() : Title.NONE;
+		Title titlePlayer2 = player2.getTitle() != null ? player2.getTitle() : Title.NONE;
 		if (titlePlayer1.compareTo(titlePlayer2) == 0) {
 			return compareAlpabeticaly(player1, player2);
 		} else {

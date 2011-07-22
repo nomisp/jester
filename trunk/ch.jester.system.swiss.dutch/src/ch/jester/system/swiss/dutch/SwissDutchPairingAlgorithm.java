@@ -48,6 +48,7 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 	private List<Pairing> pairings = new ArrayList<Pairing>();
 	private List<List<PlayerCard>> scoreBrackets = new ArrayList<List<PlayerCard>>();
 	private Round nextRound;
+	private boolean firstRound = true;
 	
 	public SwissDutchPairingAlgorithm() {
 		mLogger = SwissDutchSystemActivator.getDefault().getActivationContext().getLogger();
@@ -55,26 +56,35 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 
 	@Override
 	public List<Pairing> executePairings(Tournament tournament) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException {
-		// TODO Auto-generated method stub
-		return null;
+		if (settings == null) loadSettings(tournament);
+		List<Pairing> allPairings = new ArrayList<Pairing>();
+		for (Category category : tournament.getCategories()) {
+			allPairings.addAll(executePairings(category));
+		}
+		return allPairings;
 	}
 
 	@Override
 	public List<Pairing> executePairings(Category category) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException {
-		List<Round> openRounds = PairingHelper.getOpenRounds(category);
+		if (settings == null) loadSettings(category.getTournament());
+		firstRound = category.getRounds().get(0).getPairings().size() == 0;
 		List<Round> finishedRounds = PairingHelper.getFinishedRounds(category);
-		if (openRounds.size() + finishedRounds.size() != category.getRounds().size()) throw new NotAllResultsException();
-		nextRound = openRounds != null && openRounds.size() > 0 ? openRounds.get(0) : null;
-		if (nextRound == null && finishedRounds.size() == category.getRounds().size()) throw new TournamentFinishedException();
+		if (!firstRound && (finishedRounds.size() + PairingHelper.getOpenRounds(category).size() != category.getRounds().size())) throw new NotAllResultsException();
+		if (finishedRounds.size() == category.getRounds().size()) throw new TournamentFinishedException();
+		nextRound = finishedRounds.size() > 0 ? category.getRounds().get(finishedRounds.size()) : category.getRounds().get(0);
 		
 		List<PlayerCard> playerCards = category.getPlayerCards();
 		Collections.sort(playerCards, new PlayerComparator(settings.getRatingType()));
 		generateScoreBrackets(playerCards);
 		
 		unpairedPlayers.addAll(playerCards);
+		
 		while (!unpairedPlayers.isEmpty()) {
-			PlayerCard currentPlayer = unpairedPlayers.remove();
-			Pairing pairing = pairPlayer(currentPlayer);
+			for (List<PlayerCard> scoreBracket : scoreBrackets) {
+				int s1 = 0;
+				int s2 = scoreBracket.size() / 2;
+				
+			}
 		}
 		return this.pairings;
 	}
