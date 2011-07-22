@@ -134,7 +134,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	 * @param roundNr	Nummer der Runde der Resultatänderung
 	 */
 	public void modifyResult(Double oldResult, Double newResult, int roundNr) {
-		if (oldResult != null && newResult != null && roundNr > 0 && roundNr < roundPoints.length()) {
+		if (oldResult != null && newResult != null && roundNr > 0 && roundNr <= roundPoints.length()) { //< --> <=
 			this.points -= oldResult;
 			this.points += newResult;
 			
@@ -142,9 +142,12 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 			if (newResult == 0.5) {
 				charArray[roundNr-1] = 'x';
 			} else {
-				charArray[roundNr-1] = (char) newResult.intValue();
+				//charArray[roundNr-1] = (char) newResult.intValue(); -- auch nicht
+				char ch = Character.forDigit(newResult.intValue(), 10);
+				charArray[roundNr-1] = ch;
 			}
-			roundPoints = charArray.toString();
+			//roundPoints = charArray.toString(); -- ne
+			roundPoints = new String(charArray);
 		}
 	}
 

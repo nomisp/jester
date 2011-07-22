@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlTransient;
@@ -31,6 +32,11 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Round extends AbstractModelBean<Round> {
 	private static final long serialVersionUID = 6672346214824111918L;
 
+	public Round(){
+		int k=0;
+		k++;
+	}
+	
 	@Column(name="RoundNumber", nullable=false)
 	private Integer number;
 	
