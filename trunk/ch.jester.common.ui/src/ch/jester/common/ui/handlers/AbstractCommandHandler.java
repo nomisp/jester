@@ -36,6 +36,7 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 		mServiceUtility = new ServiceUtility(FrameworkUtil.getBundle(
 				AbstractCommandHandler.this.getClass()).getBundleContext());
 		mLogger = CommonUIActivator.getDefault().getActivationContext().getLogger();
+		mLogger.info("COMMAND! - User Executed: "+event.getCommand().getId());
 		return executeInternal(event);
 	}
 
