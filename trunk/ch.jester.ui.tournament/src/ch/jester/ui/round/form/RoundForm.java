@@ -127,6 +127,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart, ISele
 	
 		//clientArea = mManagedForm.getForm().getShell().getClientArea();
 		int pairingCnt = 0;
+		
 		for(Round r:mController.getRounds()){
 			pairingCnt+=r.getPairings().size();
 		}

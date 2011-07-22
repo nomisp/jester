@@ -53,10 +53,18 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		}
 	}
 	
+	private int getLastFinishedRoundNumber(Category category){
+		Round r = RankingHelper.getLastFinishedRound(category);
+		if(r==null){
+			return 0;
+		}
+		return r.getNumber();
+	}
+	
 	@Override
 	public Ranking calculateRanking(Category category, Round round,
 			IProgressMonitor pMonitor) throws NotAllResultsException {
-		return createIntermediateRanking(category, round, RankingHelper.getLastFinishedRound(category));
+		return createIntermediateRanking(category, round, getLastFinishedRoundNumber(category));
 	}
 	
 	/**
@@ -70,6 +78,7 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		FinalRanking ranking = category.getRanking();
 		if (ranking != null) {
 			ranking.getRankingEntries().clear();
+			//mServiceUtil.getDaoServiceByEntity(RankingEntry.class).delete(ranking.getRankingEntries());
 			//ranking.setRankingEntries(new ArrayList<RankingEntry>());
 		} else {
 			ranking = ModelFactory.getInstance().createFinalRanking(category);
@@ -93,14 +102,16 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		return ranking;
 	}
 	
-	private IntermediateRanking createIntermediateRanking(Category category,Round injectedRound, Round lastFinishedRound) throws NotAllResultsException {
-		if (lastFinishedRound == null) throw new NotAllResultsException("NotAllResultsForRanking");
-		if(lastFinishedRound.getNumber()<injectedRound.getNumber()) throw new NotAllResultsException("NotAllResultsForRanking");
-		IntermediateRanking ranking = lastFinishedRound.getRanking();
+	private IntermediateRanking createIntermediateRanking(Category category,Round injectedRound, int lastFinishedRoundNumber) throws NotAllResultsException {
+		if (lastFinishedRoundNumber == 0) throw new NotAllResultsException("NotAllResultsForRanking");
+		if(lastFinishedRoundNumber<injectedRound.getNumber()) throw new NotAllResultsException("NotAllResultsForRanking");
+		IntermediateRanking ranking = injectedRound.getRanking();
 		if (ranking != null) {
+			//mServiceUtil.getDaoServiceByEntity(RankingEntry.class).delete(ranking.getRankingEntries());
 			ranking.getRankingEntries().clear();
+			//mServiceUtil.getDaoServiceByEntity(RankingEntry.class).delete(ranking.getRankingEntries());
 		} else {
-			ranking = ModelFactory.getInstance().createIntermediateRanking(lastFinishedRound);
+			ranking = ModelFactory.getInstance().createIntermediateRanking(injectedRound);
 		}
 		
 		List<Round> finishedRounds = RankingHelper.getFinishedRounds(category);
@@ -116,7 +127,7 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		
 		RankingHelper.createRanking(ranking, initialIntermediateRanking, rankingSystemEntry.getProperty("shortType"));
 		
-		saveIntermediateRanking(lastFinishedRound, ranking);
+		saveIntermediateRanking(injectedRound, ranking);
 		return ranking;
 	}
 	
@@ -128,7 +139,7 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 	 */
 	private IntermediateRanking createIntermediateRanking(Category category) throws NotAllResultsException {
 		Round lastFinishedRound = RankingHelper.getLastFinishedRound(category); 
-		return createIntermediateRanking(category,lastFinishedRound, lastFinishedRound);
+		return createIntermediateRanking(category,lastFinishedRound, getLastFinishedRoundNumber(category));
 		
 	}
 
