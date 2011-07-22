@@ -67,13 +67,13 @@ public class Player extends AbstractModelBean<Player> {
 	private Integer nationalCode;
 
 	@Column(name = "Elo", nullable = true)
-	private Integer elo;
+	private Integer elo = 0;
 
 	@Column(name = "NationalElo", nullable = true)
-	private Integer nationalElo;
+	private Integer nationalElo = 0;
 
 	@Column(name = "EstimatedElo", nullable = true)
-	private Integer estimatedElo;
+	private Integer estimatedElo = 0;
 
 	@Column(name = "Age", nullable = true)
 	private Integer age;
