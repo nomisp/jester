@@ -154,7 +154,7 @@ public class ResultController implements IDirtyManagerProvider{
 			builder.append(" > ");
 			builder.append(Messages.TournamentLabelProvider_lbl_round);
 			builder.append(": ");
-			builder.append(getRoundInput().getId());
+			builder.append(getRoundInput().getNumber());
 		}
 		return builder.toString();
 	}
