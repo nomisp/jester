@@ -442,7 +442,8 @@
             id="ch.jester.ui.tournament.roundSelected">
          <with
                variable="selection">
-            <iterate>
+            <iterate
+                  ifEmpty="false">
                <instanceof
                      value="ch.jester.model.Round">
                </instanceof>
@@ -498,6 +499,16 @@
             id="ch.jester.ui.tournament.linkHelper3">
          <editorInputEnablement></editorInputEnablement>
       </linkHelper>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="ch.jester.ui.tournament.handler.IsPairedPropertyTester"
+            id="ch.jester.ui.tournament.categorypaired"
+            namespace="ch.jester.properties"
+            properties="isCategoryPaired"
+            type="java.lang.Object">
+      </propertyTester>
    </extension>
 
 </plugin>

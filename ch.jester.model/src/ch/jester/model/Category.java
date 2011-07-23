@@ -133,6 +133,14 @@ public class Category extends AbstractModelBean<Category> {
 	public List<PlayerCard> getPlayerCards() {
 		return playerCards;
 	}
+	
+	@XmlTransient
+	public boolean isPaired(){
+		if(this.getRounds()!=null && !this.getRounds().isEmpty()){
+			return true;
+		}
+		return false;
+	}
 
 	public void setPlayerCards(List<PlayerCard> playerCards) {
 		this.playerCards = playerCards;
