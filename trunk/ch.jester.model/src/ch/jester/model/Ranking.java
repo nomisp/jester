@@ -40,4 +40,14 @@ public abstract class Ranking extends AbstractModelBean<Ranking> {
 		if (!rankingEntries.contains(rankingEntry)) rankingEntries.add(rankingEntry);
 		if (rankingEntry.getRanking() != this) rankingEntry.setRanking(this);
 	}
+
+	protected void preRemove() {
+		List<RankingEntry> entries = rankingEntries;
+		for(RankingEntry entry:entries){
+			entry.setPlayerCard(null);
+			entry.setRanking(null);
+		}
+		entries.clear();
+		
+	}
 }

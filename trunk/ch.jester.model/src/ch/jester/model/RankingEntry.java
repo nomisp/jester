@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 /**
@@ -23,6 +24,11 @@ public class RankingEntry extends AbstractModelBean<RankingEntry> implements Com
 	
 	@Column(name="Position")
 	private Integer position;
+	
+	@PreRemove
+	public void preRemove(){
+		
+	}
 	
 	public Ranking getRanking() {
 		return ranking;
