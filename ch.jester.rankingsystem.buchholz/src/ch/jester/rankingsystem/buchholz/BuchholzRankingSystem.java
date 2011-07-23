@@ -1,6 +1,5 @@
 package ch.jester.rankingsystem.buchholz;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import ch.jester.model.FinalRanking;
 import ch.jester.model.IntermediateRanking;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Ranking;
-import ch.jester.model.RankingEntry;
 import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
@@ -78,7 +76,8 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		FinalRanking ranking = category.getRanking();
 		if (ranking != null) {
 			ranking.getRankingEntries().clear();
-			//mServiceUtil.getDaoServiceByEntity(RankingEntry.class).delete(ranking.getRankingEntries());
+	
+			mServiceUtil.getDaoServiceByEntity(FinalRanking.class).delete(ranking);
 			//ranking.setRankingEntries(new ArrayList<RankingEntry>());
 		} else {
 			ranking = ModelFactory.getInstance().createFinalRanking(category);
@@ -107,8 +106,8 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		if(lastFinishedRoundNumber<injectedRound.getNumber()) throw new NotAllResultsException("NotAllResultsForRanking");
 		IntermediateRanking ranking = injectedRound.getRanking();
 		if (ranking != null) {
-			//mServiceUtil.getDaoServiceByEntity(RankingEntry.class).delete(ranking.getRankingEntries());
-			ranking.getRankingEntries().clear();
+			mServiceUtil.getDaoServiceByEntity(IntermediateRanking.class).delete(ranking);
+			//ranking.getRankingEntries().clear();
 			//mServiceUtil.getDaoServiceByEntity(RankingEntry.class).delete(ranking.getRankingEntries());
 		} else {
 			ranking = ModelFactory.getInstance().createIntermediateRanking(injectedRound);

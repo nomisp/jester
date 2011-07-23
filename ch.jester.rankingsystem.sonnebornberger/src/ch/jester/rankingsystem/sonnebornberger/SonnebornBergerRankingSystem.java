@@ -1,6 +1,5 @@
 package ch.jester.rankingsystem.sonnebornberger;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import ch.jester.model.FinalRanking;
 import ch.jester.model.IntermediateRanking;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Ranking;
-import ch.jester.model.RankingEntry;
 import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
@@ -68,8 +66,7 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 		if (!RankingHelper.allResultsAvailable(category)) throw new NotAllResultsException("NotAllResultsForRanking");
 		FinalRanking ranking = category.getRanking();
 		if (ranking != null) {
-			//ranking.setRankingEntries(new ArrayList<RankingEntry>());
-			ranking.getRankingEntries().clear();
+			mServiceUtil.getDaoServiceByEntity(FinalRanking.class).delete(ranking);
 		} else {
 			ranking = ModelFactory.getInstance().createFinalRanking(category);
 		}
@@ -120,8 +117,8 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 		if(lastFinishedRound.getNumber()<injectedRound.getNumber()) throw new NotAllResultsException("NotAllResultsForRanking");
 		IntermediateRanking ranking = lastFinishedRound.getRanking();
 		if (ranking != null) {
-		//	ranking.setRankingEntries(new ArrayList<RankingEntry>());
-			ranking.getRankingEntries().clear();
+			mServiceUtil.getDaoServiceByEntity(IntermediateRanking.class).delete(ranking);
+			
 		} else {
 			ranking = ModelFactory.getInstance().createIntermediateRanking(lastFinishedRound);
 		}

@@ -3,9 +3,12 @@
  */
 package ch.jester.model;
 
+import java.util.List;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
 
 /**
  * Zwischenrangliste
@@ -21,6 +24,12 @@ public class IntermediateRanking extends Ranking {
 	
 	public Round getRound() {
 		return round;
+	}
+	
+	@PreRemove
+	public void preRemove(){
+		this.round.setRanking(null);
+		super.preRemove();
 	}
 
 	public void setRound(Round round) {
