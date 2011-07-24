@@ -6,22 +6,22 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlList;
 
 
-@Entity
+@Entity 
 @Table(name = "Player")
 @NamedQueries({
 		@NamedQuery(name = Player.QUERY_GETALL, query = "SELECT player FROM Player player order by lastName, firstName"),
@@ -94,7 +94,7 @@ public class Player extends AbstractModelBean<Player> {
 	private Title title; // Titel eines Spielers (GM, IM, FM)
 
 
-	@ManyToMany(cascade={CascadeType.PERSIST})
+	@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 	      name="ClubPlayerAss",
 	      joinColumns={@JoinColumn(name="PlayerId",referencedColumnName="Id")},
@@ -259,6 +259,7 @@ public class Player extends AbstractModelBean<Player> {
 		return false;
 	}
 
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		Player clone = cloneWithSimpleProperties();

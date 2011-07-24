@@ -32,7 +32,7 @@ public class Club extends AbstractModelBean<Club> {
 	@Column(name="Code", nullable=true)
 	private Integer code;
 	
-	@ManyToMany(mappedBy="clubs", cascade={CascadeType.PERSIST})
+	@ManyToMany(mappedBy="clubs", cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	
 	private List<Player> players = new ArrayList<Player>();
 

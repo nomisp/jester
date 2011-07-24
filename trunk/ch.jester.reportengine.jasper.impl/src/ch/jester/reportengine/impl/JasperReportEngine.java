@@ -381,9 +381,9 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			mProgressGroup = Job.getJobManager().createProgressGroup();
+			//mProgressGroup = Job.getJobManager().createProgressGroup();
 			CompileJob cj = new CompileJob();
-			cj.setProgressGroup(mProgressGroup, IProgressMonitor.UNKNOWN);
+			//cj.setProgressGroup(mProgressGroup, IProgressMonitor.UNKNOWN);
 			cj.schedule();
 		}
 	}

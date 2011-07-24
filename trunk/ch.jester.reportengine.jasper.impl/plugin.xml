@@ -75,5 +75,10 @@
             name="%wizard_reports">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="ch.jester.reportengine.impl.starter.JasperReportEngineStartup"></startup>
+   </extension>
 
 </plugin>

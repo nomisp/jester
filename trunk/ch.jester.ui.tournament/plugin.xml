@@ -80,6 +80,12 @@
                visible="true">
          </separator>
          <command
+               commandId="ch.jester.ui.tournament.resetpairing"
+               icon="icons/pairing_delete.png"
+               label="%ResetPairing"
+               style="push">
+         </command>
+         <command
                commandId="cnf.popup.deleteTournament"
                icon="icons/tournament_delete.png"
                id="cnf.popup.delete"
@@ -87,6 +93,10 @@
                mnemonic="D"
                style="push">
          </command>
+         <separator
+               name="ch.jester.ui.tournament.separator3"
+               visible="true">
+         </separator>
          <command
                commandId="ch.jester.ui.tournament.edittournament"
                icon="icons/settings.png"
@@ -134,6 +144,10 @@
       <command
             id="ch.jester.ui.tournament.editresult"
             name="%Result">
+      </command>
+      <command
+            id="ch.jester.ui.tournament.resetpairing"
+            name="Reset Pairing">
       </command>
    </extension>
    <extension
@@ -334,6 +348,20 @@
             </reference>
          </enabledWhen>
       </handler>
+      <handler
+            class="ch.jester.ui.tournament.handler.ResetPairingHandler"
+            commandId="ch.jester.ui.tournament.resetpairing">
+         <activeWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.isPaired">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="ch.jester.ui.tournament.isPaired">
+            </reference>
+         </enabledWhen>
+      </handler>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -450,6 +478,29 @@
             </iterate>
          </with>
       </definition>
+      <definition
+            id="ch.jester.ui.tournament.isPaired">
+         <with
+               variable="selection">
+            <iterate
+                  operator="and">
+               <or>
+                  <instanceof
+                        value="ch.jester.model.Category">
+                  </instanceof>
+                  <instanceof
+                        value="ch.jester.model.Tournament">
+                  </instanceof>
+               </or>
+               <test
+                     args="isPaired"
+                     forcePluginActivation="true"
+                     property="ch.jester.properties.beantest"
+                     value="true">
+               </test>
+            </iterate>
+         </with>
+      </definition>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
@@ -499,16 +550,6 @@
             id="ch.jester.ui.tournament.linkHelper3">
          <editorInputEnablement></editorInputEnablement>
       </linkHelper>
-   </extension>
-   <extension
-         point="org.eclipse.core.expressions.propertyTesters">
-      <propertyTester
-            class="ch.jester.ui.tournament.handler.IsPairedPropertyTester"
-            id="ch.jester.ui.tournament.categorypaired"
-            namespace="ch.jester.properties"
-            properties="isCategoryPaired"
-            type="java.lang.Object">
-      </propertyTester>
    </extension>
 
 </plugin>

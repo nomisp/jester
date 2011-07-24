@@ -2,6 +2,8 @@ package ch.jester.ui.tournament;
 
 import java.util.List;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.util.LocalSelectionTransfer;
@@ -36,6 +38,7 @@ public class CommonDropPlayerAdapter extends CommonDropAdapterAssistant {
 		return LocalSelectionTransfer.getTransfer().getSelection()!=null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private boolean targetContainsAlreadySamePlayer(SelectionUtility transferedSelection, Object aTarget) {
 		List<Player> playerInCat = null;
 		if(aTarget instanceof Category){
@@ -64,7 +67,7 @@ public class CommonDropPlayerAdapter extends CommonDropAdapterAssistant {
 			return null;
 		}
 		if(isDropInSameHierarchy(target)){
-			mLogger.debug("DND: DND with same root object not allowed");
+			mLogger.debug("DND: DND with same root object not allowed"); //$NON-NLS-1$
 			return null;
 		}
 		return Status.OK_STATUS;
@@ -112,12 +115,12 @@ public class CommonDropPlayerAdapter extends CommonDropAdapterAssistant {
 		mLogger.debug("DND: DragSourceEqualsDropTarget: "+dragSourceEqualsDropTarget());
 	
 		if(!isSupported(transferType)){
-			mLogger.debug("DND: TransferType not supported");
+			mLogger.debug("DND: TransferType not supported"); //$NON-NLS-1$
 			return null;
 		}
 		
 		if(!isTargetClassValid(target)){
-			mLogger.debug("DND: TargetClass not valid");
+			mLogger.debug("DND: TargetClass not valid"); //$NON-NLS-1$
 			return null;
 		}
 
@@ -148,11 +151,11 @@ public class CommonDropPlayerAdapter extends CommonDropAdapterAssistant {
 			
 			SelectionUtility su = new SelectionUtility((ISelection) data);
 			if(targetContainsAlreadySamePlayer(su, aTarget)){
-				mLogger.debug("DND: Player already in Target");
+				mLogger.debug("DND: Player already in Target"); //$NON-NLS-1$
 				IExtendedStatusLineManager stl = util.getService(IExtendedStatusLineManager.class);
-				stl.setErrorMessage("Player Already in Folder");
+				stl.setErrorMessage(Messages.CommonDropPlayerAdapter_player_already_in_target); //$NON-NLS-1$
 				util.closeAllTrackers();
-				return new Status(IStatus.ERROR, Activator.getDefault().getActivationContext().getPluginId(), "PlayerAlready in Folder");
+				return new Status(IStatus.ERROR, Activator.getDefault().getActivationContext().getPluginId(), Messages.CommonDropPlayerAdapter_player_already_in_target);
 			}
 			Object[] objs = su.getAsStructuredSelection().toArray();
 			for(Object o:objs){

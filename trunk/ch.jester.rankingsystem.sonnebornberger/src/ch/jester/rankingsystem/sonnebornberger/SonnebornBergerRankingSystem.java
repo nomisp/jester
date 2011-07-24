@@ -67,6 +67,7 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 		FinalRanking ranking = category.getRanking();
 		if (ranking != null) {
 			mServiceUtil.getDaoServiceByEntity(FinalRanking.class).delete(ranking);
+			ranking = ModelFactory.getInstance().createFinalRanking(category);
 		} else {
 			ranking = ModelFactory.getInstance().createFinalRanking(category);
 		}
@@ -118,6 +119,7 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 		IntermediateRanking ranking = lastFinishedRound.getRanking();
 		if (ranking != null) {
 			mServiceUtil.getDaoServiceByEntity(IntermediateRanking.class).delete(ranking);
+			ranking = ModelFactory.getInstance().createIntermediateRanking(lastFinishedRound);
 			
 		} else {
 			ranking = ModelFactory.getInstance().createIntermediateRanking(lastFinishedRound);

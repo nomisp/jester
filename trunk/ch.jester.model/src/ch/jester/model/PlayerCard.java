@@ -15,6 +15,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
@@ -54,7 +55,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	@OneToMany(mappedBy="playerCard", cascade={CascadeType.ALL}, orphanRemoval=true)
 	private List<RankingSystemPoint> rankingSystemPoints = new ArrayList<RankingSystemPoint>();
 	
-	@OneToOne(mappedBy="playerCard", optional=true)
+	@OneToOne(mappedBy="playerCard", optional=true, cascade={CascadeType.REMOVE}, orphanRemoval=true)
 	private RankingEntry rankingEntry;
 	
 	@Column(nullable=true)
@@ -75,6 +76,12 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	
 	private transient ColorPreference colorPref;
 	
+	/*@PreRemove
+	public void preRemove(){
+		category.removePlayerCard(this);
+		player = null;
+	}*/
+	
 	@XmlAttribute(name="playerId")
 	@XmlIDREF
 	public Player getPlayer() {
@@ -84,7 +91,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	public void setPlayer(Player player) {
 		changeProperty("player", player);
 	}
-
+	
 	public Category getCategory() {
 		return category;
 	}

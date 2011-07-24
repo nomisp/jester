@@ -5,6 +5,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -36,6 +38,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	private Class<T> mClz;
 	private boolean mManualNotify;
 	private List<T> mNotificationCache;
+	private boolean doCommit;
 	@SuppressWarnings("unchecked")
 	public GenericPersister(){
 		Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
@@ -83,26 +86,32 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		if(pTCollection.isEmpty()){
 			return;
 		}
-		EntityTransaction trx = mManager.getTransaction();
+		EntityManager mManager = null;
+		if(batch){
+			mManager = mFactory.createEntityManager();
+			mManager.getTransaction().begin();
+		}else{
+			mManager = this.mManager;
+			openOrJoinTrx();
+		}
+		
 		try{
-			if (!trx.isActive()) {
-				trx.begin();
-			} else {
-				mManager.joinTransaction();
-			}
 		
 		for(T p:pTCollection){
 			if(p.isUnsafed()){
 				mManager.persist(p);
 			}else{
-				mManager.merge(p);
+				IEntityObject p0 =  mManager.find(p.getClass(), p.getId());
+				mManager.merge(p0);
 			}
 		}
 	    if(batch){
 			mManager.flush();
+			mManager.getTransaction().commit();
 		    mManager.clear();
+	    }else{
+	    	closeTrx();
 	    }
-		trx.commit();
 		}catch(Exception e){
 			if(e instanceof RollbackException){
 				throw new ProcessingException(e.getCause());
@@ -120,126 +129,102 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	
 	}
 	
-	
 	@Override
 	public void save(T pT) {
-	//	check();
-		EntityTransaction trx = mManager.getTransaction();
-		try{
-			if (!trx.isActive()) {
-				trx.begin();
-			} else {
-				mManager.joinTransaction();
-			}
-		if(pT.getId()!=null){
-			mManager.merge(pT);
-		}else{
-			mManager.persist(pT);
-		}
-		trx.commit();
-		}catch(Exception e){
-			if(trx.isActive()){
-				trx.rollback();
-			}
-			if(e instanceof RollbackException){
-				throw new ProcessingException(e.getCause());
-			}
-			throw new ProcessingException(e);
-			
-		}
-		if(!mManualNotify){
-			fireSaveEvent(pT);
-		}else{
-			if(mNotificationCache==null){
-				mNotificationCache = new ArrayList<T>(100);
-			}
-			mNotificationCache.add(pT);
-		}
-	
+		save(createCollection(pT), false);
+	}
+	private Collection<T> createCollection(T pT){
+		List<T> list = new LinkedList<T>();
+		list.add(pT);
+		return list;
 	}
 
 	@Override
 	public void delete(T pT) {
-		if(pT.getId()==null){return;}
-		//check();
-		EntityTransaction trx = mManager.getTransaction();
-		if (!trx.isActive()) {
-			trx.begin();
-		} else {
-			mManager.joinTransaction();
-		}
-		IEntityObject p = mManager.find(pT.getClass(), pT.getId());
-		mManager.remove(p);
-		trx.commit();
-		fireDeleteEvent(pT);
+		delete(createCollection(pT));
 	}
 	
 	@Override
 	public void delete(Collection<T> pTCollection) {
-		//check();
-		EntityTransaction trx = mManager.getTransaction();
-		if (!trx.isActive()) {
-			trx.begin();
-		} else {
-			mManager.joinTransaction();
-		}
+		final EntityManager deleteManager = mFactory.createEntityManager(); //neuen entity manager, falls was schief geht, wird nur dieser context detached
+		EntityTransaction trx = deleteManager.getTransaction();
+		trx.begin();
+		try{
+		List<T> mergeList = new LinkedList<T>();
 		for(T pT:pTCollection){
-			if(pT.getId()==null){continue;}
-			IEntityObject p = mManager.find(pT.getClass(), pT.getId());
-			mManager.remove(p);
-			
+			T p = deleteManager.merge(pT);
+			deleteManager.remove(p);
+			mergeList.add(p);
 		}
+		
 		trx.commit();
+		mManager.getTransaction().begin();
+		for(T pT:pTCollection){   // soweit gekommen? alles ok
+			T p = mManager.merge(pT);  //mergen mit dem eigentlichen manager
+			
+			
+			//System.out.println(p);
+		}
+		mManager.getTransaction().commit();
+	
+		}catch(Exception e){
+			
+			if(e instanceof RollbackException){
+				throw new ProcessingException(e.getCause());
+			}
+			throw new ProcessingException(e);
+		}finally{
+			deleteManager.close();
+		}
+		
 		fireDeleteEvent(pTCollection);
 	}
 
 	@Override
 	public void close() {
 		fireManualNotification();
-		if(mManager!=null){
-		//	mManager.close();
-		}
-		//mFactory.close();
 	}
 
 	@Override
 	public List<T> getAll() {
-		//check();
-		EntityTransaction trx = mManager.getTransaction();
-		if (!trx.isActive()) {
-			trx.begin();
-		} else {
-			mManager.joinTransaction();
-		}
+		openOrJoinTrx();
 		@SuppressWarnings("unchecked")
 		List<T> result = mManager.createNamedQuery(mClz.getSimpleName()+".getAll").getResultList();
-		trx.commit();
+		closeTrx();
 		return result;
 	}
 
 	@Override
 	public List<T> executeNamedQuery(String namedQuery) {
 		//check();
-		EntityTransaction trx = mManager.getTransaction();
-		if (!trx.isActive()) {
-			trx.begin();
-		} else {
-			mManager.joinTransaction();
-		}
+		openOrJoinTrx();
 		@SuppressWarnings("unchecked")
 		List<T> result = mManager.createNamedQuery(namedQuery).getResultList();
-		trx.commit();
+		closeTrx();
 		return result;
 	}
 
+	protected void openOrJoinTrx(){
+		EntityTransaction trx = mManager.getTransaction();
+		if (!trx.isActive()) {
+			trx.begin();
+			doCommit = true;
+		} else {
+			mManager.joinTransaction();
+			doCommit= false;
+		}
+	}
+	protected void closeTrx(){
+		if(doCommit){
+			mManager.getTransaction().commit();
+		}
+	}
 	public List<T> executeNamedQuery(String queryName, String pPara, Object pVal){
 		check();
-	//	EntityTransaction trx = mManager.getTransaction();
-	//	trx.begin();
-	//	@SuppressWarnings("unchecked")
+		openOrJoinTrx();
 		@SuppressWarnings("unchecked")
 		List<T> result = mManager.createNamedQuery(queryName).setParameter(pPara, pVal).getResultList();
-	//	trx.commit();
+		closeTrx();
 		return result;
 	}
 
@@ -270,24 +255,19 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	@Override
 	public int count() {
 		//check();
-		EntityTransaction trx = mManager.getTransaction();
-		if (!trx.isActive()) {
-			trx.begin();
-		} else {
-			mManager.joinTransaction();
-		}
+		openOrJoinTrx();
 		int result = ((Long) mCountQuery.getSingleResult()).intValue();
-		trx.commit();
+		closeTrx();
 		return result;
 	}
 	@Override
 	public List<T> getFromTo(int from, int to) {
 		//check();
 		watch.start();
-		mManager.getTransaction().begin();
+		openOrJoinTrx();
 		@SuppressWarnings("unchecked")
 		List<T> result =  mPagingQuery.setMaxResults(to-from).setFirstResult(from).getResultList();
-		mManager.getTransaction().commit();
+		closeTrx();
 		watch.stop();
 		mLogger.debug("Query Time - getFromTo: "+watch.getElapsedTime());
 		return (List<T>) result;

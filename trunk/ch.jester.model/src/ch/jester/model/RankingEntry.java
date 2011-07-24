@@ -27,7 +27,7 @@ public class RankingEntry extends AbstractModelBean<RankingEntry> implements Com
 	
 	@PreRemove
 	public void preRemove(){
-		
+		playerCard = null;
 	}
 	
 	public Ranking getRanking() {

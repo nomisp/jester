@@ -75,6 +75,7 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 								}
 							}
 							createPairings(category, tournament);
+							
 						}
 					} else {
 						if (cat.getRounds().size() > 0 && cat.getRounds().get(0).getPairings().size() > 0) {
@@ -85,6 +86,7 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 							}
 						}
 						createPairings(cat, tournament);
+						
 					}
 				} catch (Exception e) {
 					Throwable exception = ExceptionUtility.getRealException(e);
@@ -198,6 +200,7 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 		}
 		// Paarungen ausführen
 		pairingAlgorithm.executePairings(cat);
+		tournament.setStarted(true);
 
 	}
 }

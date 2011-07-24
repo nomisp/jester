@@ -129,6 +129,10 @@ public class Category extends AbstractModelBean<Category> {
 		if (round == null) throw new IllegalArgumentException("round may not be null");
 		this.rounds.remove(round);
 	}
+	public void removeRounds() {
+		this.rounds.clear();
+		
+	}
 
 	public List<PlayerCard> getPlayerCards() {
 		return playerCards;
@@ -194,7 +198,18 @@ public class Category extends AbstractModelBean<Category> {
 		return cat;
 	}
 	
+	/*public int getPairedRounds(){
+		int pr = 0;
+		for(int i=0;i<getRounds().size();i++){
+			if(getRounds().get(i).getPairings().size()>0)pr++;
+		}
+		return pr;
+	}*/
+	
+	
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		    this.tournament = (Tournament)parent;
 	}
+
+	
 }

@@ -15,10 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
-import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name="Round")
@@ -31,11 +28,6 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Round extends AbstractModelBean<Round> {
 	private static final long serialVersionUID = 6672346214824111918L;
-
-	public Round(){
-		int k=0;
-		k++;
-	}
 	
 	@Column(name="RoundNumber", nullable=false)
 	private Integer number;
@@ -86,8 +78,12 @@ public class Round extends AbstractModelBean<Round> {
 
 	public void removePairing(Pairing pairing) {
 		if (pairing == null) throw new IllegalArgumentException("pairing may not be null");
-		this.pairings.remove(pairing);
+		boolean removed = this.pairings.remove(pairing);
+		/*if(removed){
+			category.re
+		}*/
 	}
+	
 
 	public void removeAllPairings(List<Pairing> pairings) {
 		if (pairings == null) throw new IllegalArgumentException("pairing may not be null");
@@ -110,7 +106,6 @@ public class Round extends AbstractModelBean<Round> {
 		this.ranking = ranking;
 	}
 	
-
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {

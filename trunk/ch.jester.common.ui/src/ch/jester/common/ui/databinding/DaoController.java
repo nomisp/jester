@@ -80,24 +80,17 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 		return (IPartService)mPart.getSite().getService(IPartService.class);
 	}
 	
-	/* (non-Javadoc)
-	 * @see ch.jester.common.ui.databinding.IControlAdd#addEntity(T)
-	 */
 	@Override
 	public void handleAdd(T pPlayer) {
 		handleAdd(createList(pPlayer));
 	}
-	/* (non-Javadoc)
-	 * @see ch.jester.common.ui.databinding.IControlAdd#addEntity(java.util.Collection)
-	 */
+
 	@Override
 	public void handleAdd(Collection<T> pPlayerCollection) {
 		obsModel.addAll(pPlayerCollection);
 		context.updateTargets();
 	}
-	/* (non-Javadoc)
-	 * @see ch.jester.common.ui.databinding.IControlEditor#openEditor(java.lang.Object)
-	 */
+
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void handleOpenEditor(Object pObject){
@@ -112,7 +105,7 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 	}
 	@Override
 	public void handleDelete(final List<T> pList) throws ProcessingException {
-		ProcessingException exception;
+		//ProcessingException exception;
 		abstract class ExceptionRunnable implements Runnable {
 			ProcessingException e;
 			public ProcessingException getException(){
@@ -131,12 +124,13 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 				try{
 					persister.delete(pList);
 					obsModel.removeAll(pList);
-					context.updateTargets();
 				}catch(ProcessingException e){
 					setException(e);
 				
-				}catch(RuntimeException e){
+				}catch(Exception e){
 					setException(new ProcessingException(e));
+				}finally{
+					context.updateTargets();
 				}
 				}
 				
@@ -220,6 +214,7 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 			super(attributeMaps);
 			
 		}
+		@SuppressWarnings("unchecked")
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			String txt = DaoController.this.indexedCallBackLabels((T) element, columnIndex);
