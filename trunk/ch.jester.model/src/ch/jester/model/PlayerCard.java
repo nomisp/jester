@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlTransient;
 
 import ch.jester.model.util.ColorPreference;
 
@@ -157,6 +158,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		}
 	}
 
+	@XmlTransient
 	public List<RankingSystemPoint> getRankingSystemPoints() {
 		return rankingSystemPoints;
 	}
@@ -184,6 +186,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		if (rankingSystemPoint.getPlayerCard() != this) rankingSystemPoint.setPlayerCard(this); // Bidirektion
 	}
 
+	@XmlTransient
 	public RankingEntry getRankingEntry() {
 		return rankingEntry;
 	}

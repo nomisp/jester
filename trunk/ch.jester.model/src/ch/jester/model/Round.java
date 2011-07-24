@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name="Round")
@@ -98,6 +99,7 @@ public class Round extends AbstractModelBean<Round> {
 		this.date = date;
 	}
 
+	@XmlTransient
 	public IntermediateRanking getRanking() {
 		return ranking;
 	}
