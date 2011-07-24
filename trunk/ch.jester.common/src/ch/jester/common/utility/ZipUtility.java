@@ -127,10 +127,6 @@ public class ZipUtility {
 
 			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(
 					new FileOutputStream(outFile)));
-			
-			byte[] data = new byte[1000];
-			//File files[] = inFolder.listFiles();
-			//String[] fileNames = inFolder.list();
 			zipDirectory(out, inFolder, null);
 
 			out.flush();

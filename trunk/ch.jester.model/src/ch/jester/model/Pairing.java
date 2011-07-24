@@ -8,7 +8,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
-import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlIDREF;
 

@@ -29,7 +29,6 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import ch.jester.common.ui.editor.IEditorDaoInputAccess;
-import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Round;
@@ -51,13 +50,13 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	private TreeViewer treeViewer;
 	private Tournament tournament;
 	private CategoryMasterDetail categoryMDBlock = this;
-	private SWTDirtyManager dm = new SWTDirtyManager();
 
 	/**
 	 * Create the master details block.
 	 */
 	public CategoryMasterDetail(FormPage page) {
 		this.page = page;
+		@SuppressWarnings("unchecked")
 		IEditorDaoInputAccess<Tournament> input = (IEditorDaoInputAccess<Tournament>) page.getEditor().getEditorInput();
 		tournament = (Tournament)input.getInput();
 	}

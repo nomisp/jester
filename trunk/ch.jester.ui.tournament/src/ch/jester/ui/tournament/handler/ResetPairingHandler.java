@@ -7,7 +7,6 @@ import org.eclipse.core.commands.ExecutionEvent;
 
 import ch.jester.common.ui.handlers.AbstractCommandHandler;
 import ch.jester.model.Category;
-import ch.jester.model.Pairing;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 
@@ -17,12 +16,10 @@ public class ResetPairingHandler extends AbstractCommandHandler{
 	public Object executeInternal(ExecutionEvent event) {
 		final List<Category> categoriesToReset = new ArrayList<Category>();
 		final Category cat = getFirstSelectedAs(Category.class);
-		boolean tournamentSelected=false;
 		final Tournament tournament;
 		if (cat == null) {
 			tournament = getFirstSelectedAs(Tournament.class);
 			categoriesToReset.addAll(tournament.getCategories());
-			tournamentSelected=true;
 		} else {
 			tournament = cat.getTournament();
 			categoriesToReset.add(cat);

@@ -26,6 +26,7 @@ public class ReportEngineInputTester {
 		return selectedBeans;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private static Collection<?> testSingleEntry(Class<?> reportBeanClass,
 			Object object) {
 		if(reportBeanClass==null||object==null){

@@ -3,17 +3,10 @@ package ch.jester.common.tests;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.util.LocalSelectionTransfer;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.dnd.Clipboard;
 import org.junit.Assert;
 import org.junit.Test;
 
-import ch.jester.common.ui.handlers.CloneUtility;
-import ch.jester.common.ui.utility.GlobalClipBoard;
 import ch.jester.commonservices.api.persistency.IEntityObject;
-import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Pairing;
@@ -46,12 +39,12 @@ public class CopyPasteTest{
 	}
 	@Test
 	public void testPasteTournament(){
-		List<Tournament> t;
 		su.getDaoServiceByEntity(Tournament.class).save(clone);
 
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	private <T extends IEntityObject>List<T> getDummyInput(Class<T> clz) {
 		Tournament t = new Tournament();
 		t.setName("SonnebornBergerTestTournament");

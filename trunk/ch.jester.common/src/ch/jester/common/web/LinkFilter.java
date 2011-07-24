@@ -13,7 +13,6 @@ public class LinkFilter implements IPageReaderFilter{
 	private int mURLGroup;
 	private int mNameGroup;
 	List<ILink> mLinks = new ArrayList<ILink>();
-	private String mStringPattern;
 	@Override
 	public void filter(String arg0, PageReader pReader) {
 		Matcher matcher = mLinkPattern.matcher(arg0);
@@ -28,7 +27,6 @@ public class LinkFilter implements IPageReaderFilter{
 		
 	}
 	public void setPattern(String pPattern, int pGroupName, int pGroupURL){
-		mStringPattern = pPattern;
 		mLinkPattern=Pattern.compile(pPattern);
 		mURLGroup=pGroupURL;
 		mNameGroup=pGroupName;

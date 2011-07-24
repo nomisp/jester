@@ -78,7 +78,7 @@ public class Round extends AbstractModelBean<Round> {
 
 	public void removePairing(Pairing pairing) {
 		if (pairing == null) throw new IllegalArgumentException("pairing may not be null");
-		boolean removed = this.pairings.remove(pairing);
+		this.pairings.remove(pairing);
 		/*if(removed){
 			category.re
 		}*/

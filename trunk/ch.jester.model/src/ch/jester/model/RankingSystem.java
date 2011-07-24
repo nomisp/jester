@@ -101,7 +101,7 @@ public class RankingSystem extends AbstractModelBean<RankingSystem> {
 	 */
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		RankingSystem rsclone = cloneWithSimpleProperties();
+		//RankingSystem rsclone = cloneWithSimpleProperties();
 		
 		return createCompleteClone();
 	}
