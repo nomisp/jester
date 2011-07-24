@@ -16,7 +16,8 @@ public class Messages extends NLS {
 	public static String AddColumnDialog_lbl_properties;
 	public static String AddColumnDialog_lbl_sequence;
 	public static String AddColumnDialog_predefined_column_name;
-	public static String DownloadListener_progress_dl;
+	public static String DownloadListener_error_cause;
+	public static String DownloadListener_error_title;
 	public static String ImportPlayerWizard_lbl_import_error;
 	public static String ImportPlayerWizard_lbl_titel;
 	public static String PlayerImportWizardPage_lbl_btn_browse;
