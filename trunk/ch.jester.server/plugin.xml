@@ -19,13 +19,8 @@
    <extension
          point="org.eclipse.equinox.http.registry.resources">
       <resource
-            alias="/jester"
-            base-name="/jester/index.jsp"
-            httpcontextId="jester">
-      </resource>
-      <resource
             alias="/"
-            base-name="/"
+            base-name="/WEB-INF"
             httpcontextId="jester">
       </resource>
    </extension>
