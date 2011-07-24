@@ -261,6 +261,6 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	@Override
 	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor, Tournament tournament) {
 		if (settings == null) loadSettings(tournament);
-		return new RoundRobinSettingsPage(settings, editor, "RoundRobinSettingsPage", Messages.VollrundigPairingAlgorithm__settingsPage_title); //$NON-NLS-1$
+		return new RoundRobinSettingsPage(settings, editor, !tournament.getStarted(), "RoundRobinSettingsPage", Messages.VollrundigPairingAlgorithm__settingsPage_title); //$NON-NLS-1$
 	}
 }
