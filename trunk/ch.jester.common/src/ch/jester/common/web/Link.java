@@ -57,18 +57,39 @@ public class Link implements ILink{
 	 */
 	@Override
 	public void download(String pTargetFile) throws IOException{
-		HttpURLConnection uc = HTTPFactory.connect(getURL());
-		uc.connect();
 		FileOutputStream out = new FileOutputStream(pTargetFile);
-		InputStream in = uc.getInputStream();
+		HttpURLConnection uc = null;
+		InputStream in = null;
+		try{
+		uc= HTTPFactory.connect(getURL());
+		uc.connect();
+		
+		in = uc.getInputStream();
 	    byte[] buf = new byte[1024 * 1024 * 4]; 
 	    int bytesRead;
 	    while ((bytesRead = in.read(buf)) != -1) {
 	      out.write(buf, 0, bytesRead);
 	      out.flush();
 	    }
-	    out.close();
-		in.close();
-		uc.disconnect();
+    //	out.close();
+    //	in.close();
+    //	uc.disconnect();
+	    
+		}catch(IOException e){
+	    	throw e;
+
+
+		}finally{
+			if(uc!=null){
+				uc.disconnect();
+			}
+			if(in!=null){
+				in.close();
+			}
+			if(out!=null){
+				out.flush();
+				out.close();
+			}
+		}
 	}
 }
