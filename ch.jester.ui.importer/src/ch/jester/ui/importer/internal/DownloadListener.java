@@ -8,6 +8,7 @@ import java.util.List;
 import messages.Messages;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -56,14 +57,29 @@ public class DownloadListener implements ISelectionChangedListener{
 						InterruptedException {
 					try {
 						
-						monitor.beginTask(Messages.DownloadListener_progress_dl+link.getText(), IProgressMonitor.UNKNOWN);
+						monitor.beginTask(""+link.getText(), IProgressMonitor.UNKNOWN); //$NON-NLS-1$
 						if(!file.exists()){
-							link.download(file.getAbsolutePath());
+								link.download(file.getAbsolutePath());
 						}
 						
 						monitor.done();
 					} catch (IOException e) {
-						e.printStackTrace();
+						if(file.exists()){
+							file.delete();
+						}
+						UIUtility.syncExecInUIThread(new Runnable(){
+
+							@Override
+							public void run() {
+								MessageDialog.openError(UIUtility.getActiveWorkbenchWindow().getShell(), Messages.DownloadListener_error_title, Messages.DownloadListener_error_cause);
+								
+							}
+							
+							
+						});
+						
+						
+						
 					}
 					UIUtility.syncExecInUIThread(new Runnable(){
 						public void run(){
