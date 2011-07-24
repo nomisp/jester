@@ -93,7 +93,7 @@ public class OSGiGatewayActivator extends AbstractActivator {
 							try {
 								InetAddress adr = Inet4Address.getByName("localhost");
 								//<a href=\"native\">access to the user-interface facilities of the operating systems</a>
-								String hostadr = "<a href=\"http://"+adr.getHostAddress()+":8080/jester\">jester</a>";
+								String hostadr = "<a href=\"http://"+adr.getHostAddress()+":8080/index.jsp\">jester</a>";
 								link.setLinkListener(new SelectionListener() {
 									
 									@Override

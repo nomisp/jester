@@ -4,8 +4,9 @@
 <!--  http://www.java-samples.com/jsp  -->  
 <html>
 <body>
+<img src="/icon128x128.jpg"/>
 <jsp:useBean id="tournaments" class="ch.jester.server.jspmodel.Tournaments"/>
-<h1>Tournaments:</h1>
+<h1>Turniere:</h1>
 <UL>
 <%
     Iterator<Tournament> iterator = tournaments.getTournaments().iterator();
@@ -13,13 +14,14 @@
         Tournament t = iterator.next();
 %>
         <LI> <%= t.getName() %> / <%= t.getId() %> </LI>
+        <r/>
 <%
 		Iterator<Category> catIt = t.getCategories().iterator();
 		while(catIt.hasNext()){
 			Category cat = catIt.next();
 			%>
 				
-				<LI> <%= cat.getDescription() %> / <%= cat.getId() %>  </LI>
+				<LI> <%= cat.getDescription() %> <%= tournaments.getCategoryLinks(cat) %>  </LI>
 			
 			<%
 		}

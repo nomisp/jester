@@ -82,8 +82,6 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 	
     private IReportRepository factory = new DefaultReportRepository();
 
-	private IProgressMonitor mProgressGroup;
-
     public JasperReportEngine(){
     	List<JasperReportDef> defs = Activator.getDefault().getReportDefinitions();
     	for(JasperReportDef def:defs){
@@ -183,7 +181,6 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 			
 		};
 		
-		job.setProgressGroup(mProgressGroup, IProgressMonitor.UNKNOWN);
 		job.setUser(true);
 		
 		job.schedule();
@@ -298,12 +295,21 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 					exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,new File(mTempFileManager.getRootTempDirectory()+"/image")); //$NON-NLS-1$
 					exporter.setParameter(JRHtmlExporterParameter.IGNORE_PAGE_MARGINS, Boolean.TRUE);
 					exporter.setParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, Boolean.TRUE);
-					exporter.setParameter(JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES, Boolean.TRUE);
+					exporter.setParameter(JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES, Boolean.FALSE);
 					exporter.setParameter(JRHtmlExporterParameter.ZOOM_RATIO, 1.3f);
 					
-					//exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"image?image=");
-					exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"./image/"); //$NON-NLS-1$
-					//exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,su.getService(IFileManager.class).getRootTempDirectory());
+					if(sessionadapter.getSession()!=null){
+						exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"image?image=");
+						exporter.setParameter(JRHtmlExporterParameter.ZOOM_RATIO, 1.0f);
+						exporter.setParameter(JRHtmlExporterParameter.IS_WRAP_BREAK_WORD , Boolean.FALSE);
+						exporter.setParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, Boolean.FALSE);
+						//exporter.setParameter(JRHtmlExporterParameter.SIZE_UNIT, "0.8");
+						//exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,su.getService(IFileManager.class).getRootTempDirectory());
+					}else{
+
+						exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"./image/"); //$NON-NLS-1$
+					}
+					
 					break;
 				case PDF:
 					exporter = new JRPdfExporter();
