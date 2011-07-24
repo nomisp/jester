@@ -3,8 +3,6 @@
  */
 package ch.jester.model;
 
-import java.util.List;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;

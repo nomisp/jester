@@ -119,6 +119,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 			categoryPage.doSave(monitor);
 			mTournamentController.updateModel();
 			Tournament tournament = mTournamentController.getTournament();
+			SettingItem item = tournament.getSettingItem();
 			IDaoService<SettingItem> settingItemPersister = mService.getDaoServiceByEntity(SettingItem.class);
 			if (settingsPage != null) {
 				SettingHelper<ISettingObject> settingHelper = new SettingHelper<ISettingObject>();

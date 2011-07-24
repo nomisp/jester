@@ -77,7 +77,9 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		if (ranking != null) {
 			ranking.getRankingEntries().clear();
 	
+			
 			mServiceUtil.getDaoServiceByEntity(FinalRanking.class).delete(ranking);
+			ranking = ModelFactory.getInstance().createFinalRanking(category);
 			//ranking.setRankingEntries(new ArrayList<RankingEntry>());
 		} else {
 			ranking = ModelFactory.getInstance().createFinalRanking(category);
@@ -107,6 +109,7 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		IntermediateRanking ranking = injectedRound.getRanking();
 		if (ranking != null) {
 			mServiceUtil.getDaoServiceByEntity(IntermediateRanking.class).delete(ranking);
+			ranking = ModelFactory.getInstance().createIntermediateRanking(injectedRound);
 			//ranking.getRankingEntries().clear();
 			//mServiceUtil.getDaoServiceByEntity(RankingEntry.class).delete(ranking.getRankingEntries());
 		} else {

@@ -26,6 +26,7 @@ public class Messages extends NLS {
 	public static String CategoryMasterDetail_s_name;
 	public static String CategoryMasterDetail_tt_horizontal;
 	public static String CategoryMasterDetail_tt_vertical;
+	public static String CommonDropPlayerAdapter_player_already_in_target;
 	public static String NewTournamentWizard_NewTournament;
 	public static String NewTournamentWizPageName_description;
 	public static String NewTournamentWizPageName_lbl_dateFrom;
@@ -59,6 +60,8 @@ public class Messages extends NLS {
 	public static String PairingHandler_msg_UnknownError_title;
 	public static String RankingHandler_msg_UnknownError_text;
 	public static String RankingHandler_msg_UnknownError_title;
+	public static String RemovePlayerHandler_player_remove_failed_cause;
+	public static String RemovePlayerHandler_player_remove_failed_title;
 	public static String ResultForm_1;
 	public static String ResultForm_3;
 	public static String ResultForm_5;

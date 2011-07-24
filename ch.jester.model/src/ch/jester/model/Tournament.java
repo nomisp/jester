@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entität für die Tabelle Tournament 
@@ -26,14 +27,15 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 @Table(name="Tournament")
 @NamedQueries({
 	@NamedQuery(name="AllTournaments", query="select t from Tournament t order by t.name, t.dateFrom"),
-	@NamedQuery(name="Tournament.getAll", query="select t from Tournament t order by t.name, t.dateFrom"),
-	@NamedQuery(name="AllActiveTournaments", query="select t from Tournament t where t.active = true order by t.name, t.dateFrom"),
+	@NamedQuery(name=Tournament.QUERY_GETALL, query="select t from Tournament t order by t.name, t.dateFrom"),
+	@NamedQuery(name=Tournament.QUERY_GETALLACTIVE, query="select t from Tournament t where t.active = true order by t.name, t.dateFrom"),
 	@NamedQuery(name="countTournaments",query="SELECT count(Tournament) FROM Tournament"),
 	@NamedQuery(name="TournamentByName", query="select t from Tournament t where t.name like :name")
 })
 public class Tournament extends AbstractModelBean<Tournament> {
 	private static final long serialVersionUID = -3356578830307874396L;
-	
+	public final static String QUERY_GETALLACTIVE = "AllActiveTournaments";
+	public final static String QUERY_GETALL= "Tournament.getAll";
 	private transient Object rootElement;	// Rootelement für CNF (Common Navigator Framework) Viewer
 
 	@Column(name="Name", nullable=false, length=50)
@@ -280,6 +282,21 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		clone.setRankingSystems(rlist);
 		return clone;
 	}
+	@XmlTransient
+	public List<Category> getPairedCategories(){
+		List<Category> paired = new ArrayList<Category>();
+		for(Category c:getCategories()){
+			if(c.isPaired()){
+				paired.add(c);
+			}
+		}
+		return paired;
+	}
+	
+	public boolean isPaired(){
+		return getPairedCategories().size()>0;
+	}
+	
 	@XmlElementWrapper(name = "PlayerList")
 	@XmlElement(name = "Player")
 	public List<Player> getPlayers(){

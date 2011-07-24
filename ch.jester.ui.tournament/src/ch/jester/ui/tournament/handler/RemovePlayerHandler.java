@@ -1,5 +1,7 @@
 package ch.jester.ui.tournament.handler;
 
+import messages.Messages;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -42,7 +44,7 @@ public class RemovePlayerHandler extends AbstractCommandHandler{
 					final Category runCat = cat;
 					final PlayerCard runCard = playerCard;
 					if(cat.isPaired()){
-						MessageDialog.openInformation(getShell(), "Can't remove Player", "The Category is paired.");
+						MessageDialog.openInformation(getShell(), Messages.RemovePlayerHandler_player_remove_failed_title, Messages.RemovePlayerHandler_player_remove_failed_cause);
 						return null;
 					}
 					SafeRunner.run(new SafeMessageBoxRunner() {

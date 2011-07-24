@@ -82,7 +82,7 @@ public class ConfigurationHelper extends ExtensionPointSettings implements IORMC
 		mPrefManager.create("hibernate.c3p0.min_size","Cache.MinSize","5" );
 		mPrefManager.create("hibernate.c3p0.max_size","Cache.MaxSize" ,"20" );
 		mPrefManager.create("hibernate.c3p0.timeout","Cache.TimeOut" ,"300"  );
-		mPrefManager.create("hibernate.c3p0.max_statements","Cache.MaxStatements" ,"50" );
+		mPrefManager.create("hibernate.c3p0.max_statements","Cache.MaxStatements" ,"5" );
 		mPrefManager.create("hibernate.c3p0.idle_test_period","Cache.IdleTestPeriod","300"  );
 		
 	//	mPrefManager.create("hibernate.cache.region.factory_class","CacheProvider", "net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory");

@@ -32,11 +32,11 @@ public class Activator extends AbstractUIActivator {
 		instance=this;
 		exporter = new JesterModelExporter();
 		setExportableBundles(exporter);
-		exportModelForStudioOrReports();
+		//exportModelForStudioOrReports();
 
 	}
 
-	private void exportModelForStudioOrReports() {
+	 public void exportModelForStudioOrReports() {
 			Job job = new Job("Exporting jester model"){
 
 				@Override
@@ -51,6 +51,12 @@ public class Activator extends AbstractUIActivator {
 				
 			};
 			job.schedule();
+			try {
+				job.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		
 	}
@@ -90,6 +96,11 @@ public class Activator extends AbstractUIActivator {
 
 	@Override
 	public void stopDelegate(BundleContext pContext) {
+	}
+
+	public void compileReports() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

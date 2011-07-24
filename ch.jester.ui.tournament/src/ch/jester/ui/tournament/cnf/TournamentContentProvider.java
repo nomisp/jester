@@ -164,6 +164,7 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 					@Override
 					public void run() {
 						if(!viewer.isBusy()){
+							if(viewer.getControl().isDisposed()){return;}
 							viewer.refresh();
 						}
 					}

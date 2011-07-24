@@ -1,7 +1,11 @@
 package ch.jester.common.ui.handlers;
 
+import java.sql.BatchUpdateException;
 import java.util.Iterator;
 import java.util.List;
+
+
+import messages.Messages;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -17,19 +21,16 @@ import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.common.utility.ExceptionWrapper;
-import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
 
 public class DaoDeleteHandler extends AbstractCommandHandler {
-	ILogger logger;
-	public DaoDeleteHandler(){
-	 	logger = CommonUIActivator.getDefault().getActivationContext().getLogger();
-	}
+	private static final String LBL_DELETING = Messages.DaoDeleteHandler_deleting;
+
 	@Override
 	public Object executeInternal(ExecutionEvent event) {
-		Job job = new Job("Deleting"){
+		Job job = new Job(LBL_DELETING){
 
 			@Override
 			public IStatus run(IProgressMonitor monitor) {
@@ -37,7 +38,12 @@ public class DaoDeleteHandler extends AbstractCommandHandler {
 					delete(monitor);
 				}catch(ProcessingException e){
 					ExceptionWrapper wrapper = ExceptionUtility.wrap(e);
-					return new Status(IStatus.ERROR, CommonUIActivator.getDefault().getActivationContext().getPluginId(), wrapper.getThrowableMessage(), e);
+					Throwable tt = wrapper.getRootThrowable();
+					String msg = wrapper.getThrowableMessage();
+					if(tt instanceof BatchUpdateException){
+						msg = Messages.DaoDeleteHandler_still_referenced;
+					}
+					return new Status(IStatus.ERROR, CommonUIActivator.getDefault().getActivationContext().getPluginId(),msg , e);
 				}
 				return Status.OK_STATUS;
 			}
@@ -54,11 +60,11 @@ public class DaoDeleteHandler extends AbstractCommandHandler {
 	@SuppressWarnings("unchecked")
 	private Object delete(IProgressMonitor monitor) throws ProcessingException{
 		ISelection selection = getSelection();
-		monitor.setTaskName("Deleting...");
-		monitor.beginTask("deleting", getSelectionCount()*2);
+		monitor.setTaskName(LBL_DELETING);
+		monitor.beginTask(LBL_DELETING, getSelectionCount()*2);
 		IHandlerDelete<IEntityObject> ctrl = AdapterUtility.getAdaptedObject(getActivePartFromEvent(), IHandlerDelete.class);
 		if(ctrl==null){
-			throw new RuntimeException("No IHandlerDelete found for: "+getActivePartFromEvent());
+			throw new RuntimeException("No IHandlerDelete found for: "+getActivePartFromEvent()); //$NON-NLS-1$
 		}
 		IEditorService editors = getServiceUtil().getService(IEditorService.class);
 		if(isIStructuredSelection()){

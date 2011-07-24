@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlIDREF;
 
@@ -38,6 +39,12 @@ public class Pairing extends AbstractModelBean<Pairing> {
 	@ManyToOne
 	private Round round;
 
+	/*@PreRemove
+	public void preRemove(){
+		round.removePairing(this);
+		
+		
+	}*/
 
 	public PlayerCard getWhite() {
 		return white;

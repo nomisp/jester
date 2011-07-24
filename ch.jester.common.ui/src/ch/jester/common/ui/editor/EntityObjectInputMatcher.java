@@ -37,6 +37,7 @@ public class EntityObjectInputMatcher implements IEditorMatchingStrategy {
 	
 	public IEntityObject tryGetEntityObject(IEditorInput input){
 		if(input instanceof IEditorInputAccess<?>){
+			@SuppressWarnings("rawtypes")
 			Object object = ((IEditorInputAccess)input).getInput();
 			if(!(object instanceof IEntityObject)){
 				return null;
