@@ -3,7 +3,6 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
@@ -40,8 +39,7 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 
 
 	private ILogger logger;
-	private IContributor mContributor;
-	private IConfigurationElement mContributorElement;
+
 	private String savekey;
 	private ServiceUtility mService = new ServiceUtility();
 	private IPreferenceManager prefManager;
@@ -53,8 +51,6 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 	@Override
 	public void setInitializationData(IConfigurationElement config,
 			String propertyName, Object data) throws CoreException {
-		mContributorElement=config;
-		mContributor = mContributorElement.getContributor();
 		
 		String subkey = config.getAttribute("id").trim().substring(0, config.getAttribute("id").trim().lastIndexOf("."));
 		savekey = subkey;
@@ -106,7 +102,7 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 		Set<IPreferenceProperty> props = getPreferenceManager().getProperties();
 		for(IPreferenceProperty p:props){
 			String key = p.getExternalKey();
-			String value = p.getValue().toString();
+			//String value = p.getValue().toString();
 			//System.out.println(key+" = "+value);
 			preferenceStore.setDefault(p.getExternalKey(), p.getDefaultValue().toString());
 			preferenceStore.setValue(p.getExternalKey(), p.getValue().toString());

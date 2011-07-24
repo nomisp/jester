@@ -64,6 +64,7 @@ public class AdapterBinding implements IAdapterFactory, IAdaptable{
 		return mMap.keySet().toArray(new Class[mMap.keySet().size()]);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
 		return mMap.get(adapter);

@@ -62,6 +62,7 @@ public class ReportNameContributionItem extends CompoundContributionItem {
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private CommandContributionItemParameter getParameter(IReport report){
 		IServiceLocator s1 = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		CommandContributionItemParameter para = null;

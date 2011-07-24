@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,12 +28,9 @@ import ch.jester.model.RankingSystemPoint;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
-import ch.jester.orm.ORMPlugin;
-import ch.jester.system.api.ranking.IRankingSystem;
 import ch.jester.system.api.ranking.IRankingSystemEntry;
 import ch.jester.system.api.ranking.IRankingSystemManager;
 import ch.jester.system.pairing.test.RoundRobinTest;
-import ch.jester.system.ranking.test.BuchholzTest;
 
 public class ImportExportTest {
 	ModelFactory factory = ModelFactory.getInstance();
@@ -47,7 +43,6 @@ public class ImportExportTest {
 	public static final String PLUGIN_ID = "ch.jester.rankingsystem.sonnebornberger";
 	public static final String RANKINGSYSTEM_CLASS = "ch.jester.rankingsystem.sonnebornberger.SonnebornBergerRankingSystem";
 	public static final String RANKINGSYSTEM_TYPE = "Sonneborn-Berger";
-	private IRankingSystem sonnebornbergerSystem;
 	private RankingSystem rankingSystem;
 	private Tournament t;
 	private Category cat;
@@ -142,7 +137,7 @@ public class ImportExportTest {
 		List<IRankingSystemEntry> registredEntries = rankingSystemManager.getRegistredEntries();
 		for (IRankingSystemEntry rankingSystemEntry : registredEntries) {
 			if (rankingSystemEntry.getImplementationClass().equals(RANKINGSYSTEM_CLASS)) {
-				sonnebornbergerSystem = rankingSystemEntry.getService();
+				rankingSystemEntry.getService();
 				break;
 			}
 		}

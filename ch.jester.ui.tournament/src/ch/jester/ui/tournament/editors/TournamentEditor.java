@@ -36,6 +36,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 	private TournamentFormPage mTournamentPage;
 	private TournamentDetailsController mTournamentController;
 	private ServiceUtility mService = new ServiceUtility();
+	@SuppressWarnings("rawtypes")
 	private AbstractSystemSettingsFormPage settingsPage;
 	private CategoryFormPage categoryPage;
 	

@@ -1,14 +1,11 @@
 package ch.jester.common.tests;
 
-import java.util.List;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import ch.jester.common.test.internal.ActivatorProviderForTestCase;
 import ch.jester.commonservices.api.components.IComponentService;
-import ch.jester.commonservices.api.importer.IImportHandlerEntry;
 import ch.jester.commonservices.api.importer.IImportManager;
 
 public class ImporterTest extends ActivatorProviderForTestCase {
@@ -33,8 +30,8 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 		IImportManager importManager = getActivationContext().getService(IImportManager.class);
 		Assert.assertNotNull("Import Manager is null", importManager);
 		
-		List<IImportHandlerEntry> list = importManager.getRegistredEntries();
-		IImportHandlerEntry entry = null;
+		//List<IImportHandlerEntry> list = importManager.getRegistredEntries();
+		//IImportHandlerEntry entry = null;
 	/*	for(IImportHandlerEntry e:list){
 			if(e.getDescription().startsWith("FIDE")){
 				entry=e;

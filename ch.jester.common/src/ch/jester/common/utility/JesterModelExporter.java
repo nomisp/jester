@@ -53,12 +53,14 @@ public class JesterModelExporter {
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	private List<String> getPaths(Bundle b){
 		List<String> fileEntries = new ArrayList<String>();
 		exporter.getBundlePathEntries(fileEntries, b.getEntryPaths("/bin"), b);
 		mLogger.debug(fileEntries.toString());
 		return fileEntries;
 	}
+	@SuppressWarnings("unchecked")
 	private List<String> getClassFiles(Bundle b){
 		List<String> fileEntries = new ArrayList<String>();
 		exporter.getBundleFileEntries(fileEntries, b.getEntryPaths("/bin"), b);

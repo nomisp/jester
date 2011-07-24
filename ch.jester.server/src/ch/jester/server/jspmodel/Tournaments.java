@@ -12,6 +12,7 @@ public class Tournaments {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Tournament> getTournaments(){
 		return su.getDaoServiceByEntity(Tournament.class).createNamedQuery("AllActiveTournaments").getResultList();
 		

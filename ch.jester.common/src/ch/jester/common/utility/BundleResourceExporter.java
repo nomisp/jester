@@ -29,6 +29,7 @@ public class BundleResourceExporter {
 		ins.close();
 		
 	}
+	@SuppressWarnings("unchecked")
 	public boolean getBundleFileEntries(List<String> entries, Enumeration<String> en, Bundle bundle) {
 		if(en==null){return false;}
 		while(en.hasMoreElements()){
@@ -43,6 +44,7 @@ public class BundleResourceExporter {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean getBundlePathEntries(List<String> entries, Enumeration<String> en, Bundle bundle) {
 		if(en==null){return true;}
 		while(en.hasMoreElements()){

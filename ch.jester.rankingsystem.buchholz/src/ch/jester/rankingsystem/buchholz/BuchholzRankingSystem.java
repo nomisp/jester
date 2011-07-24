@@ -43,7 +43,7 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 
 	@Override
 	public Ranking calculateRanking(Category category, IProgressMonitor pMonitor) throws NotAllResultsException {
-		Ranking ranking = null;
+		//Ranking ranking = null;
 		if (checkCategoryFinished(category)) {
 			return createFinalRanking(category);
 		} else {

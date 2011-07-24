@@ -16,6 +16,7 @@ import org.eclipse.ui.services.IServiceLocator;
 import ch.jester.common.ui.utility.FontUtil;
 import ch.jester.common.utility.AdapterBinding;
 
+@SuppressWarnings("restriction")
 public class GotoPageField extends
 		WorkbenchWindowControlContribution implements IWorkbenchContribution {
 	Font mFont = FontUtil.createSizedFont(8);
@@ -53,6 +54,7 @@ public class GotoPageField extends
 		
 	}
 	
+	@SuppressWarnings("restriction")
 	public void setWorkbenchWindow(IWorkbenchWindow wbw) {
 		super.setWorkbenchWindow(wbw);
 		
@@ -62,6 +64,7 @@ public class GotoPageField extends
 	}
 	
 	
+	@SuppressWarnings("restriction")
 	@Override
 	public void initialize(IServiceLocator serviceLocator) {
 		IWorkbenchLocationService part = (IWorkbenchLocationService) serviceLocator.getService(IWorkbenchLocationService.class);

@@ -69,7 +69,7 @@ public class LinkStatusLineContributionItem extends ContributionItem {
 	/** The text */
 	private String fText;
 	/** The image */
-	private Image fImage;
+	//private Image fImage;
 	/**
 	 * The error text.
 	 * @since 3.0

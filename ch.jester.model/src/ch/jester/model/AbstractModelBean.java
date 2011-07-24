@@ -136,6 +136,7 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 		return o;
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected T cloneWithSimpleProperties(Class<?>... clzs){
 		T o = createCloneId0();
 		cloneFields((T)this, o, clzs);
