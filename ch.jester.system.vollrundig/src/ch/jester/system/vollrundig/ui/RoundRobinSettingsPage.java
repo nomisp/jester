@@ -41,10 +41,11 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 	private SWTDirtyManager dm = new SWTDirtyManager();
 	private Button btnDoublerounded;
 	private ComboViewer comboViewer;
-	
-	public RoundRobinSettingsPage(ISettingObject settings, FormEditor editor, String id, String title) {
+	private boolean enabled;
+	public RoundRobinSettingsPage(ISettingObject settings, FormEditor editor, boolean enabled, String id, String title) {
 		super(editor, id, title);
 		this.settings = (RoundRobinSettings)settings;
+		this.enabled=enabled;
 	}
 
 	/**
@@ -84,6 +85,7 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 		});
 		comboViewer.setInput(StartingNumberGenerationType.values());
 		comboViewer.setSelection(new StructuredSelection(settings.getStartingNumberGenerationType()));
+		comboViewer.getControl().setEnabled(enabled);
 		
 		Combo combo = comboViewer.getCombo();
 		GridData gd_combo = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
@@ -93,6 +95,7 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 				
 		btnDoublerounded = new Button(managedForm.getForm().getBody(), SWT.CHECK);
 		btnDoublerounded.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+		btnDoublerounded.setEnabled(enabled);
 		managedForm.getToolkit().adapt(btnDoublerounded, true, true);
 		btnDoublerounded.setText(Messages.RoundRobinSettingsPage_DoubleRounded);
 		btnDoublerounded.setSelection(settings.getDoubleRounded());
