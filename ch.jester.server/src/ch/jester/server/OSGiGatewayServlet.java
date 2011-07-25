@@ -22,6 +22,7 @@ import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.api.reportengine.IReportResult.ExportType;
 import ch.jester.commonservices.api.web.IHTTPSessionAware;
+import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Tournament;
@@ -85,11 +86,18 @@ public class OSGiGatewayServlet extends HttpServlet {
 		return null;
 	}
 	
-	private String generateReport(HttpServletRequest req, HttpServletResponse resp, IReport report, Collection<?> inputCollection) throws IOException{
+	private void generateReport(HttpServletRequest req, HttpServletResponse resp, IReport report, Collection<?> inputCollection) throws IOException{
 		IReportEngine engine = su.getService(IReportEngine.class);
 		//einfach mal zum zeigen, dass es geht
 		HttpSession session = req.getSession(true);
-		IReportResult result = engine.generate(report, inputCollection, new NullProgressMonitor());
+		IReportResult result;
+		try{
+		result = engine.generate(report, inputCollection, new NullProgressMonitor());
+		}catch(ProcessingException e){
+			resp.getWriter().append("Error: \n");
+			resp.getWriter().append(e.getLocalizedMessage());
+			return;
+		}
 		IHTTPSessionAware sessionadapter = AdapterUtility.getAdaptedObject(result, IHTTPSessionAware.class);
 		if(sessionadapter!=null){
 			sessionadapter.setSession(session);
@@ -108,6 +116,5 @@ public class OSGiGatewayServlet extends HttpServlet {
 			bout = null;
 			out = null;
 		}
-		return null;
 	}
 }
