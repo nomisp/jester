@@ -87,7 +87,12 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		btAdd.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				new AddCategoryAction(tournament, categoryMDBlock).run();
+				Object selection = ((IStructuredSelection)treeViewer.getSelection()).getFirstElement();
+				if (selection instanceof Category) {
+					new AddCategoryAction(tournament, categoryMDBlock).run();
+				} else if (selection instanceof Round) {
+					new AddRoundAction(((Round) selection).getCategory(), categoryMDBlock).run();
+				}
 			}
 		});
 		section.setClient(client);
@@ -99,7 +104,12 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		btRemove.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				new DeleteCategoryAction((Category)((IStructuredSelection)treeViewer.getSelection()).getFirstElement(), categoryMDBlock).run();
+				Object selection = ((IStructuredSelection)treeViewer.getSelection()).getFirstElement();
+				if (selection instanceof Category) {
+					new DeleteCategoryAction((Category)selection, categoryMDBlock).run();
+				} else if (selection instanceof Round) {
+					new DeleteRoundAction((Round)selection, categoryMDBlock).run();
+				}
 			}
 		});
 		

@@ -1,9 +1,12 @@
 package ch.jester.ui.tournament.actions;
 
+import java.util.List;
+
 import messages.Messages;
 
 import org.eclipse.jface.action.Action;
 
+import ch.jester.model.Category;
 import ch.jester.model.Round;
 import ch.jester.ui.tournament.forms.CategoryMasterDetail;
 
@@ -28,7 +31,14 @@ public class DeleteRoundAction extends Action {
 
 	@Override
 	public void run() {
-		round.getCategory().removeRound(round);
+		Category category = round.getCategory();
+		category.removeRound(round);
+		List<Round> rounds = category.getRounds();
+		if (rounds.size() > round.getNumber()) {	// Eine Runde zwischen drin wurde gelöscht. Nummern nachführen.
+			for (int i = round.getNumber()-1; i < rounds.size(); i++) {
+				rounds.get(i).setNumber(i+1);
+			}
+		}
 		categoryMasterDetail.refresh();
 		categoryMasterDetail.setEditorDirty();
 	}
