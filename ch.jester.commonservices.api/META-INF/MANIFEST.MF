@@ -7,7 +7,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.osgi.services;bundle-version="3.2.100",
  javax.servlet;bundle-version="2.5.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: ch.jester.commonservices.api.bundle,
+Export-Package: ch.jester.commonservices.api.adaptable,
+ ch.jester.commonservices.api.bundle,
  ch.jester.commonservices.api.components,
  ch.jester.commonservices.api.importer,
  ch.jester.commonservices.api.io,

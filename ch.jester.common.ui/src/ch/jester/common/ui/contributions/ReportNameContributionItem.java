@@ -13,8 +13,8 @@ import org.eclipse.ui.menus.CommandContributionItem;
 import org.eclipse.ui.menus.CommandContributionItemParameter;
 import org.eclipse.ui.services.IServiceLocator;
 
-import ch.jester.common.ui.filter.ReportEngineInputTester;
 import ch.jester.common.ui.utility.SelectionUtility;
+import ch.jester.common.utility.CollectionTester;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
@@ -50,12 +50,18 @@ public class ReportNameContributionItem extends CompoundContributionItem {
 		for(IReport report:reports){
 			if(report.getVisibleName()==null){continue;}
 			stateCmdContr.add(new EnableStateCommandContributionItem(getParameter(report)));
-			Collection<?> col = ReportEngineInputTester.getInputCollectionForReport(report.getInputBeanClass(), beanlist);
+			
+			boolean can = CollectionTester.canGetCollection(report.getInputBeanClass(), beanlist);
+			stateCmdContr.get(i).setEnabled(can);
+
+			
+			/*
+			Collection<?> col = CollectionTester.getCollection(report.getInputBeanClass(), beanlist);
 			if(col==null||col.isEmpty()){
 				stateCmdContr.get(i).setEnabled(false);
 			}else{
 				stateCmdContr.get(i).setEnabled(true);
-			}
+			}*/
 			i++;
 		}
 	    return stateCmdContr.toArray(new EnableStateCommandContributionItem[stateCmdContr.size()]);

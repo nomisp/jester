@@ -48,6 +48,7 @@ import org.osgi.service.component.ComponentContext;
 import ch.jester.common.reportengine.DefaultReportRepository;
 import ch.jester.common.reportengine.DefaultReportResult;
 import ch.jester.common.utility.AdapterBinding;
+import ch.jester.common.utility.CollectionTester;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.components.IComponentService;
 import ch.jester.commonservices.api.io.IFileManager;
@@ -91,22 +92,6 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
         		cache.addCachedReport(report, null, null);
         	}
     	}
-    	
-    	
-    	/*IBundleReport report = factory.createBundleReport(BUNDLE_ID, "playerlist", Messages.JasperReportEngine_player_report_name, BUNDLE_REPORT_LOCATION, "reports/PlayerList.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
-    	report.setInputBeanClass(Player.class);
-
-    	report = factory.createBundleReport(BUNDLE_ID, "rankinglist", "RankingList", BUNDLE_REPORT_LOCATION, "reports/RankingList.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
-    	report.setInputBeanClass(RankingReportInput.class);
-    	
-    	report = factory.createBundleReport(BUNDLE_ID, "pairinglist_tournament", Messages.JasperReportEngine_tournament_report_name, BUNDLE_REPORT_LOCATION, "reports/PairingList.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
-    	report.setInputBeanClass(Tournament.class);
-    	report = factory.createBundleReport(BUNDLE_ID, "pairinglist_category", Messages.JasperReportEngine_category_pairing_name, BUNDLE_REPORT_LOCATION, "reports/PairingListCat.jrxml"); //$NON-NLS-1$ //$NON-NLS-3$
-    	report.setInputBeanClass(Category.class);
-    	IBundleReport src = factory.createBundleReport(BUNDLE_ID, null, null, BUNDLE_REPORT_LOCATION, "reports/Category_RoundSubReport.jrxml"); //$NON-NLS-1$
-    	cache.addCachedReport(src, null, null);
-    	src = factory.createBundleReport(BUNDLE_ID, null, null, BUNDLE_REPORT_LOCATION, "reports/Category_sub.jrxml"); //$NON-NLS-1$
-    	cache.addCachedReport(src, null, null);*/
     	new Initializer().load(factory);
     	
     	
@@ -148,8 +133,20 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     	}
     }
     
-    private void checkInput(IReport pReport, Collection<?> pBean){
-    	if(pBean.isEmpty()){
+    private Collection<?> convertInputCollection(IReport pReport, Collection<?> pBean){
+     	if(pReport.getInputBeanClass()==null){
+    		throw new ProcessingException(Messages.JasperReportEngine_ex_no_input_class+pReport.getVisibleName()+Messages.JasperReportEngine_ex_definied);
+    	}
+     	if(pBean.isEmpty()){
+    		throw new ProcessingException(Messages.JasperReportEngine_ex_no_input);
+    	}
+     	Collection<?> newInputCollection = CollectionTester.getCollection(pReport.getInputBeanClass(), pBean);
+     	
+     	if(newInputCollection==null){
+    		throw new ProcessingException(Messages.JasperReportEngine_ex_no_input_class+pReport.getVisibleName()+Messages.JasperReportEngine_ex_definied);
+    	}
+     	return newInputCollection;
+    	/*if(pBean.isEmpty()){
     		throw new ProcessingException(Messages.JasperReportEngine_ex_no_input);
     	}
     	if(pReport.getInputBeanClass()==null){
@@ -158,7 +155,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     	Class<?> inputClass = pBean.iterator().next().getClass();
     	if(!pReport.getInputBeanClass().isAssignableFrom(inputClass)){
     		throw new ProcessingException(Messages.JasperReportEngine_ex_class_not_handle+": "+inputClass);
-    	}
+    	}*/
     	
     }
     
@@ -205,7 +202,7 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 					e.printStackTrace();
 				}
 			}
-			checkInput(pReport, pBean);
+			pBean = convertInputCollection(pReport, pBean);
 			mLogger.info(Messages.JasperReportEngine_gen_input_size+pBean.size()+Messages.JasperReportEngine_objects);
 			StopWatch watch = new StopWatch();
 			watch.start();

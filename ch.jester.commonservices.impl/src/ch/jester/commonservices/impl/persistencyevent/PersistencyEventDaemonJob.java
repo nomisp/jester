@@ -11,7 +11,6 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
-import ch.jester.commonservices.api.persistency.IPersistencyEvent.Operation;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.api.persistency.IPersistencyListener;
 import ch.jester.commonservices.impl.internal.CommonServicesActivator;

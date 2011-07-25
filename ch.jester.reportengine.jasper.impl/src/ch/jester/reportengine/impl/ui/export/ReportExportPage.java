@@ -1,6 +1,7 @@
 package ch.jester.reportengine.impl.ui.export;
 
 import java.util.HashMap;
+import java.util.List;
 
 import messages.Messages;
 
@@ -162,7 +163,7 @@ public class ReportExportPage extends WizardPage {
 	}
 	
 	private Object[] getReports(){
-		return mServices.getService(IReportEngine.class).getRepository().getReports().toArray();
+		return mServices.getService(IReportEngine.class).getRepository().getVisibleReports().toArray();
 	}
 	
 	public Class<?>[] getSelectedCalsses(){

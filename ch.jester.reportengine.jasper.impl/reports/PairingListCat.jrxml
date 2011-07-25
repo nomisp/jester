@@ -169,7 +169,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{tournament}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="55" y="10" width="137" height="35"/>
+				<reportElement x="55" y="10" width="137" height="58"/>
 				<textElement>
 					<font size="24" isBold="true"/>
 				</textElement>

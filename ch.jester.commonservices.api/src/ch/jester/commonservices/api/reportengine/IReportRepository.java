@@ -48,4 +48,9 @@ public interface IReportRepository {
 	 */
 	public List<IReport> getReports();
 	
+	/**
+	 * @return alle Reporte
+	 */
+	public List<IReport> getVisibleReports();
+	
 }

@@ -5,13 +5,17 @@ import java.util.List;
 
 import messages.Messages;
 
+import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
+import ch.jester.common.utility.AdapterBinding;
+import ch.jester.common.utility.AdapterUtility;
 import ch.jester.common.utility.JesterModelExporter;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.model.Category;
@@ -19,7 +23,7 @@ import ch.jester.model.Player;
 import ch.jester.model.Tournament;
 import ch.jester.model.util.RankingReportInput;
 
-public class Activator extends AbstractUIActivator {
+public class Activator extends AbstractUIActivator implements IAdapterFactory {
 
 	private static Activator instance;
 	private JesterModelExporter exporter;
@@ -32,8 +36,21 @@ public class Activator extends AbstractUIActivator {
 		instance=this;
 		exporter = new JesterModelExporter();
 		setExportableBundles(exporter);
-		//exportModelForStudioOrReports();
+		Platform.getAdapterManager().registerAdapters(this, Tournament.class);
 
+	}
+	@Override
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if(adapterType==RankingReportInput.class){
+			return new RankingReportInput((Tournament)adaptableObject);
+		}
+		return null;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Class[] getAdapterList() {
+		return new Class[]{RankingReportInput.class};
 	}
 
 	 public void exportModelForStudioOrReports() {
@@ -71,7 +88,7 @@ public class Activator extends AbstractUIActivator {
 	 List<JasperReportDef> getReportDefinitions(){
 		List<JasperReportDef> reportlist = new ArrayList<JasperReportDef>();
 		reportlist.add(new JasperReportDef("playerlist", Messages.JasperReportEngine_player_report_name, "reports/PlayerList.jrxml", Player.class));
-		reportlist.add(new JasperReportDef("pairinglist_tournament", Messages.JasperReportEngine_tournament_report_name, "reports/PairingList.jrxml",Tournament.class));
+		//reportlist.add(new JasperReportDef("pairinglist_tournament", Messages.JasperReportEngine_tournament_report_name, "reports/PairingList.jrxml",Tournament.class));
 		reportlist.add(new JasperReportDef("pairinglist_category", Messages.JasperReportEngine_category_pairing_name, "reports/PairingListCat.jrxml",Category.class));
 		
 		reportlist.add(new JasperReportDef("rankinglist", Messages.JasperReportEngine_ranking_report_name, "reports/RankingList.jrxml", RankingReportInput.class));
@@ -83,10 +100,6 @@ public class Activator extends AbstractUIActivator {
 			}
 		});
 		reportlist.add(new JasperReportDef("reports/RankingListCat.jrxml"));
-	
-		
-		
-		
 		reportlist.add(new JasperReportDef("reports/Category_RoundSubReport.jrxml"));
 		reportlist.add(new JasperReportDef("reports/Category_sub.jrxml"));
 		
@@ -102,5 +115,7 @@ public class Activator extends AbstractUIActivator {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }

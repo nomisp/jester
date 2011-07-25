@@ -75,8 +75,6 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		if (!RankingHelper.allResultsAvailable(category)) throw new NotAllResultsException("NotAllResultsForRanking");
 		FinalRanking ranking = category.getRanking();
 		if (ranking != null) {
-			ranking.getRankingEntries().clear();
-	
 			
 			mServiceUtil.getDaoServiceByEntity(FinalRanking.class).delete(ranking);
 			ranking = ModelFactory.getInstance().createFinalRanking(category);
