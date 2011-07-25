@@ -1,6 +1,7 @@
 package ch.jester.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -323,6 +324,26 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		
 		return clublist;
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> Collection<T> getChildrenCollection(Class<T> clz) {
+		if(clz==Player.class){
+			return (Collection<T>) getPlayers();
+		}
+		if(clz==Category.class){
+			return (Collection<T>) getCategories();
+		}
+		return super.getChildrenCollection(clz);
+	}
+	
+	@Override
+	public <T> boolean canGetChildrenCollection(Class<T> clz) {
+		if(clz==Player.class || clz==Category.class){
+			return true;
+		}
+		return super.canGetChildrenCollection(clz);
 	}
 	
 }

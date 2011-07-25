@@ -1,6 +1,7 @@
 package ch.jester.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -198,18 +199,32 @@ public class Category extends AbstractModelBean<Category> {
 		return cat;
 	}
 	
-	/*public int getPairedRounds(){
-		int pr = 0;
-		for(int i=0;i<getRounds().size();i++){
-			if(getRounds().get(i).getPairings().size()>0)pr++;
-		}
-		return pr;
-	}*/
-	
 	
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		    this.tournament = (Tournament)parent;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> Collection<T> getChildrenCollection(Class<T> clz) {
+		if(clz==Player.class){
+			return (Collection<T>) getPlayers();
+		}
+		if(clz==PlayerCard.class){
+			return (Collection<T>) getPlayerCards();
+		}
+		if(clz==Round.class){
+			return (Collection<T>) getRounds();
+		}
+		return super.getChildrenCollection(clz);
+	}
+	
+	@Override
+	public <T> boolean canGetChildrenCollection(Class<T> clz) {
+		if(clz==Player.class || clz==PlayerCard.class || clz==Round.class){
+			return true;
+		}
+		return super.canGetChildrenCollection(clz);
+	}
 	
 }
