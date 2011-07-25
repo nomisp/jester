@@ -10,7 +10,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,11 +27,13 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.eclipse.core.runtime.Assert;
 
+import ch.jester.commonservices.api.adaptable.IHierarchyAdapter;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 
 @MappedSuperclass
-public abstract class AbstractModelBean<T extends IEntityObject> extends AbstractPropertyChangeModel implements Cloneable, Serializable , IEntityObject{
+public abstract class AbstractModelBean<T extends IEntityObject> extends AbstractPropertyChangeModel implements Cloneable, Serializable , IEntityObject, IHierarchyAdapter{
 	private static final long serialVersionUID = 1L;
+	
 	@Transient
 	private String pXmlSerialId;
 	
@@ -229,6 +233,23 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	@SuppressWarnings({ "unchecked"})
+	public <V> Collection<V> getChildrenCollection(Class<V> clz){
+		if(clz==AbstractModelBean.this.getClass()){
+			List<Object> list = new ArrayList<Object>();
+			list.add(this);
+			return (Collection<V>) list;
+		}
+		return null;
+	}
+	
+	@Override
+	public <T> boolean canGetChildrenCollection(Class<T> clz) {
+		if(clz==AbstractModelBean.this.getClass()){
+			return true;
+		}
+		return false;
 	}
 	public abstract Object clone() throws CloneNotSupportedException;
 }
