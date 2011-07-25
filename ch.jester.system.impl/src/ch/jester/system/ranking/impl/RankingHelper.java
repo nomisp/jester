@@ -146,9 +146,9 @@ public class RankingHelper {
 		List<PlayerCard> opponents = new ArrayList<PlayerCard>();
 		for (Round round : rounds) {
 			for (Pairing pairing : round.getPairings()) {
-				if (pairing.getWhite().equals(player)) {
+				if (pairing.getWhite() != null && pairing.getWhite().equals(player)) {
 					opponents.add(pairing.getBlack());
-				} else if (pairing.getBlack().equals(player)) {
+				} else if (pairing.getBlack() != null && pairing.getBlack().equals(player)) {
 					opponents.add(pairing.getWhite());
 				}
 			}

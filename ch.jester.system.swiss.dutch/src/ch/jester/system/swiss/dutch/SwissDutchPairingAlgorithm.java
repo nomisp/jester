@@ -67,6 +67,7 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 
 	@Override
 	public List<Pairing> executePairings(Category category) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException {
+		this.category = category;
 		if (settings == null) loadSettings(category.getTournament());
 		firstRound = category.getRounds().get(0).getPairings().size() == 0;
 		List<Round> finishedRounds = PairingHelper.getFinishedRounds(category);
@@ -87,9 +88,12 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 				for (int i = s1; i < s2; i++) {
 					PlayerCard player = scoreBracket.get(i);
 					Pairing pair = pairCurrentPlayer(player, scoreBracket, s1, s2);
+					pair.setRound(nextRound);
+					pairings.add(pair);
 				}
 			}
 		}
+		
 		return this.pairings;
 	}
 
@@ -124,7 +128,7 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 		Pairing pair = new Pairing();
 		PlayerCard opponent = scoreBracket.get(s2+s1);
 		List<PlayerCard> playedOpponents = RankingHelper.getOpponents(player, category.getRounds());
-		if (playedOpponents.contains(opponent)) {
+		if (!firstRound && playedOpponents.contains(opponent)) {
 			return null;	// Die Spieler haben bereits gegeneinander gespielt
 		}
 		

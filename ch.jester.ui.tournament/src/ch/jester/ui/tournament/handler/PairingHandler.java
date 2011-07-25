@@ -117,8 +117,8 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 					}
 				}
 				// Jetzt noch das Ganze speichern
-				IDaoService<Tournament> categoryPersister = mServiceUtil.getDaoServiceByEntity(Tournament.class);
-				categoryPersister.save(tournament);
+				IDaoService<Tournament> tournamentPersister = mServiceUtil.getDaoServiceByEntity(Tournament.class);
+				tournamentPersister.save(tournament);
 				return Status.OK_STATUS;
 			}
 
