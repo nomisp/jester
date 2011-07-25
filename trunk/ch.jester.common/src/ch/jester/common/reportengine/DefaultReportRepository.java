@@ -123,4 +123,18 @@ public class DefaultReportRepository implements IReportRepository {
 		return mFileManager.getFolderInWorkingDirectory(IReportEngine.TEMPLATE_DIRECTROY);
 	}
 
+	@Override
+	public List<IReport> getVisibleReports() {
+		Iterator<String> it = mReportMap.keySet().iterator();
+		List<IReport> rList = new ArrayList<IReport>();
+		while(it.hasNext()){
+			IReport report = mReportMap.get(it.next());
+			if(report.getVisibleName()==null||report.getVisibleName().isEmpty()){
+				continue;
+			}
+			rList.add(report);
+		}
+		return rList;
+	}
+
 }
