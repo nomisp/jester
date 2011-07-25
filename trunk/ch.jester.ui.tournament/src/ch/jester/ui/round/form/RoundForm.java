@@ -76,12 +76,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart, ISele
 		super(editor, id, title);
 	}
 	
-	private void createZoomControl(IManagedForm managedForm){
-		/*ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
-		managedForm.getForm().getToolBarManager().add(toolbarZoomContributionViewItem);
-		managedForm.getForm().getToolBarManager().update(true);*/
-		
-	}
+
 	public void setResultController(ResultController pController){
 		mController=pController;
 		installListener();
@@ -294,7 +289,6 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart, ISele
 			}
 		});
 		
-		createZoomControl(managedForm);
 		
 		//Nodes können nicht bewegt werden... sonst sieht man unter umständen den hack... wollen wir nicht.
 		//ist auch nicht nötig

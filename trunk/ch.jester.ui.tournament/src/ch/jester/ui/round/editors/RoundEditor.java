@@ -38,7 +38,7 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 	protected void addPages() {
 		mController.setInput(mDaoInput.getInput());
 		
-		
+		setPartName(mController.getLastTitleSegment());
 		
 		graphResultFormPage = new RoundForm(this, "roundeditor", Messages.RoundEditor_Graph); //$NON-NLS-1$
 		graphResultFormPage.setResultController(mController);
