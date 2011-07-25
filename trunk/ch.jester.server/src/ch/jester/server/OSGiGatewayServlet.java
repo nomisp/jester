@@ -37,10 +37,36 @@ public class OSGiGatewayServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String alias = req.getParameter("reportalias");
-		String category = req.getParameter("category");
-		IReport report = fetchReport(alias);
-		Collection<?> inputCollection = createCollection(fetchInputCategory(category));
+		String aliasParameter = req.getParameter("reportalias");
+		String categoryParameter = req.getParameter("category");
+		String tournamentParameter = req.getParameter("tournament");
+		IReport report = fetchReport(aliasParameter);
+		
+		Object[] potentialInputs = new Object[2];
+		Category cat = fetchInputCategory(categoryParameter);
+		potentialInputs[0]=cat;
+		Tournament tournament = fetchInputTournament(tournamentParameter);
+		if(tournament!=null){
+		potentialInputs[1] = tournament.getPlayers();
+		}
+		
+		Object inputObject = null;;
+		for(Object o:potentialInputs){
+			if(o!=null && report.getInputBeanClass()==o.getClass()){
+				inputObject=o;
+				break;
+			}
+			if(o instanceof Collection){
+				Collection in = (Collection) o;
+				Object firstinput = in.iterator().next();
+				if(firstinput.getClass() == report.getInputBeanClass()){
+					inputObject = in;
+					break;
+				}
+			}
+		}
+		
+		Collection<?> inputCollection = createCollection(inputObject);
 		generateReport(req, resp, report, inputCollection);
 	}
 	
@@ -57,6 +83,15 @@ public class OSGiGatewayServlet extends HttpServlet {
 				if(c.getId().toString().equals(pId)){
 					return c;
 				}
+			}
+		}
+		return null;
+	}
+	private Tournament fetchInputTournament(String pId){
+		List<Tournament> tlist = su.getDaoServiceByEntity(Tournament.class).executeNamedQuery(Tournament.QUERY_GETALLACTIVE);
+		for(Tournament t:tlist){
+			if(t.getId().toString().equals(pId)){
+				return t;
 			}
 		}
 		return null;

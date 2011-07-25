@@ -299,10 +299,12 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 					exporter.setParameter(JRHtmlExporterParameter.ZOOM_RATIO, 1.3f);
 					
 					if(sessionadapter.getSession()!=null){
+						exporter.setParameter(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR, Boolean.FALSE);
+						exporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.FALSE);
+						exporter.setParameter(JRHtmlExporterParameter.FRAMES_AS_NESTED_TABLES, Boolean.FALSE);
 						exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"image?image=");
-						exporter.setParameter(JRHtmlExporterParameter.ZOOM_RATIO, 1.0f);
+						//exporter.setParameter(JRHtmlExporterParameter.ZOOM_RATIO, 1.0f);
 						exporter.setParameter(JRHtmlExporterParameter.IS_WRAP_BREAK_WORD , Boolean.FALSE);
-						exporter.setParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, Boolean.FALSE);
 						//exporter.setParameter(JRHtmlExporterParameter.SIZE_UNIT, "0.8");
 						//exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR,su.getService(IFileManager.class).getRootTempDirectory());
 					}else{

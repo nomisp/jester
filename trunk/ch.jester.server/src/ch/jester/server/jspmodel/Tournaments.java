@@ -19,12 +19,21 @@ public class Tournaments {
 		
 	}
 	
-	public String getCategoryLinks(Category cat){
-		return linkLabel(cat, "Pairing List", "pairinglist_category");
+	public String getAllPlayersLink(Tournament t){
+		return linkTournament(t, "Player List", "playerlist");
 	}
 	
-	private String linkLabel(Category cat, String pLabel, String report){
+	public String getCategoryLinks(Category cat){
+		return linkCat(cat, "Pairing List", "pairinglist_category");
+	}
+	
+	private String linkCat(Category cat, String pLabel, String report){
 		String link = "<a href=../reports?category="+cat.getId()+"&reportalias="+report+">"+pLabel+"</a>";
+		return link;
+	}
+	
+	private String linkTournament(Tournament t, String pLabel, String report){
+		String link = "<a href=../reports?tournament="+t.getId()+"&reportalias="+report+">"+pLabel+"</a>";
 		return link;
 	}
 }

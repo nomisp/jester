@@ -145,7 +145,7 @@
 	<title>
 		<band height="68" splitType="Stretch">
 			<textField>
-				<reportElement x="288" y="10" width="100" height="20"/>
+				<reportElement x="319" y="10" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{tournament}.getName()]]></textFieldExpression>
 			</textField>
@@ -154,12 +154,12 @@
 				<imageExpression class="java.lang.String"><![CDATA["/img/icon128x128.jpg"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="219" y="30" width="69" height="20"/>
+				<reportElement x="219" y="30" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{tournament}.getDateFrom()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="288" y="30" width="100" height="20"/>
+				<reportElement x="319" y="30" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{tournament}.getDateTo()]]></textFieldExpression>
 			</textField>
