@@ -66,6 +66,7 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 		if (!RankingHelper.allResultsAvailable(category)) throw new NotAllResultsException("NotAllResultsForRanking");
 		FinalRanking ranking = category.getRanking();
 		if (ranking != null) {
+			
 			mServiceUtil.getDaoServiceByEntity(FinalRanking.class).delete(ranking);
 			ranking = ModelFactory.getInstance().createFinalRanking(category);
 		} else {

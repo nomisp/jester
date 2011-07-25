@@ -18,6 +18,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.ui.round.editors.RankingViewEditor;
+import ch.jester.ui.tournament.internal.Activator;
 
 public class BrowserForm extends FormPage {
 	Browser browser;
@@ -36,7 +37,7 @@ public class BrowserForm extends FormPage {
 	//	pdf.setEnabled(false);
 		pdf.setText(Messages.BrowserForm_btn_pdf);
 		managedForm.getForm().getToolBarManager().add(pdf);
-		
+		pdf.setImageDescriptor(Activator.imageDescriptor("icons/filetype_pdf.png"));
 		Action print = new Action("print", Action.AS_PUSH_BUTTON) { //$NON-NLS-1$
 			public void run() {
 				edit.toPrinter();

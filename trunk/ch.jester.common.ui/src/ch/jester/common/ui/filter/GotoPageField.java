@@ -54,7 +54,6 @@ public class GotoPageField extends
 		
 	}
 	
-	@SuppressWarnings("restriction")
 	public void setWorkbenchWindow(IWorkbenchWindow wbw) {
 		super.setWorkbenchWindow(wbw);
 		
@@ -64,7 +63,6 @@ public class GotoPageField extends
 	}
 	
 	
-	@SuppressWarnings("restriction")
 	@Override
 	public void initialize(IServiceLocator serviceLocator) {
 		IWorkbenchLocationService part = (IWorkbenchLocationService) serviceLocator.getService(IWorkbenchLocationService.class);

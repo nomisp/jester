@@ -3,7 +3,6 @@ package ch.jester.server;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
 import ch.jester.common.utility.AdapterUtility;
+import ch.jester.commonservices.api.adaptable.IHierarchyAdapter;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportResult;
@@ -24,11 +24,11 @@ import ch.jester.commonservices.api.reportengine.IReportResult.ExportType;
 import ch.jester.commonservices.api.web.IHTTPSessionAware;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
-import ch.jester.model.Player;
 import ch.jester.model.Tournament;
 
 
 public class OSGiGatewayServlet extends HttpServlet {
+	private static final long serialVersionUID = 2407211936729344173L;
 	ServiceUtility su = new ServiceUtility();
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -42,32 +42,20 @@ public class OSGiGatewayServlet extends HttpServlet {
 		String tournamentParameter = req.getParameter("tournament");
 		IReport report = fetchReport(aliasParameter);
 		
-		Object[] potentialInputs = new Object[2];
 		Category cat = fetchInputCategory(categoryParameter);
-		potentialInputs[0]=cat;
 		Tournament tournament = fetchInputTournament(tournamentParameter);
+		
+		Collection<?> inputCollection = null;
 		if(tournament!=null){
-		potentialInputs[1] = tournament.getPlayers();
+			inputCollection = tryGetInput(tournament, report.getInputBeanClass());
+		}else if(cat!=null){
+			inputCollection = tryGetInput(cat, report.getInputBeanClass());
 		}
-		
-		Object inputObject = null;;
-		for(Object o:potentialInputs){
-			if(o!=null && report.getInputBeanClass()==o.getClass()){
-				inputObject=o;
-				break;
-			}
-			if(o instanceof Collection){
-				Collection in = (Collection) o;
-				Object firstinput = in.iterator().next();
-				if(firstinput.getClass() == report.getInputBeanClass()){
-					inputObject = in;
-					break;
-				}
-			}
-		}
-		
-		Collection<?> inputCollection = createCollection(inputObject);
 		generateReport(req, resp, report, inputCollection);
+	}
+	
+	private Collection<?> tryGetInput(IHierarchyAdapter adapter, Class<?> c){
+		return adapter.getChildrenCollection(c);
 	}
 	
 	private IReport fetchReport(String pAlias){
@@ -95,14 +83,6 @@ public class OSGiGatewayServlet extends HttpServlet {
 			}
 		}
 		return null;
-	}
-	private Collection<?> createCollection(Object o){
-		if(o instanceof Collection){
-			return (Collection<?>) o;
-		}
-		List<Object> list = new ArrayList<Object>();
-		list.add(o);
-		return list;
 	}
 	
 	private String generateReport(HttpServletRequest req, HttpServletResponse resp, IReport report, Collection<?> inputCollection) throws IOException{

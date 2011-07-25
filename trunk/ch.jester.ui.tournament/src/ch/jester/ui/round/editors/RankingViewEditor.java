@@ -68,17 +68,17 @@ public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 			e1.printStackTrace();
 		}
 		
-		browserForm = new BrowserForm(this, "rview", "ResultView");
-
-		Job uijob = new Job("Generating RankingList") {
+		browserForm = new BrowserForm(this, "rview", "ResultView"); //$NON-NLS-1$ //$NON-NLS-2$
+		final String jobid = Messages.RankingViewEditor_generate_rankinglist;
+		Job uijob = new Job(jobid) {
 			
 			@Override
 			public IStatus run(IProgressMonitor monitor) {
 				try{
-					monitor.beginTask("Generating Rankinglist", IProgressMonitor.UNKNOWN);
+					monitor.beginTask(jobid, IProgressMonitor.UNKNOWN);
 					RankingReportInput hlp = mDaoInput.getInput();
 					IReportEngine engine = getServiceUtil().getService(IReportEngine.class);
-					IReport report = engine.getRepository().getReport("rankinglist_internal");
+					IReport report = engine.getRepository().getReport("rankinglist_internal"); //$NON-NLS-1$
 					List<RankingReportInput> list = new ArrayList<RankingReportInput>();
 					list.add(hlp);
 					result = engine.generate(report, list, monitor);
@@ -95,12 +95,12 @@ public class RankingViewEditor extends AbstractEditor<RankingReportInput> {
 			}
 
 			private void preparePDFOut(final List<RankingReportInput> list) {
-				Job job = new Job("background pdf creator"){
+				Job job = new Job(Messages.RankingViewEditor_generate_background_pdf){
 
 					@Override
 					protected IStatus run(IProgressMonitor monitor) {
 						IReportEngine engine = getServiceUtil().getService(IReportEngine.class);
-						IReport report = engine.getRepository().getReport("rankinglist");
+						IReport report = engine.getRepository().getReport("rankinglist"); //$NON-NLS-1$
 						IReportResult pdfresult = engine.generate(report, list, monitor);
 						pdf = pdfresult.export(ExportType.PDF);
 						backgroundFileSem.release();

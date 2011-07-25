@@ -2,8 +2,10 @@ package messages;
 
 import org.eclipse.osgi.util.NLS;
 
+
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "messages.messages"; //$NON-NLS-1$
+	public static String RoundEditor_Saving;
 	public static String Action_AddCategory_text;
 	public static String Action_AddRound_text;
 	public static String Action_DeleteCategory_text;
@@ -60,6 +62,8 @@ public class Messages extends NLS {
 	public static String PairingHandler_msg_UnknownError_title;
 	public static String RankingHandler_msg_UnknownError_text;
 	public static String RankingHandler_msg_UnknownError_title;
+	public static String RankingViewEditor_generate_background_pdf;
+	public static String RankingViewEditor_generate_rankinglist;
 	public static String RemovePlayerHandler_player_remove_failed_cause;
 	public static String RemovePlayerHandler_player_remove_failed_title;
 	public static String ResultForm_1;
@@ -72,7 +76,6 @@ public class Messages extends NLS {
 	public static String RoundDetailsPage_s_descr;
 	public static String RoundDetailsPage_lbl_date;
 	public static String RoundEditor_Graph;
-	public static String RoundEditor_Saving;
 	public static String RoundEditor_Table;
 	public static String TournamentEditor_progress_saving;
 	public static String TournamentEditor_title;

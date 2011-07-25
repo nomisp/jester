@@ -16,7 +16,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.osgi.services;bundle-version="3.2.100",
  org.eclipse.equinox.ds;bundle-version="1.2.1",
  org.eclipse.equinox.p2.repository;bundle-version="2.0.2"
-Bundle-Localization: messages
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipselabs.p2.rcpupdate.utils

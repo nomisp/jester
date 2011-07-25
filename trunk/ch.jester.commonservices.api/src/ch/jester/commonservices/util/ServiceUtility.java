@@ -9,12 +9,11 @@ import java.util.List;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceFactory;
-import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
-import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
+import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.internal.Activator;
 
 
@@ -24,7 +23,7 @@ import ch.jester.commonservices.internal.Activator;
  * 
  */
 public class ServiceUtility {
-	private static Object GLOBAL_LOCK = new Object();
+	//private static Object GLOBAL_LOCK = new Object();
 	private BundleContext mContext;
 	private HashMap<Class<?>, ServiceTracker> mTrackerMap = new HashMap<Class<?>, ServiceTracker>();
 	private HashMap<String, ServiceTracker> mStringTrackerMap = new HashMap<String, ServiceTracker>();
@@ -201,7 +200,7 @@ public class ServiceUtility {
 		
 	}
 
-	/**
+	/*/**
 	 * Versucht eine brandneue ServiceInstanz zu bekommen.
 	 * Dies hängt allerdings mit der Bereitstellung des Services zusammen, so dass
 	 * keine Garanntie dafür besteht.
@@ -210,7 +209,7 @@ public class ServiceUtility {
 	 * @param pServiceInterface
 	 * @return
 	 */
-	@Deprecated 
+	/*@Deprecated 
 	@SuppressWarnings("unchecked")
 	private <T> T getExclusiveService(Class<T> pServiceInterface) {
 		synchronized(GLOBAL_LOCK){
@@ -223,7 +222,7 @@ public class ServiceUtility {
 		tracker=null;
 		return (T) service;
 		}
-	}
+	}*/
 
 	/**
 	 * Holt eine brandneue Instanz eines IDaoServices.
