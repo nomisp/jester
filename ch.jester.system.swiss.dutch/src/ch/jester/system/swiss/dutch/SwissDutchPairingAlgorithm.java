@@ -29,6 +29,7 @@ import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.exceptions.TournamentFinishedException;
 import ch.jester.system.pairing.impl.PairingHelper;
+import ch.jester.system.ranking.impl.RankingHelper;
 import ch.jester.system.swiss.dutch.internal.SwissDutchSystemActivator;
 import ch.jester.system.swiss.dutch.ui.SwissDutchSettingsPage;
 import ch.jester.system.swiss.dutch.ui.nl1.Messages;
@@ -83,12 +84,15 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 			for (List<PlayerCard> scoreBracket : scoreBrackets) {
 				int s1 = 0;
 				int s2 = scoreBracket.size() / 2;
-				
+				for (int i = s1; i < s2; i++) {
+					PlayerCard player = scoreBracket.get(i);
+					Pairing pair = pairCurrentPlayer(player, scoreBracket, s1, s2);
+				}
 			}
 		}
 		return this.pairings;
 	}
-	
+
 	/**
 	 * Erzeugen der Score-Brackets (Liste mit Punktgleichen Spielern)
 	 * @param playerCards	Nach Punkten sortierte Liste der Spieler
@@ -107,6 +111,118 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 			}
 		}
 		this.scoreBrackets.add(scoreBracket); // Die letzte Liste
+	}
+	
+	/**
+	 * Paaren des aktuellen Spielers
+	 * @param player
+	 * @param s1
+	 * @param s2
+	 * @return
+	 */
+	private Pairing pairCurrentPlayer(PlayerCard player, List<PlayerCard> scoreBracket, int s1, int s2) {
+		Pairing pair = new Pairing();
+		PlayerCard opponent = scoreBracket.get(s2+s1);
+		List<PlayerCard> playedOpponents = RankingHelper.getOpponents(player, category.getRounds());
+		if (playedOpponents.contains(opponent)) {
+			return null;	// Die Spieler haben bereits gegeneinander gespielt
+		}
+		
+		/*
+		 * E. Colour Allocation Rules
+		 * For each pairing apply (with descending priority):
+		 * E.1
+		 * Grant both colour preferences.
+		 * E.2
+		 * Grant the stronger colour preference.
+		 * E.3
+		 * Alternate the colours to the most recent round in which they played with different colours.
+		 * E.4
+		 * Grant the colour preference of the higher ranked player.
+		 * E.5
+		 * In the first round all even numbered players in S1 will receive a colour different 
+		 * from all odd numbered players in S1.
+		 */
+		ColorPreference playerColorPref = player.getColorPref();
+		ColorPreference opponentColorPref = opponent.getColorPref();
+		if (playerColorPref == opponentColorPref) { // -> E.3
+			
+		} else {
+			// Absolute ColorPreference werden direkt zugeteilt
+			if (playerColorPref == ColorPreference.ABSOLUTE_WHITE) {
+				pair.setWhite(player);
+				pair.setBlack(opponent);
+			} else if (playerColorPref == ColorPreference.ABSOLUTE_BLACK) {
+				pair.setWhite(opponent);
+				pair.setBlack(player);
+			}
+			if (opponentColorPref == ColorPreference.ABSOLUTE_WHITE) {
+				pair.setWhite(opponent);
+				pair.setBlack(player);
+			} else if (opponentColorPref == ColorPreference.ABSOLUTE_BLACK) {
+				pair.setWhite(player);
+				pair.setBlack(opponent);
+			}
+			switch (playerColorPref) {
+			case STRONG_WHITE:
+				if (opponentColorPref == ColorPreference.NONE 
+						|| opponentColorPref == ColorPreference.STRONG_BLACK
+						|| opponentColorPref == ColorPreference.MILD_BLACK
+						|| opponentColorPref == ColorPreference.MILD_WHITE) {
+					pair.setWhite(player);
+					pair.setBlack(opponent);
+				}
+				break;
+			case STRONG_BLACK:
+				if (opponentColorPref == ColorPreference.NONE 
+						|| opponentColorPref == ColorPreference.STRONG_WHITE
+						|| opponentColorPref == ColorPreference.MILD_WHITE
+						|| opponentColorPref == ColorPreference.MILD_BLACK) {
+					pair.setWhite(opponent);
+					pair.setBlack(player);
+				}
+				break;
+			case MILD_WHITE:
+				if (opponentColorPref == ColorPreference.NONE 
+						|| opponentColorPref == ColorPreference.STRONG_BLACK
+						|| opponentColorPref == ColorPreference.MILD_BLACK) {
+					pair.setWhite(player);
+					pair.setBlack(opponent);
+				} else if (opponentColorPref == ColorPreference.STRONG_WHITE) {
+					pair.setWhite(opponent);
+					pair.setBlack(player);
+				}
+				break;
+			case MILD_BLACK:
+				if (opponentColorPref == ColorPreference.NONE 
+						|| opponentColorPref == ColorPreference.STRONG_WHITE
+						|| opponentColorPref == ColorPreference.MILD_WHITE
+						|| opponentColorPref == ColorPreference.MILD_BLACK) {
+					pair.setWhite(opponent);
+					pair.setBlack(player);
+				} else if (opponentColorPref == ColorPreference.STRONG_BLACK) {
+					pair.setWhite(player);
+					pair.setBlack(opponent);
+				}
+				break;
+			case NONE:
+				if (opponentColorPref == ColorPreference.STRONG_WHITE
+						|| opponentColorPref == ColorPreference.MILD_WHITE) {
+					pair.setWhite(opponent);
+					pair.setBlack(player);
+				} else if (opponentColorPref == ColorPreference.STRONG_BLACK
+						|| opponentColorPref == ColorPreference.MILD_BLACK) {
+					pair.setWhite(player);
+					pair.setBlack(opponent);
+				}
+				break;
+	
+			default:
+				break;
+			}
+		}
+		
+		return pair;
 	}
 
 	/**
