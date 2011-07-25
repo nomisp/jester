@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" deactivate="start" modified="stop" name="JesterPeriodicUpdateHandler">
-   <implementation class="ch.jester.adapter.PeriodicUpdateHandler"/>
-   <reference bind="bindLoggerFactory" cardinality="1..1" interface="ch.jester.commonservices.api.logging.ILoggerFactory" name="ILoggerFactory" policy="static" unbind="unbindLoggerFactory"/>
-   <reference bind="bind" cardinality="0..1" interface="ch.jester.commonservices.api.preferences.IPreferenceRegistration" name="IPreferenceRegistration" policy="dynamic" unbind="unbind"/>
-</scr:component>
