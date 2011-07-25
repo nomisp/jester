@@ -13,7 +13,7 @@
     while (iterator.hasNext()) {
         Tournament t = iterator.next();
 %>
-        <LI> <%= t.getName() %> / <%= t.getId() %> </LI>
+        <LI> <%= t.getName() %>  <%= tournaments.getAllPlayersLink(t) %> </LI>
         <r/>
 <%
 		Iterator<Category> catIt = t.getCategories().iterator();
