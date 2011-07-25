@@ -28,6 +28,42 @@ public class RankingReportInput extends AbstractModelBean<IEntityObject>{
 		createReportInput();
 
 	}
+	public RankingReportInput(Tournament t){
+		mTournament = t;
+		detectRanking(t);
+		createReportInput();
+
+	}
+	private void detectRanking(Tournament t) {
+		mMap = new HashMap<Category, Ranking>();
+		if(t.getCategories().isEmpty()){return;}
+		if(t.getCategories().get(0).getRanking()!=null){
+			for(Category c:t.getCategories()){
+				if(c.getRanking()==null){continue;}
+				mMap.put(c, c.getRanking());
+			}
+			return;
+		}
+		
+			Round highestRound = null;
+			for(Category c:t.getCategories()){
+				for(Round r:c.getRounds()){
+					if(highestRound==null){
+						highestRound = r;
+						continue;
+					}
+					if(highestRound.getNumber()<r.getNumber() && r.getRanking()!=null){
+						highestRound = r;
+					}
+				}
+				if(highestRound!=null&&highestRound.getRanking()!=null){
+					mMap.put(c, highestRound.getRanking());
+				}
+			}
+	
+		
+	
+	}
 	private void createReportInput() {
 		Iterator<Category> catIt = mMap.keySet().iterator();
 		while(catIt.hasNext()){
