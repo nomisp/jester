@@ -159,6 +159,13 @@ public class ResultController implements IDirtyManagerProvider{
 		return builder.toString();
 	}
 	
+	public String getLastTitleSegment(){
+		if(getRoundInput()!=null){
+			return Messages.TournamentLabelProvider_lbl_round+": "+getRoundInput().getNumber();
+		}
+		return getCategoryInput().getDescription();
+	}
+	
 	public Result getLastPairingResult(Pairing p){
 		Result r = null;
 		if((r=mResultMap.get(p))!=null){
