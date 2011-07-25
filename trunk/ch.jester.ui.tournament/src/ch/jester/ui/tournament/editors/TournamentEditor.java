@@ -125,8 +125,9 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 			if (settingsPage != null) {
 				SettingHelper<ISettingObject> settingHelper = new SettingHelper<ISettingObject>();
 				SettingItem settingItem = ModelFactory.getInstance().createSettingItem(tournament);
-				settingItem = settingHelper.analyzeSettingObjectToStore(settingsPage.getSettingObject(), settingItem);
-				settingItemPersister.save(settingItem);
+				if (item != null) settingItem.setId(item.getId()); // Damit nachher nicht doppelte Einträge erzeugt werden
+				item = settingHelper.analyzeSettingObjectToStore(settingsPage.getSettingObject(), settingItem);
+				settingItemPersister.save(item);
 			}
 			
 			mDao.save(tournament);
