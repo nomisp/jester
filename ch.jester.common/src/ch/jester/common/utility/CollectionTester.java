@@ -53,6 +53,7 @@ public class CollectionTester {
 
 	private static boolean canGetCollectionFromCollection(
 			Class<?> desiredBeanClass, Collection<?> providerBean) {
+		if(providerBean.isEmpty()){return false;}
 		for(Object o:providerBean){
 			if(!canGetCollection(desiredBeanClass, o)){
 				return false;
