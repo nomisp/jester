@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -33,6 +34,7 @@ import ch.jester.system.ranking.impl.RankingHelper;
 import ch.jester.system.swiss.dutch.internal.SwissDutchSystemActivator;
 import ch.jester.system.swiss.dutch.ui.SwissDutchSettingsPage;
 import ch.jester.system.swiss.dutch.ui.nl1.Messages;
+import ch.jester.system.swiss.dutch.util.FirstRoundColorPref;
 import ch.jester.system.swiss.dutch.util.PlayerComparator;
 
 /**
@@ -78,18 +80,28 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 		List<PlayerCard> playerCards = category.getPlayerCards();
 		Collections.sort(playerCards, new PlayerComparator(settings.getRatingType()));
 		generateScoreBrackets(playerCards);
+		if (firstRound) {
+			calculateColorsForFirstRound(playerCards);
+		} else {
+			for (PlayerCard playerCard : playerCards) {
+				calculateColorPreference(playerCard);
+			}
+		}
 		
-		unpairedPlayers.addAll(playerCards);
-		
-		while (!unpairedPlayers.isEmpty()) {
-			for (List<PlayerCard> scoreBracket : scoreBrackets) {
-				int s1 = 0;
-				int s2 = scoreBracket.size() / 2;
-				for (int i = s1; i < s2; i++) {
-					PlayerCard player = scoreBracket.get(i);
-					Pairing pair = pairCurrentPlayer(player, scoreBracket, s1, s2);
-					pair.setRound(nextRound);
-					pairings.add(pair);
+		for (List<PlayerCard> scoreBracket : scoreBrackets) {
+			for (int i = 0; i < scoreBracket.size()/2; i++) {
+				unpairedPlayers.add(scoreBracket.get(i));
+			}
+			int s1 = 0;
+			int s2 = scoreBracket.size() / 2;
+			while (!unpairedPlayers.isEmpty()) {
+				for (int i = s2; i < scoreBracket.size(); i++) {
+					PlayerCard player = unpairedPlayers.removeFirst();
+					Pairing pair = pairCurrentPlayer(player, scoreBracket, i);
+					if (pair != null) {
+						pair.setRound(nextRound);
+						pairings.add(pair);
+					}
 				}
 			}
 		}
@@ -120,13 +132,12 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 	/**
 	 * Paaren des aktuellen Spielers
 	 * @param player
-	 * @param s1
-	 * @param s2
+	 * @param s2 Index in Scorebracket Subgroup S2
 	 * @return
 	 */
-	private Pairing pairCurrentPlayer(PlayerCard player, List<PlayerCard> scoreBracket, int s1, int s2) {
+	private Pairing pairCurrentPlayer(PlayerCard player, List<PlayerCard> scoreBracket, int s2) {
 		Pairing pair = new Pairing();
-		PlayerCard opponent = scoreBracket.get(s2+s1);
+		PlayerCard opponent = scoreBracket.get(s2);
 		List<PlayerCard> playedOpponents = RankingHelper.getOpponents(player, category.getRounds());
 		if (!firstRound && playedOpponents.contains(opponent)) {
 			return null;	// Die Spieler haben bereits gegeneinander gespielt
@@ -145,12 +156,43 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 		 * Grant the colour preference of the higher ranked player.
 		 * E.5
 		 * In the first round all even numbered players in S1 will receive a colour different 
-		 * from all odd numbered players in S1.
+		 * from all odd numbered players in S1.	-> calculateColorsForFirstRound
 		 */
 		ColorPreference playerColorPref = player.getColorPref();
 		ColorPreference opponentColorPref = opponent.getColorPref();
 		if (playerColorPref == opponentColorPref) { // -> E.3
+			// E3
+			String playerColors = player.getColors();
+			String opponentColors = opponent.getColors();
+			if (playerColors != null && !playerColors.isEmpty() && opponentColors != null && !opponentColors.isEmpty()) {
+				for (int i = playerColors.length() - 1; i > 0; i--) {
+					char lastColorPlayer = playerColors.charAt(i);
+					if (lastColorPlayer != opponentColors.charAt(i)) {
+						if (lastColorPlayer == 'w') {
+							pair.setWhite(player);
+							pair.setBlack(opponent);
+							return pair;
+						} else {
+							pair.setWhite(opponent);
+							pair.setBlack(player);
+							return pair;
+						}
+					}
+				}
+			}
 			
+			// E4
+			if (player.getColorPref() == ColorPreference.ABSOLUTE_WHITE 
+					|| player.getColorPref() == ColorPreference.STRONG_WHITE 
+					|| player.getColorPref() == ColorPreference.MILD_WHITE) {
+				pair.setWhite(player);
+				pair.setBlack(opponent);
+				return pair;
+			} else {
+				pair.setWhite(opponent);
+				pair.setBlack(player);
+				return pair;
+			}
 		} else {
 			// Absolute ColorPreference werden direkt zugeteilt
 			if (playerColorPref == ColorPreference.ABSOLUTE_WHITE) {
@@ -225,20 +267,8 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 				break;
 			}
 		}
-		
-		return pair;
-	}
 
-	/**
-	 * Paaren eine Spielers
-	 * @param player
-	 * @return
-	 */
-	private Pairing pairPlayer(PlayerCard player) {
-		int idx = 0;
-		Pairing pairing = null;//= ModelFactory.getInstance().createPairing(white, black)
-		
-		return pairing;
+		return pair;
 	}
 	
 	/**
@@ -276,7 +306,7 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 	private ColorPreference calculateColorPreference(PlayerCard player) {
 		// Bestimmen der Color-Difference
 		int colorDifference = 0;
-		char[] colors = player.getColors().toCharArray();
+		char[] colors = player.getColors() != null ? player.getColors().toCharArray() : new char[0];
 		for (char c : colors) {
 			if (c == 'w') {
 				colorDifference++;
@@ -322,6 +352,39 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 		}
 		// TODO Peter: d und e kann erst später gemacht werden!
 		return ColorPreference.NONE;
+	}
+	
+	/**
+	 * Bestimmen der Farben für die erste Runde
+	 * Je nach Einstellung in den Settings
+	 * @param playerCards
+	 */
+	private void calculateColorsForFirstRound(List<PlayerCard> playerCards) {
+		FirstRoundColorPref firstRoundColor = FirstRoundColorPref.WHITE;
+		if (settings != null) {
+			firstRoundColor = settings.getFirstRoundColor();
+		}
+		if (firstRoundColor == FirstRoundColorPref.RANDOM) {
+			Random rdm = new Random();
+			firstRoundColor = rdm.nextInt(2) == 0 ? FirstRoundColorPref.WHITE : FirstRoundColorPref.BLACK;
+		}
+		
+		for (int i = 0; i < playerCards.size(); i++) {
+			PlayerCard playerCard = playerCards.get(i);
+			if ((i+1) % 2 == 0) { // gerade Spielernummer
+				if (firstRoundColor == FirstRoundColorPref.WHITE) { // Spieler 1; 1. Runde weiss
+					playerCard.setColorPref(ColorPreference.ABSOLUTE_BLACK);
+				} else {
+					playerCard.setColorPref(ColorPreference.ABSOLUTE_WHITE);
+				}
+			} else { // Ungerade Spielernummer
+				if (firstRoundColor == FirstRoundColorPref.WHITE) {
+					playerCard.setColorPref(ColorPreference.ABSOLUTE_WHITE); // Spieler 1; 1. Runde weiss
+				} else {
+					playerCard.setColorPref(ColorPreference.ABSOLUTE_BLACK);
+				}
+			}
+		}
 	}
 	
 	/**
