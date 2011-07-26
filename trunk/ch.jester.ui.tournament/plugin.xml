@@ -8,7 +8,7 @@
             name="%NewTournament">
       </category>
       <wizard
-            canFinishEarly="true"
+            canFinishEarly="false"
             category="ch.jester.ui.tournament.tournaments"
             class="ch.jester.ui.tournament.NewTournamentWizard"
             finalPerspective="ch.jester.rcpapplication.tournamentPerspective"
