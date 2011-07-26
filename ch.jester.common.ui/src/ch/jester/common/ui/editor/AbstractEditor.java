@@ -127,7 +127,8 @@ public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor
 	 class NestedPart2Listener extends PartListener2Adapter{
 			@Override
 			public void partClosed(IWorkbenchPartReference partRef) {
-				if(partRef == AbstractEditor.this){
+				Object editor = partRef.getPart(false);
+				if(partRef == AbstractEditor.this||editor == AbstractEditor.this){
 					editorClosed();
 					getPartService().removePartListener(this);
 				}
