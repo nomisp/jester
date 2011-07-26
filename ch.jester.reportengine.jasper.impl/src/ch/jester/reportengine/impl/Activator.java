@@ -14,8 +14,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
-import ch.jester.common.utility.AdapterBinding;
-import ch.jester.common.utility.AdapterUtility;
 import ch.jester.common.utility.JesterModelExporter;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.model.Category;
@@ -40,7 +38,7 @@ public class Activator extends AbstractUIActivator implements IAdapterFactory {
 
 	}
 	@Override
-	public Object getAdapter(Object adaptableObject, Class adapterType) {
+	public Object getAdapter(Object adaptableObject, @SuppressWarnings("rawtypes") Class adapterType) {
 		if(adapterType==RankingReportInput.class){
 			return new RankingReportInput((Tournament)adaptableObject);
 		}

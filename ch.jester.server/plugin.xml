@@ -33,5 +33,14 @@
          </resource-mapping>
       </httpcontext>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.reportengine.jasper.preferences"
+            class="ch.jester.server.prefpage.StartServerPrefPage"
+            id="ch.jester.server.prefpage"
+            name="%page.name">
+      </page>
+   </extension>
 
 </plugin>
