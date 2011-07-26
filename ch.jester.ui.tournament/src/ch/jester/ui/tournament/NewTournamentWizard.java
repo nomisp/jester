@@ -53,7 +53,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 		systemPage = new NewTournWizPageSystem();
 		categoriesPage = new NewTournWizPageCategories();
 	}
-
+	
 	@Override
 	public boolean performFinish() {
 		

@@ -20,11 +20,11 @@ public class DBPlayerPersister extends GenericPersister<Player> implements IPlay
 	}
 	 @Override
 	protected Query getCountQuery() {
-		return super.mManager.createNamedQuery(Player.QUERY_COUNT);
+		return super.getManager().createNamedQuery(Player.QUERY_COUNT);
 	}
 	 @Override
 	protected Query getPagingQuery() {
-		return super.mManager.createNamedQuery(Player.QUERY_GETALL);
+		return super.getManager().createNamedQuery(Player.QUERY_GETALL);
 	}
 	@Override
 	public List<Player> findByNamesOrCity(String pName) {

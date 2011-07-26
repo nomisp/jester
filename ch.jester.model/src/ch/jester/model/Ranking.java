@@ -11,6 +11,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 /**
@@ -41,7 +42,8 @@ public abstract class Ranking extends AbstractModelBean<Ranking> {
 		if (rankingEntry.getRanking() != this) rankingEntry.setRanking(this);
 	}
 
-	protected void preRemove() {
+	@PreRemove
+	public void preRemove() {
 		List<RankingEntry> entries = rankingEntries;
 		for(RankingEntry entry:entries){
 			entry.setPlayerCard(null);

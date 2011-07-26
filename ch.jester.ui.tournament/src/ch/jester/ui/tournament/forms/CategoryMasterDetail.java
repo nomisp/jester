@@ -124,6 +124,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		treeViewer.setLabelProvider(new TournamentLabelProvider());
 		treeViewer.setInput(tournament);
 		treeViewer.expandAll();
+
 //		createContextMenu();
 	}
 	

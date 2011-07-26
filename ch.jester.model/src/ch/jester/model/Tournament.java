@@ -212,7 +212,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 	public void setSettingItem(SettingItem settingItem) {
 		this.settingItem = settingItem;
 		// Bidirektion
-		if (settingItem.getTournament() != this) settingItem.setTournament(this);
+		if (settingItem!=null && settingItem.getTournament() != this) settingItem.setTournament(this);
 	}
 
 	public List<RankingSystem> getRankingSystems() {

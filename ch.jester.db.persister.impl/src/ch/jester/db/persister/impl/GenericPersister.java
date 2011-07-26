@@ -30,7 +30,8 @@ import ch.jester.orm.ORMPlugin;
 public class GenericPersister<T extends IEntityObject> implements IDaoService<T> {
 	private StopWatch watch = new StopWatch();
 	protected EntityManagerFactory mFactory;
-	protected EntityManager mManager;
+	private EntityManager mManager;
+
 	private IPersistencyEventQueue mEventQueue;
 	private Query mPagingQuery;
 	private Query mCountQuery;
@@ -45,10 +46,23 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		mClz = (Class<T>) actualTypeArgument;
 		check();
 	}
+	GenericPersister(EntityManager pManager){
+		Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+		mClz = (Class<T>) actualTypeArgument;
+		setManager(pManager);
+		check();
+	}
+
 	public GenericPersister(Class<T> clz){
 		mClz = clz;
 		check();
 	}	
+	public EntityManager getManager() {
+		return mManager;
+	}
+	public void setManager(EntityManager mManager) {
+		this.mManager = mManager;
+	}
 	private void fireEvent(Object pLoad, PersistencyEvent.Operation pOperation){
 		Assert.isNotNull(mEventQueue, "The PersistencyEventQueue is not running");
 		mEventQueue.dispatch(new PersistencyEvent(this, pLoad, pOperation));
@@ -63,11 +77,11 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		if(mFactory==null){
 			mFactory = ORMPlugin.getJPAEntityManagerFactory();
 		}
-		if(mManager==null){
-			mManager = ORMPlugin.getJPAEntityManager();
-			mPagingQuery = getPagingQuery();
-			mCountQuery = getCountQuery();
+		if(getManager()==null){
+			setManager(ORMPlugin.getJPAEntityManager());
 		}
+		mPagingQuery = getPagingQuery();
+		mCountQuery = getCountQuery();
 		if(mEventQueue==null){
 			mEventQueue = Activator.getDefault().getActivationContext().getService(IPersistencyEventQueue.class);
 		}
@@ -91,7 +105,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 			mManager = mFactory.createEntityManager();
 			mManager.getTransaction().begin();
 		}else{
-			mManager = this.mManager;
+			mManager = this.getManager();
 			openOrJoinTrx();
 		}
 		
@@ -158,14 +172,14 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		}
 		
 		trx.commit();
-		mManager.getTransaction().begin();
+		getManager().getTransaction().begin();
 		for(T pT:pTCollection){   // soweit gekommen? alles ok
-			T p = mManager.merge(pT);  //mergen mit dem eigentlichen manager
+			T p = getManager().merge(pT);  //mergen mit dem eigentlichen manager
 			
 			
 			//System.out.println(p);
 		}
-		mManager.getTransaction().commit();
+		getManager().getTransaction().commit();
 	
 		}catch(Exception e){
 			
@@ -189,7 +203,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	public List<T> getAll() {
 		openOrJoinTrx();
 		@SuppressWarnings("unchecked")
-		List<T> result = mManager.createNamedQuery(mClz.getSimpleName()+".getAll").getResultList();
+		List<T> result = getManager().createNamedQuery(mClz.getSimpleName()+".getAll").getResultList();
 		closeTrx();
 		return result;
 	}
@@ -199,31 +213,31 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		//check();
 		openOrJoinTrx();
 		@SuppressWarnings("unchecked")
-		List<T> result = mManager.createNamedQuery(namedQuery).getResultList();
+		List<T> result = getManager().createNamedQuery(namedQuery).getResultList();
 		closeTrx();
 		return result;
 	}
 
 	protected void openOrJoinTrx(){
-		EntityTransaction trx = mManager.getTransaction();
+		EntityTransaction trx = getManager().getTransaction();
 		if (!trx.isActive()) {
 			trx.begin();
 			doCommit = true;
 		} else {
-			mManager.joinTransaction();
+			getManager().joinTransaction();
 			doCommit= false;
 		}
 	}
 	protected void closeTrx(){
 		if(doCommit){
-			mManager.getTransaction().commit();
+			getManager().getTransaction().commit();
 		}
 	}
 	public List<T> executeNamedQuery(String queryName, String pPara, Object pVal){
 		check();
 		openOrJoinTrx();
 		@SuppressWarnings("unchecked")
-		List<T> result = mManager.createNamedQuery(queryName).setParameter(pPara, pVal).getResultList();
+		List<T> result = getManager().createNamedQuery(queryName).setParameter(pPara, pVal).getResultList();
 		closeTrx();
 		return result;
 	}
@@ -282,7 +296,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	}
 	
 	public Query createQuery(String query) {
-		return mManager.createQuery(query);
+		return getManager().createQuery(query);
 	}
 
 	@Override
@@ -292,7 +306,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	@Override
 	public Query createNamedQuery(String query) {
 		//check();
-		return mManager.createNamedQuery(query);
+		return getManager().createNamedQuery(query);
 	}
 	@Override
 	public void manualEventQueueNotification(boolean pBoolean) {
@@ -316,6 +330,10 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 			fireSaveEvent(mNotificationCache);
 			mNotificationCache = null;
 		}
+	}
+	@Override
+	public T find(Integer id) {
+		return getManager().find(mClz, id);
 	}
 
 }
