@@ -97,5 +97,7 @@ public interface IDaoService<T extends IEntityObject> {
 	 */
 	public void clearEventQueueCache();
 	
+	public  T find(Integer id);
+	
 	
 }

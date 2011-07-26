@@ -17,11 +17,11 @@ public class DBTournamentPersister extends GenericPersister<Tournament> implemen
 
 	@Override
 	protected Query getCountQuery() {
-		return super.mManager.createNamedQuery("countTournaments");
+		return super.getManager().createNamedQuery("countTournaments");
 	}
 
 	@Override
 	protected Query getPagingQuery() {
-		return super.mManager.createNamedQuery("AllTournaments");
+		return super.getManager().createNamedQuery("AllTournaments");
 	}
 }

@@ -13,6 +13,7 @@ import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
 import ch.jester.commonservices.api.bundle.IActivationContext;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
+import ch.jester.commonservices.api.persistency.IDaoServicePrivateContextAdapter;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.dao.ICategoryDao;
@@ -132,6 +133,13 @@ public class PersisterFactory extends InjectedLogFactoryComponentAdapter<Object>
 	public <T extends IEntityObject> void registerDaoService(Class<T> pClass,
 			Class<IDaoService<T>> pServiceClass) {
 		mDaoObjectClassRegistry.put(pClass, pServiceClass);
+	}
+
+	@Override
+	public <T extends IEntityObject> IDaoServicePrivateContextAdapter<T> adaptPrivate(
+			IDaoService<T> pService) {
+		
+		return new DaoServiceAdapter<T>((GenericPersister<T>) pService);
 	}
 
 

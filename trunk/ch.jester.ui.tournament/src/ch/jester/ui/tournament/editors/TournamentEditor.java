@@ -14,6 +14,8 @@ import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
+import ch.jester.commonservices.api.persistency.IDaoServicePrivateContextAdapter;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
@@ -39,18 +41,20 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 	@SuppressWarnings("rawtypes")
 	private AbstractSystemSettingsFormPage settingsPage;
 	private CategoryFormPage categoryPage;
-	
+	private IDaoServicePrivateContextAdapter<Tournament> privateService;
+	Tournament newTournamentCacheObject;
 	public TournamentEditor() {
 		super(true);
-//		mLogger.debug("Tournament Editor: " + mDaoInput.getInput().getName());
 	}
 	
-//	protected FormToolkit createToolkit(Display display) {
-//		return new FormToolkit(ExamplePlugin.getDefault().getFormColors(display));
-//	}
 
 	@Override
 	protected void addPages() {
+		IDaoService<Tournament> origService = getServiceUtil().getDaoServiceByEntity(Tournament.class);
+		privateService = getServiceUtil().getService(IDaoServiceFactory.class).adaptPrivate(origService);
+		newTournamentCacheObject = privateService.find(mDaoInput.getInput().getId());
+		mDaoInput.setInput(newTournamentCacheObject);
+		
 		TournamentFormPage tournamentPage = new TournamentFormPage(this, "TournamentFormPage", Messages.TournamentEditor_title); //$NON-NLS-1$
 		tournamentPage.addPartPropertyListener(new IPropertyChangeListener() {
 			
@@ -94,10 +98,17 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 	
 	public void init_0(Object parent) {
 		mTournamentPage = (TournamentFormPage) parent;
-		mTournamentController = mTournamentPage.getController();			
-		mTournamentController.setTournament(mDaoInput.getInput());	
+		mTournamentController = mTournamentPage.getController();	
+		
+
+	
+		
+		mTournamentController.setTournament(newTournamentCacheObject);
+		
+		//mTournamentController.setTournament(mDaoInput.getInput());	
 		mTournamentController.getDirtyManager().setDirty(mDaoInput.isAlreadyDirty());
-		setDaoService(super.getServiceUtil().getDaoServiceByEntity(Tournament.class));
+		//setDaoService(super.getServiceUtil().getDaoServiceByEntity(Tournament.class));
+		setDaoService(privateService);
 		
 		setDirtyManager(mTournamentController.getDirtyManager());
 		getDirtyManager().addDirtyListener(this);
@@ -122,15 +133,21 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 			Tournament tournament = mTournamentController.getTournament();
 			SettingItem item = tournament.getSettingItem();
 			IDaoService<SettingItem> settingItemPersister = mService.getDaoServiceByEntity(SettingItem.class);
+			if(item!=null){
+				settingItemPersister.delete(item);
+				// Damit nachher nicht doppelte Einträge erzeugt werden
+				//vom Original löschen
+				//wird später wieder vom detachten reingemerged
+			}
 			if (settingsPage != null) {
 				SettingHelper<ISettingObject> settingHelper = new SettingHelper<ISettingObject>();
 				SettingItem settingItem = ModelFactory.getInstance().createSettingItem(tournament);
-				if (item != null) settingItem.setId(item.getId()); // Damit nachher nicht doppelte Einträge erzeugt werden
 				item = settingHelper.analyzeSettingObjectToStore(settingsPage.getSettingObject(), settingItem);
-				settingItemPersister.save(item);
+				tournament.setSettingItem(item);
 			}
 			
-			mDao.save(tournament);
+			privateService.save(tournament);
+			privateService.commit();
 			getDirtyManager().reset();
 			setSaved(true);
 		} finally {
@@ -151,10 +168,13 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 
 	@Override
 	public void editorClosed() {
+		privateService.close();
 		if (!wasSaved()) {
 			mTournamentController.getTournament();
+			mTournamentController.setTournament(mDaoInput.getInput());
 		}
 		mTournamentController.updateUI();
+
 	}
 	
 	private AbstractSystemSettingsFormPage findSettingsPage() {

@@ -55,8 +55,8 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	@OneToMany(mappedBy="playerCard", cascade={CascadeType.ALL}, orphanRemoval=true)
 	private List<RankingSystemPoint> rankingSystemPoints = new ArrayList<RankingSystemPoint>();
 	
-	@OneToOne(mappedBy="playerCard", optional=true, cascade={CascadeType.REMOVE}, orphanRemoval=true)
-	private RankingEntry rankingEntry;
+	@OneToMany(mappedBy="playerCard", cascade={CascadeType.REMOVE}, orphanRemoval=true)
+	private List<RankingEntry> rankingEntries = new ArrayList<RankingEntry>();
 	
 	@Column(nullable=true)
 	private Integer byes = 0;	// Anzahl Freilose
@@ -187,12 +187,12 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	}
 
 	@XmlTransient
-	public RankingEntry getRankingEntry() {
-		return rankingEntry;
+	public List<RankingEntry> getRankingEntries() {
+		return rankingEntries;
 	}
 
-	public void setRankingEntry(RankingEntry rankingEntry) {
-		this.rankingEntry = rankingEntry;
+	public void addRankingEntry(RankingEntry rankingEntry) {
+		this.rankingEntries.add(rankingEntry);
 	}
 
 	public Integer getByes() {

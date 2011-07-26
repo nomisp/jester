@@ -10,6 +10,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 /**
@@ -35,11 +36,18 @@ public class SettingItem extends AbstractModelBean<SettingItem> {
 	public Tournament getTournament() {
 		return tournament;
 	}
-
+	
+	@PreRemove
+	public void preRemove(){
+		settingItemValues.clear();
+		tournament.setSettingItem(null);
+		this.setTournament(null);
+	}
+	
 	public void setTournament(Tournament tournament) {
 		this.tournament = tournament;
 		// Bidirektion
-		if (tournament.getSettingItem() != this) tournament.setSettingItem(this);
+		if (tournament!=null&&tournament.getSettingItem() != this) tournament.setSettingItem(this);
 	}
 
 	public String getRootClassName() {
