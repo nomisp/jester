@@ -1,7 +1,6 @@
 package ch.jester.reportengine.impl.ui.export;
 
 import java.util.HashMap;
-import java.util.List;
 
 import messages.Messages;
 

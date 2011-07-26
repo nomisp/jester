@@ -37,6 +37,7 @@ Import-Package: javax.servlet;version="2.5.0",
  javax.servlet.resources;version="2.5.0"
 Export-Package: ch.jester.server,
  ch.jester.server.jspmodel,
+ ch.jester.server.prefpage,
  javax.servlet.jsp.jstl.core,
  javax.servlet.jsp.jstl.fmt,
  javax.servlet.jsp.jstl.sql,
