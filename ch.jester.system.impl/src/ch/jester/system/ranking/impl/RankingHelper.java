@@ -166,9 +166,9 @@ public class RankingHelper {
 		List<PlayerCard> opponents = new ArrayList<PlayerCard>();
 		for (Round round : rounds) {
 			for (Pairing pairing : round.getPairings()) {
-				if (pairing.getWhite().equals(player) && pairing.getResult().startsWith("1")) {
+				if (pairing.getWhite() != null && pairing.getWhite().equals(player) && pairing.getResult() != null && pairing.getResult().startsWith("1")) {
 					opponents.add(pairing.getBlack());
-				} else if (pairing.getBlack().equals(player) && pairing.getResult().startsWith("0")) {
+				} else if (pairing.getBlack() != null && pairing.getBlack().equals(player) && pairing.getResult() != null && pairing.getResult().startsWith("0")) {
 					opponents.add(pairing.getWhite());
 				}
 			}
@@ -186,9 +186,9 @@ public class RankingHelper {
 		List<PlayerCard> opponents = new ArrayList<PlayerCard>();
 		for (Round round : rounds) {
 			for (Pairing pairing : round.getPairings()) {
-				if (pairing.getWhite().equals(player) && pairing.getResult().startsWith("0")) {
+				if (pairing.getWhite() != null && pairing.getWhite().equals(player) && pairing.getResult() != null && pairing.getResult().startsWith("0")) {
 					opponents.add(pairing.getBlack());
-				} else if (pairing.getBlack().equals(player) && pairing.getResult().startsWith("1")) {
+				} else if (pairing.getBlack() != null && pairing.getBlack().equals(player) && pairing.getResult() != null && pairing.getResult().startsWith("1")) {
 					opponents.add(pairing.getWhite());
 				}
 			}
@@ -206,9 +206,9 @@ public class RankingHelper {
 		List<PlayerCard> opponents = new ArrayList<PlayerCard>();
 		for (Round round : rounds) {
 			for (Pairing pairing : round.getPairings()) {
-				if (pairing.getWhite().equals(player) && pairing.getResult().equalsIgnoreCase("x")) {
+				if (pairing.getWhite() != null && pairing.getWhite().equals(player) && pairing.getResult() != null && pairing.getResult().equalsIgnoreCase("x")) {
 					opponents.add(pairing.getBlack());
-				} else if (pairing.getBlack().equals(player) && pairing.getResult().equalsIgnoreCase("x")) {
+				} else if (pairing.getBlack() != null && pairing.getBlack().equals(player) && pairing.getResult() != null && pairing.getResult().equalsIgnoreCase("x")) {
 					opponents.add(pairing.getWhite());
 				}
 			}

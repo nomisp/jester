@@ -19,7 +19,7 @@ public class RankingEntry extends AbstractModelBean<RankingEntry> implements Com
 	@ManyToOne
 	private Ranking ranking;
 	
-	@OneToOne
+	@ManyToOne
 	private PlayerCard playerCard;
 	
 	@Column(name="Position")
