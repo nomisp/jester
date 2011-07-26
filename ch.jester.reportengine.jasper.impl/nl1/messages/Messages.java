@@ -4,9 +4,9 @@ import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "messages.messages"; //$NON-NLS-1$
-	public static String JasperReportEngine_ranking_report_name;
+	public static String Activator_exporting_jester_model;
+	public static String Activator_exporting_model;
 	public static String JasperReportEngine_2;
-	public static String JasperReportEngine_category_pairing_name;
 	public static String JasperReportEngine_compile_job_title;
 	public static String JasperReportEngine_compile_task;
 	public static String JasperReportEngine_ex_class_not_handle;
@@ -16,13 +16,13 @@ public class Messages extends NLS {
 	public static String JasperReportEngine_ex_session_not_null;
 	public static String JasperReportEngine_gen_input_size;
 	public static String JasperReportEngine_objects;
-	public static String JasperReportEngine_player_report_name;
 	public static String JasperReportEngine_precompile_task;
 	public static String JasperReportEngine_report_created;
 	public static String JasperReportEngine_second_unit;
 	public static String JasperReportEngine_tournament_report_name;
 	public static String JasperReportEngine_waiting;
 	public static String JasperReportEngine_waiting_for;
+	public static String JasperReportEngineStartup_startup;
 	public static String JasperReportsPreferencePage_could_not_open;
 	public static String JasperReportsPreferencePage_desc;
 	public static String JasperReportsPreferencePage_file;

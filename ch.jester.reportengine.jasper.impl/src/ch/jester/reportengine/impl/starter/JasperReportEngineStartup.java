@@ -1,5 +1,7 @@
 package ch.jester.reportengine.impl.starter;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -14,7 +16,7 @@ public class JasperReportEngineStartup implements IStartup{
 
 	@Override
 	public void earlyStartup() {
-		Job job = new Job("ReportEngine init"){
+		Job job = new Job(Messages.JasperReportEngineStartup_startup){
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {

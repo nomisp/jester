@@ -146,16 +146,6 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
     		throw new ProcessingException(Messages.JasperReportEngine_ex_no_input_class+pReport.getVisibleName()+Messages.JasperReportEngine_ex_definied);
     	}
      	return newInputCollection;
-    	/*if(pBean.isEmpty()){
-    		throw new ProcessingException(Messages.JasperReportEngine_ex_no_input);
-    	}
-    	if(pReport.getInputBeanClass()==null){
-    		throw new ProcessingException(Messages.JasperReportEngine_ex_no_input_class+pReport.getVisibleName()+Messages.JasperReportEngine_ex_definied);
-    	}
-    	Class<?> inputClass = pBean.iterator().next().getClass();
-    	if(!pReport.getInputBeanClass().isAssignableFrom(inputClass)){
-    		throw new ProcessingException(Messages.JasperReportEngine_ex_class_not_handle+": "+inputClass);
-    	}*/
     	
     }
     
