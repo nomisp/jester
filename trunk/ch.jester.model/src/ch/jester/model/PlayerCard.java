@@ -191,8 +191,14 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		return rankingEntries;
 	}
 
+	public void setRankingEntry(List<RankingEntry> rankingEntries) {
+		this.rankingEntries = rankingEntries;
+	}
+	
 	public void addRankingEntry(RankingEntry rankingEntry) {
-		this.rankingEntries.add(rankingEntry);
+		if (rankingEntry == null) throw new IllegalArgumentException("rankingEntry may not be null");
+		if (!this.rankingEntries.contains(rankingEntry)) this.rankingEntries.add(rankingEntry);
+		if (rankingEntry.getPlayerCard() != this) rankingEntry.setPlayerCard(this); // Bidirektion
 	}
 
 	public Integer getByes() {
