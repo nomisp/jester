@@ -52,12 +52,12 @@ public class Activator extends AbstractUIActivator implements IAdapterFactory {
 	}
 
 	 public void exportModelForStudioOrReports() {
-			Job job = new Job("Exporting jester model"){
+			Job job = new Job(Messages.Activator_exporting_jester_model){
 
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
-					monitor.beginTask("exporting model", IProgressMonitor.UNKNOWN);
-					exporter.exportModelToFolder(IReportEngine.TEMPLATE_DIRECTROY+"/model");
+					monitor.beginTask(Messages.Activator_exporting_model, IProgressMonitor.UNKNOWN);
+					exporter.exportModelToFolder(IReportEngine.TEMPLATE_DIRECTROY+"/model"); //$NON-NLS-1$
 					monitor.done();
 					exporter = null;
 					return Status.OK_STATUS;
@@ -77,29 +77,29 @@ public class Activator extends AbstractUIActivator implements IAdapterFactory {
 	}
 	
 	private void setExportableBundles(JesterModelExporter exporter) {
-		exporter.addExportableBundle("ch.jester.model");
-		exporter.addExportableBundle("ch.jester.commonservices.api");
-		exporter.addExportableBundle("ch.jester.reportengine.jasper.impl");
+		exporter.addExportableBundle("ch.jester.model"); //$NON-NLS-1$
+		exporter.addExportableBundle("ch.jester.commonservices.api"); //$NON-NLS-1$
+		exporter.addExportableBundle("ch.jester.reportengine.jasper.impl"); //$NON-NLS-1$
 		
 	}
 
 	 List<JasperReportDef> getReportDefinitions(){
 		List<JasperReportDef> reportlist = new ArrayList<JasperReportDef>();
-		reportlist.add(new JasperReportDef("playerlist", Messages.JasperReportEngine_player_report_name, "reports/PlayerList.jrxml", Player.class));
+		reportlist.add(new JasperReportDef("playerlist", "", "reports/PlayerList.jrxml", Player.class)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-2$
 		//reportlist.add(new JasperReportDef("pairinglist_tournament", Messages.JasperReportEngine_tournament_report_name, "reports/PairingList.jrxml",Tournament.class));
-		reportlist.add(new JasperReportDef("pairinglist_category", Messages.JasperReportEngine_category_pairing_name, "reports/PairingListCat.jrxml",Category.class));
+		reportlist.add(new JasperReportDef("pairinglist_category", "", "reports/PairingListCat.jrxml",Category.class)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-2$
 		
-		reportlist.add(new JasperReportDef("rankinglist", Messages.JasperReportEngine_ranking_report_name, "reports/RankingList.jrxml", RankingReportInput.class));
+		reportlist.add(new JasperReportDef("rankinglist", "", "reports/RankingList.jrxml", RankingReportInput.class)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-2$
 		
-		reportlist.add(new JasperReportDef("rankinglist_internal", null, "reports/RankingListInternal.jrxml", RankingReportInput.class){
+		reportlist.add(new JasperReportDef("rankinglist_internal", null, "reports/RankingListInternal.jrxml", RankingReportInput.class){ //$NON-NLS-1$ //$NON-NLS-2$
 			@Override
 			public boolean isSubReport() {
 				return true;
 			}
 		});
-		reportlist.add(new JasperReportDef("reports/RankingListCat.jrxml"));
-		reportlist.add(new JasperReportDef("reports/Category_RoundSubReport.jrxml"));
-		reportlist.add(new JasperReportDef("reports/Category_sub.jrxml"));
+		reportlist.add(new JasperReportDef("reports/RankingListCat.jrxml")); //$NON-NLS-1$
+		reportlist.add(new JasperReportDef("reports/Category_RoundSubReport.jrxml")); //$NON-NLS-1$
+		reportlist.add(new JasperReportDef("reports/Category_sub.jrxml")); //$NON-NLS-1$
 		
 		return reportlist;
 	}
@@ -107,11 +107,6 @@ public class Activator extends AbstractUIActivator implements IAdapterFactory {
 
 	@Override
 	public void stopDelegate(BundleContext pContext) {
-	}
-
-	public void compileReports() {
-		// TODO Auto-generated method stub
-		
 	}
 
 
