@@ -3,6 +3,7 @@ package ch.jester.reportengine.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import messages.Messages;
 
 import org.eclipse.core.runtime.IAdapterFactory;
@@ -85,11 +86,11 @@ public class Activator extends AbstractUIActivator implements IAdapterFactory {
 
 	 List<JasperReportDef> getReportDefinitions(){
 		List<JasperReportDef> reportlist = new ArrayList<JasperReportDef>();
-		reportlist.add(new JasperReportDef("playerlist", "", "reports/PlayerList.jrxml", Player.class)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-2$
+		reportlist.add(new JasperReportDef("playerlist", Messages.JasperReportEngine_player_report_name, "reports/PlayerList.jrxml", Player.class)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-2$
 		//reportlist.add(new JasperReportDef("pairinglist_tournament", Messages.JasperReportEngine_tournament_report_name, "reports/PairingList.jrxml",Tournament.class));
-		reportlist.add(new JasperReportDef("pairinglist_category", "", "reports/PairingListCat.jrxml",Category.class)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-2$
+		reportlist.add(new JasperReportDef("pairinglist_category", Messages.JasperReportEngine_category_pairing_name, "reports/PairingListCat.jrxml",Category.class)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-2$
 		
-		reportlist.add(new JasperReportDef("rankinglist", "", "reports/RankingList.jrxml", RankingReportInput.class)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-2$
+		reportlist.add(new JasperReportDef("rankinglist", Messages.JasperReportEngine_ranking_report_name, "reports/RankingList.jrxml", RankingReportInput.class)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-2$
 		
 		reportlist.add(new JasperReportDef("rankinglist_internal", null, "reports/RankingListInternal.jrxml", RankingReportInput.class){ //$NON-NLS-1$ //$NON-NLS-2$
 			@Override
