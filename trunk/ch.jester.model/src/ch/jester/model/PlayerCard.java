@@ -69,7 +69,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	private Boolean active = Boolean.TRUE;	// Beschreibt ob ein Spieler noch aktiv im Turnier ist
 	
 	@Column(nullable=true)
-	private String colors;
+	private String colors;	// w=weiss; b=schwarz; n=Freilos keine Farbe
 	
 	@Column(nullable=true)
 	private String roundPoints;
@@ -214,6 +214,11 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 	 */
 	public void addBye() {
 		this.byes++;
+		if (colors == null) {
+			colors = "n";
+		} else {
+			colors += "n";
+		}
 	}
 
 	public Float getFloating() {

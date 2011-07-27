@@ -29,6 +29,7 @@ import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
+import ch.jester.system.exceptions.TournamentFinishedException;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
 
 /**
@@ -65,26 +66,26 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 					if (tournamentSelected) {
 						for (Category category : tournament.getCategories()) {
 							// Prüfen ob es bereits Paarungen gibt
-							if (category.getRounds().size() > 0 && category.getRounds().get(0).getPairings().size() > 0) {
-								boolean continuePairing = showWarningAlreadyPaired(shell);
-								if (!continuePairing) {
-									return Status.CANCEL_STATUS;
-								} else {
-									// Löschen der bereits erzeugten Paarungen
-									resetPairings(category);
-								}
-							}
+//							if (category.getRounds().size() > 0 && category.getRounds().get(0).getPairings().size() > 0) {
+//								boolean continuePairing = showWarningAlreadyPaired(shell);
+//								if (!continuePairing) {
+//									return Status.CANCEL_STATUS;
+//								} else {
+//									// Löschen der bereits erzeugten Paarungen
+//									resetPairings(category);
+//								}
+//							}
 							createPairings(category, tournament);
 							
 						}
 					} else {
-						if (cat.getRounds().size() > 0 && cat.getRounds().get(0).getPairings().size() > 0) {
-							if (!showWarningAlreadyPaired(shell)) {
-								return Status.CANCEL_STATUS;
-							} else {
-								resetPairings(cat);
-							}
-						}
+//						if (cat.getRounds().size() > 0 && cat.getRounds().get(0).getPairings().size() > 0) {
+//							if (!showWarningAlreadyPaired(shell)) {
+//								return Status.CANCEL_STATUS;
+//							} else {
+//								resetPairings(cat);
+//							}
+//						}
 						createPairings(cat, tournament);
 						
 					}
@@ -100,6 +101,11 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 							final String messageTitel = Messages.PairingHandler_msg_NotAllResults_title;
 							final String errorMessage = Messages.PairingHandler_msg_NotAllResults_text;
 							showErrorDialog(shell, messageTitel, errorMessage);
+							return Status.CANCEL_STATUS;
+						} else if (exception instanceof TournamentFinishedException) { // TODO Peter: ExternalizeStrings
+							final String messageTitel = "TournamentFinished";
+							final String infoMessage = "The tournament has already been finished.\nNo more pairings possible.";
+							showInfoDialog(shell, messageTitel, infoMessage);
 							return Status.CANCEL_STATUS;
 						} else {
 							showErrorDialog(shell,
@@ -122,17 +128,6 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 				return Status.OK_STATUS;
 			}
 
-			/**
-			 * Zurücksetzen der bereits gemachten Paarungen
-			 * Es werden alle Pairings aus der Runde gelöscht.
-			 * @param cat
-			 */
-			private void resetPairings(Category cat) {
-				for (Round round : cat.getRounds()) {
-					round.removeAllPairings(round.getPairings());
-				}
-			}
-
 			private void showErrorDialog(final Shell shell, final String messageTitel, final String errorMessage) {
 				UIJob uiJob = new UIJob("Error-Message") { //$NON-NLS-1$
 
@@ -145,30 +140,18 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 				};
 				uiJob.schedule();
 			}
-			
-			/**
-			 * 
-			 * @param shell
-			 * @return
-			 */
-			private boolean showWarningAlreadyPaired(final Shell shell) {
-				//final boolean retVal;
-				UIJob uiJob = new UIJob("Question-Message") { //$NON-NLS-1$
+
+			private void showInfoDialog(final Shell shell, final String messageTitel, final String infoMessage) {
+				UIJob uiJob = new UIJob("Error-Message") { //$NON-NLS-1$
 
 					@Override
 					public IStatus runInUIThread(IProgressMonitor monitor) {
-						boolean retVal = MessageDialog.openQuestion(shell, "Category / Tournament already paired", "Should the category or tournament be paired again?\nAll pairings created before will be lost.");
-						return retVal ? Status.OK_STATUS : Status.CANCEL_STATUS;
+						MessageDialog.openInformation(shell, messageTitel,
+								infoMessage);
+						return Status.OK_STATUS;
 					}
 				};
 				uiJob.schedule();
-				try {
-					uiJob.join();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				
-				return uiJob.getResult().isOK();
 			}
 		};
 		job.schedule();
