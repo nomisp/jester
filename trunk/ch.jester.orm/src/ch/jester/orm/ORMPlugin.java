@@ -1,10 +1,15 @@
 package ch.jester.orm;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
+import java.util.Scanner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 
+import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
@@ -24,7 +29,7 @@ public class ORMPlugin extends AbstractUIActivator {
 	// The shared instance.
 	private static ORMPlugin mPlugin;
 
-	private ILogger mLogger;
+	private static ILogger mLogger;
 
 	private static ORMAutoDBHandler handler;
 
@@ -79,12 +84,44 @@ public class ORMPlugin extends AbstractUIActivator {
 			synchronized (ORMPlugin.class) {
 				if(mManager==null){
 					mManager = getJPAEntityManagerFactory().createEntityManager();
+					checkIndex();
 				}
 			}
 		}
 		return mManager;
 	}
 
+	private static void checkIndex() {
+		
+		try {
+			URL url = Platform.getBundle("ch.jester.orm").getEntry("META-INF/index_drop.idx");
+			buildIndex(url);
+			mLogger.debug("Dropped indices");
+		} catch (Exception e) {
+			mLogger.debug("-WARN: "+e.getLocalizedMessage());
+		}
+		try {
+			URL url = Platform.getBundle("ch.jester.orm").getEntry("META-INF/index_create.idx");
+			buildIndex(url);
+			mLogger.debug("Created indices");
+		} catch (Exception e) {
+			mLogger.debug("-WARN: "+e.getLocalizedMessage());
+		}
+	}
+
+	private static void buildIndex(URL url) throws Exception{
+		Scanner scanner = new Scanner(url.openStream());
+		EntityManager worker = getJPAEntityManagerFactory().createEntityManager();
+		while(scanner.hasNext()){
+			String line = scanner.nextLine();
+			if(line.startsWith("#")||line.isEmpty()) continue;
+			EntityTransaction trx = worker.getTransaction();
+			trx.begin();
+			worker.createNativeQuery(line).executeUpdate();
+			trx.commit();
+		}
+	}
+	
 	/**
 	 * liefert die Configuration
 	 * 
