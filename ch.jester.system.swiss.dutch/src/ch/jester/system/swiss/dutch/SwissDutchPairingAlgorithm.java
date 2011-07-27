@@ -16,6 +16,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
+import ch.jester.model.Float;
 import ch.jester.model.Pairing;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Round;
@@ -70,10 +71,11 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 	@Override
 	public List<Pairing> executePairings(Category category) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException {
 		this.category = category;
+		this.scoreBrackets.clear();
 		if (settings == null) loadSettings(category.getTournament());
 		firstRound = category.getRounds().get(0).getPairings().size() == 0;
 		List<Round> finishedRounds = PairingHelper.getFinishedRounds(category);
-		if (!firstRound && (finishedRounds.size() + PairingHelper.getOpenRounds(category).size() != category.getRounds().size())) throw new NotAllResultsException();
+//		if (!firstRound && (finishedRounds.size() + PairingHelper.getOpenRounds(category).size() != category.getRounds().size())) throw new NotAllResultsException();
 		if (finishedRounds.size() == category.getRounds().size()) throw new TournamentFinishedException();
 		nextRound = finishedRounds.size() > 0 ? category.getRounds().get(finishedRounds.size()) : category.getRounds().get(0);
 		
@@ -88,22 +90,58 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 			}
 		}
 		
-		for (List<PlayerCard> scoreBracket : scoreBrackets) {
+		List<PlayerCard> remainingPlayers = new ArrayList<PlayerCard>();
+		for (int s = 0; s < scoreBrackets.size(); s++) {
+			List<PlayerCard> scoreBracket = scoreBrackets.get(s);
+			if (remainingPlayers.size() > 0) {
+				for (PlayerCard remainingPlayer : remainingPlayers) {
+					remainingPlayer.setFloating(Float.DOWNFLOAT);
+					scoreBracket.add(0, remainingPlayer);
+				}
+				remainingPlayers.clear();
+			}
+			if (scoreBracket.size() == 1) {
+				remainingPlayers.add(scoreBracket.get(0));
+				continue;
+			}
+			
 			for (int i = 0; i < scoreBracket.size()/2; i++) {
 				unpairedPlayers.add(scoreBracket.get(i));
 			}
 			int s1 = 0;
 			int s2 = scoreBracket.size() / 2;
+			boolean oddNrPlayers = scoreBracket.size() % 2 != 0;
 			while (!unpairedPlayers.isEmpty()) {
 				for (int i = s2; i < scoreBracket.size(); i++) {
 					PlayerCard player = unpairedPlayers.removeFirst();
 					Pairing pair = pairCurrentPlayer(player, scoreBracket, i);
 					if (pair != null) {
 						pair.setRound(nextRound);
+						pair.getWhite().addWhite();
+						pair.getBlack().addBlack();
 						pairings.add(pair);
+					} else {
+						// Spieler die nicht gepaart werden können
+						remainingPlayers.add(player);
 					}
 				}
+				// Bei einer ungeraden Anzahl Spieler muss der verbleibende Spieler 
+				// ins nächste ScoreBracket verschoben werden
+//				if (unpairedPlayers.size() == 1 && oddNrPlayers) {
+//					if (scoreBrackets.size() >= s+1) {
+//						PlayerCard remainingPlayer = unpairedPlayers.removeFirst();
+//						remainingPlayer.setFloating(Float.DOWNFLOAT);
+//						scoreBrackets.get(s+1).add(0, remainingPlayer);
+//					} else { // Wenn es sich ums letzte ScoreBracket handelt erhält der Spieler ein Freilos 
+//						PlayerCard lastPlayer = unpairedPlayers.removeFirst();
+//						lastPlayer.addBye();
+//					}
+//				}
 			}
+		}
+		if (remainingPlayers.size() == 1) { // Wenn es sich ums letzte ScoreBracket handelt erhält der Spieler ein Freilos 
+			PlayerCard lastPlayer = remainingPlayers.get(0);
+			lastPlayer.addBye();
 		}
 		
 		return this.pairings;
@@ -316,7 +354,7 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 		}
 		// Absolute color preference
 		if (colors.length > 1 && colors[colors.length-2] == colors[colors.length-1]) {
-			if (colors[colors.length] == 'w') {
+			if (colors[colors.length-1] == 'w') {
 				player.setColorPref(ColorPreference.ABSOLUTE_BLACK);
 				return ColorPreference.ABSOLUTE_BLACK;
 			} else {
@@ -345,8 +383,10 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 			if (colors.length > 0) {
 				if (colors[colors.length-1] == 'w') {
 					player.setColorPref(ColorPreference.MILD_BLACK);
+					return ColorPreference.MILD_BLACK;
 				} else if (colors[colors.length-1] == 'b') {
 					player.setColorPref(ColorPreference.MILD_WHITE);
+					return ColorPreference.MILD_WHITE;
 				}
 			}
 		}

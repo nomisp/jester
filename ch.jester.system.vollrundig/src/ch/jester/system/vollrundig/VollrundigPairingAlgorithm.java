@@ -61,6 +61,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	@Override
 	public List<Pairing> executePairings(Category category) throws PairingNotPossibleException, NotAllResultsException {
 		this.category = category;
+		checkAlreadyPaired();
 		this.settings = null;   //TODO: von Matthias: Peter bitte checken!!!
 		if (settings == null) loadSettings(category.getTournament()); // Falls das Paaren auf einem Turnier passiert
 		playedRounds = RankingHelper.getFinishedRounds(category);
@@ -90,12 +91,6 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 //			checkResults();
 			
 		}
-//		IDaoService<Category> categoryPersister = mServiceUtil.getDaoServiceByEntity(Category.class);
-//		categoryPersister.save(category);
-		
-//		for (Pairing pairing : pairings) {
-//			System.out.println(pairing.getWhite().getPlayer() + " - " + pairing.getBlack().getPoints()); //$NON-NLS-1$
-//		}
 		return pairings;
 	}
 	
@@ -262,5 +257,54 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor, Tournament tournament) {
 		if (settings == null) loadSettings(tournament);
 		return new RoundRobinSettingsPage(settings, editor, !tournament.getStarted(), "RoundRobinSettingsPage", Messages.VollrundigPairingAlgorithm__settingsPage_title); //$NON-NLS-1$
+	}
+	
+	private void checkAlreadyPaired() {
+//		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(null);
+//		final Shell shell = window.getShell();
+		if (category.getRounds().size() > 0 && category.getRounds().get(0).getPairings().size() > 0) {
+//			boolean continuePairing = showWarningAlreadyPaired(shell);
+//			if (continuePairing) {
+//				// Löschen der bereits erzeugten Paarungen
+//				resetPairings(category);
+//			}
+			resetPairings(category);
+		}
+	}
+	
+//	/**
+//	 * 
+//	 * @param shell
+//	 * @return
+//	 */
+//	private boolean showWarningAlreadyPaired(final Shell shell) {
+//		//final boolean retVal;
+//		UIJob uiJob = new UIJob("Question-Message") { //$NON-NLS-1$
+//
+//			@Override
+//			public IStatus runInUIThread(IProgressMonitor monitor) {
+//				boolean retVal = MessageDialog.openQuestion(shell, "Category / Tournament already paired", "Should the category or tournament be paired again?\nAll pairings created before will be lost.");
+//				return retVal ? Status.OK_STATUS : Status.CANCEL_STATUS;
+//			}
+//		};
+//		uiJob.schedule();
+//		try {
+//			uiJob.join();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return uiJob.getResult().isOK();
+//	}
+
+	/**
+	 * Zurücksetzen der bereits gemachten Paarungen
+	 * Es werden alle Pairings aus der Runde gelöscht.
+	 * @param cat
+	 */
+	private void resetPairings(Category cat) {
+		for (Round round : cat.getRounds()) {
+			round.removeAllPairings(round.getPairings());
+		}
 	}
 }
