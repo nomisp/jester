@@ -250,7 +250,7 @@ public class ResultController implements IDirtyManagerProvider{
 
 	public void saveChangedResults() {
 		
-		mPairingDao.manualEventQueueNotification(true);
+		mPairingDao.getNotifier().manualEventQueueNotification(true);
 		
 		HashMap<Pairing, Result> map = getChangedResults();
 		Iterator<Pairing> it = map.keySet().iterator();
@@ -262,7 +262,8 @@ public class ResultController implements IDirtyManagerProvider{
 		}
 		mSync.changesSaved(this, getChangedResults());
 		
-		mPairingDao.notifyEventQueue();
+		//mPairingDao.notifyEventQueue();
+		mPairingDao.getNotifier().notifyEventQueue();
 		mPairingDao.close();
 		clearChangedResults(mResultMap);
 		getDirtyManager().reset();

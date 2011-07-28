@@ -5,7 +5,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,35 +20,34 @@ import ch.jester.common.persistency.PersistencyEvent;
 import ch.jester.common.utility.StopWatch;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoService;
+import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.api.persistency.IPersistencyEvent;
+import ch.jester.commonservices.api.persistency.IPersistencyEvent.Operation;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
+import ch.jester.commonservices.api.persistency.IPrivateContextDaoService;
+import ch.jester.commonservices.api.persistency.IQueueNotifier;
 import ch.jester.commonservices.exceptions.ProcessingException;
+import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.orm.ORMPlugin;
 
 public class GenericPersister<T extends IEntityObject> implements IDaoService<T> {
+	private ServiceUtility mServices = new ServiceUtility();
 	private StopWatch watch = new StopWatch();
+	private QueueNotifier queueNotifier = new QueueNotifier();
 	protected EntityManagerFactory mFactory;
 	private EntityManager mManager;
-
-	private IPersistencyEventQueue mEventQueue;
+//	private IPersistencyEventQueue mEventQueue;
 	private Query mPagingQuery;
 	private Query mCountQuery;
 	private ILogger mLogger = Activator.getDefault().getActivationContext().getLogger();
 	private Class<T> mClz;
-	private boolean mManualNotify;
-	private List<T> mNotificationCache;
+
 	private boolean doCommit;
 	@SuppressWarnings("unchecked")
 	public GenericPersister(){
 		Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		mClz = (Class<T>) actualTypeArgument;
-		check();
-	}
-	GenericPersister(EntityManager pManager){
-		Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-		mClz = (Class<T>) actualTypeArgument;
-		setManager(pManager);
 		check();
 	}
 
@@ -63,16 +61,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	public void setManager(EntityManager mManager) {
 		this.mManager = mManager;
 	}
-	private void fireEvent(Object pLoad, PersistencyEvent.Operation pOperation){
-		Assert.isNotNull(mEventQueue, "The PersistencyEventQueue is not running");
-		mEventQueue.dispatch(new PersistencyEvent(this, pLoad, pOperation));
-	}
-	private void fireDeleteEvent(Object pLoad){
-		fireEvent(pLoad, IPersistencyEvent.Operation.DELETED);
-	}
-	private void fireSaveEvent(Object pLoad){
-		fireEvent(pLoad, IPersistencyEvent.Operation.SAVED);
-	}
+
 	private void check(){
 		if(mFactory==null){
 			mFactory = ORMPlugin.getJPAEntityManagerFactory();
@@ -82,9 +71,9 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		}
 		mPagingQuery = getPagingQuery();
 		mCountQuery = getCountQuery();
-		if(mEventQueue==null){
+/*		if(mEventQueue==null){
 			mEventQueue = Activator.getDefault().getActivationContext().getService(IPersistencyEventQueue.class);
-		}
+		}*/
 	}
 	
 	@Override
@@ -97,6 +86,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	}
 	
 	protected void save(Collection<T> pTCollection, boolean batch) {
+	 synchronized(this.mManager){
 		if(pTCollection.isEmpty()){
 			return;
 		}
@@ -132,14 +122,17 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 			}
 			throw new ProcessingException(e);
 		}
-		if(!mManualNotify){
+		
+		queueNotifier.fireSaveEvent(pTCollection);
+	 }
+		/*if(!mManualNotify){
 			fireSaveEvent(pTCollection);
 		}else{
 			if(mNotificationCache==null){
 				mNotificationCache = new ArrayList<T>(100);
 			}
 			mNotificationCache.addAll(pTCollection);
-		}
+		}*/
 	
 	}
 	
@@ -191,12 +184,12 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 			deleteManager.close();
 		}
 		
-		fireDeleteEvent(pTCollection);
+		queueNotifier.fireDeleteEvent(pTCollection);
 	}
 
 	@Override
 	public void close() {
-		fireManualNotification();
+		queueNotifier.fireManualNotification();
 	}
 
 	@Override
@@ -309,31 +302,87 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		return getManager().createNamedQuery(query);
 	}
 	@Override
-	public void manualEventQueueNotification(boolean pBoolean) {
-		mManualNotify = pBoolean;
-		fireManualNotification();
+	public IQueueNotifier getNotifier() {
+		return queueNotifier;
 	}
-	
-	public void clearEventQueueCache(){
-		if(mNotificationCache!=null){
-			mNotificationCache.clear();
-		}
-	}
-	
-	@Override
-	public void notifyEventQueue() {
-		fireManualNotification();
-		
-	}
-	private void fireManualNotification(){
-		if(mManualNotify&&mNotificationCache!=null&&!mNotificationCache.isEmpty()){
-			fireSaveEvent(mNotificationCache);
-			mNotificationCache = null;
-		}
-	}
+
 	@Override
 	public T find(Integer id) {
 		return getManager().find(mClz, id);
+	}
+
+	class QueueNotifier implements IQueueNotifier{
+		private boolean mManualNotify;
+		private List<T> mNotificationCache;
+		private IPersistencyEventQueue mEventQueue;
+		public QueueNotifier() {
+			mEventQueue = Activator.getDefault().getActivationContext().getService(IPersistencyEventQueue.class);
+		}
+		public void clearEventQueueCache(){
+			if(mNotificationCache!=null){
+				mNotificationCache.clear();
+			}
+		}
+
+		@Override
+		public void manualEventQueueNotification(boolean pBoolean) {
+			mManualNotify = pBoolean;
+			fireManualNotification();
+		}
+		@Override
+		public void notifyEventQueue() {
+			fireManualNotification();
+			
+		}
+		boolean isManual(){
+			return mManualNotify;
+		}
+		
+		void fireEvent(Object pLoad, PersistencyEvent.Operation pOperation){
+			Assert.isNotNull(mEventQueue, "The PersistencyEventQueue is not running");
+			mEventQueue.dispatch(new PersistencyEvent(this, pLoad, pOperation));
+		}
+		void fireDeleteEvent(Object pLoad){
+			dispatch(pLoad, IPersistencyEvent.Operation.DELETED);
+		}
+		void fireSaveEvent(Object pLoad){
+			dispatch(pLoad, IPersistencyEvent.Operation.SAVED);
+		}
+		@SuppressWarnings("unchecked")
+		void dispatch(Object o, IPersistencyEvent.Operation op){
+			if(!mManualNotify){
+				if(op==Operation.SAVED){
+					fireEvent(o, IPersistencyEvent.Operation.SAVED);
+				}else{
+					fireEvent(o, IPersistencyEvent.Operation.DELETED);
+				}
+
+			}else{
+				if(mNotificationCache==null){
+					mNotificationCache = new ArrayList<T>(100);
+				}
+				if(o instanceof Collection){
+					mNotificationCache.addAll((Collection<T>) o);
+				}else{
+					mNotificationCache.add((T) o);
+				}
+				
+			}
+		}
+		void fireManualNotification(){
+			if(mManualNotify&&mNotificationCache!=null&&!mNotificationCache.isEmpty()){
+				mManualNotify=false;
+				fireSaveEvent(mNotificationCache);
+				mManualNotify=true;
+				mNotificationCache = null;
+			}
+		}
+	}
+
+	@Override
+	public IPrivateContextDaoService<T> privateContext()
+			throws ProcessingException {
+		return mServices.getService(IDaoServiceFactory.class).adaptPrivate(this);
 	}
 
 }

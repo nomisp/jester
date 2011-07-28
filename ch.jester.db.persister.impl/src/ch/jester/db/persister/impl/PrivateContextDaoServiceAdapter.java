@@ -8,16 +8,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
-import ch.jester.commonservices.api.persistency.IDaoServicePrivateContextAdapter;
+import ch.jester.commonservices.api.persistency.IPrivateContextDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
+import ch.jester.commonservices.api.persistency.IQueueNotifier;
+import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.orm.ORMPlugin;
 
-public class DaoServiceAdapter<T extends IEntityObject> implements IDaoServicePrivateContextAdapter<T>{
+public class PrivateContextDaoServiceAdapter<T extends IEntityObject> implements IPrivateContextDaoService<T>{
 	private GenericPersister<T> service;
 	private Collection<T> mLoad = new ArrayList<T>();
-	public DaoServiceAdapter(GenericPersister<T> service) {
+	private EntityManager privateManager;
+	private EntityTransaction trx;
+	public PrivateContextDaoServiceAdapter(GenericPersister<T> service) {
 		this.service=service;
-		this.service.setManager(ORMPlugin.getJPAEntityManagerFactory().createEntityManager());
+		this.service.setManager(privateManager = ORMPlugin.getJPAEntityManagerFactory().createEntityManager());
+		trx = privateManager.getTransaction();
+		trx.begin();
+		this.service.getNotifier().manualEventQueueNotification(true);
 	}
 	
 	@Override
@@ -34,7 +41,7 @@ public class DaoServiceAdapter<T extends IEntityObject> implements IDaoServicePr
 	@Override
 	public void save(Collection<T> pTCollection) {
 		mLoad.addAll(pTCollection);
-		service.save(pTCollection);
+		//service.save(pTCollection);
 	}
 
 	@Override
@@ -49,6 +56,12 @@ public class DaoServiceAdapter<T extends IEntityObject> implements IDaoServicePr
 	}
 
 	@Override
+	public void delete(Object o) {
+		service.getManager().remove(o);
+		
+	}
+	
+	@Override
 	public void delete(Collection<T> pTCollection) {
 		mLoad.addAll(pTCollection);
 		service.delete(pTCollection);
@@ -56,9 +69,14 @@ public class DaoServiceAdapter<T extends IEntityObject> implements IDaoServicePr
 
 	@Override
 	public void close() {
+		if(trx.isActive()){
+			rollback(null);
+		}
 		service.getManager().clear();
 		service.getManager().close();
-		service.close();
+		service.getNotifier().manualEventQueueNotification(false);
+		service.setManager(ORMPlugin.getJPAEntityManager());
+		//service.close();
 	}
 
 	@Override
@@ -97,23 +115,15 @@ public class DaoServiceAdapter<T extends IEntityObject> implements IDaoServicePr
 	}
 
 	@Override
-	public void manualEventQueueNotification(boolean pTrue) {
-		service.manualEventQueueNotification(pTrue);
-	}
-
-	@Override
-	public void notifyEventQueue() {
-		service.notifyEventQueue();
-	}
-
-	@Override
-	public void clearEventQueueCache() {
-		service.clearEventQueueCache();
-	}
-
-	@Override
 	public void commit() {
-		EntityManager manager = ORMPlugin.getJPAEntityManager();
+		System.out.println("SUB TRX Commit");
+		trx.commit();
+		service.getManager().clear();
+		//ORMPlugin.getJPAEntityManagerFactory().getCache().evictAll();
+		//ORMPlugin.getJPAEntityManagerFactory().getCache().evictAll();
+		//privateManager.clear();
+	EntityManager manager = ORMPlugin.getJPAEntityManager();
+		
 		synchronized(manager){
 		EntityTransaction trx = manager.getTransaction();
 		boolean commit = true;
@@ -123,22 +133,52 @@ public class DaoServiceAdapter<T extends IEntityObject> implements IDaoServicePr
 		}else{
 			trx.begin();
 		}
-		for(T pT:mLoad){   // soweit gekommen? alles ok
-			T p = manager.merge(pT);  //mergen mit dem eigentlichen manager
-			System.out.println(p);
-
-			
-			//System.out.println(p);
+		for(T pT:mLoad){
+			//T tt = service.getManager().find(service.getDaoClass(), pT.getId());
+			T t0 =manager.merge(pT);
+			manager.refresh(t0);
 		}
 		if(commit){
 			trx.commit();
 		}
 		}
+		
+		
+		this.service.getNotifier().notifyEventQueue();
+		this.mLoad.clear();
+		privateManager.clear();
+		trx = privateManager.getTransaction();
+		trx.begin();
 	}
 
 	@Override
 	public T find(Integer id) {
-		return service.find(id);
+		T t =  service.find(id);
+		return t;
 	}
+
+	@Override
+	public IQueueNotifier getNotifier() {
+		return service.getNotifier();
+	}
+
+	@Override
+	public void rollback(T t) {
+		System.out.println("SUB TRX ROLLBACK");
+		trx.rollback();
+		privateManager.clear();
+		System.out.println("PRIVATEMANAGER: "+privateManager);
+		EntityManager manager = ORMPlugin.getJPAEntityManager();
+		
+		this.mLoad.clear();
+		System.out.println("ORIGINALMANAGER: "+manager);
+	}
+
+	@Override
+	public IPrivateContextDaoService<T> privateContext() throws ProcessingException{
+		throw new ProcessingException("Invalid Call");
+	}
+
+
 
 }

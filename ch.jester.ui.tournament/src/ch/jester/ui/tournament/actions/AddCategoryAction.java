@@ -16,10 +16,13 @@ import ch.jester.ui.tournament.forms.CategoryMasterDetail;
 public class AddCategoryAction extends Action {
 	private Tournament tournament;
 	private CategoryMasterDetail categoryMasterDetail;
-	
+	private static int creationCounter=-1;
 	public AddCategoryAction(Tournament tournament, CategoryMasterDetail categoryMDBlock) {
 		this.tournament = tournament;
 		this.categoryMasterDetail = categoryMDBlock;
+		if(creationCounter==-1){
+			creationCounter = tournament.getCategories().size();
+		}
 	}
 	
 	@Override
@@ -29,7 +32,8 @@ public class AddCategoryAction extends Action {
 
 	@Override
 	public void run() {
-		Category cat = ModelFactory.getInstance().createCategory(Messages.Action_entityCategory_name + (tournament.getCategories().size()+1));
+		creationCounter++;
+		Category cat = ModelFactory.getInstance().createCategory(Messages.Action_entityCategory_name + creationCounter);
 		tournament.addCategory(cat);
 		categoryMasterDetail.refresh();
 		categoryMasterDetail.setEditorDirty();

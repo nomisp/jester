@@ -56,9 +56,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	 */
 	public CategoryMasterDetail(FormPage page) {
 		this.page = page;
-		@SuppressWarnings("unchecked")
-		IEditorDaoInputAccess<Tournament> input = (IEditorDaoInputAccess<Tournament>) page.getEditor().getEditorInput();
-		tournament = (Tournament)input.getInput();
+
 	}
 	
 	protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
@@ -92,6 +90,8 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 					new AddCategoryAction(tournament, categoryMDBlock).run();
 				} else if (selection instanceof Round) {
 					new AddRoundAction(((Round) selection).getCategory(), categoryMDBlock).run();
+				}else{
+					new AddCategoryAction(tournament, categoryMDBlock).run();
 				}
 			}
 		});
@@ -126,6 +126,13 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		treeViewer.expandAll();
 
 //		createContextMenu();
+	}
+	public void setTournament(Tournament t){
+		this.tournament=t;
+		if(treeViewer!=null){
+			treeViewer.setInput(tournament);
+			treeViewer.refresh();
+		}
 	}
 	
 	/**
