@@ -80,12 +80,6 @@
                visible="true">
          </separator>
          <command
-               commandId="ch.jester.ui.tournament.resetpairing"
-               icon="icons/pairing_delete.png"
-               label="%ResetPairing"
-               style="push">
-         </command>
-         <command
                commandId="cnf.popup.deleteTournament"
                icon="icons/tournament_delete.png"
                id="cnf.popup.delete"

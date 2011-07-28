@@ -173,7 +173,10 @@ public class CategoryDetailsPage implements IDetailsPage {
 	}
 
 	public boolean isValid(){
-		return !fieldConstraints.hasErrors();
+		if(fieldConstraints!=null){
+			return !fieldConstraints.hasErrors();
+		}
+		return true;
 	}
 	@Override
 	public void selectionChanged(IFormPart part, ISelection selection) {

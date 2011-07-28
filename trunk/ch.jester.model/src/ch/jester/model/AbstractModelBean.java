@@ -245,7 +245,7 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 	}
 	
 	@Override
-	public <T> boolean canGetChildrenCollection(Class<T> clz) {
+	public <V> boolean canGetChildrenCollection(Class<V> clz) {
 		if(clz==AbstractModelBean.this.getClass()){
 			return true;
 		}
