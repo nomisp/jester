@@ -151,6 +151,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		delete(createCollection(pT));
 	}
 	
+	@SuppressWarnings("unused")
 	@Override
 	public void delete(Collection<T> pTCollection) {
 		final EntityManager deleteManager = mFactory.createEntityManager(); //neuen entity manager, falls was schief geht, wird nur dieser context detached
