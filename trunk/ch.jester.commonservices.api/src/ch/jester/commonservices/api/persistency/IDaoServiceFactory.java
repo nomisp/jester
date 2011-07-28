@@ -30,5 +30,5 @@ public interface IDaoServiceFactory {
 	 */
 	public <T extends IEntityObject> void registerDaoService(Class<T> pClass, Class<IDaoService<T>> pServiceClass);
 
-	public <T extends IEntityObject> IDaoServicePrivateContextAdapter<T> adaptPrivate(IDaoService<T> pService);
+	public <T extends IEntityObject> IPrivateContextDaoService<T> adaptPrivate(IDaoService<T> pService);
 }

@@ -15,7 +15,7 @@ import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
-import ch.jester.commonservices.api.persistency.IDaoServicePrivateContextAdapter;
+import ch.jester.commonservices.api.persistency.IPrivateContextDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
@@ -41,20 +41,20 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 	@SuppressWarnings("rawtypes")
 	private AbstractSystemSettingsFormPage settingsPage;
 	private CategoryFormPage categoryPage;
-	private IDaoServicePrivateContextAdapter<Tournament> privateService;
-	Tournament newTournamentCacheObject;
+	private IPrivateContextDaoService<Tournament> privateService;
+	IDaoService<Tournament> origService;
+	Tournament original;
 	public TournamentEditor() {
 		super(true);
 	}
 	
 
+	
+	
 	@Override
 	protected void addPages() {
-		IDaoService<Tournament> origService = getServiceUtil().getDaoServiceByEntity(Tournament.class);
-		privateService = getServiceUtil().getService(IDaoServiceFactory.class).adaptPrivate(origService);
-		newTournamentCacheObject = privateService.find(mDaoInput.getInput().getId());
-		mDaoInput.setInput(newTournamentCacheObject);
-		
+
+
 		TournamentFormPage tournamentPage = new TournamentFormPage(this, "TournamentFormPage", Messages.TournamentEditor_title); //$NON-NLS-1$
 		tournamentPage.addPartPropertyListener(new IPropertyChangeListener() {
 			
@@ -95,20 +95,13 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 		}
 
 	}
-	
+
+
+
 	public void init_0(Object parent) {
 		mTournamentPage = (TournamentFormPage) parent;
-		mTournamentController = mTournamentPage.getController();	
-		
-
-	
-		
-		mTournamentController.setTournament(newTournamentCacheObject);
-		
-		//mTournamentController.setTournament(mDaoInput.getInput());	
+		mTournamentController = mTournamentPage.getController();		
 		mTournamentController.getDirtyManager().setDirty(mDaoInput.isAlreadyDirty());
-		//setDaoService(super.getServiceUtil().getDaoServiceByEntity(Tournament.class));
-		setDaoService(privateService);
 		
 		setDirtyManager(mTournamentController.getDirtyManager());
 		getDirtyManager().addDirtyListener(this);
@@ -121,6 +114,27 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 		});
 		setPartName(mTournamentPage.getNameText().getText()+", "+mTournamentPage.getDescriptionText().getText()); //$NON-NLS-1$
 	
+		setDaoService(privateService);
+		
+		initializePrivateContext();
+		
+		
+	}
+	
+	private void initializePrivateContext(){
+		origService = getServiceUtil().getDaoServiceByEntity(Tournament.class);
+		privateService = origService.privateContext();
+		//privateService = getServiceUtil().getService(IDaoServiceFactory.class).adaptPrivate(origService);
+		original = mDaoInput.getInput();
+		Tournament tournamentInPrivateContext = privateService.find(original.getId());
+		setPrivateContextTournament(tournamentInPrivateContext);
+	}
+	
+	private void setPrivateContextTournament(Tournament t){
+		 mDaoInput.setInput(t);
+		 categoryPage.setTournament(t);
+		 mTournamentController.setTournament(t);	
+		 mTournamentController.getDirtyManager().setDirty(false);
 	}
 
 	@Override
@@ -131,48 +145,44 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 			categoryPage.doSave(monitor);
 			mTournamentController.updateModel();
 			Tournament tournament = mTournamentController.getTournament();
-			SettingItem item = tournament.getSettingItem();
-			IDaoService<SettingItem> settingItemPersister = mService.getDaoServiceByEntity(SettingItem.class);
-			if(item!=null){
-				settingItemPersister.delete(item);
-				// Damit nachher nicht doppelte Einträge erzeugt werden
-				//vom Original löschen
-				//wird später wieder vom detachten reingemerged
-			}
+			SettingItem origItem = tournament.getSettingItem();
 			if (settingsPage != null) {
-				SettingHelper<ISettingObject> settingHelper = new SettingHelper<ISettingObject>();
-				SettingItem settingItem = ModelFactory.getInstance().createSettingItem(tournament);
-				item = settingHelper.analyzeSettingObjectToStore(settingsPage.getSettingObject(), settingItem);
-				tournament.setSettingItem(item);
+				SettingItem itemToStore = null;
+					if(origItem!=null){
+						privateService.delete(origItem);
+					}
+				
+					SettingHelper<ISettingObject> settingHelper = new SettingHelper<ISettingObject>();
+					SettingItem settingItem = ModelFactory.getInstance().createSettingItem(tournament);
+					itemToStore = settingHelper.analyzeSettingObjectToStore(settingsPage.getSettingObject(), settingItem);
+					itemToStore = settingItem;
+				itemToStore.setTournament(tournament);
+				tournament.setSettingItem(itemToStore);
 			}
-			
+			debug(tournament);
 			privateService.save(tournament);
 			privateService.commit();
+			debug(tournament);
+			
 			getDirtyManager().reset();
 			setSaved(true);
+			
+			origService.getNotifier().notifyEventQueue();
+			initializePrivateContext();
+			mTournamentController.getDirtyManager().setDirty(false);
+			//initializePrivateContext();
 		} finally {
 			monitor.done();
 		}
 	}
-
-	@Override
-	public void doSaveAs() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean isSaveAsAllowed() {
-		return false;
-	}
-
 	@Override
 	public void editorClosed() {
-		privateService.close();
+		//origService.refresh(mDaoInput.getInput());
 		if (!wasSaved()) {
 			mTournamentController.getTournament();
 			mTournamentController.setTournament(mDaoInput.getInput());
 		}
+		privateService.close();
 		mTournamentController.updateUI();
 
 	}
@@ -192,5 +202,10 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 		}
 		
 		return pairingAlgorithm != null ? pairingAlgorithm.getSettingsFormPage(this, tourn) : null;
+	}
+	
+	private void debug(Tournament t){
+		mLogger.debug("Tournament: "+t+" Name: "+t.getName());
+		mLogger.debug("#Categories: "+t.getCategories().size());
 	}
 }

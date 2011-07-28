@@ -11,6 +11,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
+import ch.jester.model.Tournament;
 
 public class CategoryFormPage extends FormPage {
 
@@ -19,6 +20,10 @@ public class CategoryFormPage extends FormPage {
 	public CategoryFormPage(FormEditor editor) {
 		this(editor, "CategoryPage", Messages.CategoryFormPage_title); //$NON-NLS-1$
 		block = new CategoryMasterDetail(this);
+	}
+	
+	public void setTournament(Tournament t){
+		block.setTournament(t);
 	}
 	
 	/**

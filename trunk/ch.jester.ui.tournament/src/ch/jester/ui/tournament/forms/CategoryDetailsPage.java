@@ -138,23 +138,23 @@ public class CategoryDetailsPage implements IDetailsPage {
 		Composite client = toolkit.createComposite(s1);
 		client.setLayout(new GridLayout(2, false));
 		Label lblDescription = toolkit.createLabel(client, Messages.CategoryDetailsPage_description);
-		description = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
+		description = toolkit.createText(client, "", SWT.BORDER); //$NON-NLS-1$
 		description.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblMinElo = toolkit.createLabel(client, Messages.CategoryDetailsPage_minElo, SWT.NONE);
-		minElo = toolkit.createText(client, "", SWT.NONE); //$NON-NLS-1$
+		minElo = toolkit.createText(client, "", SWT.BORDER); //$NON-NLS-1$
 		minElo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblMaxElo = toolkit.createLabel(client, Messages.CategoryDetailsPage_maxElo, SWT.NONE);
-		maxElo = toolkit.createText(client, "", SWT.NONE); //$NON-NLS-1$
+		maxElo = toolkit.createText(client, "", SWT.BORDER); //$NON-NLS-1$
 		maxElo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblMinAge = toolkit.createLabel(client, Messages.CategoryDetailsPage_minAge, SWT.NONE);
-		minAge = toolkit.createText(client, "", SWT.NONE); //$NON-NLS-1$
+		minAge = toolkit.createText(client, "", SWT.BORDER); //$NON-NLS-1$
 		minAge.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblMaxAge = toolkit.createLabel(client, Messages.CategoryDetailsPage_maxAge, SWT.NONE);
-		maxAge = toolkit.createText(client, "", SWT.NONE); //$NON-NLS-1$
+		maxAge = toolkit.createText(client, "", SWT.BORDER); //$NON-NLS-1$
 		maxAge.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		toolkit.paintBordersFor(s1);

@@ -55,6 +55,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		for (Category category : tournament.getCategories()) {
 			allPairings.addAll(executePairings(category));
 		}
+		this.settings = null;   //TODO: von Matthias: Peter bitte checken!!!
 		return allPairings;
 	}
 
@@ -62,7 +63,6 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	public List<Pairing> executePairings(Category category) throws PairingNotPossibleException, NotAllResultsException {
 		this.category = category;
 		checkAlreadyPaired();
-		this.settings = null;   //TODO: von Matthias: Peter bitte checken!!!
 		if (settings == null) loadSettings(category.getTournament()); // Falls das Paaren auf einem Turnier passiert
 		playedRounds = RankingHelper.getFinishedRounds(category);
 		List<Pairing> pairings = null;
@@ -91,6 +91,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 //			checkResults();
 			
 		}
+		this.settings = null;   //TODO: von Matthias: Peter bitte checken!!!
 		return pairings;
 	}
 	
@@ -255,6 +256,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor, Tournament tournament) {
+		this.settings = null;   //TODO: von Matthias: Peter bitte checken!!!
 		if (settings == null) loadSettings(tournament);
 		return new RoundRobinSettingsPage(settings, editor, !tournament.getStarted(), "RoundRobinSettingsPage", Messages.VollrundigPairingAlgorithm__settingsPage_title); //$NON-NLS-1$
 	}

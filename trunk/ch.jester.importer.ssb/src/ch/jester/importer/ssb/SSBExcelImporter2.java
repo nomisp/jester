@@ -29,7 +29,7 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 	public SSBExcelImporter2(){
 		init_linking();
 		mClubDao = getServiceUtility().getDaoServiceByEntity(Club.class);
-		mClubDao.manualEventQueueNotification(true);
+		mClubDao.getNotifier().manualEventQueueNotification(true);
 	}
 	public void init_linking(){
 		mInputLinking.put("lastName", "Name");
@@ -58,7 +58,7 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 	@Override
 	protected void finished() {
 		super.finished();
-		mClubDao.clearEventQueueCache();
+		mClubDao.getNotifier().clearEventQueueCache();
 		clubs = null;
 	}
 

@@ -65,7 +65,7 @@ public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T,
 		SubListIterator<Player> iterator = new SubListIterator<Player>(pDomainObjects, chunkSize);
 		
 		IDaoService<Player> checker = getServiceUtility().getDaoServiceByEntity(Player.class);
-		checker.manualEventQueueNotification(true);
+		checker.getNotifier().manualEventQueueNotification(true);
 		boolean checkDoubleEntries = checkDuplicates(checker);
 		Query duplQuery = createDuplicationCheckingQuery(checker);
 		duplQuery.setHint("org.hibernate.cacheable", true); //$NON-NLS-1$

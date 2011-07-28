@@ -16,14 +16,15 @@ import ch.jester.orm.ORMPlugin;
  */
 
 public class DetachUtil {
-	public static <T extends IEntityObject> T getDetachedInstance (T t, Class<T> clz, String query){
+	public static <T extends IEntityObject> T getDetachedInstance (T t, Class<T> clz){
 		EntityManager manager =ORMPlugin.getJPAEntityManagerFactory().createEntityManager();
 		manager.getTransaction().begin();
-		manager.merge(t);
-		T t0 = (T) manager.createQuery(query).getSingleResult();
+		T find = manager.find(clz, t.getId());
+		//manager.merge(find);
 		manager.getTransaction().commit();
-		manager.detach(t);
+		
+		manager.detach(find);
 		manager.close();
-		return t0;
+		return find;
 	}
 }
