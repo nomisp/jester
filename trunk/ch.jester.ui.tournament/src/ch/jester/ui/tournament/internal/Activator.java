@@ -15,7 +15,6 @@ import ch.jester.model.util.RankingReportInput;
 import ch.jester.ui.round.editors.RankingViewEditor;
 import ch.jester.ui.round.editors.RoundEditor;
 import ch.jester.ui.tournament.editors.TournamentEditor;
-import ch.jester.ui.tournament.editors.WirePlayerEditor;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -40,7 +39,6 @@ public class Activator extends AbstractUIActivator {
 	public void startDelegate(BundleContext context) {
 		//Editor an InputTyp binden
 		IEditorService openService = getActivationContext().getService(IEditorService.class);
-		openService.register(Category.class, GenericDaoInputAccess.class, WirePlayerEditor.ID);
 		openService.register(Tournament.class, GenericDaoInputAccess.class, TournamentEditor.ID);
 		openService.register(Round.class, GenericDaoInputAccess.class, RoundEditor.ID);
 		openService.register(Category.class, GenericDaoInputAccess.class, RoundEditor.ID);

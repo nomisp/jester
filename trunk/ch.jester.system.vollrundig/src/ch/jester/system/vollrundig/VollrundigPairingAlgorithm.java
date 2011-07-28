@@ -6,9 +6,16 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.ui.progress.UIJob;
 
 import ch.jester.common.settings.SettingHelper;
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ExceptionUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.api.persistency.IDaoService;
@@ -21,7 +28,9 @@ import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
+import ch.jester.system.api.pairing.ITournamentEditorConstraintsProvider;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
+import ch.jester.system.api.pairing.ui.TournamentEditorConstraints;
 import ch.jester.system.exceptions.NoStartingNumbersException;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
@@ -36,16 +45,20 @@ import ch.jester.system.vollrundig.ui.nl1.Messages;
  * Erklärung zum Algorithmus: <link>http://www-i1.informatik.rwth-aachen.de/~algorithmus/algo36.php</link>
  *
  */
-public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
+public class VollrundigPairingAlgorithm implements IPairingAlgorithm, ITournamentEditorConstraintsProvider {
 
 	private ILogger mLogger;
 	private Category category;
 	private List<Round> playedRounds;
 	private ServiceUtility mServiceUtil = new ServiceUtility();
 	private RoundRobinSettings settings;
+	private TournamentEditorConstraints editorConstraints;
 	
 	public VollrundigPairingAlgorithm() {
 		mLogger = VollrundigSystemActivator.getDefault().getActivationContext().getLogger();
+		editorConstraints = new TournamentEditorConstraints();
+		editorConstraints.canAddRounds=false;
+		editorConstraints.canRemoveRounds=false;
 	}
 	
 	@Override
@@ -62,7 +75,16 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 	@Override
 	public List<Pairing> executePairings(Category category) throws PairingNotPossibleException, NotAllResultsException {
 		this.category = category;
-		checkAlreadyPaired();
+		if(alreadyPaired()){
+			if(askToContinue()){
+				resetPairings(category);
+			}else{
+				return null;
+			}
+			
+		}
+		
+		
 		if (settings == null) loadSettings(category.getTournament()); // Falls das Paaren auf einem Turnier passiert
 		playedRounds = RankingHelper.getFinishedRounds(category);
 		List<Pairing> pairings = null;
@@ -261,17 +283,17 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		return new RoundRobinSettingsPage(settings, editor, !tournament.getStarted(), "RoundRobinSettingsPage", Messages.VollrundigPairingAlgorithm__settingsPage_title); //$NON-NLS-1$
 	}
 	
-	private void checkAlreadyPaired() {
-//		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(null);
-//		final Shell shell = window.getShell();
+	private boolean alreadyPaired() {
+		
 		if (category.getRounds().size() > 0 && category.getRounds().get(0).getPairings().size() > 0) {
-//			boolean continuePairing = showWarningAlreadyPaired(shell);
-//			if (continuePairing) {
-//				// Löschen der bereits erzeugten Paarungen
-//				resetPairings(category);
-//			}
-			resetPairings(category);
+			return true;
 		}
+		return false;
+	}
+	private boolean askToContinue(){
+		final Shell shell = UIUtility.getActiveWorkbenchWindow().getShell();
+		boolean continuePairing = showWarningAlreadyPaired(shell);
+		return continuePairing;
 	}
 	
 //	/**
@@ -279,25 +301,25 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 //	 * @param shell
 //	 * @return
 //	 */
-//	private boolean showWarningAlreadyPaired(final Shell shell) {
-//		//final boolean retVal;
-//		UIJob uiJob = new UIJob("Question-Message") { //$NON-NLS-1$
-//
-//			@Override
-//			public IStatus runInUIThread(IProgressMonitor monitor) {
-//				boolean retVal = MessageDialog.openQuestion(shell, "Category / Tournament already paired", "Should the category or tournament be paired again?\nAll pairings created before will be lost.");
-//				return retVal ? Status.OK_STATUS : Status.CANCEL_STATUS;
-//			}
-//		};
-//		uiJob.schedule();
-//		try {
-//			uiJob.join();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return uiJob.getResult().isOK();
-//	}
+	private boolean showWarningAlreadyPaired(final Shell shell) {
+		//final boolean retVal;
+		UIJob uiJob = new UIJob("Question-Message") { //$NON-NLS-1$
+
+			@Override
+			public IStatus runInUIThread(IProgressMonitor monitor) {
+				boolean retVal = MessageDialog.openQuestion(shell, "Category / Tournament already paired", "Should the category or tournament be paired again?\nAll pairings created before will be lost.");
+				return retVal ? Status.OK_STATUS : Status.CANCEL_STATUS;
+			}
+		};
+		uiJob.schedule();
+		try {
+			uiJob.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		return uiJob.getResult().isOK();
+	}
 
 	/**
 	 * Zurücksetzen der bereits gemachten Paarungen
@@ -308,5 +330,10 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm {
 		for (Round round : cat.getRounds()) {
 			round.removeAllPairings(round.getPairings());
 		}
+	}
+
+	@Override
+	public TournamentEditorConstraints getTournamentEditorConstraints() {
+		return editorConstraints;
 	}
 }

@@ -505,13 +505,6 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="ch.jester.ui.tournament.editors.WirePlayerEditor"
-            default="false"
-            icon="icons/player_add.png"
-            id="ch.jester.ui.tournament.wirePlayerEditor"
-            name="%WirePlayerEditor">
-      </editor>
-      <editor
             class="ch.jester.ui.tournament.editors.TournamentEditor"
             default="false"
             icon="icons/settings.png"

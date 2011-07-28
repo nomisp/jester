@@ -2,6 +2,7 @@ package ch.jester.server.prefpage;
 
 
 
+
 import messages.Messages;
 
 import org.eclipse.jface.preference.PreferencePage;
@@ -10,6 +11,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.swt.widgets.Button;
@@ -21,11 +23,12 @@ import org.eclipse.swt.widgets.Text;
 public class StartServerPrefPage extends PreferencePage implements IWorkbenchPreferencePage{
 	public StartServerPrefPage() {
 	}
-	StartStopModel model = new StartStopModel();
-	Button btnStart;
-	Button btnStop;
+	private StartStopModel model = new StartStopModel();
+	private Button btnStart;
+	private Button btnStop;
 	private Text text;
 	private Label lblNewLabel_1;
+	private Link link;
 	@Override
 	public Control createContents(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
@@ -81,9 +84,30 @@ public class StartServerPrefPage extends PreferencePage implements IWorkbenchPre
 		lblNewLabel_1 = new Label(container, SWT.WRAP);
 		lblNewLabel_1.setBounds(21, 10, 343, 23);
 		lblNewLabel_1.setText(Messages.StartServerPrefPage_lbl_desc);
+		
+		link =  new Link(container, SWT.NONE);
+		link.setSize(344, 30);
+		link.setLocation(21, 96);
+		link.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String nativeLink = e.text;
+				OSGiGatewayActivator.open(nativeLink);
+			}
+
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				String nativeLink = e.text;
+				OSGiGatewayActivator.open(nativeLink);
+				
+			}
+		});
 		return container;
 	}
 	
+
 	class StartStopModel{
 		public boolean isRunning(){
 			return OSGiGatewayActivator.getDefault().isRunning();
@@ -104,8 +128,14 @@ public class StartServerPrefPage extends PreferencePage implements IWorkbenchPre
 		}
 		String getStatusText(){
 			if(isRunning()){
+				link.setText("<a href=\""+OSGiGatewayActivator.geInetAdrAsString()+"\">"+OSGiGatewayActivator.geInetAdrAsString()+"</a>");
+				link.setToolTipText(OSGiGatewayActivator.geInetAdrAsString());
 				return Messages.StartServerPrefPage_status_online;
 			}else{
+				if(link!=null){
+					link.setText("");
+					link.setToolTipText("");
+				}
 				return Messages.StartServerPrefPage_status_offline;
 			}
 		}

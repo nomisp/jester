@@ -33,6 +33,7 @@ import ch.jester.model.Round;
  *
  */
 public class RoundDetailsPage implements IDetailsPage {
+	@SuppressWarnings("unused")
 	private CategoryMasterDetail masterDetailsBlock;
 	private DataBindingContext m_bindingContext;
 	private SWTDirtyManager dm = new SWTDirtyManager();
@@ -105,6 +106,7 @@ public class RoundDetailsPage implements IDetailsPage {
 		m_bindingContext.updateTargets();
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void createContents(Composite parent) {
 		TableWrapLayout layout = new TableWrapLayout();

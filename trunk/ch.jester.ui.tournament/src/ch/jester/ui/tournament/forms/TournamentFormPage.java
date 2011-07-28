@@ -56,6 +56,7 @@ public class TournamentFormPage extends FormPage implements IDirtyManagerProvide
 	 * Create contents of the form.
 	 * @param managedForm
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
 		managedForm.getForm().setShowFocusedControl(true);

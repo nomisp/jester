@@ -6,6 +6,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -23,12 +24,10 @@ import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.MasterDetailsBlock;
 import org.eclipse.ui.forms.SectionPart;
-import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
-import ch.jester.common.ui.editor.IEditorDaoInputAccess;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Round;
@@ -43,7 +42,7 @@ import ch.jester.ui.tournament.internal.Activator;
 
 public class CategoryMasterDetail extends MasterDetailsBlock {
 
-	private FormPage page;
+	private CategoryFormPage page;
 	private Button btAdd, btRemove;
 	private CategoryDetailsPage categoryDetailsPage = new CategoryDetailsPage(this);
 	private RoundDetailsPage roundDetailsPage = new RoundDetailsPage(this);
@@ -54,11 +53,12 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	/**
 	 * Create the master details block.
 	 */
-	public CategoryMasterDetail(FormPage page) {
+	public CategoryMasterDetail(CategoryFormPage page) {
 		this.page = page;
 
 	}
 	
+
 	protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
 		FormToolkit toolkit = managedForm.getToolkit();
 		Section section = toolkit.createSection(parent, Section.DESCRIPTION|Section.TITLE_BAR);
@@ -116,6 +116,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		treeViewer = new TreeViewer(tree);
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
+				applyConstraintsForButtons(event.getSelection());
 				managedForm.fireSelectionChanged(spart, event.getSelection());
 				createContextMenu();
 			}
@@ -124,9 +125,37 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		treeViewer.setLabelProvider(new TournamentLabelProvider());
 		treeViewer.setInput(tournament);
 		treeViewer.expandAll();
-
+		btAdd.setEnabled(this.page.getTournamentEditorConstraints().canAddCategories);
+		btRemove.setEnabled(this.page.getTournamentEditorConstraints().canRemoveCategories);
+		
 //		createContextMenu();
 	}
+	private void applyConstraintsForButtons(ISelection selection){
+		Object selected = ((IStructuredSelection) selection).getFirstElement();
+		if(selected instanceof Category){
+			btAdd.setEnabled(this.page.getTournamentEditorConstraints().canAddCategories);
+			btRemove.setEnabled(this.page.getTournamentEditorConstraints().canRemoveCategories);
+		}
+		if(selected instanceof Round){
+			btAdd.setEnabled(this.page.getTournamentEditorConstraints().canAddRounds);
+			btRemove.setEnabled(this.page.getTournamentEditorConstraints().canRemoveRounds);
+		}
+	}
+	private void applyConstraintsForActions(Action action){
+		if(action instanceof AddCategoryAction){
+			action.setEnabled(this.page.getTournamentEditorConstraints().canAddCategories);
+		}
+		if(action instanceof AddRoundAction){
+			action.setEnabled(this.page.getTournamentEditorConstraints().canAddRounds);
+		}
+		if(action instanceof DeleteCategoryAction){
+			action.setEnabled(this.page.getTournamentEditorConstraints().canRemoveCategories);
+		}
+		if(action instanceof DeleteRoundAction){
+			action.setEnabled(this.page.getTournamentEditorConstraints().canRemoveRounds);
+		}
+	}
+	
 	public void setTournament(Tournament t){
 		this.tournament=t;
 		if(treeViewer!=null){
@@ -150,13 +179,15 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 
 				if (treeViewer.getSelection() instanceof IStructuredSelection) {
 					IStructuredSelection selection = (IStructuredSelection) treeViewer.getSelection();
+					Action action = null;
 					if (selection.getFirstElement() instanceof Category) {
 						Category category = (Category) selection.getFirstElement();
-						manager.add(new AddRoundAction(category, categoryMDBlock));
+						manager.add(action = new AddRoundAction(category, categoryMDBlock));
 					} else if (selection.getFirstElement() instanceof Round) {
 						Round round = (Round) selection.getFirstElement();
-						manager.add(new DeleteRoundAction(round, categoryMDBlock));
+						manager.add(action = new DeleteRoundAction(round, categoryMDBlock));
 					}
+					applyConstraintsForActions(action);
 				}
 			}
 		});
@@ -223,4 +254,9 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	public void refresh() {
 		treeViewer.refresh();
 	}
+
+	public boolean isValid(){
+		return categoryDetailsPage.isValid();
+	}
+	
 }
