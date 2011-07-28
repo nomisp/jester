@@ -2,7 +2,6 @@ package ch.jester.server;
 
 import java.awt.Desktop;
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -45,7 +44,7 @@ public class OSGiGatewayActivator extends AbstractActivator {
 	public OSGiGatewayActivator() {
 	}
 
-
+	@Override
 	public void startDelegate(BundleContext context) {
 		plugin = this;
 		//startServer();
@@ -71,8 +70,7 @@ public class OSGiGatewayActivator extends AbstractActivator {
 		
 
 		try {
-			@SuppressWarnings("rawtypes")
-			Dictionary config = getConfig();
+			Dictionary<String, Object> config = getConfig();
 			installUiComponents();
 			JettyConfigurator.startServer(PLUGIN_ID + ".jetty",config);
 			serverRunning=true;
@@ -96,7 +94,26 @@ public class OSGiGatewayActivator extends AbstractActivator {
 		return settings;
 	}
 
-
+	public static String getMaskedInetAdr(){
+		String hostadr;
+		try {
+			hostadr = "<a href=\"http://"+InetAddress.getLocalHost().getHostAddress()+":"+settings.get("http.port").toString()+"/index.jsp\">jester</a>";
+			return hostadr;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public static String geInetAdrAsString(){
+		String hostadr;
+		try {
+			hostadr = "http://"+InetAddress.getLocalHost().getHostAddress()+":"+settings.get("http.port").toString()+"/index.jsp";
+			return hostadr;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	private static void installUiComponents() {
 		Job job = new Job("Remote Reports Contributor"){
 
@@ -114,42 +131,25 @@ public class OSGiGatewayActivator extends AbstractActivator {
 						IStatusLineManager ex = plugin.getActivationContext().getService(IStatusLineManager.class);
 						
 						LinkStatusLineContributionItem link = new LinkStatusLineContributionItem("serverlink");
-						try {
-							InetAddress adr = Inet4Address.getByName("localhost");
-							//<a href=\"native\">access to the user-interface facilities of the operating systems</a>
-							String hostadr = "<a href=\"http://"+adr.getHostAddress()+":8080/index.jsp\">jester</a>";
+							String hostadr = getMaskedInetAdr();
 							link.setLinkListener(new SelectionListener() {
 								
 								@Override
 								public void widgetSelected(SelectionEvent e) {
 									String nativeLink = e.text;
-									URI uri;
-									try {
-										uri = new URI(nativeLink);
-										Desktop.getDesktop().browse(uri);
-									} catch (URISyntaxException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									} catch (IOException e0) {
-										// TODO Auto-generated catch block
-										e0.printStackTrace();
-									}
-								
-									
-									
+									open(nativeLink);
 								}
+
 								
 								@Override
 								public void widgetDefaultSelected(SelectionEvent e) {
-									// TODO Auto-generated method stub
+									String nativeLink = e.text;
+									open(nativeLink);
 									
 								}
 							});
 							link.setText(hostadr);
-						} catch (UnknownHostException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+							link.setToolTipText("Web Reports");
 						
 						
 						ex.appendToGroup(StatusLineManager.END_GROUP, link);
@@ -163,6 +163,22 @@ public class OSGiGatewayActivator extends AbstractActivator {
 			
 		};
 		job.schedule();
+	}
+
+	public static void open(String nativeLink)
+			 {
+		URI uri;
+		try {
+			uri = new URI(nativeLink);
+			Desktop.getDesktop().browse(uri);
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e0) {
+			// TODO Auto-generated catch block
+			e0.printStackTrace();
+		}
+		
 	}
 	
 	public void stopDelegate(BundleContext context) {

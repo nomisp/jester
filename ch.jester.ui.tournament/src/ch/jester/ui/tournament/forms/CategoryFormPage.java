@@ -12,14 +12,28 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.model.Tournament;
+import ch.jester.system.api.pairing.ITournamentEditorConstraintsProvider;
+import ch.jester.system.api.pairing.ui.TournamentEditorConstraints;
+import ch.jester.ui.tournament.editors.TournamentEditor;
 
-public class CategoryFormPage extends FormPage {
+public class CategoryFormPage extends FormPage implements ITournamentEditorConstraintsProvider {
 
 	private CategoryMasterDetail block;
-	
-	public CategoryFormPage(FormEditor editor) {
+	private TournamentEditor tournamentEditor;
+	public CategoryFormPage(TournamentEditor editor) {
 		this(editor, "CategoryPage", Messages.CategoryFormPage_title); //$NON-NLS-1$
+		tournamentEditor=editor;
 		block = new CategoryMasterDetail(this);
+		
+	}
+	
+	public boolean isValid(){
+		return block.isValid();
+	}
+
+	@Override
+	public TournamentEditorConstraints getTournamentEditorConstraints() {
+		return tournamentEditor.getTournamentEditorConstraints();
 	}
 	
 	public void setTournament(Tournament t){
@@ -75,5 +89,6 @@ public class CategoryFormPage extends FormPage {
 	public SWTDirtyManager getCategoryDetailsDirtyManager() {
 		return block.getCategoryDetailsPage().getDirtyManager();
 	}
+
 
 }

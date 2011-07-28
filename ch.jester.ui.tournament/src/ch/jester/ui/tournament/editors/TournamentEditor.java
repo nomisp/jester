@@ -5,16 +5,17 @@ import java.util.List;
 import messages.Messages;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 import ch.jester.common.settings.ISettingObject;
 import ch.jester.common.settings.SettingHelper;
 import ch.jester.common.ui.editor.AbstractEditor;
 import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.commonservices.api.persistency.IDaoService;
-import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
 import ch.jester.commonservices.api.persistency.IPrivateContextDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.SettingItem;
@@ -23,7 +24,9 @@ import ch.jester.model.factories.ModelFactory;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
+import ch.jester.system.api.pairing.ITournamentEditorConstraintsProvider;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
+import ch.jester.system.api.pairing.ui.TournamentEditorConstraints;
 import ch.jester.ui.tournament.ctrl.TournamentDetailsController;
 import ch.jester.ui.tournament.forms.CategoryFormPage;
 import ch.jester.ui.tournament.forms.TournamentFormPage;
@@ -32,7 +35,7 @@ import ch.jester.ui.tournament.forms.TournamentFormPage;
  * Turnier-Editor
  *
  */
-public class TournamentEditor extends AbstractEditor<Tournament> {
+public class TournamentEditor extends AbstractEditor<Tournament> implements ITournamentEditorConstraintsProvider{
 	
 	public static final String ID = "ch.jester.ui.tournament.tournamentEditor"; //$NON-NLS-1$
 	private TournamentFormPage mTournamentPage;
@@ -42,13 +45,17 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 	private AbstractSystemSettingsFormPage settingsPage;
 	private CategoryFormPage categoryPage;
 	private IPrivateContextDaoService<Tournament> privateService;
-	IDaoService<Tournament> origService;
-	Tournament original;
+	private IDaoService<Tournament> origService;
+	private Tournament original;
+	private TournamentEditorConstraints algorithmConstraints = TournamentEditorConstraints.defaultContstraints;
 	public TournamentEditor() {
 		super(true);
 	}
 	
-
+	@Override
+	public TournamentEditorConstraints getTournamentEditorConstraints() {
+		return algorithmConstraints;
+	}
 	
 	
 	@Override
@@ -139,6 +146,12 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
+		if(!categoryPage.isValid()){
+			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Input not valid", "Input contains errors");
+			return;
+		}
+		
+		
 		mLogger.debug("Saving "+this); //$NON-NLS-1$
 		monitor.beginTask(Messages.TournamentEditor_progress_saving, IProgressMonitor.UNKNOWN);
 		try{
@@ -187,6 +200,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private AbstractSystemSettingsFormPage findSettingsPage() {
 		Tournament tourn = mDaoInput.getInput();
 		String settingsPage = tourn.getSettingsPage();
@@ -200,6 +214,9 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 				break;
 			}
 		}
+		if(pairingAlgorithm instanceof ITournamentEditorConstraintsProvider){
+			algorithmConstraints = ((ITournamentEditorConstraintsProvider)pairingAlgorithm).getTournamentEditorConstraints();
+		}
 		
 		return pairingAlgorithm != null ? pairingAlgorithm.getSettingsFormPage(this, tourn) : null;
 	}
@@ -208,4 +225,9 @@ public class TournamentEditor extends AbstractEditor<Tournament> {
 		mLogger.debug("Tournament: "+t+" Name: "+t.getName());
 		mLogger.debug("#Categories: "+t.getCategories().size());
 	}
+
+
+
+
+
 }

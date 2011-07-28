@@ -35,6 +35,7 @@ import ch.jester.system.vollrundig.ui.nl1.Messages;
  */
 public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<RoundRobinSettings> {
 
+	@SuppressWarnings("unused")
 	private DataBindingContext m_bindingContext;
 
 	private RoundRobinSettings settings;

@@ -131,7 +131,7 @@ public class LinkStatusLineContributionItem extends ContributionItem {
 	 * @see IStatusField#setText(String)
 	 */
 	public void setText(String text) {
-		fText= text;
+		fText = text;
 		updateMessageLabel();
 	}
 
@@ -168,7 +168,6 @@ public class LinkStatusLineContributionItem extends ContributionItem {
 	 * @see IContributionItem#fill(Composite)
 	 */
 	public void fill(Composite parent) {
-
 		Label sep= new Label(parent, SWT.SEPARATOR);
 		fLabel= new Link(parent, SWT.NONE);
 		if(fLinkListener!=null){

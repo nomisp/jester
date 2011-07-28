@@ -1,7 +1,6 @@
 package ch.jester.common.ui.contributions;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 

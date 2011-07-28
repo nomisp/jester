@@ -26,6 +26,7 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
+import ch.jester.common.ui.utility.UIFieldConstraints;
 import ch.jester.model.Category;
 
 /**
@@ -44,7 +45,7 @@ public class CategoryDetailsPage implements IDetailsPage {
 	private Text minAge;
 	private Text maxAge;
 	private boolean dirty = false;
-
+	private UIFieldConstraints fieldConstraints;
 	private ModifyListener textModifyListener = new ModifyListener() {
 		
 		@Override
@@ -118,6 +119,7 @@ public class CategoryDetailsPage implements IDetailsPage {
 		m_bindingContext.updateTargets();
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void createContents(Composite parent) {
 		TableWrapLayout layout = new TableWrapLayout();
@@ -160,9 +162,19 @@ public class CategoryDetailsPage implements IDetailsPage {
 		toolkit.paintBordersFor(s1);
 		s1.setClient(client);
 		
+		fieldConstraints = new UIFieldConstraints(Category.class);
+		fieldConstraints.addConstraint(description, "description");
+		fieldConstraints.addConstraint(minElo, "minElo");
+		fieldConstraints.addConstraint(maxElo, "maxElo");
+		fieldConstraints.addConstraint(maxAge, "maxAge");
+		fieldConstraints.addConstraint(minAge, "minAge");
+		
 //		dm.add(description);
 	}
 
+	public boolean isValid(){
+		return !fieldConstraints.hasErrors();
+	}
 	@Override
 	public void selectionChanged(IFormPart part, ISelection selection) {
 		IStructuredSelection ssel = (IStructuredSelection)selection;
