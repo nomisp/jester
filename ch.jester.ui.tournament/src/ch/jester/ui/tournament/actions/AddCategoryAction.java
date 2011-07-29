@@ -34,8 +34,7 @@ public class AddCategoryAction extends Action {
 	public void run() {
 		creationCounter++;
 		Category cat = ModelFactory.getInstance().createCategory(Messages.Action_entityCategory_name + creationCounter);
-		tournament.addCategory(cat);
-		categoryMasterDetail.refresh();
-		categoryMasterDetail.setEditorDirty();
+		categoryMasterDetail.addCategory(cat);
+
 	}
 }

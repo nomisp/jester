@@ -30,8 +30,6 @@ public class AddRoundAction extends Action {
 	@Override
 	public void run() {
 		Round round = ModelFactory.getInstance().createRound(category.getRounds().size()+1);
-		category.addRound(round);
-		categoryMasterDetail.refresh();
-		categoryMasterDetail.setEditorDirty();
+		categoryMasterDetail.addRound(category, round);
 	}
 }
