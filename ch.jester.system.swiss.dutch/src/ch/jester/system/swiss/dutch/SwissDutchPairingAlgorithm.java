@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 import javax.persistence.NoResultException;
@@ -48,11 +49,14 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 	private Category category;
 	private SwissDutchSettings settings;
 	private ServiceUtility mServiceUtil = new ServiceUtility();
-	private LinkedList<PlayerCard> unpairedPlayers = new LinkedList<PlayerCard>();
 	private List<Pairing> pairings = new ArrayList<Pairing>();
 	private List<List<PlayerCard>> scoreBrackets = new ArrayList<List<PlayerCard>>();
 	private Round nextRound;
 	private boolean firstRound = true;
+	private List<Card> cards = new ArrayList<Card>();
+	private LinkedList<Card> unpairedPlayers = new LinkedList<Card>();
+//	private LinkedList<Card> pairedPlayers = new LinkedList<Card>();
+	private boolean pairDown;
 	
 	public SwissDutchPairingAlgorithm() {
 		mLogger = SwissDutchSystemActivator.getDefault().getActivationContext().getLogger();
@@ -77,74 +81,414 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 		List<Round> finishedRounds = PairingHelper.getFinishedRounds(category);
 //		if (!firstRound && (finishedRounds.size() + PairingHelper.getOpenRounds(category).size() != category.getRounds().size())) throw new NotAllResultsException();
 		if (finishedRounds.size() == category.getRounds().size()) throw new TournamentFinishedException();
-		nextRound = finishedRounds.size() > 0 ? category.getRounds().get(finishedRounds.size()) : category.getRounds().get(0);
 		
 		List<PlayerCard> playerCards = category.getPlayerCards();
 		Collections.sort(playerCards, new PlayerComparator(settings.getRatingType()));
-		generateScoreBrackets(playerCards);
 		if (firstRound) {
 			calculateColorsForFirstRound(playerCards);
-		} else {
-			for (PlayerCard playerCard : playerCards) {
-				calculateColorPreference(playerCard);
-			}
 		}
-		
-		List<PlayerCard> remainingPlayers = new ArrayList<PlayerCard>();
-		for (int s = 0; s < scoreBrackets.size(); s++) {
-			List<PlayerCard> scoreBracket = scoreBrackets.get(s);
-			if (remainingPlayers.size() > 0) {
-				for (PlayerCard remainingPlayer : remainingPlayers) {
-					remainingPlayer.setFloating(Float.DOWNFLOAT);
-					scoreBracket.add(0, remainingPlayer);
-				}
-				remainingPlayers.clear();
-			}
-			if (scoreBracket.size() == 1) {
-				remainingPlayers.add(scoreBracket.get(0));
+		prepareNextRound(category, finishedRounds, playerCards);
+		int lastScore = -1;
+		while (!unpairedPlayers.isEmpty()) {
+			Card currentPlayer = unpairedPlayers.removeFirst();
+			Pairing pairing = pairPlayer(currentPlayer);
+			if (pairing != null) {
+				pairings.add(pairing);
 				continue;
 			}
-			
-			for (int i = 0; i < scoreBracket.size()/2; i++) {
-				unpairedPlayers.add(scoreBracket.get(i));
+			currentPlayer.getAlreadyTried().clear();
+			unpairedPlayers.add(0, currentPlayer);
+			if (pairings.isEmpty()) {
+				if (!pairDown) {
+			        pairDown = true;
+			        continue;	//just try to repair everyone
+			    }
+				throw new PairingNotPossibleException();
 			}
-			int s1 = 0;
-			int s2 = scoreBracket.size() / 2;
-			boolean oddNrPlayers = scoreBracket.size() % 2 != 0;
-			while (!unpairedPlayers.isEmpty()) {
-				for (int i = s2; i < scoreBracket.size(); i++) {
-					PlayerCard player = unpairedPlayers.removeFirst();
-					Pairing pair = pairCurrentPlayer(player, scoreBracket, i);
-					if (pair != null) {
-						pair.setRound(nextRound);
-						pair.getWhite().addWhite();
-						pair.getBlack().addBlack();
-						pairings.add(pair);
-					} else {
-						// Spieler die nicht gepaart werden können
-						remainingPlayers.add(player);
-					}
-				}
-				// Bei einer ungeraden Anzahl Spieler muss der verbleibende Spieler 
-				// ins nächste ScoreBracket verschoben werden
-//				if (unpairedPlayers.size() == 1 && oddNrPlayers) {
-//					if (scoreBrackets.size() >= s+1) {
-//						PlayerCard remainingPlayer = unpairedPlayers.removeFirst();
-//						remainingPlayer.setFloating(Float.DOWNFLOAT);
-//						scoreBrackets.get(s+1).add(0, remainingPlayer);
-//					} else { // Wenn es sich ums letzte ScoreBracket handelt erhält der Spieler ein Freilos 
-//						PlayerCard lastPlayer = unpairedPlayers.removeFirst();
-//						lastPlayer.addBye();
+			pairing = pairings.get(pairings.size()-1);
+			if (pairing.getWhite() == currentPlayer.getPlayerCard()) {
+				currentPlayer.getAlreadyTried().add(pairing.getBlack());
+			} else {
+				currentPlayer.getAlreadyTried().add(pairing.getWhite());
+				Card opponent = findCard(pairing.getWhite());
+				opponent.getAlreadyTried().clear();
+				addCardSorted(opponent);
+				unpairedPlayers.add(0, currentPlayer);
+			}
+		}
+		finalizePairings();
+		
+//		generateScoreBrackets(playerCards);
+//		if (firstRound) {
+//			calculateColorsForFirstRound(playerCards);
+//		} else {
+//			for (PlayerCard playerCard : playerCards) {
+//				calculateColorPreference(playerCard);
+//			}
+//		}
+//		
+//		List<PlayerCard> remainingPlayers = new ArrayList<PlayerCard>();
+//		for (int s = 0; s < scoreBrackets.size(); s++) {
+//			List<PlayerCard> scoreBracket = scoreBrackets.get(s);
+//			if (remainingPlayers.size() > 0) {
+//				for (PlayerCard remainingPlayer : remainingPlayers) {
+//					remainingPlayer.setFloating(Float.DOWNFLOAT);
+//					scoreBracket.add(0, remainingPlayer);
+//				}
+//				remainingPlayers.clear();
+//			}
+//			if (scoreBracket.size() == 1) {
+//				remainingPlayers.add(scoreBracket.get(0));
+//				continue;
+//			}
+//			
+//			for (int i = 0; i < scoreBracket.size()/2; i++) {
+//				unpairedPlayers.add(scoreBracket.get(i));
+//			}
+//			int s1 = 0;
+//			int s2 = scoreBracket.size() / 2;
+//			boolean oddNrPlayers = scoreBracket.size() % 2 != 0;
+//			while (!unpairedPlayers.isEmpty()) {
+//				for (int i = s2; i < scoreBracket.size(); i++) {
+//					PlayerCard player = unpairedPlayers.removeFirst();
+//					Pairing pair = pairCurrentPlayer(player, scoreBracket, i);
+//					if (pair != null) {
+//						pair.setRound(nextRound);
+//						pair.getWhite().addWhite();
+//						pair.getBlack().addBlack();
+//						pairings.add(pair);
+//					} else {
+//						// Spieler die nicht gepaart werden können
+//						remainingPlayers.add(player);
 //					}
 //				}
-			}
-		}
-		if (remainingPlayers.size() == 1) { // Wenn es sich ums letzte ScoreBracket handelt erhält der Spieler ein Freilos 
-			PlayerCard lastPlayer = remainingPlayers.get(0);
-			lastPlayer.addBye();
-		}
+//				// Bei einer ungeraden Anzahl Spieler muss der verbleibende Spieler 
+//				// ins nächste ScoreBracket verschoben werden
+////				if (unpairedPlayers.size() == 1 && oddNrPlayers) {
+////					if (scoreBrackets.size() >= s+1) {
+////						PlayerCard remainingPlayer = unpairedPlayers.removeFirst();
+////						remainingPlayer.setFloating(Float.DOWNFLOAT);
+////						scoreBrackets.get(s+1).add(0, remainingPlayer);
+////					} else { // Wenn es sich ums letzte ScoreBracket handelt erhält der Spieler ein Freilos 
+////						PlayerCard lastPlayer = unpairedPlayers.removeFirst();
+////						lastPlayer.addBye();
+////					}
+////				}
+//			}
+//		}
+//		if (remainingPlayers.size() == 1) { // Wenn es sich ums letzte ScoreBracket handelt erhält der Spieler ein Freilos 
+//			PlayerCard lastPlayer = remainingPlayers.get(0);
+//			lastPlayer.addBye();
+//		}
 		
 		return this.pairings;
+	}
+
+	private void prepareNextRound(Category category, List<Round> finishedRounds, List<PlayerCard> sortedPlayers) {
+		nextRound = finishedRounds.size() > 0 ? category.getRounds().get(finishedRounds.size()) : category.getRounds().get(0);
+		if (unpairedPlayers == null) unpairedPlayers = new LinkedList<Card>();
+//		if (pairedPlayers == null) pairedPlayers = new LinkedList<Card>();
+		unpairedPlayers.clear();
+//		pairedPlayers.clear();
+		for (PlayerCard playerCard : sortedPlayers) {
+			if (playerCard.getActive()) {
+				unpairedPlayers.add(new Card(playerCard));
+				if (!firstRound){
+					calculateColorPreference(playerCard);
+				}
+			}
+		}
+		cards.addAll(unpairedPlayers);
+	}
+
+	private Pairing pairPlayer(Card currentPlayer) {
+		Pairing pairing = null;
+		Card card = null;
+		int idx = 0;
+		int start;
+		int increment = 1;
+		int scoreGroupBounds = findScoreGroupBounds(currentPlayer.getPlayerCard());
+		//find index in unpaired stack of first player in next score group
+		if (scoreGroupBounds == -1) {
+			//ungerade Anzahl Spieler
+			if (currentPlayer.getPlayerCard().getByes() == 0) {
+				currentPlayer.getPlayerCard().addBye();
+				pairing = ModelFactory.getInstance().createPairing(currentPlayer.getPlayerCard(), null, nextRound);
+				return pairing;
+			}
+			return null;
+			//player has already had a bye, return no pairing possible
+		}
+		if (scoreGroupBounds > 0) {
+			//there are unpaired players with the same score as the current player to pair
+
+			idx = (scoreGroupBounds - 1) >> 1;
+			//find the midpoint of those players with the same score
+		}
+		else {
+			//no unpaired players with same score
+			idx = 0;
+			//so we just start with highest rated player in next score group
+			scoreGroupBounds = unpairedPlayers.size();
+			//and continue through last unpaired player
+		}
+		start = idx;
+		//remember where we started this search
+		card = (Card)unpairedPlayers.get(idx);
+		//get the next player to try to pair against
+		while (!validatePairing(card, currentPlayer)) {
+			//while the pairing is not valid according to our simple SWISS rules
+			idx += increment;
+			//go to next player index in our current direction of search
+			if (idx == scoreGroupBounds) {
+			    //hit the end of the score group
+				idx = start - 1;
+				//start with entry previous to where we started in this score group
+				increment = -1;
+				//and start searching backwards
+			}
+			if (idx < 0) {
+			    if (pairDown) {
+			    	currentPlayer.getPlayerCard().setFloating(Float.DOWNFLOAT);
+				    //cannot pair this player in score group, move him!
+					idx = scoreGroupBounds;
+					//so try first player in next score group
+					increment = 1;
+					//and start searching forward again
+			    }
+			    else {
+			        return null;
+			    }
+			}
+			if (idx >= unpairedPlayers.size()) {
+			    //nowhere else left to search!
+				return null;
+				//no pairing possible
+			}
+			card = (Card)unpairedPlayers.get(idx);
+			//get the next pairing candidate
+		}
+
+        unpairedPlayers.remove(card);
+		//we found a good possible pairing! Remove the opponent from the unpaired stack
+		return ModelFactory.getInstance().createPairing(currentPlayer.getPlayerCard(), 
+				card.getPlayerCard(), nextRound);
+		//create and return the pairing
+	}
+
+	private Card findCard(PlayerCard white) {
+		for (Card card : cards) {
+			if (card.getPlayerCard() == white) return card;
+		}
+		return null;
+	}
+
+
+	/**
+	 *  Adds a card to the unpaired stack data structure in score and rating sorted
+	 *  order
+	 *
+	 *@param  card  Card to add
+	 */
+	public void addCardSorted(Card card) {
+		ListIterator<Card> iterator = unpairedPlayers.listIterator();
+		Card temp;
+		while (iterator.hasNext()) {
+			temp = (Card)iterator.next();
+			PlayerComparator comp = new PlayerComparator(settings.getRatingType());
+			if (comp.compare(card.getPlayerCard(), temp.getPlayerCard()) > 0) {
+				iterator.previous();
+				iterator.add(card);
+				return;
+			}
+		}
+		//we never added, so just append
+		unpairedPlayers.add(card);
+	}
+
+
+	/**
+	 *  Liefert den Index des nächsten ScoreBracket
+	 *
+	 *	@return index ausgehend vom aktuell zu paarenden Spielers
+	 */
+	private int findScoreGroupBounds(PlayerCard currentPlayer) {
+		if (unpairedPlayers.isEmpty()) {
+			return -1;
+		}
+		ListIterator<Card> iterator = unpairedPlayers.listIterator();
+		Card card;
+		int index = 0;
+		while (iterator.hasNext()) {
+			card = (Card)iterator.next();
+			if (card.getPlayerCard().getPoints() != currentPlayer.getPoints()) {
+				return index;
+			}
+			index++;
+		}
+		return unpairedPlayers.size();
+	}
+	/**
+	 *  Validate an possbile paring between the current player and the indicated
+	 *  pairing card. Enforces these (Swiss) rules:
+	 *  <ul>
+	 *    <li> Players may not have played before</li>
+	 *    <li> Players must not have already been attempted to be paired in this
+	 *    iteration</li>
+	 *    <li> Color allocation cannot result in same player having same color 3
+	 *    games in a row</li>
+	 *    <li> Color allocation cannot result in a player having a color three more
+	 *    times than the other</li>
+	 *    <li> Players on the same team never play one another</li>
+	 *  </ul>
+	 *
+	 *
+	 *@param  card  Description of the Parameter
+	 *@return       Description of the Return Value
+	 */
+	private boolean validatePairing(Card card, Card currentPlayer) {
+		int i;
+		List<PlayerCard> playedOpponents = RankingHelper.getOpponents(currentPlayer.getPlayerCard(), category.getRounds());
+		if (!firstRound && playedOpponents.contains(card.getPlayerCard())) {
+			return false;	// Die Spieler haben bereits gegeneinander gespielt
+		}
+		//ensure no attempted pairing against this player this iteration
+		if (currentPlayer.getAlreadyTried().contains(card)) {
+			return false;
+		}
+		return true;
+	}
+
+
+	/**
+	 * Bestimmen der Farbzuteilung
+	 */
+	public void finalizePairings() {
+		for (Pairing pair : pairings) {
+			PlayerCard player = pair.getWhite();
+			PlayerCard opponent = pair.getBlack();
+		
+			/*
+			 * E. Colour Allocation Rules
+			 * For each pairing apply (with descending priority):
+			 * E.1
+			 * Grant both colour preferences.
+			 * E.2
+			 * Grant the stronger colour preference.
+			 * E.3
+			 * Alternate the colours to the most recent round in which they played with different colours.
+			 * E.4
+			 * Grant the colour preference of the higher ranked player.
+			 * E.5
+			 * In the first round all even numbered players in S1 will receive a colour different 
+			 * from all odd numbered players in S1.	-> calculateColorsForFirstRound
+			 */
+			ColorPreference playerColorPref = player.getColorPref();
+			ColorPreference opponentColorPref = opponent.getColorPref();
+			if (playerColorPref == opponentColorPref) { // -> E.3
+				// E3
+				String playerColors = player.getColors();
+				String opponentColors = opponent.getColors();
+				if (playerColors != null && !playerColors.isEmpty() && opponentColors != null && !opponentColors.isEmpty()) {
+					for (int i = playerColors.length() - 1; i > 0; i--) {
+						char lastColorPlayer = playerColors.charAt(i);
+						if (lastColorPlayer != opponentColors.charAt(i)) {
+							if (lastColorPlayer == 'w') {
+								pair.setWhite(player);
+								pair.setBlack(opponent);
+							} else {
+								pair.setWhite(opponent);
+								pair.setBlack(player);
+							}
+						}
+					}
+				}
+				
+				// E4
+				if (player.getColorPref() == ColorPreference.ABSOLUTE_WHITE 
+						|| player.getColorPref() == ColorPreference.STRONG_WHITE 
+						|| player.getColorPref() == ColorPreference.MILD_WHITE) {
+					pair.setWhite(player);
+					pair.setBlack(opponent);
+				} else {
+					pair.setWhite(opponent);
+					pair.setBlack(player);
+				}
+			} else {
+				// Absolute ColorPreference werden direkt zugeteilt
+				if (playerColorPref == ColorPreference.ABSOLUTE_WHITE) {
+					pair.setWhite(player);
+					pair.setBlack(opponent);
+				} else if (playerColorPref == ColorPreference.ABSOLUTE_BLACK) {
+					pair.setWhite(opponent);
+					pair.setBlack(player);
+				}
+				if (opponentColorPref == ColorPreference.ABSOLUTE_WHITE) {
+					pair.setWhite(opponent);
+					pair.setBlack(player);
+				} else if (opponentColorPref == ColorPreference.ABSOLUTE_BLACK) {
+					pair.setWhite(player);
+					pair.setBlack(opponent);
+				}
+				switch (playerColorPref) {
+				case STRONG_WHITE:
+					if (opponentColorPref == ColorPreference.NONE 
+							|| opponentColorPref == ColorPreference.STRONG_BLACK
+							|| opponentColorPref == ColorPreference.MILD_BLACK
+							|| opponentColorPref == ColorPreference.MILD_WHITE) {
+						pair.setWhite(player);
+						pair.setBlack(opponent);
+					}
+					break;
+				case STRONG_BLACK:
+					if (opponentColorPref == ColorPreference.NONE 
+							|| opponentColorPref == ColorPreference.STRONG_WHITE
+							|| opponentColorPref == ColorPreference.MILD_WHITE
+							|| opponentColorPref == ColorPreference.MILD_BLACK) {
+						pair.setWhite(opponent);
+						pair.setBlack(player);
+					}
+					break;
+				case MILD_WHITE:
+					if (opponentColorPref == ColorPreference.NONE 
+							|| opponentColorPref == ColorPreference.STRONG_BLACK
+							|| opponentColorPref == ColorPreference.MILD_BLACK) {
+						pair.setWhite(player);
+						pair.setBlack(opponent);
+					} else if (opponentColorPref == ColorPreference.STRONG_WHITE) {
+						pair.setWhite(opponent);
+						pair.setBlack(player);
+					}
+					break;
+				case MILD_BLACK:
+					if (opponentColorPref == ColorPreference.NONE 
+							|| opponentColorPref == ColorPreference.STRONG_WHITE
+							|| opponentColorPref == ColorPreference.MILD_WHITE
+							|| opponentColorPref == ColorPreference.MILD_BLACK) {
+						pair.setWhite(opponent);
+						pair.setBlack(player);
+					} else if (opponentColorPref == ColorPreference.STRONG_BLACK) {
+						pair.setWhite(player);
+						pair.setBlack(opponent);
+					}
+					break;
+				case NONE:
+					if (opponentColorPref == ColorPreference.STRONG_WHITE
+							|| opponentColorPref == ColorPreference.MILD_WHITE) {
+						pair.setWhite(opponent);
+						pair.setBlack(player);
+					} else if (opponentColorPref == ColorPreference.STRONG_BLACK
+							|| opponentColorPref == ColorPreference.MILD_BLACK) {
+						pair.setWhite(player);
+						pair.setBlack(opponent);
+					}
+					break;
+		
+				default:
+					break;
+				}
+			}
+		}
 	}
 
 	/**
