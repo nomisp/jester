@@ -1,4 +1,4 @@
-package ch.jester.system.swiss.dutch.util;
+package ch.jester.system.swiss.simple.util;
 
 /**
  * Farbpräferenz für die erste Runde für den höchstgesetzten Spieler

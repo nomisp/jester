@@ -1,4 +1,4 @@
-package ch.jester.system.swiss.dutch.util;
+package ch.jester.system.swiss.simple.util;
 
 import java.util.Comparator;
 

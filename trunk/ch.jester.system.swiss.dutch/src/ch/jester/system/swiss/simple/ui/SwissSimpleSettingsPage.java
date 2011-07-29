@@ -1,4 +1,4 @@
-package ch.jester.system.swiss.dutch.ui;
+package ch.jester.system.swiss.simple.ui;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoObservables;
@@ -23,28 +23,28 @@ import ch.jester.common.settings.ISettingObject;
 import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
-import ch.jester.system.swiss.dutch.SwissDutchSettings;
-import ch.jester.system.swiss.dutch.ui.nl1.Messages;
-import ch.jester.system.swiss.dutch.util.ByePoint;
-import ch.jester.system.swiss.dutch.util.FirstRoundColorPref;
-import ch.jester.system.swiss.dutch.util.RatingType;
+import ch.jester.system.swiss.simple.SwissSimpleSettings;
+import ch.jester.system.swiss.simple.ui.nl1.Messages;
+import ch.jester.system.swiss.simple.util.ByePoint;
+import ch.jester.system.swiss.simple.util.FirstRoundColorPref;
+import ch.jester.system.swiss.simple.util.RatingType;
 
 /**
  * Form-page für die Einstellungen des Schweizer (Dutch) Systems Paarungssystemes
  *
  */
-public class SwissDutchSettingsPage extends AbstractSystemSettingsFormPage<SwissDutchSettings> {
+public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<SwissSimpleSettings> {
 
 	private DataBindingContext m_bindingContext;
-	private SwissDutchSettings settings;
+	private SwissSimpleSettings settings;
 	private SWTDirtyManager dm = new SWTDirtyManager();
 	private ComboViewer ratingTypeComboViewer;
 	private ComboViewer byePointsComboViewer;
 	private ComboViewer firstRoundColorViewer;
 	
-	public SwissDutchSettingsPage(ISettingObject settings, FormEditor editor, String id, String title) {
+	public SwissSimpleSettingsPage(ISettingObject settings, FormEditor editor, String id, String title) {
 		super(editor, id, title);
-		this.settings = (SwissDutchSettings)settings;
+		this.settings = (SwissSimpleSettings)settings;
 	}
 
 	/**

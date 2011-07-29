@@ -4,10 +4,10 @@
    <extension
          point="ch.jester.system.api.PairingAlgorithm">
       <PairingAlgorithm
-            class="ch.jester.system.swiss.dutch.SwissDutchPairingAlgorithm"
-            pluginId="ch.jester.system.swiss.dutch"
-            settingsPage="ch.jester.system.swiss.dutch.ui.SwissDutchSettingsPage"
-            shortType="Swiss-Dutch"
+            class="ch.jester.system.swiss.simple.SwissSimplePairingAlgorithm"
+            pluginId="ch.jester.system.swiss.simple"
+            settingsPage="ch.jester.system.swiss.simple.ui.SwissSimpleSettingsPage"
+            shortType="Swiss-Simple"
             typeDescription="%PairingAlgorithm.typeDescription">
       </PairingAlgorithm>
    </extension>

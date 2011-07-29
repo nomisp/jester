@@ -1,4 +1,4 @@
-package ch.jester.system.swiss.dutch;
+package ch.jester.system.swiss.simple;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,21 +33,21 @@ import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.exceptions.TournamentFinishedException;
 import ch.jester.system.pairing.impl.PairingHelper;
 import ch.jester.system.ranking.impl.RankingHelper;
-import ch.jester.system.swiss.dutch.internal.SwissDutchSystemActivator;
-import ch.jester.system.swiss.dutch.ui.SwissDutchSettingsPage;
-import ch.jester.system.swiss.dutch.ui.nl1.Messages;
-import ch.jester.system.swiss.dutch.util.FirstRoundColorPref;
-import ch.jester.system.swiss.dutch.util.PlayerComparator;
+import ch.jester.system.swiss.simple.internal.SwissSimpleSystemActivator;
+import ch.jester.system.swiss.simple.ui.SwissSimpleSettingsPage;
+import ch.jester.system.swiss.simple.ui.nl1.Messages;
+import ch.jester.system.swiss.simple.util.FirstRoundColorPref;
+import ch.jester.system.swiss.simple.util.PlayerComparator;
 
 /**
  * Paarungsalgorithmus für Paarungen nach Schweizer System
  * basierend auf dem Rating (Wertungszahl) (The Dutch System)
  * Beschreibung der FIDE: <link>http://www.fide.com/fide/handbook.html?id=83&view=article</link>
  */
-public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
+public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 	private ILogger mLogger;
 	private Category category;
-	private SwissDutchSettings settings;
+	private SwissSimpleSettings settings;
 	private ServiceUtility mServiceUtil = new ServiceUtility();
 	private List<Pairing> pairings = new ArrayList<Pairing>();
 	private List<List<PlayerCard>> scoreBrackets = new ArrayList<List<PlayerCard>>();
@@ -58,8 +58,8 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 //	private LinkedList<Card> pairedPlayers = new LinkedList<Card>();
 	private boolean pairDown;
 	
-	public SwissDutchPairingAlgorithm() {
-		mLogger = SwissDutchSystemActivator.getDefault().getActivationContext().getLogger();
+	public SwissSimplePairingAlgorithm() {
+		mLogger = SwissSimpleSystemActivator.getDefault().getActivationContext().getLogger();
 	}
 
 	@Override
@@ -820,13 +820,13 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 	 * @param tournament
 	 */
 	private void loadSettings(Tournament tournament) {
-		if (settings == null) settings = new SwissDutchSettings();
+		if (settings == null) settings = new SwissSimpleSettings();
 		IDaoService<SettingItem> settingItemPersister = mServiceUtil.getDaoServiceByEntity(SettingItem.class);
 		Query namedQuery = settingItemPersister.createNamedQuery("SettingItemByTournament"); //$NON-NLS-1$
 		namedQuery.setParameter("tournament", tournament); //$NON-NLS-1$
 		try {
 			SettingItem settingItem = (SettingItem)namedQuery.getSingleResult();
-			SettingHelper<SwissDutchSettings> settingHelper = new SettingHelper<SwissDutchSettings>();
+			SettingHelper<SwissSimpleSettings> settingHelper = new SettingHelper<SwissSimpleSettings>();
 			if (settingItem != null) settings = settingHelper.restoreSettingObject(settings, settingItem);
 		} catch (NoResultException e) {
 			// Nothing to do
@@ -837,6 +837,6 @@ public class SwissDutchPairingAlgorithm implements IPairingAlgorithm {
 	@Override
 	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor, Tournament tournament) {
 		if (settings == null) loadSettings(tournament);
-		return new SwissDutchSettingsPage(settings, editor, "SwissDutchSettingsPage", Messages.SwissDutchPairingAlgorithm_settingsPage_title); //$NON-NLS-1$
+		return new SwissSimpleSettingsPage(settings, editor, "SwissDutchSettingsPage", Messages.SwissDutchPairingAlgorithm_settingsPage_title); //$NON-NLS-1$
 	}
 }

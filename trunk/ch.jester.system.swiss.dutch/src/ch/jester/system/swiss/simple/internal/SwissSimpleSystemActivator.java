@@ -1,13 +1,13 @@
-package ch.jester.system.swiss.dutch.internal;
+package ch.jester.system.swiss.simple.internal;
 
 import org.osgi.framework.BundleContext;
 
 import ch.jester.common.activator.AbstractActivator;
 
-public class SwissDutchSystemActivator extends AbstractActivator {
+public class SwissSimpleSystemActivator extends AbstractActivator {
 	public static final String PLUGIN_ID = "ch.jester.system.swiss.dutch";
 	
-	private static SwissDutchSystemActivator mActivator;
+	private static SwissSimpleSystemActivator mActivator;
 
 	@Override
 	public void startDelegate(BundleContext pContext) {
@@ -21,7 +21,7 @@ public class SwissDutchSystemActivator extends AbstractActivator {
 		
 	}
 	
-	public static SwissDutchSystemActivator getDefault() {
+	public static SwissSimpleSystemActivator getDefault() {
 		return mActivator;
 	}
 }

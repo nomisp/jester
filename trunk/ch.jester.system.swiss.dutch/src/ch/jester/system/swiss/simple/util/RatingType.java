@@ -1,4 +1,4 @@
-package ch.jester.system.swiss.dutch.util;
+package ch.jester.system.swiss.simple.util;
 
 /**
  * Rating welches für die Paarungen verwendet wird

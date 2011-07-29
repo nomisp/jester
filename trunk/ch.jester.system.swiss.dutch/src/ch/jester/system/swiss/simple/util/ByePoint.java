@@ -1,4 +1,4 @@
-package ch.jester.system.swiss.dutch.util;
+package ch.jester.system.swiss.simple.util;
 
 /**
  * Punkte welche ein Spieler bei einem Freilos erhält.
