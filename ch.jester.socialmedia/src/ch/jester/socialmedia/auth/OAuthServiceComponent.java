@@ -4,14 +4,14 @@ package ch.jester.socialmedia.auth;
 
 import java.util.Map;
 
-import ch.jester.common.components.ComponentAdapter;
+import ch.jester.common.components.InjectedLogFactoryComponentAdapter;
 
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 
-public abstract class OAuthServiceComponent extends ComponentAdapter<IPreferenceRegistration> implements IPreferenceManagerProvider{
+public abstract class OAuthServiceComponent extends InjectedLogFactoryComponentAdapter<IPreferenceRegistration> implements IPreferenceManagerProvider{
 
 	protected IPreferenceManager mPreferenceManager;
 	protected IPreferenceProperty mAuthConsumerKey, mAuthConsumerSecret,
@@ -23,9 +23,8 @@ public abstract class OAuthServiceComponent extends ComponentAdapter<IPreference
 		return mPreferenceManager;
 	}
 	
-	@Override
+
 	public void bind(IPreferenceRegistration pT) {
-		super.bind(pT);
 		initPreferences(pT.createManager());
 	}
 
