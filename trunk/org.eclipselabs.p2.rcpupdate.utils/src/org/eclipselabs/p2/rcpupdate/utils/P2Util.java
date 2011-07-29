@@ -19,6 +19,7 @@ import org.eclipselabs.p2.rcpupdate.utils.plugin.Activator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
+import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
 
@@ -74,7 +75,16 @@ public class P2Util {
 				return;
 			}
 			if (updateStatus.getSeverity() != IStatus.ERROR)
-				PlatformUI.getWorkbench().restart();
+				UIUtility.syncExecInUIThread(new Runnable(){
+
+					@Override
+					public void run() {
+						PlatformUI.getWorkbench().restart();
+						
+					}
+					
+				});
+
 		} finally {
 			bundleContext.ungetService(reference);
 		}
