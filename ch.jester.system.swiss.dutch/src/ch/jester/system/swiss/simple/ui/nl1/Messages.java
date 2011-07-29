@@ -1,4 +1,4 @@
-package ch.jester.system.swiss.dutch.ui.nl1;
+package ch.jester.system.swiss.simple.ui.nl1;
 
 import org.eclipse.osgi.util.NLS;
 

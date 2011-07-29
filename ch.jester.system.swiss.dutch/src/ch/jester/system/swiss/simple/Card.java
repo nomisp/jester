@@ -1,4 +1,4 @@
-package ch.jester.system.swiss.dutch;
+package ch.jester.system.swiss.simple;
 
 import java.util.ArrayList;
 import java.util.List;

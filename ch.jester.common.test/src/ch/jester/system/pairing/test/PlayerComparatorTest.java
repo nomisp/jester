@@ -4,8 +4,8 @@ import ch.jester.common.test.internal.ActivatorProviderForTestCase;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 import ch.jester.model.Title;
-import ch.jester.system.swiss.dutch.util.PlayerComparator;
-import ch.jester.system.swiss.dutch.util.RatingType;
+import ch.jester.system.swiss.simple.util.PlayerComparator;
+import ch.jester.system.swiss.simple.util.RatingType;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;

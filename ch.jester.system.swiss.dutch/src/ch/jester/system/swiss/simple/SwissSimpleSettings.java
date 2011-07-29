@@ -1,21 +1,21 @@
-package ch.jester.system.swiss.dutch;
+package ch.jester.system.swiss.simple;
 
 import ch.jester.common.settings.ISettingObject;
-import ch.jester.system.swiss.dutch.util.ByePoint;
-import ch.jester.system.swiss.dutch.util.FirstRoundColorPref;
-import ch.jester.system.swiss.dutch.util.RatingType;
+import ch.jester.system.swiss.simple.util.ByePoint;
+import ch.jester.system.swiss.simple.util.FirstRoundColorPref;
+import ch.jester.system.swiss.simple.util.RatingType;
 
 /**
  * Einstellungen für Paarungen nach Schweizersystem basierend auf Rating (Dutch)
  *
  */
-public class SwissDutchSettings implements ISettingObject {
+public class SwissSimpleSettings implements ISettingObject {
 	
 	private RatingType ratingType;
 	private ByePoint byePoints;
 	private FirstRoundColorPref firstRoundColor;
 	
-	public SwissDutchSettings() {
+	public SwissSimpleSettings() {
 		this.ratingType = RatingType.ELO;
 		this.byePoints = ByePoint.ONE;
 		this.firstRoundColor = FirstRoundColorPref.WHITE;

@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Swiss-System (Dutch)
-Bundle-SymbolicName: ch.jester.system.swiss.dutch;singleton:=true
+Bundle-Name: Swiss-System (Simple)
+Bundle-SymbolicName: ch.jester.system.swiss.simple;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: ch.jester.system.swiss.dutch.internal.SwissDutchSystemActivator
+Bundle-Activator: ch.jester.system.swiss.simple.internal.SwissSimpleSystemActivator
 Bundle-Vendor: M.Liechti & P.Simon
 Require-Bundle: org.eclipse.core.runtime,
  ch.jester.common;bundle-version="1.0.0",
@@ -23,8 +23,8 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.persistence
-Export-Package: ch.jester.system.swiss.dutch,
- ch.jester.system.swiss.dutch.internal,
- ch.jester.system.swiss.dutch.ui,
- ch.jester.system.swiss.dutch.ui.nl1,
- ch.jester.system.swiss.dutch.util
+Export-Package: ch.jester.system.swiss.simple,
+ ch.jester.system.swiss.simple.internal,
+ ch.jester.system.swiss.simple.ui,
+ ch.jester.system.swiss.simple.ui.nl1,
+ ch.jester.system.swiss.simple.util
