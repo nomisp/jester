@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
@@ -258,6 +259,13 @@ public class Player extends AbstractModelBean<Player> {
 		return false;
 	}
 
+	@PreRemove
+	public void preRemove(){
+		int s = getClubs().size();
+		for(int i=0;i<s;i++){
+			getClubs().get(i).removePlayer(this);
+		}
+	}
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
