@@ -2,7 +2,7 @@
 <feature
       id="ch.jester.socialmedia.feature"
       label="Social Media Feature"
-      version="1.0.0.0"
+      version="1.0.0.qualifier"
       provider-name="M. Liechti &amp; P. Simon">
 
    <description url="http://www.example.com/description">
