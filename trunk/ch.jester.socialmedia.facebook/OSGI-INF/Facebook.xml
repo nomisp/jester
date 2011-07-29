@@ -5,4 +5,5 @@
    <service>
       <provide interface="ch.jester.socialmedia.facebook.FacebookService"/>
    </service>
+   <reference bind="bindLoggerFactory" cardinality="1..1" interface="ch.jester.commonservices.api.logging.ILoggerFactory" name="ILoggerFactory" policy="dynamic"/>
 </scr:component>

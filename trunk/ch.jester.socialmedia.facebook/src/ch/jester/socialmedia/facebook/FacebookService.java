@@ -15,7 +15,7 @@ import com.restfb.types.FacebookType;
 public class FacebookService extends OAuthServiceComponent implements ISocialStatusUpdater{
 	private FacebookClient facebookClient;
 	private FacebookAuthorisationFlow accessFlow;
-	private boolean sendRequest = false;
+	private boolean sendRequest = true;
 	private IPreferenceProperty expIn, expInTimeStamp;
 	@Override
 	public void initializeService() {
