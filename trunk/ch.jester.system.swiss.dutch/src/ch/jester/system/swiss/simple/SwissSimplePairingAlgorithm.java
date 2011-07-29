@@ -837,6 +837,6 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 	@Override
 	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor, Tournament tournament) {
 		if (settings == null) loadSettings(tournament);
-		return new SwissSimpleSettingsPage(settings, editor, "SwissDutchSettingsPage", Messages.SwissDutchPairingAlgorithm_settingsPage_title); //$NON-NLS-1$
+		return new SwissSimpleSettingsPage(settings, editor, "SwissSimpleSettingsPage", Messages.SwissSimplePairingAlgorithm_settingsPage_title); //$NON-NLS-1$
 	}
 }
