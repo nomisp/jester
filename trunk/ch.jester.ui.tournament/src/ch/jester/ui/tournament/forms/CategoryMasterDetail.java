@@ -1,5 +1,7 @@
 package ch.jester.ui.tournament.forms;
 
+import java.util.List;
+
 import messages.Messages;
 
 import org.eclipse.jface.action.Action;
@@ -10,6 +12,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -248,15 +251,51 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	public void save() {
 		categoryDetailsPage.commit(true);
 		roundDetailsPage.commit(true);
-		if (treeViewer != null) treeViewer.refresh();
+		//if (treeViewer != null) treeViewer.refresh();
 	}
 	
-	public void refresh() {
-		treeViewer.refresh();
+	private void refreshAndDirty() {
+			treeViewer.refresh();
+			setEditorDirty();
 	}
 
 	public boolean isValid(){
 		return categoryDetailsPage.isValid();
+	}
+
+
+	public void removeCategory(Category cat) {
+		tournament.removeCategory(cat);
+		treeViewer.setSelection(new StructuredSelection());
+		refreshAndDirty();
+		
+	}
+
+
+	public void addCategory(Category cat) {
+		tournament.addCategory(cat);
+		refreshAndDirty();
+		
+	}
+
+
+	public void addRound(Category category, Round round) {
+		category.addRound(round);
+		refreshAndDirty();
+		
+	}
+
+
+	public void removeRound(Category category, Round round) {
+		category.removeRound(round);
+		List<Round> rounds = category.getRounds();
+		if (rounds.size() > round.getNumber()) {	// Eine Runde zwischen drin wurde gelöscht. Nummern nachführen.
+			for (int i = round.getNumber()-1; i < rounds.size(); i++) {
+				rounds.get(i).setNumber(i+1);
+			}
+		}
+		refreshAndDirty();
+		
 	}
 	
 }

@@ -26,8 +26,6 @@ public class DeleteCategoryAction extends Action {
 
 	@Override
 	public void run() {
-		cat.getTournament().removeCategory(cat);
-		categoryMasterDetail.refresh();
-		categoryMasterDetail.setEditorDirty();
+		categoryMasterDetail.removeCategory(cat);
 	}
 }
