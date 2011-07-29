@@ -37,6 +37,9 @@ public class Pairing extends AbstractModelBean<Pairing> {
 	
 	@ManyToOne
 	private Round round;
+	
+	@Column
+	private Integer number;
 
 	/*@PreRemove
 	public void preRemove(){
@@ -92,6 +95,14 @@ public class Pairing extends AbstractModelBean<Pairing> {
 		if (round == null) throw new IllegalArgumentException("round cannot be null");
 		this.round = round;
 		this.round.addPairing(this);	// Bidirektionale Beziehung
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
 
 	@Override
