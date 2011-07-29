@@ -55,13 +55,13 @@ public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<Swis
 	protected void createFormContent(IManagedForm managedForm) {
 		FormToolkit toolkit = managedForm.getToolkit();
 		ScrolledForm form = managedForm.getForm();
-		form.setText(Messages.SwissDutchSettingsPage_title);
+		form.setText(Messages.SwissSimpleSettingsPage_title);
 		Composite body = form.getBody();
 		toolkit.decorateFormHeading(form.getForm());
 		toolkit.paintBordersFor(body);
 		managedForm.getForm().getBody().setLayout(new GridLayout(2, false));
 		
-		Label lblStartingnumbergeneration = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.SwissDutchSettingsPage_lbl_ratingType, SWT.NONE);
+		Label lblStartingnumbergeneration = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.SwissSimpleSettingsPage_lbl_ratingType, SWT.NONE);
 		GridData gd_lblStartingnumbergeneration = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd_lblStartingnumbergeneration.widthHint = 233;
 		lblStartingnumbergeneration.setLayoutData(gd_lblStartingnumbergeneration);
@@ -74,11 +74,11 @@ public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<Swis
 				RatingType type = (RatingType)element;
 				switch (type) {
 				case ELO:
-					return Messages.SwissDutchSettingsPage_elo;
+					return Messages.SwissSimpleSettingsPage_elo;
 				case NWZ:
-					return Messages.SwissDutchSettingsPage_nationalElo;
+					return Messages.SwissSimpleSettingsPage_nationalElo;
 				case ESTIMATED:
-					return Messages.SwissDutchSettingsPage_estimatedElo;
+					return Messages.SwissSimpleSettingsPage_estimatedElo;
 				default:
 					return type.toString();
 				}
@@ -93,7 +93,7 @@ public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<Swis
 		combo.setLayoutData(gd_combo);
 		managedForm.getToolkit().paintBordersFor(combo);
 		
-		Label lblByepoints = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.SwissDutchSettingsPage_lblByepoints_text, SWT.NONE);
+		Label lblByepoints = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.SwissSimpleSettingsPage_lblByepoints_text, SWT.NONE);
 		byePointsComboViewer = new ComboViewer(managedForm.getForm().getBody(), SWT.READ_ONLY);
 		byePointsComboViewer.setContentProvider(new ArrayContentProvider());
 		byePointsComboViewer.setLabelProvider(new LabelProvider() {
@@ -120,7 +120,7 @@ public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<Swis
 		byePointsCombo.setLayoutData(gd_byePointsCombo);
 		managedForm.getToolkit().paintBordersFor(byePointsCombo);
 		
-		Label lblFirstRoundColor = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.SwissDutchSettingsPage_lbl_FirstRoundColor, SWT.NONE);
+		Label lblFirstRoundColor = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.SwissSimpleSettingsPage_lbl_FirstRoundColor, SWT.NONE);
 		firstRoundColorViewer = new ComboViewer(managedForm.getForm().getBody(), SWT.READ_ONLY);
 		firstRoundColorViewer.setContentProvider(new ArrayContentProvider());
 		firstRoundColorViewer.setLabelProvider(new LabelProvider() {
@@ -129,13 +129,13 @@ public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<Swis
 				FirstRoundColorPref colorPref = (FirstRoundColorPref)element;
 				switch (colorPref) {
 				case WHITE:
-					return Messages.SwissDutchSettingsPage_white;
+					return Messages.SwissSimpleSettingsPage_white;
 				case BLACK:
-					return Messages.SwissDutchSettingsPage_black;
+					return Messages.SwissSimpleSettingsPage_black;
 				case RANDOM:
-					return Messages.SwissDutchSettingsPage_random;
+					return Messages.SwissSimpleSettingsPage_random;
 				default:
-					return Messages.SwissDutchSettingsPage_white;
+					return Messages.SwissSimpleSettingsPage_white;
 				}
 			}
 		});
