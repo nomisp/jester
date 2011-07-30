@@ -2,6 +2,8 @@ package ch.jester.rcpapplication;
 
 import java.io.IOException;
 
+import messages.Messages;
+
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
@@ -11,9 +13,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipselabs.p2.rcpupdate.utils.P2Util;
 
-/**
- * This class controls all aspects of the application's execution
- */
 public class Application implements IApplication {
 	public Object start(IApplicationContext context) {
 		boolean locked = false;
@@ -25,7 +24,7 @@ public class Application implements IApplication {
 		}
 		Display display = PlatformUI.createDisplay();
 		if(!locked){
-			MessageDialog.openError(display.getActiveShell(), "Error", "Jester is already running!");
+			MessageDialog.openError(display.getActiveShell(), Messages.Application_running_title, Messages.Application_running_text);
 			return IApplication.EXIT_OK;
 		}
 		try {
@@ -41,9 +40,6 @@ public class Application implements IApplication {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.equinox.app.IApplication#stop()
-	 */
 	public void stop() {
 		if (!PlatformUI.isWorkbenchRunning())
 			return;
@@ -59,7 +55,7 @@ public class Application implements IApplication {
 
 	private void setupJester() {
 		//adding repos
-		P2Util.addRepository("http://jester.googlecode.com/svn/jesterrepo");
+		P2Util.addRepository("http://jester.googlecode.com/svn/jesterrepo"); //$NON-NLS-1$
 		
 	}
 
