@@ -205,6 +205,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		this.started = started;
 	}
 
+	@XmlTransient
 	public SettingItem getSettingItem() {
 		return settingItem;
 	}

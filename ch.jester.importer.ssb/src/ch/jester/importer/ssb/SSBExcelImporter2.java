@@ -130,7 +130,9 @@ public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 		
 		
 		//SSB = Schweiz
-		vnew.setNation(CODED_NATIONALITY);
+		if(vnew.getNation()==null||vnew.getNation().isEmpty()){
+			vnew.setNation(CODED_NATIONALITY);
+		}
 		
 		//Club
 		String clubInputId = super.mInputLinking.get("club");

@@ -187,6 +187,7 @@ public class Category extends AbstractModelBean<Category> {
 		this.tournament = tournament;
 	}
 
+	@XmlTransient
 	public FinalRanking getRanking() {
 		return ranking;
 	}

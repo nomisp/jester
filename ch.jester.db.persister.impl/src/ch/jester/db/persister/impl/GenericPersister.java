@@ -11,6 +11,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Query;
 import javax.persistence.RollbackException;
 
@@ -71,6 +73,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		}
 		mPagingQuery = getPagingQuery();
 		mCountQuery = getCountQuery();
+		
 /*		if(mEventQueue==null){
 			mEventQueue = Activator.getDefault().getActivationContext().getService(IPersistencyEventQueue.class);
 		}*/
@@ -286,7 +289,16 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		return null;
 	}
 	protected Query getCountQuery(){
-		return null;
+		NamedQueries queries = mClz.getAnnotation(NamedQueries.class);
+		NamedQuery[] nqueries = queries.value();
+		boolean createQuery = false;
+		for(NamedQuery nq:nqueries){
+			if(nq.name().equals(mClz.getSimpleName()+".count")){
+				createQuery=true;
+				break;
+			}
+		}
+		return createQuery?getManager().createNamedQuery(mClz.getSimpleName()+".count"):null;
 	}
 	
 	public Query createQuery(String query) {

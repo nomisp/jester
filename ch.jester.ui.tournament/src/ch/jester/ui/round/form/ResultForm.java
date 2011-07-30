@@ -63,6 +63,10 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 				if(selected==null || selected.getResult()!=result){
 					mViewer.setSelection(new StructuredSelection(result.toResultCombinationForPairing()));
 				}
+			}else{
+				Result rr = Result.findByShortResult(mPairing.getResult());
+				if(rr==null){return;}
+				mViewer.setSelection(new StructuredSelection(rr.toResultCombinationForPairing()));
 			}
 		}
 		
@@ -184,6 +188,7 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		mController.addPropertyChangeListener("changedResults",setter); //$NON-NLS-1$
 		
 		mController.getSWTDirtyManager().add(viewer.getControl());
+		//Result rsaved = mController.getChangedResults().get(p);
 		
 	}
 	public void dispose(){

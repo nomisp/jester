@@ -43,12 +43,10 @@ public class Player extends AbstractModelBean<Player> {
 	private static final long serialVersionUID = -2351315088207630377L;
 
 	@Column(name = "FirstName", nullable = false, length = 50)
-	// @org.hibernate.validator.constraints.Length(min=2, max=50)
 	@NotNull
 	private String firstName;
 
 	@Column(name = "LastName", nullable = false, length = 50)
-	// @org.hibernate.validator.constraints.Length(min=2, max=50)
 	@NotNull
 	private String lastName;
 	
@@ -59,7 +57,6 @@ public class Player extends AbstractModelBean<Player> {
 	@Column(name = "Nation", nullable = true, length = 50)
 	private String nation;
 
-	//@org.hibernate.annotations.Index(name = "IDX_FIDEINDEX")
 	@Column(name = "FideCode", nullable = true)
 	private Integer fideCode;
 
