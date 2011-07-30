@@ -5,7 +5,7 @@
          point="org.eclipse.ui.exportWizards">
       <wizard
             category="ch.jester.player"
-            class="ch.jester.ui.exporter.PlayerXMLExporter"
+            class="ch.jester.ui.exporter.XMLExporter"
             icon="icons/icon16x16.png"
             id="ch.jester.ui.export.jester"
             name="Jester">

@@ -110,6 +110,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		changeProperty("number", number);
 	}
 
+	@XmlTransient
 	public Double getPoints() {
 		return points;
 	}
@@ -277,6 +278,7 @@ public class PlayerCard extends AbstractModelBean<PlayerCard> {
 		}
 	}
 
+	@XmlTransient
 	public String getRoundPoints() {
 		return roundPoints;
 	}
