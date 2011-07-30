@@ -215,7 +215,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> implements ITou
 			}
 		}
 		if(pairingAlgorithm instanceof ITournamentEditorConstraintsProvider){
-			algorithmConstraints = ((ITournamentEditorConstraintsProvider)pairingAlgorithm).getTournamentEditorConstraints();
+			//algorithmConstraints = ((ITournamentEditorConstraintsProvider)pairingAlgorithm).getTournamentEditorConstraints();
 		}
 		
 		return pairingAlgorithm != null ? pairingAlgorithm.getSettingsFormPage(this, tourn) : null;

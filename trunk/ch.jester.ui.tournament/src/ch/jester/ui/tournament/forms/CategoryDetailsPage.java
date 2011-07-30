@@ -52,6 +52,7 @@ public class CategoryDetailsPage implements IDetailsPage {
 		public void modifyText(ModifyEvent e) {
 			masterDetailsBlock.setEditorDirty();
 			dirty = true;
+			//m_bindingContext.updateModels();
 		}
 	};
 	
@@ -68,16 +69,17 @@ public class CategoryDetailsPage implements IDetailsPage {
 		if (category != null) {
 			if (onSave) {
 //				category.setDescription(description.getText());
-				m_bindingContext.updateModels();
+				//m_bindingContext.updateModels();
 			} else {
-				updateUI();
+				//updateUI();
 			}
 		}
 	}
 
 	@Override
 	public void dispose() {
-
+		
+		m_bindingContext.dispose();
 	}
 
 	@Override
@@ -98,7 +100,6 @@ public class CategoryDetailsPage implements IDetailsPage {
 	@Override
 	public void refresh() {
 		removeListeners();
-		updateUI();
 		addListeners();
 	}
 
@@ -110,13 +111,6 @@ public class CategoryDetailsPage implements IDetailsPage {
 	@Override
 	public boolean setFormInput(Object input) {
 		return false;
-	}
-
-	public void updateModel(){
-		m_bindingContext.updateModels();
-	}
-	public void updateUI(){
-		m_bindingContext.updateTargets();
 	}
 
 	@SuppressWarnings("unused")
@@ -171,6 +165,13 @@ public class CategoryDetailsPage implements IDetailsPage {
 		
 //		dm.add(description);
 	}
+	
+	public void setCategory(Category cat){
+		if(m_bindingContext!=null){
+			m_bindingContext.dispose();
+		}
+		category = cat;
+	}
 
 	public boolean isValid(){
 		if(fieldConstraints!=null){
@@ -183,7 +184,9 @@ public class CategoryDetailsPage implements IDetailsPage {
 		IStructuredSelection ssel = (IStructuredSelection)selection;
 		if (ssel.size()==1) {
 			category = (Category)ssel.getFirstElement();
+			removeListeners();
 			m_bindingContext = initDataBindings();
+			addListeners();
 		}
 		else {
 			category = null;
@@ -196,19 +199,19 @@ public class CategoryDetailsPage implements IDetailsPage {
 		//
 		IObservableValue descriptionObserveTextObserveWidget = SWTObservables.observeText(description, SWT.Modify);
 		IObservableValue categoryDescriptionObserveValue = BeansObservables.observeValue(category, "description"); //$NON-NLS-1$
-		bindingContext.bindValue(descriptionObserveTextObserveWidget, categoryDescriptionObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+		bindingContext.bindValue(descriptionObserveTextObserveWidget, categoryDescriptionObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE), null);
 		IObservableValue minEloObserveTextObserveWidget = SWTObservables.observeText(minElo, SWT.Modify);
 		IObservableValue categoryMinEloObserveValue = BeansObservables.observeValue(category, "minElo"); //$NON-NLS-1$
-		bindingContext.bindValue(minEloObserveTextObserveWidget, categoryMinEloObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+		bindingContext.bindValue(minEloObserveTextObserveWidget, categoryMinEloObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE), null);
 		IObservableValue maxEloObserveTextObserveWidget = SWTObservables.observeText(maxElo, SWT.Modify);
 		IObservableValue categoryMaxEloObserveValue = BeansObservables.observeValue(category, "maxElo"); //$NON-NLS-1$
-		bindingContext.bindValue(maxEloObserveTextObserveWidget, categoryMaxEloObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+		bindingContext.bindValue(maxEloObserveTextObserveWidget, categoryMaxEloObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE), null);
 		IObservableValue minAgeObserveTextObserveWidget = SWTObservables.observeText(minAge, SWT.Modify);
 		IObservableValue categoryMinAgeObserveValue = BeansObservables.observeValue(category, "minAge"); //$NON-NLS-1$
-		bindingContext.bindValue(minAgeObserveTextObserveWidget, categoryMinAgeObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+		bindingContext.bindValue(minAgeObserveTextObserveWidget, categoryMinAgeObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE), null);
 		IObservableValue maxAgeObserveTextObserveWidget = SWTObservables.observeText(maxAge, SWT.Modify);
 		IObservableValue categoryMaxAgeObserveValue = BeansObservables.observeValue(category, "maxAge"); //$NON-NLS-1$
-		bindingContext.bindValue(maxAgeObserveTextObserveWidget, categoryMaxAgeObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+		bindingContext.bindValue(maxAgeObserveTextObserveWidget, categoryMaxAgeObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE), null);
 		//
 		return bindingContext;
 	}

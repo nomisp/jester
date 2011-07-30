@@ -1,5 +1,7 @@
 package ch.jester.ui.tournament.forms;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import messages.Messages;
@@ -8,12 +10,14 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.IElementComparer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -31,7 +35,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
+import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.utility.UIUtility;
+import ch.jester.model.AbstractModelBean;
 import ch.jester.model.Category;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
@@ -52,6 +58,8 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	private TreeViewer treeViewer;
 	private Tournament tournament;
 	private CategoryMasterDetail categoryMDBlock = this;
+	private PropertyChangeListener refresher = new PropertyListener();
+	private AbstractModelBean<?> oldBean = null;
 
 	/**
 	 * Create the master details block.
@@ -117,6 +125,21 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		});
 		
 		treeViewer = new TreeViewer(tree);
+		
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			SelectionUtility su = new SelectionUtility(null);
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				
+				su.setSelection(event.getSelection());
+				if(su.getSelection()!=null){
+					addPropertyListener(su.getFirstSelectedAs(AbstractModelBean.class));
+				}
+				
+			}
+		
+		});
+		
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				applyConstraintsForButtons(event.getSelection());
@@ -126,12 +149,32 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		});
 		treeViewer.setContentProvider(new TournamentTreeContentProvider());
 		treeViewer.setLabelProvider(new TournamentLabelProvider());
+		treeViewer.setSorter(new ViewerSorter());
+		
+		
 		treeViewer.setInput(tournament);
 		treeViewer.expandAll();
+
+		
 		btAdd.setEnabled(this.page.getTournamentEditorConstraints().canAddCategories);
 		btRemove.setEnabled(this.page.getTournamentEditorConstraints().canRemoveCategories);
-		
+		treeViewer.expandAll();
 //		createContextMenu();
+	}
+	private void addPropertyListener(AbstractModelBean bean) {
+		if(bean instanceof Category){
+			categoryDetailsPage.setCategory((Category) bean);
+		}
+		if(bean instanceof Round){
+			roundDetailsPage.setRound((Round) bean);
+		}
+		if(oldBean!=null){
+			oldBean.removePropertyChangeListener(refresher);
+		}
+		if(bean!=null){
+			bean.addPropertyChangeListener(refresher);
+		}
+		oldBean = bean;
 	}
 	private void applyConstraintsForButtons(ISelection selection){
 		Object selected = ((IStructuredSelection) selection).getFirstElement();
@@ -249,8 +292,25 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	}
 	
 	public void save() {
+		ISelection oldSelection = null;
+		if(treeViewer!=null){
+			oldSelection = treeViewer.getSelection();
+			treeViewer.setSelection(new StructuredSelection());
+			if(((IStructuredSelection)oldSelection).getFirstElement() instanceof AbstractModelBean){
+				AbstractModelBean bean = (AbstractModelBean) ((IStructuredSelection)oldSelection).getFirstElement();
+				if(bean.isUnsafed()){
+					oldSelection = null;
+					
+				}
+			}
+			
+		}
 		categoryDetailsPage.commit(true);
 		roundDetailsPage.commit(true);
+		if(treeViewer!=null&&oldSelection!=null){
+			treeViewer.setSelection(oldSelection);
+		}
+		//treeViewer.setSelection(oldSelection);
 		//if (treeViewer != null) treeViewer.refresh();
 	}
 	
@@ -282,6 +342,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 	public void addRound(Category category, Round round) {
 		category.addRound(round);
 		refreshAndDirty();
+		treeViewer.expandToLevel(category, 1);
 		
 	}
 
@@ -297,5 +358,13 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		refreshAndDirty();
 		
 	}
-	
+	class PropertyListener implements PropertyChangeListener{
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			treeViewer.refresh(evt.getSource(), true);
+			
+		}
+		
+	}
 }
