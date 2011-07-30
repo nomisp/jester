@@ -41,8 +41,7 @@ public class Round extends AbstractModelBean<Round> implements Comparable<Round>
 	@XmlTransient private List<Pairing> pairings = new ArrayList<Pairing>(){
 		public boolean add(Pairing arg0) {
 			System.out.println("adding Pairing "+arg0);
-			return super.add(arg0);
-			
+			return !pairings.contains(arg0) ? super.add(arg0) : false;
 		};
 	};
 	
