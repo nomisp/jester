@@ -11,6 +11,8 @@ import ch.jester.model.Tournament;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
+import ch.jester.system.exceptions.NoPlayersException;
+import ch.jester.system.exceptions.NoRoundsException;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.exceptions.TournamentFinishedException;
@@ -27,13 +29,13 @@ public class DefaultPairingManager extends AbstractEPComponent<IPairingAlgorithm
 
 	@Override
 	public List<Pairing> doPairings(Tournament tournament, IPairingAlgorithmEntry pairingAlgorithm,
-			IProgressMonitor progressMonitor) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException {
+			IProgressMonitor progressMonitor) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException, NoRoundsException, NoPlayersException {
 		return pairingAlgorithm.getService().executePairings(tournament);
 	}
 
 	@Override
 	public List<Pairing> doPairings(Category category, IPairingAlgorithmEntry pairingAlgorithm,
-			IProgressMonitor progressMonitor) throws PairingNotPossibleException, NotAllResultsException, TournamentFinishedException {
+			IProgressMonitor progressMonitor) throws PairingNotPossibleException, NotAllResultsException, TournamentFinishedException, NoRoundsException, NoPlayersException {
 		return pairingAlgorithm.getService().executePairings(category);
 	}
 

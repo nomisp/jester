@@ -9,6 +9,8 @@ import ch.jester.model.Category;
 import ch.jester.model.Pairing;
 import ch.jester.model.Tournament;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
+import ch.jester.system.exceptions.NoPlayersException;
+import ch.jester.system.exceptions.NoRoundsException;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.exceptions.TournamentFinishedException;
@@ -27,8 +29,10 @@ public interface IPairingAlgorithm {
 	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 * @throws PairingNotPossibleException Paarungsauslosung kann nicht durchgeführt werden z.B. sind weder Runden noch Spieler zugewiesen
 	 * @throws TournamentFinishedException 
+	 * @throws NoRoundsException 
+	 * @throws NoPlayersException 
 	 */
-	public List<Pairing> executePairings(Tournament tournament) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException;
+	public List<Pairing> executePairings(Tournament tournament) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException, NoRoundsException, NoPlayersException;
 	
 	/**
 	 * Ausführen der Paarungen einer einzelnen Kategorie
@@ -37,8 +41,10 @@ public interface IPairingAlgorithm {
 	 * @throws NotAllResultsException Es fehlen noch Resultate um die Rangliste zu erstellen
 	 * @throws PairingNotPossibleException Paarungsauslosung kann nicht durchgeführt werden z.B. sind weder Runden noch Spieler zugewiesen
 	 * @throws TournamentFinishedException 
+	 * @throws NoRoundsException 
+	 * @throws NoPlayersException 
 	 */
-	public List<Pairing> executePairings(Category category) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException;
+	public List<Pairing> executePairings(Category category) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException, NoRoundsException, NoPlayersException;
 	
 	/**
 	 * Liefert die Settings-Form-Page für das entsprechende Paarungssystem 
