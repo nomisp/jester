@@ -74,26 +74,6 @@ public class RoundEditor extends AbstractEditor<IEntityObject> {
 		return null;
 	}
 	
-	public void init_0(Object parent) {
-		/*mTournamentPage = (TournamentFormPage) parent;
-		mTournamentController = mTournamentPage.getController();			
-		mTournamentController.setTournament(mDaoInput.getInput());	
-		mTournamentController.getDirtyManager().setDirty(mDaoInput.isAlreadyDirty());
-		setDaoService(super.getServiceUtil().getDaoServiceByEntity(Tournament.class));
-		
-		setDirtyManager(mTournamentController.getDirtyManager());
-		getDirtyManager().addDirtyListener(this);
-		mTournamentController.getDirtyManager().addDirtyListener(new IDirtyListener() {
-			@Override
-			public void propertyIsDirty() {
-				setPartName(mTournamentPage.getNameText().getText());
-				
-			}
-		});
-		setPartName(mTournamentPage.getNameText().getText()+", "+mTournamentPage.getDescriptionText().getText());*/
-	
-	}
-	
 	@Override
 	public void dispose() {
 		mController.dispose();

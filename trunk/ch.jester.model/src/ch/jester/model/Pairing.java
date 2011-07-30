@@ -9,7 +9,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlType;
 
 import ch.jester.model.util.Result;
 
@@ -21,6 +23,7 @@ import ch.jester.model.util.Result;
 	@NamedQuery(name="PairingsByPlayerCardAndCategory", query="select p from Pairing p where :player = p.white or :player = p.black and p.round.category = :category"),
 	@NamedQuery(name="PairingsByPlayerCardAndTournament", query="select p from Pairing p where :player = p.white or :player = p.black and p.round.category.tournament = :tournament")
 })
+@XmlType(propOrder={"white","black","result","round"})
 public class Pairing extends AbstractModelBean<Pairing> {
 	private static final long serialVersionUID = -5183089936204591328L;
 	
@@ -69,6 +72,9 @@ public class Pairing extends AbstractModelBean<Pairing> {
 	}
 
 	public void setResult(String result) {
+		//unmarshalling problem hier.
+		//pc white und black werden nicht miteinander gesetzt.
+		//daher gibts silent npe... sehr geschickt.
 		if(this.result!=null){
 			//modify result
 			Result oldResult = Result.findByShortResult(this.result);
@@ -79,8 +85,9 @@ public class Pairing extends AbstractModelBean<Pairing> {
 		} else {
 			Result r = Result.findByShortResult(result);
 			Double blackpoints = r.getPointsBlack();
-			Double whitepoints = r.getPointsWhite();
 			this.getBlack().addResult(blackpoints);
+			
+			Double whitepoints = r.getPointsWhite();
 			this.getWhite().addResult(whitepoints);
 		}
 		this.result = result;
@@ -94,9 +101,12 @@ public class Pairing extends AbstractModelBean<Pairing> {
 	public void setRound(Round round) {
 		if (round == null) throw new IllegalArgumentException("round cannot be null");
 		this.round = round;
-		this.round.addPairing(this);	// Bidirektionale Beziehung
+		if(!this.round.getPairings().contains(this)){
+			this.round.addPairing(this);	// Bidirektionale Beziehung
+		}
 	}
 
+	@XmlAttribute
 	public Integer getNumber() {
 		return number;
 	}
@@ -105,6 +115,9 @@ public class Pairing extends AbstractModelBean<Pairing> {
 		this.number = number;
 	}
 
+//	public void afterUnmarshal(Unmarshaller u, Object parent) {
+	 //   this.round = (Round)parent;
+ //}
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return createCompleteClone();

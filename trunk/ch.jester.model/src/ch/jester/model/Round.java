@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -37,7 +38,13 @@ public class Round extends AbstractModelBean<Round> implements Comparable<Round>
 	private Category category;
 	
 	@OneToMany(mappedBy="round", cascade={CascadeType.ALL}, orphanRemoval=true)
-	private List<Pairing> pairings = new ArrayList<Pairing>();
+	@XmlTransient private List<Pairing> pairings = new ArrayList<Pairing>(){
+		public boolean add(Pairing arg0) {
+			System.out.println("adding Pairing "+arg0);
+			return super.add(arg0);
+			
+		};
+	};
 	
 	@Column(name="Date", nullable=true)
 	@Temporal(TemporalType.DATE)
@@ -63,23 +70,28 @@ public class Round extends AbstractModelBean<Round> implements Comparable<Round>
 		this.category = category;
 	}
 
+	@XmlElement(name="pairing")
 	public List<Pairing> getPairings() {
 		return pairings;
 	}
-
 	public void setPairings(List<Pairing> pairings) {
 		this.pairings = pairings;
 	}
 	
 	public void addPairing(Pairing pairing) {
 		if (pairing == null) throw new IllegalArgumentException("pairing may not be null");
-		if (!this.pairings.contains(pairing)) this.pairings.add(pairing);
-		if (pairing.getRound() != this) pairing.setRound(this);
+		if (!this.pairings.contains(pairing)){
+			this.pairings.add(pairing);
+		}
+		if (pairing.getRound() != this){
+			pairing.setRound(this);
+		}
 	}
 
 	public void removePairing(Pairing pairing) {
 		if (pairing == null) throw new IllegalArgumentException("pairing may not be null");
 		this.pairings.remove(pairing);
+		
 		/*if(removed){
 			category.re
 		}*/
