@@ -78,8 +78,9 @@ public class CategoryDetailsPage implements IDetailsPage {
 
 	@Override
 	public void dispose() {
-		
-		m_bindingContext.dispose();
+		if(m_bindingContext!=null){
+			m_bindingContext.dispose();
+		}
 	}
 
 	@Override
