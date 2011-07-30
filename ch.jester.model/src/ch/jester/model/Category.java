@@ -2,6 +2,7 @@ package ch.jester.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -69,7 +70,7 @@ public class Category extends AbstractModelBean<Category> {
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		changeProperty("description", description);
 	}
 
 	public Integer getMinElo() {
@@ -77,7 +78,7 @@ public class Category extends AbstractModelBean<Category> {
 	}
 
 	public void setMinElo(Integer minElo) {
-		this.minElo = minElo;
+		changeProperty("minElo", minElo);
 	}
 
 	public Integer getMaxElo() {
@@ -85,7 +86,7 @@ public class Category extends AbstractModelBean<Category> {
 	}
 
 	public void setMaxElo(Integer maxElo) {
-		this.maxElo = maxElo;
+		changeProperty("maxElo", maxElo);
 	}
 
 	public Integer getMinAge() {
@@ -93,7 +94,7 @@ public class Category extends AbstractModelBean<Category> {
 	}
 
 	public void setMinAge(Integer minAge) {
-		this.minAge = minAge;
+		changeProperty("minAge", minAge);
 	}
 
 	public Integer getMaxAge() {
@@ -101,7 +102,7 @@ public class Category extends AbstractModelBean<Category> {
 	}
 
 	public void setMaxAge(Integer maxAge) {
-		this.maxAge = maxAge;
+		changeProperty("maxAge", maxAge);
 	}
 
 	public Integer getMaxRounds() {
@@ -124,6 +125,7 @@ public class Category extends AbstractModelBean<Category> {
 		if (round == null) throw new IllegalArgumentException("round may not be null");
 		if (!this.rounds.contains(round)) this.rounds.add(round);
 		if (round.getCategory() != this) round.setCategory(this);
+		Collections.sort(rounds);
 	}
 	
 	public void removeRound(Round round) {

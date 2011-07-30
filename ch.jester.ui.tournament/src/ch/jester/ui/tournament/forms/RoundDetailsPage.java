@@ -25,7 +25,9 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
+import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
+import ch.jester.model.Category;
 import ch.jester.model.Round;
 
 /**
@@ -137,6 +139,22 @@ public class RoundDetailsPage implements IDetailsPage {
 		new Label(client, SWT.NONE);
 		
 		dm.add(date);
+		
+		dm.addDirtyListener(new IDirtyListener() {
+			
+			@Override
+			public void propertyIsDirty() {
+				masterDetailsBlock.setEditorDirty();
+				
+			}
+		});
+	}
+	
+	public void setRound(Round r){
+		if(m_bindingContext!=null){
+			m_bindingContext.dispose();
+		}
+		round = r;
 	}
 
 	@Override
@@ -157,7 +175,7 @@ public class RoundDetailsPage implements IDetailsPage {
 		//
 		IObservableValue dateWidget = SWTObservables.observeSelection(date);
 		IObservableValue dateValue = BeansObservables.observeValue(round, "date");
-		bindingContext.bindValue(dateWidget, dateValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+		bindingContext.bindValue(dateWidget, dateValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE), null);
 		//
 		return bindingContext;
 	}

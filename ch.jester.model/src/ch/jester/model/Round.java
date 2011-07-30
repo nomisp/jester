@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name="FinishedRoundsByCategory", query="select distinct r from Round r join fetch r.pairings p where r.category = :category and p.result is not null order by r.number"),
 	@NamedQuery(name="FinishedRoundsWithoutRankingByCategory", query="select distinct r from Round r join fetch r.pairings p where r.category = :category and p.result is not null and r.ranking is null order by r.number")
 })
-public class Round extends AbstractModelBean<Round> {
+public class Round extends AbstractModelBean<Round> implements Comparable<Round> {
 	private static final long serialVersionUID = 6672346214824111918L;
 	
 	@Column(name="RoundNumber", nullable=false)
@@ -51,7 +51,7 @@ public class Round extends AbstractModelBean<Round> {
 	}
 
 	public void setNumber(Integer number) {
-		this.number = number;
+		changeProperty("number", number);
 	}
 
 	@XmlIDREF
@@ -96,7 +96,7 @@ public class Round extends AbstractModelBean<Round> {
 	}
 
 	public void setDate(Date date) {
-		this.date = date;
+		changeProperty("date", date);
 	}
 
 	@XmlTransient
@@ -112,5 +112,11 @@ public class Round extends AbstractModelBean<Round> {
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return createCompleteClone();
+	}
+
+	@Override
+	public int compareTo(Round arg0) {
+		if(arg0.number == number){return 0;};
+		return number<arg0.number?-1:1;
 	}
 }
