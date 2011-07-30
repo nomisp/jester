@@ -204,10 +204,10 @@ public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 		managedForm.getToolkit().adapt(lblEstEl, true, true);
 		lblEstEl.setText(Messages.PlayerFormPage_estimated_elo);
 		
-		estimatedEloText = new Text(composite_3, SWT.NONE);
+		estimatedEloText = managedForm.getToolkit().createText(composite_3, "New Text", SWT.NONE); //$NON-NLS-1$
 		estimatedEloText.setText("");
 		estimatedEloText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		managedForm.getToolkit().adapt(estimatedEloText, true, true);
+		//managedForm.getToolkit().adapt(estimatedEloText, true, true);
 		
 		lblClub = new Label(composite_3, SWT.NONE);
 		managedForm.getToolkit().adapt(lblClub, true, true);
