@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlTransient;
@@ -38,9 +39,14 @@ public class Round extends AbstractModelBean<Round> implements Comparable<Round>
 	private Category category;
 	
 	@OneToMany(mappedBy="round", cascade={CascadeType.ALL}, orphanRemoval=true)
-	@XmlTransient private List<Pairing> pairings = new ArrayList<Pairing>(){
+	private List<Pairing> pairings = new ArrayList<Pairing>(){
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -305988702197458336L;
+
 		public boolean add(Pairing arg0) {
-			System.out.println("adding Pairing "+arg0);
+			//System.out.println("adding Pairing "+arg0);
 			return !pairings.contains(arg0) ? super.add(arg0) : false;
 		};
 	};
@@ -61,6 +67,7 @@ public class Round extends AbstractModelBean<Round> implements Comparable<Round>
 	}
 
 	@XmlIDREF
+	@XmlAttribute(name="categoryRef")
 	public Category getCategory() {
 		return category;
 	}

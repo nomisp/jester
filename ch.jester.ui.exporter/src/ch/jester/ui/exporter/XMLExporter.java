@@ -17,10 +17,10 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
-public class PlayerXMLExporter extends Wizard implements IExportWizard {
-	PlayerXMLPage firstPage = new PlayerXMLPage();
+public class XMLExporter extends Wizard implements IExportWizard {
+	XMLPage firstPage = new XMLPage(this);
 	public final static String EXPORT_ZIP_ENTRY = "jester-export.xml";
-	public PlayerXMLExporter() {
+	public XMLExporter() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -28,6 +28,11 @@ public class PlayerXMLExporter extends Wizard implements IExportWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		super.setNeedsProgressMonitor(true);
 
+	}
+	
+	@Override
+	public boolean canFinish() {
+		return firstPage.canFinish();
 	}
 
 	@Override
@@ -72,6 +77,7 @@ public class PlayerXMLExporter extends Wizard implements IExportWizard {
 		}
 		return true;
 	}
+
 
 
 }

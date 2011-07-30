@@ -10,6 +10,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlType;
 
@@ -51,6 +52,8 @@ public class Pairing extends AbstractModelBean<Pairing> {
 		
 	}*/
 
+	@XmlIDREF
+	@XmlElement(name="whiteRef")
 	public PlayerCard getWhite() {
 		return white;
 	}
@@ -59,6 +62,8 @@ public class Pairing extends AbstractModelBean<Pairing> {
 		this.white = white;
 	}
 
+	@XmlIDREF
+	@XmlElement(name="blackRef")
 	public PlayerCard getBlack() {
 		return black;
 	}
@@ -67,6 +72,7 @@ public class Pairing extends AbstractModelBean<Pairing> {
 		this.black = black;
 	}
 
+	@XmlElement(name="result")
 	public String getResult() {
 		return result;
 	}
@@ -94,6 +100,7 @@ public class Pairing extends AbstractModelBean<Pairing> {
 	}
 
 	@XmlIDREF
+	@XmlAttribute(name="roundRef")
 	public Round getRound() {
 		return round;
 	}
@@ -125,9 +132,17 @@ public class Pairing extends AbstractModelBean<Pairing> {
 	
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(white.toString());
+		if(white!=null){
+			sb.append(white.toString());
+		}else{
+			sb.append("?");
+		}
 		sb.append(" vs ");
-		sb.append(black.toString());
+		if(black!=null){
+			sb.append(black.toString());
+		}else{
+			sb.append("?");
+		}
 		return sb.toString();
 	}
 }

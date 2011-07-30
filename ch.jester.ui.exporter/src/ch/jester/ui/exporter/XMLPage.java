@@ -13,6 +13,8 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
@@ -27,20 +29,23 @@ import ch.jester.model.Tournament;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
-public class PlayerXMLPage extends WizardPage {
+public class XMLPage extends WizardPage {
 	private Text text;
 	private HashMap<String, Class<?>> mMap = new HashMap<String, Class<?>>();
-	private Class<?>[] mSelectedClasses;
+	private Class<?>[] mSelectedClasses = new Class[]{};
 	private ListViewer listViewer;
+	private XMLExporter exporter;
 	/**
 	 * Create the wizard.
+	 * @param playerXMLExporter 
 	 */
-	public PlayerXMLPage() {
+	public XMLPage(XMLExporter playerXMLExporter) {
 		super("wizardPage"); //$NON-NLS-1$
 		setTitle(Messages.PlayerXMLPage_lbl_export);
 		setDescription(Messages.PlayerXMLPage_lbl_export_data);
 		//mMap.put("Players", Player.class);
 		mMap.put(Messages.PlayerXMLPage_lbl_tournament, Tournament.class);
+		exporter = playerXMLExporter;
 	}
 
 	/**
@@ -99,6 +104,7 @@ public class PlayerXMLPage extends WizardPage {
 					values.add(mMap.get(key.toString()));
 				}
 				mSelectedClasses=values.toArray(new Class[values.size()]);
+				exporter.getContainer().updateButtons();
 				
 			}
 		});
@@ -123,13 +129,40 @@ public class PlayerXMLPage extends WizardPage {
 		        String selected = fd.open();
 		        if(selected==null){return;}
 		        text.setText(selected);
-
+		        exporter.getContainer().updateButtons();
 		        
 			}
 
 
 		});
+		text.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				 exporter.getContainer().updateButtons();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				 exporter.getContainer().updateButtons();
+				
+			}
+		});
 	}
+	public boolean canFinish(){
+		boolean fileFilled = false; 
+		if(text!=null && !text.isDisposed()){
+			fileFilled = !getFileName().isEmpty();
+		}
+
+		if(fileFilled && getSelectedCalsses().length!=0){
+			return true;
+		}
+		return false;
+		
+	}
+	
 	public Class<?>[] getSelectedCalsses(){
 		return mSelectedClasses;
 	}
