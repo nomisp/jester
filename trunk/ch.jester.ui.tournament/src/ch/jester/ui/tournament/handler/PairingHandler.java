@@ -26,6 +26,8 @@ import ch.jester.model.Tournament;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
+import ch.jester.system.exceptions.NoPlayersException;
+import ch.jester.system.exceptions.NoRoundsException;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.exceptions.TournamentFinishedException;
@@ -101,9 +103,19 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 							final String errorMessage = Messages.PairingHandler_msg_NotAllResults_text;
 							showErrorDialog(shell, messageTitel, errorMessage);
 							return Status.CANCEL_STATUS;
-						} else if (exception instanceof TournamentFinishedException) { // TODO Peter: ExternalizeStrings
-							final String messageTitel = "TournamentFinished";
-							final String infoMessage = "The tournament has already been finished.\nNo more pairings possible.";
+						} else if (exception instanceof NoRoundsException) {
+							final String messageTitel = Messages.PairingHandler_msg_NoRounds_title;
+							final String errorMessage = Messages.PairingHandler_msg_NoRounds_text;
+							showErrorDialog(shell, messageTitel, errorMessage);
+							return Status.CANCEL_STATUS;
+						} else if (exception instanceof NoPlayersException) {
+							final String messageTitel = Messages.PairingHandler_msg_NoPlayers_title;
+							final String errorMessage = Messages.PairingHandler_msg_NoPlayers_text;
+							showErrorDialog(shell, messageTitel, errorMessage);
+							return Status.CANCEL_STATUS;
+						} else if (exception instanceof TournamentFinishedException) {
+							final String messageTitel = Messages.PairingHandler_msg_TournamentFinished_title;
+							final String infoMessage = Messages.PairingHandler_msg_TournamentFinished_text;
 							showInfoDialog(shell, messageTitel, infoMessage);
 							return Status.CANCEL_STATUS;
 						} else {

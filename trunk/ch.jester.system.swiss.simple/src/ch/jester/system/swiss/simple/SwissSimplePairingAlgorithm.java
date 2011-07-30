@@ -28,6 +28,8 @@ import ch.jester.model.util.ColorPreference;
 import ch.jester.model.util.PlayerColor;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
+import ch.jester.system.exceptions.NoPlayersException;
+import ch.jester.system.exceptions.NoRoundsException;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.exceptions.TournamentFinishedException;
@@ -63,7 +65,7 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 	}
 
 	@Override
-	public List<Pairing> executePairings(Tournament tournament) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException {
+	public List<Pairing> executePairings(Tournament tournament) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException, NoRoundsException, NoPlayersException {
 		if (settings == null) loadSettings(tournament);
 		List<Pairing> allPairings = new ArrayList<Pairing>();
 		for (Category category : tournament.getCategories()) {
@@ -73,8 +75,10 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 	}
 
 	@Override
-	public List<Pairing> executePairings(Category category) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException {
+	public List<Pairing> executePairings(Category category) throws NotAllResultsException, NoRoundsException, PairingNotPossibleException, TournamentFinishedException, NoPlayersException {
 		this.category = category;
+		if (category.getRounds().isEmpty()) throw new NoRoundsException("The category has no rounds added.\nPlease add the required number of rounds and retry to pair.");
+		if (category.getPlayerCards().isEmpty()) throw new NoPlayersException("The category has no players to pair.\nPlease add some players to the category.");
 		this.scoreBrackets.clear();
 		if (settings == null) loadSettings(category.getTournament());
 		firstRound = category.getRounds().get(0).getPairings().size() == 0;

@@ -54,10 +54,16 @@ public class Messages extends NLS {
 	public static String NewTournWizPageSystem_lbl_rankingSystem;
 	public static String NewTournWizPageSystem_message;
 	public static String NewTournWizPageSystem_title;
+	public static String PairingHandler_msg_NoRounds_text;
+	public static String PairingHandler_msg_NoRounds_title;
+	public static String PairingHandler_msg_NoPlayers_text;
+	public static String PairingHandler_msg_NoPlayers_title;
 	public static String PairingHandler_msg_NotAllResults_text;
 	public static String PairingHandler_msg_NotAllResults_title;
 	public static String PairingHandler_msg_PairingNotPossible_text;
 	public static String PairingHandler_msg_PairingNotPossible_title;
+	public static String PairingHandler_msg_TournamentFinished_text;
+	public static String PairingHandler_msg_TournamentFinished_title;
 	public static String PairingHandler_msg_UnknownError_text;
 	public static String PairingHandler_msg_UnknownError_title;
 	public static String RankingHandler_msg_UnknownError_text;
