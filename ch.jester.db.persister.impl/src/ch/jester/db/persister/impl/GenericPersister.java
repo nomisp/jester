@@ -290,6 +290,7 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 	}
 	protected Query getCountQuery(){
 		NamedQueries queries = mClz.getAnnotation(NamedQueries.class);
+		if(queries==null){return null;}
 		NamedQuery[] nqueries = queries.value();
 		boolean createQuery = false;
 		for(NamedQuery nq:nqueries){

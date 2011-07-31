@@ -22,8 +22,10 @@ public class Tournaments {
 	public String getAllPlayersLink(Tournament t){
 		return linkTournament(t, "Spielerliste", "playerlist");
 	}
-	
-	public String getCategoryLinks(Category cat){
+	public String getRankingLink(Tournament t){
+		return linkTournament(t, "Rangliste", "rankinglist");
+	}
+	public String getPairingLink(Category cat){
 		return linkCat(cat, "Paarungsliste", "pairinglist_category");
 	}
 	

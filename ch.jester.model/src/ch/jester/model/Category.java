@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name="CategoryByName", query="select c from Category c where c.description like :description"),
 	@NamedQuery(name="CategoryByPlayer", query="select c from Category c join fetch c.playerCards pc where :player = pc.player")
 })
-public class Category extends AbstractModelBean<Category> {
+public class Category extends AbstractModelBean<Category> implements Comparable<Category>{
 	private static final long serialVersionUID = 6845187372965814476L;
 
 
@@ -228,6 +228,11 @@ public class Category extends AbstractModelBean<Category> {
 			return true;
 		}
 		return super.canGetChildrenCollection(clz);
+	}
+
+	@Override
+	public int compareTo(Category o) {
+		return this.getDescription().compareTo(o.getDescription());
 	}
 	
 }
