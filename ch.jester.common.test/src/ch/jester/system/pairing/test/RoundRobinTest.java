@@ -102,6 +102,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 				entityManager.merge(tournament);
 			}
 			entityManager.flush();
+			entityManager.clear();
 		}
 		
 		
@@ -180,35 +181,35 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		entityManager.joinTransaction();
 		entityManager.merge(tournament);
 		entityManager.flush();
-		Job job = new Job("Pairing") {
-			
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
+//		Job job = new Job("Pairing") {
+//			
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {
 	
 				try {
 					List<Pairing> pairings = pairingAlgorithm.executePairings(cat1);
 					assertEquals(6, pairings.size());
 				} catch (NotAllResultsException e) {
 					fail();
-					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+//					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (PairingNotPossibleException e) {
 					fail();
-					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+//					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (Exception e) {
-					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+//					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				}
-				return Status.OK_STATUS;
-			}
-		};
-		job.schedule();
-		try {
-			job.join();
-			IStatus actualStatus = job.getResult();
-			assertEquals(Status.OK_STATUS, actualStatus);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			fail();
-		}
+//				return Status.OK_STATUS;
+//			}
+//		};
+//		job.schedule();
+//		try {
+//			job.join();
+//			IStatus actualStatus = job.getResult();
+//			assertEquals(Status.OK_STATUS, actualStatus);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//			fail();
+//		}
 	}
 	
 	@Test
@@ -229,36 +230,36 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		entityManager.merge(tournament);
 		entityManager.flush();
 		
-		Job job = new Job("PairingDoubleRounded") {
-			
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
+//		Job job = new Job("PairingDoubleRounded") {
+//			
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {
 	
 				try {
 					List<Pairing> pairings = pairingAlgorithm.executePairings(cat2);
 					assertEquals(12, pairings.size());
 				} catch (NotAllResultsException e) {
 					fail();
-					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+//					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (PairingNotPossibleException e) {
 					fail();
-					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+//					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (Exception e) {
 					fail();
-					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+//					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				}
-				return Status.OK_STATUS;
-			}
-		};
-		job.schedule();
-		try {
-			job.join();
-			IStatus actualStatus = job.getResult();
-			assertEquals(Status.OK_STATUS, actualStatus);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			fail();
-		}
+//				return Status.OK_STATUS;
+//			}
+//		};
+//		job.schedule();
+//		try {
+//			job.join();
+//			IStatus actualStatus = job.getResult();
+//			assertEquals(Status.OK_STATUS, actualStatus);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//			fail();
+//		}
 	}
 	
 	@Test

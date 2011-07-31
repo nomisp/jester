@@ -30,6 +30,6 @@ public class PairingSystemTest extends ActivatorProviderForTestCase {
 //			System.out.println(pairingEntry.getShortType());
 //		}
 		
-		assertEquals("Number of pairing algorithms does not match", 1, registredEntries.size());
+		assertEquals("Number of pairing algorithms does not match", 2, registredEntries.size());
 	}
 }
