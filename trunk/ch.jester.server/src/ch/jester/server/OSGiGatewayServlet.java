@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
 import ch.jester.common.utility.AdapterUtility;
+import ch.jester.common.utility.CollectionTester;
 import ch.jester.commonservices.api.adaptable.IHierarchyAdapter;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
@@ -54,10 +55,12 @@ public class OSGiGatewayServlet extends HttpServlet {
 		}
 		generateReport(req, resp, report, inputCollection);
 	}
-	
-	private Collection<?> tryGetInput(IHierarchyAdapter adapter, Class<?> c){
-		return adapter.getChildrenCollection(c);
+	private Collection<?> tryGetInput(Object bean, Class<?> c){
+		return CollectionTester.getCollection(c, bean);
 	}
+	/*private Collection<?> tryGetInput(IHierarchyAdapter adapter, Class<?> c){
+		return adapter.getChildrenCollection(c);
+	}*/
 	
 	private IReport fetchReport(String pAlias){
 		IReportEngine engine = su.getService(IReportEngine.class);

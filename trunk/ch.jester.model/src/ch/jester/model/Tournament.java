@@ -2,6 +2,7 @@ package ch.jester.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,8 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
+
+import ch.jester.model.util.RankingReportInput;
 
 /**
  * Entität für die Tabelle Tournament 
@@ -166,6 +169,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		for (Category category : categories) {
 			category.setTournament(this);
 		}
+		Collections.sort(categories);
 		this.categories = categories;
 	}
 	
@@ -173,6 +177,7 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		if (cat == null) throw new IllegalArgumentException("category may not be null");
 		if (!this.categories.contains(cat)) this.categories.add(cat);
 		cat.setTournament(this);
+		Collections.sort(categories);
 	}
 	
 	public void removeCategory(Category cat) {

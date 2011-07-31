@@ -3,6 +3,8 @@ package ch.jester.model.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ public class RankingReportInput extends AbstractModelBean<IEntityObject>{
 	private static final long serialVersionUID = -7812814460017353071L;
 	Map<Category, Ranking>  mMap;
 	private Tournament mTournament;
-	private List<RankingReportInputEntry> mReportStructure = new ArrayList<RankingReportInputEntry>();
+	private List<RankingReportInputEntry> mReportStructure = new LinkedList<RankingReportInputEntry>();
 	private Round mRound;
 	public RankingReportInput(Map<Category, Ranking> map){
 		mTournament = map.keySet().iterator().next().getTournament();
@@ -35,34 +37,41 @@ public class RankingReportInput extends AbstractModelBean<IEntityObject>{
 
 	}
 	private void detectRanking(Tournament t) {
-		mMap = new HashMap<Category, Ranking>();
+		mMap = new LinkedHashMap<Category, Ranking>();
 		if(t.getCategories().isEmpty()){return;}
-		if(t.getCategories().get(0).getRanking()!=null){
-			for(Category c:t.getCategories()){
-				if(c.getRanking()==null){continue;}
-				mMap.put(c, c.getRanking());
+		boolean finalRanking = getFinalRanking(t);
+		if(finalRanking){return;}
+		getIntermediateRanking(t);
+	
+		
+	
+	}
+	private void getIntermediateRanking(Tournament t) {
+		Round highestRound = null;
+		for(Category c:t.getCategories()){
+			for(Round r:c.getRounds()){
+				if(highestRound==null){
+					highestRound = r;
+					continue;
+				}
+				if(highestRound.getNumber()<r.getNumber() && r.getRanking()!=null){
+					highestRound = r;
+				}
 			}
-			return;
+			if(highestRound!=null&&highestRound.getRanking()!=null){
+				mMap.put(c, highestRound.getRanking());
+			}
 		}
+	}
+	private boolean getFinalRanking(Tournament t) {
+		boolean hasFinalRanking = false;
+		for(Category c:t.getCategories()){
+			if(c.getRanking()==null){continue;}
+			hasFinalRanking=true;
+			mMap.put(c, c.getRanking());
+		}
+		return hasFinalRanking;
 		
-			Round highestRound = null;
-			for(Category c:t.getCategories()){
-				for(Round r:c.getRounds()){
-					if(highestRound==null){
-						highestRound = r;
-						continue;
-					}
-					if(highestRound.getNumber()<r.getNumber() && r.getRanking()!=null){
-						highestRound = r;
-					}
-				}
-				if(highestRound!=null&&highestRound.getRanking()!=null){
-					mMap.put(c, highestRound.getRanking());
-				}
-			}
-	
-		
-	
 	}
 	private void createReportInput() {
 		Iterator<Category> catIt = mMap.keySet().iterator();
@@ -75,14 +84,14 @@ public class RankingReportInput extends AbstractModelBean<IEntityObject>{
 	}
 	public RankingReportInput(Category pCategory, Ranking pRanking){
 		mTournament = pCategory.getTournament();
-		mMap = new HashMap<Category, Ranking>();
+		mMap = new LinkedHashMap<Category, Ranking>();
 		mMap.put(pCategory, pRanking);
 		createReportInput();
 	}
 	public RankingReportInput(Category pCategory, Round round, Ranking pRanking){
 		mTournament = pCategory.getTournament();
 		mRound = round;
-		mMap = new HashMap<Category, Ranking>();
+		mMap = new LinkedHashMap<Category, Ranking>();
 		mMap.put(pCategory, pRanking);
 		createReportInput();
 	}
