@@ -183,6 +183,9 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		if (cat == null) throw new IllegalArgumentException("category may not be null");
 		this.categories.remove(cat);
 		cat.setTournament(null);
+		if(this.categories.isEmpty()){
+			setStarted(false);
+		}
 	}
 	
 	public Object getRootElement() {
@@ -209,7 +212,6 @@ public class Tournament extends AbstractModelBean<Tournament> {
 		this.started = started;
 	}
 
-	@XmlTransient
 	public SettingItem getSettingItem() {
 		return settingItem;
 	}

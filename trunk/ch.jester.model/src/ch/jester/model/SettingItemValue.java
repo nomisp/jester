@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Beschreibt ein Property eines SettingItems
@@ -40,6 +42,8 @@ public class SettingItemValue extends AbstractModelBean<SettingItemValue> {
     // ******************************
     // Bidirektionale Assoziazionen
     // ******************************
+    
+    @XmlTransient
 	public SettingItem getSettingItem() {
 		return settingItem;
 	}
@@ -111,5 +115,7 @@ public class SettingItemValue extends AbstractModelBean<SettingItemValue> {
 	public Object clone() throws CloneNotSupportedException {
 		throw new CloneNotSupportedException();
 	}
-
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+	    this.settingItem = (SettingItem)parent;
+}
 }

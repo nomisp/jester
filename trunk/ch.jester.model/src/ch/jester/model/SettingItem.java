@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Beschreibt ein Setting-Objekt
@@ -33,6 +35,7 @@ public class SettingItem extends AbstractModelBean<SettingItem> {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "settingItem", orphanRemoval=true)
     private Set<SettingItemValue> settingItemValues = new HashSet<SettingItemValue>();
 
+    @XmlTransient
 	public Tournament getTournament() {
 		return tournament;
 	}
