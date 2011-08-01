@@ -78,7 +78,7 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 	public List<Pairing> executePairings(Category category) throws NotAllResultsException, NoRoundsException, PairingNotPossibleException, TournamentFinishedException, NoPlayersException {
 		this.category = category;
 		if (category.getRounds().isEmpty()) throw new NoRoundsException("The category has no rounds added.\nPlease add the required number of rounds and retry to pair.");
-		if (category.getPlayerCards().isEmpty()) throw new NoPlayersException("The category has no players to pair.\nPlease add some players to the category.");
+		if (category.getPlayerCards().size() <= 1) throw new NoPlayersException("The category has no players to pair.\nPlease add some players to the category.");
 		this.scoreBrackets.clear();
 		if (settings == null) loadSettings(category.getTournament());
 		firstRound = category.getRounds().get(0).getPairings().size() == 0;

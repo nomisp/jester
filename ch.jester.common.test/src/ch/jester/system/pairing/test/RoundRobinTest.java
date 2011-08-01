@@ -51,6 +51,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 	@Before
 	public void setUp() {
 		entityManager = ORMPlugin.getJPAEntityManager();
+		ModelFactory modelFactory = ModelFactory.getInstance();
 		if (entityManager.getTransaction().isActive()) {
 			entityManager.joinTransaction();
 		} else {
@@ -76,8 +77,10 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		
 		try {
 			tournament = (Tournament)entityManager.createQuery("select t from Tournament t where t.name = 'RoundRobinTestTournament'").getSingleResult();
+			cat1 = tournament.getCategories().get(0);
+			cat2 = tournament.getCategories().get(1);
+			cat3 = tournament.getCategories().get(2);
 		} catch(NoResultException e) {
-			ModelFactory modelFactory = ModelFactory.getInstance();
 			tournament = modelFactory.createTournament("RoundRobinTestTournament");
 			tournament.setYear(2011);
 			tournament.setPairingSystemPlugin(PAIRING_PLUGIN);
@@ -90,11 +93,6 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 			tournament.addCategory(cat1);
 			tournament.addCategory(cat2);
 			tournament.addCategory(cat3);
-					
-			players.add(modelFactory.createPlayer("Peter", "Simon"));
-			players.add(modelFactory.createPlayer("Matthias", "Liechti"));
-			players.add(modelFactory.createPlayer("Thomas", "Letsch"));
-			players.add(modelFactory.createPlayer("Fredi", "Dönni"));
 			
 			if (tournament.isUnsafed()) {
 				entityManager.persist(tournament);
@@ -102,9 +100,14 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 				entityManager.merge(tournament);
 			}
 			entityManager.flush();
-			entityManager.clear();
 		}
 		
+		if (players.isEmpty()) {
+			players.add(modelFactory.createPlayer("Peter", "Simon"));
+			players.add(modelFactory.createPlayer("Matthias", "Liechti"));
+			players.add(modelFactory.createPlayer("Thomas", "Letsch"));
+			players.add(modelFactory.createPlayer("Fredi", "Dönni"));
+		}
 		
 //		try {
 //			Query query = entityManager.createQuery("select t from Tournament t where t.name = 'TestTournament'");
@@ -180,7 +183,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		}
 		entityManager.joinTransaction();
 		entityManager.merge(tournament);
-		entityManager.flush();
+//		entityManager.flush();
 //		Job job = new Job("Pairing") {
 //			
 //			@Override
@@ -228,7 +231,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		}
 		entityManager.joinTransaction();
 		entityManager.merge(tournament);
-		entityManager.flush();
+//		entityManager.flush();
 		
 //		Job job = new Job("PairingDoubleRounded") {
 //			
@@ -273,35 +276,35 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		entityManager.merge(tournament);
 		entityManager.flush();
 		
-		Job job = new Job("PairingOddNrOfPlayers") {
-			
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
+//		Job job = new Job("PairingOddNrOfPlayers") {
+//			
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {
 	
 				try {
 					List<Pairing> pairings = pairingAlgorithm.executePairings(cat3);
 					assertEquals(15, pairings.size());
 				} catch (NotAllResultsException e) {
 					fail();
-					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+//					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (PairingNotPossibleException e) {
 					fail();
-					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+//					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				} catch (Exception e) {
 					fail();
-					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
+//					return new Status(IStatus.ERROR, getActivationContext().getPluginId(), "",e.getCause());
 				}
-				return Status.OK_STATUS;
-			}
-		};
-		job.schedule();
-		try {
-			job.join();
-			IStatus actualStatus = job.getResult();
-			assertEquals(Status.OK_STATUS, actualStatus);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			fail();
-		}
+//				return Status.OK_STATUS;
+//			}
+//		};
+//		job.schedule();
+//		try {
+//			job.join();
+//			IStatus actualStatus = job.getResult();
+//			assertEquals(Status.OK_STATUS, actualStatus);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//			fail();
+//		}
 	}
 }

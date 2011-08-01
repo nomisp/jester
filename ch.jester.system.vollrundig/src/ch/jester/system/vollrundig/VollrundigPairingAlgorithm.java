@@ -123,7 +123,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm, ITournamen
 	 * @return false wenn weder Runden noch Spieler 
 	 */
 	private boolean isPairingPossible() throws PairingNotPossibleException {
-		if (category.getPlayerCards().size() == 0) {
+		if (category.getPlayerCards().size() <= 1) {
 			throw new PairingNotPossibleException("No players available in Category: " + category.getDescription()); //$NON-NLS-1$
 		}
 		if (isNumberOfPlayersEven()) {
