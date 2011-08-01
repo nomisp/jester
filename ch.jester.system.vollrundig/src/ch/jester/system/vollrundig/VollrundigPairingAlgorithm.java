@@ -68,7 +68,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm, ITournamen
 		for (Category category : tournament.getCategories()) {
 			allPairings.addAll(executePairings(category));
 		}
-		this.settings = null;   //TODO: von Matthias: Peter bitte checken!!!
+		this.settings = null;
 		return allPairings;
 	}
 
@@ -84,8 +84,8 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm, ITournamen
 			
 		}
 		
-		
-		if (settings == null) loadSettings(category.getTournament()); // Falls das Paaren auf einem Turnier passiert
+		loadSettings(category.getTournament()); // Falls das Paaren auf einem Turnier passiert
+
 		playedRounds = RankingHelper.getFinishedRounds(category);
 		List<Pairing> pairings = null;
 		if (playedRounds.size() == 0) { // Neues Turnier bei einem Round-Robin Turnier können direkt alle Paarunugen ausgelost werden. 
@@ -110,10 +110,8 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm, ITournamen
 			}
 		} else {
 //			TODO Peter: Erneutes Paaren, wenn während einem laufenden Turnier ein neuer Spieler hinzu kommt.
-//			checkResults();
-			
 		}
-		this.settings = null;   //TODO: von Matthias: Peter bitte checken!!!
+		this.settings = null;
 		return pairings;
 	}
 	
