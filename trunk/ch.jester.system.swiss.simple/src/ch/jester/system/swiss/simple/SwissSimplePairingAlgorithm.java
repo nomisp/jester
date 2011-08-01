@@ -66,11 +66,12 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 
 	@Override
 	public List<Pairing> executePairings(Tournament tournament) throws NotAllResultsException, PairingNotPossibleException, TournamentFinishedException, NoRoundsException, NoPlayersException {
-		if (settings == null) loadSettings(tournament);
+		loadSettings(tournament);
 		List<Pairing> allPairings = new ArrayList<Pairing>();
 		for (Category category : tournament.getCategories()) {
 			allPairings.addAll(executePairings(category));
 		}
+		this.settings = null;
 		return allPairings;
 	}
 
@@ -80,7 +81,7 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 		if (category.getRounds().isEmpty()) throw new NoRoundsException("The category has no rounds added.\nPlease add the required number of rounds and retry to pair.");
 		if (category.getPlayerCards().size() <= 1) throw new NoPlayersException("The category has no players to pair.\nPlease add some players to the category.");
 		this.scoreBrackets.clear();
-		if (settings == null) loadSettings(category.getTournament());
+		loadSettings(category.getTournament()); // Falls das Paaren auf einem Turnier passiert
 		firstRound = category.getRounds().get(0).getPairings().size() == 0;
 		List<Round> finishedRounds = PairingHelper.getFinishedRounds(category);
 //		if (!firstRound && (finishedRounds.size() + PairingHelper.getOpenRounds(category).size() != category.getRounds().size())) throw new NotAllResultsException();
@@ -184,7 +185,7 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 //			PlayerCard lastPlayer = remainingPlayers.get(0);
 //			lastPlayer.addBye();
 //		}
-		
+		this.settings = null;
 		return this.pairings;
 	}
 
