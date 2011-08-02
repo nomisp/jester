@@ -84,6 +84,7 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 		loadSettings(category.getTournament()); // Falls das Paaren auf einem Turnier passiert
 		firstRound = category.getRounds().get(0).getPairings().size() == 0;
 		List<Round> finishedRounds = PairingHelper.getFinishedRounds(category);
+		if (!firstRound && finishedRounds.size() == 0) throw new NotAllResultsException();
 //		if (!firstRound && (finishedRounds.size() + PairingHelper.getOpenRounds(category).size() != category.getRounds().size())) throw new NotAllResultsException();
 		if (finishedRounds.size() == category.getRounds().size()) throw new TournamentFinishedException();
 		
@@ -388,8 +389,8 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 			 * In the first round all even numbered players in S1 will receive a colour different 
 			 * from all odd numbered players in S1.	-> calculateColorsForFirstRound
 			 */
-			ColorPreference playerColorPref = player.getColorPref();
-			ColorPreference opponentColorPref = opponent.getColorPref();
+			ColorPreference playerColorPref = player != null ? player.getColorPref() : ColorPreference.NONE;
+			ColorPreference opponentColorPref = opponent != null ? opponent.getColorPref() : ColorPreference.NONE;
 			if (playerColorPref == opponentColorPref) { // -> E.3
 				// E3
 				String playerColors = player.getColors();
