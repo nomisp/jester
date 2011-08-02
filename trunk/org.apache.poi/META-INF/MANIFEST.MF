@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Poi
+Bundle-Name: Apache Poi
 Bundle-SymbolicName: org.apache.poi
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: commons-logging-1.1.jar,
  dom4j-1.6.1.jar,
@@ -155,3 +155,4 @@ Export-Package: javax.xml,
  org.apache.xmlbeans.impl.piccolo.util,
  org.apache.xmlbeans.impl.piccolo.xml
 Import-Package: org.apache.log4j
+Bundle-Vendor: apache.org
