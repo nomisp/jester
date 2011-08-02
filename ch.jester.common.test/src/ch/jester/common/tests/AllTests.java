@@ -17,10 +17,14 @@ import ch.jester.system.ranking.test.RankingSystemTest;
 import ch.jester.system.ranking.test.SonnebornBergerTest;
 
 @RunWith(Suite.class)
-@SuiteClasses( { ImportExportTest.class, DaoEqualityTest.class,ImporterTest.class, ActivatorTest.class, CallerUtilityTest.class,  ServiceUtilityTest.class, LoggerTest.class,
-	CalculatorTest.class, FideCalculatorTest.class, PairingSystemTest.class, RoundRobinTest.class, SwissSimpleTest.class, 
-	RankingSystemTest.class, BuchholzTest.class, SonnebornBergerTest.class, SettingsTest.class, ReportEngineTest.class, 
-	PlayerComparatorTest.class})
+@SuiteClasses( {ActivatorTest.class, CallerUtilityTest.class,  ServiceUtilityTest.class, LoggerTest.class,
+	ImportExportTest.class, ImporterTest.class, 
+	DaoEqualityTest.class, SettingsTest.class, 
+	CalculatorTest.class, FideCalculatorTest.class, 
+	PairingSystemTest.class, RoundRobinTest.class, SwissSimpleTest.class, PlayerComparatorTest.class, 
+	RankingSystemTest.class, BuchholzTest.class, SonnebornBergerTest.class, 
+	ReportEngineTest.class 
+	})
 public class AllTests {
 
 }

@@ -31,6 +31,11 @@ import ch.jester.system.api.ranking.IRankingSystemManager;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.pairing.test.RoundRobinTest;
 
+/**
+ * Tests der Sonneborn-Berger Feinwertung
+ * @author Peter
+ *
+ */
 public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 	public static final String PLUGIN_ID = "ch.jester.rankingsystem.sonnebornberger";
 	public static final String RANKINGSYSTEM_CLASS = "ch.jester.rankingsystem.sonnebornberger.SonnebornBergerRankingSystem";
@@ -84,7 +89,9 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 	}
 	
 	/**
+	 * Rangliste mit Sonneborn-Berger Feinwertung erstellen
 	 * Resultate gemäss: {@link}http://de.wikipedia.org/wiki/Feinwertung}
+	 * test-ID: U-SR-3
 	 */
 	@Test
 	public void testExecuteRanking() {
@@ -100,10 +107,12 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 		} catch (NotAllResultsException e) {
 			e.printStackTrace();
 		}
-		testSBPoints();
+		testSBPoints(); // Testen der berechneten Sonneborn-Berger Punkte
 	}
 	
-
+	/**
+	 * Testen der berechneten Sonneborn-Berger Punkte
+	 */
 	public void testSBPoints() {
 		Double sbPunkteC = cat.getPlayerCards().get(2).getRankingSystemPoint(RANKINGSYSTEM_TYPE).getPoints();
 		Double sbPunkteD = cat.getPlayerCards().get(3).getRankingSystemPoint(RANKINGSYSTEM_TYPE).getPoints();

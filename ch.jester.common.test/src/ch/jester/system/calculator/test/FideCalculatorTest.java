@@ -14,10 +14,19 @@ import ch.jester.system.api.calculator.IEloCalculator;
 import ch.jester.system.api.calculator.IEloCalculatorEntry;
 import ch.jester.system.api.calculator.IEloCalculatorManager;
 
+/**
+ * Testklasse für Tests des FIDE-Rechners
+ * @author Peter
+ *
+ */
 public class FideCalculatorTest extends ActivatorProviderForTestCase {
 
 	private ServiceUtility mServiceUtil = new ServiceUtility(); 
 	
+	/**
+	 * Test holen des FideCalculator Service
+	 * Test-ID: U-SC-2
+	 */
 	@Test
 	public void testGetFideEloCalculatorService() {
 		IEloCalculatorManager eloCalcManager = mServiceUtil.getService(IEloCalculatorManager.class);
@@ -26,6 +35,10 @@ public class FideCalculatorTest extends ActivatorProviderForTestCase {
 		assertNotNull(getFideEloCalculatorService());
 	}
 	
+	/**
+	 * Elo-Berechnung mit jeweils einer Partie
+	 * Test-ID: U-SC-3
+	 */
 	@Test
 	public void testCalculateEloOneGame() {
 		IEloCalculator fideCalculator = getFideEloCalculatorService();
@@ -34,6 +47,10 @@ public class FideCalculatorTest extends ActivatorProviderForTestCase {
 		assertEquals(1729, fideCalculator.calculateElo(1720, 15, 1800, 1));
 	}
 	
+	/**
+	 * Elo-Berechnung mit einer Liste von Partien
+	 * Test-ID: U-SC-4
+	 */
 	@Test
 	public void testCalculateManyGames() {
 		IEloCalculator fideCalculator = getFideEloCalculatorService();
@@ -56,6 +73,10 @@ public class FideCalculatorTest extends ActivatorProviderForTestCase {
 		assertEquals(1737, fideCalculator.calculateElo(1720, 15, opponentRatings, results));
 	}
 	
+	/**
+	 * Testen der Berechnung des Gegnerschnitts
+	 * Test-ID: U-SC-5
+	 */
 	@Test
 	public void testCalculateOpponentMean() {
 		IEloCalculator fideCalculator = getFideEloCalculatorService();
@@ -67,6 +88,10 @@ public class FideCalculatorTest extends ActivatorProviderForTestCase {
 		assertEquals(1749.75, fideCalculator.meanOpposites(opponentElos), 0.001);
 	}
 	
+	/**
+	 * Testen der Performanceberechnung
+	 * Test-ID: U-SC-6
+	 */
 	@Test
 	public void testCalculatePerformance() {
 		IEloCalculator fideCalculator = getFideEloCalculatorService();

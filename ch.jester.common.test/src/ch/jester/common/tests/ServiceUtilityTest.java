@@ -33,6 +33,7 @@ public class ServiceUtilityTest extends ActivatorProviderForTestCase {
 
 	/**
 	 * Simples getService() des im setup() bereitgestellten Services
+	 * Test-ID: U-CO-5
 	 */
 	@Test
 	public void testGetService() {
@@ -45,6 +46,7 @@ public class ServiceUtilityTest extends ActivatorProviderForTestCase {
 
 	/**
 	 * MethodenCall auf den DummyService
+	 * Test-ID: U-CO-6
 	 */
 	@Test
 	public void testGet() {

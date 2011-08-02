@@ -12,6 +12,7 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 
 	/**
 	 * Ist ein IImportManagerService vorhanden
+	 * Test-ID: U-IE-2
 	 */
 	@Test
 	public void testGetImporterService() {
@@ -21,6 +22,7 @@ public class ImporterTest extends ActivatorProviderForTestCase {
 	}
 	/**
 	 * Testet einen Eintrag im ImportManager
+	 * Test-ID: U-IE-3
 	 */
 	@Test
 	public void testGetImporterHandler() {

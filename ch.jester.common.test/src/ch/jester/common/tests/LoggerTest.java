@@ -14,6 +14,7 @@ import ch.jester.commonservices.api.logging.ILogger;
 public class LoggerTest extends ActivatorProviderForTestCase{
 	/**
 	 * Testet ob ein Logging Service vorhanden ist
+	 * Test-ID: U-CO-7
 	 */
 	@Test
 	public void testGetLoggingService(){
@@ -22,6 +23,7 @@ public class LoggerTest extends ActivatorProviderForTestCase{
 	}
 	/**
 	 * Testet mit einem Mock, ob debug() und info() funktionieren. (Debug on)
+	 * Test-ID: U-CO-8
 	 */
 	@Test
 	public void testInfoAndDebug(){
@@ -39,7 +41,8 @@ public class LoggerTest extends ActivatorProviderForTestCase{
 		mock.validate();
 	}
 	/**
-	 * * Testet mit einem Mock, ob debug() und info() funktionieren. (Debug off)
+	 * Testet mit einem Mock, ob debug() und info() funktionieren. (Debug off)
+	 * Test-ID: U-CO-9
 	 */
 	@Test
 	public void testInfoAndDebug2(){
@@ -57,6 +60,9 @@ public class LoggerTest extends ActivatorProviderForTestCase{
 		mock.validate();
 	}
 	
+	/**
+	 * Test-ID: U-CO-10
+	 */
 	@Test
 	public void testLogService(){
 		getActivator().getActivationContext().getLogger().info("Hallo Welt");

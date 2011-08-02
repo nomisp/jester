@@ -21,6 +21,10 @@ import org.junit.Test;
  */
 public class PlayerComparatorTest extends ActivatorProviderForTestCase {
 
+	/**
+	 * Unterschiedliche Punkte
+	 * Test-ID: U-SP-12
+	 */
 	@Test
 	public void testPoints() {
 		List<PlayerCard> players = new ArrayList<PlayerCard>();
@@ -52,6 +56,10 @@ public class PlayerComparatorTest extends ActivatorProviderForTestCase {
 		assertEquals(new Double(5.0), players.get(1).getPoints());
 	}
 
+	/**
+	 * Unterschiedliche Nationale Elo
+	 * Test-ID: U-SP-13
+	 */
 	@Test
 	public void testRatingNWZ() {
 		List<PlayerCard> players = new ArrayList<PlayerCard>();
@@ -83,6 +91,10 @@ public class PlayerComparatorTest extends ActivatorProviderForTestCase {
 		assertEquals(new Integer(1720), players.get(1).getPlayer().getNationalElo());
 	}
 
+	/**
+	 * Unterschiedliche Elo
+	 * Test-ID: U-SP-14
+	 */
 	@Test
 	public void testRatingElo() {
 		List<PlayerCard> players = new ArrayList<PlayerCard>();
@@ -114,6 +126,10 @@ public class PlayerComparatorTest extends ActivatorProviderForTestCase {
 		assertEquals(new Integer(1820), players.get(1).getPlayer().getElo());
 	}
 
+	/**
+	 * Unterschiedliche geschätzte Elo
+	 * Test-ID: U-SP-15
+	 */
 	@Test
 	public void testRatingEstimatedElo() {
 		List<PlayerCard> players = new ArrayList<PlayerCard>();
@@ -147,6 +163,10 @@ public class PlayerComparatorTest extends ActivatorProviderForTestCase {
 		assertEquals(new Integer(1920), players.get(1).getPlayer().getEstimatedElo());
 	}
 
+	/**
+	 * Unterschiedliche Titel
+	 * Test-ID: U-SP-16
+	 */
 	@Test
 	public void testTitle() {
 		List<PlayerCard> players = new ArrayList<PlayerCard>();
@@ -180,6 +200,10 @@ public class PlayerComparatorTest extends ActivatorProviderForTestCase {
 		assertEquals(Title.IM, players.get(1).getPlayer().getTitle());
 	}
 
+	/**
+	 * Unterschiedliche Nachnamen
+	 * Test-ID: U-SP-17
+	 */
 	@Test
 	public void testLastName() {
 		List<PlayerCard> players = new ArrayList<PlayerCard>();
@@ -213,6 +237,10 @@ public class PlayerComparatorTest extends ActivatorProviderForTestCase {
 		assertEquals("Abc", players.get(1).getPlayer().getLastName());
 	}
 
+	/**
+	 * Unterschiedliche Vornamen
+	 * Test-ID: U-SP-18
+	 */
 	@Test
 	public void testFirstName() {
 		List<PlayerCard> players = new ArrayList<PlayerCard>();
@@ -246,6 +274,10 @@ public class PlayerComparatorTest extends ActivatorProviderForTestCase {
 		assertEquals("Abc", players.get(1).getPlayer().getFirstName());
 	}
 
+	/**
+	 * Alles identisch
+	 * Test-ID: U-SP-19
+	 */
 	@Test
 	public void testAllEquals() {
 		List<PlayerCard> players = new ArrayList<PlayerCard>();
