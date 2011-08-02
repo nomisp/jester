@@ -32,6 +32,11 @@ import ch.jester.system.api.ranking.IRankingSystemManager;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.pairing.test.RoundRobinTest;
 
+/**
+ * Test der Feinwertung nach Buchholz
+ * @author Peter
+ *
+ */
 public class BuchholzTest extends ActivatorProviderForTestCase {
 	public static final String PLUGIN_ID = "ch.jester.rankingsystem.buchholz";
 	public static final String RANKINGSYSTEM_CLASS = "ch.jester.rankingsystem.buchholz.BuchholzRankingSystem";
@@ -82,6 +87,10 @@ public class BuchholzTest extends ActivatorProviderForTestCase {
 		entityManager.flush();
 	}
 	
+	/**
+	 * Rangliste mit Buchholz Feinwertung erstellen
+	 * Test-ID: U-SR-2
+	 */
 	@Test
 	public void testExecuteRankingDifferentNrOfPoints() {
 		List<Round> rounds = cat.getRounds();

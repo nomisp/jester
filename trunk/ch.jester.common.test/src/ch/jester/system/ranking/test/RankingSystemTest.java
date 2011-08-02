@@ -12,9 +12,18 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.system.api.ranking.IRankingSystemEntry;
 import ch.jester.system.api.ranking.IRankingSystemManager;
 
+/**
+ * Allgemeine Tests für die Fgeinwertungssysteme (Services)
+ * @author Peter
+ *
+ */
 public class RankingSystemTest extends ActivatorProviderForTestCase {
 	private ServiceUtility mServiceUtil = new ServiceUtility();
 	
+	/**
+	 * Test holen des Feinwertungssystem-Service
+	 * Test-ID: U-SR-1
+	 */
 	@Test
 	public void testGetRankingSystemService() {
 		IComponentService<?> rankingSystemService = getActivationContext().getService(IRankingSystemManager.class);

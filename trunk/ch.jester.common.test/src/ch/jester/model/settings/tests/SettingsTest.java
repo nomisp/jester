@@ -22,6 +22,11 @@ import ch.jester.orm.ORMPlugin;
 import ch.jester.system.pairing.test.RoundRobinTest;
 import ch.jester.system.ranking.test.BuchholzTest;
 
+/**
+ * Testen des Settings-Mechanismus
+ * @author Peter
+ *
+ */
 public class SettingsTest extends ActivatorProviderForTestCase {
 
 	private ModelFactory modelFactory;
@@ -60,13 +65,10 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		entityManager.flush();
 	}
 	
-//	@After
-//	public void tearDown() {
-//		entityManager.joinTransaction();
-//		entityManager.remove(tournament);
-//		entityManager.flush();
-//	}
-	
+	/**
+	 * Speichern eines Setting-Items
+	 * Test-ID: U-ME-6
+	 */
 	@Test
 	public void testPersistDummySettingObject() {
 		DummySettingObject settings = new DummySettingObject();
@@ -85,10 +87,12 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		Query query = entityManager.createQuery("select s from SettingItem s where s.rootClassName ='ch.jester.model.settings.tests.DummySettingObject'");
 		SettingItem retrievedSettingItem = (SettingItem)query.getSingleResult();
 		assertNotNull(retrievedSettingItem);
-//		List<SettingItem> resultList = query.getResultList();
-//		assertNotNull(resultList.get(0));
 	}
 	
+	/**
+	 * Laden eines Setting-Items aus der Datenbank
+	 * Test-ID: U-ME-7
+	 */
 	@Test
 	public void testRetrieveSettingItemFromDB () {
 		SettingItem retrievedSettingItem = retrieveSettingItem();
@@ -96,6 +100,10 @@ public class SettingsTest extends ActivatorProviderForTestCase {
 		assertEquals("ch.jester.model.settings.tests.DummySettingObject", retrievedSettingItem.getRootClassName());
 	}
 	
+	/**
+	 * Wiederherstellen des Setting-Objektes
+	 * Test-ID: U-ME-8
+	 */
 	@Test
 	public void testRestoreSettingItem() {
 		SettingItem retrievedSettingItem = retrieveSettingItem();

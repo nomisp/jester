@@ -116,6 +116,7 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 	
 	/**
 	 * Versuch zu Paaren ohne dass Spieler zur Kategorie zugeteilt wurden
+	 * Test-ID: U-SP-3
 	 * @throws PairingNotPossibleException
 	 */
 	@Test(expected=PairingNotPossibleException.class)
@@ -130,6 +131,10 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		}
 	}
 	
+	/**
+	 * Test auf exakte Durchführung der Paarungen
+	 * Test-ID: U-SP-4
+	 */
 	@Test
 	public void testExecutePairingCategory1() {
 		ModelFactory modelFactory = ModelFactory.getInstance();
@@ -153,6 +158,10 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		}
 	}
 	
+	/**
+	 *Test auf exakte Durchführung der Paarungen: Doppelrundiges Turnier
+	 * Test-ID: U-SP-5
+	 */
 	@Test
 	public void testExecutePairingCategory2DoubleRounded() {
 		ModelFactory modelFactory = ModelFactory.getInstance();
@@ -182,6 +191,10 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 		}
 	}
 	
+	/**
+	 * Test mit ungerader Anzahl Spieler
+	 * Test-ID: U-SP-6
+	 */
 	@Test
 	public void testOddNumberOfPlayers() {
 		ModelFactory modelFactory = ModelFactory.getInstance();

@@ -12,9 +12,18 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.pairing.IPairingManager;
 
+/**
+ * Allgemeine Tests für die Paarungssystem (Services)
+ * @author Peter
+ *
+ */
 public class PairingSystemTest extends ActivatorProviderForTestCase {
 	private ServiceUtility mServiceUtil = new ServiceUtility(); 
 	
+	/**
+	 * Test holen des Paarungs-Service
+	 * Test-ID: U-SP-1
+	 */
 	@Test
 	public void testGetPairingAlgorithmService() {
 		IComponentService<?> pairingService = getActivationContext().getService(IPairingManager.class);
@@ -22,13 +31,14 @@ public class PairingSystemTest extends ActivatorProviderForTestCase {
 		
 	}
 	
+	/**
+	 * Test holen des Paarungsalgorithmus
+	 * Test-ID: U-SP-2
+	 */
 	@Test
 	public void testGetPairingAlgorithm() {
 		IPairingManager pairingManager = mServiceUtil.getService(IPairingManager.class);
 		List<IPairingAlgorithmEntry> registredEntries = pairingManager.getRegistredEntries();
-//		for (IPairingAlgorithmEntry pairingEntry : registredEntries) {
-//			System.out.println(pairingEntry.getShortType());
-//		}
 		
 		assertEquals("Number of pairing algorithms does not match", 2, registredEntries.size());
 	}

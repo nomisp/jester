@@ -32,6 +32,11 @@ import ch.jester.system.api.ranking.IRankingSystemEntry;
 import ch.jester.system.api.ranking.IRankingSystemManager;
 import ch.jester.system.pairing.test.RoundRobinTest;
 
+/**
+ * Testklasse für die jester - Imports und Exports als XML
+ * @author Matthias
+ *
+ */
 public class ImportExportTest {
 	ModelFactory factory = ModelFactory.getInstance();
 	ServiceUtility su = new ServiceUtility();
@@ -123,6 +128,11 @@ public class ImportExportTest {
 		su.getDaoServiceByEntity(Tournament.class).save(tournament);
 	}
 	
+	/**
+	 * Test-ID: U-IE-1
+	 * @throws JAXBException
+	 * @throws IOException
+	 */
 	@Test
 	public void testExportImport() throws JAXBException, IOException{
 		testExport();

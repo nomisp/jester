@@ -12,10 +12,19 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.system.api.calculator.IEloCalculatorEntry;
 import ch.jester.system.api.calculator.IEloCalculatorManager;
 
+/**
+ * Testklasse für allgemeine Tests von Wertungszahl-Rechnern 
+ * @author Peter
+ *
+ */
 public class CalculatorTest extends ActivatorProviderForTestCase {
 
 	private ServiceUtility mServiceUtil = new ServiceUtility(); 
 	
+	/**
+	 * Test holen des Calculator-Service
+	 * Test-ID: U-SC-1 
+	 */
 	@Test
 	public void testGetEloCalculatorService() {
 		IComponentService<?> eloCalculatorService = getActivationContext().getService(IEloCalculatorManager.class);

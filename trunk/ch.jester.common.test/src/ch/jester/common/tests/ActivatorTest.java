@@ -10,6 +10,7 @@ public class ActivatorTest extends ActivatorProviderForTestCase {
 
 	/**
 	 * Ist der Activator vorhanden?
+	 * Test-ID: U-CO-1
 	 */
 	@Test
 	public void testGetActivator() {
@@ -18,6 +19,7 @@ public class ActivatorTest extends ActivatorProviderForTestCase {
 
 	/**
 	 * gibt es einen gültigen BundleContext?
+	 * Test-ID: U-CO-2
 	 */
 	@Test
 	public void testGetBundleContext() {
@@ -27,6 +29,7 @@ public class ActivatorTest extends ActivatorProviderForTestCase {
 
 	/**
 	 * stimmt die PlugInId?
+	 * Test-ID: U-CO-3
 	 */
 	@Test
 	public void testGetPluginId() {

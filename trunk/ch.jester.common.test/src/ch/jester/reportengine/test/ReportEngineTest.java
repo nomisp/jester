@@ -20,6 +20,11 @@ import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.system.pairing.test.RoundRobinTest;
 
+/**
+ * Tests der Report-Engine
+ * @author Matthias
+ *
+ */
 public class ReportEngineTest {
 	ServiceUtility su;
 	private IReportEngine reportEngine;
@@ -28,6 +33,10 @@ public class ReportEngineTest {
 		su = new ServiceUtility();
 		
 	}
+	
+	/**
+	 * Test-ID: U-RE-1
+	 */
 	@Test	
 	public void testCompile(){
 		//Trigger Compilation
@@ -40,7 +49,10 @@ public class ReportEngineTest {
 			Assert.assertTrue(!exception);
 		}
 	}
-	
+
+	/**
+	 * Test-ID: U-RE-2
+	 */
 	@Test	
 	public void testGenerateAllReports(){
 		//Trigger Compilation

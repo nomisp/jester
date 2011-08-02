@@ -128,6 +128,7 @@ public class SwissSimpleTest extends ActivatorProviderForTestCase {
 	
 	/**
 	 * Versuch zu Paaren ohne dass Spieler zur Kategorie zugeteilt wurden
+	 * Test-ID: U-SP-9
 	 * @throws NoRoundsException
 	 */
 	@Test(expected=NoRoundsException.class)
@@ -148,6 +149,7 @@ public class SwissSimpleTest extends ActivatorProviderForTestCase {
 	
 	/**
 	 * Versuch zu Paaren ohne dass Spieler zur Kategorie zugeteilt wurden
+	 * Test-ID: U-SP-10
 	 * @throws NoPlayersException
 	 */
 	@Test(expected=NoPlayersException.class)
@@ -166,6 +168,7 @@ public class SwissSimpleTest extends ActivatorProviderForTestCase {
 	
 	/**
 	 * Testen des Paarens der 1.Runde
+	 * Test-ID: U-SP-7
 	 */
 	@Test
 	public void testExecutePairingCategory1() {
@@ -201,6 +204,7 @@ public class SwissSimpleTest extends ActivatorProviderForTestCase {
 
 	/**
 	 * Testen des Paarens der 2.Runde
+	 * Test-ID: U-SP-11
 	 */
 	@Test
 	public void testExecutePairingCategory1Round2() {
@@ -237,6 +241,7 @@ public class SwissSimpleTest extends ActivatorProviderForTestCase {
 	
 	/**
 	 * Testen einer ungeraden Anzahl Spieler
+	 * Test-ID: U-SP-8
 	 */
 	@Test
 	public void testOddNumberOfPlayers() {
