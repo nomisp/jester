@@ -3,7 +3,7 @@ Eclipse-BuddyPolicy: global
 Bundle-ManifestVersion: 2
 Bundle-Name: Model
 Bundle-SymbolicName: ch.jester.model;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: ch.jester.common.settings;uses:="ch.jester.model",
@@ -22,3 +22,4 @@ Require-Bundle: ch.jester.common;bundle-version="1.0.0",
  ch.jester.commonservices.api;bundle-version="1.0.0",
  org.apache.commons;bundle-version="1.0.0"
 Bundle-Activator: ch.jester.model.internal.Activator
+Bundle-Vendor: M. Liechti & P. Simon

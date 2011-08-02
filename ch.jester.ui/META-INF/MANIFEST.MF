@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ui
 Bundle-SymbolicName: ch.jester.ui;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: ch.jester.ui.Activator
 Require-Bundle: org.eclipse.ui;bundle-version="3.6.2",
  org.eclipse.core.runtime,
@@ -27,3 +27,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: ch.jester.ui,
  ch.jester.ui.handlers,
  ch.jester.ui.player.editor
+Bundle-Vendor: M. Liechti & P. Simon

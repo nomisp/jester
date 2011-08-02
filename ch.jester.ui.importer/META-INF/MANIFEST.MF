@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Importer UI
 Bundle-SymbolicName: ch.jester.ui.importer;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.ui;bundle-version="3.6.2",
  org.eclipse.core.runtime;bundle-version="3.6.0",
@@ -19,3 +19,4 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.6.2",
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ch.jester.ui.importer.internal.Activator
 Export-Package: ch.jester.ui.importer
+Bundle-Vendor: M. Liechti & P. Simon

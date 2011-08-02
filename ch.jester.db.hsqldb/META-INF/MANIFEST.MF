@@ -3,7 +3,7 @@ Eclipse-RegisterBuddy: ch.jester.hibernate
 Bundle-ManifestVersion: 2
 Bundle-Name: Hsqldb
 Bundle-SymbolicName: ch.jester.db.hsqldb;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: hsqldb.jar,
  .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

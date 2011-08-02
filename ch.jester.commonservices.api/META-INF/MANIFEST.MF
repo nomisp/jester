@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Common Services API
 Bundle-SymbolicName: ch.jester.commonservices.api;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.osgi.services;bundle-version="3.2.100",
  javax.servlet;bundle-version="2.5.0"

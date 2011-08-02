@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Import Manager Implementation
 Bundle-SymbolicName: ch.jester.importmanagerservice.impl;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: ch.jester.importmanagerservice.manager.ImportManagerActivator
 Require-Bundle: org.eclipse.equinox.ds;bundle-version="1.2.1",
  org.eclipse.core.runtime,

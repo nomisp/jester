@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Log4j
 Bundle-SymbolicName: org.apache.log4j;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: org.apache.log4j_1.2.15.v201005080500.jar,
  .
@@ -25,3 +25,4 @@ Export-Package: org.apache.log4j,
  org.apache.log4j.spi,
  org.apache.log4j.varia,
  org.apache.log4j.xml
+Bundle-Vendor: M. Liechti & P. Simon

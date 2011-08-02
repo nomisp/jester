@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Common Services Implementation
 Bundle-SymbolicName: ch.jester.commonservices.impl;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: ch.jester.commonservices.api;bundle-version="1.0.0",
  ch.jester.common;bundle-version="1.0.0",
