@@ -50,6 +50,9 @@ public class RoundRobinTest extends ActivatorProviderForTestCase {
 	
 	private EntityManager entityManager;
 	
+	/**
+	 * Vorbereiten der Testdaten
+	 */
 	@Before
 	public void setUp() {
 		entityManager = ORMPlugin.getJPAEntityManager();

@@ -11,16 +11,16 @@ import ch.jester.system.calculator.test.FideCalculatorTest;
 import ch.jester.system.pairing.test.PairingSystemTest;
 import ch.jester.system.pairing.test.PlayerComparatorTest;
 import ch.jester.system.pairing.test.RoundRobinTest;
+import ch.jester.system.pairing.test.SwissSimpleTest;
 import ch.jester.system.ranking.test.BuchholzTest;
 import ch.jester.system.ranking.test.RankingSystemTest;
 import ch.jester.system.ranking.test.SonnebornBergerTest;
 
-
-
 @RunWith(Suite.class)
 @SuiteClasses( { ImportExportTest.class, DaoEqualityTest.class,ImporterTest.class, ActivatorTest.class, CallerUtilityTest.class,  ServiceUtilityTest.class, LoggerTest.class,
-	CalculatorTest.class, FideCalculatorTest.class, PairingSystemTest.class, RoundRobinTest.class, RankingSystemTest.class, 
-	BuchholzTest.class, SonnebornBergerTest.class, SettingsTest.class, ReportEngineTest.class, PlayerComparatorTest.class})
+	CalculatorTest.class, FideCalculatorTest.class, PairingSystemTest.class, RoundRobinTest.class, SwissSimpleTest.class, 
+	RankingSystemTest.class, BuchholzTest.class, SonnebornBergerTest.class, SettingsTest.class, ReportEngineTest.class, 
+	PlayerComparatorTest.class})
 public class AllTests {
 
 }
