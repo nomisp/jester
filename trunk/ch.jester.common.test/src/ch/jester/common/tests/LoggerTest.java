@@ -59,13 +59,6 @@ public class LoggerTest extends ActivatorProviderForTestCase{
 		
 		mock.validate();
 	}
-	
-	/**
-	 * Test-ID: U-CO-10
-	 */
-	@Test
-	public void testLogService(){
-		getActivator().getActivationContext().getLogger().info("Hallo Welt");
-	}
+
 	
 }
