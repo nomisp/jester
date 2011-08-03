@@ -36,6 +36,7 @@ public class ReportEngineTest {
 	
 	/**
 	 * Test-ID: U-RE-1
+	 * Compilationstest
 	 */
 	@Test	
 	public void testCompile(){
@@ -52,6 +53,7 @@ public class ReportEngineTest {
 
 	/**
 	 * Test-ID: U-RE-2
+	 * Reportserstellen... Modell / Reportdef. valid?
 	 */
 	@Test	
 	public void testGenerateAllReports(){

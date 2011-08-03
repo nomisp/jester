@@ -138,7 +138,9 @@ public class PersisterFactory extends InjectedLogFactoryComponentAdapter<Object>
 	@Override
 	public <T extends IEntityObject> IPrivateContextDaoService<T> adaptPrivate(
 			IDaoService<T> pService) {
-		
+		if(!(pService instanceof GenericPersister)){
+			throw new IllegalArgumentException("Argument must be instance of GenericPersister");
+		}
 		return new PrivateContextDaoServiceAdapter<T>((GenericPersister<T>) pService);
 	}
 
