@@ -35,7 +35,6 @@ import ch.jester.system.swiss.simple.util.RatingType;
  */
 public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<SwissSimpleSettings> {
 
-	private DataBindingContext m_bindingContext;
 	private SwissSimpleSettings settings;
 	private SWTDirtyManager dm = new SWTDirtyManager();
 	private ComboViewer ratingTypeComboViewer;
@@ -93,7 +92,7 @@ public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<Swis
 		combo.setLayoutData(gd_combo);
 		managedForm.getToolkit().paintBordersFor(combo);
 		
-		Label lblByepoints = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.SwissSimpleSettingsPage_lblByepoints_text, SWT.NONE);
+		managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.SwissSimpleSettingsPage_lblByepoints_text, SWT.NONE);
 		byePointsComboViewer = new ComboViewer(managedForm.getForm().getBody(), SWT.READ_ONLY);
 		byePointsComboViewer.setContentProvider(new ArrayContentProvider());
 		byePointsComboViewer.setLabelProvider(new LabelProvider() {
@@ -120,7 +119,7 @@ public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<Swis
 		byePointsCombo.setLayoutData(gd_byePointsCombo);
 		managedForm.getToolkit().paintBordersFor(byePointsCombo);
 		
-		Label lblFirstRoundColor = managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.SwissSimpleSettingsPage_lbl_FirstRoundColor, SWT.NONE);
+		managedForm.getToolkit().createLabel(managedForm.getForm().getBody(), Messages.SwissSimpleSettingsPage_lbl_FirstRoundColor, SWT.NONE);
 		firstRoundColorViewer = new ComboViewer(managedForm.getForm().getBody(), SWT.READ_ONLY);
 		firstRoundColorViewer.setContentProvider(new ArrayContentProvider());
 		firstRoundColorViewer.setLabelProvider(new LabelProvider() {
@@ -147,7 +146,7 @@ public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<Swis
 		byePointsCombo.setLayoutData(gd_firstRoundColorCombo);
 		managedForm.getToolkit().paintBordersFor(firstRoundColorCombo);
 		
-		m_bindingContext = initDataBindings();
+		initDataBindings();
 		dm.add(ratingTypeComboViewer.getControl());
 	}
 	
