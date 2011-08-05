@@ -24,8 +24,6 @@ import ch.jester.system.ranking.test.BuchholzTest;
 
 /**
  * Testen des Settings-Mechanismus
- * @author Peter
- *
  */
 public class SettingsTest extends ActivatorProviderForTestCase {
 

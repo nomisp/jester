@@ -6,7 +6,6 @@ import java.util.Random;
 
 /**
  * Utility Klasse um das erzeugen von Zufallszahlen zu vereinfachen.
- * @author Peter
  *
  */
 public class RandomUtility {

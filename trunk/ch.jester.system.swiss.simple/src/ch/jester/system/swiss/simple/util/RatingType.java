@@ -2,7 +2,6 @@ package ch.jester.system.swiss.simple.util;
 
 /**
  * Rating welches für die Paarungen verwendet wird
- * @author Peter
  *
  */
 public enum RatingType {

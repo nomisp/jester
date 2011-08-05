@@ -4,7 +4,6 @@ package ch.jester.system.exceptions;
  * Exception welche geworfen werden kann
  * falls eine Kategorie die gepaart werden soll keine 
  * Spieler angehängt hat.
- * @author Peter
  *
  */
 public class NoPlayersException extends Exception {

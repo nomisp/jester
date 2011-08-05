@@ -22,7 +22,6 @@ import ch.jester.system.pairing.test.RoundRobinTest;
 
 /**
  * Tests der Report-Engine
- * @author Matthias
  *
  */
 public class ReportEngineTest {
