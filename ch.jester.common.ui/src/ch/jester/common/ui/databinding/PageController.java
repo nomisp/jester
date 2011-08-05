@@ -148,8 +148,6 @@ public class PageController<T extends IEntityObject> /*implements IDBStartupList
 							mViewer.getFirstElement(),
 							true);
 				}
-				//System.out.println(currentInternalPage * mPageSize + " "
-					//	+ (currentInternalPage * mPageSize + mPageSize));
 
 				mViewer.setInput(null);
 				pagelist.clear();
@@ -159,7 +157,6 @@ public class PageController<T extends IEntityObject> /*implements IDBStartupList
 			
 			@Override
 			public void stepTwo_InJob() {
-				//System.out.println("cleared");
 				reloaded = (List<T>) jpaDBList.getItems(currentInternalPage
 						* mPageSize, currentInternalPage * mPageSize + mPageSize);
 				
@@ -181,7 +178,6 @@ public class PageController<T extends IEntityObject> /*implements IDBStartupList
 		return pagelist;
 	}
 	private void reevaluate(){
-		//System.out.println(Thread.currentThread());
 		UIUtility.reevaluateProperty("ch.jester.properties.controlled");
 	}
 	private void printSiteInfo() {

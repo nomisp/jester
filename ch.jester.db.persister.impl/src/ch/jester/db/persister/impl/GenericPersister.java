@@ -172,9 +172,6 @@ public class GenericPersister<T extends IEntityObject> implements IDaoService<T>
 		getManager().getTransaction().begin();
 		for(T pT:pTCollection){   // soweit gekommen? alles ok
 			T p = getManager().merge(pT);  //mergen mit dem eigentlichen manager
-			
-			
-			//System.out.println(p);
 		}
 		getManager().getTransaction().commit();
 	

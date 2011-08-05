@@ -46,7 +46,6 @@ public class Round extends AbstractModelBean<Round> implements Comparable<Round>
 		private static final long serialVersionUID = -305988702197458336L;
 
 		public boolean add(Pairing arg0) {
-			//System.out.println("adding Pairing "+arg0);
 			return !pairings.contains(arg0) ? super.add(arg0) : false;
 		};
 	};

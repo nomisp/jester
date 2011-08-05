@@ -18,7 +18,7 @@ public class LinkHelper3 implements ILinkHelper {
 
 	@Override
 	public IStructuredSelection findSelection(IEditorInput anInput) {
-		System.out.println(anInput);
+		//System.out.println(anInput);
 		return createSelection((IEditorDaoInputAccess<?>) anInput);
 	}
 
@@ -40,7 +40,7 @@ public class LinkHelper3 implements ILinkHelper {
 	@Override
 	public void activateEditor(IWorkbenchPage aPage,
 			IStructuredSelection aSelection) {
-		System.out.println(aPage);
+		//System.out.println(aPage);
 
 	}
 

@@ -102,8 +102,6 @@ public class IDPreferencePage extends FieldEditorPreferencePage implements IWork
 		Set<IPreferenceProperty> props = getPreferenceManager().getProperties();
 		for(IPreferenceProperty p:props){
 			String key = p.getExternalKey();
-			//String value = p.getValue().toString();
-			//System.out.println(key+" = "+value);
 			preferenceStore.setDefault(p.getExternalKey(), p.getDefaultValue().toString());
 			preferenceStore.setValue(p.getExternalKey(), p.getValue().toString());
 			FieldEditor editor = null;

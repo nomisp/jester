@@ -281,7 +281,6 @@ public class PlayerImportWizardPage extends WizardPage {
 		
 		public void widgetSelected(SelectionEvent e) {
 			Button btn = (Button) e.getSource();
-			//System.out.println(btn);
 			boolean selected = btn.getSelection();
 			if(btn == rdZip&&selected){
 				mController.setZipMode();

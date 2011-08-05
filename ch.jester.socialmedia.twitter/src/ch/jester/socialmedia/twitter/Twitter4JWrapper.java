@@ -36,10 +36,9 @@ public class Twitter4JWrapper {
 	private  void showFriendsTimeLine() throws TwitterException{
 	    @SuppressWarnings("deprecation")
 		List<Status> statuses = twitter.getFriendsTimeline();
-	    System.out.println("Showing friends timeline.");
 	    for (Status status : statuses) {
-	        System.out.println(status.getUser().getName() + ":" +
-	                           status.getText());
+	      //  System.out.println(status.getUser().getName() + ":" +
+	        //                   status.getText());
 	    }
 	}
 	

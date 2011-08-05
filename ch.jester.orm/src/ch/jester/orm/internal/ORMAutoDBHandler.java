@@ -212,7 +212,6 @@ public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreference
 					break;
 				}
 			}
-			//System.out.println(bundleElement);
 			IExtension extension =  getContributorConfig(bundleElement.getContributor());
 			IConfigurationElement el = extension.getConfigurationElements()[0];
 			IORMConfiguration config = mConfigs.get(name);
