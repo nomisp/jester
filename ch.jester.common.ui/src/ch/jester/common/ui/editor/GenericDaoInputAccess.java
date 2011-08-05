@@ -29,7 +29,7 @@ public class GenericDaoInputAccess implements IEditorDaoInputAccess<IEntityObjec
 
 	@Override
 	public String getName() {
-		return "name-from-input";
+		return "";
 	}
 
 	@Override
