@@ -33,7 +33,6 @@ import ch.jester.system.pairing.test.RoundRobinTest;
 
 /**
  * Tests der Sonneborn-Berger Feinwertung
- * @author Peter
  *
  */
 public class SonnebornBergerTest extends ActivatorProviderForTestCase {
@@ -153,8 +152,6 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 		players.add(p7);
 		List<PlayerCard> playerCards = new ArrayList<PlayerCard>();
 		for (Player player : players) {
-			//PlayerCard playerCard = new PlayerCard();
-			//playerCard.setPlayer(player);
 			PlayerCard playerCard = ModelFactory.getInstance().createPlayerCard(cat, player);
 			playerCard.addRankingSystemPoint(new RankingSystemPoint(RANKINGSYSTEM_TYPE));
 			playerCards.add(playerCard);
@@ -267,8 +264,6 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 		r1.addPairing(pair21);
 		
 		cat.addRound(r1);
-//		cat.addRound(r2);
-//		cat.addRound(r3);
 	}
 	
 	private void initResults() {
@@ -277,62 +272,31 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 		List<Pairing> pairings = round.getPairings();
 		// Resultate Spieler A
 		pairings.get(0).setResult("X");	// A:B
-//		pairings.get(0).getWhite().addResult(0.5);
-//		pairings.get(0).getBlack().addResult(0.5);
 		pairings.get(1).setResult("X"); // A:C
-	//	pairings.get(1).getWhite().addResult(0.5);
-	//	pairings.get(1).getBlack().addResult(0.5);
 		pairings.get(2).setResult("1"); // A:D
-	//	pairings.get(2).getWhite().addResult(1.0);
 		pairings.get(3).setResult("1"); // A:E
-	//	pairings.get(3).getWhite().addResult(1.0);
 		pairings.get(4).setResult("1"); // A:F
-	//	pairings.get(4).getWhite().addResult(1.0);
 		pairings.get(5).setResult("1"); // A:G
-	//	pairings.get(5).getWhite().addResult(1.0);
 		// Resultate Spieler B
 		pairings.get(6).setResult("X");	// B:C
-	//	pairings.get(6).getWhite().addResult(0.5);
-	//	pairings.get(6).getBlack().addResult(0.5);
 		pairings.get(7).setResult("X"); // B:D
-	//	pairings.get(7).getWhite().addResult(0.5);
-	//	pairings.get(7).getBlack().addResult(0.5);
 		pairings.get(8).setResult("1"); // B:E
-	//	pairings.get(8).getWhite().addResult(1.0);
 		pairings.get(9).setResult("1"); // B:F
-	//	pairings.get(9).getWhite().addResult(1.0);
 		pairings.get(10).setResult("1"); // B:G
-	//	pairings.get(10).getWhite().addResult(1.0);
 		// Resultate Spieler C
 		pairings.get(11).setResult("X"); // C:D
-	//	pairings.get(11).getWhite().addResult(0.5);
-	//	pairings.get(11).getBlack().addResult(0.5);
 		pairings.get(12).setResult("X"); // C:E
-	//	pairings.get(12).getWhite().addResult(0.5);
-	//	pairings.get(12).getBlack().addResult(0.5);
 		pairings.get(13).setResult("1"); // C:F
-	//	pairings.get(13).getWhite().addResult(1.0);
 		pairings.get(14).setResult("1"); // C:G
-	//	pairings.get(14).getWhite().addResult(1.0);
 		// Resultate Spieler D
 		pairings.get(15).setResult("1"); // D:E
-	//	pairings.get(15).getWhite().addResult(1.0);
 		pairings.get(16).setResult("1"); // D:F
-	//	pairings.get(16).getWhite().addResult(1.0);
 		pairings.get(17).setResult("1"); // D:G
-	//	pairings.get(17).getWhite().addResult(1.0);
 		// Resultate Spieler E
 		pairings.get(18).setResult("1"); // E:F
-	//	pairings.get(18).getWhite().addResult(1.0);
 		pairings.get(19).setResult("1"); // E:G
-	//	pairings.get(19).getWhite().addResult(1.0);
 		// Resultat Spieler F
 		pairings.get(20).setResult("1"); // F:G
-	//	pairings.get(20).getWhite().addResult(1.0);
-		
-		for(Pairing par:pairings){
-			System.out.println(par + "---"+ par.getWhite().getRankingSystemPoints().get(0).getPoints()+" --- "+par.getBlack().getRankingSystemPoints().get(0).getPoints());
-		}
 		
 	}
 }

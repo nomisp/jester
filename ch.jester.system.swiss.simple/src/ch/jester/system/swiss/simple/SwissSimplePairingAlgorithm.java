@@ -25,7 +25,6 @@ import ch.jester.model.SettingItem;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.model.util.ColorPreference;
-import ch.jester.model.util.PlayerColor;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.ui.AbstractSystemSettingsFormPage;
 import ch.jester.system.exceptions.NoPlayersException;
@@ -85,7 +84,6 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 		firstRound = category.getRounds().get(0).getPairings().size() == 0;
 		List<Round> finishedRounds = PairingHelper.getFinishedRounds(category);
 		if (!firstRound && finishedRounds.size() == 0) throw new NotAllResultsException();
-//		if (!firstRound && (finishedRounds.size() + PairingHelper.getOpenRounds(category).size() != category.getRounds().size())) throw new NotAllResultsException();
 		if (finishedRounds.size() == category.getRounds().size()) throw new TournamentFinishedException();
 		
 		List<PlayerCard> playerCards = category.getPlayerCards();
@@ -94,7 +92,6 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 			calculateColorsForFirstRound(playerCards);
 		}
 		prepareNextRound(category, finishedRounds, playerCards);
-		int lastScore = -1;
 		while (!unpairedPlayers.isEmpty()) {
 			Card currentPlayer = unpairedPlayers.removeFirst();
 			Pairing pairing = pairPlayer(currentPlayer);
@@ -124,68 +121,6 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 		}
 		finalizePairings();
 		
-//		generateScoreBrackets(playerCards);
-//		if (firstRound) {
-//			calculateColorsForFirstRound(playerCards);
-//		} else {
-//			for (PlayerCard playerCard : playerCards) {
-//				calculateColorPreference(playerCard);
-//			}
-//		}
-//		
-//		List<PlayerCard> remainingPlayers = new ArrayList<PlayerCard>();
-//		for (int s = 0; s < scoreBrackets.size(); s++) {
-//			List<PlayerCard> scoreBracket = scoreBrackets.get(s);
-//			if (remainingPlayers.size() > 0) {
-//				for (PlayerCard remainingPlayer : remainingPlayers) {
-//					remainingPlayer.setFloating(Float.DOWNFLOAT);
-//					scoreBracket.add(0, remainingPlayer);
-//				}
-//				remainingPlayers.clear();
-//			}
-//			if (scoreBracket.size() == 1) {
-//				remainingPlayers.add(scoreBracket.get(0));
-//				continue;
-//			}
-//			
-//			for (int i = 0; i < scoreBracket.size()/2; i++) {
-//				unpairedPlayers.add(scoreBracket.get(i));
-//			}
-//			int s1 = 0;
-//			int s2 = scoreBracket.size() / 2;
-//			boolean oddNrPlayers = scoreBracket.size() % 2 != 0;
-//			while (!unpairedPlayers.isEmpty()) {
-//				for (int i = s2; i < scoreBracket.size(); i++) {
-//					PlayerCard player = unpairedPlayers.removeFirst();
-//					Pairing pair = pairCurrentPlayer(player, scoreBracket, i);
-//					if (pair != null) {
-//						pair.setRound(nextRound);
-//						pair.getWhite().addWhite();
-//						pair.getBlack().addBlack();
-//						pairings.add(pair);
-//					} else {
-//						// Spieler die nicht gepaart werden können
-//						remainingPlayers.add(player);
-//					}
-//				}
-//				// Bei einer ungeraden Anzahl Spieler muss der verbleibende Spieler 
-//				// ins nächste ScoreBracket verschoben werden
-////				if (unpairedPlayers.size() == 1 && oddNrPlayers) {
-////					if (scoreBrackets.size() >= s+1) {
-////						PlayerCard remainingPlayer = unpairedPlayers.removeFirst();
-////						remainingPlayer.setFloating(Float.DOWNFLOAT);
-////						scoreBrackets.get(s+1).add(0, remainingPlayer);
-////					} else { // Wenn es sich ums letzte ScoreBracket handelt erhält der Spieler ein Freilos 
-////						PlayerCard lastPlayer = unpairedPlayers.removeFirst();
-////						lastPlayer.addBye();
-////					}
-////				}
-//			}
-//		}
-//		if (remainingPlayers.size() == 1) { // Wenn es sich ums letzte ScoreBracket handelt erhält der Spieler ein Freilos 
-//			PlayerCard lastPlayer = remainingPlayers.get(0);
-//			lastPlayer.addBye();
-//		}
 		this.settings = null;
 		return this.pairings;
 	}
@@ -193,9 +128,7 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 	private void prepareNextRound(Category category, List<Round> finishedRounds, List<PlayerCard> sortedPlayers) {
 		nextRound = finishedRounds.size() > 0 ? category.getRounds().get(finishedRounds.size()) : category.getRounds().get(0);
 		if (unpairedPlayers == null) unpairedPlayers = new LinkedList<Card>();
-//		if (pairedPlayers == null) pairedPlayers = new LinkedList<Card>();
 		unpairedPlayers.clear();
-//		pairedPlayers.clear();
 		for (PlayerCard playerCard : sortedPlayers) {
 			if (playerCard.getActive()) {
 				unpairedPlayers.add(new Card(playerCard));
@@ -353,7 +286,6 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 	 *@return       Description of the Return Value
 	 */
 	private boolean validatePairing(Card card, Card currentPlayer) {
-		int i;
 		List<PlayerCard> playedOpponents = RankingHelper.getOpponents(currentPlayer.getPlayerCard(), category.getRounds());
 		if (!firstRound && playedOpponents.contains(card.getPlayerCard())) {
 			return false;	// Die Spieler haben bereits gegeneinander gespielt
@@ -501,6 +433,7 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 	 * Erzeugen der Score-Brackets (Liste mit Punktgleichen Spielern)
 	 * @param playerCards	Nach Punkten sortierte Liste der Spieler
 	 */
+	@SuppressWarnings("unused")
 	private void generateScoreBrackets(List<PlayerCard> playerCards) {
 		List<PlayerCard> scoreBracket = new ArrayList<PlayerCard>();
 		double scoreBracketPoints = playerCards.get(0).getPoints();
@@ -523,6 +456,7 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 	 * @param s2 Index in Scorebracket Subgroup S2
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private Pairing pairCurrentPlayer(PlayerCard player, List<PlayerCard> scoreBracket, int s2) {
 		Pairing pair = new Pairing();
 		PlayerCard opponent = scoreBracket.get(s2);
@@ -795,6 +729,7 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 	 * @param scoreBracket Liste mit den punktgleichen Spielern
 	 * @return x-Wert
 	 */
+	@SuppressWarnings("unused")
 	private int calculateXValue(List<PlayerCard> scoreBracket) {
 		int x = 0;
 		int w = 0;
@@ -840,6 +775,7 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor, Tournament tournament) {
 		if (settings == null) loadSettings(tournament);

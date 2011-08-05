@@ -14,7 +14,6 @@ import ch.jester.system.api.calculator.IEloCalculatorManager;
 
 /**
  * Testklasse für allgemeine Tests von Wertungszahl-Rechnern 
- * @author Peter
  *
  */
 public class CalculatorTest extends ActivatorProviderForTestCase {
@@ -32,9 +31,6 @@ public class CalculatorTest extends ActivatorProviderForTestCase {
 		
 		IEloCalculatorManager eloCalcManager = mServiceUtil.getService(IEloCalculatorManager.class);
 		List<IEloCalculatorEntry> registredEntries = eloCalcManager.getRegistredEntries();
-		for (IEloCalculatorEntry iEloCalculatorEntry : registredEntries) {
-			System.out.println(iEloCalculatorEntry.getShortType());
-		}
 		
 		assertEquals("Number of Elo-Calculators does not match", 1, registredEntries.size());
 	}

@@ -66,27 +66,10 @@ public class PairingHandler extends AbstractCommandHandler implements IHandler {
 
 					if (tournamentSelected) {
 						for (Category category : tournament.getCategories()) {
-							// Prüfen ob es bereits Paarungen gibt
-//							if (category.getRounds().size() > 0 && category.getRounds().get(0).getPairings().size() > 0) {
-//								boolean continuePairing = showWarningAlreadyPaired(shell);
-//								if (!continuePairing) {
-//									return Status.CANCEL_STATUS;
-//								} else {
-//									// Löschen der bereits erzeugten Paarungen
-//									resetPairings(category);
-//								}
-//							}
 							createPairings(category, tournament);
 							
 						}
 					} else {
-//						if (cat.getRounds().size() > 0 && cat.getRounds().get(0).getPairings().size() > 0) {
-//							if (!showWarningAlreadyPaired(shell)) {
-//								return Status.CANCEL_STATUS;
-//							} else {
-//								resetPairings(cat);
-//							}
-//						}
 						createPairings(cat, tournament);
 						
 					}

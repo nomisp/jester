@@ -94,9 +94,6 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		}
 		
 		RankingHelper.createRanking(ranking, initialFinalRanking, rankingSystemEntry.getProperty("shortType"));
-		
-		RankingHelper.printRanking(ranking); // TODO Peter: Bei Task complete rauslöschen!
-		
 		saveFinalRanking(category, ranking);
 		return ranking;
 	}

@@ -16,7 +16,6 @@ import ch.jester.system.api.calculator.IEloCalculatorManager;
 
 /**
  * Testklasse für Tests des FIDE-Rechners
- * @author Peter
  *
  */
 public class FideCalculatorTest extends ActivatorProviderForTestCase {

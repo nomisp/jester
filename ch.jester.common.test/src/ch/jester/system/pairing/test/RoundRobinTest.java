@@ -35,7 +35,6 @@ import ch.jester.system.vollrundig.RoundRobinSettings;
 
 /**
  * Testen des Vollrundigen Paarungsalgorithmus
- * @author Peter
  *
  */
 public class RoundRobinTest extends ActivatorProviderForTestCase {

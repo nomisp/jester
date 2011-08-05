@@ -142,7 +142,6 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart, ISele
 		//EditorScale (ungefähr)
 		settings.editorScale=1.0f;
 		settings.width=clientArea.width-clientArea.x;
-		//System.out.println(clientArea);
 		return settings;
 		
 	}
@@ -212,16 +211,10 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart, ISele
 
 			@Override
 			public void paintControl(PaintEvent e) {
-
-				//System.out.println(e);
-				
 				CaluculatedCompositeSettings settings = getSizeSettings();
 				doViewerSizing(settings);
 				mViewer.applyLayout();
 				mViewer.refresh();
-
-
-				
 			}
 			
 		});
@@ -229,22 +222,10 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart, ISele
 
 			@Override
 			public void handleEvent(Event event) {
-				//System.out.println("refresh...");
 				mViewer.refresh();
-				//System.out.println("refresh done");
 			}
 			
 		});
-
-		//mViewer.getGraphControl().setSize(p);
-	
-		//data.minimumHeight=settings.height;
-		//data.heightHint=settings.height;
-		//data.grabExcessHorizontalSpace=true;
-		//data.grabExcessVerticalSpace=true;
-		//mViewer.getControl().setLayoutData(data);
-		
-
 		
 		mViewer.applyLayout();
 		mViewer.getGraphControl().addMenuDetectListener(new MenuDetectListener() {

@@ -183,7 +183,6 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm, ITournamen
 		List<Round> rounds = category.getRounds();
 		PlayerCard[] playerCards = PairingHelper.getOrderedPlayerCards(category.getPlayerCards());
 		int numberOfPlayers = playerCards.length;
-//		boolean secondRound = settings.getDoubleRounded();	// Vorerst Keine Rückrunde!
 		
 		if (isNumberOfPlayersEven()) {	// Sollte immer der Fall sein, da ja ein Dummy Player eingefügt wurde bei ungerader Anzahl Spieler
 			int nrOfRounds = numberOfPlayers - 1;
@@ -276,7 +275,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm, ITournamen
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public AbstractSystemSettingsFormPage getSettingsFormPage(FormEditor editor, Tournament tournament) {
-		this.settings = null;   //TODO: von Matthias: Peter bitte checken!!!
+		this.settings = null;
 		if (settings == null) loadSettings(tournament);
 		return new RoundRobinSettingsPage(settings, editor, !tournament.getStarted(), "RoundRobinSettingsPage", Messages.VollrundigPairingAlgorithm__settingsPage_title); //$NON-NLS-1$
 	}
@@ -294,11 +293,11 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm, ITournamen
 		return continuePairing;
 	}
 	
-//	/**
-//	 * 
-//	 * @param shell
-//	 * @return
-//	 */
+	/**
+	 * Anzeigen der Warnmeldung wenn bereits gepaart wurde
+	 * @param shell
+	 * @return
+	 */
 	private boolean showWarningAlreadyPaired(final Shell shell) {
 		//final boolean retVal;
 		UIJob uiJob = new UIJob("Question-Message") { //$NON-NLS-1$

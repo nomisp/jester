@@ -1,5 +1,6 @@
 package ch.jester.system.ranking.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
@@ -14,7 +15,6 @@ import ch.jester.system.api.ranking.IRankingSystemManager;
 
 /**
  * Allgemeine Tests für die Fgeinwertungssysteme (Services)
- * @author Peter
  *
  */
 public class RankingSystemTest extends ActivatorProviderForTestCase {
@@ -31,8 +31,19 @@ public class RankingSystemTest extends ActivatorProviderForTestCase {
 		
 		IRankingSystemManager rankingSystemManager = mServiceUtil.getService(IRankingSystemManager.class);
 		List<IRankingSystemEntry> registredEntries = rankingSystemManager.getRegistredEntries();
-		for (IRankingSystemEntry rankingSystemEntry : registredEntries) {
-			System.out.println(rankingSystemEntry.getShortType());
+
+		IRankingSystemEntry rankingSystemEntry = registredEntries.get(0);
+		if (rankingSystemEntry.getShortType().startsWith("So")) { // da die Reihenfolge der Services nicht definiert ist
+			assertEquals("Sonneborn-Berger", rankingSystemEntry.getShortType());
+		} else {
+			assertEquals("Buchholz", rankingSystemEntry.getShortType());
+		}
+		
+		rankingSystemEntry = registredEntries.get(1);
+		if (rankingSystemEntry.getShortType().startsWith("So")) {
+			assertEquals("Sonneborn-Berger", rankingSystemEntry.getShortType());
+		} else {
+			assertEquals("Buchholz", rankingSystemEntry.getShortType());
 		}
 	}
 }
