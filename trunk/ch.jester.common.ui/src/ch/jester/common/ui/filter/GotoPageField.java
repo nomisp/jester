@@ -70,7 +70,6 @@ public class GotoPageField extends
 		AdapterBinding factory = new AdapterBinding(view2);
 		factory.add(this, GotoPageField.class);
 		factory.bind();
-		//System.out.println(serviceLocator);
 		
 	}
 

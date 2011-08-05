@@ -125,7 +125,6 @@ public class Controller {
 			return;
 		}
 		oldIsPageFinished=finalized;
-		//System.out.println(finalized);
 		UIUtility.syncExecInUIThread(new Runnable() {
 			@Override
 			public void run() {
@@ -245,7 +244,6 @@ public class Controller {
 			if(array[i].toString().endsWith("."+shorttype)){
 				tmp.add(array[i].toString());
 			}
-			//System.out.println(shorttype);
 		}
 		return tmp.toArray();
 	}
@@ -342,15 +340,6 @@ public class Controller {
 		model.zipEntry=null;
 		model.handlerEntry = null;
 		setHierarchyChangingInput(mFEV, pZip);
-		
-	//	Object[] obj = mFEV.getCheckedElements();
-		/*if(obj.length==1){
-			Object selected = obj[0];
-			mFEV.setSelection(new StructuredSelection(selected),true);
-			//System.out.println(selected);
-			setSelectedZipEntry(selected.toString());
-			
-		}*/
 		
 		checkState();	
 	}

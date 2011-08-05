@@ -116,12 +116,8 @@ public class PrivateContextDaoServiceAdapter<T extends IEntityObject> implements
 
 	@Override
 	public void commit() {
-		System.out.println("SUB TRX Commit");
 		trx.commit();
 		service.getManager().clear();
-		//ORMPlugin.getJPAEntityManagerFactory().getCache().evictAll();
-		//ORMPlugin.getJPAEntityManagerFactory().getCache().evictAll();
-		//privateManager.clear();
 	EntityManager manager = ORMPlugin.getJPAEntityManager();
 		
 		synchronized(manager){
@@ -164,14 +160,11 @@ public class PrivateContextDaoServiceAdapter<T extends IEntityObject> implements
 
 	@Override
 	public void rollback(T t) {
-		System.out.println("SUB TRX ROLLBACK");
 		trx.rollback();
 		privateManager.clear();
-		System.out.println("PRIVATEMANAGER: "+privateManager);
 		EntityManager manager = ORMPlugin.getJPAEntityManager();
 		
 		this.mLoad.clear();
-		System.out.println("ORIGINALMANAGER: "+manager);
 	}
 
 	@Override

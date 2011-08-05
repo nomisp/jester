@@ -142,7 +142,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart, ISele
 		//EditorScale (ungefähr)
 		settings.editorScale=1.0f;
 		settings.width=clientArea.width-clientArea.x;
-		System.out.println(clientArea);
+		//System.out.println(clientArea);
 		return settings;
 		
 	}
@@ -213,7 +213,7 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart, ISele
 			@Override
 			public void paintControl(PaintEvent e) {
 
-				System.out.println(e);
+				//System.out.println(e);
 				
 				CaluculatedCompositeSettings settings = getSizeSettings();
 				doViewerSizing(settings);
@@ -229,9 +229,9 @@ public class RoundForm extends FormPage implements IZoomableWorkbenchPart, ISele
 
 			@Override
 			public void handleEvent(Event event) {
-				System.out.println("refresh...");
+				//System.out.println("refresh...");
 				mViewer.refresh();
-				System.out.println("refresh done");
+				//System.out.println("refresh done");
 			}
 			
 		});
