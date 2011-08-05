@@ -31,7 +31,6 @@ public class WebAdapterHandlerEntry extends DefaultImportHandlerEntry implements
 			for(IImportHandlerEntry entry:entries){
 				String entryId = entry.getProperty("id");
 				if(entryId!=null&&entryId.equals(myId)){
-					//System.out.println(entryId);
 					instanciatedHandler=entry;
 					break;
 				}

@@ -24,7 +24,6 @@ public class FacebookAuthorisationFlow {
 
 	public void authorizeUser() {
 		String url = prepareUrl();
-		//System.out.println(url);
 		FaceBookAuthorisationFlowDialog dialog = new FaceBookAuthorisationFlowDialog(Display.getDefault().getActiveShell(), SWT.BORDER);
 		dialog.clearSession(mClearSession);
 		dialog.setURL(url);
