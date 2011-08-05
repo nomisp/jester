@@ -11,7 +11,7 @@
       </servlet>
       <servlet
             alias="/*.jsp"
-            class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory"
+            class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
             httpcontextId="jester"
             load-on-startup="true">
       </servlet>
