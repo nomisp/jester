@@ -50,7 +50,6 @@ public class ResultForm extends FormPage implements IDirtyManagerProvider{
 		@Override
 		public void propertyChange(PropertyChangeEvent arg0) {
 			if(arg0.getSource()==mPairing){
-				//System.out.println(mViewer+" updating"); //$NON-NLS-1$
 				setSelection();
 				mViewer.refresh();
 			}

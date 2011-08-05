@@ -14,7 +14,6 @@ import ch.jester.system.api.pairing.IPairingManager;
 
 /**
  * Allgemeine Tests für die Paarungssystem (Services)
- * @author Peter
  *
  */
 public class PairingSystemTest extends ActivatorProviderForTestCase {

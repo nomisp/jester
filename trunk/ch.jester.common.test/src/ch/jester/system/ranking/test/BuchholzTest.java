@@ -34,7 +34,6 @@ import ch.jester.system.pairing.test.RoundRobinTest;
 
 /**
  * Test der Feinwertung nach Buchholz
- * @author Peter
  *
  */
 public class BuchholzTest extends ActivatorProviderForTestCase {
@@ -144,7 +143,6 @@ public class BuchholzTest extends ActivatorProviderForTestCase {
 		players.add(p4);
 		List<PlayerCard> playerCards = new ArrayList<PlayerCard>();
 		for (Player player : players) {
-			//PlayerCard playerCard = new PlayerCard();
 			PlayerCard playerCard = ModelFactory.getInstance().createPlayerCard(cat, player);
 			playerCard.setPlayer(player);
 			playerCard.addRankingSystemPoint(new RankingSystemPoint(RANKINGSYSTEM_TYPE));

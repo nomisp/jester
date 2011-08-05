@@ -1,7 +1,9 @@
 package ch.jester.system.pairing.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +33,10 @@ import ch.jester.system.exceptions.NoPlayersException;
 import ch.jester.system.exceptions.NoRoundsException;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
-import ch.jester.system.exceptions.TournamentFinishedException;
 import ch.jester.system.ranking.test.BuchholzTest;
-import ch.jester.system.swiss.simple.SwissSimplePairingAlgorithm;
 
 /**
  * Testen des Vollrundigen Paarungsalgorithmus
- * @author Peter
  *
  */
 public class SwissSimpleTest extends ActivatorProviderForTestCase {
@@ -208,7 +207,6 @@ public class SwissSimpleTest extends ActivatorProviderForTestCase {
 	 */
 	@Test
 	public void testExecutePairingCategory1Round2() {
-		ModelFactory modelFactory = ModelFactory.getInstance();
 		List<Pairing> pairings = null;
 		try {
 			pairings = pairingAlgorithm.executePairings(cat1);

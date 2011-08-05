@@ -16,7 +16,6 @@ import org.junit.Test;
 
 /**
  * Testklasse um den Comparator für Spieler nach den FIDE Regeln für's Schweizer System zu testen.
- * @author Peter
  *
  */
 public class PlayerComparatorTest extends ActivatorProviderForTestCase {

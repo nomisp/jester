@@ -67,24 +67,6 @@ public class ResultController implements IDirtyManagerProvider{
 	public ResultController() {
 		mSync.addController(this);
 		mPcs = new PropertyChangeSupport(this);
-		//EventLoadMatchingFilter filter = new EventLoadMatchingFilter(Pairing.class);
-		/*mServices.getService(IPersistencyEventQueue.class).addListener(mQueueListener = new PersistencyListener(filter) {
-			@Override
-			public void persistencyEvent(final IPersistencyEvent pEvent) {
-				Object oo = pEvent.getLoad();
-				System.out.println(oo);
-				UIUtility.syncExecInUIThread(new Runnable(){
-					@Override
-					public void run() {
-						//mDirtyManager.setDirty(true);
-						//pcs.firePropertyChange("input",null, mInput);
-						
-					}
-				});
-
-				
-			}
-		});*/
 	
 	}
 	

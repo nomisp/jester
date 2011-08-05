@@ -95,9 +95,6 @@ public class RankingHelper {
 											.setParameter("category", category)
 											.setParameter("finishedRounds", finishedRounds)
 											.getResultList();
-//		for (PlayerCard playerCard : ranking) {
-//			System.out.println(playerCard.getPlayer() + " : " + playerCard.getPoints());
-//		}
 		return ranking;
 	}
 
@@ -113,9 +110,6 @@ public class RankingHelper {
 		List<PlayerCard> ranking = em.createNamedQuery("PlayerCardsByCategoryOrderByPoints")
 											.setParameter("category", category)
 											.getResultList();
-//		for (PlayerCard playerCard : ranking) {
-//			System.out.println(playerCard.getPlayer() + " : " + playerCard.getPoints());
-//		}
 		return ranking;
 	}
 	
@@ -280,13 +274,6 @@ public class RankingHelper {
 			ranking.addRankingEntry(rankingEntry);
 			
 		}
-		/*for (int i = 0; i < rankingSystemPoints.size(); i++) {
-			RankingSystemPoint rankingSystemPoint = rankingSystemPoints.get(i);
-			RankingEntry rankingEntry = modelFactory.createRankingEntry(rankingSystemPoint.getPlayerCard());
-			
-			rankingEntry.setPosition(i+1);
-			ranking.addRankingEntry(rankingEntry);
-		}*/
 	}
 	
 	/**
