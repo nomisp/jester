@@ -8,7 +8,6 @@ import ch.jester.model.PlayerCard;
 /**
  * WrapperKlasse für PlayerCards / temporäre Pairings
  * Um der PlayerCard Systemspezifische Erweiterungen zu ermöglichen
- * @author Peter
  *
  */
 public class Card {

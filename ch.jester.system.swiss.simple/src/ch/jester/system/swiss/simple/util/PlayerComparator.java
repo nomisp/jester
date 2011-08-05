@@ -16,7 +16,6 @@ import ch.jester.model.Title;
  * c. FIDE-title<br/>
  * d. alphabetically<br/>
  * 
- * @author Peter
  * 
  */
 public class PlayerComparator implements Comparator<PlayerCard> {

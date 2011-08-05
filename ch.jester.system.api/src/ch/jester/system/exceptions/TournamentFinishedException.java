@@ -3,7 +3,6 @@ package ch.jester.system.exceptions;
 /**
  * Exception welche geworfen werden kann, wenn 
  * z.B. ein Turnier abgeschlossen wurde und nochmals versucht wird Paarungen auszulosen.
- * @author Peter
  *
  */
 public class TournamentFinishedException extends Exception {

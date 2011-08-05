@@ -11,7 +11,6 @@ import ch.jester.model.Tournament;
 
 /**
  * Testklasse für die Tests auf Gleichheit von Entitäten
- * @author Matthias
  *
  */
 public class DaoEqualityTest extends ActivatorProviderForTestCase {

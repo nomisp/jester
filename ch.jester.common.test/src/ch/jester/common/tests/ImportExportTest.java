@@ -34,7 +34,6 @@ import ch.jester.system.pairing.test.RoundRobinTest;
 
 /**
  * Testklasse für die jester - Imports und Exports als XML
- * @author Matthias
  *
  */
 public class ImportExportTest {
