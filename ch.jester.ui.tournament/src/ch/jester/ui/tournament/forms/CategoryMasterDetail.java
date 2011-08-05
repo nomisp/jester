@@ -10,7 +10,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.IElementComparer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -159,8 +158,8 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		btAdd.setEnabled(this.page.getTournamentEditorConstraints().canAddCategories);
 		btRemove.setEnabled(this.page.getTournamentEditorConstraints().canRemoveCategories);
 		treeViewer.expandAll();
-//		createContextMenu();
 	}
+	@SuppressWarnings("rawtypes")
 	private void addPropertyListener(AbstractModelBean bean) {
 		if(bean instanceof Category){
 			categoryDetailsPage.setCategory((Category) bean);
@@ -291,6 +290,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		return roundDetailsPage;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public void save() {
 		ISelection oldSelection = null;
 		if(treeViewer!=null){
@@ -310,8 +310,6 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		if(treeViewer!=null&&oldSelection!=null){
 			treeViewer.setSelection(oldSelection);
 		}
-		//treeViewer.setSelection(oldSelection);
-		//if (treeViewer != null) treeViewer.refresh();
 	}
 	
 	private void refreshAndDirty() {

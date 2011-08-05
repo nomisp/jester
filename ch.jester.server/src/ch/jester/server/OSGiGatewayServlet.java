@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.common.utility.CollectionTester;
-import ch.jester.commonservices.api.adaptable.IHierarchyAdapter;
 import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportResult;

@@ -17,7 +17,6 @@ import ch.jester.commonservices.api.logging.ILoggerFactory;
 /**
  * Eine Default ILogger Implementierung
  */
-
 public class DefaultLogger implements ILogger {
 	private ILoggerFactory mFactory;
 	private Bundle mBundle;

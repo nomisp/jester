@@ -162,7 +162,6 @@ public class PrivateContextDaoServiceAdapter<T extends IEntityObject> implements
 	public void rollback(T t) {
 		trx.rollback();
 		privateManager.clear();
-		EntityManager manager = ORMPlugin.getJPAEntityManager();
 		
 		this.mLoad.clear();
 	}

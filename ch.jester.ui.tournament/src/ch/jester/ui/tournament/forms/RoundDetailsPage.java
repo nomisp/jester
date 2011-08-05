@@ -27,7 +27,6 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 import ch.jester.common.ui.editorutilities.IDirtyListener;
 import ch.jester.common.ui.editorutilities.SWTDirtyManager;
-import ch.jester.model.Category;
 import ch.jester.model.Round;
 
 /**
@@ -35,7 +34,6 @@ import ch.jester.model.Round;
  *
  */
 public class RoundDetailsPage implements IDetailsPage {
-	@SuppressWarnings("unused")
 	private CategoryMasterDetail masterDetailsBlock;
 	private DataBindingContext m_bindingContext;
 	private SWTDirtyManager dm = new SWTDirtyManager();
