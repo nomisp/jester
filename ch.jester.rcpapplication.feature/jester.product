@@ -20,7 +20,7 @@ MAS SE HSR 2011
 
    <launcherArgs>
       <programArgs>-consoleLog -console</programArgs>
-      <vmArgs>-Dosgi.nls.warnings=ignore</vmArgs>
+      <vmArgs>-Dosgi.nls.warnings=ignore -Xms256m -Xmx1024m</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
       <vmArgsWin>-XX:MaxPermSize=128m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC</vmArgsWin>
    </launcherArgs>
