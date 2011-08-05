@@ -104,6 +104,7 @@ public class StartServerPrefPage extends PreferencePage implements IWorkbenchPre
 				
 			}
 		});
+		model.updateButtons();
 		return container;
 	}
 	
@@ -127,7 +128,7 @@ public class StartServerPrefPage extends PreferencePage implements IWorkbenchPre
 			text.setText(getStatusText());
 		}
 		String getStatusText(){
-			if(isRunning()){
+			if(isRunning()&&link!=null){
 				link.setText("<a href=\""+OSGiGatewayActivator.geInetAdrAsString()+"\">"+OSGiGatewayActivator.geInetAdrAsString()+"</a>");
 				link.setToolTipText(OSGiGatewayActivator.geInetAdrAsString());
 				return Messages.StartServerPrefPage_status_online;
