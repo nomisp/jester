@@ -21,7 +21,7 @@ public class AddCategoryAction extends Action {
 		this.tournament = tournament;
 		this.categoryMasterDetail = categoryMDBlock;
 		if(creationCounter==-1){
-			creationCounter = tournament.getCategories().size();
+			creationCounter = this.tournament.getCategories().size();
 		}
 	}
 	

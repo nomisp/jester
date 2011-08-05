@@ -1,7 +1,5 @@
 package ch.jester.ui.tournament.actions;
 
-import java.util.List;
-
 import messages.Messages;
 
 import org.eclipse.jface.action.Action;
