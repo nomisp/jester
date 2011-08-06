@@ -2,6 +2,10 @@ package ch.jester.system.api.ranking;
 
 import ch.jester.commonservices.api.components.IEPEntry;
 
+/**
+ * Kapselt die ExtensionPoint-Definition
+ *
+ */
 public interface IRankingSystemEntry extends IEPEntry<IRankingSystem> {
 	public static final String PLUGINID = "pluginId";
 	public static final String CLASS = "class";
@@ -10,20 +14,22 @@ public interface IRankingSystemEntry extends IEPEntry<IRankingSystem> {
 
 	/**
 	 * Liefert die Plugin-Id welches den PairingAlgorithmEntry beinhaltet
-	 * @return
+	 * @return	Plugin-ID
 	 */
 	public String getPluginId();
 	
 	/**
 	 * Klasse der Implementierung
-	 * @return
+	 * @return	Implementierungsklasse
 	 */
 	public String getImplementationClass();
 	/**
-	 * @return einen String 
+	 * Kurzbeschreibung
+	 * @return einen String
 	 */
 	public String getShortType();
 	/**
+	 * Beschreibung
 	 * @return eine detailliertere Beschreibung
 	 */
 	public String getDescription();

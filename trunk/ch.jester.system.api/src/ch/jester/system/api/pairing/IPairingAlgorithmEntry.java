@@ -2,6 +2,10 @@ package ch.jester.system.api.pairing;
 
 import ch.jester.commonservices.api.components.IEPEntry;
 
+/**
+ * Kapselt die ExtensionPoint-Definition
+ *
+ */
 public interface IPairingAlgorithmEntry extends IEPEntry<IPairingAlgorithm> {
 	public static final String PLUGINID = "pluginId";
 	public static final String CLASS = "class";

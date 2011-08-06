@@ -14,6 +14,10 @@ import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.exceptions.TournamentFinishedException;
 
+/**
+ * Schnittstelle für ein Paarungssystem
+ *
+ */
 public interface IPairingManager extends IEPEntryComponentService<IPairingAlgorithmEntry, IPairingAlgorithm> {
 	
 	/**
