@@ -4,6 +4,10 @@ import ch.jester.common.components.EPEntry;
 import ch.jester.system.api.pairing.IPairingAlgorithm;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 
+/**
+ * Standardimplementation eines PairingAlgorithmEntry
+ *
+ */
 public class DefaultPairingAlgorithmEntry extends EPEntry<IPairingAlgorithm> implements IPairingAlgorithmEntry {
 
 	public DefaultPairingAlgorithmEntry(IPairingAlgorithm pService) {

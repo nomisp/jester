@@ -18,6 +18,10 @@ import ch.jester.system.exceptions.PairingNotPossibleException;
 import ch.jester.system.exceptions.TournamentFinishedException;
 import ch.jester.system.internal.SystemActivator;
 
+/**
+ * Standardimplementation eines PairingManager
+ *
+ */
 public class DefaultPairingManager extends AbstractEPComponent<IPairingAlgorithmEntry, IPairingAlgorithm> implements IPairingManager {
 	
 	public DefaultPairingManager() {

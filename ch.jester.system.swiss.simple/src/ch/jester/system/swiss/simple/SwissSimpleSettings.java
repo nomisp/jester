@@ -6,7 +6,7 @@ import ch.jester.system.swiss.simple.util.FirstRoundColorPref;
 import ch.jester.system.swiss.simple.util.RatingType;
 
 /**
- * Einstellungen für Paarungen nach Schweizersystem basierend auf Rating (Dutch)
+ * Einstellungen für Paarungen nach Schweizersystem
  *
  */
 public class SwissSimpleSettings implements ISettingObject {

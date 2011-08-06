@@ -4,6 +4,10 @@ import org.osgi.framework.BundleContext;
 
 import ch.jester.common.activator.AbstractActivator;
 
+/**
+ * Bundle-Activator des System.impl Plugins
+ *
+ */
 public class SystemActivator extends AbstractActivator {
 
 	private static SystemActivator mActivator;
@@ -16,7 +20,6 @@ public class SystemActivator extends AbstractActivator {
 	}
 	@Override
 	public void stopDelegate(BundleContext context) {
-		// TODO Auto-generated method stub
 		
 	}
 	public static SystemActivator getInstance() {

@@ -41,8 +41,7 @@ import ch.jester.system.swiss.simple.util.FirstRoundColorPref;
 import ch.jester.system.swiss.simple.util.PlayerComparator;
 
 /**
- * Paarungsalgorithmus für Paarungen nach Schweizer System
- * basierend auf dem Rating (Wertungszahl) (The Dutch System)
+ * Paarungsalgorithmus für Paarungen nach einfachem Schweizer System
  * Beschreibung der FIDE: <link>http://www.fide.com/fide/handbook.html?id=83&view=article</link>
  */
 public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {

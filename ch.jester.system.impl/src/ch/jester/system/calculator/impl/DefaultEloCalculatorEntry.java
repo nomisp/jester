@@ -5,6 +5,10 @@ import ch.jester.system.api.calculator.IEloCalculator;
 import ch.jester.system.api.calculator.IEloCalculatorEntry;
 import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 
+/**
+ * Standardimplementation eines EloCalculatorEntry
+ *
+ */
 public class DefaultEloCalculatorEntry extends EPEntry<IEloCalculator> implements IEloCalculatorEntry {
 
 	public DefaultEloCalculatorEntry(IEloCalculator pService) {

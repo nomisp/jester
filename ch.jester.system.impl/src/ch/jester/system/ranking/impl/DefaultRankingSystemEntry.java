@@ -5,6 +5,10 @@ import ch.jester.system.api.pairing.IPairingAlgorithmEntry;
 import ch.jester.system.api.ranking.IRankingSystem;
 import ch.jester.system.api.ranking.IRankingSystemEntry;
 
+/**
+ * Standardimplementation eines RankingSystemEntry
+ *
+ */
 public class DefaultRankingSystemEntry extends EPEntry<IRankingSystem> implements IRankingSystemEntry {
 
 	public DefaultRankingSystemEntry(IRankingSystem pService) {
