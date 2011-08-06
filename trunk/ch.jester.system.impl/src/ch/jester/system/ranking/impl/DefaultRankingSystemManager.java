@@ -14,6 +14,10 @@ import ch.jester.system.api.ranking.IRankingSystemManager;
 import ch.jester.system.exceptions.NotAllResultsException;
 import ch.jester.system.internal.SystemActivator;
 
+/**
+ * Standardimplementation eines RankingSystemManager
+ * 
+ */
 public class DefaultRankingSystemManager extends AbstractEPComponent<IRankingSystemEntry, IRankingSystem> implements IRankingSystemManager {
 	
 	public DefaultRankingSystemManager() {

@@ -220,27 +220,8 @@ public class RankingHelper {
 	 * @param rankingSystem RankingSystem-shortType des gewünschten RankingSystems (wie er im RankingSystemPoint definiert ist)
 	 */
 	public static void createRanking(Ranking ranking, List<PlayerCard> players, final String rankingSystem) {
-		//List<RankingSystemPoint> rankingSystemPoints = new ArrayList<RankingSystemPoint>(players.size());
 		ModelFactory modelFactory = ModelFactory.getInstance();
-/*		for (PlayerCard playerCard : players) {
-			rankingSystemPoints.add(playerCard.getRankingSystemPoint(rankingSystem)); // TODO Peter: evtl. null check und Exception schmeissen
-		}*/
-		//TODO: Von Matthias: Peter bitte checken
-	/*	Collections.sort(rankingSystemPoints, new Comparator<RankingSystemPoint>() {
-
-			@Override
-			public int compare(RankingSystemPoint o1, RankingSystemPoint o2) {
-				if(o1.getPoints().doubleValue()==o2.getPoints().doubleValue()){
-					return 0;
-				}
-				if(o1.getPoints().doubleValue()>o2.getPoints().doubleValue()){
-					return -1;
-				}
-				return 1;
-			}
-			
-		});*/
-		//TODO: Von Matthias: Peter bitte checken
+		
 		Collections.sort(players, new Comparator<PlayerCard>() {
 
 			public int compare(RankingSystemPoint o1, RankingSystemPoint o2) {

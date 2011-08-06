@@ -88,8 +88,8 @@ public class SonnebornBergerTest extends ActivatorProviderForTestCase {
 	}
 	
 	/**
-	 * Rangliste mit Sonneborn-Berger Feinwertung erstellen
-	 * Resultate gemäss: {@link}http://de.wikipedia.org/wiki/Feinwertung}
+	 * Rangliste mit Sonneborn-Berger Feinwertung erstellen<br/>
+	 * Resultate gemäss: <a:href ="http://de.wikipedia.org/wiki/Feinwertung"/>
 	 * test-ID: U-SR-3
 	 */
 	@Test

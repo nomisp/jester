@@ -6,6 +6,10 @@ import ch.jester.system.api.calculator.IEloCalculatorEntry;
 import ch.jester.system.api.calculator.IEloCalculatorManager;
 import ch.jester.system.internal.SystemActivator;
 
+/**
+ * Standardimplementation eines EloCalculatorManager
+ *
+ */
 public class DefaultEloCalculatorManager extends AbstractEPComponent<IEloCalculatorEntry, IEloCalculator> implements IEloCalculatorManager {
 	
 	public DefaultEloCalculatorManager() {
@@ -22,7 +26,6 @@ public class DefaultEloCalculatorManager extends AbstractEPComponent<IEloCalcula
 
 	@Override
 	public void doCalculatePerformances() {
-		// TODO Auto-generated method stub
 		
 	}
 }
