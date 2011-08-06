@@ -2,6 +2,10 @@ package ch.jester.system.api.calculator;
 
 import ch.jester.commonservices.api.components.IEPEntry;
 
+/**
+ * Kapselt die ExtensionPoint-Definition
+ *
+ */
 public interface IEloCalculatorEntry extends IEPEntry<IEloCalculator> {
 	public static final String CLASS = "class";
 	public static final String SHORTTYPE = "shortType";
@@ -13,10 +17,12 @@ public interface IEloCalculatorEntry extends IEPEntry<IEloCalculator> {
 	 */
 	public String getImplementationClass();
 	/**
-	 * @return einen String 
+	 * Kurzbeschreibung
+	 * @return eine Kurzbeschreibung
 	 */
 	public String getShortType();
 	/**
+	 * 
 	 * @return eine detailliertere Beschreibung
 	 */
 	public String getDescription();

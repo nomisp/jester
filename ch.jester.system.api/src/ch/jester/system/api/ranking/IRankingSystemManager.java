@@ -10,6 +10,10 @@ import ch.jester.model.Ranking;
 import ch.jester.model.Tournament;
 import ch.jester.system.exceptions.NotAllResultsException;
 
+/**
+ * Schnittstelle für ein Feinwertungssystem
+ *
+ */
 public interface IRankingSystemManager extends IEPEntryComponentService<IRankingSystemEntry, IRankingSystem> {
 
 	/**
