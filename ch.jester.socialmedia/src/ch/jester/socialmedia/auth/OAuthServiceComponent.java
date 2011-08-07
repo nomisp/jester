@@ -11,6 +11,11 @@ import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 
+/**
+ * Abstrakte OAuth Service Component.
+ * Getter für die typischen OAuth Properties.
+ *
+ */
 public abstract class OAuthServiceComponent extends InjectedLogFactoryComponentAdapter<IPreferenceRegistration> implements IPreferenceManagerProvider{
 
 	protected IPreferenceManager mPreferenceManager;
@@ -44,8 +49,14 @@ public abstract class OAuthServiceComponent extends InjectedLogFactoryComponentA
 		
 	}
 	
+	/**
+	 * zusätzliche Erzeugung von Properties fürs UI.
+	 */
 	protected void createAdditionalProperties(){}
 	
+	/**
+	 * @return den PreferenceKey für den Manager
+	 */
 	protected abstract String getPreferenceKey();
 
 	/*private  Twitter createTwitter(){

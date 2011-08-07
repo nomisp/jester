@@ -12,6 +12,10 @@ import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.types.FacebookType;
 
+/**
+ * Implementation eines Facebook Services
+ *
+ */
 public class FacebookService extends OAuthServiceComponent implements ISocialStatusUpdater{
 	private FacebookClient facebookClient;
 	private FacebookAuthorisationFlow accessFlow;
@@ -33,12 +37,18 @@ public class FacebookService extends OAuthServiceComponent implements ISocialSta
 		expInTimeStamp = mPreferenceManager.create("expiresInTimeStamp", "Token received", 0L).setEnabled(false);
 		expInTimeStamp.setType(Long.class);
 	}
+	/**
+	 * Initialisiert Auth.Flow
+	 */
 	private void initializeAuthorisationFlow() {
 		accessFlow = new FacebookAuthorisationFlow(mAuthAccessToken.getStringValue(), expIn.getIntegerValue(), (Long)expInTimeStamp.getValue(),true);
 		
 	}
 
 	
+	/**
+	 * überprüfen der Authorisierung... allenfalls einloggen.
+	 */
 	private void checkCredentials() {
 		if(accessFlow.established()){return;}
 		accessFlow.authorizeUser();
