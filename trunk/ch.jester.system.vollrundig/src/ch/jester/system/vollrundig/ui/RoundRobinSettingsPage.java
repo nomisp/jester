@@ -111,6 +111,10 @@ public class RoundRobinSettingsPage extends AbstractSystemSettingsFormPage<Round
 		return this.dm;
 	}
 	
+	/**
+	 * Erstellen des Databindings
+	 * @return	DatabindingContext
+	 */
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		

@@ -4,6 +4,10 @@ import org.osgi.framework.BundleContext;
 
 import ch.jester.common.activator.AbstractActivator;
 
+/**
+ * Activator für das Vollrundige-Plugin
+ *
+ */
 public class VollrundigSystemActivator extends AbstractActivator {
 	
 	public static final String PLUGIN_ID = "ch.jester.system.vollrundig";
@@ -18,8 +22,6 @@ public class VollrundigSystemActivator extends AbstractActivator {
 
 	@Override
 	public void stopDelegate(BundleContext pContext) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public static VollrundigSystemActivator getDefault() {

@@ -124,6 +124,12 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 		return this.pairings;
 	}
 
+	/**
+	 * Vorbereiten der nächsten Runde
+	 * @param category			zu paarende Kategorie
+	 * @param finishedRounds	bereits beendete Runden
+	 * @param sortedPlayers		sortierte Liste der Spieler
+	 */
 	private void prepareNextRound(Category category, List<Round> finishedRounds, List<PlayerCard> sortedPlayers) {
 		nextRound = finishedRounds.size() > 0 ? category.getRounds().get(finishedRounds.size()) : category.getRounds().get(0);
 		if (unpairedPlayers == null) unpairedPlayers = new LinkedList<Card>();
@@ -139,6 +145,11 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 		cards.addAll(unpairedPlayers);
 	}
 
+	/**
+	 * Paaren eines Spielers
+	 * @param currentPlayer	aktuell zu paarender Spieler
+	 * @return	Paarung
+	 */
 	private Pairing pairPlayer(Card currentPlayer) {
 		Pairing pairing = null;
 		Card card = null;
@@ -223,10 +234,9 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 
 
 	/**
-	 *  Adds a card to the unpaired stack data structure in score and rating sorted
-	 *  order
+	 *  Fügt eine Card sortiert zur Liste mit den ungepaarten Spielern ein
 	 *
-	 *@param  card  Card to add
+	 *	@param  card  Hinzuzufügende Card
 	 */
 	public void addCardSorted(Card card) {
 		ListIterator<Card> iterator = unpairedPlayers.listIterator();
@@ -267,22 +277,11 @@ public class SwissSimplePairingAlgorithm implements IPairingAlgorithm {
 		return unpairedPlayers.size();
 	}
 	/**
-	 *  Validate an possbile paring between the current player and the indicated
-	 *  pairing card. Enforces these (Swiss) rules:
-	 *  <ul>
-	 *    <li> Players may not have played before</li>
-	 *    <li> Players must not have already been attempted to be paired in this
-	 *    iteration</li>
-	 *    <li> Color allocation cannot result in same player having same color 3
-	 *    games in a row</li>
-	 *    <li> Color allocation cannot result in a player having a color three more
-	 *    times than the other</li>
-	 *    <li> Players on the same team never play one another</li>
-	 *  </ul>
+	 * Validieren einer Paarung
 	 *
-	 *
-	 *@param  card  Description of the Parameter
-	 *@return       Description of the Return Value
+	 * @param	card  Card des Gegners
+	 * @param	currentPlayer Card des zu paarenden Spielers
+	 * @return  true wenn die Paarung möglich ist
 	 */
 	private boolean validatePairing(Card card, Card currentPlayer) {
 		List<PlayerCard> playedOpponents = RankingHelper.getOpponents(currentPlayer.getPlayerCard(), category.getRounds());
