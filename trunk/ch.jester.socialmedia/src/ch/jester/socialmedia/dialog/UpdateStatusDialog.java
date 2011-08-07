@@ -17,6 +17,10 @@ import org.eclipse.swt.widgets.Text;
 
 import ch.jester.socialmedia.api.ISocialStatusUpdater;
 
+/**
+ * Ein simpler Update Dialog
+ *
+ */
 public class UpdateStatusDialog extends Dialog {
 
 	protected String result;

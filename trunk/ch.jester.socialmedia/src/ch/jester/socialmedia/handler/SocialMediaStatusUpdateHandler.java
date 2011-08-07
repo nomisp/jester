@@ -13,6 +13,10 @@ import ch.jester.common.ui.handlers.AbstractCommandHandler;
 import ch.jester.socialmedia.api.ISocialStatusUpdater;
 import ch.jester.socialmedia.dialog.UpdateStatusDialog;
 
+/**
+ * Command Handler, welcher einen Update Status Dialog öffnet.
+ *
+ */
 public class SocialMediaStatusUpdateHandler extends AbstractCommandHandler{
 	public final static String PARAM = "ch.jester.socialmedia.statusupdater.serviceid";
 	@Override
