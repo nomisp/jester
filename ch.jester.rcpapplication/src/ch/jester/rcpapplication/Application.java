@@ -13,6 +13,11 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipselabs.p2.rcpupdate.utils.P2Util;
 
+/**
+ * Jester - Standard Eclipse Application Implementation.
+ * Start Dispatching UI Events etc.
+ *
+ */
 public class Application implements IApplication {
 	public Object start(IApplicationContext context) {
 		boolean locked = false;
@@ -53,6 +58,9 @@ public class Application implements IApplication {
 		});
 	}
 
+	/**
+	 * Repo URL hinzufügen.
+	 */
 	private void setupJester() {
 		//adding repos
 		P2Util.addRepository("http://jester.googlecode.com/svn/jesterrepo"); //$NON-NLS-1$

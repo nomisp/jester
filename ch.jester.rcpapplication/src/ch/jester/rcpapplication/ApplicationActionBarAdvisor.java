@@ -47,12 +47,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	@Override
 	protected void fillStatusLine(IStatusLineManager statusLine) {
 
-	//	StatusLineContributionItem statusItem = new StatusLineContributionItem("LoggedInStatus");
-
-	//	statusItem.setText("Logged in");
-
-	//	statusLine.add(statusItem);
-
 
 	}
 }
