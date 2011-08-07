@@ -8,11 +8,12 @@ import ch.jester.model.Category;
 import ch.jester.model.Ranking;
 import ch.jester.model.RankingEntry;
 
+/**
+ * Helferklasse: welche für eine einfacher ReportGenerierung benötigt wird.
+ * Die Klasse stellt vorhanden Inforamtionen je nach Fall einheitlich zur Verfügung.
+ *
+ */
 public class RankingReportInputEntry extends AbstractModelBean<IEntityObject>{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4133720223886956545L;
 	private Category mCat;
 	private Ranking mRanking;
@@ -34,7 +35,6 @@ public class RankingReportInputEntry extends AbstractModelBean<IEntityObject>{
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

@@ -1,13 +1,17 @@
 package ch.jester.model.util;
 
-enum ResultEntry{
+/*enum ResultEntry{
 	ZERO,
 	ZEROF,
 	X,
 	ONE,
 	ONEF;
-};
+};*/
 
+/**
+ * enum welche seine Informationen je nach Blickwinkel (Schwarzer/Weisser Spieler) anders darstellen kann.
+ *
+ */
 public enum Result {
 	
 	WHITE_ZERO("0",0.0,1.0,3), 
@@ -23,15 +27,28 @@ public enum Result {
 		mOppositeOrdinal = oppositeOrdinal;
 	}
 
+	/**
+	 * das Resultat
+	 * @return
+	 */
 	public String getShortResult(){
 		return mShortResult;
 	}
+	/**
+	 * @return Die Punkte für Schwarz
+	 */
 	public Double getPointsBlack(){
 		return mPointsForBlack;
 	}
+	/**
+	 * @return ViceVersa Resultat
+	 */
 	public Result getOpposite(){
 		return Result.values()[mOppositeOrdinal];
 	}
+	/**
+	 * @return Punkte für Weisst
+	 */
 	public Double getPointsWhite(){
 		return mPointsForWhite;
 	}
@@ -79,6 +96,11 @@ public enum Result {
 	int mOppositeOrdinal;
 	ResultCombination resultCombination = new ResultCombination(this);
 	ResultCombination presultCombination = new PlayerResultCombination(this);
+	
+	/**
+	 * toString() reagiert entsprechend aktuellem Resultat für Pairings
+	 *
+	 */
 	public class ResultCombination{
 		Result r;
 		public ResultCombination(Result r) {
@@ -94,6 +116,10 @@ public enum Result {
 			return r;
 		}
 	}
+	/**
+	 * toString() für Player
+	 *
+	 */
 	class PlayerResultCombination extends ResultCombination{
 
 		public PlayerResultCombination(Result r) {
