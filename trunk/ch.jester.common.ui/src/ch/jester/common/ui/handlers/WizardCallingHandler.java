@@ -10,6 +10,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 
+/**
+ * Versucht einen Wizard aufzurufen.
+ * (WizardId = eigeneId)
+ *
+ */
 public class WizardCallingHandler extends AbstractCommandHandler{
 
 	@Override

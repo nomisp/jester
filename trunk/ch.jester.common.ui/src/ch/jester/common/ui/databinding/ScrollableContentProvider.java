@@ -31,13 +31,16 @@ public class ScrollableContentProvider<T extends IEntityObject> implements ILazy
 		
 	}
 	
+	/**
+	 * Anzahl totaler Einträge
+	 * @return
+	 */
 	public int getTotalEntries(){
 		return list.size();
 	}
 	
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		
 	}
 	

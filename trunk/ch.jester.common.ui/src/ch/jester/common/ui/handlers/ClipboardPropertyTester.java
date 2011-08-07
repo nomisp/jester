@@ -15,6 +15,10 @@ import ch.jester.common.ui.utility.GlobalClipBoard;
 import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.api.logging.ILogger;
 
+/**
+ * Ein PropertyTester welcher den Inhalt des Clipboards überprüft
+ *
+ */
 public class ClipboardPropertyTester extends PropertyTester {
 	private ILogger mLogger;
 	public ClipboardPropertyTester() {
@@ -63,6 +67,10 @@ public class ClipboardPropertyTester extends PropertyTester {
 		return false;
 	}
 	
+	/**
+	 * getActivePart (safe)
+	 * @return
+	 */
 	private IWorkbenchPart safeGetActivePart(){
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		if(window==null){return null;}

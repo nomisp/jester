@@ -27,9 +27,15 @@ public abstract class ClonePasteHandler<T> extends AbstractCommandHandler {
 		return handlePaste(mSelectionUtility.getAsStructuredSelection().toList());
 	}
 	
+	/**
+	 * @return Anzahl Objekte in Selektion
+	 */
 	public int getPasteCount(){
 		return mSelectionUtility.getSelectionCount();
 	}
+	/**
+	 * @return die pasteSelection
+	 */
 	public ISelection getPasteSelection(){
 		return mSelectionUtility.getSelection();
 	}

@@ -130,6 +130,11 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 		setSelection(getActivePart(),pObject);
 	}
 	
+	/**
+	 * Setzt das übergeben Objekt im SelectionProvider der Site als StructuredSelection
+	 * @param pWb
+	 * @param pObject
+	 */
 	public void setSelection(IWorkbenchPart pWb, Object pObject){
 		pWb.getSite().getSelectionProvider().setSelection(new StructuredSelection(pObject));
 	}
@@ -138,6 +143,11 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 		pWb.getSite().getSelectionProvider().setSelection(pSelection);
 	}
 	
+	/**
+	 * Sucht die View, die mit unter dem übergebenen String registriert wurde
+	 * @param pViewId
+	 * @return die View oder null
+	 */
 	public IViewPart getView(String pViewId){
 		return UIUtility.getActiveWorkbenchWindow().getActivePage().findView(pViewId);
 	}

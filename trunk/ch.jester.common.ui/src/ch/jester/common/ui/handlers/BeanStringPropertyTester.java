@@ -6,6 +6,12 @@ import java.lang.reflect.Method;
 import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.core.expressions.PropertyTester;
 
+/**
+ * Testet BeanEigenschaften
+ * 1) Property
+ * 2) falls dies fehlschlägt, getter Methode
+ *
+ */
 public class BeanStringPropertyTester extends PropertyTester {
 	public final static String ID ="ch.jester.properties.beantest";
 	public BeanStringPropertyTester() {
@@ -35,19 +41,15 @@ public class BeanStringPropertyTester extends PropertyTester {
 				boolean res = result.toString().equals(expectedValue.toString());
 				return res;
 			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			

@@ -44,6 +44,12 @@ public class MenuManagerUtility {
 		return MenuManagerUtility.installPopUpMenuManager(pSite, pViewer, pGroup, new MenuManager());
 	}
 	
+	/**
+	 * Installiert den übergebenen MenuManager beim Control und registriert ihn bei der PartSite.
+	 * @param pSite
+	 * @param pViewer
+	 * @return
+	 */
 	public static MenuManager installPopUpMenuManager(IWorkbenchPartSite pSite, Viewer pViewer){
 		return MenuManagerUtility.installPopUpMenuManager(pSite, pViewer, null);
 	}
