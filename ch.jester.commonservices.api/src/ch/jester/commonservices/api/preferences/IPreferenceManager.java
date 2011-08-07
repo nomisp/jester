@@ -11,9 +11,10 @@ import java.util.Set;
  */
 public interface IPreferenceManager {
 
+	/**
+	 * @return die Properties
+	 */
 	public Set<IPreferenceProperty> getProperties();
-
-	//public void addProperty(IPreferenceProperty pProperty);
 
 	/**
 	 * Erzeugt ein neues {@link IPreferenceProperty}
@@ -99,10 +100,12 @@ public interface IPreferenceManager {
 	public void registerProviderAtRegistrationService(String pKey, IPreferenceManagerProvider prov);
 	
 	/**
+	 * Die Properties als Map
 	 * @return
 	 */
 	public HashMap<String, String> getPropertiesAsStringMap();
 	/**
+	 * Die Properties als Map
 	 * @return
 	 */
 	public HashMap<String, Object> getPropertiesAsObjectMap();

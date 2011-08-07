@@ -7,6 +7,11 @@ import javax.persistence.Query;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 
+/**
+ * Überprüfung auf Duplikate
+ *
+ * @param <T>
+ */
 public interface IDuplicateChecker<T> {
 	/**
 	 * Sagt aus, ob auf Duplicates geprüft werden soll

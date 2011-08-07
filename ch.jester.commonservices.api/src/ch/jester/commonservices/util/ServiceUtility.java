@@ -29,7 +29,7 @@ public class ServiceUtility {
 	private HashMap<String, ServiceTracker> mStringTrackerMap = new HashMap<String, ServiceTracker>();
 
 	/**
-	 *
+	 * Konstruiert ein ServiceUtility und benutzt den übergebenen BundleContext
 	 * @param pContext
 	 */
 	public ServiceUtility(BundleContext pContext) {
@@ -43,6 +43,11 @@ public class ServiceUtility {
 		this(Activator.getDefault().getBundleContext());
 	}
 
+	
+	/**
+	 * identisch zu new ServiceUtility()
+	 * @return aServiceUtility
+	 */
 	public static ServiceUtility getUtility(){
 		return new ServiceUtility();
 	}
@@ -65,6 +70,11 @@ public class ServiceUtility {
 		return (T) service;
 	}
 	
+	/**
+	 * Versucht einen Service aufgrund der StringId zu finden
+	 * @param pServiceId
+	 * @return aService oder null
+	 */
 	public Object getService(String pServiceId){
 		ServiceTracker tracker = getServiceTracker(pServiceId, true);
 		Object service = tracker.getService();
@@ -112,6 +122,12 @@ public class ServiceUtility {
 		return tracker;
 	}
 	
+	/**
+	 * Widerverwenden oder öffnen eines neuen Trackers
+	 * @param pServiceInterface
+	 * @param pCreate
+	 * @return
+	 */
 	private ServiceTracker getServiceTracker(String pServiceInterface,
 			boolean pCreate) {
 		ServiceTracker tracker = mStringTrackerMap.get(pServiceInterface);
@@ -131,6 +147,10 @@ public class ServiceUtility {
 				null);
 	}
 	
+	/**Erstellt einen neuen Tracker
+	 * @param pServiceId
+	 * @return
+	 */
 	private ServiceTracker createTracker(String pServiceId){
 		return new ServiceTracker(mContext, pServiceId,
 				null);
@@ -169,6 +189,12 @@ public class ServiceUtility {
 	}
 
 
+	/**
+	 * ServiceFactory registrieren
+	 * @param pInterface
+	 * @param pFactory
+	 * @param dict
+	 */
 	private void registerServiceFactory(Class<?> pInterface, ServiceFactory pFactory,
 			Dictionary<String, String> dict) {
 		this.mContext.registerService(pInterface.getName(), pFactory, dict);
@@ -200,32 +226,8 @@ public class ServiceUtility {
 		
 	}
 
-	/*/**
-	 * Versucht eine brandneue ServiceInstanz zu bekommen.
-	 * Dies hängt allerdings mit der Bereitstellung des Services zusammen, so dass
-	 * keine Garanntie dafür besteht.
-	 * @deprecated use {@link ServiceUtility#getDaoServiceByEntity(Class)}
-	 * @param <T>
-	 * @param pServiceInterface
-	 * @return
-	 */
-	/*@Deprecated 
-	@SuppressWarnings("unchecked")
-	private <T> T getExclusiveService(Class<T> pServiceInterface) {
-		synchronized(GLOBAL_LOCK){
-		ServiceTracker tracker = createTracker(pServiceInterface);
-		tracker.open();
-		Object service = tracker.getService();
-		ServiceReference ref = tracker.getServiceReference();
-		mContext.ungetService(ref);
-		tracker.close();
-		tracker=null;
-		return (T) service;
-		}
-	}*/
-
 	/**
-	 * Holt eine brandneue Instanz eines IDaoServices.
+	 * Holt eine brandneue Instanz eines IDaoServices unter berücksichtigung der Entitätsklasse
 	 * 
 	 * @param <T>
 	 * @param pClass eine konkrete Klasse, welche IDaoServiceObject implementiert

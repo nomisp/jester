@@ -5,8 +5,17 @@ package ch.jester.commonservices.api.web;
  *
  */
 public interface IPingService {
+	/**
+	 * Erfolgreich
+	 */
 	public final static int REACHABLE = 0;
+	/**
+	 * Nicht geklappt.
+	 */
 	public final static int NOT_REACHABLE = -1;
+	/**
+	 * Unklar
+	 */
 	public final static int UNKNOWN = -99;
 	/**Gibt Auskunft ob ein Server antwortet.
 	 * @param pInetAddress

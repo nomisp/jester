@@ -4,8 +4,11 @@ package ch.jester.commonservices.api.persistency;
  * Der DatabaseStateService führt ein Runnable aus, wenn der State wechselt.
  */
 public interface IDatabaseStateService {
+	/**
+	 * Status: entweder initialisierend (INIT) oder laufen (RUN)
+	 *
+	 */
 	public enum State{
-
 		INIT, 
 		RUN;
 	}
