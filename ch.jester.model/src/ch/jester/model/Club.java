@@ -15,6 +15,10 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ * Verein
+ *
+ */
 @Entity
 @Table(name="Club")
 @NamedQueries({

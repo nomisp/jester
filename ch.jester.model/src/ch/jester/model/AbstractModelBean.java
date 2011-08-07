@@ -30,6 +30,11 @@ import org.eclipse.core.runtime.Assert;
 import ch.jester.commonservices.api.adaptable.IHierarchyAdapter;
 import ch.jester.commonservices.api.persistency.IEntityObject;
 
+/**
+ * Abstrakte Superklasse für die Entitäten
+ *
+ * @param <T>
+ */
 @MappedSuperclass
 public abstract class AbstractModelBean<T extends IEntityObject> extends AbstractPropertyChangeModel implements Cloneable, Serializable , IEntityObject, IHierarchyAdapter{
 	private static final long serialVersionUID = 1L;
@@ -119,10 +124,8 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 			t.setId(null);
 			return t;
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -167,7 +170,6 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 		try {
 			originalInfo = Introspector.getBeanInfo(this.getClass());
 		} catch (IntrospectionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -188,16 +190,12 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 				Object origValue = readMethod.invoke(original, new Object[]{});
 				writemethod.invoke(clone, origValue);
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -221,16 +219,12 @@ public abstract class AbstractModelBean<T extends IEntityObject> extends Abstrac
 			
 			
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

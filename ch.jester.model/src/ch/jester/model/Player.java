@@ -20,7 +20,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlList;
 
-
+/**
+ * Spieler
+ *
+ */
 @Entity 
 @Table(name = "Player")
 @NamedQueries({

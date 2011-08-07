@@ -9,13 +9,6 @@ enum ResultEntry{
 };
 
 public enum Result {
-
-	
-	
-	
-	
-	
-	
 	
 	WHITE_ZERO("0",0.0,1.0,3), 
 	WHITE_ZERO_F("0F",0.0,1.0,4), 
@@ -23,8 +16,6 @@ public enum Result {
 	WHITE_ONE("1",1.0,0.0,0), 
 	WHITE_ONE_F("1F",1.0,0.0,1);
 	
-	
-
 	Result(String pShortResult, double pPointsWhite, double pPointsBlack, int oppositeOrdinal){
 		mShortResult=pShortResult;
 		mPointsForWhite=pPointsWhite;

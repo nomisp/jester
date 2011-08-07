@@ -46,12 +46,12 @@ public class SettingHelper<T extends ISettingObject> {
         addFieldToExclude("CLASS");
 	}
 	
-	/*
+	/**
 	 * Analysieren und speichern eines SettingObjects
+	 * @param settingObject Systemspezifisches Setting-Objekt
+	 * @param settingItem zu befüllendes SettingItem
 	 */
-	
 	public SettingItem analyzeSettingObjectToStore(T settingObject, SettingItem settingItem) {
-        // TODO Peter: Tournament muss bereits gesetzt sein. Evtl. Abfangen/Exception 
 		Map classDescription = null;
         try {
             classDescription = PropertyUtils.describe(settingObject);
@@ -82,6 +82,14 @@ public class SettingHelper<T extends ISettingObject> {
 		return settingItem;
 	}
 
+	/**
+	 * Erzeugen eines SettingItemValues
+	 * @param classDescription Klassenbeschreibung
+	 * @param settingObject Systemspezifisches Setting-Objekt
+	 * @param propName	Property zu welchem das SettingItemValue erzeugt werden soll
+	 * @param settingItem zu befüllendes SettingItem
+	 * @return SettingItem mit dem hinzugefügten SettingItemValue
+	 */
     private SettingItem generateSettingItemValue(Map classDescription, T settingObject, Object propName, SettingItem settingItem) {
         if (classDescription.get(propName) instanceof Collection) {
             int seq = 1;
@@ -135,10 +143,9 @@ public class SettingHelper<T extends ISettingObject> {
     }
     
 	
-	/*
+	/**
 	 * Wiederherstellen eines SettingObjects
 	 */
-	
 	public T restoreSettingObject(T settingObject, SettingItem settingItem) {
 		this.settingItem = settingItem;
 		if (checkForSettingObject(settingObject)) {
@@ -332,7 +339,7 @@ public class SettingHelper<T extends ISettingObject> {
     }
  
     /**
-     * Felder die gespeicher werden sollen. Per Default werden alle gespeichert.
+     * Felder die gespeichert werden sollen. Per Default werden alle gespeichert.
      * @param fieldToInclude
      */
     public void addFieldToInclude(String fieldToInclude) {
