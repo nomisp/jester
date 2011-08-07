@@ -10,6 +10,11 @@ import ch.jester.common.utility.Reflections;
 
 
 
+/**
+ * UtilityKlasse um Annotiations zu lesen.
+ *
+ * @param <T>
+ */
 public class AnnotationReader< T extends Annotation> {
 	protected Class<?> mClass;
 	protected Class<T> mAnnotationClass;

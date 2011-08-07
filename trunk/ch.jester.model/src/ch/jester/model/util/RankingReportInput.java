@@ -13,10 +13,12 @@ import ch.jester.model.Ranking;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 
+/**
+ * HelferEntity: welche für eine einfacher ReportGenerierung benötigt wird.
+ * Die Klasse stellt vorhanden Inforamtionen je nach Fall einheitlich zur Verfügung.
+ *
+ */
 public class RankingReportInput extends AbstractModelBean<IEntityObject>{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7812814460017353071L;
 	Map<Category, Ranking>  mMap;
 	private Tournament mTournament;
@@ -104,7 +106,6 @@ public class RankingReportInput extends AbstractModelBean<IEntityObject>{
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
