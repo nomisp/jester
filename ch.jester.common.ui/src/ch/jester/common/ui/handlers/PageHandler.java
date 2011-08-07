@@ -9,6 +9,10 @@ import ch.jester.common.utility.AdapterUtility;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
+/**
+ * PageHandler der auf "back" und "next" reagiert
+ *
+ */
 public class PageHandler extends AbstractCommandHandler {
 	ServiceUtility su = new ServiceUtility();
 	@Override

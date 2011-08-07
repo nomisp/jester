@@ -18,7 +18,10 @@ import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
 
+
 /**
+ * Klasse um dynamische Report Einträge in den Menus zu generieren.
+ *
  */
 public class ReportNameContributionItem extends CompoundContributionItem {
 	private ServiceUtility su = new ServiceUtility();
@@ -79,6 +82,10 @@ public class ReportNameContributionItem extends CompoundContributionItem {
 		return para;
 	}
 	
+	/**
+	 * Item welches ein- und ausgeschaltet werden kann.
+	 *
+	 */
 	class EnableStateCommandContributionItem extends CommandContributionItem{
 		private boolean mEnabled;
 		public EnableStateCommandContributionItem(

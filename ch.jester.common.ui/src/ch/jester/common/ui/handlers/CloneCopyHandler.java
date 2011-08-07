@@ -10,6 +10,10 @@ import ch.jester.common.ui.utility.GlobalClipBoard;
 import ch.jester.common.ui.utility.SelectionUtility;
 import ch.jester.common.ui.utility.UIUtility;
 
+/**
+ * Handler um aktuelle Selektion zu klonen.
+ *
+ */
 public class CloneCopyHandler extends AbstractCommandHandler {
 	SelectionUtility su = new SelectionUtility(null);
 	Clipboard cb = GlobalClipBoard.getInstance();
@@ -27,6 +31,9 @@ public class CloneCopyHandler extends AbstractCommandHandler {
 		}
 		return null;
 	}
+	/**
+	 * Klont mit Hilfe von CloneUtility eine Selection
+	 */
 	private void copyStructuredSelection() {
 		//Clibboard resetten
 		cb.clearContents();

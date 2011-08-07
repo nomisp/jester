@@ -19,7 +19,7 @@ import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.util.ServiceUtility;
 
-public class PageController<T extends IEntityObject> /*implements IDBStartupListener*/{
+public class PageController<T extends IEntityObject>{
 	public interface IPageControllerUIAccess{
 		public Object getFirstElement();
 		public void setSelection(Object pSelection, boolean reveal);

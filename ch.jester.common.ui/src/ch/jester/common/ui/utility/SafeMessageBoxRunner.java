@@ -9,6 +9,11 @@ import ch.jester.common.utility.ExceptionWrapper;
 import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
+/**
+ * Sicherer Runner, welcher eine DialogBox zeigt, sollte ein Fehler auftreten.
+ * Ist der Fehler eine ProcessingExcpetion, wird diese nach der wirklichken Ursache durchsucht. 
+ *
+ */
 public abstract class SafeMessageBoxRunner implements ISafeRunnable {
 	ILogger mLogger = CommonUIActivator.getDefault().getActivationContext().getLogger();
 	@Override

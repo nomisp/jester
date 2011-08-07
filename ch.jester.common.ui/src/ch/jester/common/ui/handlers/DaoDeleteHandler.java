@@ -25,6 +25,11 @@ import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
 
+/**
+ * Ein generischer DeleteHandler. Der activePart muss auf IHandlerDelete adaptierbar sein.
+ * Das Delete geschieht asynchron in einem eigenen Job.
+ *
+ */
 public class DaoDeleteHandler extends AbstractCommandHandler {
 	private static final String LBL_DELETING = Messages.DaoDeleteHandler_deleting;
 
@@ -57,6 +62,11 @@ public class DaoDeleteHandler extends AbstractCommandHandler {
 		return null;
 	}
 	
+	/**
+	 * @param monitor
+	 * @return
+	 * @throws ProcessingException
+	 */
 	@SuppressWarnings("unchecked")
 	private Object delete(IProgressMonitor monitor) throws ProcessingException{
 		ISelection selection = getSelection();

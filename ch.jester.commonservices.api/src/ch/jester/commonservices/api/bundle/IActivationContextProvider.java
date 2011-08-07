@@ -7,6 +7,7 @@ package ch.jester.commonservices.api.bundle;
  */
 public interface IActivationContextProvider<T> {
 	/**
+	 * Zugriff auf den Context
 	 * @return den assoziierten IActivationContext
 	 */
 	public IActivationContext<T> getActivationContext();

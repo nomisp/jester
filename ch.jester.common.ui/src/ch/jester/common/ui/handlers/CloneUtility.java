@@ -11,8 +11,17 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.dnd.Transfer;
 
+/**
+ * Klasse mit statischen Methoden um das cloning zu vereinfachen.
+ *
+ */
 public class CloneUtility {
 
+	/**
+	 * Erzeugt die Klone der Objekte welche in der Selektion enthalten sind.
+	 * @param pSelection
+	 * @return
+	 */
 	private static List<?> createClones(
 			IStructuredSelection pSelection) {
 		Iterator<?> objectIterator = null;
@@ -51,6 +60,10 @@ public class CloneUtility {
 	public static StructuredTransferSelection copyClonesForTransfer(IStructuredSelection pSelection){
 		return new StructuredTransferSelection(createClones(pSelection));
 	}
+	/**
+	 * Eine Selection welche bei jedem paste neue Clones erzeugt
+	 *
+	 */
 	static class StructuredTransferSelection extends StructuredSelection{
 		List<?> mObjects;
 		LocalSelectionTransfer[] mTransfers = null;

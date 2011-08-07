@@ -17,6 +17,7 @@ import ch.jester.common.ui.services.IExtendedStatusLineManager;
 
 /**
  * Eine DefaultImplementation für den IExtendedStatusLineManager
+ * Bietet disposable Messages an.
  *
  */
 public class DefaultExtendedStatusLineManager implements IExtendedStatusLineManager{

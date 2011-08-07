@@ -10,6 +10,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.operations.IWorkbenchOperationSupport;
 
 
+/**
+ * Abstrakter UndoRedo Handler.
+ * Noch nirgends verwendet.
+ *
+ */
 public abstract class AbstractUndoRedoCommandHandler extends AbstractCommandHandler {
 	private IWorkbenchOperationSupport mOperationSupport = PlatformUI.getWorkbench().getOperationSupport();
 	private IOperationHistory mOperationHistory = mOperationSupport.getOperationHistory();
