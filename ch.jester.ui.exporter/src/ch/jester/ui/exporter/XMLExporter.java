@@ -17,6 +17,10 @@ import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
+/**
+ * Der Wizard für XML Export
+ *
+ */
 public class XMLExporter extends Wizard implements IExportWizard {
 	XMLPage firstPage = new XMLPage(this);
 	public final static String EXPORT_ZIP_ENTRY = "jester-export.xml";

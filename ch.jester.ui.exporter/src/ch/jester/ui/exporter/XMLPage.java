@@ -29,6 +29,10 @@ import ch.jester.model.Tournament;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
+/**
+ * Die WizardPage für den XML Exporter
+ *
+ */
 public class XMLPage extends WizardPage {
 	private Text text;
 	private HashMap<String, Class<?>> mMap = new HashMap<String, Class<?>>();
