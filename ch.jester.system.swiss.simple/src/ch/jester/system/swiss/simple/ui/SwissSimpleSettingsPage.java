@@ -30,7 +30,7 @@ import ch.jester.system.swiss.simple.util.FirstRoundColorPref;
 import ch.jester.system.swiss.simple.util.RatingType;
 
 /**
- * Form-page für die Einstellungen des Schweizer (Dutch) Systems Paarungssystemes
+ * Form-page für die Einstellungen des Schweizer Systems
  *
  */
 public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<SwissSimpleSettings> {
@@ -150,6 +150,10 @@ public class SwissSimpleSettingsPage extends AbstractSystemSettingsFormPage<Swis
 		dm.add(ratingTypeComboViewer.getControl());
 	}
 	
+	/**
+	 * Erstellen des Databindings
+	 * @return	DatabindingContext
+	 */
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		

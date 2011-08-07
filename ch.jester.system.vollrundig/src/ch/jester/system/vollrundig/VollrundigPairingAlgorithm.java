@@ -296,7 +296,7 @@ public class VollrundigPairingAlgorithm implements IPairingAlgorithm, ITournamen
 	/**
 	 * Anzeigen der Warnmeldung wenn bereits gepaart wurde
 	 * @param shell
-	 * @return
+	 * @return true wenn die Paarung fortgesetzt werden soll
 	 */
 	private boolean showWarningAlreadyPaired(final Shell shell) {
 		//final boolean retVal;
