@@ -6,6 +6,10 @@ import org.eclipse.jface.viewers.TableViewer;
 import ch.jester.common.ui.databinding.PageController.IPageControllerUIAccess;
 
 
+/**
+ * Defaultimplementierung von IPageControllerUIAccess Adpater für einen TableViewer 
+ *
+ */
 public class TableViewerAdapter implements IPageControllerUIAccess{
 	private TableViewer mViewer;
 	public TableViewerAdapter(TableViewer pViewer){

@@ -20,6 +20,8 @@ import org.eclipse.swt.widgets.Label;
 
 
 /**
+ * Kann ein Image in der Statusline anzeigen.
+ * 
  * Aus  org.eclipse.ui.editor.text geklaut
  *
  */

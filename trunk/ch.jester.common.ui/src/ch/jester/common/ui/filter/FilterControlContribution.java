@@ -9,6 +9,10 @@ import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
 
 import ch.jester.common.ui.utility.FontUtil;
 
+/**
+ * Contribution eines Filter Felds ins UI.
+ *
+ */
 public class FilterControlContribution extends WorkbenchWindowControlContribution{
 	Font mFont = FontUtil.createSizedFont(8);
 	@Override

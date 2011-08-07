@@ -5,6 +5,10 @@ import java.util.List;
 
 import ch.jester.commonservices.api.importer.IPropertyTranslator;
 
+/**
+ * DefaultImpl. von IPropertyTranslator.
+ *
+ */
 public class PropertyTranslator implements IPropertyTranslator{
 	private List<TranslatedProperty> tp = new ArrayList<TranslatedProperty>();
 	@Override

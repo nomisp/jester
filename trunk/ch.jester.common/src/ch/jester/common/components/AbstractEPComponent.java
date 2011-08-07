@@ -64,6 +64,10 @@ public abstract class AbstractEPComponent<V extends IEPEntry<T>, T> extends Inje
 	}
 	
 
+	/**
+	 * Getter für den PreferenceManager
+	 * @return den PreferenceManager
+	 */
 	public IPreferenceRegistration getPreferenceManager(){
 		return mPreferenceReg;
 	}

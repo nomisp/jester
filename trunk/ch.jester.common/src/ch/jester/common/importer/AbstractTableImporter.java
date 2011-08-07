@@ -28,6 +28,12 @@ import ch.jester.commonservices.api.importer.IVirtualTable;
 import ch.jester.commonservices.exceptions.ProcessingException;
 
 
+/**
+ * ServiceConsumer Template für TabellenImports undefinierter Art.
+ *
+ * @param <T>
+ * @param <V>
+ */
 public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implements IImportHandler<InputStream>, ITestableImportHandler<InputStream>, IImportPropertyMatcher{
 	int mWorkUnits = 10000000;
 	int mSingleUnitOfWork = -1;
@@ -214,7 +220,13 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 		return null;
 	}
 	
+	/**
+	 * Aufruf wenn fertig.
+	 */
 	protected void finished(){};
+	/**
+	 * Wird für die Initialisierung aufgerufen.
+	 */
 	protected void initialize(){};
 	
 	protected void doModifications(V vnew, Properties domainProperties) {
@@ -345,5 +357,11 @@ public abstract class AbstractTableImporter<T, V> extends ServiceConsumer implem
 
 	protected abstract V createNewDomainObject();
 	
+	/**
+	 * Initialisierung der Virtuellen Tabelle für den Stream
+	 * @param pInputStream
+	 * @return eine Implementation von IVirtualTable
+	 * @throws ProcessingException
+	 */
 	public abstract IVirtualTable<T> initialize(InputStream pInputStream) throws ProcessingException;
 }

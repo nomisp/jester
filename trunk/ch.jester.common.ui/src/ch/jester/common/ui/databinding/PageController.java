@@ -19,10 +19,32 @@ import ch.jester.commonservices.api.persistency.IPersistencyEvent;
 import ch.jester.commonservices.api.persistency.IPersistencyEventQueue;
 import ch.jester.commonservices.util.ServiceUtility;
 
+/**
+ * Implementiert ein Paging für die DB.
+ *
+ * @param <T>
+ */
 public class PageController<T extends IEntityObject>{
+	/**
+	 * Benötigt für die Kappselung eines Viewers. (Unterschiedliche Methoden je Viewer von Eclipse aus)
+	 *
+	 */
 	public interface IPageControllerUIAccess{
+		/**
+		 * Das erste Element der Selektion.
+		 * @return das erste Element.
+		 */
 		public Object getFirstElement();
+		/**
+		 * Setzen der Selektion
+		 * @param pSelection
+		 * @param reveal
+		 */
 		public void setSelection(Object pSelection, boolean reveal);
+		/**
+		 * Setzen des Inputs
+		 * @param pInput der neue Input
+		 */
 		public void setInput(Object pInput);
 	}
 	
@@ -70,6 +92,9 @@ public class PageController<T extends IEntityObject>{
 
 	}
 
+	/**
+	 * Init.
+	 */
 	public void initialize(){
 		jpaDBListSize = jpaDBList.size();
 		calculatePages();
@@ -77,23 +102,45 @@ public class PageController<T extends IEntityObject>{
 		reevaluate();
 	}
 	
+	/**
+	 * Paging kann ein und ausgeschaltet werden
+	 * @param b (true|false)
+	 */
 	public void enablePaging(boolean b){
 		mPagingEnabled=b;
 		reevaluate();
 	}
 	
+	/**
+	 * Gibt die Page Size zurück.
+	 * @return pageSizing.
+	 */
 	public int getTotalEntries() {
 		return mPageSize;
 	}
 
+	/**
+	 * Gibt die aktuelle Seite zurück.
+	 * @return die aktuelle Seite
+	 */
 	public int getCurrentPage() {
 		return currentInternalPage;
 	}
 
+	/**
+	 * Gibt den Content der aktuellen Seite zurück.
+	 * @return die Content Objekte
+	 */
 	public List<T> getPageContent() {
 		return pagelist;
 	}
 
+	/**
+	 * Springt zur angegebenen Seite (i).
+	 * Bzw zu Seite 1 oder max wenn ein ungültige Seite angeben wurde(i<0 oder i> max)
+	 * @param i
+	 * @return
+	 */
 	public int gotoPage(int i) {
 		i = i-1;
 		if (currentInternalPage == mTotalPages ) {
@@ -112,6 +159,9 @@ public class PageController<T extends IEntityObject>{
 		return currentInternalPage;
 	}
 
+	/**
+	 * Versucht zur nächsten Seite zu springen.
+	 */
 	public void nextPage() {
 		
 		if (currentInternalPage == mTotalPages) {
@@ -124,16 +174,28 @@ public class PageController<T extends IEntityObject>{
 
 	}
 
+	/**
+	 * Gibt es eine nächste Seite
+	 * @return true|false
+	 */
 	public boolean hasNextPage() {
 		if(!mPagingEnabled){return false;}
 		return currentInternalPage <mTotalPages;
 	}
 
+	/**
+	 * Gibt es eine vorgängie Seite
+	 * @return true | false
+	 */
 	public boolean hasPreviousPage() {
 		if(!mPagingEnabled){return false;}
 		return currentInternalPage>0;
 	}
 	
+	/**
+	 * laden der Seite
+	 * @return
+	 */
 	private List<?> loadPage() {
 		final StopWatch watch = new StopWatch();
 		watch.start();
@@ -177,6 +239,9 @@ public class PageController<T extends IEntityObject>{
 		
 		return pagelist;
 	}
+	/**
+	 * properties reevaluiieren.
+	 */
 	private void reevaluate(){
 		UIUtility.reevaluateProperty("ch.jester.properties.controlled");
 	}
@@ -184,6 +249,9 @@ public class PageController<T extends IEntityObject>{
 		mLogger.debug("Page " + currentInternalPage + " / " + mTotalPages);
 	}
 
+	/**
+	 * geht zur vorgängingen Seite
+	 */
 	public void prevPage() {
 		if (currentInternalPage == 0) {
 			return;
@@ -194,11 +262,18 @@ public class PageController<T extends IEntityObject>{
 		//reevaluate();
 	}
 
+	/**
+	 * Total Anzahl Seiten
+	 * @return total Anzahl Seiten
+	 */
 	public int totalPages() {
 		calculatePages();
 		return mTotalPages;
 	}
 
+	/**
+	 * Seiten berechnen.
+	 */
 	private void calculatePages() {
 		if (jpaDBListSize == 0) {
 			return;

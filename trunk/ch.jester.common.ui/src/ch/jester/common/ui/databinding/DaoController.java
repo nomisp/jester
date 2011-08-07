@@ -37,6 +37,15 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 
 
+/**
+ * Controller welcher ein Paging unterstützt.
+ * Die aktuelle Paging Selektion wird dabei in eine WritableList geschrieben, 
+ * so dass der Standard Databindmechnismus verwendet werden kann.
+ * 
+ * Updates von Objekte passieren zuerst in der WritableList.
+ *
+ * @param <T>
+ */
 public abstract class DaoController<T extends IEntityObject> implements IHandlerDelete<T>, IHandlerAdd<T>, IHandlerEditor<T> {
 	private TableViewer mViewer;
 	private ServiceUtility mServices = CommonUIActivator.getDefault().getActivationContext().getServiceUtil();
@@ -70,10 +79,25 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 		mViewer.setLabelProvider(lblprov);
 	}
 
+	/**
+	 * Die zu observierenden Properties
+	 * @return
+	 */
 	public abstract String[] observableProperties();
 	
+	/**
+	 * Label erstellung für den Integrierten Labelprovider
+	 * @param pDao
+	 * @return
+	 */
 	public abstract String callBackLabels(T pDao);
 	
+	/**
+	 * Label erstellung für den Integrierten Labelprovider (für Cols)
+	 * @param pDao
+	 * @param col
+	 * @return
+	 */
 	public  String indexedCallBackLabels(T pDao, int col){return null;};
 
 	protected IPartService getPartService(){
@@ -159,6 +183,9 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 
 		
 	}
+	/**
+	 * Löschen der Suche
+	 */
 	public void clearSearched(){
 		UIUtility.syncExecInUIThread(new Runnable() {
 			
@@ -178,6 +205,10 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 		return list;
 	}
 
+	/**
+	 * Gibt Zugriff auf den internen PageController
+	 * @return den verwendeten PageController
+	 */
 	public PageController<?> getPageController() {
 		return pageController;
 	}
@@ -208,6 +239,10 @@ public abstract class DaoController<T extends IEntityObject> implements IHandler
 	}
 	}
 	
+	/**
+	 * Der Label Provider
+	 *
+	 */
 	class ObsMapLblProv extends ObservableMapLabelProvider{
 
 		public ObsMapLblProv(IObservableMap[] attributeMaps) {

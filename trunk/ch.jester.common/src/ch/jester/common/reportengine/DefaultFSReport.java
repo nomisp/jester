@@ -8,6 +8,10 @@ import org.osgi.framework.Bundle;
 
 import ch.jester.commonservices.api.reportengine.IBundleReport;
 
+/**
+ * Defaultimplementierung für einen Report der vom FileSystem importiert wird.
+ *
+ */
 public class DefaultFSReport extends DefaultReport implements IBundleReport{
 	private String mBundleSourceRoot;
 	private Bundle mBundle;

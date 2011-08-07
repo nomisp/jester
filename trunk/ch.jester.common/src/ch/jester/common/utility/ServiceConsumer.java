@@ -10,9 +10,17 @@ import ch.jester.commonservices.util.ServiceUtility;
 public class ServiceConsumer {
 	private ServiceUtility mService = ServiceUtility.getUtility();
 	private ILogger mLogger = CommonActivator.getInstance().getActivationContext().getLogger(ServiceConsumer.this.getClass());
+	/**
+	 * getter für das ServiceUtility
+	 * @return das ServiceUtility
+	 */
 	public ServiceUtility getServiceUtility(){
 		return mService;
 	}
+	/**
+	 * getter für den Logger
+	 * @return den ILogger
+	 */
 	public ILogger getLogger(){
 		return mLogger;
 	}

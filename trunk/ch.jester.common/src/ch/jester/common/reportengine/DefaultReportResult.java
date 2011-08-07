@@ -3,6 +3,11 @@ package ch.jester.common.reportengine;
 import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportResult;
 
+/**
+ * Default Impl. für ein (abstraktes) Result eines generierten Reports
+ *
+ * @param <T>
+ */
 public abstract class DefaultReportResult<T> implements IReportResult{
 	protected T mResult;
 	protected String mOutptuName;

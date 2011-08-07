@@ -28,7 +28,8 @@ public interface IVirtualTable<T> {
 		 */
 		public String getDelimiter();
 		/**
-		 * @return
+		 * getter für die definierte Delim Sequenz.
+		 * @return int Delim Seq.
 		 */
 		public int getDelimiterSequence();
 		/**
@@ -43,22 +44,27 @@ public interface IVirtualTable<T> {
 		 */
 		public void createCellContent(List<String> detailList, String pInput);
 		/**
+		 * getter für name
 		 * @param  text
 		 */
 		public void setName(String text);
 		/**
-		 * @return
+		 * getter für startposition
+		 * @return die startposition
 		 */
 		public int getStart();
 		/**
-		 * @param  i
+		 * setter für die startposition
+		 * @param  die startposition.
 		 */
 		public void setStart(int i);
 		/**
-		 * @return
+		 * getter für die stopposition
+		 * @return die stopposition
 		 */
 		public int getStop();
 		/**
+		 * 
 		 * @param  i
 		 */
 		public void setStop(int i);
@@ -71,24 +77,24 @@ public interface IVirtualTable<T> {
 	/**
 	 * Die ganze Row
 	 * @param i
-	 * @return
+	 * @return die Headers
 	 */
 	public T getRow(int i);
 	
 	/**Total Rows
-	 * @return
+	 * @return die Row
 	 */
 	public int getTotalRows();
 	/**
 	 * Parsen der Row
 	 * @param pRow
 	 * @param pLenght
-	 * @return
+	 * @return Anzahl aller Rows
 	 */
 	public String[] processRow(T pRow, int pLenght);
 	
 	/**Können Zellen hinzugefügt werden?
-	 * @return
+	 * @return true oder false
 	 */
 	public boolean canAddCells();
 	
@@ -112,7 +118,7 @@ public interface IVirtualTable<T> {
 	/**
 	 * Gibt die übergebene Anzahl Reihen zurück
 	 * @param pCount
-	 * @return
+	 * @return die ZeilenInputs
 	 */
 	public String[] getRowInput(int pCount);
 }

@@ -19,6 +19,7 @@ public interface IActivationContext<V> {
 	public V getActivator();
 
 	/**
+	 * getter für die PluginId
 	 * @return die PluginId des Bundles
 	 */
 	public String getPluginId();
@@ -55,7 +56,7 @@ public interface IActivationContext<V> {
 	 * identisch zu {@link IActivationContext#getServiceUtil()#getService(Class)}
 	 * @param <T>
 	 * @param pClass
-	 * @return
+	 * @return einService vom Typ T
 	 */
 	public <T> T getService(Class<T> pClass);
 

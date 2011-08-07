@@ -21,6 +21,8 @@ import org.eclipse.swt.widgets.Link;
 
 
 /**
+ * Kann einen Link in der Statusbar anzeigen.
+ * 
  * Aus  org.eclipse.ui.editor.text geklaut
  *
  */

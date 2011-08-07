@@ -20,6 +20,10 @@ public class SWTDirtyManager extends DirtyManager implements DisposeListener{
 	private List<Control> mControls = new ArrayList<Control>();
 	private HashMap<Control, Listener> mListeners = new HashMap<Control, Listener>();
 	private ILogger mLogger = CommonUIActivator.getDefault().getActivationContext().getLogger();
+	/**
+	 * Added ein Control, für die DirtyÜberwachung
+	 * @param pControl
+	 */
 	public void add(Control pControl){
 		if(!mControls.contains(pControl)){
 			mControls.add(pControl);
@@ -38,10 +42,19 @@ public class SWTDirtyManager extends DirtyManager implements DisposeListener{
 		return l;
 		
 	}
+	
+	/**
+	 * Entfernen eines Controls
+	 * @param pControl
+	 */
 	public void remove(Control pControl){
 		mControls.remove(pControl);
 	}
 	
+	/**
+	 * Adden von mehreren Controls
+	 * @param pControls
+	 */
 	public void add(Control... pControls){
 		for(Control c:pControls){
 			add(c);
