@@ -18,6 +18,10 @@ import org.eclipse.ui.part.ViewPart;
 
 import ch.jester.common.ui.utility.MenuManagerUtility;
 
+/**
+ * Eine um Hilfsmethoden erweiterte Standardview.
+ *
+ */
 public class AbstractView extends ViewPart{
 	protected MenuManager mPopupManager;
 	protected IToolBarManager mToolbarManager;
@@ -37,11 +41,13 @@ public class AbstractView extends ViewPart{
 	
 	@Override
 	public void createPartControl(Composite parent) {
-		// TODO Auto-generated method stub
-		
+
 	
 	}
 
+	/**
+	 * Hilfsinitialisierung von Menu/Toolbar
+	 */
 	protected void postCreatePartControl(){
 		initializeMenu();
 		initializeToolBar();
@@ -53,11 +59,18 @@ public class AbstractView extends ViewPart{
 		activateView();
 		
 	}
+	/**
+	 * Aktiviert die View.
+	 */
 	protected void activateView() {
 		   getSite().getPage().activate(AbstractView.this);
 		   
 	}
 	 
+	/**
+	 * Installiert einen PopupManager an der übergeben View.
+	 * @param pViewer
+	 */
 	protected void installPopupManager(Viewer pViewer){
 		//installiert den PopupManager
 		mPopupManager = MenuManagerUtility.installPopUpMenuManager(getSite(), pViewer);
@@ -69,16 +82,25 @@ public class AbstractView extends ViewPart{
 			}
 		});
 	}
+	/**
+	 * initialisiert die Toolbar
+	 */
 	private void initializeToolBar() {
 		mToolbarManager = getViewSite().getActionBars()
 				.getToolBarManager();
 	
 	}
+	/**
+	 * init vom Menu
+	 */
 	private void initializeMenu() {
 		 mMenuManager = getViewSite().getActionBars()
 				.getMenuManager();
 	}
 	
+	/**
+	 * installiert UndoRedo handlers.
+	 */
 	protected void installUndoRedoHandlers(){
 		 mUndoContext = PlatformUI.getWorkbench().getOperationSupport().getUndoContext();
 		 mUndoActionHandler = new UndoActionHandler(this.getSite(), mUndoContext);
@@ -96,9 +118,15 @@ public class AbstractView extends ViewPart{
 	
 
 	
+	/**
+	 * @return true wenn UNDO/REDO aktiv sein soll. Sonst false.
+	 */
 	protected boolean enableUndoRedo(){
 		return true;
 	}
+	/**
+	 * zusätzliche inits.
+	 */
 	protected void install(){
 		
 	}

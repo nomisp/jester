@@ -21,6 +21,10 @@ import ch.jester.ui.forms.PlayerFormPage;
 
 
 
+/**
+ * StandardController fürs Databinding (gemäss Eclipse Databinding).
+ *
+ */
 public class PlayerDetailsController {
 	private PlayerFormPage mPlayerDetail;
 	private DataBindingContext mBindingContext;
@@ -35,6 +39,9 @@ public class PlayerDetailsController {
 		}
 	}
 	
+	/**
+	 * @return den DirtyManager
+	 */
 	public DirtyManager getDirtyManager(){
 		return mDm;
 	}
@@ -46,9 +53,15 @@ public class PlayerDetailsController {
 		setPlayer(newPlayer, true);
 	}
 
+	/**
+	 * Model updaten.
+	 */
 	public void updateModel(){
 		mBindingContext.updateModels();
 	}
+	/**
+	 * UI updaten
+	 */
 	public void updateUI(){
 		mBindingContext.updateTargets();
 	}
@@ -69,6 +82,10 @@ public class PlayerDetailsController {
 			}
 		}
 	}
+	/**
+	 * Initialisierung des Standard Eclipse Databinding
+	 * @return aDataBindingContext
+	 */
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
@@ -130,10 +147,19 @@ public class PlayerDetailsController {
 		return bindingContext;
 	}
 
+	/**
+	 * Hinzufügen von Controls die überwacht werden
+	 * @param pText
+	 * @param pProperty
+	 */
 	public void addConstraint(Text pText, String pProperty) {
 		fc.addConstraint(pText, pProperty);
 	}
 	
+	/**
+	 * Sind alle UI Eingaben korrekt?
+	 * @return true oder false
+	 */
 	public boolean isValid(){
 		return !fc.hasErrors();
 	}

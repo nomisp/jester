@@ -13,6 +13,10 @@ import ch.jester.model.Player;
 import ch.jester.ui.forms.PlayerFormPage;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
 
+/**
+ * Der Spieler Editor, welcher Spieler speichert.
+ *
+ */
 public class PlayerEditor extends AbstractEditor<Player>{
 	
 	public static final String ID = "ch.jester.ui.player.editor.PlayerEditor"; //$NON-NLS-1$
@@ -29,10 +33,6 @@ public class PlayerEditor extends AbstractEditor<Player>{
 
 
 	public void init_0(Object parent) {
-		//Composite container = new Composite(parent, SWT.NONE);
-		
-		//mPlayerDetails = new PlayerDetailsView(container, SWT.NONE);
-		//mPlayerDetails.setBounds(0, 0, 365, 300);
 		
 		mPlayerDetails = (PlayerFormPage) parent;
 		mPlayerDetailsController = mPlayerDetails.getController();			
@@ -63,13 +63,6 @@ public class PlayerEditor extends AbstractEditor<Player>{
 		}
 		mPlayerDetailsController.updateUI();
 	}
-
-/*	@Override
-	public void setFocus() {
-		int i = getActivePage();
-		getPageSite(i).
-		mPlayerDetails.setFocus();
-	}*/
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {

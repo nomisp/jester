@@ -44,6 +44,10 @@ import ch.jester.model.Player;
 import ch.jester.ui.Activator;
 
 
+/**
+ * Die PlayerView.
+ *
+ */
 public class PlayersView extends AbstractView{
 	public PlayersView() {
 		
