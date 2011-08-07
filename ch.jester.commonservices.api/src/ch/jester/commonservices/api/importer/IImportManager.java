@@ -15,6 +15,10 @@ import ch.jester.commonservices.api.components.IEPEntryComponentService;
  */
 @SuppressWarnings("rawtypes")
 public interface IImportManager extends IEPEntryComponentService<IImportHandlerEntry, IImportHandler> {
+	/**
+	 * Filterdefiniton
+	 *
+	 */
 	interface IImportFilter{
 		boolean match(String p);
 	}
