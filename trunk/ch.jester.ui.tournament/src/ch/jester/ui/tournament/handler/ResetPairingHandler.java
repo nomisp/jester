@@ -10,6 +10,10 @@ import ch.jester.model.Category;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 
+/**
+ * Handler um Paarungen zu löschen
+ *
+ */
 public class ResetPairingHandler extends AbstractCommandHandler{
 
 	@Override

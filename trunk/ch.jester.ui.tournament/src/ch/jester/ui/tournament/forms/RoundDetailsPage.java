@@ -30,7 +30,7 @@ import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.model.Round;
 
 /**
- * Category Details
+ * Runden Details
  *
  */
 public class RoundDetailsPage implements IDetailsPage {
@@ -181,14 +181,6 @@ public class RoundDetailsPage implements IDetailsPage {
 	public SWTDirtyManager getDirtyManager() {
 		return dm;
 	}
-//	
-//	private void addListeners() {
-//		date.addSelectionListener(listener).addModifyListener(textModifyListener);
-//	}
-//
-//	private void removeListeners() {
-//		description.removeModifyListener(textModifyListener);
-//	}
 	
 	/**
 	 * Gibt das Datum der Runde

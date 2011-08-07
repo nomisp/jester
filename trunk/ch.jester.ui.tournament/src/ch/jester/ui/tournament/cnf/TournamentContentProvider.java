@@ -190,13 +190,6 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 		return EMPTY_ARRAY;
 	}
 	
-
-	
-//	private Object[] getRounds(Category category) {
-//		Object[] rounds = category.getRounds().toArray();
-//		if (rounds != null) return rounds;
-//		return EMPTY_ARRAY;
-//	}
 	
 	/**
 	 * Liefert die Child Objekte einer Kategorie (Player und Rounds)
@@ -204,10 +197,8 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 	 * @return Object[] mit den Player und Round Objekten
 	 */
 	private Object[] getCategoryChildren(Category category) {
-//		Set<Player> players = category.getPlayers();
 		List<Round> rounds = category.getRounds();
 		List<Object> objects = new ArrayList<Object>();
-//		objects.addAll(players);
 		objects.add(new PlayerFolder(category));
 		objects.addAll(rounds);
 		return objects.toArray();
@@ -218,20 +209,6 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 		if (pairings != null) return pairings;
 		return EMPTY_ARRAY;
 	}
-
-//	@Override
-//	public void handleDelete(IEntityObject pObject) {
-//		if (pObject instanceof Tournament) {
-//			IDaoService<Tournament> tournamentPersister = su.getDaoService(Tournament.class);
-//			tournamentPersister.delete((Tournament)pObject);
-//		}
-//	}
-//
-//	@Override
-//	public void handleDelete(List pList) {
-//		// TODO Auto-generated method stub
-//		
-//	}
 
 	@Override
 	public void handleDelete(List<IEntityObject> pList) throws ProcessingException{
@@ -249,6 +226,4 @@ public class TournamentContentProvider implements ITreeContentProvider, IHandler
 			throw new ProcessingException(e);
 		}
 	}
-	
-
 }

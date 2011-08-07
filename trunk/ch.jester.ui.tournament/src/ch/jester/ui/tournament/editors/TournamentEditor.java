@@ -103,8 +103,6 @@ public class TournamentEditor extends AbstractEditor<Tournament> implements ITou
 
 	}
 
-
-
 	public void init_0(Object parent) {
 		mTournamentPage = (TournamentFormPage) parent;
 		mTournamentController = mTournamentPage.getController();		
@@ -188,6 +186,7 @@ public class TournamentEditor extends AbstractEditor<Tournament> implements ITou
 			monitor.done();
 		}
 	}
+	
 	@Override
 	public void editorClosed() {
 		//origService.refresh(mDaoInput.getInput());
@@ -200,6 +199,10 @@ public class TournamentEditor extends AbstractEditor<Tournament> implements ITou
 
 	}
 	
+	/**
+	 * Suchen der Paarungssystem spezifischen Settings-Page
+	 * @return Settings-FormPage
+	 */
 	@SuppressWarnings("rawtypes")
 	private AbstractSystemSettingsFormPage findSettingsPage() {
 		Tournament tourn = mDaoInput.getInput();

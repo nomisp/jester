@@ -56,6 +56,12 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 	//	return ranking;
 	}
 	
+	@Override
+	public Ranking calculateRanking(Category category, Round round,
+			IProgressMonitor pMonitor) throws NotAllResultsException {
+		return createIntermediateRanking(category, round, RankingHelper.getLastFinishedRound(category));
+	}
+	
 	/**
 	 * Erzeugt die Schlussrangliste zu einer Kategorie
 	 * @param category
@@ -89,11 +95,7 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 		saveFinalRanking(category, ranking);
 		return ranking;
 	}
-	@Override
-	public Ranking calculateRanking(Category category, Round round,
-			IProgressMonitor pMonitor) throws NotAllResultsException {
-		return createIntermediateRanking(category, round, RankingHelper.getLastFinishedRound(category));
-	}
+	
 	/**
 	 * Erzeugt eine Zwischenrangliste zur letzten fertig gespielten Runde
 	 * @param category
@@ -109,6 +111,8 @@ public class SonnebornBergerRankingSystem implements IRankingSystem, IEPEntryCon
 	/**
 	 * Erzeugt eine Zwischenrangliste zur letzten fertig gespielten Runde
 	 * @param category
+	 * @param injectedRound
+	 * @param lastFinishedRound zuletzt beendete Runde
 	 * @return Zwischenrangliste
 	 * @throws NotAllResultsException 
 	 */

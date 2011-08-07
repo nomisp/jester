@@ -7,20 +7,22 @@ import ch.jester.model.Category;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 
+/**
+ * ContentProvider für Turniere
+ *
+ */
 public class TournamentTreeContentProvider implements ITreeContentProvider {
 
 	private static final Object[] EMPTY_ARRAY = new Object[0];
 	
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

@@ -22,6 +22,7 @@ public class TournamentNavigator extends CommonNavigator {
 		
 	}
 
+	@Override
 	protected IAdaptable getInitialInput() {
 		return new Root();
 	}

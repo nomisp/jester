@@ -28,7 +28,10 @@ import ch.jester.system.api.pairing.IPairingManager;
 import ch.jester.system.api.ranking.IRankingSystemEntry;
 import ch.jester.system.api.ranking.IRankingSystemManager;
 
-
+/**
+ * Wizard Seite zur Auswhl der Systeme (Paarung, Feinwertung, Rechner)
+ *
+ */
 public class NewTournWizPageSystem extends WizardPage {
 
 	private boolean pageComplete = false;
@@ -176,7 +179,6 @@ public class NewTournWizPageSystem extends WizardPage {
 		}
 	}
 	
-
 	private class PairingSystemSelectionListener implements ISelectionChangedListener {
 		SelectionUtility su = new SelectionUtility(null);
 
@@ -211,7 +213,6 @@ public class NewTournWizPageSystem extends WizardPage {
 		}
 	}
 	
-
 	private class RankingSystemSelectionListener implements ISelectionChangedListener {
 		SelectionUtility su = new SelectionUtility(null);
 
@@ -246,7 +247,6 @@ public class NewTournWizPageSystem extends WizardPage {
 		}
 	}
 	
-
 	private class EloCalculatorSelectionListener implements ISelectionChangedListener {
 		SelectionUtility su = new SelectionUtility(null);
 

@@ -7,6 +7,10 @@ import java.util.List;
 
 import ch.jester.model.Category;
 
+/**
+ * Ordner für den Navigator um Spieler zu halten
+ *
+ */
 public class PlayerFolder {
 	private Object[] players;
 	private Object parent;
@@ -30,6 +34,11 @@ public class PlayerFolder {
 		return EMPTY_ARRAY;
 	}
 
+	/**
+	 * Überprüfen auf null-Spieler (bei Freilosen)
+	 * @param players
+	 * @return Spieler (keine null-Spieler)
+	 */
 	private Object[] checkNullPlayers(Object[] players) {
 		List<Object> list = new ArrayList<Object>(Arrays.asList(players));
 		list.removeAll(Collections.singleton(null));

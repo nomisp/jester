@@ -16,6 +16,10 @@ import ch.jester.model.Category;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 
+/**
+ * Handler um Spieler zu entfernen
+ *
+ */
 public class RemovePlayerHandler extends AbstractCommandHandler{
 	@Override
 	public Object executeInternal(ExecutionEvent event) {

@@ -15,11 +15,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.DateTime;
-//import org.eclipse.nebula.widgets.formattedtext.FormattedText;
-//import org.eclipse.nebula.widgets.formattedtext.NumberFormatter;
-//import java.util.Locale;
 
-
+/**
+ * Wizzard-Page für die allgemeinen Turnierdaten
+ *
+ */
 public class NewTournamentWizPageName extends WizardPage implements ModifyListener {
 	private Text tournamentName;
 	private Text description;
@@ -115,7 +115,7 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 	
 	/**
 	 * Gibt das Datum an dem das Turnier beginnt
-	 * @return
+	 * @return Startdatum
 	 */
 	public Date getDateFrom() {
 		Calendar cal = Calendar.getInstance();
@@ -125,7 +125,7 @@ public class NewTournamentWizPageName extends WizardPage implements ModifyListen
 	
 	/**
 	 * Gibt das Datum an dem das Turnier zu Ende ist
-	 * @return
+	 * @return Enddatum
 	 */
 	public Date getDateTo() {
 		Calendar cal = Calendar.getInstance();

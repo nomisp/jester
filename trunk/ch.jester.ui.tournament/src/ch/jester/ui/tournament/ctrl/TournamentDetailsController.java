@@ -11,6 +11,10 @@ import ch.jester.common.ui.editorutilities.DirtyManager;
 import ch.jester.model.Tournament;
 import ch.jester.ui.tournament.forms.TournamentFormPage;
 
+/**
+ * Controller für den Turniereditor
+ *
+ */
 public class TournamentDetailsController {
 	private TournamentFormPage tournamentDetails;
 	private DirtyManager dirtyManager;
@@ -25,9 +29,12 @@ public class TournamentDetailsController {
 		}
 	}
 
+	/**
+	 * Initialieren des Databindings
+	 * @return DataBindingContext
+	 */
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
-		// TODO Peter: Bindings!
 		IObservableValue nameObserveWidget = SWTObservables.observeText(tournamentDetails.getNameText(), SWT.Modify);
 		IObservableValue nameObserveValue = BeansObservables.observeValue(tournament, "name");
 		bindingContext.bindValue(nameObserveWidget, nameObserveValue, new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
@@ -50,9 +57,16 @@ public class TournamentDetailsController {
 		return dirtyManager;
 	}
 
+	/**
+	 * Modell aktualisieren
+	 */
 	public void updateModel(){
 		bindingContext.updateModels();
 	}
+	
+	/**
+	 * UI aktualisieren
+	 */
 	public void updateUI(){
 		bindingContext.updateTargets();
 	}

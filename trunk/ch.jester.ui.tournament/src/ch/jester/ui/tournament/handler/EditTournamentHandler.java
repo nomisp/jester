@@ -8,6 +8,10 @@ import ch.jester.common.ui.handlers.AbstractCommandHandler;
 import ch.jester.model.Tournament;
 import ch.jester.ui.tournament.cnf.TournamentNavigator;
 
+/**
+ * Handler für den Turnier-Editor
+ *
+ */
 public class EditTournamentHandler extends AbstractCommandHandler implements IHandler {
 
 	private Tournament selectedTournament;

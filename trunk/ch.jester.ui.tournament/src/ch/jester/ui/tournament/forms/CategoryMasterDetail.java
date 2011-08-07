@@ -48,6 +48,10 @@ import ch.jester.ui.tournament.cnf.TournamentLabelProvider;
 import ch.jester.ui.tournament.editors.TournamentEditor;
 import ch.jester.ui.tournament.internal.Activator;
 
+/**
+ * MasterDetail für die Kategorien und Runden
+ *
+ */
 public class CategoryMasterDetail extends MasterDetailsBlock {
 
 	private CategoryFormPage page;
@@ -68,7 +72,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 
 	}
 	
-
+	@Override
 	protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
 		FormToolkit toolkit = managedForm.getToolkit();
 		Section section = toolkit.createSection(parent, Section.DESCRIPTION|Section.TITLE_BAR);
@@ -159,6 +163,7 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		btRemove.setEnabled(this.page.getTournamentEditorConstraints().canRemoveCategories);
 		treeViewer.expandAll();
 	}
+	
 	@SuppressWarnings("rawtypes")
 	private void addPropertyListener(AbstractModelBean bean) {
 		if(bean instanceof Category){
@@ -321,7 +326,10 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		return categoryDetailsPage.isValid();
 	}
 
-
+	/**
+	 * Entfernen einer Kategorie
+	 * @param cat zu löschende Kategorie
+	 */
 	public void removeCategory(Category cat) {
 		tournament.removeCategory(cat);
 		treeViewer.setSelection(new StructuredSelection());
@@ -329,14 +337,21 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		
 	}
 
-
+	/**
+	 * Hinzufügen einer Kategorie
+	 * @param cat hinzuzufügende Kategorie
+	 */
 	public void addCategory(Category cat) {
 		tournament.addCategory(cat);
 		refreshAndDirty();
 		
 	}
 
-
+	/**
+	 * Hinzufügen einer Runde
+	 * @param category zugehörige Kategorie
+	 * @param round hinzuzufügende Runde
+	 */
 	public void addRound(Category category, Round round) {
 		category.addRound(round);
 		refreshAndDirty();
@@ -344,7 +359,11 @@ public class CategoryMasterDetail extends MasterDetailsBlock {
 		
 	}
 
-
+	/**
+	 * Entfernen einer Runde
+	 * @param category zugehörige Kategorie
+	 * @param round	zu entfernende Runde
+	 */
 	public void removeRound(Category category, Round round) {
 		category.removeRound(round);
 		List<Round> rounds = category.getRounds();
