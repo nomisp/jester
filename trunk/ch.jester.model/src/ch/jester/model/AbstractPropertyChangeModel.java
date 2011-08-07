@@ -5,7 +5,7 @@ import java.beans.PropertyChangeSupport;
 
 
 /**
- * Abstract Model, das PropertyChanges unterstütz
+ * Abstract Model, das PropertyChanges unterstützt
  *
  */
 public class AbstractPropertyChangeModel{

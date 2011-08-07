@@ -20,6 +20,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ * Kategorie
+ *
+ */
 @Entity
 @Table(name="Category")
 @NamedQueries({

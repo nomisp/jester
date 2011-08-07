@@ -4,6 +4,10 @@ import ch.jester.model.Pairing;
 import ch.jester.model.Player;
 import ch.jester.model.PlayerCard;
 
+/**
+ * Utility Klasse um die Spielernamen zu verallgemeinen
+ *
+ */
 public class PlayerNamingUtility {
 	private static String mDefault_Delim =", ";
 	public static String createName(Player pPlayer, String pDelim){

@@ -16,6 +16,10 @@ import javax.xml.bind.annotation.XmlType;
 
 import ch.jester.model.util.Result;
 
+/**
+ * Paarung
+ *
+ */
 @Entity
 @Table(name="Pairing")
 @NamedQueries({
