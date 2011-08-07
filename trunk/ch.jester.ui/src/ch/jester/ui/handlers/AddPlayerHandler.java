@@ -5,6 +5,10 @@ import ch.jester.commonservices.api.persistency.IEntityObject;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.player.editor.view.PlayersView;
 
+/**
+ * Handler um einen neuen Spieler zu erzeugen.
+ *
+ */
 public class AddPlayerHandler extends DaoAddHandler{
 
 	@Override

@@ -8,6 +8,10 @@ import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.persistency.IDaoService;
 import ch.jester.model.Tournament;
 
+/**
+ * Handler um Turniere aktiv/inaktiv zu setzten.
+ *
+ */
 public class ActivateHandler extends AbstractCommandHandler {
 	public final String ACTIVATION_ID ="ch.jester.ui.tournamentactivation";
 	@Override
