@@ -4,6 +4,10 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 
+/**
+ * Subclassing Delegate für Aktivatoren
+ * @param <T>
+ */
 public interface IDelegationActivator<T> extends IActivationContextProvider<T>,
 		BundleActivator {
 	/**
