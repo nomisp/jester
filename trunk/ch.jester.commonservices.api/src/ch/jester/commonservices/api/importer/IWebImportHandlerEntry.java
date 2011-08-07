@@ -1,6 +1,10 @@
 package ch.jester.commonservices.api.importer;
 
 
+/**
+ * Definition für einen WebAdapter.
+ * 
+ */
 public interface IWebImportHandlerEntry extends IImportHandlerEntry{
 	/**
 	 * Der Provider der Page

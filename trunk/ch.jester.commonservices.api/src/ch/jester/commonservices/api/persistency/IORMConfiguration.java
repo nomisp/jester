@@ -11,10 +11,22 @@ import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 
 
+/**
+ * Definiert die Konfiguration für eine Datenbank
+ *
+ */
 public interface IORMConfiguration extends IPreferenceManagerProvider {
 
+	/**Initialisierung
+	 * @param pKey
+	 * @return
+	 */
 	public IPreferenceManager initializePreferenceManager(String pKey);
 	
+	/**
+	 * Gibt die Konfiguration als Map zurück
+	 * @return
+	 */
 	public HashMap<String, String> getConfiguration();
 	
 	/**
@@ -80,6 +92,10 @@ public interface IORMConfiguration extends IPreferenceManagerProvider {
 	
 	public String getConnectionString();
 	
+	/**
+	 * Setzt das IConfigurationElement vom Extension Point
+	 * @param pElement
+	 */
 	public void setConfigElement(IConfigurationElement pElement);
 	/**liefert die JPA Factory
 	 * @return

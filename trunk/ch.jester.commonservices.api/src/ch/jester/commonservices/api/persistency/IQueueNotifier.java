@@ -1,5 +1,9 @@
 package ch.jester.commonservices.api.persistency;
 
+/**
+ * Interface welches zur Steuerung von Events für die Queue benutzt wird.
+ *
+ */
 public interface IQueueNotifier {
 	/**
 	 * Die IPersistencyEventQueue wird nicht mehr automatisch benachrichtigt.

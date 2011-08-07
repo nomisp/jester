@@ -3,6 +3,10 @@ package ch.jester.commonservices.internal;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+/**
+ * Interner Standardaktivator.
+ *
+ */
 public class Activator implements BundleActivator {
 	private static Activator mInstance;
 	private BundleContext mContext;

@@ -3,7 +3,7 @@ package ch.jester.commonservices.api.importer;
 import java.io.IOException;
 
 /**
- * Das Interface beschreibt einen ausführbaren (herunterladbaren) Link<zb>
+ * Das Interface beschreibt einen ausführbaren (herunterladbaren) Link<b>
  * www.acme.com/downloads/1.zip
  *
  */
