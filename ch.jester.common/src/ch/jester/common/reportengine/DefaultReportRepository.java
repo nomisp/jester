@@ -19,6 +19,10 @@ import ch.jester.commonservices.api.reportengine.IReportRepository;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 
+/**
+ * DefaultImpl. für eine ReportRepositiory
+ *
+ */
 public class DefaultReportRepository implements IReportRepository {
 	private HashMap<String, IReport> mReportMap = new HashMap<String, IReport>();
 	private BundleResourceExporter exporter = new BundleResourceExporter();

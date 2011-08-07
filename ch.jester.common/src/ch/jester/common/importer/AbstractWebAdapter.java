@@ -18,6 +18,11 @@ import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
+/**
+ * Template für allfällige ImportHandlerEntries welche zu einem WebAdapter
+ * adpatiert werden müssen.
+ *
+ */
 public abstract class AbstractWebAdapter implements IWebImportAdapter, IPreferencePropertyChanged{
 	private String mDownloadAddress;
 	protected List<ILink> mLinkList;
@@ -52,6 +57,10 @@ public abstract class AbstractWebAdapter implements IWebImportAdapter, IPreferen
 	public void setDownloadAddress(String pAddress){
 		mDownloadAddress=pAddress;
 	}
+	/**
+	 * Setter für die Download Adresse.
+	 * @return die Adresse
+	 */
 	public String getDownloadAddress(){
 		return mDownloadAddress;
 	}

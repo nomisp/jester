@@ -5,6 +5,10 @@ import java.util.StringTokenizer;
 
 import ch.jester.commonservices.api.importer.IVirtualTable.IVirtualCell;
 
+/**
+ * DefaultImplementation von IVirtualCell
+ *
+ */
 public class VirtualCell implements IVirtualCell {
 		String delim;
 		String mName;

@@ -11,7 +11,7 @@ import ch.jester.commonservices.api.logging.ILoggerFactory;
 public class InjectedLogFactoryComponentAdapter<T> extends ComponentAdapter<T> {
 	
 	/**ILoggerFactory binding
-	 * @param pFactory
+	 * @param eine LoggerFactory pFactory
 	 */
 	public void bindLoggerFactory(ILoggerFactory pFactory){
 		setLogger(pFactory.getLogger(InjectedLogFactoryComponentAdapter.this.getClass()));
@@ -20,7 +20,7 @@ public class InjectedLogFactoryComponentAdapter<T> extends ComponentAdapter<T> {
 	
 	/**Unbinding.
 	 * Hier geschieht nichts. Wir wollen der Klasse ja nicht ihren Logger klauen.
-	 * @param pFactory
+	 * @param eine LoggerFactory pFactory
 	 */
 	public void unbindLoggerFactory(ILoggerFactory pFactory){
 
@@ -28,7 +28,7 @@ public class InjectedLogFactoryComponentAdapter<T> extends ComponentAdapter<T> {
 
 	/**
 	 * Eine vordefinierte Start Message
-	 * @return
+	 * @return die Message
 	 */
 	public String getStartMessage(){
 		return "*** Component "+InjectedLogFactoryComponentAdapter.this.getClass().getSimpleName()+" started";

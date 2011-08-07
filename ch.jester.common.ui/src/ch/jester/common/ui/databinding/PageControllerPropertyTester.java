@@ -5,6 +5,13 @@ import org.eclipse.core.expressions.PropertyTester;
 import ch.jester.common.ui.internal.CommonUIActivator;
 import ch.jester.commonservices.api.logging.ILogger;
 
+/**
+ * Versucht den receiver auf die Properties "back" und "next" entsprechend zu testen.<br>
+ * Der Receiver der test Methode muss ein PageController sein.
+ * Entsprechen über CoreExpression mit adapt konfigurieren!
+ *
+ *
+ */
 public class PageControllerPropertyTester extends PropertyTester {
 	private ILogger mLogger;
 	public PageControllerPropertyTester() {

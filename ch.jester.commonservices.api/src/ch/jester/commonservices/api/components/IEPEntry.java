@@ -8,6 +8,7 @@ package ch.jester.commonservices.api.components;
 public interface IEPEntry<T> {
 	
 	/**
+	 * Gibt das Property pPropertyKey vom ExtensionPoint zurück
 	 * @param pPropertyKey
 	 * @return Wert für Key, oder null
 	 */

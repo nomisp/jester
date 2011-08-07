@@ -7,6 +7,10 @@ import java.io.InputStream;
 
 import ch.jester.commonservices.api.reportengine.IReport;
 
+/**
+ * Defaultimpl. eines Reports.
+ *
+ */
 public class DefaultReport implements IReport{
 
 	protected String mAlias;

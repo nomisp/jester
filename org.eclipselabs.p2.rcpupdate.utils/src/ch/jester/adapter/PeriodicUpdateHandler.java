@@ -16,6 +16,11 @@ import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 
+/**
+ * Service Component, welche Updates ausführt.<br>
+ * Je nachdem beim Start oder manuell.
+ *
+ */
 public class PeriodicUpdateHandler extends InjectedLogFactoryComponentAdapter<IPreferenceRegistration>{
 	private final static String PM_ID = "ch.jester.update"; //$NON-NLS-1$
 	private final static String PP_ID_INTERVAL = "interval"; //$NON-NLS-1$

@@ -16,6 +16,10 @@ import org.eclipse.ui.services.IServiceLocator;
 import ch.jester.common.ui.utility.FontUtil;
 import ch.jester.common.utility.AdapterBinding;
 
+/**
+ * Ein GotoPage Feld
+ *
+ */
 @SuppressWarnings("restriction")
 public class GotoPageField extends
 		WorkbenchWindowControlContribution implements IWorkbenchContribution {

@@ -48,7 +48,7 @@ public interface IReport {
 	/**
 	 * Gibt das installierte File als Stream.
 	 * 
-	 * @return
+	 * @return das File
 	 * @throws IOException
 	 */
 	public abstract InputStream getInstalledFileAsStream() throws IOException;
@@ -61,6 +61,7 @@ public interface IReport {
 
 	
 	/**
+	 * Getter für die Klasse des Inputs.
 	 * @return Die erwartete Input Klasse
 	 */
 	public Class<?> getInputBeanClass();

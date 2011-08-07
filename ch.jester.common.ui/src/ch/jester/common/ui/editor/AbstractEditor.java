@@ -23,6 +23,11 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 
 
+/**
+ * Ein Abstracter FormEditor erweitert um Hilfsmethoden.
+ *
+ * @param <T>
+ */
 public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor implements IDirtyListener, IDirtyManagerProvider{
 	private ServiceUtility mServices = CommonUIActivator.getDefault().getActivationContext().getServiceUtil();
 	protected IEditorDaoInputAccess<T> mDaoInput;
@@ -52,20 +57,37 @@ public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor
 		internalInit(site, mDaoInput);
 		
 	}
+	/**
+	 * Interner Init -- Leer. Kann von Subklassen überschrieben werden.
+	 * @param site
+	 * @param input
+	 */
 	public void internalInit(IEditorSite site, IEditorDaoInputAccess<T> input){
 		
 	}
 
 
+	/**
+	 * Setzen des IDaoServices.
+	 * @param dao
+	 */
 	public void setDaoService(IDaoService<T> dao){
 		mLogger.debug(this+" setting dao to "+dao);
 		mDao=dao;
 	}
 	
+	/**
+	 * Zugriff auf den Eclipse PartService
+	 * @return den PartService
+	 */
 	protected IPartService getPartService(){
 		return (IPartService) getSite().getService(IPartService.class);
 	}
 	
+	/**
+	 * getter für das ServiceUtility
+	 * @return das ServiceUtility
+	 */
 	public ServiceUtility getServiceUtil(){
 		return mServices;
 	}
@@ -74,9 +96,13 @@ public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor
 		mDirtyManager=pDirtyManager;
 	}
 	
+	@Override
 	public DirtyManager getDirtyManager(){
 		return mDirtyManager;
 	}
+	/**
+	 * Dirty resetten
+	 */
 	protected void cleanDirty(){
 		mDirtyManager.reset();
 	}
@@ -106,9 +132,19 @@ public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
 	
+	
+	/**
+	 * Testet ob der Editor gesichert wurde
+	 * @return
+	 */
 	public boolean wasSaved(){
 		return mSaveIndicatorFlag;
 	}
+	
+	/**
+	 * Soll von Subklassen aufgerufen werden, wenn das Speichern erfolgt ist.
+	 * @param pSaved
+	 */
 	protected void setSaved(boolean pSaved){
 		mSaveIndicatorFlag=pSaved;
 	}
@@ -122,9 +158,16 @@ public abstract class AbstractEditor<T extends IEntityObject> extends FormEditor
 	     }
 	}
 	
-	 public void editorClosed(){};
+	 /**
+	 * wird aufgerufen wenn der Editor geschlossen wird.
+	 */
+	public void editorClosed(){};
 	 
-	 class NestedPart2Listener extends PartListener2Adapter{
+	 /**
+	 * Listener für das Schliessen des Editors.
+	 *
+	 */
+	class NestedPart2Listener extends PartListener2Adapter{
 			@Override
 			public void partClosed(IWorkbenchPartReference partRef) {
 				Object editor = partRef.getPart(false);

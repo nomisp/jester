@@ -7,6 +7,11 @@ import org.eclipse.ui.PartInitException;
 
 import ch.jester.commonservices.api.persistency.IEntityObject;
 
+/**
+ * Implementiert StandardMatchingStrategy für IEntityObjects.
+ * Für Editor Reuse.
+ *
+ */
 public class EntityObjectInputMatcher implements IEditorMatchingStrategy {
 
 	@Override
@@ -35,7 +40,7 @@ public class EntityObjectInputMatcher implements IEditorMatchingStrategy {
 	}
 
 	
-	public IEntityObject tryGetEntityObject(IEditorInput input){
+	private IEntityObject tryGetEntityObject(IEditorInput input){
 		if(input instanceof IEditorInputAccess<?>){
 			@SuppressWarnings("rawtypes")
 			Object object = ((IEditorInputAccess)input).getInput();

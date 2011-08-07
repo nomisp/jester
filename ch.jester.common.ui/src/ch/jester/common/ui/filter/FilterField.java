@@ -26,6 +26,10 @@ import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.commonservices.api.logging.ILogger;
 
+/**
+ * Ein FilterFeld.
+ *
+ */
 public class FilterField {
 	private Stack<String> mEventStack = new Stack<String>();
 	private FilterJob mJob = new FilterJob();

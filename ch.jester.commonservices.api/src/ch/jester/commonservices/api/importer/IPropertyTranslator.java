@@ -8,18 +8,18 @@ public interface IPropertyTranslator {
 	/**
 	 * Gibt das Objekt Property für dieses übersetzte Property zurück
 	 * @param translatedProperty
-	 * @return
+	 * @return das original Property
 	 */
 	public String getProperty(String translatedProperty);
 	/**
 	 * Übersetzt das Objekt Property
 	 * @param property
-	 * @return
+	 * @return das übersetzte Property
 	 */
 	public String getTranslation(String property);
 	/**
 	 * Alle Übersetzungen
-	 * @return
+	 * @return die Übersetzungen.
 	 */
 	public String[] getTranslatedProperties();
 }
