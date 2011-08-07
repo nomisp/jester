@@ -87,6 +87,7 @@ public class TournamentLabelProvider extends LabelProvider implements ILabelProv
 		return text;
 	}
 
+	@Override
 	public Image getImage(Object element) {
 		if (element instanceof Tournament) {
 			return UIUtility.getImageDescriptor(

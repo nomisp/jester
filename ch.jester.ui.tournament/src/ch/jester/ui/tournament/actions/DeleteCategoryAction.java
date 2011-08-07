@@ -8,7 +8,7 @@ import ch.jester.model.Category;
 import ch.jester.ui.tournament.forms.CategoryMasterDetail;
 
 /**
- * Action um Runden zu einem Turnier hinzuzufügen
+ * Action um Kategorien aus dem Turnier zu löschen
  */
 public class DeleteCategoryAction extends Action {
 	private Category cat;

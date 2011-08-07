@@ -22,6 +22,10 @@ import ch.jester.common.ui.editorutilities.SWTDirtyManager;
 import ch.jester.ui.tournament.ctrl.TournamentDetailsController;
 import ch.jester.ui.tournament.editors.TournamentEditor;
 
+/**
+ * FormPage für die allgemeinen Turnierdaten
+ *
+ */
 public class TournamentFormPage extends FormPage implements IDirtyManagerProvider {
 	private TournamentDetailsController mController;
 	private SWTDirtyManager dm = new SWTDirtyManager();

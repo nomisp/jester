@@ -51,6 +51,11 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		}
 	}
 	
+	/**
+	 * Liefert die Nummer der letzten beendeten Runde
+	 * @param category Kategorie zu welcher die Rangliste erstellt werden soll
+	 * @return	Rundennummer der letzten abgeschlossenen Runde
+	 */
 	private int getLastFinishedRoundNumber(Category category){
 		Round r = RankingHelper.getLastFinishedRound(category);
 		if(r==null){
@@ -98,6 +103,14 @@ public class BuchholzRankingSystem implements IRankingSystem, IEPEntryConfig {
 		return ranking;
 	}
 	
+	/**
+	 * Erzeugt eine Zwischenrangliste zu einer bestimmten Runde
+	 * @param category	Kategorie
+	 * @param injectedRound
+	 * @param lastFinishedRoundNumber zuletzt beendete Runde
+	 * @return Zwischenrangliste
+	 * @throws NotAllResultsException
+	 */
 	private IntermediateRanking createIntermediateRanking(Category category,Round injectedRound, int lastFinishedRoundNumber) throws NotAllResultsException {
 		if (lastFinishedRoundNumber == 0) throw new NotAllResultsException("NotAllResultsForRanking");
 		if(lastFinishedRoundNumber<injectedRound.getNumber()) throw new NotAllResultsException("NotAllResultsForRanking");

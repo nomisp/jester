@@ -195,6 +195,10 @@ public class CategoryDetailsPage implements IDetailsPage {
 		refresh();
 	}
 	
+	/**
+	 * Initialieren des Databindings
+	 * @return DataBindingContext
+	 */
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
@@ -221,6 +225,9 @@ public class CategoryDetailsPage implements IDetailsPage {
 		return dm;
 	}
 	
+	/**
+	 * Listener anmelden
+	 */
 	private void addListeners() {
 		description.addModifyListener(textModifyListener);
 		minElo.addModifyListener(textModifyListener);
@@ -229,6 +236,9 @@ public class CategoryDetailsPage implements IDetailsPage {
 		maxAge.addModifyListener(textModifyListener);
 	}
 
+	/**
+	 * Listener entfernen
+	 */
 	private void removeListeners() {
 		description.removeModifyListener(textModifyListener);
 		minElo.removeModifyListener(textModifyListener);

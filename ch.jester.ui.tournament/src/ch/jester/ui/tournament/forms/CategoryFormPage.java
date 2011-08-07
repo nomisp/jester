@@ -16,6 +16,10 @@ import ch.jester.system.api.pairing.ITournamentEditorConstraintsProvider;
 import ch.jester.system.api.pairing.ui.TournamentEditorConstraints;
 import ch.jester.ui.tournament.editors.TournamentEditor;
 
+/**
+ * FormPage für die Kategorien/Runden beinhaltet einen MasterDetail
+ *
+ */
 public class CategoryFormPage extends FormPage implements ITournamentEditorConstraintsProvider {
 
 	private CategoryMasterDetail block;

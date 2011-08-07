@@ -24,6 +24,10 @@ import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.internal.Activator;
 
+/**
+ * Wizard um neue Turniere anzulegen
+ * @see Wizard
+ */
 public class NewTournamentWizard extends Wizard implements INewWizard {
 	
 	private ILogger mLogger;
@@ -54,6 +58,10 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 		categoriesPage = new NewTournWizPageCategories();
 	}
 	
+	/**
+	 * Abschliessen des Wizards und persistieren des Turniers
+	 * 
+	 */
 	@Override
 	public boolean performFinish() {
 		
@@ -64,8 +72,6 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 					// Kategorien holen und persistieren
 					List<Category> categories = getCategories();
-//					ICategoryDao categoryPersister = su.getExclusiveService(ICategoryDao.class);
-//					categoryPersister.save(categories);
 					
 					String tournamentName = newTournament.getTournamentName();
 					String description = newTournament.getDescription();
@@ -82,8 +88,6 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					tournament.setPairingSystemPlugin(systemPage.getPairingAlgorithmEntry().getPluginId());
 					tournament.setPairingSystem(systemPage.getPairingAlgorithmEntry().getImplementationClass());
 					tournament.setSettingsPage(systemPage.getPairingAlgorithmEntry().getSettingsPage());
-//					tournament.setRankingSystem(systemPage.getRankingSystemEntry().getImplementationClass());
-//					tournament.setRankingSystemType(systemPage.getRankingSystemEntry().getShortType());
 					tournament.setEloCalculator(systemPage.getEloCalculatorEntry().getImplementationClass());
 					tournament.setCategories(categories);	// Aufgrund des Cascadings werden die hinzugefügten Kategorien gleich mit persistiert
 					tournament.setActive(true);
@@ -96,7 +100,6 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 					tournament.addRankingSystem(rs);
 					IDaoService<Tournament> tournamentPersister = su.getDaoServiceByEntity(Tournament.class);//su.getExclusiveService(ITournamentDao.class);
 					tournamentPersister.save(tournament);
-//					categoryPersister.save(categories);
 					mLogger.debug("Tournament " + tournament.getName() + " with Id " + tournament.getId() + " created"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
 			});
@@ -109,6 +112,11 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 		return true;
 	}
 	
+	/**
+	 * Holt das Jahr aus dem Datum
+	 * @param date
+	 * @return
+	 */
 	private int getYear(Date date) {
 		Calendar cal = Calendar.getInstance();
 		if (date == null) date = new Date();
@@ -118,7 +126,7 @@ public class NewTournamentWizard extends Wizard implements INewWizard {
 	
 	/**
 	 * Holen der Kategorien von der WizardPage
-	 * @return
+	 * @return Liste mit den hinzugefügten Kategorien
 	 */
 	private List<Category> getCategories() {
 		ModelFactory mf = ModelFactory.getInstance();
