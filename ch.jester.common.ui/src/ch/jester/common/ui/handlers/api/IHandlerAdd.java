@@ -6,7 +6,7 @@ import ch.jester.commonservices.api.persistency.IEntityObject;
 
 /**
  * Interface um Objekte hinzuzufügen<br>
- * Wird von div. Handler benutzt.
+ * Wird von div Handler benutzt.
  *
  * @param <T>
  */

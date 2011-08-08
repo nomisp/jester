@@ -22,6 +22,10 @@ import ch.jester.model.Player;
 import ch.jester.model.Tournament;
 import ch.jester.model.util.RankingReportInput;
 
+/**
+ * StandardActivator
+ *
+ */
 public class Activator extends AbstractUIActivator implements IAdapterFactory {
 
 	private static Activator instance;

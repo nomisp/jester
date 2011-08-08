@@ -37,6 +37,10 @@ import ch.jester.model.util.Result.ResultCombination;
 import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.tournament.internal.Activator;
 
+/**
+ * FormPage für die Resultate (Tabelle)
+ *
+ */
 public class ResultForm extends FormPage implements IDirtyManagerProvider{
 	private List<Section> mSectionList = new ArrayList<Section>();
 	private StringBuilder mLabelBuilder = new StringBuilder();

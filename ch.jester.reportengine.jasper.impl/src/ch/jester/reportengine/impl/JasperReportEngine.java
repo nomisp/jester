@@ -217,7 +217,10 @@ public class JasperReportEngine implements IReportEngine, IComponentService<Obje
 		return factory;
 	}
 	
+
 	/**
+	 * Das ReportResult der JasperEngine.
+	 *
 	 */
 	class JasperReportResult extends DefaultReportResult<JasperPrint>{
 		ServiceUtility su = new ServiceUtility();

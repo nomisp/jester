@@ -9,6 +9,10 @@ import org.eclipse.core.runtime.IStatus;
 import ch.jester.common.logging.IExtendedStatus;
 
 
+/**
+ * Wrapper für Log4j
+ *
+ */
 public class Log4jWrapper implements ILogListener {
 	private Logger mLogger;
 	public Log4jWrapper(Class<?> c){

@@ -1,6 +1,10 @@
 package ch.jester.reportengine.impl;
 
 
+/**
+ * Hilfsklasse um das hinzufügen von Report zu vereinfachen.
+ *
+ */
 public class JasperReportDef {
 	private static String BUNDLE_ID ="ch.jester.reportengine.jasper.impl";
 	private static String BUNDLE_REPORT_LOCATION="reports";

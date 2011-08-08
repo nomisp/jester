@@ -4,6 +4,10 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
+/**
+ * Utility Klasse für ExtensionPoints
+ *
+ */
 public class ExtensionPointUtil {
 	/**
 	 * liefert das ConfigurationElment, das für den angegebenen ExtensionPoint mit

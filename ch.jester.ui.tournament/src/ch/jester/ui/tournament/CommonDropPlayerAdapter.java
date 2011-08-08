@@ -28,6 +28,10 @@ import ch.jester.model.factories.ModelFactory;
 import ch.jester.ui.tournament.cnf.PlayerFolder;
 import ch.jester.ui.tournament.internal.Activator;
 
+/**
+ * Drop Adapter für Spieler und Turnier Explorer
+ *
+ */
 public class CommonDropPlayerAdapter extends CommonDropAdapterAssistant {
 	ILogger mLogger;
 	public CommonDropPlayerAdapter() {

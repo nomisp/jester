@@ -12,6 +12,10 @@ import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.reportengine.impl.Activator;
 
+/**
+ * Impl von {@link IStartup}... starten der Engine bei Appstart
+ *
+ */
 public class JasperReportEngineStartup implements IStartup{
 
 	@Override

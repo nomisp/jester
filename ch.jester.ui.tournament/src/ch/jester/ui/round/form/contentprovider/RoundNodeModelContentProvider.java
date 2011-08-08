@@ -13,6 +13,10 @@ import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.round.form.PlayerDataNode;
 import ch.jester.ui.round.form.ZestDataNode;
 
+/**
+ * Hilfklasse um die ZestNodes zu verbinden.
+ *
+ */
 public class RoundNodeModelContentProvider {
 	//private List<ZestConnection> connections;
 	private List<ZestDataNode> allnodes;

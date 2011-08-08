@@ -13,6 +13,10 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import ch.jester.socialmedia.facebook.internal.Activator;
 
+/**
+ * Browserbasierte Flow Dialog (User Einloggen)
+ *
+ */
 public class FaceBookAuthorisationFlowDialog extends Dialog {
 	protected StatusTextListener listener;
 	protected String result;

@@ -5,6 +5,10 @@ import org.osgi.framework.BundleContext;
 import ch.jester.common.ui.activator.AbstractUIActivator;
 import ch.jester.commonservices.api.logging.ILogger;
 
+/**
+ * StandardActivator
+ *
+ */
 public class Activator extends AbstractUIActivator {
 	private ILogger mLogger;
 	private static Activator plugin;

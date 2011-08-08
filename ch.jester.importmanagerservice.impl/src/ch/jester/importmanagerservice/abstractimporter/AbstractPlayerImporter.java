@@ -17,6 +17,9 @@ import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
 
 /**
+ * Abstracter Importer für Spieler
+ *
+ * @param <T>
  */
 public abstract class AbstractPlayerImporter<T> extends AbstractTableImporter<T, Player> implements IDuplicateChecker<Player> {
 	String[] exposedProperties = new String[]{"lastName","firstName","fideCode","nationalCode","elo","nationalElo","estimatedElo","age","city","nation","club"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$

@@ -30,6 +30,10 @@ import ch.jester.commonservices.api.reportengine.IReportResult.ExportType;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Tournament;
 
+/**
+ * Page um Reports zu exportieren
+ *
+ */
 public class ReportExportPage extends WizardPage {
 	private Text text;
 	private HashMap<String, Class<?>> mMap = new HashMap<String, Class<?>>();

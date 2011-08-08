@@ -20,6 +20,10 @@ import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.ui.round.editors.RankingViewEditor;
 import ch.jester.ui.tournament.internal.Activator;
 
+/**
+ * Page für den HTML Browser um Rankings anzuzeigen
+ *
+ */
 public class BrowserForm extends FormPage {
 	Browser browser;
 	RankingViewEditor edit;

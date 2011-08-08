@@ -15,6 +15,10 @@ import org.eclipse.zest.core.widgets.GraphNode;
 
 import ch.jester.ui.tournament.internal.Activator;
 
+/**
+ * LabelProvider für den Graphen
+ *
+ */
 public class ZestLabelProvider extends LabelProvider implements IEntityStyleProvider, ISelfStyleProvider{
 	private Image playerImage;
 	private Color ORANGE = new Color(Display.getDefault(), new RGB(238,118,33));

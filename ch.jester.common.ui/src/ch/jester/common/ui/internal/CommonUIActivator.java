@@ -5,6 +5,10 @@ import org.osgi.framework.BundleContext;
 import ch.jester.common.ui.activator.AbstractUIActivator;
 import ch.jester.common.ui.services.IEditorService;
 
+/**
+ * Standardaktivator.
+ *
+ */
 public class CommonUIActivator extends AbstractUIActivator {
 	private static CommonUIActivator mInstance;
 	@Override
@@ -19,7 +23,7 @@ public class CommonUIActivator extends AbstractUIActivator {
 		
 	}
 	
-	/**
+	/**shared Instance
 	 * @return die shared Instance
 	 */
 	public static  CommonUIActivator getDefault(){

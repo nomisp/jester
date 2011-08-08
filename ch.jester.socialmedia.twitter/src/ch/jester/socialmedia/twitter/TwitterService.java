@@ -6,6 +6,10 @@ import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 import ch.jester.socialmedia.api.ISocialStatusUpdater;
 import ch.jester.socialmedia.auth.OAuthServiceComponent;
 
+/**
+ * Impl eines TwitterServices als ServiceComponent
+ *
+ */
 public class TwitterService extends OAuthServiceComponent implements IPreferenceManagerProvider, ISocialStatusUpdater{
 
 	private Twitter4JWrapper mWrapper;

@@ -18,6 +18,10 @@ import ch.jester.commonservices.api.reportengine.IReportEngine;
 import ch.jester.commonservices.api.reportengine.IReportResult;
 import ch.jester.commonservices.api.reportengine.IReportResult.ExportType;
 
+/**
+ * Handler um Reports zu erzeugen
+ *
+ */
 public class PrintHandler extends AbstractCommandHandler {
 
 	@Override

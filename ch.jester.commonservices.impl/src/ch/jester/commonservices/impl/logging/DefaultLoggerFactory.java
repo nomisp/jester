@@ -17,6 +17,10 @@ import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 
 
 
+/**
+ * Default Implementation einer ILoggerFactory als ServiceComponent
+ *
+ */
 public class DefaultLoggerFactory extends ComponentAdapter<IPreferenceRegistration> implements ILoggerFactory, IPreferenceManagerProvider{
 	//Preference Stuff
 	private static final String PP_ID_DEBUG = "debug";

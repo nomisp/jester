@@ -30,6 +30,10 @@ import ch.jester.commonservices.util.ServiceUtility;
 
 
 
+/**
+ * Impl von {@link IORMConfiguration} für Hibernate
+ *
+ */
 public class ConfigurationHelper extends ExtensionPointSettings implements IORMConfiguration {
 	private IPreferenceManager mPrefManager;
 	private ILogger mLogger;

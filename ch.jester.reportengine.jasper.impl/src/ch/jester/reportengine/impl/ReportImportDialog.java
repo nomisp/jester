@@ -29,6 +29,10 @@ import org.eclipse.swt.widgets.Text;
 
 import ch.jester.model.factories.ModelFactory;
 
+/**
+ * Dialog um Reports importieren zu können.
+ *
+ */
 public class ReportImportDialog extends Dialog {
 	private Text txtFileName;
 	private Text txtReportName;

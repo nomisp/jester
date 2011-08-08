@@ -2,6 +2,10 @@ package ch.jester.orm.internal;
 
 import org.eclipse.osgi.util.NLS;
 
+/**
+ * Messages
+ *
+ */
 public class ORMMessages extends NLS {
 	private static final String BUNDLE_NAME = "OSGI-INF.l10n.bundle"; //$NON-NLS-1$
 	static {

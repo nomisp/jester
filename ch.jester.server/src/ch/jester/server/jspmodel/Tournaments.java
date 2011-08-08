@@ -6,6 +6,10 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Category;
 import ch.jester.model.Tournament;
 
+/**
+ * Hilfsklasse für JSP Link Generierung
+ *
+ */
 public class Tournaments {
 	ServiceUtility su = new ServiceUtility();
 	
@@ -19,12 +23,27 @@ public class Tournaments {
 		
 	}
 	
+	/**
+	 * Link für Spielerliste
+	 * @param t
+	 * @return
+	 */
 	public String getAllPlayersLink(Tournament t){
 		return linkTournament(t, "Spielerliste", "playerlist");
 	}
+	/**
+	 * Link für RankingListe
+	 * @param t
+	 * @return
+	 */
 	public String getRankingLink(Tournament t){
 		return linkTournament(t, "Rangliste", "rankinglist");
 	}
+	/**
+	 * Link für PairingListe
+	 * @param cat
+	 * @return
+	 */
 	public String getPairingLink(Category cat){
 		return linkCat(cat, "Paarungsliste", "pairinglist_category");
 	}

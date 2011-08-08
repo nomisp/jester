@@ -20,6 +20,10 @@ import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.util.ServiceUtility;
 
 
+/**
+ * DefaultImpl eines IPreferenceManager
+ *
+ */
 public class PreferenceManager implements IPreferenceManager {
 	public Set<IPreferenceProperty> mSet = new LinkedHashSet<IPreferenceProperty>();
 	private List<IPreferencePropertyChanged> mListeners = new ArrayList<IPreferencePropertyChanged>();

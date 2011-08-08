@@ -9,6 +9,10 @@ import java.util.Scanner;
 import ch.jester.common.importer.VirtualCell;
 import ch.jester.commonservices.api.importer.IVirtualTable;
 
+/**
+ * Impl für das parsen eiens Textfiles welches einen tabellarisch dargestellten Inhalt hat.
+ *
+ */
 public class FixTextTableProvider implements IVirtualTable<String>{
 	private Scanner mScanner;
 	List<String> mContent = new ArrayList<String>();

@@ -10,6 +10,10 @@ import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 
+/**
+ * DefaultImpl einer {@link IPreferenceRegistration}
+ *
+ */
 public class PreferenceRegistration extends InjectedLogFactoryComponentAdapter<Void> implements IPreferenceRegistration{
 	private List<IPreferenceManagerProvider> mAnonyReg = new ArrayList<IPreferenceManagerProvider>();
 	private Map<String, IPreferenceManagerProvider> mReg = new HashMap<String, IPreferenceManagerProvider>();

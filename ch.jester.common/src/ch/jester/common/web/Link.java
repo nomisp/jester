@@ -7,6 +7,10 @@ import java.net.HttpURLConnection;
 
 import ch.jester.commonservices.api.importer.ILink;
 
+/**
+ * Defaultimplementation eines Links
+ *
+ */
 public class Link implements ILink{
 	private String mText;
 	private String mURL;
@@ -15,16 +19,10 @@ public class Link implements ILink{
 		mText=pText;
 		mURL=pURL;
 	}
-	/* (non-Javadoc)
-	 * @see ch.jester.common.web.ILink#getText()
-	 */
 	@Override
 	public String getText(){
 		return mText;
 	}
-	/* (non-Javadoc)
-	 * @see ch.jester.common.web.ILink#getURL()
-	 */
 	@Override
 	public String getURL(){
 		if(isRelative()){
@@ -35,9 +33,6 @@ public class Link implements ILink{
 	public String toString(){
 		return mText;
 	}
-	/* (non-Javadoc)
-	 * @see ch.jester.common.web.ILink#setRoot(java.lang.String)
-	 */
 	@Override
 	public void setRoot(String pAddress){
 		mRoot=pAddress;
@@ -52,9 +47,6 @@ public class Link implements ILink{
 		}
 		return true;
 	}
-	/* (non-Javadoc)
-	 * @see ch.jester.common.web.ILink#download(java.lang.String)
-	 */
 	@Override
 	public void download(String pTargetFile) throws IOException{
 		FileOutputStream out = new FileOutputStream(pTargetFile);

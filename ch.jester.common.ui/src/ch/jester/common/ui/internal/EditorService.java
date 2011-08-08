@@ -11,6 +11,11 @@ import ch.jester.common.ui.editor.EditorAccessor.EditorAccess;
 import ch.jester.common.ui.services.IEditorService;
 import ch.jester.common.ui.utility.UIUtility;
 
+/**
+ * Default Impl. eines IEditorServices als Service Component.
+ * Öffnet entsprechende Objekte im registrierten Editor.
+ *
+ */
 public class EditorService implements IEditorService{
 	private HashMap<Class<?>, RegistryEntry> mMap = new HashMap<Class<?>, RegistryEntry>();
 	private EditorAccessor accessor = null;

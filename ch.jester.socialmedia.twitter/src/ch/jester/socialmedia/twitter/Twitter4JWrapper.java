@@ -9,6 +9,10 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 
+/**
+ * Wrapping um die Twitter Libs
+ *
+ */
 public class Twitter4JWrapper {
 	Twitter twitter;
 	public  Twitter4JWrapper(ConfigurationBuilder builder) {

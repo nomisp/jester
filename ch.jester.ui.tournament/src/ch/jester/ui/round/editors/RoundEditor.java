@@ -18,7 +18,7 @@ import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
 import ch.jester.ui.tournament.internal.Activator;
 
 /**
- * Turnier-Editor
+ * Turnier-Editor - ZestGraph
  *
  */
 public class RoundEditor extends AbstractEditor<IEntityObject> {

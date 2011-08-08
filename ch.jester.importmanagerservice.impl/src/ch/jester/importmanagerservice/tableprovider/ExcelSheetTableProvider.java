@@ -10,6 +10,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import ch.jester.commonservices.api.importer.IVirtualTable;
 
+/**
+ * Wrapper um die apache poi lib für das parsen eines excel sheets
+ *
+ */
 public class ExcelSheetTableProvider implements IVirtualTable<Row>{
 	private Sheet mSheet;
 	public void setSheet(Sheet pSheet) {

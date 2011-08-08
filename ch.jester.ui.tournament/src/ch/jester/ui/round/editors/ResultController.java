@@ -24,6 +24,11 @@ import ch.jester.model.util.PlayerColor;
 import ch.jester.model.util.Result;
 import ch.jester.ui.tournament.internal.Activator;
 
+/**
+ * Kontroller für die Resultate.
+ * Einzelnen miteinander in Verbindungstehende Views, sind synchronisiert (dirty)
+ *
+ */
 public class ResultController implements IDirtyManagerProvider{
 	private static class ControllerSynchronizer{
 		private List<ResultController> mOpenedControllers = new ArrayList<ResultController>();

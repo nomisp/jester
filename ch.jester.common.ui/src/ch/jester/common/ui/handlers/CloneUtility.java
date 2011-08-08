@@ -57,6 +57,11 @@ public class CloneUtility {
 		return transferObjectList;
 	}
 
+	/**
+	 * Erzeugt eine StructuredTranserSelection welche gepasted werden kann.
+	 * @param pSelection
+	 * @return
+	 */
 	public static StructuredTransferSelection copyClonesForTransfer(IStructuredSelection pSelection){
 		return new StructuredTransferSelection(createClones(pSelection));
 	}
@@ -79,9 +84,17 @@ public class CloneUtility {
 		public List<?> getCopiedObjects(){
 			return mObjects;
 		}
+		/**
+		 * Holt die Transfers
+		 * @return die Transfer
+		 */
 		public Transfer[] getCopiedTransferObjects(){
 			return mTransfers;
 		}
+		/**
+		 * Erzeugt neue Klone
+		 * @return neue Liste der Klone
+		 */
 		public List<?> paste(){
 			return CloneUtility.createClones(this);
 		}
