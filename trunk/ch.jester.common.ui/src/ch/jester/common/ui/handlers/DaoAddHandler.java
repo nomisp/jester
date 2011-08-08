@@ -72,13 +72,13 @@ public abstract class DaoAddHandler extends AbstractCommandHandler {
 
 	};
 
-	/**
+	/**einen String welche die TargetView identifiziert.
 	 * @return einen String welche die TargetView identifiziert.
 	 */
 	public abstract String getTargetViewId();
 
 
-	/**
+	/**neues einzufügendes Objekt
 	 * @return ein neues einzufügendes Objekt
 	 */
 	public abstract IEntityObject getNewEntityObject();

@@ -14,6 +14,10 @@ import ch.jester.model.Category;
 import ch.jester.model.Round;
 import ch.jester.model.Tournament;
 
+/**
+ * Editor - Tree Linker
+ *
+ */
 public class LinkHelper3 implements ILinkHelper {
 
 	@Override

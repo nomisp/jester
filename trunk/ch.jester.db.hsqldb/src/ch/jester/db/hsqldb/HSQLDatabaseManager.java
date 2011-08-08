@@ -9,6 +9,10 @@ import ch.jester.commonservices.api.persistency.IORMConfiguration;
 import ch.jester.orm.ORMPlugin;
 
 
+/**
+ * Implementation von {@link IDatabaseManager} für HSQL
+ *
+ */
 public class HSQLDatabaseManager implements IDatabaseManager {
 	private Server server;
 	private String mDbOptions = ";hsqldb.default_table_type=cached;hsqldb.tx=mvcc";

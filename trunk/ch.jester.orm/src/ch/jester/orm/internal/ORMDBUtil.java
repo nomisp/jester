@@ -11,6 +11,10 @@ import org.osgi.framework.Bundle;
 import ch.jester.common.utility.ExtensionPointUtil;
 import ch.jester.orm.ORMPlugin;
 
+/**
+ * Utility Klasse für die DB Konfig.
+ *
+ */
 public class ORMDBUtil {
 	
 	public static List<Bundle> getDataBasePlugins(){

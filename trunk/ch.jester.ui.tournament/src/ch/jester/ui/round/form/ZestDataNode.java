@@ -3,6 +3,10 @@ package ch.jester.ui.round.form;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Allgemeiner DataNode für ZEST
+ *
+ */
 public class ZestDataNode {
 	private final String id;
 	private final String name;

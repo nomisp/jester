@@ -24,6 +24,10 @@ import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.orm.ORMPlugin;
 
+/**
+ * Klasse um DB Plugins zu verwalten und umzustellen für den nächsten Start
+ *
+ */
 public class ORMAutoDBHandler implements IPreferenceManagerProvider, IPreferencePropertyChanged{
 	private ORMPlugin ormPlugin;
 	private ILogger mLogger;

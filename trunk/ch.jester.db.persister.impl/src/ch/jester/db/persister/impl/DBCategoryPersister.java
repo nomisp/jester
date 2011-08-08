@@ -6,6 +6,10 @@ import ch.jester.dao.ICategoryDao;
 import ch.jester.model.Category;
 import ch.jester.model.Player;
 
+/**
+ * Impl eines {@link ICategoryDao} für die Persistierung von Kategorien
+ *
+ */
 public class DBCategoryPersister extends GenericPersister<Category> implements ICategoryDao {
 
 

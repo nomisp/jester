@@ -46,6 +46,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
 
+/**
+ * Die PreferencePage für die ReportEngine
+ *
+ */
 public class JasperReportsPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	private Table table;
 	/**

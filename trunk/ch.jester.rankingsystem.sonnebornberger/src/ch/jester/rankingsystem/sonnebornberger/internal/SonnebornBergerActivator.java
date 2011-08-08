@@ -4,6 +4,10 @@ import org.osgi.framework.BundleContext;
 
 import ch.jester.common.activator.AbstractActivator;
 
+/**
+ * StandardActivator
+ *
+ */
 public class SonnebornBergerActivator extends AbstractActivator {
 
 	// The plug-in ID

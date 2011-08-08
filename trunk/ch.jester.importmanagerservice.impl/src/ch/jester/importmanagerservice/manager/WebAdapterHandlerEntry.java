@@ -13,6 +13,11 @@ import ch.jester.commonservices.api.importer.IWebImportAdapter;
 import ch.jester.commonservices.api.importer.IWebImportHandlerEntry;
 import ch.jester.commonservices.util.ServiceUtility;
 
+/**
+ * Ein Entry für die WebAdapter Impl.
+ * Umfasst die Infos vom ExtensionPoint.
+ *
+ */
 public class WebAdapterHandlerEntry extends DefaultImportHandlerEntry implements IWebImportHandlerEntry{
 	private boolean mInstalled;
 	private ServiceUtility mServices = new ServiceUtility();

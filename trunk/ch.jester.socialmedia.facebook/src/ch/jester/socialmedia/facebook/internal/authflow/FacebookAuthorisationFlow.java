@@ -3,6 +3,10 @@ package ch.jester.socialmedia.facebook.internal.authflow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
+/**
+ * Impl von Facebooks Auth-Flow.
+ *
+ */
 public class FacebookAuthorisationFlow {
 	public static String APP_ID = "161639000575963";
 	public static String userAuthURL ="https://www.facebook.com/dialog/oauth?client_id=YOUR_APP_ID&auth_type=reauthenticate&scope=publish_stream&redirect_uri=https://www.facebook.com/connect/login_success.html&response_type=token&force_login=true";
@@ -22,6 +26,9 @@ public class FacebookAuthorisationFlow {
 		mClearSession=clearSession;
 	}
 
+	/**
+	 * User Auth.
+	 */
 	public void authorizeUser() {
 		String url = prepareUrl();
 		FaceBookAuthorisationFlowDialog dialog = new FaceBookAuthorisationFlowDialog(Display.getDefault().getActiveShell(), SWT.BORDER);
@@ -40,9 +47,17 @@ public class FacebookAuthorisationFlow {
 		}
 	}
 
+	/**
+	 * Zugriff aufs AccessToken
+	 * @return
+	 */
 	public String getAccessToken(){
 		return accessToken;
 	}
+	/**
+	 * Zeit bis zum Expiry
+	 * @return
+	 */
 	public int getExpiresIn(){
 		return expiryManager.expires_in_inseconds;
 	}

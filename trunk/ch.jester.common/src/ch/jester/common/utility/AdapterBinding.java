@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.Platform;
 
 /**
  * Hilfklasse für die Registrierung von IAdaptable
- * TODO CHECK!
+ * 
  */
 public class AdapterBinding implements IAdapterFactory, IAdaptable{
 	private Object mInstance;

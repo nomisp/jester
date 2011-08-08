@@ -26,6 +26,10 @@ import ch.jester.model.Title;
 import ch.jester.ui.player.editor.PlayerEditor;
 import ch.jester.ui.player.editor.ctrl.PlayerDetailsController;
 
+/**
+ * DetailPage für die Spieler
+ *
+ */
 public class PlayerFormPage extends FormPage implements IDirtyManagerProvider {
 
 	private Text lastNameText;

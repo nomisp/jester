@@ -9,17 +9,17 @@ import java.io.IOException;
  */
 public interface ILink {
 
-	/**den Text auf den sich <a href>
+	/**den Text auf den sich <a href/>
 	 * @return
 	 */
 	public String getText();
 
-	/**Die <a href>
+	/**Die <a href/>
 	 * @return
 	 */
 	public String getURL();
 
-	/**Falls <a href> relativ ist, kann die Root Addresse gesetzt werden.
+	/**Falls <a href/> relativ ist, kann die Root Addresse gesetzt werden.
 	 * @param pAddress
 	 */
 	public void setRoot(String pAddress);

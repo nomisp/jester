@@ -3,6 +3,10 @@ package ch.jester.rcpapplication.perspectives;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
+/**
+ * Die TurnierPerspektive von jester
+ *
+ */
 public class TournamentPerspective implements IPerspectiveFactory {
 
 	@Override

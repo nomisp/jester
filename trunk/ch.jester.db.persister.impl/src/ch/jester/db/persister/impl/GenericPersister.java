@@ -33,6 +33,12 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.orm.ORMPlugin;
 
+/**
+ * Generische Impl von {@link IDaoService} <br>
+ * benutzt den Globalen EntityManager
+ *
+ * @param <T>
+ */
 public class GenericPersister<T extends IEntityObject> implements IDaoService<T> {
 	private ServiceUtility mServices = new ServiceUtility();
 	private StopWatch watch = new StopWatch();

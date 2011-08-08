@@ -6,6 +6,10 @@ import ch.jester.model.util.PlayerColor;
 import ch.jester.model.util.Result;
 import ch.jester.ui.round.editors.ResultController;
 
+/**
+ * ZestNode für Spieler
+ *
+ */
 public class PlayerDataNode extends ZestDataNode {
 	private static String NULL_ID = "playernode_null";
 	private Pairing pairing;

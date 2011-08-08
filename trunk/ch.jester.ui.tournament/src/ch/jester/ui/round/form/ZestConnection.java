@@ -1,5 +1,9 @@
 package ch.jester.ui.round.form;
 
+/**
+ * Eine ZEST Connection definition
+ *
+ */
 public class ZestConnection {
 	final String id; 
 	final String label; 

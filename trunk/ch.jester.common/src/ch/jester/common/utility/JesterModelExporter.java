@@ -15,11 +15,19 @@ import ch.jester.commonservices.api.logging.ILogger;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.commonservices.util.ServiceUtility;
 
+/**
+ * Export Utility für *class Files
+ *
+ */
 public class JesterModelExporter {
 	private static BundleResourceExporter exporter = new BundleResourceExporter();
 	private ServiceUtility mServices = new ServiceUtility();
 	private List<Bundle> bundlesToExport = new ArrayList<Bundle>();
 	private ILogger mLogger = CommonActivator.getInstance().getActivationContext().getLogger();
+	/**
+	 * Hinzufügen eines zu exportierenden Bundles
+	 * @param pBundleId
+	 */
 	public void addExportableBundle(String pBundleId){
 		Bundle b = Platform.getBundle(pBundleId);
 		if(!bundlesToExport.contains(b)){
@@ -27,6 +35,10 @@ public class JesterModelExporter {
 		}
 	}
 	
+	/**
+	 * Alle Bundles ins DestDir exportieren
+	 * @param pDest
+	 */
 	public  void exportModelToFolder(String pDest){
 		List<Bundle> bundles = bundlesToExport;
 		String target = pDest;

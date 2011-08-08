@@ -12,6 +12,12 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import ch.jester.commonservices.api.persistency.IDatabaseStateService;
 
+/**
+ * Defaultimpl für einen IDatabaseService.
+ * Dieser Notifiziert Clients, falls der State von INIT auf RUN wechselt, oder direkt, wenn 
+ * der State bereits RUN ist.
+ *
+ */
 public class DefaultDatabaseStateService implements IDatabaseStateService{
 	private HashMap<State, List<Runnable>> mMap = new HashMap<State, List<Runnable>>();
 	private State mState = State.INIT;

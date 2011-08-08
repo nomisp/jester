@@ -14,6 +14,11 @@ import ch.jester.commonservices.api.persistency.IQueueNotifier;
 import ch.jester.commonservices.exceptions.ProcessingException;
 import ch.jester.orm.ORMPlugin;
 
+/**
+ * Adapter für einen {@link GenericPersister} um diesen auf einen privaten EntityManager umzuleiten
+ *
+ * @param <T>
+ */
 public class PrivateContextDaoServiceAdapter<T extends IEntityObject> implements IPrivateContextDaoService<T>{
 	private GenericPersister<T> service;
 	private Collection<T> mLoad = new ArrayList<T>();

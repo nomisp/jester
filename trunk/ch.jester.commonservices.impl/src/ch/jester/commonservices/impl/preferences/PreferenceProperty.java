@@ -3,6 +3,10 @@ package ch.jester.commonservices.impl.preferences;
 import ch.jester.commonservices.api.preferences.IPreferenceManager;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 
+/**
+ * Defaultimpl eines {@link IPreferenceProperty}
+ *
+ */
 public class PreferenceProperty implements IPreferenceProperty {
 	private IPreferenceManager mManager;
 	private String mKey;

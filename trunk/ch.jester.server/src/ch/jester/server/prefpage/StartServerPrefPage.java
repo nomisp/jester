@@ -20,6 +20,10 @@ import ch.jester.server.OSGiGatewayActivator;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * PrefPage fürs Servlet - Ermöglicht Start und Stop des Servers.
+ *
+ */
 public class StartServerPrefPage extends PreferencePage implements IWorkbenchPreferencePage{
 	public StartServerPrefPage() {
 	}

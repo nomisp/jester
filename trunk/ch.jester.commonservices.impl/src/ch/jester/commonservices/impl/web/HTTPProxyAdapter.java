@@ -11,6 +11,10 @@ import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
 import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.api.web.IHTTPProxy;
 
+/**
+ * ComponentService für HTTProxy Manipulation via UI
+ *
+ */
 public class HTTPProxyAdapter extends ServiceConsumer implements IHTTPProxy, IPreferenceManagerProvider{
 	//Preference Stuff
 	private static final String PP_ID_PORT = "port";

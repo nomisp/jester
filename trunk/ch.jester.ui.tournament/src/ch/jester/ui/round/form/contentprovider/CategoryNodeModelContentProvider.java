@@ -10,6 +10,10 @@ import ch.jester.model.Round;
 import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.round.form.ZestDataNode;
 
+/**
+ * Hilfklasse um die ZestNodes zu verbinden.
+ *
+ */
 public class CategoryNodeModelContentProvider extends RoundNodeModelContentProvider{
 	public CategoryNodeModelContentProvider(ResultController controller) {
 		super(controller);

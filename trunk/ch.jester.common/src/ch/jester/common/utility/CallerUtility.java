@@ -1,8 +1,12 @@
 package ch.jester.common.utility;
 
+/**
+ * Utility Klasse um die Caller Methode festzustellen
+ *
+ */
 public class CallerUtility {
 	/**
-	 * 
+	 * Den Caller des entsprechenden Level suchen.
 	 * @param pCallerLevel
 	 * @return den Caller des Levels pCallerLevel
 	 */
@@ -14,6 +18,7 @@ public class CallerUtility {
 	}
 
 	/**
+	 * Caller des Levels 2
 	 * @return den Caller des Levels 2
 	 */
 	public static Caller getCaller() {

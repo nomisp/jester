@@ -22,6 +22,10 @@ import ch.jester.model.Club;
 import ch.jester.model.Player;
 import ch.jester.model.factories.ModelFactory;
 
+/**
+ * Importer für SSB Spielerdaten
+ *
+ */
 public class SSBExcelImporter2 extends AbstractPlayerImporter<Row>{
 	private String CODED_NATIONALITY = "Schweiz";
 	private IDaoService<Club> mClubDao;

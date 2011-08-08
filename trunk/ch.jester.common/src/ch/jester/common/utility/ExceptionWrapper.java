@@ -49,9 +49,17 @@ public class ExceptionWrapper{
 		return mT;
 	}
 
+	/**
+	 * Sucht die Message
+	 * @return
+	 */
 	public String getThrowableMessage(){
 		return getMessage(getThrowable());
 	}
+	/**
+	 * Versucht die Root Message zu bekommen
+	 * @return
+	 */
 	public String getRootThrowableMessage(){
 		return getMessage(getRootThrowable());
 	}
@@ -62,6 +70,7 @@ public class ExceptionWrapper{
 		return t.getMessage();
 	}
 	/**
+	 * holt den Root Cause
 	 * @return den Root Cause
 	 */
 	public Throwable getRootThrowable(){

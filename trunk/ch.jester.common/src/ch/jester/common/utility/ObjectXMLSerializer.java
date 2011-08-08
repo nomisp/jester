@@ -18,31 +18,62 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * XML Serialisations Helper Klasse
+ *
+ */
 public class ObjectXMLSerializer {
 	JAXBContext mContext;
 	private Class<?>[] mclz;
 	public ObjectXMLSerializer() {
 
 	}
+	/**
+	 * Den Kontext für JAXB definieren.
+	 * @param pClasses
+	 * @throws JAXBException
+	 */
 	public void prepareContext(Class<?>... pClasses) throws JAXBException {
 		mclz = Arrays.copyOf(pClasses, pClasses.length + 1);
 		mclz[pClasses.length] = XMLList.class;
 		mContext = JAXBContext.newInstance(mclz);
 	}
 	
+	/**
+	 * Einen Writer erzeugen
+	 * @param pFileName 
+	 * @return aSerializationWriter
+	 * @throws FileNotFoundException
+	 */
 	public SerializationWriter createWriter(String pFileName) throws FileNotFoundException{
 		return new SerializationWriter(new ZipOutputStream(new FileOutputStream(pFileName)), mContext);
 	}
 
+	/**
+	 * Einen ZipReader erzeugen
+	 * @param pFileName
+	 * @return aZipSerialisationReader
+	 * @throws FileNotFoundException
+	 */
 	public ZipSerializationReader createReader(String pFileName) throws FileNotFoundException{
 		return new ZipSerializationReader(new ZipInputStream(new FileInputStream(pFileName)), mContext);
 	}
 
+	/**
+	 * Einen SerialisationReader erzeugen.
+	 * @param inStream
+	 * @return aSerializationReader
+	 * @throws FileNotFoundException
+	 */
 	public SerializationReader createReader(InputStream inStream) throws FileNotFoundException{
 		return new SerializationReader(inStream, mContext);
 	}
 
 
+	/**
+	 * Reader Klasse
+	 *
+	 */
 	public static class SerializationReader{
 		InputStream mzis; 
 		ZipEntry entry;
@@ -52,6 +83,11 @@ public class ObjectXMLSerializer {
 			mContext = pContext;
 		}
 		
+		/**
+		 * Lesen des Contents
+		 * @return Liste mit deserialisierten Elementen oder null
+		 * @throws IOException
+		 */
 		@SuppressWarnings("rawtypes")
 		public List read() throws IOException {
 
@@ -71,7 +107,11 @@ public class ObjectXMLSerializer {
 		}
 	}
 	
- public static class ZipSerializationReader{
+ /**
+ * Zip Reader
+ *
+ */
+public static class ZipSerializationReader{
 		ZipInputStream mzis; 
 		ZipEntry entry;
 		JAXBContext mContext;
@@ -80,6 +120,12 @@ public class ObjectXMLSerializer {
 			mContext = pContext;
 		}
 		
+		/**
+		 * Lesen des ZipEntry
+		 * @param pEntriy
+		 * @return Liste mit Elementen oder null
+		 * @throws IOException
+		 */
 		@SuppressWarnings("rawtypes")
 		public List read(String pEntriy) throws IOException {
 			ZipEntry ze;
@@ -102,6 +148,10 @@ public class ObjectXMLSerializer {
 			}
 			return null;
 		}
+		/**
+		 * Schliessen von den Zips
+		 * @throws IOException
+		 */
 		public void close() throws IOException {
 				mzis.closeEntry();
 				mzis.close();
@@ -109,6 +159,10 @@ public class ObjectXMLSerializer {
 	}
 
 	
+/**
+ * Writer
+ *
+ */
 public static class SerializationWriter{
 		ZipOutputStream mzos; 
 		ZipEntry entry;
@@ -117,15 +171,28 @@ public static class SerializationWriter{
 			mzos = pzos;
 			mContext = pContext;
 		}
+		/**
+		 * erzeugt neuen ZipEntry
+		 * @param pString
+		 * @throws IOException
+		 */
 		public void newEntry(String pString) throws IOException {
 			if(entry!=null){mzos.closeEntry();}
 			mzos.putNextEntry(entry = new ZipEntry(pString));
 		}
+		/**
+		 * Beenden und alles schliessen
+		 * @throws IOException
+		 */
 		public void close() throws IOException {
 				mzos.flush();
 				mzos.closeEntry();
 				mzos.close();
 		}
+		/**
+		 * Schreiben der Element Liste
+		 * @param plist
+		 */
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public void write(List plist) {
 			try {
@@ -141,6 +208,11 @@ public static class SerializationWriter{
 				e.printStackTrace();
 			}
 		}
+		/**
+		 * JAXB Context vorbereiten.
+		 * @param pClz
+		 * @throws JAXBException
+		 */
 		public void prepareContext(Class<?>... pClz) throws JAXBException {
 			Class<?>[] clz = Arrays.copyOf(pClz, pClz.length + 1);
 			clz[pClz.length] = XMLList.class;
@@ -149,6 +221,11 @@ public static class SerializationWriter{
 		}
 	}
 }
+/**
+ * Wrapper Element für Serialisation
+ *
+ * @param <T>
+ */
 @XmlRootElement(name = "Root")
 class XMLList<T> extends ArrayList<T> {
 	/**

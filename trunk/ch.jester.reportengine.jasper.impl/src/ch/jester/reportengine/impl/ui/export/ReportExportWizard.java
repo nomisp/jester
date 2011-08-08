@@ -24,6 +24,10 @@ import ch.jester.commonservices.util.ServiceUtility;
 import ch.jester.model.Tournament;
 
 
+/**
+ * Wizard für Report exporting
+ *
+ */
 public class ReportExportWizard extends Wizard implements IExportWizard {
 
 	ReportExportPage firstPage = new ReportExportPage();

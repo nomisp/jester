@@ -33,6 +33,10 @@ import ch.jester.model.Tournament;
 import ch.jester.ui.Activator;
 
 
+/**
+ * Die Turnier Admin View
+ *
+ */
 public class TournamentView extends AbstractView{
 	private TableViewer getTable(){
 		return tableViewer;

@@ -5,6 +5,10 @@ import org.osgi.framework.BundleContext;
 import ch.jester.common.activator.AbstractActivator;
 import ch.jester.commonservices.api.persistency.IDaoServiceFactory;
 
+/**
+ * StandardActivator
+ *
+ */
 public class Activator extends AbstractActivator{
 	IDaoServiceFactory factory;
 	private static Activator mActivator;

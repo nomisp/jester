@@ -17,6 +17,10 @@ import ch.jester.commonservices.api.persistency.IDatabaseManager;
 import ch.jester.commonservices.api.persistency.IORMConfiguration;
 import ch.jester.orm.internal.ORMAutoDBHandler;
 
+/**
+ * Singleton Plugin welches Zugriff auf die EntityManager/Factory bietet.
+ *
+ */
 public class ORMPlugin extends AbstractUIActivator {
 	// ExtensionPoint Name
 	public final static String EP_CONFIGURATION = "Configuration";

@@ -28,6 +28,11 @@ import ch.jester.model.Category;
 import ch.jester.model.Tournament;
 
 
+/**
+ * Ein Servlet das Reports erzeugen kann.
+ * 
+ *
+ */
 public class OSGiGatewayServlet extends HttpServlet {
 	private static final long serialVersionUID = 2407211936729344173L;
 	ServiceUtility su = new ServiceUtility();

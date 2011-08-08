@@ -12,6 +12,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utility Klasse für Reflection
+ *
+ */
 @SuppressWarnings(value = { "unchecked","rawtypes" })
 public class Reflections
 {

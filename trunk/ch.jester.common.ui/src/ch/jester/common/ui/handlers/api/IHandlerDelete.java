@@ -7,17 +7,11 @@ import ch.jester.commonservices.exceptions.ProcessingException;
 
 /**
  * Interface um Objekte zu löschen<br>
- * Wird von div. Handler benutzt.
+ * Wird von div Handler benutzt.
  *
  * @param <T>
  */
 public interface IHandlerDelete<T extends IEntityObject> {
-	/**
-	 * Löschen eines Objektes
-	 * Der Aufruf kann von einem nicht UI-Thread erfolgen!
-	 * @param pObject
-	 */
-	//public abstract void handleDelete(T pObject);
 
 	/**
 	 * Löschen einer Collection

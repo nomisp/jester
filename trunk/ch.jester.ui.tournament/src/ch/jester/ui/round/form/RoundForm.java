@@ -55,6 +55,10 @@ import ch.jester.ui.round.editors.ResultController;
 import ch.jester.ui.round.form.contentprovider.RoundNodeModelContentProvider;
 import ch.jester.ui.tournament.internal.Activator;
 
+/**
+ * FormPage für den ZEST Graph
+ *
+ */
 @SuppressWarnings("restriction")
 public class RoundForm extends FormPage implements IZoomableWorkbenchPart, ISelectionProvider{
 	class CaluculatedCompositeSettings{

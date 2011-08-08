@@ -11,6 +11,10 @@ import ch.jester.orm.ORMPlugin;
 
 
 
+/**
+ * Handler um den HSQLDB Explorer zu starten
+ *
+ */
 public class StartTool extends AbstractHandler{
 
 	@Override

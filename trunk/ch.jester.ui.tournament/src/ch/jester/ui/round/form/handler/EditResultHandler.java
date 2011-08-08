@@ -7,6 +7,10 @@ import ch.jester.model.Category;
 import ch.jester.model.Round;
 import ch.jester.ui.round.editors.RoundEditor;
 
+/**
+ * CommandHandler um Editor zu öffnen.
+ *
+ */
 public class EditResultHandler extends AbstractCommandHandler {
 	
 	@Override

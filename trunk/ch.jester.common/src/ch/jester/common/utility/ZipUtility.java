@@ -16,7 +16,17 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * Klasse für Zipping/Unzipping
+ *
+ */
 public class ZipUtility {
+	/**
+	 * Lesen der ZipEntries
+	 * @param file
+	 * @param includeDirs
+	 * @return Liste von ZipEntries
+	 */
 	public static List<String> getZipEntries(String file, boolean includeDirs) {
 		try {
 			List<String> entries = new ArrayList<String>();
@@ -46,6 +56,12 @@ public class ZipUtility {
 		
 	}
 
+	/**
+	 * Den ZipEntry als Inputstream lesen
+	 * @param zipFile
+	 * @param zipEntry
+	 * @return den ZipEntryInputStream
+	 */
 	public static InputStream getZipEntry(String zipFile, String zipEntry) {
 		try {
 			ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
@@ -67,6 +83,13 @@ public class ZipUtility {
 		return null;
 	}
 
+	/**
+	 * Unzippen
+	 * @param pZipFile
+	 * @param pZipEntry
+	 * @param pOutputPath
+	 * @return
+	 */
 	public static InputStream unzip(String pZipFile, String pZipEntry, String pOutputPath) {
 		try {
 			ZipInputStream zis = new ZipInputStream(new FileInputStream(pZipFile));
@@ -89,6 +112,13 @@ public class ZipUtility {
 	}
 
 	
+	/**
+	 * Zippen eines Directories
+	 * @param zos
+	 * @param files
+	 * @param entry
+	 * @throws IOException
+	 */
 	private static void zipDirectory(ZipOutputStream zos, File files, String entry) throws IOException{
 
 		if(files.isDirectory()){
@@ -121,6 +151,11 @@ public class ZipUtility {
 		}
 	}
 	
+	/**
+	 * Zippen eines Directories
+	 * @param inFolder
+	 * @param outFile
+	 */
 	public static void zipFolder(File inFolder, File outFile) {
 		try {
 			
@@ -137,6 +172,12 @@ public class ZipUtility {
 	}
 
 	
+	/**
+	 * Deflaten
+	 * @param pZis
+	 * @param pZipEntry
+	 * @return
+	 */
 	public static InputStream deflate(ZipInputStream pZis, ZipEntry pZipEntry) {
 		                int size;
 		                byte[] buffer = new byte[2048];

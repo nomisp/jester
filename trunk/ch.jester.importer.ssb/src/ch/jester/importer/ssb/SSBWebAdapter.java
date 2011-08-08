@@ -7,6 +7,10 @@ import ch.jester.common.importer.AbstractWebAdapter;
 import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 
+/**
+ * WebAdapter Impl für {@link SSBExcelImporter2}
+ *
+ */
 public class SSBWebAdapter extends AbstractWebAdapter {
 	private String WEB = "http://www.schachbund.ch/schachsport/fldownload.php";
 	private static String WEB_DL = "http://www.schachbund.ch/schachsport";

@@ -4,6 +4,10 @@ import org.osgi.framework.BundleContext;
 
 import ch.jester.common.ui.activator.AbstractUIActivator;
 
+/**
+ * StandardActivator
+ *
+ */
 public class Activator extends AbstractUIActivator {
 	private static Activator mInstance;
 	public Activator() {

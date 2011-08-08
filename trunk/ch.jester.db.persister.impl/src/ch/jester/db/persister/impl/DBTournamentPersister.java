@@ -7,6 +7,10 @@ import javax.persistence.Query;
 import ch.jester.dao.ITournamentDao;
 import ch.jester.model.Tournament;
 
+/**
+ * Impl von {@link ITournamentDao} für die Persistierung von Turnieren
+ *
+ */
 public class DBTournamentPersister extends GenericPersister<Tournament> implements ITournamentDao {
 
 	@Override

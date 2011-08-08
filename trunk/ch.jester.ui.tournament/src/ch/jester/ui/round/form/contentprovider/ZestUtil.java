@@ -6,6 +6,10 @@ import java.util.List;
 import ch.jester.ui.round.form.ZestConnection;
 import ch.jester.ui.round.form.ZestDataNode;
 
+/**
+ * Hilfklasse um die ZestNodes zu verbinden.
+ *
+ */
 public class ZestUtil {
 	private List<ZestConnection> connections = new ArrayList<ZestConnection>();
 	public ZestConnection connect(String pId, String pLabel, ZestDataNode parent, ZestDataNode child){

@@ -25,6 +25,10 @@ import ch.jester.commonservices.api.preferences.IPreferenceRegistration;
 import ch.jester.commonservices.api.web.IPingService;
 import ch.jester.commonservices.impl.internal.CommonServicesActivator;
 
+/**
+ * Eine Impl eines PingServices
+ *
+ */
 public class JavaPingService extends InjectedLogFactoryComponentAdapter<IPreferenceRegistration>implements IPingService, IPreferenceManagerProvider{
 	//Preference Stuff
 	private static String PP_ID_ADDRESS = "address";

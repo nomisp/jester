@@ -9,6 +9,10 @@ import ch.jester.commonservices.api.reportengine.IReport;
 import ch.jester.commonservices.api.reportengine.IReportRepository;
 
 
+/**
+ * Initialisierungshilfsklasse für die ReportEngine, um Konfigurationen zu speichern und zu laden.
+ *
+ */
 public class Initializer extends AbstractPreferenceInitializer {
 	public static String STORED_REPORT = "storedReports";
 	public static String STORED_REPORT_NAME = "report.name.";

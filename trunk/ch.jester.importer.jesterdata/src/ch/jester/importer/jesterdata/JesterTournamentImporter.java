@@ -20,6 +20,10 @@ import ch.jester.model.Player;
 import ch.jester.model.Tournament;
 import ch.jester.model.factories.ModelFactory;
 
+/**
+ * Importer für XML Turnierdaten
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class JesterTournamentImporter implements IImportHandler {
 	private ServiceUtility mServices = new ServiceUtility();

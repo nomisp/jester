@@ -7,6 +7,10 @@ import ch.jester.commonservices.api.importer.ILink;
 import ch.jester.commonservices.api.preferences.IPreferenceProperty;
 
 
+/**
+ * Web Adapter Impl für den FIDE Importer
+ *
+ */
 public class FIDEWebAdapter extends AbstractWebAdapter {
 	private String WEB = "http://ratings.fide.com/download.phtml";
 	private String FIDE_PATTERN = "(<a href=)(.*[^\\S>])(.*>)(.*)(</a>)";
