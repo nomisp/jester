@@ -20,9 +20,9 @@ MAS SE HSR 2011
 
    <launcherArgs>
       <programArgs>-consoleLog -console</programArgs>
-      <vmArgs>-Dosgi.nls.warnings=ignore -Xms256m -Xmx1024m</vmArgs>
+      <vmArgs>-Dosgi.nls.warnings=ignore -Xms256m -Xmx1024m -XX:MaxPermSize=128m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC</vmArgs>
+      <vmArgsLin>-Dorg.eclipse.swt.browser.UseWebKitGTK=True</vmArgsLin>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
-      <vmArgsWin>-XX:MaxPermSize=128m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC</vmArgsWin>
    </launcherArgs>
 
    <windowImages i16="/ch.jester.rcpapplication/icons/icon16x16.png" i32="/ch.jester.rcpapplication/icons/icon32x32.png" i48="/ch.jester.rcpapplication/icons/icon48x48.png" i64="/ch.jester.rcpapplication/icons/icon64x64.png" i128="/ch.jester.rcpapplication/icons/icon128x128.png"/>
