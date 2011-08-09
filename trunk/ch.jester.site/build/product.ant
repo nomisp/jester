@@ -28,8 +28,8 @@
 			<arg value="${destination}"/>
 			<arg value="-profile"/>
 			<arg value="${profile}"/>
-			<arg value="-profileProperties" />
-			<arg value="org.eclipse.update.install.features=true" />
+			<!-- >arg value="-profileProperties" />
+			<arg value="org.eclipse.update.install.features=true" /-->
 			<arg value="-installIU"/>
 			<arg value="${iu}"/>
 			<arg value="-p2.os" />
