@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Inhaltsverzeichnis" topic="$nl$/resources/help/html/toc.html">
+   <topic label="Importers und Exporters">
+      <anchor id="importersexporters"/>
+   </topic>
+   <topic label="Spieler">
+      <anchor id="players"/>
+   </topic>
+   <topic label="Turniere">
+      <anchor id="tournament"/>
+   </topic>
+   <topic label="FAQ">
+      <anchor id="faq"/>
+   </topic>
+</toc>
