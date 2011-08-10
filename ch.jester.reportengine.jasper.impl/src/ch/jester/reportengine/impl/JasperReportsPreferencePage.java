@@ -137,7 +137,7 @@ public class JasperReportsPreferencePage extends PreferencePage implements IWork
 					@Override
 					public void run() throws Exception {
 						su.setSelection(event.getSelection());
-						IReport report = su.getFirstSelectedAs(IBundleReport.class);
+						IReport report = su.getFirstSelectedAs(IReport.class);
 
 						try{
 							Desktop.getDesktop().open(report.getInstalledFile());
