@@ -39,6 +39,13 @@
                      label="%DBViewer"
                      style="push">
                </command>
+               <visibleWhen
+                     checkEnabled="true">
+                  <systemTest
+                        property="jester.activeDatabase"
+                        value="ch.jester.db.hsqldb">
+                  </systemTest>
+               </visibleWhen>
             </menu>
          </menu>
       </menuContribution>
