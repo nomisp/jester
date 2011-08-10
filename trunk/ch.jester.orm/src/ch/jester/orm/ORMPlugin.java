@@ -19,6 +19,7 @@ import ch.jester.orm.internal.ORMAutoDBHandler;
 
 /**
  * Singleton Plugin welches Zugriff auf die EntityManager/Factory bietet.
+ * Setzt das Property jester.activeDatabase im System mit dem aktuellen DB Bundle.
  *
  */
 public class ORMPlugin extends AbstractUIActivator {
@@ -48,6 +49,7 @@ public class ORMPlugin extends AbstractUIActivator {
 		mLogger = getActivationContext().getLogger();
 		mLogger.info("ORMPlugin started");
 		handler.initialize();
+		System.setProperty("jester.activeDatabase", handler.getPreferenceManager("ch.jester.orm").getPropertyByInternalKey("selectedDB").getValue().toString());
 	}
 
 	@Override
@@ -150,10 +152,14 @@ public class ORMPlugin extends AbstractUIActivator {
 		return handler.getDatabaseManager();
 	}
 
+	/**
+	 * Den Database Type
+	 * @return den Typ
+	 */
 	public String getDataBaseTypeName() {
 		return handler.getDataBaseTypeName();
 	}
-	
+
 	
 
 }
