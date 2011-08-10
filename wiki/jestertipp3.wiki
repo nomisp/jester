@@ -1,3 +1,4 @@
 #summary jester tipp 3 - jester and Web Reports
+#labels KnowHow,HowTo
 
 Start the integrated Web Server (Preference Page 'Web Reports') to enable html output to a browser.
