@@ -6,6 +6,8 @@ import twitter4j.TwitterException;
 import twitter4j.conf.ConfigurationBuilder;
 import ch.jester.common.ui.utility.UIUtility;
 import ch.jester.commonservices.api.preferences.IPreferenceManagerProvider;
+import ch.jester.commonservices.api.preferences.IPreferenceProperty;
+import ch.jester.commonservices.api.preferences.IPreferencePropertyChanged;
 import ch.jester.socialmedia.api.ISocialStatusUpdater;
 import ch.jester.socialmedia.auth.OAuthServiceComponent;
 
@@ -31,6 +33,16 @@ public class TwitterService extends OAuthServiceComponent implements IPreference
 		mAuthAuthoriziationURL.setValue("https://api.twitter.com/oauth/authorize");
 		mAuthAccessToken.setValue("331121808-jTq6sKVIPY07qAhxHGcg6cU5C5z2oNhtsmSBwAG6");
 		mAuthAccessTokenSecret.setValue("3jLEoaXegJFERubkVpfR93zdabDwsfw3k24lLBY7Gg");*/
+		mPreferenceManager.addListener(new IPreferencePropertyChanged() {
+			
+			@Override
+			public void propertyValueChanged(String internalKey, Object mNewValue,
+					IPreferenceProperty preferenceProperty) {
+				mWrapper=null;
+				getTwitter();
+				
+			}
+		});
 		getTwitter();
 		
 	}
@@ -68,8 +80,7 @@ public class TwitterService extends OAuthServiceComponent implements IPreference
 		try {
 			mWrapper.postStatus(pStatus);
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MessageDialog.openError(UIUtility.getActiveWorkbenchWindow().getShell(), "Error", "Bitte Konfiguration überprüfen!");
 		}
 		
 	}
