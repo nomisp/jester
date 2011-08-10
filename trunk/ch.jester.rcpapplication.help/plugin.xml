@@ -9,10 +9,6 @@
             primary="true">
       </toc>
       <toc
-            file="$nl$/resources/help/tocgettingstarted.xml"
-            primary="false">
-      </toc>
-      <toc
             file="$nl$/resources/help/tocfaq.xml"
             primary="false">
       </toc>

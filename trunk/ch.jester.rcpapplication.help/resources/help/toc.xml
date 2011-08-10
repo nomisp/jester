@@ -2,9 +2,6 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Table of Contents" topic="$nl$/resources/help/html/toc.html">
-   <topic label="Getting Started">
-      <anchor id="gettingstarted"/>
-   </topic>
    <topic label="Importers and Exporters">
       <anchor id="importersexporters"/>
    </topic>
