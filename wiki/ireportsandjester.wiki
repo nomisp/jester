@@ -1,4 +1,4 @@
-#summary jester Tipp 1 - jester and reports
+#summary jester tipp 1 - jester and reports
 #labels KnowHow,HowTo
 
 
