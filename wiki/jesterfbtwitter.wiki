@@ -1,4 +1,4 @@
-#summary jester tipp - II - jester and Facebook/Twitter
+#summary jester tipp 2 - jester and Facebook/Twitter
 #labels KnowHow,HowTo
 
 Install the social media Feature from our P2 Site to send status updates to twitter and facebook
