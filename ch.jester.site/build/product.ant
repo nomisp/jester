@@ -15,6 +15,7 @@
 		<delete dir="${destination}"/>
 		<makeurl property="repository" file="${sp:repository}"/>
 		<mkdir dir="${destination}"/>
+		<copy file="readme.txt" todir="${destination}"/>
 		<echoproperties/>
 		<echo message="${equinox.launcher.jar}"/>
 		<echo message="Repo: ${repository}"/>
