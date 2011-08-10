@@ -1,5 +1,5 @@
 #summary Jester Tipp - I - jester and reports
-#labels KnowHow
+#labels KnowHow,HowTo
 
 
 Install IReports from here: http://jasperforge.org/project/ireport to edit 
