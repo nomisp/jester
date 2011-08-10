@@ -113,7 +113,7 @@ public class ModelFactory {
 	}
 	
 	/**Erzeugt einen Defaultplayer mit den Werten<br>
-	 * Vorname: FirstName<br>
+	 * Vorname: Alexander <br>
 	 * Nachname: LastName<br>
 	 * Stadt: City<br>
 	 * Elo/NationalElo/FideCode/NationCode: 0<br>
@@ -121,7 +121,7 @@ public class ModelFactory {
 	 * @return den erzeugten Player
 	 */
 	public Player createPlayer(){
-		return createPlayer("FirstName","LastName","",null,null,null,"",null);
+		return createPlayer("Alexander","Aljechin","",null,null,null,"",null);
 	}
 	
 	/**
