@@ -1,7 +1,6 @@
 #labels KnowHow
-IReports and Jester
+Jester Tipp - I - jester and reports
 
-= Introduction =
 
 Install IReports from here: http://jasperforge.org/project/ireport to edit 
 jester report capabilities
