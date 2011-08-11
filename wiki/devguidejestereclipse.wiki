@@ -1,4 +1,5 @@
 #summary Developer Guide: import jester into Eclipse
+#labels Phase-Implementation,HowTo
 
 Simply checkout all bundles from svn.
 
