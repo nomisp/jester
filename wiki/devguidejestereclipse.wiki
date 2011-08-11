@@ -1,0 +1,5 @@
+#summary Developer Guide: import jester into Eclipse
+
+Simply checkout all bundles from svn.
+
+In the bundle ch.jester.site look for 'jester.target', open it, and select 'set as target platform'
