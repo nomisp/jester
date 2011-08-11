@@ -1,4 +1,4 @@
-#summary Developers'guide: How To write Pairing-System Plugins
+#summary Developer Guide: How To write Pairing-System Plugins
 #labels Phase-Implementation,HowTo,PairingSystem
 
 = Writing a plugin for a new Pairing-System =
