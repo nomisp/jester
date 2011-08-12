@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Tournaments" link_to="$nl$/resources/help/toc.xml#tournament"> 
+<topic href="$nl$/resources/help/html/tournaments/tourn_admin.html" label="administrate Tournaments" link_to="$nl$/resources/help/toc.xml#tournament" topic="$nl$/resources/help/html/faq/chess_faq.html">
+ </topic>
+<topic href="$nl$/resources/help/html/tournaments/tourn_perform.html" label="perform a Tournament">
+</topic> 
+</toc>

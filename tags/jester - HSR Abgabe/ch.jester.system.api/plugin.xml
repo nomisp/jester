@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="RankingSystem" name="RankingSystem" schema="schema/RankingSystem.exsd"/>
+   <extension-point id="PairingAlgorithm" name="PairingAlgorithm" schema="schema/PairingAlgorithm.exsd"/>
+   <extension-point id="EloCalculator" name="EloCalculator" schema="schema/EloCalculator.exsd"/>
+
+</plugin>

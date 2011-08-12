@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="ch.jester.system.api.PairingAlgorithm">
+      <PairingAlgorithm
+            class="ch.jester.system.swiss.simple.SwissSimplePairingAlgorithm"
+            pluginId="ch.jester.system.swiss.simple"
+            settingsPage="ch.jester.system.swiss.simple.ui.SwissSimpleSettingsPage"
+            shortType="Swiss-Simple"
+            typeDescription="%PairingAlgorithm.typeDescription">
+      </PairingAlgorithm>
+   </extension>
+
+</plugin>

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Exporter
+Bundle-SymbolicName: ch.jester.ui.exporter;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: ch.jester.ui.exporter.internal.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ ch.jester.model;bundle-version="1.0.0",
+ ch.jester.common;bundle-version="1.0.0",
+ ch.jester.commonservices.api;bundle-version="1.0.0",
+ ch.jester.common.ui;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: M. Liechti & P. Simon

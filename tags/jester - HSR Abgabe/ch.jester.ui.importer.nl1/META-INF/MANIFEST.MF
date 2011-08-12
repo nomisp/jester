@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Importer NL1
+Bundle-SymbolicName: ch.jester.ui.importer.nl1
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: M. Liechti & P. Simon
+Fragment-Host: ch.jester.ui.importer
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Localization: OSGI-INF/l10n/bundle

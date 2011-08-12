@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Eclipse-BuddyPolicy: global
+Bundle-ManifestVersion: 2
+Bundle-Name: Model
+Bundle-SymbolicName: ch.jester.model;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: ch.jester.common.settings;uses:="ch.jester.model",
+ ch.jester.dao;uses:="ch.jester.model,ch.jester.commonservices.api.persistency",
+ ch.jester.model;
+  uses:="org.eclipse.core.runtime,
+   ch.jester.commonservices.api.persistency,
+   ch.jester.common.model,
+   javax.xml.bind",
+ ch.jester.model.factories;uses:="ch.jester.model",
+ ch.jester.model.util
+Import-Package: javax.persistence,
+ javax.validation.constraints
+Require-Bundle: ch.jester.common;bundle-version="1.0.0",
+ org.eclipse.core.runtime;bundle-version="3.6.0",
+ ch.jester.commonservices.api;bundle-version="1.0.0",
+ org.apache.commons;bundle-version="1.0.0"
+Bundle-Activator: ch.jester.model.internal.Activator
+Bundle-Vendor: M. Liechti & P. Simon

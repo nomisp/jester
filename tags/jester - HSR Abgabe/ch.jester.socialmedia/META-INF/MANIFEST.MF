@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SocialMedia & OAuth Service
+Bundle-SymbolicName: ch.jester.socialmedia;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: ch.jester.socialmedia.aut.internal.Activator
+Bundle-Vendor: M. Liechti & P. Simon
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ ch.jester.common.ui;bundle-version="1.0.0",
+ ch.jester.commonservices.api;bundle-version="1.0.0",
+ ch.jester.common;bundle-version="1.0.0",
+ org.eclipse.osgi.services;bundle-version="3.2.100"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: ch.jester.socialmedia.api,
+ ch.jester.socialmedia.auth

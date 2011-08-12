@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.6"?>
+
+<target includeMode="feature" name="jester">
+<locations>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="org.eclipse.pde.source.feature.group" version="3.6.2.r362_v20110203-7b7mFL2FET3dhHalh1iNZtL"/>
+<unit id="org.eclipse.platform.feature.group" version="3.6.2.r362_v20110210-9gF78Gs1FrIGnHDHWkEcopoN8AmxeZflGDGKQi"/>
+<unit id="org.eclipse.equinox.executable.feature.group" version="3.4.2.R36x_v20110125-7N7K7bF8zk1BAKMh0iz0t94miBLY"/>
+<unit id="org.eclipse.platform.source.feature.group" version="3.6.2.r362_v20110210-9gF78Gs1FrIGnHDHWkEcopoN8AmxeZflGDGKQi"/>
+<unit id="org.eclipse.sdk.feature.group" version="3.6.2.r362_v20100929-7Q7m7HD5cWlFgdCBHllpZMd2M468sbnm2RJvUWIbiJnWC"/>
+<unit id="org.eclipse.rcp.feature.group" version="3.6.2.r362_v20101104-9SAxFMKFkSAqi8axkv1ZjegmiBLY"/>
+<unit id="org.eclipse.equinox.p2.user.ui.feature.group" version="2.0.1.r361_v20100903-897HFa-FX0z-z-ntoaavz0JPX628"/>
+<unit id="org.eclipse.gef.sdk.feature.group" version="3.6.2.v20110128-0100-7G7R77A5WNcHQDbhX8JWOYLOSeRJ"/>
+<unit id="org.eclipse.zest.feature.group" version="1.2.0.v20100519-2050-67818yE6F-AA7P4B8I52322"/>
+<unit id="org.eclipse.zest.sdk.feature.group" version="1.2.0.v20100519-2050-67918COKNHAKQZIHNTdWQTdUL7UM"/>
+<unit id="org.eclipse.zest.source.feature.group" version="1.2.0.v20100519-2050-67818yE6F-AA7P4B8I52322"/>
+<repository location="http://download.eclipse.org/releases/helios"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="org.eclipse.babel.nls_eclipse_fr.feature.group" version="3.6.0.v20101211043401"/>
+<unit id="org.eclipse.babel.nls_eclipse_de.feature.group" version="3.6.0.v20101211043401"/>
+<unit id="org.eclipse.babel.nls_rt.equinox_fr.feature.group" version="3.6.0.v20101211043401"/>
+<unit id="org.eclipse.babel.nls_rt.equinox_de.feature.group" version="3.6.0.v20101211043401"/>
+<unit id="org.eclipse.babel.nls_rt.equinox.p2_fr.feature.group" version="3.6.0.v20101211043401"/>
+<unit id="org.eclipse.babel.nls_rt.equinox.p2_de.feature.group" version="3.6.0.v20101211043401"/>
+<repository location="http://download.eclipse.org/technology/babel/update-site/R0.8.1/helios"/>
+</location>
+</locations>
+<environment>
+<os>win32</os>
+<ws>win32</ws>
+<arch>x86</arch>
+</environment>
+</target>

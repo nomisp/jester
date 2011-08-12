@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Eclipse-BuddyPolicy: registered
+Bundle-ManifestVersion: 2
+Bundle-Name: Persistence
+Bundle-SymbolicName: ch.jester.persistence;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: ch.jester.persistence.Activator
+Require-Bundle: org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .,
+ validation-api-1.0.0.GA.jar,
+ hibernate-jpa-2.0-api-1.0.1.Final.jar
+Export-Package: javax.persistence,
+ javax.persistence.criteria,
+ javax.persistence.metamodel,
+ javax.persistence.spi,
+ javax.validation,
+ javax.validation.bootstrap,
+ javax.validation.constraints,
+ javax.validation.groups,
+ javax.validation.metadata,
+ javax.validation.spi
+Bundle-Vendor: M. Liechti & P. Simon

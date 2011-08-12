@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Common Services Implementation
+Bundle-SymbolicName: ch.jester.commonservices.impl;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: ch.jester.commonservices.api;bundle-version="1.0.0",
+ ch.jester.common;bundle-version="1.0.0",
+ org.apache.log4j;bundle-version="1.0.0",
+ org.eclipse.core.runtime;bundle-version="3.6.0",
+ org.eclipse.ui;bundle-version="3.6.2",
+ ch.jester.common.ui;bundle-version="1.0.0",
+ org.eclipse.osgi.services;bundle-version="3.2.100",
+ org.eclipse.equinox.ds;bundle-version="1.2.1"
+Import-Package: org.eclipse.core.runtime,
+ org.osgi.framework
+Service-Component: OSGI-INF/ILoggingFactoryProvider.xml, OSGI-INF/IPingProvider.xml, OSGI-INF/IHTTPProxyAdapter.xml, OSGI-INF/ITempManager.impl.xml, OSGI-INF/IPreferenceRegistration.xml
+Bundle-ActivationPolicy: lazy
+Export-Package: ch.jester.commonservices.impl.persistencyevent,
+ ch.jester.commonservices.impl.preferences
+Bundle-Activator: ch.jester.commonservices.impl.internal.CommonServicesActivator
+Bundle-Vendor: M. Liechti & P. Simon

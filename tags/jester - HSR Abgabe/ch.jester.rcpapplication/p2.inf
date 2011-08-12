@@ -1,0 +1,4 @@
+# To explicitly remove a site, use instructions.unconfigure
+instructions.configure=\
+org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:0,location:http${#58}//jester.googlecode.com/svn/jesterrepo/,name:jester Product Updates);\
+org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:1,location:http${#58}//jester.googlecode.com/svn/jesterrepo/,name:jester Product Updates);\

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="ch.jester.commonservices.api.ImportHandler">
+      <WebImportAdapter
+            ImportHandlerId="ch.jester.ssb.xls.importer"
+            class="ch.jester.importer.ssb.SSBWebAdapter"
+            dataProviderDescription="SSB Webpage"
+            >
+      </WebImportAdapter>
+      <ImportHandler
+            class="ch.jester.importer.ssb.SSBExcelImporter2"
+            id="ch.jester.ssb.xls.importer"
+            shortType="*.xls"
+            typeDescription="SSB Importer">
+      </ImportHandler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.ui.importer.pref"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.ssb.xls.importer.pref"
+            name="SSB">
+      </page>
+   </extension>
+
+</plugin>

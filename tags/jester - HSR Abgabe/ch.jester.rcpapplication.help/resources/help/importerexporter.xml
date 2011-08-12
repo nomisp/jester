@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Importer and Exporter" link_to="$nl$/resources/help/toc.xml#importersexporters" topic="$nl$/resources/help/html/impexp/impex.html">
+   <topic href="$nl$/resources/help/html/impexp/ssb.html" label="SSB Importer">
+   </topic>
+   <topic href="$nl$/resources/help/html/impexp/fide.html" label="FIDE Importer">
+   </topic>
+</toc>

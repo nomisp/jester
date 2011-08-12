@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <category
+            id="ch.jester.player"
+            name="Import Players">
+      </category>
+      <wizard
+            category="ch.jester.ui.importer.players"
+            class="ch.jester.ui.importer.ImportPlayerWizard"
+            icon="icons/player.png"
+            id="ch.jester.ui.importer"
+            name="%Player">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="ch.jester.common.ui.pref.EmptyPreferencePage"
+            id="ch.jester.ui.importer.pref"
+            name="Importer">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="$nl$/resources/help/context_player_view_import.xml"
+            plugin="ch.jester.ui">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="ch.jester.common.ui.handlers.WizardCallingHandler"
+            id="ch.jester.ui.importer"
+            name="name">
+      </command>
+   </extension>
+
+</plugin>

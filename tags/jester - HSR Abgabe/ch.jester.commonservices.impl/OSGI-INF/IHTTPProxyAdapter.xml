@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="HTTPProxyAdapterService">
+   <implementation class="ch.jester.commonservices.impl.web.HTTPProxyAdapter"/>
+   <service>
+      <provide interface="ch.jester.commonservices.api.web.IHTTPProxy"/>
+   </service>
+</scr:component>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="ch.jester.commonservices.api.ImportHandler">
+      <ImportHandler
+            class="ch.jester.importer.jesterdata.JesterTournamentImporter"
+            id="ch.jester.importer.jesterdata"
+            shortType="*.xml"
+            typeDescription="Jester Data Importer">
+      </ImportHandler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <wizard
+            class="ch.jester.ui.importer.ImportPlayerWizard"
+            icon="icons/icon16x16.png"
+            id="ch.jester.ui.jesterdataimporter"
+            name="Jester Data">
+      </wizard>
+   </extension>
+
+</plugin>

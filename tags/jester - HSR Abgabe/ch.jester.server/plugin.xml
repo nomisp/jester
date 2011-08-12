@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.equinox.http.registry.servlets">
+      <servlet
+            alias="/reports"
+            class="ch.jester.server.OSGiGatewayServlet"
+            httpcontextId="jester"
+            load-on-startup="true">
+      </servlet>
+      <servlet
+            alias="/*.jsp"
+            class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+            httpcontextId="jester"
+            load-on-startup="true">
+      </servlet>
+   </extension>
+   <extension
+         point="org.eclipse.equinox.http.registry.resources">
+      <resource
+            alias="/"
+            base-name="/WEB-INF"
+            httpcontextId="jester">
+      </resource>
+   </extension>
+   <extension
+         point="org.eclipse.equinox.http.registry.httpcontexts">
+      <httpcontext
+            id="jester">
+         <resource-mapping
+               path="/">
+         </resource-mapping>
+      </httpcontext>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.reportengine.jasper.preferences"
+            class="ch.jester.server.prefpage.StartServerPrefPage"
+            id="ch.jester.server.prefpage"
+            name="%page.name">
+      </page>
+   </extension>
+
+</plugin>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+   <context id="tournamentexplorer">
+      <description>Der Turnier Explorer stellt folgende Möglichkeiten zur Verfügung: Spieler hinzufügen, Paarungen erstellen, Resultate editiren, Ranglisten erstellen. Die Aktionen sind mit Rechtsklick auf Turnier, Kategorie, oder Runde verfügbar.</description>
+   </context>
+</contexts>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="ch.jester.system.api.PairingAlgorithm">
+      <PairingAlgorithm
+            class="ch.jester.system.vollrundig.VollrundigPairingAlgorithm"
+            pluginId="ch.jester.system.vollrundig"
+            settingsPage="ch.jester.system.vollrundig.ui.RoundRobinSettingsPage"
+            shortType="Round-Robin"
+            typeDescription="%PairingAlgorithm.typeDescription">
+      </PairingAlgorithm>
+   </extension>
+
+</plugin>

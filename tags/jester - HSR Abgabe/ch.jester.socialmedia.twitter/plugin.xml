@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:ch.jester.socialmedia.toolbar">
+         <command
+               commandId="ch.jester.socialmedia.updatestatus"
+               icon="icon/twitter.png"
+               label="%Twitter"
+               style="push">
+            <parameter
+                  name="ch.jester.socialmedia.statusupdater.serviceid"
+                  value="ch.jester.socialmedia.twitter.TwitterService">
+            </parameter>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.socialmedia"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.socialmedia.twitter.pref"
+            name="Twitter">
+      </page>
+   </extension>
+
+</plugin>

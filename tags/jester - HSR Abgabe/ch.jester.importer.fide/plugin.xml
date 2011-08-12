@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="ch.jester.commonservices.api.ImportHandler">
+      <ImportHandler
+            class="ch.jester.importer.fide.FIDETextImporter"
+            id="ch.jester.fide.txt.importer"
+            shortType="*.txt"
+            typeDescription="FIDE txt Fileimporter">
+      </ImportHandler>
+      <WebImportAdapter
+            ImportHandlerId="ch.jester.fide.txt.importer"
+            class="ch.jester.importer.fide.FIDEWebAdapter"
+            dataProviderDescription="FIDE Webpage"
+            >
+      </WebImportAdapter>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ch.jester.ui.importer.pref"
+            class="ch.jester.common.ui.pref.IDPreferencePage"
+            id="ch.jester.fide.txt.importer.pref"
+            name="FIDE">
+      </page>
+   </extension>
+
+</plugin>

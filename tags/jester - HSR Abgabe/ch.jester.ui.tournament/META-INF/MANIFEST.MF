@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tournament UI
+Bundle-SymbolicName: ch.jester.ui.tournament;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: ch.jester.ui.tournament.internal.Activator
+Bundle-Vendor: M. Liechti & P. Simon
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ ch.jester.common;bundle-version="1.0.0",
+ ch.jester.common.ui;bundle-version="1.0.0",
+ ch.jester.commonservices.api;bundle-version="1.0.0",
+ ch.jester.model;bundle-version="1.0.0",
+ ch.jester.db.persister.impl;bundle-version="1.0.0",
+ ch.jester.system.api;bundle-version="1.0.0",
+ org.eclipse.ui.forms;bundle-version="3.5.0",
+ org.eclipse.ui.navigator;bundle-version="3.5.0",
+ ch.jester.ui;bundle-version="1.0.0",
+ org.eclipse.core.expressions;bundle-version="3.4.200",
+ org.eclipse.core.databinding;bundle-version="1.3.100",
+ org.eclipse.core.databinding.beans;bundle-version="1.2.100",
+ org.eclipse.core.databinding.observable;bundle-version="1.3.0",
+ org.eclipse.core.databinding.property;bundle-version="1.3.0",
+ org.eclipse.jface.databinding;bundle-version="1.4.0",
+ org.eclipse.zest.core;bundle-version="1.2.0",
+ org.eclipse.zest.layouts;bundle-version="1.1.0",
+ org.eclipse.help
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: ch.jester.ui.round.form,
+ ch.jester.ui.tournament,
+ ch.jester.ui.tournament.cnf,
+ ch.jester.ui.tournament.internal
+Bundle-ClassPath: .,
+ swt-grouplayout.jar
