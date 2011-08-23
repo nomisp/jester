@@ -9,7 +9,7 @@
    <feature url="features/ch.jester.languagepack.defr_1.0.0.201108101158.jar" id="ch.jester.languagepack.defr" version="1.0.0.201108101158">
       <category name="jester.language"/>
    </feature>
-   <feature url="features/ch.jester.database.feature_1.0.0.201108232204.jar" id="ch.jester.database.feature" version="1.0.0.201108232204">
+   <feature url="features/ch.jester.database.feature_1.0.1.201108232212.jar" id="ch.jester.database.feature" version="1.0.1.201108232212">
       <category name="jester.update"/>
    </feature>
    <category-def name="jester.socialmedia" label="Social Media">
