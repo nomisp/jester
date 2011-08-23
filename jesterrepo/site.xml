@@ -9,6 +9,9 @@
    <feature url="features/ch.jester.languagepack.defr_1.0.0.201108101158.jar" id="ch.jester.languagepack.defr" version="1.0.0.201108101158">
       <category name="jester.language"/>
    </feature>
+   <feature url="features/ch.jester.database.feature_1.0.0.201108232204.jar" id="ch.jester.database.feature" version="1.0.0.201108232204">
+      <category name="jester.update"/>
+   </feature>
    <category-def name="jester.socialmedia" label="Social Media">
       <description>
          enables Jester to post staus update to twitter &amp; facebook
@@ -24,4 +27,5 @@
          Provides different Languages
       </description>
    </category-def>
+   <category-def name="jester.update" label="Updates"/>
 </site>
