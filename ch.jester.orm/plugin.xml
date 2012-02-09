@@ -7,7 +7,7 @@
       <page
             class="ch.jester.common.ui.pref.IDPreferencePage"
             id="ch.jester.orm.pref"
-            name="Datenbank">
+            name="%DBPrefPage.name">
       </page>
    </extension>
    <extension
