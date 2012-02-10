@@ -3,13 +3,13 @@
    <description name="jester p2 repository" url="http://jester.googlecode.com/svn/jesterrepo">
       Alles für jester
    </description>
-   <feature url="features/ch.jester.socialmedia.feature_1.0.0.201202100213.jar" id="ch.jester.socialmedia.feature" version="1.0.0.201202100213">
+   <feature url="features/ch.jester.socialmedia.feature_1.0.0.201202100238.jar" id="ch.jester.socialmedia.feature" version="1.0.0.201202100238">
       <category name="jester.socialmedia"/>
    </feature>
-   <feature url="features/ch.jester.languagepack.defr_1.0.0.201202100213.jar" id="ch.jester.languagepack.defr" version="1.0.0.201202100213">
+   <feature url="features/ch.jester.languagepack.defr_1.0.0.201202100238.jar" id="ch.jester.languagepack.defr" version="1.0.0.201202100238">
       <category name="jester.language"/>
    </feature>
-   <feature url="features/ch.jester.common.feature_1.0.1.201202100232.jar" id="ch.jester.common.feature" version="1.0.1.201202100232" patch="true">
+   <feature url="features/ch.jester.common.feature_1.0.1.201202100238.jar" id="ch.jester.common.feature" version="1.0.1.201202100238" patch="true">
       <category name="jester.fixes"/>
    </feature>
    <category-def name="jester.socialmedia" label="Social Media">
