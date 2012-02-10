@@ -8,8 +8,8 @@
    </feature>
    <feature url="features/ch.jester.languagepack.defr_1.0.0.201202101204.jar" id="ch.jester.languagepack.defr" version="1.0.0.201202101204">
       <category name="jester.language"jester.fixes"/>
-   </feature url="features/ch.jester.patch.feature_1.0.0.201202101210.jar" id="ch.jester.patch.feature" version="1.0.0.201202101210" patch="true">
-      <category name="jester.fixes"jester.fixes"/>
+   </feature url="features/ch.jester.common.feature_1.0.0.201202101221.jar" id="ch.jester.common.feature" version="1.0.0.201202101221">
+      <category name="jester.updates"jester.fixes"/>
    </feature>
    <category-def name="jester.socialmedia" label="Social Media">
       <description>
@@ -21,8 +21,5 @@
          Provides different Languages
       </description>
    </category-def>
-   <category-def name="jester.fixes" label="Fix Feb. 2012">
-      <description>
-         Providing some Translation fixes and UI related corrections for OSX
-      </description>
-   </category-
+   <category-def updates" label="Updates"/>
+</site>
