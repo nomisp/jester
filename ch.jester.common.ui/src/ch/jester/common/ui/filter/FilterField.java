@@ -13,6 +13,13 @@ import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -50,8 +57,16 @@ public class FilterField {
 		//GridData d = new GridData(SWT.RIGHT,SWT.RIGHT,false, false);
 		//mText.setLayoutData(d);
 		mText.setMessage("filter                          ");
-
-	    itemSeparator.setWidth(mText.getBounds().width+10);  
+	
+		int w = 10;
+		//new
+		String os = System.getProperty("os.name").toLowerCase();
+		boolean mac = os.indexOf("mac") >= 0;
+		if(mac){
+			w = 90;
+		}
+		
+	    itemSeparator.setWidth(mText.getBounds().width+w);  
 	    itemSeparator.setControl(mText);
 	    
 		
@@ -66,29 +81,46 @@ public class FilterField {
 	//	mText.setLayoutData(data);
 
 		mText.addKeyListener(new KeyAdapter() {
+			
 			@Override
 			public void keyReleased(KeyEvent e) {
-				String newText = mText.getText();
-				if(newText.length()==0){
-					if(newText.equals(mOldSearchValue)){return;}
-					mJob.clear();
-					return;
-				}
-				if(newText.equals(mOldSearchValue)||newText.length()<2){
-					decoration.show();
-					return;}
-				
-			/*	if(mText.getText().equals(mOldSearchValue)||mText.getText().length()<2){
-					return;
-				}*/
-				decoration.hide();
-				mOldSearchValue=mText.getText();
-				mEventStack.push(mOldSearchValue);
-				mJob.reschedule(150);
-				
+				resetSearch();
 			}
 			
 		});
+		mText.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				if(e.detail == SWT.ICON_CANCEL){
+					resetSearch();
+				}
+				
+			}
+		});
+	}
+	
+	private void resetSearch(){
+		String newText = mText.getText();
+		if(newText.length()==0){
+			if(newText.equals(mOldSearchValue)){return;}
+			mJob.clear();
+			return;
+		}
+		if(newText.equals(mOldSearchValue)||newText.length()<2){
+			decoration.show();
+			return;}
+		
+	/*	if(mText.getText().equals(mOldSearchValue)||mText.getText().length()<2){
+			return;
+		}*/
+		decoration.hide();
+		mOldSearchValue=mText.getText();
+		mEventStack.push(mOldSearchValue);
+		mJob.reschedule(150);
 	}
 	
 	public Text getField(){
