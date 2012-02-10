@@ -50,7 +50,9 @@ public class FacebookService extends OAuthServiceComponent implements ISocialSta
 	 * überprüfen der Authorisierung... allenfalls einloggen.
 	 */
 	private void checkCredentials() {
-		if(accessFlow.established()){return;}
+		if(accessFlow.established()){
+			facebookClient = new DefaultFacebookClient(mAuthAccessToken.getStringValue());
+			return;}
 		accessFlow.authorizeUser();
 		mAuthAccessToken.setValue(accessFlow.getAccessToken());
 		expIn.setValue(accessFlow.getExpiresIn());
