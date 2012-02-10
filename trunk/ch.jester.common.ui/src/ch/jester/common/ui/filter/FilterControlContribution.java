@@ -21,6 +21,7 @@ public class FilterControlContribution extends WorkbenchWindowControlContributio
 		
 		Text sf = new FilterField(bar , getId()).getField();
 		sf.setFont(mFont);
+		
 		return sf;
 	}
 	
