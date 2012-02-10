@@ -8,7 +8,7 @@
    </feature>
    <feature url="features/ch.jester.languagepack.defr_1.0.0.201202100941.jar" id="ch.jester.languagepack.defr" version="1.0.0.201202100941">
       <category name="jester.language"jester.fixes"/>
-   </feature url="features/ch.jester.patch.february_1.0.0.jar" id="ch.jester.patch.february" version="1.0.0" patch="true">
+   </feature url="features/ch.jester.patch.february_1.0.0.201202101137.jar" id="ch.jester.patch.february" version="1.0.0.201202101137" patch="true">
       <category name="jester.fixes"jester.fixes"/>
    </feature>
    <category-def name="jester.socialmedia" label="Social Media">
