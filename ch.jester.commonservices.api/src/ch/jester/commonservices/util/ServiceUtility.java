@@ -184,7 +184,7 @@ public class ServiceUtility {
 	 *            die Konfiguration
 	 */
 	public <T> void registerService(Class<T> pInterface, T pService,
-			Dictionary<?, ?> pConfig) {
+			Dictionary<String, ?> pConfig) {
 		this.mContext.registerService(pInterface.getName(), pService, pConfig);
 	}
 
